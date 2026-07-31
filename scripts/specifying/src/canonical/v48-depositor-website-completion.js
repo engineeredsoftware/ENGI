@@ -136,14 +136,15 @@ const SOURCE_ROOTS = Object.freeze({
     'packages/asset-packs-pipelines/syntheses/deposit/src/depositor-earning-supply-intelligence.ts',
   authorityModel:
     'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
+  // Shared synthesis-domain bases (product-neutral). Deposit/read shells re-export.
   commercialNlAgent:
-    'packages/asset-packs-pipelines/syntheses/deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-commercial-nl.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/agents/implementation/implementation-agent-asset-packs-commercial-nl.ts',
   realSynthesis:
     'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-option-real-synthesis.ts',
   implementationPackTypes:
-    'packages/asset-packs-pipelines/syntheses/deposit/src/agents/implementation/deposit-implementation-pack-types.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/agents/implementation/asset-packs-implementation-pack-types.ts',
   patchfileSchema:
-    'packages/asset-packs-pipelines/syntheses/deposit/src/agents/implementation/deposit-asset-pack-synthesis-schema.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/agents/implementation/asset-packs-synthesis-schema.ts',
   packageJson: 'package.json',
   protocolIndex: 'scripts/specifying/src/index.js',
   protocolTypes: 'scripts/specifying/src/index.d.ts',

@@ -7,6 +7,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { MeasurementReadingLike } from "@/components/reads/models/read-buyer-measurement-projection";
 import { trackProductEvent } from "@/lib/product-analytics";
 
 export type ReadSynthesisStatus =
@@ -27,8 +28,8 @@ export type ReadSynthesizedOption = {
   summary?: string | null;
   confidence?: number | null;
   measurements?: {
-    absolutes?: unknown[];
-    needinesses?: unknown[];
+    absolutes?: MeasurementReadingLike[];
+    needinesses?: MeasurementReadingLike[];
   };
   needFit?: number | null;
   /** 0–1 catalog coverage when catalog denominator is known; else omitted. */
