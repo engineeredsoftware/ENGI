@@ -88,6 +88,11 @@ let nextConfig = {
     // Include it only for the deck route so NFT can stream the single file.
     outputFileTracingIncludes: {
       '/api/deck': ['./.bd/the-pitch.pdf', '../../.bd/the-pitch.pdf'],
+      // Waitlist mail template (also under apps/uapi/email-templates for cwd).
+      '/api/waitlist': [
+        './email-templates/**/*',
+        '../../supabase/templates/waitlist.html',
+      ],
     },
     // Next 14.x: tracing excludes live under experimental (stable top-level
     // only in later majors). Specifying is repo metadevelopment only — never

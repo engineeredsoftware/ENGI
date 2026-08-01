@@ -8,11 +8,12 @@ import {
 import path from 'node:path';
 
 describe('render-supabase-email-template', () => {
-  it('resolves monorepo supabase/templates from apps/uapi cwd', async () => {
-    const dir = await resolveSupabaseTemplatesDir(
-      path.join(process.cwd()), // jest runs with apps/uapi cwd typically
+  it('resolves email template dirs including app-local deploy tree', async () => {
+    const dir = await resolveSupabaseTemplatesDir(path.join(process.cwd()));
+    // Prefer app email-templates or monorepo supabase/templates
+    expect(dir.replace(/\\/g, '/')).toMatch(
+      /(email-templates|supabase\/templates)$/,
     );
-    expect(dir.replace(/\\/g, '/')).toMatch(/supabase\/templates$/);
   });
 
   it('interpolates {{var}} placeholders', () => {

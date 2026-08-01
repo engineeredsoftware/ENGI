@@ -26,9 +26,12 @@ Variables follow Supabase Go templates: `{{ .Email }}`, `{{ .Token }}`, `{{ .Con
 
 ### Waitlist → Resend Edge Function (option A)
 
-1. **SSOT HTML:** `waitlist.html` (app-mail `{{email}}`, `{{siteUrl}}`, `{{rolesBlock}}`, `{{year}}`).
-2. **Render in uapi:** `POST /api/waitlist` loads the file via `renderSupabaseEmailTemplate`, interpolates vars.
-3. **Send:** Edge Function `resend` receives raw `{ kind: "waitlist", to, subject, html }` and posts to Resend (`RESEND_WAITLIST_FROM_EMAIL`).
+1. **HTML:** `supabase/templates/waitlist.html` **and** deploy copy
+   `apps/uapi/email-templates/waitlist.html` (Vercel root is `apps/uapi` —
+   monorepo `supabase/` is not on the function filesystem unless NFT-traced).
+   Keep both files in sync. Placeholders: `{{email}}`, `{{siteUrl}}`, `{{rolesBlock}}`, `{{year}}`.
+2. **Render in uapi:** `POST /api/waitlist` → `renderSupabaseEmailTemplate` (app path first).
+3. **Send:** Edge Function `resend` receives raw `{ kind: "waitlist", to, subject, html }`.
 
 Auth `confirm.html` is **not** used for waitlist. See `.docs/SUPABASE.md` §3.4.1.
 

@@ -1,8 +1,12 @@
 /**
- * Load HTML from monorepo `supabase/templates/{name}.html` and interpolate
- * app-mail placeholders (`{{var}}` — not Supabase Auth Go templates).
+ * Load HTML email templates and interpolate app-mail placeholders (`{{var}}`).
  *
- * Used by waitlist (Resend via Edge) and aligned with @bitcode/notifications.
+ * Resolve order (production-safe on Vercel apps/uapi root):
+ * 1. `apps/uapi/email-templates/{name}.html` (deployed with the app)
+ * 2. monorepo `supabase/templates/{name}.html` (local / traced NFT)
+ *
+ * Waitlist SSOT: keep `email-templates/waitlist.html` in sync with
+ * `supabase/templates/waitlist.html`.
  */
 
 import fs from 'node:fs/promises';
@@ -18,25 +22,53 @@ function escapeHtml(value: string): string {
     .replace(/"/g, '&quot;');
 }
 
-/** Walk up from cwd to find `supabase/templates` (uapi or monorepo root). */
-export async function resolveSupabaseTemplatesDir(
+/** Candidate directories that may hold app-mail HTML (first hit wins). */
+export async function resolveEmailTemplateDirs(
   startDir: string = process.cwd(),
-): Promise<string> {
+): Promise<string[]> {
+  const dirs: string[] = [];
+  const seen = new Set<string>();
+
+  const pushIfDir = async (candidate: string) => {
+    const resolved = path.resolve(candidate);
+    if (seen.has(resolved)) return;
+    try {
+      const stat = await fs.stat(resolved);
+      if (stat.isDirectory()) {
+        seen.add(resolved);
+        dirs.push(resolved);
+      }
+    } catch {
+      // skip
+    }
+  };
+
+  // 1) App-local deploy tree (Vercel / next cwd ≈ apps/uapi)
+  await pushIfDir(path.join(startDir, 'email-templates'));
+  // 2) Walk monorepo for apps/uapi/email-templates + supabase/templates
   let dir = path.resolve(startDir);
   for (let i = 0; i < 8; i++) {
-    const candidate = path.join(dir, 'supabase', 'templates');
-    try {
-      const stat = await fs.stat(candidate);
-      if (stat.isDirectory()) return candidate;
-    } catch {
-      // continue
-    }
+    await pushIfDir(path.join(dir, 'email-templates'));
+    await pushIfDir(path.join(dir, 'apps', 'uapi', 'email-templates'));
+    await pushIfDir(path.join(dir, 'supabase', 'templates'));
     const parent = path.dirname(dir);
     if (parent === dir) break;
     dir = parent;
   }
+
+  return dirs;
+}
+
+/** @deprecated Prefer resolveEmailTemplateDirs — kept for tests. */
+export async function resolveSupabaseTemplatesDir(
+  startDir: string = process.cwd(),
+): Promise<string> {
+  const dirs = await resolveEmailTemplateDirs(startDir);
+  const supabase = dirs.find((d) => d.replace(/\\/g, '/').endsWith('supabase/templates'));
+  if (supabase) return supabase;
+  if (dirs[0]) return dirs[0];
   throw new Error(
-    `supabase/templates not found walking from ${path.resolve(startDir)}`,
+    `email templates not found walking from ${path.resolve(startDir)}`,
   );
 }
 
@@ -52,8 +84,7 @@ export function interpolateAppEmailTemplate(
 }
 
 /**
- * Read `supabase/templates/{templateName}.html` and replace `{{key}}` vars.
- * Unknown placeholders are left as-is.
+ * Read `{templateName}.html` from the first resolve candidate and replace `{{key}}`.
  */
 export async function renderSupabaseEmailTemplate(
   templateName: string,
@@ -63,10 +94,24 @@ export async function renderSupabaseEmailTemplate(
   if (!TEMPLATE_NAME_RE.test(templateName)) {
     throw new Error(`invalid email template name: ${templateName}`);
   }
-  const dir = await resolveSupabaseTemplatesDir(options?.startDir);
-  const filePath = path.join(dir, `${templateName}.html`);
-  const raw = await fs.readFile(filePath, 'utf8');
-  return interpolateAppEmailTemplate(raw, vars);
+  const dirs = await resolveEmailTemplateDirs(options?.startDir);
+  const fileName = `${templateName}.html`;
+  const tried: string[] = [];
+
+  for (const dir of dirs) {
+    const filePath = path.join(dir, fileName);
+    tried.push(filePath);
+    try {
+      const raw = await fs.readFile(filePath, 'utf8');
+      return interpolateAppEmailTemplate(raw, vars);
+    } catch {
+      // try next
+    }
+  }
+
+  throw new Error(
+    `email template "${templateName}" not found (tried: ${tried.join(', ') || 'none'})`,
+  );
 }
 
 /** Waitlist-specific vars for `waitlist.html`. */
