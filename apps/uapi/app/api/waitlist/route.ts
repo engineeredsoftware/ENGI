@@ -18,10 +18,39 @@ import {
 
 export const runtime = 'nodejs';
 
-const WAITLIST_SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
-  process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, '') ||
-  'https://bitcode.exchange';
+/**
+ * Public origin for waitlist email CTAs ("Open Bitcode").
+ * Never use localhost / loopback — outbound mail must open production (or
+ * staging) product URL even when uapi runs via `dev:remote` with
+ * NEXT_PUBLIC_APP_URL=http://localhost:3000.
+ */
+function resolveWaitlistPublicSiteUrl(): string {
+  const candidates = [
+    process.env.BITCODE_WAITLIST_SITE_URL,
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.NEXT_PUBLIC_APP_URL,
+  ];
+  for (const raw of candidates) {
+    const url = String(raw ?? '')
+      .trim()
+      .replace(/\/$/, '');
+    if (!url) continue;
+    try {
+      const parsed = new URL(url);
+      const host = parsed.hostname.toLowerCase();
+      if (host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0') {
+        continue;
+      }
+      if (host.endsWith('.local') || host.endsWith('.internal')) {
+        continue;
+      }
+      return `${parsed.protocol}//${parsed.host}${parsed.pathname.replace(/\/$/, '')}`;
+    } catch {
+      continue;
+    }
+  }
+  return 'https://bitcode.exchange';
+}
 
 function resolveResendFunctionUrl(): string | null {
   const explicit = process.env.BITCODE_RESEND_FUNCTION_URL?.trim();
@@ -64,7 +93,7 @@ async function sendWaitlistEmailViaResend(input: {
       buildWaitlistTemplateVars({
         email: input.email,
         roles: input.roles,
-        siteUrl: WAITLIST_SITE_URL,
+        siteUrl: resolveWaitlistPublicSiteUrl(),
       }),
     );
   } catch (err) {

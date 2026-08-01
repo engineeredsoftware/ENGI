@@ -3,8 +3,15 @@
 /*
  * Continuous paint law (waitlist-safe): pointer glow / orbitals may cover a tall
  * shell, but must not promote a full-document will-change layer. Geometry for
- * --mouse-x/y is cached in JS (see MarketingLandingPage). Appearance unchanged.
+ * --mouse-x/y is cached in JS (see MarketingLandingPage). Appearance unchanged
+ * while the tab is visible; off-tab we pause CSS infinite animations (no paint).
  */
+
+/* Tab hidden: stop infinite orbital/particle CSS (ParticleLayer law). */
+.marketing-landing-shell.marketing-landing-shell--anims-paused .orbital-ring,
+.marketing-landing-shell.marketing-landing-shell--anims-paused .quantum-particle {
+  animation-play-state: paused;
+}
 
 /* Measure bars: CSS scaleX once (replaces per-row framer motion). */
 @keyframes marketing-bar-fill {

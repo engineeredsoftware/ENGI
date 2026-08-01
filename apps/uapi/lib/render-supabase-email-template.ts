@@ -88,10 +88,28 @@ export function buildWaitlistTemplateVars(input: {
     : '';
   return {
     email: email || 'priority access',
+    // Callers must pass a public (non-localhost) origin for outbound mail.
     siteUrl: siteUrl || 'https://bitcode.exchange',
     rolesBlock,
     year: input.year ?? new Date().getUTCFullYear(),
   };
+}
+
+/** True when a URL is safe to embed in outbound waitlist email CTAs. */
+export function isPublicWaitlistSiteUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase();
+    if (host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0') {
+      return false;
+    }
+    if (host.endsWith('.local') || host.endsWith('.internal')) {
+      return false;
+    }
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
 }
 
 export const WAITLIST_EMAIL_SUBJECT = 'Welcome to the Bitcode waitlist';

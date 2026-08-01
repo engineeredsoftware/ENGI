@@ -119,7 +119,8 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByTestId('landing-depot-lower')).toBeInTheDocument();
     expect(screen.getByTestId('landing-production-band')).toBeInTheDocument();
 
-    // Option 1: hero companion waitlist under pillar CTAs (soft gate).
+    // Soft-gate waitlist below the fold (after audience); scroll cue unregressed.
+    expect(screen.getByTestId('landing-waitlist-enter')).toBeInTheDocument();
     expect(screen.getByTestId('landing-waitlist')).toBeInTheDocument();
     expect(
       screen.getByRole('heading', { name: BITCODE_PUBLIC_COPY.waitlist.title }),
@@ -128,6 +129,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByTestId('landing-waitlist-submit')).toHaveTextContent(
       BITCODE_PUBLIC_COPY.waitlist.ctaLabel,
     );
+    expect(screen.getByTestId('landing-scroll-cue')).toBeInTheDocument();
 
     // Depot panels (page copy is SSOT).
     expect(

@@ -15,6 +15,7 @@ import { MarketingLandingWaitlist } from '@/components/marketing/MarketingLandin
 import {
   animatedMotionStyle,
   entranceEase,
+  landingAudienceViewport,
   landingProductionViewport,
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 import '@/styles/marketing-landing-shell.css';
@@ -55,13 +56,31 @@ export default function MarketingLandingPage() {
       return;
     }
 
+    const setAnimsPaused = (paused: boolean) => {
+      container.classList.toggle('marketing-landing-shell--anims-paused', paused);
+    };
+
+    const syncVisibility = () => {
+      const hidden =
+        typeof document !== 'undefined' && document.visibilityState === 'hidden';
+      setAnimsPaused(hidden);
+    };
+
+    // Pause document-tall orbital/particle CSS when the tab is backgrounded.
+    syncVisibility();
+    document.addEventListener('visibilitychange', syncVisibility);
+
     if (!window.matchMedia('(pointer: fine)').matches) {
       container.style.setProperty('--mouse-x', '50%');
       container.style.setProperty('--mouse-y', '50%');
-      return;
+      return () => {
+        document.removeEventListener('visibilitychange', syncVisibility);
+        setAnimsPaused(false);
+      };
     }
 
     let frameId: number | null = null;
+    let geometryFrameId: number | null = null;
     let nextX = 50;
     let nextY = 50;
     // Cache geometry so pointermove does not force layout every event (same math).
@@ -70,12 +89,21 @@ export default function MarketingLandingPage() {
     let rectWidth = 1;
     let stageHeight = 1;
 
-    const refreshGeometry = () => {
+    const refreshGeometryNow = () => {
       const rect = container.getBoundingClientRect();
       rectLeft = rect.left;
       rectTop = rect.top;
       rectWidth = rect.width || 1;
       stageHeight = container.offsetHeight || container.scrollHeight || rect.height || 1;
+    };
+
+    /** Coalesce scroll/resize geometry reads to one layout per frame. */
+    const scheduleGeometryRefresh = () => {
+      if (geometryFrameId !== null) return;
+      geometryFrameId = window.requestAnimationFrame(() => {
+        geometryFrameId = null;
+        refreshGeometryNow();
+      });
     };
 
     const commitMousePosition = () => {
@@ -110,22 +138,27 @@ export default function MarketingLandingPage() {
       scheduleCommit();
     };
 
-    refreshGeometry();
+    refreshGeometryNow();
     container.addEventListener('pointermove', handlePointerMove, { passive: true });
     container.addEventListener('pointerleave', resetMousePosition);
-    window.addEventListener('resize', refreshGeometry, { passive: true });
-    window.addEventListener('scroll', refreshGeometry, { passive: true });
-    document.addEventListener('visibilitychange', refreshGeometry);
+    window.addEventListener('resize', scheduleGeometryRefresh, { passive: true });
+    window.addEventListener('scroll', scheduleGeometryRefresh, { passive: true });
+    document.addEventListener('visibilitychange', scheduleGeometryRefresh);
 
     return () => {
       if (frameId !== null) {
         window.cancelAnimationFrame(frameId);
       }
+      if (geometryFrameId !== null) {
+        window.cancelAnimationFrame(geometryFrameId);
+      }
       container.removeEventListener('pointermove', handlePointerMove);
       container.removeEventListener('pointerleave', resetMousePosition);
-      window.removeEventListener('resize', refreshGeometry);
-      window.removeEventListener('scroll', refreshGeometry);
-      document.removeEventListener('visibilitychange', refreshGeometry);
+      window.removeEventListener('resize', scheduleGeometryRefresh);
+      window.removeEventListener('scroll', scheduleGeometryRefresh);
+      document.removeEventListener('visibilitychange', scheduleGeometryRefresh);
+      document.removeEventListener('visibilitychange', syncVisibility);
+      setAnimsPaused(false);
     };
   }, []);
 
@@ -237,7 +270,9 @@ export default function MarketingLandingPage() {
           */}
           <main className="relative z-20 mx-auto flex w-full min-w-0 max-w-7xl flex-1 flex-col items-stretch gap-4 overflow-x-clip px-4 pb-8 pt-24 phone:pb-10 phone:pt-28 tablet:gap-5 tablet:px-6 laptop:gap-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
             {/*
-              items-start: tops align; hero height is natural stack (scroll cue at CTA bottom).
+              Opening band only above the fold — waitlist must not sit under the
+              scroll cue or push into the first viewport. Scroll cue is absolute
+              at hero column height (pre-waitlist law); tablet+ only.
             */}
             <div className="relative w-full">
               <div className="grid w-full items-start gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
@@ -246,22 +281,31 @@ export default function MarketingLandingPage() {
                 </div>
                 <MarketingLandingProductPreview variant="upper" />
               </div>
-              {/* Scroll cue is tablet+ only — cramped / overlaps depot chrome on phone. */}
               <div
-                className="pointer-events-none absolute inset-x-0 z-[1] hidden justify-center tablet:flex"
+                className="pointer-events-none absolute inset-x-0 z-[2] hidden justify-center tablet:flex"
                 style={{ top: scrollCueTop > 0 ? scrollCueTop : undefined }}
               >
                 <MarketingLandingScrollCue targetId="landing-audience" />
               </div>
             </div>
 
-            {/*
-              Full main width (both opening columns) so the waitlist email row
-              does not leave a height hole under the upper depot.
-            */}
-            <MarketingLandingWaitlist />
-
             <MarketingLandingAudienceSection />
+
+            {/*
+              Waitlist below the fold: after audience so scroll-cue → audience
+              remains unregressed; full main width; enter on scroll (not above fold).
+            */}
+            <motion.div
+              data-testid="landing-waitlist-enter"
+              className="w-full min-w-0"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={landingAudienceViewport}
+              transition={{ duration: 0.85, ease: entranceEase }}
+              style={animatedMotionStyle}
+            >
+              <MarketingLandingWaitlist />
+            </motion.div>
 
             {/*
               One shared whileInView for the whole production band so Code ⇄ Coin

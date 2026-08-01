@@ -1,6 +1,7 @@
 import {
   buildWaitlistTemplateVars,
   interpolateAppEmailTemplate,
+  isPublicWaitlistSiteUrl,
   renderSupabaseEmailTemplate,
   resolveSupabaseTemplatesDir,
 } from '@/lib/render-supabase-email-template';
@@ -52,5 +53,11 @@ describe('render-supabase-email-template', () => {
     );
     expect(html).toContain('solo@co.com');
     expect(html).not.toContain('Lanes:');
+  });
+
+  it('isPublicWaitlistSiteUrl rejects localhost', () => {
+    expect(isPublicWaitlistSiteUrl('http://localhost:3000')).toBe(false);
+    expect(isPublicWaitlistSiteUrl('https://127.0.0.1')).toBe(false);
+    expect(isPublicWaitlistSiteUrl('https://bitcode.exchange')).toBe(true);
   });
 });

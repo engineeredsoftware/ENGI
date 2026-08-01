@@ -27,6 +27,10 @@ describe('POST /api/waitlist', () => {
     jest.clearAllMocks();
     process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://proj.supabase.co';
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role-test-key';
+    // Local app origin must not leak into outbound waitlist CTAs.
+    process.env.NEXT_PUBLIC_APP_URL = 'http://localhost:3000';
+    delete process.env.NEXT_PUBLIC_SITE_URL;
+    delete process.env.BITCODE_WAITLIST_SITE_URL;
     fetchMock = jest.fn().mockResolvedValue({
       ok: true,
       status: 200,
@@ -118,7 +122,23 @@ describe('POST /api/waitlist', () => {
     expect(body.html).toContain('you@company.com');
     expect(body.html).toContain('Seller · Builder');
     expect(body.html).toContain("unless they're pair-connected");
+    // Production public origin — never localhost from NEXT_PUBLIC_APP_URL.
+    expect(body.html).toContain('href="https://bitcode.exchange"');
+    expect(body.html).not.toContain('localhost');
     expect(body.template).toBeUndefined();
+  });
+
+  it('uses BITCODE_WAITLIST_SITE_URL when set to a public host', async () => {
+    process.env.BITCODE_WAITLIST_SITE_URL = 'https://www.bitcode.exchange';
+    const insert = jest.fn().mockResolvedValue({ error: null });
+    mockFrom.mockReturnValue({ insert });
+
+    const res = await POST(
+      jsonRequest({ email: 'cta@co.com', roles: ['buyer'] }),
+    );
+    expect(res.status).toBe(200);
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body as string);
+    expect(body.html).toContain('href="https://www.bitcode.exchange"');
   });
 
   it('returns alreadyJoined on unique email without re-sending', async () => {

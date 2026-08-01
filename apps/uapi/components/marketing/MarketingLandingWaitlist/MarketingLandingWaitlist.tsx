@@ -1,9 +1,9 @@
 'use client';
 
 /**
- * Opening-band waitlist — full main width under hero | upper depot so the
- * email row spans both columns (avoids left-only height mismatch). Soft gate:
- * Sell / Buy / Exchange stay; optional multi-select roles (no "Both").
+ * Below-fold waitlist — full main width after audience (not under scroll cue).
+ * Parent page wraps whileInView for scroll entrance. Soft gate: Sell / Buy /
+ * Exchange stay; optional multi-select roles (no "Both").
  */
 
 import React, { memo, useCallback, useId, useState } from 'react';
