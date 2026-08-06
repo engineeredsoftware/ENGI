@@ -99,7 +99,7 @@ describe('Auxillaries package route contracts', () => {
         preferred_provider: 'openai',
       },
       templatePreferences: {
-        shippable_templates: {
+        delivery_templates: {
           asset_pack_pr: { label: 'AssetPack PR' },
         },
         evidence_document_templates: {
@@ -118,7 +118,7 @@ describe('Auxillaries package route contracts', () => {
     });
 
     expect(payload.isOnboardingComplete).toBe(true);
-    expect(payload.onboardedPanes).toEqual(['wallet', 'externals', 'profile', 'interfaces']);
+    expect(payload.onboardedPanes).toEqual(['profile', 'wallet', 'externals', 'interfaces']);
     expect(payload.organizations).toEqual(['bitcode']);
     expect(payload.profileState.kind).toBe('AuxillariesProfileState');
     expect(payload.profileState.accountIdentity).toMatchObject({
@@ -132,7 +132,7 @@ describe('Auxillaries package route contracts', () => {
     });
     expect(payload.profileState.preferences.templates).toMatchObject({
       configured: true,
-      shippableTemplateCount: 1,
+      deliveryTemplateCount: 1,
       evidenceDocumentTemplateCount: 1,
       autoSaveTemplates: true,
     });
@@ -210,7 +210,7 @@ describe('Auxillaries package route contracts', () => {
       policy: {
         policyId: 'org-bitcode:auxillaries-policy',
         action: 'pay_btc_fee',
-        interfaceSurface: 'terminal',
+        interfaceSurface: 'product',
       },
       multiSigPosture: {
         state: 'ready',
@@ -224,7 +224,7 @@ describe('Auxillaries package route contracts', () => {
     expect(payload.organizationAuthority.actionDecision?.decision).toBe('allowed');
     expect(payload.organizationAuthority.authorityRoot).toMatch(/^btd-proof-root:organization-policy-authority:/);
     expect(payload.interfaceAdmissions.map((admission) => admission.interfaceId)).toEqual([
-      'terminal',
+      'product',
       'api',
       'mcp',
       'chatgpt-app',
@@ -235,8 +235,8 @@ describe('Auxillaries package route contracts', () => {
     expect(payload.interfaceAdmissions).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          interfaceId: 'terminal',
-          surface: 'terminal',
+          interfaceId: 'product',
+          surface: 'product',
           authMode: 'session',
           readiness: 'ready',
           policyRequirements: expect.arrayContaining([
@@ -395,10 +395,12 @@ describe('Auxillaries package route contracts', () => {
     expect(blockerIds).toEqual(expect.arrayContaining([
       'profile.missing',
       'profile.identity_missing',
-      'preferences.model_missing',
-      'preferences.templates_missing',
       'connects.github.connect_provider',
       'wallet.binding_missing',
+    ]));
+    expect(blockerIds).not.toEqual(expect.arrayContaining([
+      'preferences.model_missing',
+      'preferences.templates_missing',
     ]));
     expect(payload.auxillariesContract.contractRoot).toMatch(/^[0-9a-f]{64}$/);
   });

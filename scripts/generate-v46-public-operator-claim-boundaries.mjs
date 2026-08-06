@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH,
   buildV46PublicOperatorClaimBoundaries,
-} from '../packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js';
+} from '../scripts/specifying/src/canonical/v46-public-operator-claim-boundaries.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -240,7 +240,7 @@ export const languageStepPrompts = {
  * Comprehensive language analysis agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveLanguage = factoryAgentWithPTRR<
+const comprehensiveLanguage: any = factoryPTRRAgent<
   z.infer<typeof LanguageInputSchema>,
   z.infer<typeof LanguageRetrySchema>
 >({
@@ -282,7 +282,7 @@ const comprehensiveLanguage = factoryAgentWithPTRR<
  * Quick language detection agent
  * Single-step execution for simple language tasks
  */
-const quickLanguageAgent = factoryAgentWithSingleStep<
+const quickLanguageAgent: any = factoryAgentWithSingleStep<
   z.infer<typeof LanguageInputSchema>,
   z.infer<typeof LanguageRetrySchema>
 >({
@@ -387,10 +387,10 @@ export type LanguageRetryOutput = z.infer<typeof LanguageRetrySchema>;
  * When languageAgent is called:
  * 1. selectVariation picks comprehensive or quick based on input
  * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
+ *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thinkings)
+ *    - factoryTryGeneration(schema) creates Try generation (failsafed thinkings)
+ *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thinkings)
+ *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thinkings)
  * 3. Each executor automatically:
  *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
  *    - Each parent runs Reason→Judge→StructuredOutput

@@ -1,0 +1,335 @@
+{
+  "artifactId": "v47-landing-public-launch-messaging",
+  "schemaId": "bitcode.v47.landingPublicLaunchMessaging.v1",
+  "version": "V47",
+  "currentTarget": "V46",
+  "artifactPath": ".proofs/v47/landing-public-launch-messaging.json",
+  "sourceSafetyVerdict": "source-safe-public-launch-messaging",
+  "messageIds": [
+    "testnet-meaning",
+    "core-flow-deposit-read-packs",
+    "proof-backed-trust",
+    "source-safe-ip-exchange",
+    "mainnet-blocked"
+  ],
+  "surfaceIds": [
+    "landing-testnet-section",
+    "public-docs-testnet-card",
+    "public-nav-launch-routes"
+  ],
+  "preservedClaimTokenIds": [
+    "assetpacks-for-measured-technical-intelligence",
+    "btd-records-scalar-knowledge-volume-and-rights",
+    "btc-settles-value-transfer",
+    "btc-compensation"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_assetpack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload",
+    "mainnet_value_bearing_payment_secret"
+  ],
+  "completionRows": [
+    {
+      "rowId": "testnet-meaning-messaging",
+      "owner": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "route": "/",
+      "contract": "The landing testnet section states the meaning of commercial testnet exactly: BTC amounts are testnet and free while measurements, quotes, settlement ordering, BTD rights, and repository delivery stay production-intended.",
+      "requiredFields": [
+        "Commercial testnet",
+        "BTC amounts are testnet and free",
+        "production-intended"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-landing-messaging-row:31c2d50306e386cc98e817f4"
+    },
+    {
+      "rowId": "core-flow-messaging",
+      "owner": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "route": "/",
+      "contract": "The landing documents the core launch flow in user order — deposit IP on /deposit, read and buy on /read, audit on /packs — with each step linking to its launch route.",
+      "requiredFields": [
+        "Deposit IP",
+        "Read and buy",
+        "Audit on Packs"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-landing-messaging-row:282d09a361cacd7612343648"
+    },
+    {
+      "rowId": "proof-backed-trust-and-source-safety",
+      "owner": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "route": "/",
+      "contract": "The landing carries the proof-backed trust narrative (protocol law and proof readback decide state) and source-safe IP exchange positioning (source withheld until BTC finality and BTD rights transfer).",
+      "requiredFields": [
+        "proof readback decide state",
+        "withheld until BTC finality and BTD rights transfer"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-landing-messaging-row:cdefeb643a0138c059525949"
+    },
+    {
+      "rowId": "public-docs-testnet-card",
+      "owner": "apps/uapi/app/docs/bitcode-docs-content.ts",
+      "route": "/docs",
+      "contract": "Public docs explain testnet semantics as a first-class card: free BTC amounts, production-intended behavior, unweakened boundaries, and blocked value-bearing mainnet.",
+      "requiredFields": [
+        "testnet-meaning",
+        "Value-bearing mainnet stays blocked"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-landing-messaging-row:e1a9295120b0460039350ddd"
+    },
+    {
+      "rowId": "v46-claim-boundary-preservation",
+      "owner": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "route": "/",
+      "contract": "Launch messaging is additive over promoted V46 claim boundaries: the required V46 copy tokens and the /deposit, /read, /packs launch navigation remain intact.",
+      "requiredFields": [
+        "AssetPacks for measured technical intelligence",
+        "BTC settles value transfer",
+        "BTC COMPENSATION"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-landing-messaging-row:2a6e4d72fa869fb4e382772d"
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v47-launch-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-records-gate8-landing-public-launch-messaging",
+      "sourcePath": "BITCODE_SPEC_V47.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate8-landing-public-launch-messaging",
+      "sourcePath": "BITCODE_SPEC_V47_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-record-gate8-landing-public-launch-messaging",
+      "sourcePath": "BITCODE_SPEC_V47_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate8-landing-public-launch-messaging",
+      "sourcePath": "BITCODE_SPEC_V47_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate8-closure",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "public-copy-states-testnet-meaning",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "passed": true
+    },
+    {
+      "id": "public-copy-documents-core-flow",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "passed": true
+    },
+    {
+      "id": "public-copy-carries-trust-and-source-safety",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "passed": true
+    },
+    {
+      "id": "landing-renders-testnet-section",
+      "sourcePath": "apps/uapi/app/(root)/components/MarketingLandingPage.tsx",
+      "passed": true
+    },
+    {
+      "id": "docs-explain-testnet-semantics",
+      "sourcePath": "apps/uapi/app/docs/bitcode-docs-content.ts",
+      "passed": true
+    },
+    {
+      "id": "v46-claim-tokens-preserved",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "passed": true
+    },
+    {
+      "id": "landing-test-covers-launch-messaging",
+      "sourcePath": "apps/uapi/tests/marketingLandingPage.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate8",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate8",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate8-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-checker-test-exist",
+      "sourcePath": "scripts/generate-v47-landing-public-launch-messaging.mjs",
+      "passed": true
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V47.md:476ca5a5d0b07b31694f0b68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
+    "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
+    "landingPage": "apps/uapi/app/(root)/components/MarketingLandingPage.tsx:5a7bbc85fa67525dd83127b2",
+    "testnetSection": "apps/uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx:04e5895c15559d4f262335dc",
+    "landingShared": "apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx:27c33bd46ea46fd7608fd093",
+    "docsContent": "apps/uapi/app/docs/bitcode-docs-content.ts:5c7e56156db21c2d368277e6",
+    "landingTest": "apps/uapi/tests/marketingLandingPage.test.tsx:4efa7e076b8716d87d8478c8",
+    "packageJson": "package.json:4d9f041eb01a920860a26f75",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-landing-public-launch-messaging.js:93aa33d0fd45739577cbc642",
+    "protocolTest": "scripts/specifying/test/v47-landing-public-launch-messaging.test.js:4f2b7fee5b05b2ed9c34d3b9",
+    "generator": "scripts/generate-v47-landing-public-launch-messaging.mjs:4b5cb939652aef2842e9264c",
+    "checker": "scripts/check-v47-gate8-landing-public-launch-messaging.mjs:68b9701f73590bc466a589a7",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
+  },
+  "artifactRoot": "v47-landing-public-launch-messaging:73fe7d4d1b7fd9823bb4039a",
+  "coverage": {
+    "requiredPredicateCount": 17,
+    "passedPredicateCount": 17,
+    "failedPredicateIds": [],
+    "testnetMeaningComplete": true,
+    "coreFlowMessagingComplete": true,
+    "proofBackedTrustComplete": true,
+    "sourceSafePositioningComplete": true,
+    "docsTestnetCardComplete": true,
+    "v46ClaimBoundariesPreserved": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetEnabled": false
+  },
+  "passed": true
+}

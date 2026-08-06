@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH,
   buildV46ProofReadbackOperatorExplanation,
-} from '../packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js';
+} from '../scripts/specifying/src/canonical/v46-proof-readback-operator-explanation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +66,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V45', `BITCODE_SPEC.txt must remain V45 during V46 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -81,20 +81,20 @@ function main() {
 
   for (const relativePath of [
     V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js',
-    'packages/protocol/test/v46-proof-readback-operator-explanation.test.js',
+    'scripts/specifying/src/canonical/v46-proof-readback-operator-explanation.js',
+    'scripts/specifying/test/v46-proof-readback-operator-explanation.test.js',
     'scripts/generate-v46-proof-readback-operator-explanation.mjs',
     'scripts/check-v46-gate6-proof-readback-operator-explanation.mjs',
-    'BITCODE_SPEC_V46.md',
-    'BITCODE_SPEC_V46_DELTA.md',
-    'BITCODE_SPEC_V46_NOTES.md',
-    'BITCODE_SPEC_V46_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
+    '.specifications/BITCODE_SPEC_V46.md',
+    '.specifications/BITCODE_SPEC_V46_DELTA.md',
+    '.specifications/BITCODE_SPEC_V46_NOTES.md',
+    '.specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/btd/src/reconciliation.ts',
     'packages/btd/src/wallet.ts',
     'packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts',
-    'uapi/app/bitcode-ledger-storage-sync.ts',
+    'apps/uapi/app/bitcode-ledger-storage-sync.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -160,7 +160,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -168,7 +168,7 @@ function main() {
         'test/v46-proof-readback-operator-explanation.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v46-proof-readback-operator-explanation.test.js must pass.');
+      failures.push('scripts/specifying/test/v46-proof-readback-operator-explanation.test.js must pass.');
     }
   }
 

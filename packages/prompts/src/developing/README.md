@@ -17,9 +17,9 @@ For individual PromptPart semantic units:
  * quality_score: 95
  * variant: 0
  * benchmarks: {
- *   semantic_clarity: 0.95,
- *   token_efficiency: 0.98,
- *   model_stability: 0.96
+ * semantic_clarity: 0.95,
+ * token_efficiency: 0.98,
+ * model_stability: 0.96
  * }
  */
 export const PROMPTPART_GENERIC_YOUARE: PromptPart = 'You are' as PromptPart;
@@ -39,11 +39,11 @@ For complete Prompt classes:
  * variant: 0
  * dependencies: ["PROMPTPART_1", "PROMPTPART_2"]
  * benchmarks: {
- *   semantic_clarity: 0.90,
- *   token_efficiency: 0.85,
- *   model_stability: 0.88,
- *   task_success: 0.92,
- *   response_quality: 0.87
+ * semantic_clarity: 0.90,
+ * token_efficiency: 0.85,
+ * model_stability: 0.88,
+ * task_success: 0.92,
+ * response_quality: 0.87
  * }
  */
 export class WebSearchToolPrompt extends Prompt { }

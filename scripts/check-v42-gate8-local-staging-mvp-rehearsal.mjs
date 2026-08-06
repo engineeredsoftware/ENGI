@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v42-local-staging-mvp-rehearsal.json';
+const ARTIFACT_PATH = '.proofs/v42/local-staging-mvp-rehearsal.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -103,18 +103,18 @@ function parseJson(output, failures, label) {
 
 function runFocusedTests(root, failures, args) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v42-local-staging-mvp-rehearsal.test.js']],
+    ['node', ['--test', '--test-force-exit', 'scripts/specifying/test/v42-local-staging-mvp-rehearsal.test.js']],
   ];
 
   if (!args.skipPackageTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
     );
   }
 
   if (!args.skipUapiTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/pipelineHarnessPreflight.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/pipelineHostPreflight.test.ts', 'tests/api/pipelineHostRoute.test.ts', '--runInBand']],
     );
   }
 
@@ -137,7 +137,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -159,22 +159,22 @@ function main() {
     'scripts/rehearse-v42-local-staging-mvp.mjs',
     'scripts/generate-v42-local-staging-mvp-rehearsal.mjs',
     'scripts/check-v42-gate8-local-staging-mvp-rehearsal.mjs',
-    'packages/protocol/src/canonical/v42-local-staging-mvp-rehearsal.js',
-    'packages/protocol/test/v42-local-staging-mvp-rehearsal.test.js',
-    'packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts',
-    'uapi/app/api/pipeline-harness/asset-pack/preflight.ts',
-    'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'scripts/specifying/src/canonical/v42-local-staging-mvp-rehearsal.js',
+    'scripts/specifying/test/v42-local-staging-mvp-rehearsal.test.js',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-local-staging-rehearsal.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
+    'apps/uapi/app/api/pipeline-host/asset-pack/preflight.ts',
+    'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'packages/pipelines/asset-pack/README.md',
-    'uapi/app/terminal/README.md',
+    'scripts/specifying/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

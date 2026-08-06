@@ -1,0 +1,293 @@
+/* Navigation animations - focused on gorgeous blur background */
+
+/* Particle entrance animation for nav processing indicator */
+@keyframes particle-entrance {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0);
+  }
+
+  100% {
+    opacity: var(--particle-opacity, 0.8);
+    transform: translateY(calc(var(--initial-y, -4px))) scale(var(--initial-scale, 1));
+  }
+}
+
+/* Orbital animations for processing indicator */
+@keyframes elegant-orbital {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* A variant that does not apply the initial centering translation.
+   Useful for cases where the element is already perfectly centred via
+   margin-offsets and we only want rotation. */
+@keyframes elegant-orbital-spin-only {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbital-glow {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    box-shadow: 0 0 5px rgba(103, 254, 183, 0.2);
+  }
+
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 10px rgba(103, 254, 183, 0.4);
+  }
+}
+
+/*
+ * Navigation entrance — marketing-aligned cascade (opacity + pure Y lift).
+ *
+ * - No transform on `.nav-container-global` (shell uses inline translateY).
+ * - No scale() on children (subpixel jitter on flex nav links).
+ * - fill-mode: both holds 0% through stagger delays (no opaque flash).
+ * - transform only on children; translateZ(0) for a stable compositor layer.
+ */
+@keyframes nav-container-emerge {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes nav-logo-emerge {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes nav-item-emerge {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes nav-controls-emerge {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Enhanced hover effect for nav items */
+@keyframes nav-item-hover {
+  0% {
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.33);
+  }
+
+  100% {
+    text-shadow:
+      0 0 12px rgba(101, 254, 183, 0.66),
+      0 0 20px rgba(101, 254, 183, 0.66);
+  }
+}
+
+/* ease matches marketing entranceEase [0.16, 1, 0.3, 1] */
+.nav-container-animated {
+  animation: nav-container-emerge 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.nav-logo-animated {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  animation: nav-logo-emerge 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.08s;
+}
+
+.nav-item-animated {
+  opacity: 0;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  /* Animate the list item as a unit so border boxes don’t reflow mid-rise. */
+  animation: nav-item-emerge 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--item-index, 0) * 0.09s + 0.22s);
+}
+
+.nav-controls-animated {
+  opacity: 0;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  animation: nav-controls-emerge 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.52s;
+}
+
+/* Dynamic hover effects */
+.nav-item-hover-effect:hover {
+  animation: nav-item-hover 0.3s forwards;
+  will-change: text-shadow;
+}
+
+/* ------------------------------------------------------------------
+ * Processing indicator – pure-CSS replacement for previous JS driven pulse
+ * ------------------------------------------------------------------*/
+
+@keyframes nav-core-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 2px rgba(103, 254, 183, 0.4), 0 0 4px rgba(103, 254, 183, 0.2);
+  }
+
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 4px rgba(103, 254, 183, 0.6), 0 0 8px rgba(103, 254, 183, 0.3);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 2px rgba(103, 254, 183, 0.4), 0 0 4px rgba(103, 254, 183, 0.2);
+  }
+}
+
+.nav-processing-core {
+  animation: nav-core-pulse 1.8s ease-in-out infinite;
+  will-change: transform, box-shadow;
+}
+
+
+/* Respect users that prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .nav-container-animated,
+  .nav-logo-animated,
+  .nav-item-animated,
+  .nav-controls-animated {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .nav-item-hover-effect:hover {
+    animation: none !important;
+  }
+}
+
+/* Gorgeous blur background for scrolled state */
+.nav-scrolled-bg {
+  /* Base background with gradient */
+  background: linear-gradient(to bottom,
+      rgba(10, 10, 15, 0.85),
+      rgba(8, 8, 12, 0.75));
+
+  /* Advanced blur effect */
+  backdrop-filter: blur(12px) saturate(110%);
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+
+  /* Square chrome (product language) */
+  border-radius: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+
+  /* Multi-layered shadows for depth */
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.3),
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 0 30px rgba(103, 254, 183, 0.03) inset;
+
+  /* Ensure content doesn't get clipped */
+  overflow: visible;
+
+  /* Isolate repaint cost when backdrop-filter updates */
+  contain: paint;
+  /* Force GPU layer for backdrop-filter performance */
+  will-change: backdrop-filter, box-shadow;
+
+  /* Add subtle ambient glow animation */
+  animation: nav-ambient-glow 3s ease-in-out infinite alternate;
+  animation-duration: 3s !important;
+}
+
+/**
+ * Product / public fixed nav when scrolled: solid black only for the chrome
+ * box (equal py above/below the controls). Soft falloff via box-shadow so we
+ * do not paint an opaque band under the bar (that read as “more space below”).
+ */
+.nav-product-scrolled-bg {
+  /* Keep position from .fixed / sticky classes — do not override here. */
+  background-color: rgb(0, 0, 0);
+  background-image: none;
+  /* Soft edge under the bar only — no solid height added below content. */
+  box-shadow: 0 10px 18px -6px rgba(0, 0, 0, 0.85);
+}
+
+.nav-product-scrolled-bg::after {
+  content: none;
+}
+
+/* Ambient glow animation for the nav background */
+@keyframes nav-ambient-glow {
+  0% {
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.3),
+      0 10px 40px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+      0 0 30px rgba(103, 254, 183, 0.03) inset;
+  }
+
+  50% {
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.3),
+      0 10px 40px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.07) inset,
+      0 0 35px rgba(103, 254, 183, 0.05) inset;
+  }
+
+  100% {
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.3),
+      0 10px 40px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+      0 0 40px rgba(103, 254, 183, 0.06) inset;
+  }
+}
+
+/* Processing indicator container */
+.nav-processing-container {
+  overflow: visible;
+  z-index: 10;
+}
+
+/* Active nav item styling */
+.nav-item-active-text {
+  position: relative;
+  z-index: 1;
+}
+/* Ensure nav transform is GPU-accelerated */
+.nav-container-global {
+  will-change: transform;
+}

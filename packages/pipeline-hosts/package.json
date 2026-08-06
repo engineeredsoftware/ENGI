@@ -2,7 +2,7 @@
   "name": "@bitcode/pipeline-hosts",
   "version": "0.1.0",
   "private": true,
-  "description": "Bitcode pipeline host adapters and Vercel Sandbox harnesses.",
+  "description": "Pipeline host barrel + AssetPack host; primitives in host-generics, bases in generic-hosts/*",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
@@ -18,11 +18,20 @@
   ],
   "scripts": {
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
-    "typecheck": "tsc --noEmit",
-    "qa:asset-pack:sandbox": "ts-node --transpile-only src/dev/run-asset-pack-sandbox-harness.ts"
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "qa:asset-pack:sandbox": "ts-node --transpile-only src/dev/run-asset-pack-sandbox-host.ts",
+    "qa:deposit:local": "node --import tsx src/dev/run-local-deposit-pipeline.ts",
+    "qa:read:debug-first-llm": "node --import tsx src/dev/run-local-read-pipeline-debug.ts",
+    "materialize-runners": "ts-node --transpile-only src/dev/materialize-runners.ts",
+    "type-check": "pnpm run typecheck",
+    "qa:deposit:debug-first-llm": "node --import tsx src/dev/run-local-deposit-pipeline-debug.ts"
   },
   "dependencies": {
-    "@vercel/sandbox": "^1.10.2"
+    "@vercel/sandbox": "2.6.0",
+    "@bitcode/host-generics": "workspace:*",
+    "@bitcode/generic-hosts-local": "workspace:*",
+    "@bitcode/generic-hosts-vercel-sandbox": "workspace:*",
+    "tsx": "^4.19.3"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v39-settlement-rights-delivery.json';
+const ARTIFACT_PATH = '.proofs/v39/settlement-rights-delivery.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -86,7 +86,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -105,28 +105,28 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/btd/src/receipts.ts',
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/src/reconciliation.ts',
-    'packages/protocol/src/canonical/v39-settlement-rights-delivery.js',
-    'packages/protocol/test/v39-settlement-rights-delivery.test.js',
+    'scripts/specifying/src/canonical/v39-settlement-rights-delivery.js',
+    'scripts/specifying/test/v39-settlement-rights-delivery.test.js',
     'scripts/generate-v39-settlement-rights-delivery.mjs',
     'scripts/check-v39-gate7-settlement-rights-delivery.mjs',
-    'BITCODE_SPEC_V39.md',
-    'BITCODE_SPEC_V39_DELTA.md',
-    'BITCODE_SPEC_V39_NOTES.md',
-    'BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -149,7 +149,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-settlement-rights-delivery.test.js',
+        'scripts/specifying/test/v39-settlement-rights-delivery.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 settlement rights delivery protocol test failed: ${error.stderr || error.message}`);
@@ -160,7 +160,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -210,9 +210,9 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 7 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V39.md');
-  const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('AssetPackSettlementRightsDeliveryBoundary'), 'V39 spec must name AssetPackSettlementRightsDeliveryBoundary.');
   assertCheck(failures, spec.includes('v39-settlement-rights-delivery'), 'V39 spec must name the Gate 7 artifact.');
   assertCheck(failures, parity.includes('Gate 7 Parity'), 'V39 parity matrix must include Gate 7 parity.');

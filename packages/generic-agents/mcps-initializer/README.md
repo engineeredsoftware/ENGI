@@ -14,7 +14,7 @@ The MCPs Initializer Agent provides comprehensive Master Control Program (MCP) s
 
 ### Service Lifecycle Control
 - **Connection Establishment**: JSON-RPC protocol implementation for MCP service communication
-- **Health Monitoring**: Service availability and response validation with automatic reconnection handling  
+- **Health Monitoring**: Service availability and response validation with automatic reconnection handling
 - **Graceful Shutdown**: Proper service termination and resource cleanup during pipeline completion
 - **Error Recovery**: Automatic retry mechanisms and fallback strategies for service initialization failures
 
@@ -39,28 +39,28 @@ The agent processes MCP configurations from multiple sources with priority order
 ### Dynamic Tool Plan Generation
 ```typescript
 interface McpInitializationPlan {
-  mcpId: string;                    // MCP service identifier
-  serviceName: string;              // Formatted service name
-  config: Record<string, any>;      // Service-specific configuration
-  initFunction: string;             // Initialization function name
+ mcpId: string; // MCP service identifier
+ serviceName: string; // Formatted service name
+ config: Record<string, any>; // Service-specific configuration
+ initFunction: string; // Initialization function name
 }
 
 // Example Tool Plan Generation
 const plans: StepToolPlan[] = configuredMcps.map(mcp => ({
-  name: `initialize${formatServiceName(mcp.id)}MCPForRun`,
-  args: { config: mcp.config }
+ name: `initialize${formatServiceName(mcp.id)}MCPForRun`,
+ args: { config: mcp.config }
 }));
 ```
 
 ### Service Registry Architecture
 ```typescript
 interface McpServiceRegistry {
-  [serviceName: string]: {
-    initialized: boolean;           // Service initialization status
-    tools: string[];               // Available tool identifiers
-    config: Record<string, any>;   // Service configuration
-    health: 'healthy' | 'degraded' | 'failed';  // Service health status
-  };
+ [serviceName: string]: {
+ initialized: boolean; // Service initialization status
+ tools: string[]; // Available tool identifiers
+ config: Record<string, any>; // Service configuration
+ health: 'healthy' | 'degraded' | 'failed'; // Service health status
+ };
 }
 ```
 
@@ -69,28 +69,28 @@ interface McpServiceRegistry {
 ### Initialization Plan Results
 ```typescript
 interface InitializeMcpPlanResult {
-  nextStepsToolsPlans: StepToolPlan[];      // Service initialization actions
-  success: boolean;                         // Plan generation status
-  error?: string;                          // Error details if plan failed
-  metadata: {
-    servicesPlanned: number;                // Count of services to initialize
-    configurationSources: string[];        // Configuration data sources
-    timestamp: string;                      // Plan generation timestamp
-  };
+ nextStepsToolsPlans: StepToolPlan[]; // Service initialization actions
+ success: boolean; // Plan generation status
+ error?: string; // Error details if plan failed
+ metadata: {
+ servicesPlanned: number; // Count of services to initialize
+ configurationSources: string[]; // Configuration data sources
+ timestamp: string; // Plan generation timestamp
+ };
 }
 ```
 
 ### Service Initialization Results
 ```typescript
 interface InitializeMcpGenerateResult {
-  results: Array<{
-    mcpId: string;                         // Service identifier
-    tools: string[];                       // Discovered tool list
-    initialized: boolean;                  // Initialization success
-    error?: string;                       // Initialization error details
-  }>;
-  previousStepsToolsPlansResults: StepToolResult[];  // Execution details
-  success: boolean;                        // Overall initialization status
+ results: Array<{
+ mcpId: string; // Service identifier
+ tools: string[]; // Discovered tool list
+ initialized: boolean; // Initialization success
+ error?: string; // Initialization error details
+ }>;
+ previousStepsToolsPlansResults: StepToolResult[]; // Execution details
+ success: boolean; // Overall initialization status
 }
 ```
 
@@ -98,10 +98,10 @@ interface InitializeMcpGenerateResult {
 ```typescript
 // Global Context Tool Registration
 globalContext.mcpTools = {
-  'mcp_service_tool_1': true,             // Tool availability flags
-  'mcp_service_tool_2': true,
-  'mcp_service_tool_3': false,            // Failed/unavailable tools
-  // ... additional tools
+ 'mcp_service_tool_1': true, // Tool availability flags
+ 'mcp_service_tool_2': true,
+ 'mcp_service_tool_3': false, // Failed/unavailable tools
+ // ... additional tools
 };
 ```
 
@@ -115,7 +115,7 @@ globalContext.mcpTools = {
 
 ### Scalability Metrics
 - **Service Capacity**: Supports initialization of 50+ concurrent MCP services with health monitoring
-- **Tool Registration**: Handles 1000+ tool registrations with efficient lookup and availability tracking  
+- **Tool Registration**: Handles 1000+ tool registrations with efficient lookup and availability tracking
 - **Configuration Complexity**: Manages complex service configurations with nested parameters and dependencies
 - **Pipeline Integration**: Seamless integration with multi-phase pipeline execution workflows
 
@@ -136,11 +136,11 @@ The agent implements intelligent service discovery with multiple configuration s
 
 ```typescript
 // Service ID Processing
-const serviceKey = mcpId.substring(4);  // Remove 'mcp-' prefix
+const serviceKey = mcpId.substring(4); // Remove 'mcp-' prefix
 const serviceName = serviceKey
-  .split(/[-_]/)
-  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-  .join('');  // Convert to PascalCase for function naming
+ .split(/[-_]/)
+ .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+ .join(''); // Convert to PascalCase for function naming
 ```
 
 The MCPs Initializer Agent provides production-ready MCP service lifecycle management with comprehensive tool registry integration, enabling scalable service orchestration and tool availability for complex pipeline execution workflows.

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-public-docs-usage-guides.json';
+const ARTIFACT_PATH = '.proofs/v35/public-docs-usage-guides.json';
 
 const REQUIRED_GUIDE_IDS = [
   'terminal_usage',
@@ -100,7 +100,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -119,24 +119,24 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/public-docs-usage-guide-catalog.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v35-public-docs-usage-guide-catalog.test.js',
+    'scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-public-docs-usage-guide-catalog.test.js',
     'scripts/generate-v35-public-docs-usage-guides.mjs',
     'scripts/check-v35-gate4-public-docs-usage-guides.mjs',
-    'uapi/app/docs/bitcode-docs-content.ts',
-    'uapi/app/docs/page.tsx',
-    'uapi/app/docs/[slug]/page.tsx',
-    'uapi/app/docs/DocsArticlePage.tsx',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'BITCODE_SPEC_V35.md',
-    'BITCODE_SPEC_V35_DELTA.md',
-    'BITCODE_SPEC_V35_NOTES.md',
-    'BITCODE_SPEC_V35_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
+    'apps/uapi/app/docs/page.tsx',
+    'apps/uapi/app/docs/[slug]/page.tsx',
+    'apps/uapi/app/docs/DocsArticlePage.tsx',
+    'scripts/specifying/src/canonical/v21-specifying.js',
+    '.specifications/BITCODE_SPEC_V35.md',
+    '.specifications/BITCODE_SPEC_V35_DELTA.md',
+    '.specifications/BITCODE_SPEC_V35_NOTES.md',
+    '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -157,7 +157,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -189,7 +189,7 @@ function main() {
     assertCheck(failures, includesAll(artifact.coverage.observedGuideIds, REQUIRED_GUIDE_IDS), 'Public docs usage guide coverage must observe every guide.');
     assertCheck(failures, artifact.coverage.guideCount === REQUIRED_GUIDE_IDS.length, 'Public docs usage guides must prove twelve guide rows.');
     for (const [field, label] of [
-      ['terminalRepresented', 'Terminal'],
+      ['terminalRepresented', 'product'],
       ['protocolRepresented', 'Protocol'],
       ['auxillariesRepresented', 'Auxillaries'],
       ['mcpApiRepresented', 'MCP API'],
@@ -231,21 +231,21 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V35.md');
-  const delta = read(root, 'BITCODE_SPEC_V35_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V35_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V35_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V35.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V35_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V35_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
-  const docsContent = read(root, 'uapi/app/docs/bitcode-docs-content.ts');
-  const source = read(root, 'packages/protocol/src/canonical/public-docs-usage-guide-catalog.js');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
-  const test = read(root, 'packages/protocol/test/v35-public-docs-usage-guide-catalog.test.js');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const docsContent = read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts');
+  const source = read(root, 'scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
+  const test = read(root, 'scripts/specifying/test/v35-public-docs-usage-guide-catalog.test.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V35 docs must mention ${ARTIFACT_PATH}.`);

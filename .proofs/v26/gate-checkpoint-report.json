@@ -1,0 +1,420 @@
+{
+  "reportId": "v26-gate-checkpoint-report",
+  "version": "V26",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "activeCanonicalTarget": "V26",
+  "draftPreview": false,
+  "checkpointId": "v26-through-eighth-gate-fully-proven",
+  "checkpointFocus": "through-eighth-gate-fully-proven",
+  "nextGate": "V26 fully proven: ready for canonical promotion",
+  "passed": true,
+  "firstGate": {
+    "gateId": "gate-1",
+    "label": "Ownership migration baseline",
+    "passed": true,
+    "checks": [
+      {
+        "checkId": "v19-deterministic-replay",
+        "label": "Inherited V19 deterministic replay report",
+        "passed": true,
+        "detail": "Deterministic replay remains closed"
+      },
+      {
+        "checkId": "v19-volatility-inventory",
+        "label": "Inherited V19 volatility inventory",
+        "passed": true,
+        "detail": "Volatility inventory remains closed"
+      },
+      {
+        "checkId": "v19-contract-change-ledger",
+        "label": "Inherited V19 contract change ledger",
+        "passed": true,
+        "detail": "Contract change ledger remains closed"
+      },
+      {
+        "checkId": "v20-operator-quality",
+        "label": "Inherited V20 operator quality summary",
+        "passed": true,
+        "detail": "Operator quality summary remains closed"
+      },
+      {
+        "checkId": "v26-spec-family",
+        "label": "V26 spec-family report",
+        "passed": true,
+        "detail": "Spec-family report passes in promoted mode"
+      },
+      {
+        "checkId": "v26-canonical-input",
+        "label": "V26 canonical-input report",
+        "passed": true,
+        "detail": "Canonical-input report passes for the V26 draft family"
+      }
+    ]
+  },
+  "secondGate": {
+    "gateId": "gate-2",
+    "label": "Application UX/UI and external interfacing hardening",
+    "passed": true,
+    "checks": [
+      {
+        "checkId": "second-gate-application-carriers",
+        "label": "Second-gate application and orbital carriers",
+        "passed": true,
+        "detail": "14 required files present",
+        "requiredFiles": [
+          "apps/uapi/app/application/ApplicationPageClient.tsx",
+          "apps/uapi/app/application/ApplicationTransactionWorkspace.tsx",
+          "apps/uapi/app/application/ApplicationTransactionDetailSurface.tsx",
+          "apps/uapi/app/application/ApplicationCommandDeck.tsx",
+          "apps/uapi/app/application/ApplicationWorkspaceRail.tsx",
+          "apps/uapi/app/auxillaries/AuxillariesRouteClient.tsx",
+          "apps/uapi/app/auxillaries/components/AuxillariesProvider.tsx",
+          "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "apps/uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx",
+          "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "apps/uapi/components/base/bitcode/layout/nav.tsx",
+          "apps/uapi/components/base/bitcode/layout/user-menu.tsx",
+          "apps/uapi/components/base/bitcode/notifications/NotificationsWidget.tsx",
+          "apps/uapi/styles/orbital.css"
+        ],
+        "missingFiles": []
+      },
+      {
+        "checkId": "second-gate-proof-carriers",
+        "label": "Second-gate proof and test carriers",
+        "passed": true,
+        "detail": "12 required files present",
+        "requiredFiles": [
+          "protocol-demonstration/test/v26-public-copy.test.js",
+          "apps/uapi/tests/auxillariesProvider.test.tsx",
+          "apps/uapi/tests/orbitalsInterfacesPane.test.tsx",
+          "apps/uapi/tests/orbitalsBTDPane.test.tsx",
+          "apps/uapi/tests/navWorkspaceChrome.test.tsx",
+          "apps/uapi/tests/notificationsWidget.test.tsx",
+          "apps/uapi/tests/orbitalsLoginPane.test.tsx",
+          "apps/uapi/tests/orbitalsContent.test.tsx",
+          "apps/uapi/tests/orbitalsPaneTabs.test.tsx",
+          "apps/uapi/tests/orbitalsRouteClient.test.tsx",
+          "apps/uapi/tests/userMenu.test.tsx",
+          "apps/uapi/tests/workspaceSurface.test.ts"
+        ],
+        "missingFiles": []
+      },
+      {
+        "checkId": "second-gate-documentation-carriers",
+        "label": "Second-gate documentation and README carriers",
+        "passed": true,
+        "detail": "9 required files present",
+        "requiredFiles": [
+          "README.md",
+          "apps/uapi/README.md",
+          "protocol-demonstration/README.md",
+          "apps/uapi/app/application/README.md",
+          "apps/uapi/app/orbitals/README.md",
+          "apps/uapi/components/base/bitcode/README.md",
+          "apps/uapi/components/base/bitcode/execution/README.md",
+          "protocol-demonstration/V26_APPLICATION_SYSTEMS.md",
+          "protocol-demonstration/V26_PROOF_SURFACES.md"
+        ],
+        "missingFiles": []
+      }
+    ]
+  },
+  "thirdGatePreparation": {
+    "gateId": "gate-3-preparation",
+    "label": "Marketing refurbishment preparation",
+    "prepared": true,
+    "checks": [
+      {
+        "checkId": "third-gate-preparation-docs",
+        "label": "Third-gate preparation and separation artifacts",
+        "passed": true,
+        "detail": "6 required files present",
+        "requiredFiles": [
+          "apps/uapi/app/(root)/components/MarketingLandingPage.tsx",
+          "BITCODE_SPEC_V26_DELTA.md",
+          "BITCODE_SPEC_V26_NOTES.md",
+          "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "protocol-demonstration/V26_APPLICATION_SYSTEMS.md",
+          "protocol-demonstration/V26_PROOF_SURFACES.md"
+        ],
+        "missingFiles": []
+      }
+    ]
+  },
+  "thirdGate": {
+    "gateId": "gate-3",
+    "label": "Mounted public-shell closure",
+    "passed": true,
+    "checks": [
+      {
+        "checkId": "third-gate-public-shell-carriers",
+        "label": "Mounted public-shell and docs-route carriers",
+        "passed": true,
+        "detail": "12 required files present",
+        "requiredFiles": [
+          "apps/uapi/app/page.tsx",
+          "apps/uapi/app/docs/page.tsx",
+          "apps/uapi/app/demo-video/page.tsx",
+          "apps/uapi/app/(root)/components/PublicShellFrame.tsx",
+          "apps/uapi/app/(root)/components/MarketingLandingPage.tsx",
+          "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx",
+          "apps/uapi/app/(root)/components/MarketingOperatorGuideCard.tsx",
+          "apps/uapi/components/base/bitcode/layout/nav.tsx",
+          "apps/uapi/components/base/bitcode/layout/footer.tsx",
+          "apps/uapi/components/base/bitcode/layout/NavBrand.tsx",
+          "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+          "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts"
+        ],
+        "missingFiles": []
+      },
+      {
+        "checkId": "third-gate-public-proof-carriers",
+        "label": "Mounted public-shell proof and test carriers",
+        "passed": true,
+        "detail": "6 required files present",
+        "requiredFiles": [
+          "apps/uapi/tests/marketingLandingPage.test.tsx",
+          "apps/uapi/tests/marketingOperatorGuideCard.test.tsx",
+          "apps/uapi/tests/publicDocsPageContent.test.tsx",
+          "apps/uapi/tests/navPublicShell.test.tsx",
+          "apps/uapi/tests/footerPublicShell.test.tsx",
+          "apps/uapi/tests/navBrand.test.tsx"
+        ],
+        "missingFiles": []
+      },
+      {
+        "checkId": "third-gate-public-documentation-carriers",
+        "label": "Mounted public-shell documentation carriers",
+        "passed": true,
+        "detail": "6 required files present",
+        "requiredFiles": [
+          "README.md",
+          "apps/uapi/README.md",
+          "BITCODE_SPEC_V26_DELTA.md",
+          "BITCODE_SPEC_V26_NOTES.md",
+          "protocol-demonstration/V26_APPLICATION_SYSTEMS.md",
+          "protocol-demonstration/V26_PROOF_SURFACES.md"
+        ],
+        "missingFiles": []
+      }
+    ]
+  },
+  "fourthGate": {
+    "gateId": "gate-4",
+    "label": "Merged-world application and retained-system convergence",
+    "passed": true,
+    "reopened": false,
+    "promotedClosed": true,
+    "promotionStatus": "promoted-closed",
+    "materialProofsPassed": true,
+    "reclosureReviewPassed": true,
+    "proceduralClosurePassed": true,
+    "acceptanceBlockedByReopenedPromotion": false,
+    "checks": [
+      {
+        "checkId": "fourth-gate-conversations-continuity",
+        "label": "Fourth-gate conversations continuity proof",
+        "passed": true,
+        "detail": "Conversations and fullscreen chat continuity are explicit and generated"
+      },
+      {
+        "checkId": "fourth-gate-runs-pipelines-totality",
+        "label": "Fourth-gate runs and pipelines totality proof",
+        "passed": true,
+        "detail": "Retained executions, activity, AssetPack evidence, and pipeline systems totalize under Bitcode"
+      },
+      {
+        "checkId": "fourth-gate-persistence-schema-totality",
+        "label": "Fourth-gate persistence and schema totality proof",
+        "passed": true,
+        "detail": "Persistence, schema, `/edgetimes`, and typed storage carriers are explicit"
+      },
+      {
+        "checkId": "fourth-gate-retained-package-admissibility",
+        "label": "Fourth-gate retained package admissibility proof",
+        "passed": true,
+        "detail": "Retained non-Bitcode packages have explicit admitted roles"
+      },
+      {
+        "checkId": "fourth-gate-prompt-system-totality",
+        "label": "Fourth-gate prompt system totality proof",
+        "passed": true,
+        "detail": "PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active, support, and retained reference consumers, including retained config boundaries that avoid broad prompts/src catchalls"
+      },
+      {
+        "checkId": "fourth-gate-inference-implementation-records",
+        "label": "Fourth-gate inference implementation records proof",
+        "passed": true,
+        "detail": "Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, read-comprehension, and MCP inference systems have source-visible implementation records"
+      },
+      {
+        "checkId": "fourth-gate-reclosure-review",
+        "label": "Fourth-gate reopened acceptance criteria re-review",
+        "passed": true,
+        "detail": "Reopened fourth-gate acceptance criteria are mapped to generated proof families with no blocking fourth-gate deviance detected"
+      },
+      {
+        "checkId": "fourth-gate-promotion-honesty",
+        "label": "Fourth-gate promotion honesty and procedural closure",
+        "passed": true,
+        "detail": "Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, and fifth-gate closure is judged by its separate generated verdict."
+      },
+      {
+        "checkId": "fourth-gate-promoted-closed",
+        "label": "Fourth-gate promoted closed checkpoint",
+        "passed": true,
+        "detail": "Fourth gate is promoted closed at the gate level after reopening re-review; fifth-gate and full V26 closure are judged by their own proof families."
+      }
+    ]
+  },
+  "fifthGate": {
+    "gateId": "gate-5",
+    "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total retained-system reform baseline",
+    "passed": true,
+    "open": false,
+    "closureDeepened": true,
+    "sourceToSharesProofPassed": true,
+    "closureDeepeningProofPassed": true,
+    "closureProofPassed": true,
+    "proceduralClosurePassed": true,
+    "promotionStatus": "promoted-closed",
+    "checks": [
+      {
+        "checkId": "fifth-gate-source-to-shares-baseline",
+        "label": "Fifth-gate source-to-shares baseline proof",
+        "passed": true,
+        "detail": "Read review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage."
+      },
+      {
+        "checkId": "fifth-gate-closure-deepening-proof",
+        "label": "Fifth-gate closure deepening proof",
+        "passed": true,
+        "detail": "Fifth-gate closure evidence has deepened after fourth-gate promotion closure across Terminal, Exchange, persistence, reform, proof, and environment axes."
+      },
+      {
+        "checkId": "fifth-gate-closure-proof",
+        "label": "Fifth-gate closure verdict",
+        "passed": true,
+        "detail": "Fifth-gate closure proof accepts every formal queue row while launch and total closure remain separate gates."
+      },
+      {
+        "checkId": "fifth-gate-procedural-closure",
+        "label": "Fifth-gate procedural closure",
+        "passed": true,
+        "detail": "Fifth gate is procedurally closed at the minimum-functional Bitcode baseline."
+      }
+    ],
+    "detail": "Fifth gate is closed at the minimum-functional Bitcode baseline. Sixth and seventh gate closure are judged by their generated proof families."
+  },
+  "sixthGate": {
+    "gateId": "gate-6",
+    "label": "Minimal viable product elevation",
+    "prepared": true,
+    "passed": true,
+    "open": false,
+    "closureProofPassed": true,
+    "proceduralClosurePassed": true,
+    "promotionStatus": "promoted-closed",
+    "checks": [
+      {
+        "checkId": "sixth-gate-fifth-gate-prerequisite",
+        "label": "Fifth-gate prerequisite",
+        "passed": true,
+        "detail": "Fifth-gate minimum-functional Bitcode closure holds before MVP elevation."
+      },
+      {
+        "checkId": "sixth-gate-mvp-closure-proof",
+        "label": "Sixth-gate MVP closure proof",
+        "passed": true,
+        "detail": "Sixth-gate MVP closure proof accepts every MVP row across application map, operator loop, conversations, auxillaries, interfaces, and architecture."
+      },
+      {
+        "checkId": "sixth-gate-procedural-closure",
+        "label": "Sixth-gate procedural closure",
+        "passed": true,
+        "detail": "Sixth gate is procedurally closed at the minimal viable product baseline."
+      }
+    ],
+    "detail": "Sixth gate is closed at the minimal viable product baseline. Seventh gate closure is judged by the commercial testnet launch proof."
+  },
+  "seventhGate": {
+    "gateId": "gate-7",
+    "label": "Initial commercially-viable testnet live-launch refinement",
+    "prepared": true,
+    "passed": true,
+    "open": false,
+    "closureProofPassed": true,
+    "proceduralClosurePassed": true,
+    "promotionStatus": "promoted-closed",
+    "checks": [
+      {
+        "checkId": "seventh-gate-fifth-and-sixth-prerequisites",
+        "label": "Fifth- and sixth-gate prerequisites",
+        "passed": true,
+        "detail": "Fifth-gate minimum-functional closure and sixth-gate MVP closure both hold before commercial testnet launch refinement."
+      },
+      {
+        "checkId": "seventh-gate-commercial-testnet-launch-proof",
+        "label": "Seventh-gate commercial testnet launch proof",
+        "passed": true,
+        "detail": "Seventh-gate launch proof accepts every commercial testnet launch row across product readiness, wallet, repository scope, proof/state reread, operator flow, and connected interfaces."
+      },
+      {
+        "checkId": "seventh-gate-procedural-closure",
+        "label": "Seventh-gate procedural closure",
+        "passed": true,
+        "detail": "Seventh gate is procedurally closed at the initial commercially viable testnet launch baseline."
+      }
+    ],
+    "detail": "Seventh gate is closed at the initial commercially viable testnet launch baseline. Final V26 closure is judged by the Gate 8 proof family."
+  },
+  "eighthGate": {
+    "gateId": "gate-8",
+    "label": "Whole-repository provation and final V26 closure",
+    "prepared": true,
+    "passed": true,
+    "open": false,
+    "promptSpaceCompletenessProofPassed": true,
+    "wholeRepositoryProductionSatisfactionProofPassed": true,
+    "closureProofPassed": true,
+    "proceduralClosurePassed": true,
+    "promotionStatus": "promoted-closed",
+    "checks": [
+      {
+        "checkId": "eighth-gate-fifth-sixth-seventh-prerequisites",
+        "label": "Fifth-, sixth-, and seventh-gate prerequisites",
+        "passed": true,
+        "detail": "Fifth-gate minimum-functional closure, sixth-gate MVP closure, and seventh-gate commercial testnet launch closure all hold before final V26 provation."
+      },
+      {
+        "checkId": "eighth-gate-prompt-space-completeness-proof",
+        "label": "Prompt-space completeness proof",
+        "passed": true,
+        "detail": "Prompt-space completeness proof closes every prompt-space witness set and final completeness dimension."
+      },
+      {
+        "checkId": "eighth-gate-whole-repository-production-satisfaction-proof",
+        "label": "Whole-repository production satisfaction proof",
+        "passed": true,
+        "detail": "Whole-repository production satisfaction proof closes application, API, MCP, ChatGPT App, package, proof, and reform evidence as one Bitcode product."
+      },
+      {
+        "checkId": "eighth-gate-v26-total-closure-proof",
+        "label": "V26 total closure proof",
+        "passed": true,
+        "detail": "V26 total closure proof accepts the final repository closure queue."
+      },
+      {
+        "checkId": "eighth-gate-procedural-closure",
+        "label": "Eighth-gate procedural closure",
+        "passed": true,
+        "detail": "Eighth gate is procedurally closed; V26 is ready for canonical promotion without interpretive notes."
+      }
+    ],
+    "detail": "Eighth gate is closed: whole-repository Bitcode provation, prompt-space completeness, and V26 total closure have explicit generated closure verdicts."
+  }
+}

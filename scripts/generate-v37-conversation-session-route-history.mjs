@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   CONVERSATION_SESSION_ROUTE_HISTORY_ARTIFACT_PATH,
   buildConversationSessionRouteHistory,
-} from '../packages/protocol/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

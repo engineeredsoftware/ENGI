@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { buildV21SpecFamilyReport } from '../packages/protocol/src/index.js';
+import { buildV21SpecFamilyReport } from '../scripts/specifying/src/index.js';
 
 function projectLabel(version) {
   return 'Bitcode';
@@ -59,7 +59,7 @@ function main() {
   }
 
   const resolvedRepoRoot = path.resolve(args.repoRoot || process.cwd());
-  const version = args.version || readFileSync(path.join(resolvedRepoRoot, 'BITCODE_SPEC.txt'), 'utf8').trim();
+  const version = args.version || readFileSync(path.join(resolvedRepoRoot, '.specifications/BITCODE_SPEC.txt'), 'utf8').trim();
   const mode = args.mode || 'draft';
   if (!['draft', 'promoted'].includes(mode)) {
     throw new Error(`Unsupported mode ${mode}. Expected draft or promoted.`);

@@ -1,0 +1,261 @@
+{
+  "reportId": "v34-promotion-readiness-report",
+  "artifactId": "v34-promotion-readiness-report",
+  "schemaId": "bitcode.v34.promotionReadiness.v1",
+  "version": "V34",
+  "currentTarget": "V34",
+  "proofSourceCommit": "cb339f0407231855043dcf7174c384f1ab6bd16c",
+  "generatedAt": "2026-05-23T21:13:33-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "passed": true,
+  "sourceSafe": true,
+  "prePromotionPosture": "V33 active / V34 draft",
+  "postPromotionPosture": "V34 active / V35 draft",
+  "branchProtection": {
+    "directMainPushAdmitted": false,
+    "promotionPrRequired": true,
+    "versionBranch": "version/v34",
+    "versionPromotionPullRequestTitlePrefix": "V34 Canonical Promotion"
+  },
+  "generatedArtifactPolicy": {
+    "provenAppendixPath": "BITCODE_SPEC_V34_PROVEN.md",
+    "provenAppendixRequiredBeforePromotion": false,
+    "generatedArtifactPrefix": ".proofs/v34/",
+    "secretValuesSerialized": false,
+    "protectedSourceSerialized": false
+  },
+  "sourceEvidence": [
+    {
+      "relativePath": "scripts/check-v34-gate10-promotion-readiness.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V34 Gate 10 promotion readiness",
+          "present": true
+        },
+        {
+          "token": "--promotion-mode",
+          "present": true
+        },
+        {
+          "token": ".proofs/v34/promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/generate-v34-promotion-readiness-report.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "buildV34PromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": "source-safe-deployment-promotion-readiness-metadata",
+          "present": true
+        },
+        {
+          "token": "v34-promotion-readiness-report",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "if (version === 'V34')",
+          "present": true
+        },
+        {
+          "token": "const v34Gate10Command",
+          "present": true
+        },
+        {
+          "token": "buildDerivedV34CommitMessageBody",
+          "present": true
+        },
+        {
+          "token": "scripts/check-v34-gate10-promotion-readiness.mjs",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "if (version === 'V34')",
+          "present": true
+        },
+        {
+          "token": "V34 canonical system specification for deployment depth",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V34_PROVEN.md",
+          "present": true
+        },
+        {
+          "token": ".proofs/v34/promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/v34-canon-promotion.yml",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "head.ref == 'version/v34'",
+          "present": true
+        },
+        {
+          "token": "npm run promote:canon -- --version V34",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V34_PROVEN.md",
+          "present": true
+        },
+        {
+          "token": "Promote V34 canon files",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "check-v34-gate10-promotion-readiness.mjs",
+          "present": true
+        },
+        {
+          "token": "elif [ \"$POINTER\" = \"V34\" ]",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-canon-quality.yml",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "elif [ \"$POINTER\" = \"V34\" ]",
+          "present": true
+        },
+        {
+          "token": "--active-canon V34 --draft-target V35",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/btd/src/deployment-promotion-readiness-report.ts",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "DeploymentPromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": "DEPLOYMENT_PROMOTION_READINESS_ARTIFACT_PATHS",
+          "present": true
+        },
+        {
+          "token": "V34 active / V35 draft",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/test/v34-promotion-readiness.test.js",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "supports V34 promotion readiness with source-safe deployment artifacts",
+          "present": true
+        },
+        {
+          "token": "v34-promotion-readiness-report",
+          "present": true
+        },
+        {
+          "token": "V34 Promotion Readiness",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V34.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V34 promotion readiness canon",
+          "present": true
+        },
+        {
+          "token": ".proofs/v34/promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "V34 active / V35 draft",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V34_PARITY_MATRIX.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "## Gate 10 Parity",
+          "present": true
+        },
+        {
+          "token": ".proofs/v34/promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "closed",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "package.json",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "generate:v34-promotion-readiness",
+          "present": true
+        },
+        {
+          "token": "check:v34-gate10",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/README.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V34 Gate 10",
+          "present": true
+        },
+        {
+          "token": "V34` active, `V35` draft",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

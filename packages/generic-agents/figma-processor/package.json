@@ -6,11 +6,13 @@
   "types": "./src/index.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
     "@bitcode/agent-generics": "workspace:*",
-    "@bitcode/figma-tools": "workspace:*",
+    "@bitcode/generic-tools-mcps-figma": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/observability": "workspace:*",
     "zod": "^3.20.0"

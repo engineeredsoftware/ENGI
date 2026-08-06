@@ -1,0 +1,75 @@
+{
+  "proofId": "v27-crypto-library-research-proof",
+  "version": "V27",
+  "generatedAt": "2026-05-06T00:00:00.000Z",
+  "state": "promotion-support-proof",
+  "researchRebindingDocument": ".docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md",
+  "primarySources": [
+    {
+      "name": "Bitcoin Core validation",
+      "url": "https://bitcoin.org/en/bitcoin-core/features/validation",
+      "boundChoice": "Bitcode validates fixed supply and ledger finality rather than trusting UI/indexer assertions."
+    },
+    {
+      "name": "BIP 174 PSBT",
+      "url": "https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki",
+      "boundChoice": "BTC fee payments use a PSBT-style user signing lifecycle without server custody."
+    },
+    {
+      "name": "BIP 341 Taproot",
+      "url": "https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki",
+      "boundChoice": "Bitcoin AssetPack anchor receipts select Taproot as the preferred Bitcoin commitment posture."
+    },
+    {
+      "name": "Filecoin minting model",
+      "url": "https://spec.filecoin.io/systems/filecoin_token/minting_model/",
+      "boundChoice": "Bitcode measureminting decays against admitted measured knowledge rather than time."
+    },
+    {
+      "name": "ERC-721",
+      "url": "https://eips.ethereum.org/EIPS/eip-721",
+      "boundChoice": "Ethereum uniqueness standards are references only; $BTD remains a Bitcode source-share cell/range registry."
+    },
+    {
+      "name": "ERC-2309",
+      "url": "https://eips.ethereum.org/EIPS/eip-2309",
+      "boundChoice": "Consecutive-transfer semantics inform AssetPack range events."
+    },
+    {
+      "name": "ERC-4907",
+      "url": "https://eips.ethereum.org/EIPS/eip-4907",
+      "boundChoice": "Owner/user separation informs owner-read versus licensed-read posture."
+    },
+    {
+      "name": "EIP-712",
+      "url": "https://eips.ethereum.org/EIPS/eip-712",
+      "boundChoice": "Signed intents require Bitcode-level nonce, deadline, and domain separation."
+    },
+    {
+      "name": "OpenZeppelin Contracts",
+      "url": "https://docs.openzeppelin.com/contracts",
+      "boundChoice": "Candidate Ethereum contract library; not protocol law."
+    },
+    {
+      "name": "Foundry",
+      "url": "https://www.getfoundry.sh/",
+      "boundChoice": "Candidate Ethereum build/test/deploy harness; not protocol law."
+    },
+    {
+      "name": "viem",
+      "url": "https://viem.sh/docs/getting-started",
+      "boundChoice": "Candidate low-level Ethereum TypeScript client; not protocol law."
+    },
+    {
+      "name": "wagmi",
+      "url": "https://wagmi.sh/react/getting-started",
+      "boundChoice": "Candidate React Ethereum wallet hook layer; not protocol law."
+    }
+  ],
+  "closedCriteria": [
+    "web research agenda is complete against durable primary and official sources",
+    "normative V27 choices are rebound into a repository document",
+    "external standards remain design references unless translated into Bitcode-native law",
+    "library optionality remains adapter-level and does not create protocol dependency lock-in"
+  ]
+}

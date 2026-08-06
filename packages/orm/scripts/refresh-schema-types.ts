@@ -246,36 +246,6 @@ const STORAGE_COMPATIBILITY_TABLES = `      executions: {
         }
         Relationships: []
       }
-      run_otf_instructions: {
-        Row: {
-          created_at: string | null
-          id: string
-          instruction_data: Json
-          instruction_type: string
-          is_processed: boolean | null
-          processed_at: string | null
-          run_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          instruction_data: Json
-          instruction_type: string
-          is_processed?: boolean | null
-          processed_at?: string | null
-          run_id: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          instruction_data?: Json
-          instruction_type?: string
-          is_processed?: boolean | null
-          processed_at?: string | null
-          run_id?: string
-        }
-        Relationships: []
-      }
 `;
 
 const ORM_HELPERS = `

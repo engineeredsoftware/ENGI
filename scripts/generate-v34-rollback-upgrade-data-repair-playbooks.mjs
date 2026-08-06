@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json';
+const ARTIFACT_PATH = '.proofs/v34/rollback-upgrade-data-repair-playbooks.json';
 const GENERATED_AT = '2026-05-23T00:00:00.000Z';
 
 const ids = Object.freeze([
@@ -35,14 +35,14 @@ const secretMarkers = Object.freeze([
 ]);
 
 const rows = Object.freeze([
-  r('deployment_rollback', 'deployment rollback playbook', 'rollback', 'uapi', ['website', 'api'], ['deployment alias', 'runtime receipts'], 'preview or production lane deployment fails health or proof checks', ['freeze traffic promotion', 'revert deployment alias', 'replay gate-quality checks'], ['pnpm run check:v34-gate8'], ['Vercel lane root', 'DeploymentHostCapabilityCatalog'], 'traffic stays blocked from the failed deployment until rollback proof root is recorded', 'deployment boundary'),
-  r('deployment_upgrade', 'deployment upgrade playbook', 'upgrade', 'root-workspace', ['website', 'api', 'pipeline_workers'], ['version branch', 'workflow run', 'generated artifacts'], 'version branch is ready for promotion rehearsal without value-bearing mainnet admission', ['freeze version branch', 'run promotion dry-run', 'verify generated artifacts'], ['pnpm run check:v34-gate8'], ['BITCODE_SPEC_V34.md', 'promotion workflow'], 'upgrade remains blocked until all promotion dry-run roots verify', 'version promotion boundary'),
+  r('deployment_rollback', 'deployment rollback playbook', 'rollback', 'apps/uapi', ['website', 'api'], ['deployment alias', 'runtime receipts'], 'preview or production lane deployment fails health or proof checks', ['freeze traffic promotion', 'revert deployment alias', 'replay gate-quality checks'], ['pnpm run check:v34-gate8'], ['Vercel lane root', 'DeploymentHostCapabilityCatalog'], 'traffic stays blocked from the failed deployment until rollback proof root is recorded', 'deployment boundary'),
+  r('deployment_upgrade', 'deployment upgrade playbook', 'upgrade', 'root-workspace', ['website', 'api', 'pipeline_workers'], ['version branch', 'workflow run', 'generated artifacts'], 'version branch is ready for promotion rehearsal without value-bearing mainnet admission', ['freeze version branch', 'run promotion dry-run', 'verify generated artifacts'], ['pnpm run check:v34-gate8'], ['.specifications/BITCODE_SPEC_V34.md', 'promotion workflow'], 'upgrade remains blocked until all promotion dry-run roots verify', 'version promotion boundary'),
   r('migration_rollback', 'schema migration rollback playbook', 'migration_rollback', 'packages/orm', ['database_projection', 'repair_jobs'], ['migration file', 'generated database types', 'database projection'], 'schema migration dry-run or lane readback fails after approval', ['freeze writes', 'revert migration', 'refresh generated types', 'replay database health'], ['pnpm run db:schema-types:check'], ['MigrationApprovalGate', 'SupabaseReadbackReceipt'], 'database writes and unlock stay blocked until schema and type roots repair', 'database schema boundary'),
   r('object_storage_repair', 'object-storage repair playbook', 'object_storage_repair', 'packages/btd', ['object_storage', 'repair_jobs'], ['object storage root', 'proof artifact root', 'AssetPack lock'], 'object storage root is missing, stale, or violates paid-only delivery posture', ['lock delivery', 'rewrite object from authorized artifact root', 'verify proof root'], ['pnpm run check:v34-gate4'], ['DeploymentStoragePosture', 'objectStorageRoot'], 'source-bearing AssetPack delivery stays blocked until object repair root matches proof root', 'object-storage boundary'),
   r('database_repair', 'database repair playbook', 'database_repair', 'packages/orm', ['database_projection', 'repair_jobs'], ['database projection root', 'ledger-derived root', 'audit event'], 'database projection drift is detected by observer or readback', ['freeze affected read model', 'replay projection from ledger root', 'verify data health'], ['pnpm run db:data-health:ci'], ['DeploymentStoragePosture', 'databaseProjectionRoot'], 'interfaces show blocked repair posture until database projection root verifies', 'database projection boundary'),
   r('ledger_projection_repair', 'ledger projection repair playbook', 'ledger_projection_repair', 'packages/btd', ['ledger_projection', 'repair_jobs'], ['ledger projection root', 'settlement root', 'rights root'], 'ledger projection conflicts with settlement, finality, or BTD rights state', ['freeze unlock', 'replay ledger projection', 'verify settlement and rights roots'], ['pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/reconciliation.test.ts'], ['SettlementUnlock', 'BtdRightsTransferReceipt'], 'rights transfer and delivery stay blocked until ledger projection root repairs', 'ledger projection boundary'),
   r('secret_rotation_incident_response', 'secret rotation incident response playbook', 'secret_rotation_incident_response', 'packages/btd', ['api', 'pipeline_workers', 'repair_jobs'], ['secret family id', 'rotation audit event', 'runtime availability root'], 'secret leak, expiry, or provider revocation affects a runtime lane', ['revoke affected credential', 'rotate provider alias', 'replay runtime availability check'], ['pnpm run check:v34-gate5'], ['SecretRotationPlan', 'auditEventName'], 'affected runtime host remains blocked until rotation and availability roots verify', 'secret boundary'),
-  r('generated_artifact_repair', 'generated artifact repair playbook', 'generated_artifact_repair', 'packages/protocol', ['proof_services', 'repair_jobs'], ['generated artifact root', 'spec-family root', 'canonical input root'], 'generated artifact is stale, missing, or source-unsafe', ['regenerate artifact', 'run artifact checker', 'verify source-safe proof root'], ['node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33'], ['canonical input report', 'spec-family report'], 'promotion and deployment stay blocked until generated artifact root verifies', 'generated artifact boundary'),
+  r('generated_artifact_repair', 'generated artifact repair playbook', 'generated_artifact_repair', 'scripts/specifying', ['proof_services', 'repair_jobs'], ['generated artifact root', 'spec-family root', 'canonical input root'], 'generated artifact is stale, missing, or source-unsafe', ['regenerate artifact', 'run artifact checker', 'verify source-safe proof root'], ['node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33'], ['canonical input report', 'spec-family report'], 'promotion and deployment stay blocked until generated artifact root verifies', 'generated artifact boundary'),
 ]);
 
 function r(playbookId, label, playbookClass, ownerPackage, requiredHostIds, stateCarriers, entryCondition, commandSequence, verificationCommands, proofRootBasis, failClosedResult, recoveryBoundary) {
@@ -130,10 +130,10 @@ function buildArtifact() {
     evidence('packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts', ['fails closed when a required playbook is missing', 'fails closed when value-bearing mainnet is admitted', 'fails closed when operator approval is missing', 'fails closed on serialized secret-shaped values']),
   ];
   const docsEvidence = [
-    evidence('BITCODE_SPEC_V34.md', ['RollbackUpgradeRepairPlaybook', ARTIFACT_PATH]),
-    evidence('BITCODE_SPEC_V34_DELTA.md', ['RollbackUpgradeRepairPlaybook', ARTIFACT_PATH]),
-    evidence('BITCODE_SPEC_V34_PARITY_MATRIX.md', ['RollbackUpgradeRepairPlaybook', ARTIFACT_PATH]),
-    evidence('SPECIFICATIONS_ROADMAP.md', ['V34 Gate 8 closure anchor']),
+    evidence('.specifications/BITCODE_SPEC_V34.md', ['RollbackUpgradeRepairPlaybook', ARTIFACT_PATH]),
+    evidence('.specifications/BITCODE_SPEC_V34_DELTA.md', ['RollbackUpgradeRepairPlaybook', ARTIFACT_PATH]),
+    evidence('.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md', ['RollbackUpgradeRepairPlaybook', ARTIFACT_PATH]),
+    evidence('.specifications/SPECIFICATIONS_ROADMAP.md', ['V34 Gate 8 closure anchor']),
   ];
   const workflowEvidence = [
     evidence('.github/workflows/bitcode-gate-quality.yml', ['check-v34-gate8-rollback-upgrade-data-repair-playbooks.mjs', 'rollback-upgrade-repair-playbook.test.ts']),

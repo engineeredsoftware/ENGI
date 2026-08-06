@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-rehearsal.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-rehearsal.json';
 
 const REQUIRED_REHEARSAL_IDS = [
   'local_conversations_rehearsal',
@@ -32,7 +32,7 @@ const REQUIRED_FLOW_IDS = [
 ];
 
 const REQUIRED_DOC_PHRASES = [
-  'local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows',
+  'local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, product handoff, restore, retry, redaction, and error flows',
   'rehearsal logs/screenshots are source-safe',
   'route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible',
 ];
@@ -119,7 +119,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -138,30 +138,30 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-rehearsal.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-rehearsal.test.js',
+    'scripts/specifying/src/canonical/conversation-rehearsal.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-rehearsal.test.js',
     'scripts/generate-v37-conversation-rehearsal.mjs',
     'scripts/check-v37-gate9-conversation-rehearsal.mjs',
-    'uapi/app/conversations/conversation-rehearsal.ts',
-    'uapi/app/conversations/components/ConversationRehearsalPanel.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/api/conversationRehearsal.test.ts',
-    'uapi/tests/conversationRehearsalPanel.test.tsx',
-    'uapi/jest.config.cjs',
-    'docs/conversations.md',
-    'internal-docs/BITCODE_CONVERSATIONS.md',
-    'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/conversations/conversation-rehearsal.ts',
+    'apps/uapi/app/conversations/components/ConversationRehearsalPanel.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/api/conversationRehearsal.test.ts',
+    'apps/uapi/tests/conversationRehearsalPanel.test.tsx',
+    'apps/uapi/jest.config.cjs',
+    '.docs/conversations.md',
+    '.docs/BITCODE_CONVERSATIONS.md',
+    '.docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/conversations/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -181,7 +181,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-rehearsal.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-rehearsal.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation rehearsal package test failed: ${error.stderr || error.message}`);
     }
@@ -191,7 +191,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationRehearsal.test.ts',
@@ -275,22 +275,22 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V37.md');
-  const delta = read(root, 'BITCODE_SPEC_V37_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V37_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V37.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V37_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V37_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const rootPackage = read(root, 'package.json');
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
-  const protocolDts = read(root, 'packages/protocol/src/index.d.ts');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
+  const protocolDts = read(root, 'scripts/specifying/src/index.d.ts');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const conversationsReadme = read(root, 'uapi/app/conversations/README.md');
-  const publicDocs = read(root, 'docs/conversations.md');
-  const internalDocs = read(root, 'internal-docs/BITCODE_CONVERSATIONS.md');
-  const runbook = read(root, 'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
+  const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
+  const publicDocs = read(root, '.docs/conversations.md');
+  const internalDocs = read(root, '.docs/BITCODE_CONVERSATIONS.md');
+  const runbook = read(root, '.docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
 
   for (const doc of [spec, delta, notes, parity, roadmap, protocolReadme, rootReadme, conversationsReadme, publicDocs, internalDocs, runbook]) {
     const normalizedDoc = doc.toLowerCase();

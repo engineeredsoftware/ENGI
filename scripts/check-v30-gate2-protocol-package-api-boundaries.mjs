@@ -92,7 +92,7 @@ function collectSourceFiles(root, startRelativePath) {
 function findStandaloneDemonstrationImports(root) {
   const importPattern =
     /(?:from\s+|import\s*\(|require\s*\()\s*['"][^'"]*(?:@bitcode\/protocol-demonstration|protocol-demonstration\/src)/u;
-  const sourceRoots = ['packages', 'uapi/app', 'uapi/components', 'uapi/lib'];
+  const sourceRoots = ['packages', 'apps/uapi/app', 'apps/uapi/components', 'apps/uapi/lib'];
   return sourceRoots.flatMap((sourceRoot) =>
     collectSourceFiles(root, sourceRoot).flatMap((filePath) => {
       const source = readFileSync(filePath, 'utf8');
@@ -110,7 +110,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -135,10 +135,10 @@ function main() {
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'packages/btd/README.md',
     'packages/api/README.md',
-    'packages/protocol/README.md',
-    'BITCODE_SPEC_V30_DELTA.md',
-    'BITCODE_SPEC_V30_PARITY_MATRIX.md',
-    'BITCODE_SPEC_V30_NOTES.md'
+    'scripts/specifying/README.md',
+    '.specifications/BITCODE_SPEC_V30_DELTA.md',
+    '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V30_NOTES.md'
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V30 Gate 2 file: ${relativePath}`);
   }
@@ -150,10 +150,10 @@ function main() {
   const apiRouteTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
   const apiReadme = read(root, 'packages/api/README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
-  const parity = read(root, 'BITCODE_SPEC_V30_PARITY_MATRIX.md');
-  const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V30_DELTA.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V30_NOTES.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -210,7 +210,7 @@ function main() {
   assertCheck(failures, btdReadme.includes('@bitcode/btd'), 'BTD README must name accepted package imports.');
   assertCheck(failures, apiReadme.includes('@bitcode/btd'), 'API README must state BTD route delegation to @bitcode/btd.');
   assertCheck(failures, apiReadme.includes('route-owned'), 'API README must distinguish route-owned work from package-owned policy.');
-  assertCheck(failures, protocolReadme.includes('@bitcode/protocol'), 'Protocol README must keep accepted commercial imports explicit.');
+  assertCheck(failures, protocolReadme.includes('@bitcode/specifying'), 'Protocol README must keep accepted commercial imports explicit.');
   assertCheck(failures, protocolReadme.includes('must not import `protocol-demonstration/src/*`'), 'Protocol README must forbid standalone demonstration runtime imports.');
 
   assertCheck(failures, delta.includes('Gate 2: Protocol Package API Boundaries'), 'V30 DELTA must retain Gate 2 scope.');

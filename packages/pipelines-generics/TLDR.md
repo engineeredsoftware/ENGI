@@ -19,7 +19,7 @@ Pipelines create child executions for each level:
 - **Step**: Runs 7 substeps
 - **SubStep**: Atomic operations
 
-## PipelinePrompt
+## ExecutionPipelinePrompt
 
 Specialized prompt that accumulates through hierarchy:
 ```typescript
@@ -33,7 +33,7 @@ prompt
 ## Creating Pipelines
 
 ```typescript
-const pipeline = factoryPipeline({
+const pipeline = factoryExecutionPipelineFromPhases({
   name: 'asset-pack',
   phases: ['discovery', 'implementation', 'validation']
 });

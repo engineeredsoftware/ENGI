@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_READ_ROUTE_FIVE_STEP_UX_ARTIFACT_PATH,
   buildV43ReadRouteFiveStepUx,
-} from '../packages/protocol/src/canonical/v43-read-route-five-step-ux.js';
+} from '../scripts/specifying/src/canonical/v43-read-route-five-step-ux.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

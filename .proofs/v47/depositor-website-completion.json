@@ -1,0 +1,416 @@
+{
+  "artifactId": "v47-depositor-website-completion",
+  "schemaId": "bitcode.v47.depositorWebsiteCompletion.v1",
+  "version": "V47",
+  "currentTarget": "V46",
+  "artifactPath": ".proofs/v47/depositor-website-completion.json",
+  "sourceSafetyVerdict": "source-safe-depositor-website-completion",
+  "stepIds": [
+    "connect-source",
+    "synthesize-options",
+    "review-options",
+    "submit-deposit",
+    "read-depository-state"
+  ],
+  "pipelineIds": [
+    "DepositAssetPackOptionSynthesis",
+    "DepositAssetPackOptionPolicy",
+    "DepositAssetPackOptionAdmissionReport",
+    "DepositorEarningSupplyIntelligence",
+    "OrganizationPolicyWalletAuthority"
+  ],
+  "eventIds": [
+    "pipeline:deposit-option-synthesis",
+    "pipeline:deposit-option-review",
+    "pipeline:deposit-option-admission"
+  ],
+  "visibleDecisionIds": [
+    "coverage-measurement",
+    "specificity-measurement",
+    "novelty-measurement",
+    "reuse-measurement",
+    "risk-measurement",
+    "evidence-measurement",
+    "criticality-state",
+    "demand-state",
+    "roi-state",
+    "btd-potential-state",
+    "btc-source-to-shares-preview",
+    "admission-state",
+    "packs-activity-sync-state",
+    "authority-state"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_assetpack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload",
+    "mainnet_value_bearing_payment_secret"
+  ],
+  "completionRows": [
+    {
+      "rowId": "source-connection",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "route": "/deposit",
+      "contract": "Depositors connect a repository, branch, commit, and source scope through the route-owned source selector before option synthesis can be journaled.",
+      "requiredFields": [
+        "TerminalRepositoryContextPanel",
+        "routePath={DEPOSIT_ROUTE}",
+        "disabled={!depositRouteSession.routeState.repositoryFullName}"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-depositor-website-completion-row:e6d5ae3b600a2a00ca4313ab"
+    },
+    {
+      "rowId": "option-synthesis-journal",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "route": "/deposit",
+      "contract": "The synthesize action records a source-safe execution row with route session, synthesis, policy, earning intelligence, authority, proof roots, and repository context.",
+      "requiredFields": [
+        "pipeline:deposit-option-synthesis",
+        "depositOptionSynthesis",
+        "depositorEarningSupplyIntelligence"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-depositor-website-completion-row:453ea5871adda914095eb770"
+    },
+    {
+      "rowId": "source-safe-measurement-review",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "route": "/deposit",
+      "contract": "Depositors review option measurements, criticality, demand, ROI, BTD potential, compensation preview, roots, and recommendations before approval.",
+      "requiredFields": [
+        "option.measurements.map",
+        "BTD potential",
+        "BTC source-to-shares preview",
+        "Option roots"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-depositor-website-completion-row:3f2b360e49c742c24a8e2235"
+    },
+    {
+      "rowId": "admission-and-repair-actions",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "route": "/deposit",
+      "contract": "Depositors approve, reject, or request resynthesis; approved policy-eligible options emit admission readback and synchronize to /packs.",
+      "requiredFields": [
+        "Approve for Depository",
+        "Reject",
+        "Resynthesize",
+        "synchronized-to-packs"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-depositor-website-completion-row:ec876a83cf4f292dc752d9ee"
+    },
+    {
+      "rowId": "compensation-authority-readback",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "route": "/deposit",
+      "contract": "The route exposes future BTC compensation estimates, unfit Need opportunity roots, source-to-shares preview posture, and organization/wallet authority state.",
+      "requiredFields": [
+        "Supply opportunity",
+        "Organization authority",
+        "Expected compensation",
+        "Authority root"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-depositor-website-completion-row:97be7d0c2c4735ed4fd93176"
+    },
+    {
+      "rowId": "packs-history-readback",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "route": "/packs",
+      "contract": "Recent Deposit activity and admitted Depository AssetPack rows remain reachable from /deposit through source-safe execution history and /packs activity.",
+      "requiredFields": [
+        "Recent Deposit activity",
+        "/packs?type=depository-assetpack",
+        "Open pack activity"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-depositor-website-completion-row:3f4f31b3a8668d107f66bdb7"
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v47-launch-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-records-gate4-depositor-website-completion",
+      "sourcePath": "BITCODE_SPEC_V47.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate4-depositor-website-completion",
+      "sourcePath": "BITCODE_SPEC_V47_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-record-gate4-depositor-website-completion",
+      "sourcePath": "BITCODE_SPEC_V47_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate4-depositor-website-completion",
+      "sourcePath": "BITCODE_SPEC_V47_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate4-closure",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "deposit-route-model-binds-five-step-source-safe-session",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-binds-source-connection-before-synthesis",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-records-option-synthesis-execution",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-source-safe-measurement-review",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-records-review-admission-actions",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-compensation-authority-readback",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-links-packs-history-readback",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-page-test-covers-synthesis-journaling",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-route-model-test-covers-admission-compensation",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "pipeline-models-bind-depositor-website-dependencies",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-model-supports-depository-assetpack-sync",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate4",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate4",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate4-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-checker-test-exist",
+      "sourcePath": "scripts/generate-v47-depositor-website-completion.mjs",
+      "passed": true
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V47.md:476ca5a5d0b07b31694f0b68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
+    "depositRouteModel": "apps/uapi/app/deposit/deposit-route-model.ts:f751aa1958d609894752b737",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
+    "depositPage": "apps/uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
+    "depositRouteModelTest": "apps/uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad",
+    "depositPageTest": "apps/uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "optionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts:e592710e04c64b0ebdb40068",
+    "policyModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
+    "admissionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
+    "earningModel": "packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts:e0ec2d83cfaf3bfaaa126387",
+    "authorityModel": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
+    "packageJson": "package.json:4d9f041eb01a920860a26f75",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-depositor-website-completion.js:205d330ef6de63c7cf82895e",
+    "protocolTest": "scripts/specifying/test/v47-depositor-website-completion.test.js:227e3b47a4fbbed7cea7e642",
+    "generator": "scripts/generate-v47-depositor-website-completion.mjs:d14545eb606901fdc4df3b08",
+    "checker": "scripts/check-v47-gate4-depositor-website-completion.mjs:b918d7afafcad45ec6c22360",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:379d7561d515468f9237bf02",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
+  },
+  "artifactRoot": "v47-depositor-website-completion:aa60cd618994fcf4eb76c864",
+  "coverage": {
+    "requiredPredicateCount": 21,
+    "passedPredicateCount": 21,
+    "failedPredicateIds": [],
+    "sourceConnectionComplete": true,
+    "optionSynthesisJournaled": true,
+    "sourceSafeMeasurementReviewComplete": true,
+    "admissionActionsComplete": true,
+    "compensationVisibilityComplete": true,
+    "authorityReadbackComplete": true,
+    "packsHistoryReadbackComplete": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetEnabled": false
+  },
+  "passed": true
+}

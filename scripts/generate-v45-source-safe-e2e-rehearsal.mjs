@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V45_SOURCE_SAFE_E2E_REHEARSAL_ARTIFACT_PATH,
   buildV45SourceSafeEndToEndRehearsal,
-} from '../packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

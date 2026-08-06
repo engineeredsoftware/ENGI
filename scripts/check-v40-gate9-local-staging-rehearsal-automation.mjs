@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v40-local-staging-rehearsal-automation.json';
+const ARTIFACT_PATH = '.proofs/v40/local-staging-rehearsal-automation.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -100,13 +100,13 @@ function parseJson(output, failures, label) {
 
 function runFocusedTests(root, failures) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v40-local-staging-rehearsal-automation.test.js']],
+    ['node', ['--test', '--test-force-exit', 'scripts/specifying/test/v40-local-staging-rehearsal-automation.test.js']],
   ];
 
   if (commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/asset-pack-harness.test.ts', '--runInBand', '--forceExit']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/asset-pack-host-plan.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
     );
   }
 
@@ -129,7 +129,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V39', `BITCODE_SPEC.txt must remain V39 during V40 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -147,22 +147,22 @@ function main() {
     'scripts/rehearse-v40-local-staging-testnet.mjs',
     'scripts/generate-v40-local-staging-rehearsal-automation.mjs',
     'scripts/check-v40-gate9-local-staging-rehearsal-automation.mjs',
-    'packages/protocol/src/canonical/v40-local-staging-rehearsal-automation.js',
-    'packages/protocol/test/v40-local-staging-rehearsal-automation.test.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-harness.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts',
-    'uapi/app/api/pipeline-harness/asset-pack/preflight.ts',
-    'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
-    'BITCODE_SPEC_V40.md',
-    'BITCODE_SPEC_V40_DELTA.md',
-    'BITCODE_SPEC_V40_NOTES.md',
-    'BITCODE_SPEC_V40_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'scripts/specifying/src/canonical/v40-local-staging-rehearsal-automation.js',
+    'scripts/specifying/test/v40-local-staging-rehearsal-automation.test.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-host.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-local-staging-rehearsal.ts',
+    'apps/uapi/app/api/pipeline-host/asset-pack/preflight.ts',
+    'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
+    '.specifications/BITCODE_SPEC_V40.md',
+    '.specifications/BITCODE_SPEC_V40_DELTA.md',
+    '.specifications/BITCODE_SPEC_V40_NOTES.md',
+    '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

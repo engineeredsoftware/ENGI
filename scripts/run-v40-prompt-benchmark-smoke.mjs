@@ -10,7 +10,7 @@ import { createRequire } from 'node:module';
 import {
   V38_PROMPT_BENCHMARK_REPORT_ARTIFACT_PATH,
   buildV38PromptBenchmarkReport,
-} from '../packages/protocol/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +19,7 @@ const require = createRequire(import.meta.url);
 const { BenchmarkRunner } = require('../packages/prompts/src/benchmarking/runner.js');
 
 const GENERATED_AT = '2026-05-25T00:00:00.000Z';
-const DEFAULT_RECEIPT_DIR = '.bitcode/pipeline-harness-runs/v40-prompt-benchmark-smoke';
+const DEFAULT_RECEIPT_DIR = '.proofs/pipeline-host-runs/v40-prompt-benchmark-smoke';
 
 class SourceSafeMockProvider {
   name = 'source-safe-mock';

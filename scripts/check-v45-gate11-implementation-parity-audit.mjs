@@ -65,7 +65,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 parity audit work. Observed ${pointer || 'empty'}.`);
 
@@ -79,23 +79,23 @@ function main() {
   }
 
   for (const relativePath of [
-    'BITCODE_SPEC_V45.md',
-    'BITCODE_SPEC_V45_DELTA.md',
-    'BITCODE_SPEC_V45_NOTES.md',
-    'BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'BITCODE_SPEC_V44.md',
-    'BITCODE_SPEC_V44_PROVEN.md',
-    'BITCODE_SPEC.txt',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_DELTA.md',
+    '.specifications/BITCODE_SPEC_V45_NOTES.md',
+    '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V44.md',
+    '.specifications/BITCODE_SPEC_V44_PROVEN.md',
+    '.specifications/BITCODE_SPEC.txt',
     'package.json',
     'scripts/check-v45-gate10-formal-spec-consolidation.mjs',
   ]) {
     assertCheck(failures, exists(root, relativePath), `Missing required V45 Gate 11 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V45.md');
-  const delta = read(root, 'BITCODE_SPEC_V45_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V45_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V45.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V45_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V45_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const combined = normalize([spec, delta, notes, parity].join('\n'));
 
@@ -131,16 +131,16 @@ function main() {
   }
 
   for (const sourcePath of [
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/reading-interface-product-parity.ts',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/app/read/read-route-model.ts',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/exchange/page.tsx',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-interface-product-parity.ts',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/exchange/page.tsx',
     '.github/workflows/v44-canon-promotion.yml',
   ]) {
     assertCheck(failures, exists(root, sourcePath), `V45 Gate 11 audited source path must exist: ${sourcePath}`);
@@ -148,16 +148,16 @@ function main() {
   }
 
   for (const proofArtifact of [
-    '.bitcode/v45-inference-synthesis-proof.json',
-    '.bitcode/v45-prompt-completeness-proof.json',
-    '.bitcode/v45-static-code-analysis-proof.json',
-    '.bitcode/v45-verification-decisions-proof.json',
-    '.bitcode/v45-selection-materialization-proof.json',
-    '.bitcode/v45-authorization-sensitive-flow-proof.json',
-    '.bitcode/v45-settlement-source-to-shares-proof.json',
-    '.bitcode/v45-disclosure-boundary-proof.json',
-    '.bitcode/v45-proof-contract-proof.json',
-    'BITCODE_SPEC_V45_PROVEN.md',
+    '.proofs/v45/inference-synthesis-proof.json',
+    '.proofs/v45/prompt-completeness-proof.json',
+    '.proofs/v45/static-code-analysis-proof.json',
+    '.proofs/v45/verification-decisions-proof.json',
+    '.proofs/v45/selection-materialization-proof.json',
+    '.proofs/v45/authorization-sensitive-flow-proof.json',
+    '.proofs/v45/settlement-source-to-shares-proof.json',
+    '.proofs/v45/disclosure-boundary-proof.json',
+    '.proofs/v45/proof-contract-proof.json',
+    '.specifications/BITCODE_SPEC_V45_PROVEN.md',
   ]) {
     assertCheck(failures, combined.includes(proofArtifact), `V45 formal family must cite proof artifact or appendix: ${proofArtifact}`);
   }

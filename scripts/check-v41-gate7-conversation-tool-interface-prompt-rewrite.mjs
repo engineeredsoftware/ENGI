@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json';
+const ARTIFACT_PATH = '.proofs/v41/conversation-tool-interface-prompt-rewrite.json';
 
 const REQUIRED_REWRITE_IDS = [
   'conversation-ptrr-promptpart-rewrite-boundary',
@@ -71,7 +71,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs [--skip-branch-check] [--skip-package-tests] [--repo-root <path>]',
       '',
-      'Checks V41 Gate 7 source-safe Conversation, tool-definition, MCP API, ChatGPT App, public API, Terminal, and interface prompt rewrite parity.',
+      'Checks V41 Gate 7 source-safe Conversation, tool-definition, MCP API, ChatGPT App, public API, product, and interface prompt rewrite parity.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -114,7 +114,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -133,34 +133,34 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v41-promptpart-prompt-inventory.json',
-    '.bitcode/v41-registry-interpolation-contracts.json',
-    '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-    '.bitcode/v41-readneed-prompt-hardening.json',
-    '.bitcode/v41-readfitsfinding-prompt-hardening.json',
-    '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
-    'packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js',
-    'packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
+    '.proofs/v41/promptpart-prompt-inventory.json',
+    '.proofs/v41/registry-interpolation-contracts.json',
+    '.proofs/v41/reading-prompt-benchmark-baselines.json',
+    '.proofs/v41/readneed-prompt-hardening.json',
+    '.proofs/v41/readfitsfinding-prompt-hardening.json',
+    '.proofs/v38/conversation-tool-prompt-inference-parity.json',
+    'scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js',
+    'scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
     'scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs',
     'scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs',
-    'packages/conversations-generics/src/agent/ConversationAgent.ts',
-    'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+    'packages/conversations/src/agent/ConversationAgent.ts',
+    'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
     'packages/tools-generics/src/execution/ToolPromptRegistry.ts',
     'packages/btd/src/mcp-tool-contract.ts',
     'packages/btd/src/chatgpt-app-action-contract.ts',
-    'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
-    'packages/chatgptapp/src/tools.ts',
-    'uapi/prompts/bitcode-terminal-system-prompt.ts',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
-    'BITCODE_SPEC_V41.md',
-    'BITCODE_SPEC_V41_DELTA.md',
-    'BITCODE_SPEC_V41_NOTES.md',
-    'BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
+    'apps/chatgpt/src/tools.ts',
+    'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
+    'apps/uapi/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog.tsx',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -183,7 +183,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
+        'scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
       ]);
     } catch (error) {
       failures.push(`V41 Conversation/tool/interface prompt rewrite protocol test failed: ${error.stderr || error.message}`);
@@ -267,7 +267,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-conversation-tool-interface-prompt-rewrite'), 'package.json must expose generate:v41-conversation-tool-interface-prompt-rewrite.');
   assertCheck(failures, packageJson.includes('check:v41-gate7'), 'package.json must expose check:v41-gate7.');
 
-  const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, '.specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, '.specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(
     failures,
     roadmap.includes('Current working gate: V41 Gate 7') ||

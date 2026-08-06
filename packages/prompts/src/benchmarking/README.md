@@ -14,9 +14,9 @@ Instead of semantic versioning, we use **Performance-Based Versioning (PBV)**:
 <generation>.<quality_score>.<variant>
 
 Examples:
-- 1.85.0   (Generation 1, 85% quality score, original variant)
-- 1.92.3   (Generation 1, 92% quality score, variant 3)
-- 2.78.0   (Generation 2, 78% quality score, original)
+- 1.85.0 (Generation 1, 85% quality score, original variant)
+- 1.92.3 (Generation 1, 92% quality score, variant 3)
+- 2.78.0 (Generation 2, 78% quality score, original)
 ```
 
 **Rationale**: Version numbers directly reflect measured performance, making it immediately clear which versions perform better.
@@ -25,9 +25,9 @@ Examples:
 
 ```
 PromptPart Benchmarks (Granular)
-    ↓
+ ↓
 Prompt Benchmarks (Formatted)
-    ↓
+ ↓
 Agent/Tool Performance (Applied)
 ```
 
@@ -54,19 +54,19 @@ Agent/Tool Performance (Applied)
  * versions: []
  * domain: formatting
  * intent: "Standard greeting for AI identity"
- * 
+ *
  * @doc-comment-benchmark
  * generation: 1
  * quality_score: 95
  * variant: 0
  * benchmarks: {
- *   semantic_clarity: 0.98,
- *   token_efficiency: 1.0,
- *   model_stability: 0.96
+ * semantic_clarity: 0.98,
+ * token_efficiency: 1.0,
+ * model_stability: 0.96
  * }
  * improvements: {
- *   1.95.0: "Initial benchmarked version",
- *   1.95.1: "Tested 'I am' variant - reduced clarity by 12%"
+ * 1.95.0: "Initial benchmarked version",
+ * 1.95.1: "Tested 'I am' variant - reduced clarity by 12%"
  * }
  */
 export const PROMPTPART_GENERIC_FORMATTING_YOUARE: PromptPart = 'You are' as PromptPart;
@@ -77,29 +77,29 @@ export const PROMPTPART_GENERIC_FORMATTING_YOUARE: PromptPart = 'You are' as Pro
 ```typescript
 /**
  * TOOL DISCOVERY MISSION PROMPT
- * 
+ *
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: agent
  * intent: "Enable tool discovery intelligence"
- * 
+ *
  * @doc-comment-benchmark
  * generation: 1
  * quality_score: 88
  * variant: 0
  * benchmarks: {
- *   task_success: 0.89,
- *   response_quality: 0.87,
- *   token_economy: 0.85,
- *   latency_impact: 0.91
+ * task_success: 0.89,
+ * response_quality: 0.87,
+ * token_economy: 0.85,
+ * latency_impact: 0.91
  * }
  * dependencies: [
- *   "PROMPTPART_GENERIC_FORMATTING_YOUARE@1.93.0",
- *   "PROMPTPART_SPECIFIC_TOOL_DISCOVERY_PURPOSE@1.86.0"
+ * "PROMPTPART_GENERIC_FORMATTING_YOUARE@1.93.0",
+ * "PROMPTPART_SPECIFIC_TOOL_DISCOVERY_PURPOSE@1.86.0"
  * ]
  */
 export class ToolDiscoveryPrompt extends Prompt {
-  // Formatted from benchmarked parts
+ // Formatted from benchmarked parts
 }
 ```
 
@@ -109,27 +109,27 @@ export class ToolDiscoveryPrompt extends Prompt {
 
 ```typescript
 export interface PromptPartBenchmark {
-  promptPartId: string;
-  version: string;
-  
-  // Core metrics
-  semanticClarity: {
-    test: () => Promise<number>; // 0-1 score
-    weight: 0.40;
-  };
-  
-  tokenEfficiency: {
-    test: () => Promise<number>; // chars/semantic unit
-    weight: 0.35;
-  };
-  
-  modelStability: {
-    test: (models: string[]) => Promise<number>; // variance across models
-    weight: 0.25;
-  };
-  
-  // Computed
-  computeQualityScore(): number;
+ promptPartId: string;
+ version: string;
+
+ // Core metrics
+ semanticClarity: {
+ test: () => Promise<number>; // 0-1 score
+ weight: 0.40;
+ };
+
+ tokenEfficiency: {
+ test: () => Promise<number>; // chars/semantic unit
+ weight: 0.35;
+ };
+
+ modelStability: {
+ test: (models: string[]) => Promise<number>; // variance across models
+ weight: 0.25;
+ };
+
+ // Computed
+ computeQualityScore(): number;
 }
 ```
 
@@ -137,32 +137,32 @@ export interface PromptPartBenchmark {
 
 ```typescript
 export interface PromptBenchmark {
-  promptId: string;
-  version: string;
-  
-  // Core metrics
-  taskSuccess: {
-    test: (contexts: TestContext[]) => Promise<number>;
-    weight: 0.35;
-  };
-  
-  responseQuality: {
-    test: (contexts: TestContext[]) => Promise<number>;
-    weight: 0.30;
-  };
-  
-  tokenEconomy: {
-    test: (contexts: TestContext[]) => Promise<number>;
-    weight: 0.20;
-  };
-  
-  latencyImpact: {
-    test: (contexts: TestContext[]) => Promise<number>;
-    weight: 0.15;
-  };
-  
-  // Dependency tracking
-  trackDependencyPerformance(): PromptPartVersion[];
+ promptId: string;
+ version: string;
+
+ // Core metrics
+ taskSuccess: {
+ test: (contexts: TestContext[]) => Promise<number>;
+ weight: 0.35;
+ };
+
+ responseQuality: {
+ test: (contexts: TestContext[]) => Promise<number>;
+ weight: 0.30;
+ };
+
+ tokenEconomy: {
+ test: (contexts: TestContext[]) => Promise<number>;
+ weight: 0.20;
+ };
+
+ latencyImpact: {
+ test: (contexts: TestContext[]) => Promise<number>;
+ weight: 0.15;
+ };
+
+ // Dependency tracking
+ trackDependencyPerformance(): PromptPartVersion[];
 }
 ```
 
@@ -179,34 +179,34 @@ export interface PromptBenchmark {
 
 ```typescript
 class PromptEvolution {
-  async evolvePromptPart(
-    current: PromptPart,
-    benchmark: PromptPartBenchmark
-  ): Promise<PromptPartCandidate[]> {
-    // 1. Generate variants
-    const variants = await this.generateVariants(current);
-    
-    // 2. Benchmark each variant
-    const results = await Promise.all(
-      variants.map(v => benchmark.test(v))
-    );
-    
-    // 3. Select improvements
-    return results
-      .filter(r => r.qualityScore > current.qualityScore * 1.05) // 5% improvement
-      .sort((a, b) => b.qualityScore - a.qualityScore);
-  }
-  
-  private async generateVariants(current: PromptPart): Promise<string[]> {
-    // Intelligent variant generation
-    return [
-      current,                           // Original
-      this.synonymReplace(current),      // Synonym
-      this.simplify(current),            // Simplified
-      this.formalize(current),           // Formal
-      this.abbreviate(current)           // Abbreviated
-    ];
-  }
+ async evolvePromptPart(
+ current: PromptPart,
+ benchmark: PromptPartBenchmark
+ ): Promise<PromptPartCandidate[]> {
+ // 1. Generate variants
+ const variants = await this.generateVariants(current);
+
+ // 2. Benchmark each variant
+ const results = await Promise.all(
+ variants.map(v => benchmark.test(v))
+ );
+
+ // 3. Select improvements
+ return results
+ .filter(r => r.qualityScore > current.qualityScore * 1.05) // 5% improvement
+ .sort((a, b) => b.qualityScore - a.qualityScore);
+ }
+
+ private async generateVariants(current: PromptPart): Promise<string[]> {
+ // Intelligent variant generation
+ return [
+ current, // Original
+ this.synonymReplace(current), // Synonym
+ this.simplify(current), // Simplified
+ this.formalize(current), // Formal
+ this.abbreviate(current) // Abbreviated
+ ];
+ }
 }
 ```
 
@@ -217,21 +217,21 @@ class PromptEvolution {
 ```typescript
 // During build, run benchmarks and update versions
 export class PromptBenchmarkTransformer {
-  async transform(promptFile: string): Promise<void> {
-    const prompt = await this.parsePrompt(promptFile);
-    const benchmark = await this.runBenchmark(prompt);
-    
-    if (benchmark.qualityScore !== prompt.version.qualityScore) {
-      // Update version
-      prompt.version = this.computeNewVersion(
-        prompt.version,
-        benchmark.qualityScore
-      );
-      
-      // Update file
-      await this.updatePromptFile(promptFile, prompt);
-    }
-  }
+ async transform(promptFile: string): Promise<void> {
+ const prompt = await this.parsePrompt(promptFile);
+ const benchmark = await this.runBenchmark(prompt);
+
+ if (benchmark.qualityScore !== prompt.version.qualityScore) {
+ // Update version
+ prompt.version = this.computeNewVersion(
+ prompt.version,
+ benchmark.qualityScore
+ );
+
+ // Update file
+ await this.updatePromptFile(promptFile, prompt);
+ }
+ }
 }
 ```
 
@@ -240,25 +240,25 @@ export class PromptBenchmarkTransformer {
 ```typescript
 /**
  * TOOL DISCOVERY PROMPT
- * 
+ *
  * @doc-comment-promptdryrun
  * scenario: "basic_tool_discovery"
  * response: {
- *   "thought": "I read to discover available tools",
- *   "tools_found": ["text-editor", "file-search", "terminal"],
- *   "confidence": 0.95
+ * "thought": "I read to discover available tools",
+ * "tools_found": ["text-editor", "file-search", "terminal"],
+ * "confidence": 0.95
  * }
- * 
+ *
  * @doc-comment-promptdryrun
  * scenario: "complex_tool_discovery"
  * response: {
- *   "thought": "Multiple tool categories detected",
- *   "tools_found": {
- *     "editing": ["text-editor", "code-formatter"],
- *     "search": ["file-search", "grep"],
- *     "execution": ["terminal", "compiler"]
- *   },
- *   "confidence": 0.88
+ * "thought": "Multiple tool categories detected",
+ * "tools_found": {
+ * "editing": ["text-editor", "code-formatter"],
+ * "search": ["file-search", "grep"],
+ * "execution": ["terminal", "compiler"]
+ * },
+ * "confidence": 0.88
  * }
  */
 ```

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v40-ledger-storage-sync.json';
+const ARTIFACT_PATH = '.proofs/v40/ledger-storage-sync.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -93,18 +93,18 @@ function printHelp() {
 
 function runFocusedTests(root, failures, skipIntegrationTests) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v40-ledger-storage-sync.test.js']],
+    ['node', ['--test', '--test-force-exit', 'scripts/specifying/test/v40-ledger-storage-sync.test.js']],
   ];
 
   if (commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/asset-pack-settlement-rights-delivery.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/asset-pack-settlement-rights-delivery.test.ts', '--runInBand', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/btd', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', '__tests__/btc-fee-operation.test.ts', '__tests__/reconciliation.test.ts', '__tests__/source-to-shares.test.ts', '--runInBand', '--forceExit']],
     );
 
     if (!skipIntegrationTests) {
       commands.push(
-        ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath',
+        ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath',
           'tests/bitcodeLedgerStorageSync.test.ts',
           'tests/terminalWalletBtcOperation.test.ts',
           'tests/terminalJournalReconciliation.test.ts',
@@ -135,7 +135,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V39', `BITCODE_SPEC.txt must remain V39 during V40 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -150,24 +150,24 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-ledger-storage-sync.js',
-    'packages/protocol/test/v40-ledger-storage-sync.test.js',
+    'scripts/specifying/src/canonical/v40-ledger-storage-sync.js',
+    'scripts/specifying/test/v40-ledger-storage-sync.test.js',
     'scripts/generate-v40-ledger-storage-sync.mjs',
     'scripts/check-v40-gate8-ledger-storage-sync.mjs',
-    'uapi/app/bitcode-ledger-storage-sync.ts',
-    'uapi/tests/bitcodeLedgerStorageSync.test.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'apps/uapi/app/bitcode-ledger-storage-sync.ts',
+    'apps/uapi/tests/bitcodeLedgerStorageSync.test.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
     'packages/btd/src/btc-fee-operation.ts',
     'packages/btd/src/wallet.ts',
     'packages/btd/src/reconciliation.ts',
-    'BITCODE_SPEC_V40.md',
-    'BITCODE_SPEC_V40_DELTA.md',
-    'BITCODE_SPEC_V40_NOTES.md',
-    'BITCODE_SPEC_V40_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V40.md',
+    '.specifications/BITCODE_SPEC_V40_DELTA.md',
+    '.specifications/BITCODE_SPEC_V40_NOTES.md',
+    '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

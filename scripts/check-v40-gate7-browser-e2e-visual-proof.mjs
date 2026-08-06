@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v40-browser-e2e-visual-proof.json';
+const ARTIFACT_PATH = '.proofs/v40/browser-e2e-visual-proof.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -91,10 +91,10 @@ function printHelp() {
 
 function runBrowserProofSmoke(root, failures) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v40-browser-e2e-visual-proof.test.js']],
+    ['node', ['--test', '--test-force-exit', 'scripts/specifying/test/v40-browser-e2e-visual-proof.test.js']],
   ];
   const pnpmCommands = [
-    ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath',
+    ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath',
       'tests/bitcodeBrowserProof.test.ts',
       'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
       'tests/terminalUxBrowserProof.test.tsx',
@@ -120,7 +120,7 @@ function runBrowserProofSmoke(root, failures) {
 
 function runOptionalBrowserTests(root, failures) {
   try {
-    run(root, 'pnpm', ['--dir', 'uapi', 'run', 'test:e2e:browser-proof']);
+    run(root, 'pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:browser-proof']);
   } catch (error) {
     failures.push(`Browser proof Playwright lane failed: ${error.stderr || error.message}`);
   }
@@ -135,7 +135,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V39', `BITCODE_SPEC.txt must remain V39 during V40 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -150,22 +150,22 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-browser-e2e-visual-proof.js',
-    'packages/protocol/test/v40-browser-e2e-visual-proof.test.js',
+    'scripts/specifying/src/canonical/v40-browser-e2e-visual-proof.js',
+    'scripts/specifying/test/v40-browser-e2e-visual-proof.test.js',
     'scripts/generate-v40-browser-e2e-visual-proof.mjs',
     'scripts/check-v40-gate7-browser-e2e-visual-proof.mjs',
-    'uapi/app/bitcode-browser-proof.ts',
-    'uapi/tests/bitcodeBrowserProof.test.ts',
-    'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
-    'BITCODE_SPEC_V40.md',
-    'BITCODE_SPEC_V40_DELTA.md',
-    'BITCODE_SPEC_V40_NOTES.md',
-    'BITCODE_SPEC_V40_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/bitcode-browser-proof.ts',
+    'apps/uapi/tests/bitcodeBrowserProof.test.ts',
+    'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+    '.specifications/BITCODE_SPEC_V40.md',
+    '.specifications/BITCODE_SPEC_V40_DELTA.md',
+    '.specifications/BITCODE_SPEC_V40_NOTES.md',
+    '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
-    'uapi/package.json',
+    'apps/uapi/package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
   ];
@@ -233,11 +233,11 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 7 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V40.md');
-  const delta = read(root, 'BITCODE_SPEC_V40_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V40_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V40.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V40 Gate 7 Browser E2E, Accessibility, Responsive, And Visual Proof'), 'V40 spec must document Gate 7 browser proof.');
   assertCheck(failures, delta.includes('Gate 7 closes with package-backed `V40BrowserE2eVisualProof`'), 'V40 delta must document Gate 7 closure.');

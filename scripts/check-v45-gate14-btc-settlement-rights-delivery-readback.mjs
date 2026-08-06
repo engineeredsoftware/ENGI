@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 Gate 14 work. Observed ${pointer || 'empty'}.`);
 
@@ -81,23 +81,23 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V45.md',
-    'BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'BITCODE_SPEC.txt',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC.txt',
     'package.json',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-    'packages/pipelines/asset-pack/src/btd-btc-compensation-statements.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts',
   ];
 
   for (const relativePath of requiredFiles) {
     assertCheck(failures, exists(root, relativePath), `Missing required V45 Gate 14 file: ${relativePath}`);
   }
 
-  const implementation = read(root, 'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts');
-  const test = read(root, 'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts');
+  const implementation = read(root, 'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts');
+  const test = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts');
   const packageJson = read(root, 'package.json');
-  const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
 
   assertIncludesAll(failures, implementation, [
     'AssetPackBtcSettlementReadback',
@@ -141,8 +141,8 @@ function main() {
 
   assertIncludesAll(failures, parity, [
     'Gate 14 implementation readback',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
     'check:v45-gate14',
   ], 'V45 parity matrix Gate 14 readback');
 

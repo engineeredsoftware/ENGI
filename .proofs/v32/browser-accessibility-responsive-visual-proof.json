@@ -1,0 +1,227 @@
+{
+  "accessibilityAssertions": [
+    "keyboard-path",
+    "landmark-labels",
+    "focus-state",
+    "status-announcements",
+    "contrast-sensitive-tokens",
+    "reduced-motion",
+    "overflow-wrapping",
+    "deterministic-visual-semantics"
+  ],
+  "artifactId": "v32-browser-accessibility-responsive-visual-proof",
+  "closureCommand": "pnpm run check:v32-gate7",
+  "currentTarget": "V31",
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "passed": true,
+  "proofCoverage": {
+    "assertionCount": 8,
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "screenshotOnlyApproval": false,
+    "stateCount": 6,
+    "surfaceCount": 2,
+    "viewportCount": 4
+  },
+  "schemaId": "bitcode.v32.browserAccessibilityResponsiveVisualProof.v1",
+  "sourceEvidence": [
+    {
+      "digest": "sha256:dda0b55a3606881a20dcccdd8a50bb9df5cac555bc8d315e87366ae15b5d52ad",
+      "relativePath": "apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_CONTRACT"
+        },
+        {
+          "present": true,
+          "token": "keyboard-path"
+        },
+        {
+          "present": true,
+          "token": "deterministic-visual-semantics"
+        },
+        {
+          "present": true,
+          "token": "no-screenshot-only-approval"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:2ac388fcffdf1820b6a9287177803ec8658e660807e7002e5390c0fc2e70c4b6",
+      "relativePath": "apps/uapi/app/terminal/terminal-ux-browser-proof.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "TERMINAL_UX_BROWSER_PROOF_VIEWPORTS"
+        },
+        {
+          "present": true,
+          "token": "source-safe-preview"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:500a9207ca162344075f6ad36e886aab2fbcf096784df0afe15ebaacbf93abeb",
+      "relativePath": "apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "AUXILLARIES_UX_ACCESSIBILITY_PROOF_CONTRACT"
+        },
+        {
+          "present": true,
+          "token": "audit-expanded"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:ec43bad3392a266b90a4d5c944ff7e2c34b2b94d1fa31c90397f73479418e1c8",
+      "relativePath": "apps/uapi/styles/auxillaries-bitcode.css",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "focus-visible"
+        },
+        {
+          "present": true,
+          "token": "overflow-wrap: anywhere"
+        },
+        {
+          "present": true,
+          "token": "@media (prefers-reduced-motion: reduce)"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe-browser-visual-proof-metadata",
+  "surfaces": [
+    {
+      "evidenceFiles": [
+        "apps/uapi/app/terminal/terminal-ux-browser-proof.ts",
+        "apps/uapi/tests/terminalUxBrowserProof.test.tsx",
+        "apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
+        "apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts"
+      ],
+      "states": [
+        "default",
+        "guided",
+        "detail"
+      ],
+      "surfaceId": "terminal"
+    },
+    {
+      "evidenceFiles": [
+        "apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts",
+        "apps/uapi/tests/auxillariesContent.access.test.tsx",
+        "apps/uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts",
+        "apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts"
+      ],
+      "states": [
+        "default",
+        "guided",
+        "detail"
+      ],
+      "surfaceId": "auxillaries"
+    }
+  ],
+  "testEvidence": [
+    {
+      "digest": "sha256:0ffbc02bb322af8c85a7987bc1b1c042b4c65bb2db190d018ce9993c585467c0",
+      "relativePath": "apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "covers Terminal and Auxillaries default, guided, and detail states"
+        },
+        {
+          "present": true,
+          "token": "requires keyboard, labels, focus, status, contrast, motion, overflow"
+        },
+        {
+          "present": true,
+          "token": "no-screenshot-only-approval"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:a116018ac26cd4ea169a1d0556e90a3ae4a12b9a47501444c702af09af77b5d4",
+      "relativePath": "apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Terminal default, guided, and detail states stay semantic and responsive"
+        },
+        {
+          "present": true,
+          "token": "Auxillaries default, guided, and detail states stay semantic and responsive"
+        },
+        {
+          "present": true,
+          "token": "expectNoHorizontalOverflow"
+        },
+        {
+          "present": true,
+          "token": "reducedMotion: 'reduce'"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:8b255a33c5d08e3e4f9992e778a13c3561592d02e54027aebc6494cc8188c862",
+      "relativePath": "apps/uapi/tests/terminalUxBrowserProof.test.tsx",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "renders Terminal workspace loading, failed, and empty states with explicit semantics"
+        },
+        {
+          "present": true,
+          "token": "marks selected detail sections as route-owned controls"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:054f5a7d883d14b15b5125ba0e1a193561a41a86afc3d5a2519736afa0a3ce11",
+      "relativePath": "apps/uapi/tests/auxillariesContent.access.test.tsx",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "named landmarks, skip navigation, active-pane announcements"
+        },
+        {
+          "present": true,
+          "token": "expandable audit detail"
+        }
+      ]
+    }
+  ],
+  "version": "V32",
+  "viewports": [
+    {
+      "height": 844,
+      "id": "phone",
+      "width": 390
+    },
+    {
+      "height": 1024,
+      "id": "tablet",
+      "width": 768
+    },
+    {
+      "height": 900,
+      "id": "laptop",
+      "width": 1280
+    },
+    {
+      "height": 1080,
+      "id": "widescreen",
+      "width": 1920
+    }
+  ],
+  "visualProofStrategy": [
+    "semantic-layout-metrics",
+    "stable-route-state-contracts",
+    "stateful-accessibility-roles",
+    "no-screenshot-only-approval"
+  ]
+}

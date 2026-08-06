@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -80,23 +80,23 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V29.md',
-    'BITCODE_SPEC_V29_DELTA.md',
-    'BITCODE_SPEC_V29_NOTES.md',
-    'BITCODE_SPEC_V29_PARITY_MATRIX.md',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-    'uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'uapi/app/terminal/README.md',
-    'uapi/components/base/bitcode/execution/README.md',
+    '.specifications/BITCODE_SPEC_V29.md',
+    '.specifications/BITCODE_SPEC_V29_DELTA.md',
+    '.specifications/BITCODE_SPEC_V29_NOTES.md',
+    '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-observability.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-observability.test.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
+    'apps/uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'apps/uapi/components/bitcode/pipeline/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -105,21 +105,21 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 4 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V29.md');
-  const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const observability = read(root, 'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts');
-  const observabilityTest = read(root, 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts');
-  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
-  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts');
-  const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-harness-client.ts');
-  const header = read(root, 'uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx');
-  const log = read(root, 'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx');
-  const terminalTest = read(root, 'uapi/tests/terminalPipelineHarnessClient.test.ts');
-  const headerTest = read(root, 'uapi/tests/pipelineExecutionLogHeader.test.tsx');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const executionReadme = read(root, 'uapi/components/base/bitcode/execution/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const observability = read(root, 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-observability.ts');
+  const observabilityTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-observability.test.ts');
+  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
+  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
+  const terminalClient = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts');
+  const header = read(root, 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
+  const log = read(root, 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalPipelineHarnessClient.test.ts');
+  const headerTest = read(root, 'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
+  const executionReadme = read(root, 'apps/uapi/components/bitcode/pipeline/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -179,7 +179,7 @@ function main() {
       terminalClient.includes('promptTemplateId') &&
       terminalClient.includes('outputSchema') &&
       terminalClient.includes('inferenceAudit'),
-    'Terminal harness client must adapt Reading telemetry projection into execution stream state.',
+    'product harness client must adapt Reading telemetry projection into execution stream state.',
   );
   assertCheck(
     failures,
@@ -205,13 +205,13 @@ function main() {
       terminalTest.includes('schema AssetPackSynthesisOutput') &&
       headerTest.includes('ReadFitsFindingSynthesis.discovery') &&
       headerTest.includes('DepositoryFitsResult'),
-    'UAPI tests must cover Terminal summary and header rendering for Reading telemetry.',
+    'UAPI tests must cover product summary and header rendering for Reading telemetry.',
   );
   assertCheck(
     failures,
     terminalReadme.includes('live Reading harness stream') &&
       executionReadme.includes('Reading Pipeline Streams'),
-    'Terminal and shared execution docs must describe Reading pipeline streams.',
+    'product and shared execution docs must describe Reading pipeline streams.',
   );
   assertCheck(
     failures,

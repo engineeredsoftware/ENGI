@@ -18,8 +18,8 @@ Composed test parts that form complete test scenarios.
 
 ```typescript
 export interface TestComposition<T = unknown> {
-  parts: TestPart<any>[];
-  compose(): T;
+ parts: TestPart<any>[];
+ compose(): T;
 }
 ```
 
@@ -28,12 +28,12 @@ Complete test scenarios with context, data, and behavior.
 
 ```typescript
 export interface TestScenario {
-  id: string;
-  name: string;
-  description: string;
-  context: TestContext;
-  data: TestComposition[];
-  behavior: TestBehavior;
+ id: string;
+ name: string;
+ description: string;
+ context: TestContext;
+ data: TestComposition[];
+ behavior: TestBehavior;
 }
 ```
 
@@ -50,7 +50,7 @@ All test data is parsed and injected at build time through doc-test comments:
  * @features ["asset-packs", "evidence_documents", "marketplace"]
  */
 export const ENTERPRISE_USER_FIXTURE = createTestPart<User>({
-  // User data...
+ // User data...
 });
 ```
 
@@ -72,10 +72,10 @@ Single source of truth for all test data:
 
 ```typescript
 export class UnifiedTestDataGenerator {
-  generateForScenario(scenario: TestScenario): TestData
-  generateForDryRun(config: DryRunConfig): TestData
-  generateForStorybook(story: Story): TestData
-  generateForFixture(fixture: FixtureConfig): TestData
+ generateForScenario(scenario: TestScenario): TestData
+ generateForDryRun(config: DryRunConfig): TestData
+ generateForStorybook(story: Story): TestData
+ generateForFixture(fixture: FixtureConfig): TestData
 }
 ```
 
@@ -119,44 +119,44 @@ Defines expected behaviors:
 ### 1. DryRun Integration
 ```typescript
 export class DryRunAdapter {
-  constructor(private generator: UnifiedTestDataGenerator) {}
-  
-  adaptForPipeline(pipeline: Pipeline): DryRunConfig {
-    const scenario = this.generator.getScenarioForPipeline(pipeline);
-    return {
-      mockPlan: () => scenario.data.plan,
-      mockGenerate: () => scenario.data.result,
-      mockShould: scenario.behavior.assertions
-    };
-  }
+ constructor(private generator: UnifiedTestDataGenerator) {}
+
+ adaptForPipeline(pipeline: Pipeline): DryRunConfig {
+ const scenario = this.generator.getScenarioForPipeline(pipeline);
+ return {
+ mockPlan: () => scenario.data.plan,
+ mockGenerate: () => scenario.data.result,
+ mockShould: scenario.behavior.assertions
+ };
+ }
 }
 ```
 
 ### 2. Storybook Integration
 ```typescript
 export const withTestIntelligence = (Story: StoryFn, context: StoryContext) => {
-  const scenario = TestIntelligence.getScenarioForStory(context);
-  const data = TestIntelligence.generate(scenario);
-  
-  return (
-    <TestIntelligenceProvider data={data}>
-      <Story {...context.args} />
-    </TestIntelligenceProvider>
-  );
+ const scenario = TestIntelligence.getScenarioForStory(context);
+ const data = TestIntelligence.generate(scenario);
+
+ return (
+ <TestIntelligenceProvider data={data}>
+ <Story {...context.args} />
+ </TestIntelligenceProvider>
+ );
 };
 ```
 
 ### 3. Mock System Integration
 ```typescript
 export class MockSystemAdapter {
-  adaptToMockOrchestrator(scenario: TestScenario): MockScenarioConfig {
-    return {
-      name: scenario.name,
-      scaling: this.deriveScaling(scenario),
-      features: this.extractFeatures(scenario),
-      data: this.generator.generateForScenario(scenario)
-    };
-  }
+ adaptToMockOrchestrator(scenario: TestScenario): MockScenarioConfig {
+ return {
+ name: scenario.name,
+ scaling: this.deriveScaling(scenario),
+ features: this.extractFeatures(scenario),
+ data: this.generator.generateForScenario(scenario)
+ };
+ }
 }
 ```
 
@@ -171,60 +171,60 @@ export class MockSystemAdapter {
  * @files-changed 15
  */
 export const PR_WITH_CONFLICTS = createTestPart<PullRequest>({
-  id: 'pr-123',
-  title: 'Feature: Add dark mode',
-  state: 'open',
-  conflicts: true,
-  // ... auto-generated based on doc-test
+ id: 'pr-123',
+ title: 'Feature: Add dark mode',
+ state: 'open',
+ conflicts: true,
+ // ... auto-generated based on doc-test
 });
 ```
 
 ### Composing Test Scenarios
 ```typescript
 export const ASSET_PACK_FLOW_SCENARIO = createTestScenario({
-  id: 'complete-asset-pack-flow',
-  parts: [
-    USER_WITH_BTD_BALANCE,
-    REPOSITORY_WITH_LSP,
-    ASSET_PACK_REQUEST,
-    PR_WITH_CONFLICTS
-  ],
-  behavior: {
-    phases: ['setup', 'discovery', 'implementation', 'validation'],
-    expectedMeasuredBtd: 500,
-    expectedDuration: 120000
-  }
+ id: 'complete-asset-pack-flow',
+ parts: [
+ USER_WITH_BTD_BALANCE,
+ REPOSITORY_WITH_LSP,
+ ASSET_PACK_REQUEST,
+ PR_WITH_CONFLICTS
+ ],
+ behavior: {
+ phases: ['setup', 'discovery', 'implementation', 'validation'],
+ expectedMeasuredBtd: 500,
+ expectedDuration: 120000
+ }
 });
 ```
 
 ### Using in Tests
 ```typescript
 describe('AssetPack Pipeline', () => {
-  const scenario = TestIntelligence.getScenario('complete-asset-pack-flow');
-  
-  it('should handle PR with conflicts', async () => {
-    const { data, behavior } = scenario;
-    const result = await runPipeline(data);
-    
-    expect(result).toMatchBehavior(behavior);
-  });
+ const scenario = TestIntelligence.getScenario('complete-asset-pack-flow');
+
+ it('should handle PR with conflicts', async () => {
+ const { data, behavior } = scenario;
+ const result = await runPipeline(data);
+
+ expect(result).toMatchBehavior(behavior);
+ });
 });
 ```
 
 ### Using in Storybook
 ```typescript
 export default {
-  title: 'Pipelines/AssetPack',
-  decorators: [withTestIntelligence],
-  parameters: {
-    testScenario: 'complete-asset-pack-flow'
-  }
+ title: 'Pipelines/AssetPack',
+ decorators: [withTestIntelligence],
+ parameters: {
+ testScenario: 'complete-asset-pack-flow'
+ }
 };
 
 export const WithConflicts = {
-  args: {
-    // Args auto-populated from test scenario
-  }
+ args: {
+ // Args auto-populated from test scenario
+ }
 };
 ```
 
@@ -232,27 +232,27 @@ export const WithConflicts = {
 
 ```
 /packages/test-intelligence/
-  /src/
-    /primitives/
-      TestPart.ts
-      TestComposition.ts
-      TestScenario.ts
-    /generators/
-      UnifiedTestDataGenerator.ts
-      ScenarioGenerator.ts
-    /adapters/
-      DryRunAdapter.ts
-      StorybookAdapter.ts
-      MockSystemAdapter.ts
-    /doc-test/
-      DocTestPlugin.ts
-      DocTestParser.ts
-    /scenarios/
-      /generic/
-        user-scenarios.ts
-        repository-scenarios.ts
-      /specific/
-        asset-pack-scenarios.ts
+ /src/
+ /primitives/
+ TestPart.ts
+ TestComposition.ts
+ TestScenario.ts
+ /generators/
+ UnifiedTestDataGenerator.ts
+ ScenarioGenerator.ts
+ /adapters/
+ DryRunAdapter.ts
+ StorybookAdapter.ts
+ MockSystemAdapter.ts
+ /doc-test/
+ DocTestPlugin.ts
+ DocTestParser.ts
+ /scenarios/
+ /generic/
+ user-scenarios.ts
+ repository-scenarios.ts
+ /specific/
+ asset-pack-scenarios.ts
 ```
 
 ## Benefits

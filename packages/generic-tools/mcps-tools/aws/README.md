@@ -47,48 +47,48 @@ Industrial Model Context Protocol (MCP) integration for core Amazon Web Services
 ### Architecture Pattern
 ```typescript
 import {
-  awsLambdaInvokeTool,
-  awsS3GetObjectTool,
-  awsS3PutObjectTool,
-  awsDynamoGetItemTool,
-  awsDynamoPutItemTool,
-  awsCloudWatchLogTool
+ awsLambdaInvokeTool,
+ awsS3GetObjectTool,
+ awsS3PutObjectTool,
+ awsDynamoGetItemTool,
+ awsDynamoPutItemTool,
+ awsCloudWatchLogTool
 } from '@bitcode/generic-tools-mcps-aws';
 
 // Lambda function invocation
 const lambdaResult = await awsLambdaInvokeTool({
-  functionName: 'data-processor',
-  payload: { 
-    inputData: data,
-    processingOptions: options 
-  }
+ functionName: 'data-processor',
+ payload: {
+ inputData: data,
+ processingOptions: options
+ }
 });
 
 // S3 object operations
 const fileData = await awsS3GetObjectTool({
-  bucket: 'production-data',
-  key: 'datasets/user-analytics.json'
+ bucket: 'production-data',
+ key: 'datasets/user-analytics.json'
 });
 
 await awsS3PutObjectTool({
-  bucket: 'output-results',
-  key: 'processed/analysis-report.pdf',
-  body: reportBuffer
+ bucket: 'output-results',
+ key: 'processed/analysis-report.pdf',
+ body: reportBuffer
 });
 
 // DynamoDB operations
 const userData = await awsDynamoGetItemTool({
-  table: 'user-profiles',
-  key: { userId: 'user-123' }
+ table: 'user-profiles',
+ key: { userId: 'user-123' }
 });
 
 await awsDynamoPutItemTool({
-  table: 'audit-logs',
-  item: {
-    timestamp: Date.now(),
-    action: 'data-processing',
-    result: 'success'
-  }
+ table: 'audit-logs',
+ item: {
+ timestamp: Date.now(),
+ action: 'data-processing',
+ result: 'success'
+ }
 });
 ```
 

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_ARTIFACT_PATH,
   buildV44OrganizationPolicyWalletAuthority,
-} from '../packages/protocol/src/canonical/v44-organization-policy-wallet-authority.js';
+} from '../scripts/specifying/src/canonical/v44-organization-policy-wallet-authority.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V43', `BITCODE_SPEC.txt must remain V43 during V44 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -89,31 +89,31 @@ function main() {
     V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_ARTIFACT_PATH,
     'packages/btd/src/authority.ts',
     'packages/btd/__tests__/btd.test.ts',
-    'packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts',
-    'packages/pipelines/asset-pack/src/__tests__/organization-policy-wallet-authority.test.ts',
-    'uapi/app/read/read-route-model.ts',
-    'uapi/tests/readRouteModel.test.ts',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/tests/readPageClient.test.tsx',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/tests/depositRouteModel.test.ts',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/tests/depositPageClient.test.tsx',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/tests/packsPageClient.test.tsx',
-    'packages/protocol/src/canonical/v44-organization-policy-wallet-authority.js',
-    'packages/protocol/test/v44-organization-policy-wallet-authority.test.js',
+    'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/tests/readRouteModel.test.ts',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/tests/depositRouteModel.test.ts',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/tests/packsPageClient.test.tsx',
+    'scripts/specifying/src/canonical/v44-organization-policy-wallet-authority.js',
+    'scripts/specifying/test/v44-organization-policy-wallet-authority.test.js',
     'scripts/generate-v44-organization-policy-wallet-authority.mjs',
     'scripts/check-v44-gate7-organization-policy-wallet-authority.mjs',
-    'BITCODE_SPEC_V44.md',
-    'BITCODE_SPEC_V44_DELTA.md',
-    'BITCODE_SPEC_V44_NOTES.md',
-    'BITCODE_SPEC_V44_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V44.md',
+    '.specifications/BITCODE_SPEC_V44_DELTA.md',
+    '.specifications/BITCODE_SPEC_V44_NOTES.md',
+    '.specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -164,13 +164,13 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-organization-policy-wallet-authority.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-organization-policy-wallet-authority.test.js']);
     } catch {
-      failures.push('packages/protocol/test/v44-organization-policy-wallet-authority.test.js must pass.');
+      failures.push('scripts/specifying/test/v44-organization-policy-wallet-authority.test.js must pass.');
     }
 
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'test', '--', 'organization-policy-wallet-authority.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'test', '--', 'organization-policy-wallet-authority.test.ts', '--runInBand']);
     } catch {
       failures.push('packages/pipelines/asset-pack organization policy wallet authority tests must pass.');
     }
@@ -184,7 +184,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'readRouteModel.test.ts', 'depositRouteModel.test.ts', 'packActivityModel.test.ts', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'readRouteModel.test.ts', 'depositRouteModel.test.ts', 'packActivityModel.test.ts', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi route and Packs governance tests must pass.');
     }

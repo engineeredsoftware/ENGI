@@ -36,9 +36,9 @@ Industrial logging infrastructure providing structured logging, correlation trac
 
 ```typescript
 async function log(
-  message: string,
-  level: LogLevel = 'info',
-  data?: Record<string, any>
+ message: string,
+ level: LogLevel = 'info',
+ data?: Record<string, any>
 ): Promise<void>
 ```
 
@@ -56,18 +56,18 @@ await log('Configuration loaded', 'info', { configPath: '/app/config.json' });
 
 // Error Logging with Context
 await log('Database connection failed', 'error', {
-  error: connectionError,
-  database: 'primary',
-  retryCount: 3
+ error: connectionError,
+ database: 'primary',
+ retryCount: 3
 });
 
 // Execution Context Logging
 await log('Agent processing started', 'info', {
-  phase: 'Implementation',
-  agent: 'CodeAnalyzer',
-  step: 'Try',
-  failsafe: 'chunk_then_sum',
-  generation: 'structured_output'
+ phase: 'Implementation',
+ agent: 'CodeAnalyzer',
+ step: 'Try',
+ failsafe: 'chunk_then_sum',
+ generation: 'structured_output'
 });
 ```
 
@@ -86,11 +86,11 @@ const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 ```typescript
 // Automatic Context Field Mapping
 const executionContext = {
-  phase: data.phase || data.executionState?.phase,
-  agent: data.agent || data.executionState?.agent,
-  step: data.step || data.executionState?.step,
-  failsafe: data.failsafe || data.executionState?.failsafe,
-  generation: data.generation || data.executionState?.generation
+ phase: data.phase || data.executionState?.phase,
+ agent: data.agent || data.executionState?.agent,
+ step: data.step || data.executionState?.step,
+ failsafe: data.failsafe || data.executionState?.failsafe,
+ generation: data.generation || data.executionState?.generation
 };
 ```
 
@@ -120,32 +120,32 @@ const executionContext = {
 ```typescript
 // Pipeline Integration
 await log('Pipeline phase started', 'info', {
-  phase: 'Implementation',
-  agent: currentAgent.name,
-  step: currentStep.name,
-  runId: pipeline.correlationId,
-  executionState: {
-    phase: 'Implementation',
-    agent: 'CodeAnalyzer',
-    step: 'Try'
-  }
+ phase: 'Implementation',
+ agent: currentAgent.name,
+ step: currentStep.name,
+ runId: pipeline.correlationId,
+ executionState: {
+ phase: 'Implementation',
+ agent: 'CodeAnalyzer',
+ step: 'Try'
+ }
 });
 ```
 
 ### Error Reporting Integration
 ```typescript
 // Automatic Sentry Integration
-import { captureException, captureMessage } from '@bitcode/sentry';
+import { captureException, captureMessage } from '@bitcode/external-telemetry-sentry';
 
 // Error level logs automatically sent to Sentry
 await log('Critical system failure', 'error', {
-  error: systemError,
-  context: operationContext
+ error: systemError,
+ context: operationContext
 });
 
 // Warning level logs sent as Sentry messages
 await log('Performance degradation detected', 'warn', {
-  latency: measurementData
+ latency: measurementData
 });
 ```
 
@@ -153,14 +153,14 @@ await log('Performance degradation detected', 'warn', {
 ```typescript
 // Automatic Correlation ID Generation
 if (!data.correlationId) {
-  data.correlationId = data.runId || crypto.randomUUID();
+ data.correlationId = data.runId || crypto.randomUUID();
 }
 
 // Correlation ID Extraction from Context
-const correlationId = data.correlationId || 
-  (typeof globalThis.crypto !== 'undefined' && 'randomUUID' in globalThis.crypto)
-    ? globalThis.crypto.randomUUID()
-    : Math.random().toString(36).slice(2, 10);
+const correlationId = data.correlationId ||
+ (typeof globalThis.crypto !== 'undefined' && 'randomUUID' in globalThis.crypto)
+ ? globalThis.crypto.randomUUID()
+ : Math.random().toString(36).slice(2, 10);
 ```
 
 ## Log Message Structure
@@ -174,14 +174,14 @@ ${JSON.stringify(data, replacer, 2)}--`;
 // Example Output
 [2024-01-15T10:30:00.000Z] [INFO] [a1b2c3d4] [Implementation → CodeAnalyzer → Generate] Agent processing started--
 {
-  "phase": "Implementation",
-  "agent": "CodeAnalyzer",
-  "step": "Generate",
-  "correlationId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-  "metadata": {
-    "duration": 150,
-    "tokensProcessed": 1024
-  }
+ "phase": "Implementation",
+ "agent": "CodeAnalyzer",
+ "step": "Generate",
+ "correlationId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+ "metadata": {
+ "duration": 150,
+ "tokensProcessed": 1024
+ }
 }--
 ```
 
@@ -189,17 +189,17 @@ ${JSON.stringify(data, replacer, 2)}--`;
 ```typescript
 // Error Object Serialization
 JSON.stringify(data, (key, value) => {
-  if (value instanceof Error) {
-    return { 
-      message: value.message, 
-      name: value.name, 
-      stack: value.stack 
-    };
-  }
-  if (typeof value === 'string' && value.length > 1000) {
-    return value.slice(0, 1000) + '... [truncated]';
-  }
-  return value;
+ if (value instanceof Error) {
+ return {
+ message: value.message,
+ name: value.name,
+ stack: value.stack
+ };
+ }
+ if (typeof value === 'string' && value.length > 1000) {
+ return value.slice(0, 1000) + '... [truncated]';
+ }
+ return value;
 }, 2);
 ```
 

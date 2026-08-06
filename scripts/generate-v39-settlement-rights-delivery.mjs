@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_SETTLEMENT_RIGHTS_DELIVERY_ARTIFACT_PATH,
   buildV39SettlementRightsDelivery,
-} from '../packages/protocol/src/canonical/v39-settlement-rights-delivery.js';
+} from '../scripts/specifying/src/canonical/v39-settlement-rights-delivery.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

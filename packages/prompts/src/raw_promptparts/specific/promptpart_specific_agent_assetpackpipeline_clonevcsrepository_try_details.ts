@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_TRY_DETAILS: PromptPart =
-  'Use the AssetPack repository clone tool with computed parameters; return success status, repository coordinates, and workspace path' as PromptPart;
+  'Execute the planned clone: emit useTools for asset-pack-clone-vcs-repository-tool with provider/owner/name/ref from host sourceRevision when deposit.repository is null. connectionId is optional for public repos — do not block Try for missing connectionId. Prefer shallow clone. workspacePath comes from tool results after postprocess' as PromptPart;

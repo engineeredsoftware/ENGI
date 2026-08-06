@@ -1,4 +1,7 @@
-import { createPromptPart, PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_VERSION_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_version_detailcontent';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_PRIORITY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_priority_detailcontent';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_STABILITY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_stability_detailcontent';
 import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
 import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
 import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
@@ -36,9 +39,9 @@ class BeginTransactionDocCodeToolPrompt extends DocCodeToolPrompt {
     // Metadata
     const name = PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_METADATA_NAME_DETAILCONTENT;
     const category = PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_METADATA_CATEGORY_DETAILCONTENT;
-    const version = createPromptPart('V26');
-    const priority = createPromptPart('high');
-    const stability = createPromptPart('stable');
+    const version = PROMPTPART_GENERIC_DOCCODE_METADATA_VERSION_DETAILCONTENT;
+    const priority = PROMPTPART_GENERIC_DOCCODE_METADATA_PRIORITY_DETAILCONTENT;
+    const stability = PROMPTPART_GENERIC_DOCCODE_METADATA_STABILITY_DETAILCONTENT;
     this.setMetadata(name, category, version, priority, stability);
 
     // Core documentation sourced from granular PromptParts

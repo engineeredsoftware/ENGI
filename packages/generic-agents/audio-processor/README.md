@@ -58,10 +58,10 @@ The agent automatically processes audio attachments in the task context:
 
 ```typescript
 const result = await AUDIO_PROCESSING_AGENT.processAudio({
-  attachmentId: "audio1",
-  audioUrl: "https://example.com/audio.mp3",
-  audioFormat: "mp3",
-  taskDescription: "Extract requirements from meeting recording"
+ attachmentId: "audio1",
+ audioUrl: "https://example.com/audio.mp3",
+ audioFormat: "mp3",
+ taskDescription: "Extract requirements from meeting recording"
 });
 ```
 
@@ -70,26 +70,26 @@ const result = await AUDIO_PROCESSING_AGENT.processAudio({
 ### Audio Analysis Result
 ```typescript
 {
-  metadata: {
-    duration: number,
-    format: string,
-    quality: 'high' | 'medium' | 'low',
-    fileSize: number
-  },
-  transcription: {
-    fullText: string,
-    segments: TranscriptionSegment[],
-    language: string,
-    confidence: number
-  },
-  analysis: {
-    estimatedSpeakers: number,
-    topics: string[],
-    sentiment: 'positive' | 'negative' | 'neutral',
-    technicalTerms: string[]
-  },
-  relevanceScore: number,
-  keyInsights: string[]
+ metadata: {
+ duration: number,
+ format: string,
+ quality: 'high' | 'medium' | 'low',
+ fileSize: number
+ },
+ transcription: {
+ fullText: string,
+ segments: TranscriptionSegment[],
+ language: string,
+ confidence: number
+ },
+ analysis: {
+ estimatedSpeakers: number,
+ topics: string[],
+ sentiment: 'positive' | 'negative' | 'neutral',
+ technicalTerms: string[]
+ },
+ relevanceScore: number,
+ keyInsights: string[]
 }
 ```
 

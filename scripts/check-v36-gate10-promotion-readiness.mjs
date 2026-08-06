@@ -8,17 +8,17 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v36-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v36/promotion-readiness-report.json';
 
 const V36_GATE_ARTIFACTS = [
-  '.bitcode/v36-exchange-activity-book.json',
-  '.bitcode/v36-exchange-intent-order-contracts.json',
-  '.bitcode/v36-exchange-rights-transfer-review.json',
-  '.bitcode/v36-pricing-liquidity-fee-quote.json',
-  '.bitcode/v36-exchange-settlement-reconciliation.json',
-  '.bitcode/v36-exchange-dispute-repair-revenue-route.json',
-  '.bitcode/v36-exchange-ux-proof.json',
-  '.bitcode/v36-exchange-rehearsal.json',
+  '.proofs/v36/exchange-activity-book.json',
+  '.proofs/v36/exchange-intent-order-contracts.json',
+  '.proofs/v36/exchange-rights-transfer-review.json',
+  '.proofs/v36/pricing-liquidity-fee-quote.json',
+  '.proofs/v36/exchange-settlement-reconciliation.json',
+  '.proofs/v36/exchange-dispute-repair-revenue-route.json',
+  '.proofs/v36/exchange-ux-proof.json',
+  '.proofs/v36/exchange-rehearsal.json',
 ];
 
 const SECRET_MARKERS = [
@@ -107,7 +107,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -127,10 +127,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V36.md',
-    'BITCODE_SPEC_V36_DELTA.md',
-    'BITCODE_SPEC_V36_NOTES.md',
-    'BITCODE_SPEC_V36_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V36.md',
+    '.specifications/BITCODE_SPEC_V36_DELTA.md',
+    '.specifications/BITCODE_SPEC_V36_NOTES.md',
+    '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
     ARTIFACT_PATH,
     'scripts/generate-v36-promotion-readiness-report.mjs',
     'scripts/check-v36-gate10-promotion-readiness.mjs',
@@ -141,16 +141,16 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v36-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/exchange-promotion-readiness-report.js',
-    'packages/protocol/test/v36-promotion-readiness.test.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/src/canonical/exchange-promotion-readiness-report.js',
+    'scripts/specifying/test/v36-promotion-readiness.test.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     ...V36_GATE_ARTIFACTS,
   ];
 
@@ -211,10 +211,10 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V36.md');
-  const delta = read(root, 'BITCODE_SPEC_V36_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V36_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V36_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V36.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V36_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V36_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -222,10 +222,10 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V36 promotion readiness canon'), 'V36 SPEC must define promotion readiness canon.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH) && spec.includes('V36 active / draft V37'), 'V36 SPEC must include Gate 10 artifact and post-promotion posture.');
@@ -258,7 +258,7 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v36'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V36') &&
-      promotionWorkflow.includes('BITCODE_SPEC_V36_PROVEN.md') &&
+      promotionWorkflow.includes('.specifications/BITCODE_SPEC_V36_PROVEN.md') &&
       promotionWorkflow.includes('Promote V36 canon files'),
     'V36 promotion workflow must validate version/v36 and commit V36 promotion artifacts.',
   );
@@ -273,7 +273,7 @@ function main() {
   assertCheck(
     failures,
     prepareSpecScript.includes("if (version === 'V36')") &&
-      prepareSpecScript.includes('BITCODE_SPEC_V36_PROVEN.md') &&
+      prepareSpecScript.includes('.specifications/BITCODE_SPEC_V36_PROVEN.md') &&
       prepareSpecScript.includes(ARTIFACT_PATH),
     'Spec-family promotion script must support V36.',
   );

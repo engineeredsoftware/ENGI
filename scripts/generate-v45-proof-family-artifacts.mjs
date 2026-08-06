@@ -15,7 +15,7 @@ import {
   buildV21SpecFamilyReport,
   buildV45ProofFamilyArtifacts,
   buildV45ProofFamilyProvenMarkdown,
-} from '../packages/protocol/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

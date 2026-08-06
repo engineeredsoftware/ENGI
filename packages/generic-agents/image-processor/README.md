@@ -35,18 +35,18 @@ The agent implements a PTRR (Plan-Try-Refine-Reflect) execution pattern with the
 ### Image Processing Functions
 ```typescript
 interface ImageAnalysisResult {
-  metadata: ImageMetadata;           // Technical properties and quality metrics
-  ocr: OCRResult;                   // Text extraction with confidence scoring
-  vision: VisionAnalysis;           // Computer vision semantic analysis
-  analysis: {
-    imageType: string;              // Classification: ui-mockup | code-screenshot | diagram
-    extractedText: string;          // Consolidated text content
-    technicalTerms: string[];       // Identified frameworks and technologies
-    uiSpecifications: string[];     // Implementation-ready component specs
-    designPatterns: string[];       // Recognized design patterns
-  };
-  relevanceScore: number;           // Task relevance assessment
-  keyInsights: string[];           // Actionable development insights
+ metadata: ImageMetadata; // Technical properties and quality metrics
+ ocr: OCRResult; // Text extraction with confidence scoring
+ vision: VisionAnalysis; // Computer vision semantic analysis
+ analysis: {
+ imageType: string; // Classification: ui-mockup | code-screenshot | diagram
+ extractedText: string; // Consolidated text content
+ technicalTerms: string[]; // Identified frameworks and technologies
+ uiSpecifications: string[]; // Implementation-ready component specs
+ designPatterns: string[]; // Recognized design patterns
+ };
+ relevanceScore: number; // Task relevance assessment
+ keyInsights: string[]; // Actionable development insights
 }
 ```
 
@@ -69,18 +69,18 @@ Each processed image generates structured output containing:
 Results are integrated into the global discovery phase context for cross-agent utilization:
 ```typescript
 {
-  images: {
-    analyses: ImageAnalysisResult[];
-    consolidatedContent: {
-      extractedText: string;
-      uiElements: string[];
-      technicalElements: string[];
-      designSpecifications: string[];
-    };
-    keyFindings: string[];
-    visualRequirements: string[];
-    quality: QualityAssessment;
-  }
+ images: {
+ analyses: ImageAnalysisResult[];
+ consolidatedContent: {
+ extractedText: string;
+ uiElements: string[];
+ technicalElements: string[];
+ designSpecifications: string[];
+ };
+ keyFindings: string[];
+ visualRequirements: string[];
+ quality: QualityAssessment;
+ }
 }
 ```
 

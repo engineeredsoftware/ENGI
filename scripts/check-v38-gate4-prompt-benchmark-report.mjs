@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-prompt-benchmark-report.json';
+const ARTIFACT_PATH = '.proofs/v38/prompt-benchmark-report.json';
 
 const REQUIRED_ROW_IDS = [
   'benchmark:runner-and-doc-comment-infrastructure',
@@ -108,7 +108,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -127,31 +127,31 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-inference-surface-inventory.json',
-    '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-    'packages/protocol/src/canonical/prompt-benchmark-report.js',
-    'packages/protocol/src/canonical/inference-surface-inventory.js',
-    'packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v38-prompt-benchmark-report.test.js',
+    '.proofs/v38/inference-surface-inventory.json',
+    '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+    'scripts/specifying/src/canonical/prompt-benchmark-report.js',
+    'scripts/specifying/src/canonical/inference-surface-inventory.js',
+    'scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v38-prompt-benchmark-report.test.js',
     'scripts/generate-v38-prompt-benchmark-report.mjs',
     'scripts/check-v38-gate4-prompt-benchmark-report.mjs',
     'packages/prompts/src/benchmarking/runner.ts',
     'packages/prompts/src/benchmarking/types.ts',
     'packages/prompts/src/benchmarking/README.md',
     'packages/prompts/src/developing/doc-comment-developing.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V38.md',
+    '.specifications/BITCODE_SPEC_V38_DELTA.md',
+    '.specifications/BITCODE_SPEC_V38_NOTES.md',
+    '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -171,7 +171,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v38-prompt-benchmark-report.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v38-prompt-benchmark-report.test.js']);
     } catch (error) {
       failures.push(`V38 prompt benchmark report protocol test failed: ${error.stderr || error.message}`);
     }
@@ -224,20 +224,20 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const source = read(root, 'packages/protocol/src/canonical/prompt-benchmark-report.js');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
-  const test = read(root, 'packages/protocol/test/v38-prompt-benchmark-report.test.js');
+  const source = read(root, 'scripts/specifying/src/canonical/prompt-benchmark-report.js');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
+  const test = read(root, 'scripts/specifying/test/v38-prompt-benchmark-report.test.js');
 
   for (const doc of [spec, delta, notes, parity, readme, protocolReadme]) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V38 docs must mention ${ARTIFACT_PATH}.`);

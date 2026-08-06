@@ -1,41 +1,53 @@
-# @bitcode/generic-llms
+# generic-llms
 
-LLM provider implementations that conform to the pure LLM interface from `@bitcode/llm-generics`.
+Nested LLM provider packages that implement `@bitcode/llm-generics` contracts.
 
-## What it provides
+## Nested-package pattern
 
-Concrete implementations for:
-- OpenAI
-- Anthropic  
-- Google
-- Cohere
-- Local models
+`packages/generic-*` families are **not** single packages. The family folder holds
+only a README (and optional shared docs); each implementor is a nested package:
+
+```
+packages/generic-llms/
+ README.md
+ xAI/ → @bitcode/generic-llms-xai
+ OpenAI/ → @bitcode/generic-llms-openai
+ Anthropic/ → @bitcode/generic-llms-anthropic
+ Google/ → @bitcode/generic-llms-google
+ defaults/ → @bitcode/generic-llms-defaults
+ registry/ → @bitcode/generic-llms (aggregator registry)
+```
+
+Same pattern as `generic-agents/*`, `generic-tools/*`, `generic-pipelines/*`.
+
+## Hierarchy
+
+```
+@bitcode/llm-generics # pure LLM / registry primitives
+ ↑
+@bitcode/generic-llms-{xai|openai|…} # concrete providers
+ ↑
+@bitcode/generic-llms # registry aggregator (all providers)
+```
 
 ## Usage
 
 ```typescript
-import { createOpenAIProvider } from '@bitcode/generic-llms';
+// Prefer specific provider when only one is needed:
+import { xaiProvider } from '@bitcode/generic-llms-xai';
 
-const llm = createOpenAIProvider({
-  apiKey: process.env.OPENAI_API_KEY,
-  model: 'gpt-4'
-});
-
-const response = await llm({
-  messages: [{ role: 'user', content: 'Hello' }]
-});
+// Or the full registry used by AgentExecution / AssetPack preprocess:
+import {
+ factoryLLMRegistryWithProviders,
+ resolveDefaultLLMConfig,
+} from '@bitcode/generic-llms';
 ```
 
-## Key principle
+## Principles
 
-All providers implement the same pure `LLM` interface:
-```typescript
-type LLM = (input: LLMInput) => Promise<LLMOutput>;
-```
+- Always integrate LLMs through the Execution LLM registry; do not call providers
+ from UI or route code.
+- Provider SDKs live only on the nested provider package that uses them
+ (OpenAI on openai/xai, Anthropic on anthropic, AI SDK on google).
 
-## Principles & Integration
-
-- Always integrate LLMs through the Execution LLM registry; do not call providers directly from UI or route code.
-- Pipelines ensure a default provider/model is configured; phases/agents may override contextually.
-- Provider/model and stop reasons should be surfaced in step logs and prompt I/O sidecars (see agent‑generics diagnostics).
-- See `internal-docs/BITCODE_AGENTIC_EXECUTION.md` for how prompts, tools, and LLM registries compose in Bitcode agentic execution and PTRR.
+Also nested: `models/` (`@bitcode/generic-llms-models`).

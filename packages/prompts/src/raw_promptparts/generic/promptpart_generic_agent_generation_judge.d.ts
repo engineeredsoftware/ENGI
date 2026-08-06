@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Instruct substep to judge the quality of the reasoning just performed"
- * current_version: "V26.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },

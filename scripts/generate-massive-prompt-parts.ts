@@ -326,18 +326,18 @@ const assetPackCategories: PromptCategory[] = [
       {
         suffix: 'stored_asset_pack_evidence',
         description: 'Stored AssetPack evidence',
-        content: 'STORED ASSETPACK EVIDENCE:\nSummarize synthesized artifacts, proof commands, and repository state.\nStore evidence for Exchange and Terminal reread.\nDo not emit non-Bitcode output mirrors.',
+        content: 'STORED ASSETPACK EVIDENCE:\nSummarize synthesized artifacts, proof commands, and repository state.\nStore evidence for Exchange and product reread.\nDo not emit non-Bitcode output mirrors.',
         priority: 'high'
       },
       {
         suffix: 'asset_pack_completion',
         description: 'AssetPack completion payload',
-        content: 'ASSETPACK COMPLETION:\nCarry summary, assetPackSynthesisArtifacts, writtenAssets, shippables, deliveryMechanism, read, writtenAssetType, and repoSnapshot.\nReplace pre-V26 final-summary semantics completely.'
+        content: 'ASSETPACK COMPLETION:\nCarry summary, assetPackSynthesisArtifacts, writtenAssets, settleDelivery, deliveryMechanism, read, writtenAssetType, and repoSnapshot.\nReplace pre-V26 final-summary semantics completely.'
       },
       {
         suffix: 'terminal_reread',
-        description: 'Terminal reread evidence',
-        content: 'TERMINAL REREAD:\nPrefer assetPackSynthesisArtifacts, then semantic writtenAssets, then Shippables.\nExpose proof evidence without non-Bitcode output taxonomy.\nKeep payload fields Bitcode-native.'
+        description: 'product reread evidence',
+        content: 'PIPELINE REREAD:\nPrefer assetPackSynthesisArtifacts, then semantic writtenAssets, then settle delivery.\nExpose proof evidence without non-Bitcode output taxonomy.\nKeep payload fields Bitcode-native.'
       }
     ]
   },
@@ -345,8 +345,8 @@ const assetPackCategories: PromptCategory[] = [
     name: 'pull_request_delivery',
     parts: [
       {
-        suffix: 'pr_shippable',
-        description: 'GitHub pull-request Shippable',
+        suffix: 'pr_settle_delivery',
+        description: 'GitHub pull-request settle delivery',
         content: 'PULL-REQUEST SHIPPABLE:\nCreate one GitHub pull request delivery mechanism from validated AssetPack evidence.\nLink summary and proof evidence.\nKeep the PR subordinate to the AssetPack completion.',
         priority: 'high'
       },
@@ -410,7 +410,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
  * name: "assetpack_${category.name}_${part.suffix}"
  * category: "assetpack_${category.name}"
  * description: "${part.description}"
- * usage: "Bitcode AssetPack ${category.name} guidance for read-satisfaction, stored evidence, and PR Shippables"
+ * usage: "Bitcode AssetPack ${category.name} guidance for read-satisfaction, stored evidence, and PR settle delivery"
  * priority: "${priority}"
  * version: "1.0.0"
  */

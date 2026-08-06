@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -257,7 +257,8 @@ export const documentProcessorStepPrompts = {
  * Comprehensive document processing agent
  * Uses full PTRR cycle for thorough document analysis
  */
-const comprehensiveProcessing = factoryAgentWithPTRR<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveProcessing: any = factoryPTRRAgent<
   z.infer<typeof DocumentProcessorInputSchema>,
   z.infer<typeof DocumentProcessorRetrySchema>
 >({
@@ -299,7 +300,7 @@ const comprehensiveProcessing = factoryAgentWithPTRR<
  * Quick document processing agent
  * Single-step execution for simple documents
  */
-const quickProcessing = factoryAgentWithSingleStep<
+const quickProcessing: any = factoryAgentWithSingleStep<
   z.infer<typeof DocumentProcessorInputSchema>,
   z.infer<typeof DocumentProcessorRetrySchema>
 >({
@@ -377,10 +378,10 @@ export const quickDocumentProcessor = quickProcessing;
  * When documentProcessorAgent is called:
  * 1. selectVariation picks comprehensive or quick based on processing needs
  * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
+ *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thinkings)
+ *    - factoryTryGeneration(schema) creates Try generation (failsafed thinkings)
+ *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thinkings)
+ *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thinkings)
  * 3. Each executor automatically:
  *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
  *    - Each parent runs Reason→Judge→StructuredOutput

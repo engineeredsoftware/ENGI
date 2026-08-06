@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_ARTIFACT_PATH,
   buildV40PromptBenchmarkSmokeV41Readiness,
-} from '../packages/protocol/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

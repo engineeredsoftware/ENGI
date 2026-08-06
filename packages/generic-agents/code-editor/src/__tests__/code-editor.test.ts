@@ -11,7 +11,7 @@ import { testIntelligence, DryRunAdapter, MockSystemAdapter } from '@bitcode/tes
 import { createTestScenario, TestScenarioBuilder } from '@bitcode/testing';
 
 // Mock the editing module
-jest.mock('@bitcode/editing', () => ({
+jest.mock('@bitcode/file-editing', () => ({
   TransactionalFileEditor: jest.fn().mockImplementation(() => ({
     beginTransaction: jest.fn().mockResolvedValue('tx-123'),
     executeCommand: jest.fn().mockImplementation((params) => {
@@ -238,7 +238,7 @@ describe('Code Editor Agent', () => {
   describe('Error Handling', () => {
     test('should rollback on edit failure', async () => {
       // Mock a failure
-      const { TransactionalFileEditor } = require('@bitcode/editing');
+      const { TransactionalFileEditor } = require('@bitcode/file-editing');
       TransactionalFileEditor.mockImplementationOnce(() => ({
         beginTransaction: jest.fn().mockResolvedValue('tx-456'),
         executeCommand: jest.fn().mockRejectedValue(new Error('File not found')),

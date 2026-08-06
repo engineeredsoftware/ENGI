@@ -6,7 +6,7 @@
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Provide step-specific purpose that applies to all substeps"
+ * intent: "Provide step-specific purpose that applies to all generations under the step"
  * current_version: "BITCODE_V26_AGENT_STEP_PROMPT_REGISTRY.1"
  */
 
@@ -21,8 +21,8 @@ export interface AgentStepPromptConfig {
 /**
  * AgentStepPrompt - Minimal step-level prompt
  * 
- * Adds only the step purpose. This applies to all substeps
- * within this PTRR step.
+ * Adds only the step purpose. This applies to all Failsafe and
+ * Thinkings generations within this PTRR step.
  */
 export class AgentStepPrompt extends Prompt {
   constructor(config: AgentStepPromptConfig) {

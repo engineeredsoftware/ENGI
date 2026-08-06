@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v40-api-integration-contracts.json';
+const ARTIFACT_PATH = '.proofs/v40/api-integration-contracts.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -78,10 +78,10 @@ function printHelp() {
 
 function runIntegrationSmoke(root, failures) {
   const commands = [
-    ['pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-api-integration-contracts.test.js']],
-    ['pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/api/conversationsRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/api/walletOAuthRoutes.test.ts', 'tests/api/webhookSignature.test.ts']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-api-integration-contracts.test.js']],
+    ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/api/conversationsRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/api/walletOAuthRoutes.test.ts', 'tests/api/webhookSignature.test.ts']],
     ['pnpm', ['--filter', '@bitcode/api', 'test']],
-    ['pnpm', ['--dir', 'packages/executions-mcp/src/mcp-server', 'run', 'test:mcp']],
+    ['pnpm', ['--dir', 'apps/mcp', 'run', 'test:mcp']],
     ['pnpm', ['--dir', 'packages/chatgptapp', 'test']],
   ];
 
@@ -104,7 +104,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V39', `BITCODE_SPEC.txt must remain V39 during V40 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -119,15 +119,15 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-api-integration-contracts.js',
-    'packages/protocol/test/v40-api-integration-contracts.test.js',
+    'scripts/specifying/src/canonical/v40-api-integration-contracts.js',
+    'scripts/specifying/test/v40-api-integration-contracts.test.js',
     'scripts/generate-v40-api-integration-contracts.mjs',
     'scripts/check-v40-gate4-api-integration-contracts.mjs',
-    'BITCODE_SPEC_V40.md',
-    'BITCODE_SPEC_V40_DELTA.md',
-    'BITCODE_SPEC_V40_NOTES.md',
-    'BITCODE_SPEC_V40_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V40.md',
+    '.specifications/BITCODE_SPEC_V40_DELTA.md',
+    '.specifications/BITCODE_SPEC_V40_NOTES.md',
+    '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -150,7 +150,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v40-api-integration-contracts.test.js',
+        'scripts/specifying/test/v40-api-integration-contracts.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 API integration contract protocol test failed: ${error.stderr || error.message}`);
@@ -199,11 +199,11 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 4 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V40.md');
-  const delta = read(root, 'BITCODE_SPEC_V40_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V40_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V40.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V40 Gate 4 API And Route Integration Contracts'), 'V40 spec must document Gate 4 API integration contracts.');
   assertCheck(failures, delta.includes('Gate 4 closes with package-backed `V40ApiIntegrationContracts`'), 'V40 delta must document Gate 4 closure.');

@@ -1,20 +1,21 @@
 /**
  * Agent Execution Types - Execution classes for agent hierarchy
- * 
- * These execution types properly belong in agent-generics as they represent
- * the agent execution hierarchy with full registry support.
- * 
+ *
  * Hierarchy:
  * - AgentExecution: Agent-level execution with all 4 registries
- * - StepExecution: Step-level execution (Plan/Try/Refine/Retry)
- * - SubStepExecution: SubStep-level execution (7 substeps)
+ * - StepExecution: PTRR step (Plan / Try / Refine / Retry)
+ * - GenerationExecution: nested generation layer within a step
+ *   - FailsafeGenerationExecution: failsafe parent (PCC / Chunk / Stitch)
+ *   - ThinkingsGenerationExecution: thinkings child (Reason / Judge / Output)
+ *
+
  */
 
 import { Execution } from '@bitcode/execution-generics/Execution';
 import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { AgentToolsRegistry } from './AgentToolsRegistry';
 
-// Re-export the new AgentExecution and registries
 export { AgentExecution, createAgentExecution } from './AgentExecution';
 export { AgentPromptsRegistry } from './AgentPromptsRegistry';
 export { AgentToolsRegistry, ExecutionTool } from './AgentToolsRegistry';
@@ -22,23 +23,26 @@ export { AgentLLMsRegistry } from './AgentLLMsRegistry';
 export { AgentAgentsRegistry } from './AgentAgentsRegistry';
 export type { ExecutionAgent } from './AgentAgentsRegistry';
 
-// ==================== GENERATION LEVEL ====================
+// ==================== STEP LEVEL ====================
+
 /**
- * StepExecution - Standard execution for PTRR steps
- * Plan, Try, Refine, or Retry operations
+ * StepExecution - PTRR step (Plan / Try / Refine / Retry).
+ *
+ * Owns a step-scoped tools registry (inherits parent registrations via
+ * hierarchy lookup + optional `restrictTo` allowlist). LLMs/agents still
+ * resolve upward to the agent node.
  */
 export class StepExecution extends Execution {
   readonly prompt: ExecutionPrompt;
+  readonly tools: AgentToolsRegistry;
   constructor(id: string, parent?: Execution) {
     super(id, parent);
     this.prompt = new ExecutionPrompt();
-    // Satisfy ExecutionPrompt root requirements
     this.prompt.set('generic_system', ' ' as PromptPart);
     this.prompt.set('specific_execution', ' ' as PromptPart);
+    this.tools = new AgentToolsRegistry(this);
   }
 
-  // Ensure children remain StepExecution instances so registry proxy getters
-  // are preserved throughout the hierarchy.
   child(id: string): StepExecution {
     if (this.children.has(id)) {
       return this.children.get(id) as StepExecution;
@@ -46,16 +50,10 @@ export class StepExecution extends Execution {
     return new StepExecution(`${this.id}/${id}`, this);
   }
 
-  // Proxy registries from nearest AgentExecution ancestor
   get llms(): any {
     let cur: any = this.parent;
     while (cur && !('llms' in cur)) cur = cur.parent;
     return cur?.llms;
-  }
-  get tools(): any {
-    let cur: any = this.parent;
-    while (cur && !('tools' in cur)) cur = cur.parent;
-    return cur?.tools;
   }
   get agents(): any {
     let cur: any = this.parent;
@@ -64,30 +62,42 @@ export class StepExecution extends Execution {
   }
 }
 
-// ==================== FAILSAFE LEVEL ====================
 /**
- * SubStepExecution - Execution for the 7 substeps
- * The atomic operations of PTRR architecture
+ * Apply the step tool surface: allowlist names visible to this step's
+ * getUsableTools / getTool / doc interpolation. Empty array → no tools.
+ * Undefined → no allowlist (full parent hierarchy usable set).
  */
-export class SubStepExecution extends Execution {
+export function applyStepToolSurface(
+  stepExec: StepExecution,
+  tools: string[] | undefined,
+): void {
+  if (tools === undefined) return;
+  const keys = tools.map((t) => String(t).trim()).filter(Boolean);
+  stepExec.tools.restrictTo(keys);
+}
+
+// ==================== GENERATION LAYER (within a step) ====================
+
+/**
+ * GenerationExecution - nested generation under a PTRR step
+ * (FailsafeGeneration or ThinkingsGeneration layer; was SubStepExecution).
+ */
+export class GenerationExecution extends Execution {
   readonly prompt: ExecutionPrompt;
   constructor(id: string, parent?: Execution) {
     super(id, parent);
     this.prompt = new ExecutionPrompt();
-    // Satisfy ExecutionPrompt root requirements
     this.prompt.set('generic_system', ' ' as PromptPart);
     this.prompt.set('specific_execution', ' ' as PromptPart);
   }
 
-  // Preserve SubStepExecution type for children, so getters keep working
-  child(id: string): SubStepExecution {
+  child(id: string): GenerationExecution {
     if (this.children.has(id)) {
-      return this.children.get(id) as SubStepExecution;
+      return this.children.get(id) as GenerationExecution;
     }
-    return new SubStepExecution(`${this.id}/${id}`, this);
+    return new GenerationExecution(`${this.id}/${id}`, this);
   }
 
-  // Proxy registries from nearest AgentExecution ancestor
   get llms(): any {
     let cur: any = this.parent;
     while (cur && !('llms' in cur)) cur = cur.parent;
@@ -97,7 +107,6 @@ export class SubStepExecution extends Execution {
     let cur: any = this.parent;
     while (cur && !('tools' in cur)) cur = cur.parent;
     return cur?.tools;
-    
   }
   get agents(): any {
     let cur: any = this.parent;
@@ -106,25 +115,38 @@ export class SubStepExecution extends Execution {
   }
 }
 
-// Semantic specializations to make the hierarchy explicit
-export class FailsafeExecution extends SubStepExecution {}
-export class GenerationExecution extends SubStepExecution {}
+/** FailsafeGeneration parent execution (PCC / ChunkThenSum / Stitch). */
+export class FailsafeGenerationExecution extends GenerationExecution {}
+
+/** ThinkingsGeneration child execution (Reason / Judge / StructuredOutput). */
+export class ThinkingsGenerationExecution extends GenerationExecution {}
+
 
 // ==================== FACTORY FUNCTIONS ====================
-/**
- * Create step execution
- */
+
 export function factoryStepExecution(step: string, parent: Execution): StepExecution {
   return new StepExecution(`gen:${step}`, parent);
 }
 
-/**
- * Create substep execution
- */
-export function factorySubStepExecution(substep: string, parent: Execution): SubStepExecution {
-  return new SubStepExecution(`failsafe:${substep}`, parent);
+export function factoryGenerationExecution(
+  generation: string,
+  parent: Execution,
+): GenerationExecution {
+  return new GenerationExecution(`generation:${generation}`, parent);
 }
 
-// Preferred factory aliases (Generation-first naming)
-export const factoryGenerationExecution = factoryStepExecution;
-export const factoryFailsafeExecution = factorySubStepExecution;
+export function factoryFailsafeGenerationExecution(
+  failsafe: string,
+  parent: Execution,
+): FailsafeGenerationExecution {
+  return new FailsafeGenerationExecution(`failsafe:${failsafe}`, parent);
+}
+
+export function factoryThinkingsGenerationExecution(
+  thinking: string,
+  parent: Execution,
+): ThinkingsGenerationExecution {
+  return new ThinkingsGenerationExecution(`thinkings:${thinking}`, parent);
+}
+
+export * from './tool-prompt-interpolation';

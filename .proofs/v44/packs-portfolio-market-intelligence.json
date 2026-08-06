@@ -1,0 +1,302 @@
+{
+  "artifactId": "v44-packs-portfolio-market-intelligence",
+  "schemaId": "bitcode.v44.packsPortfolioMarketIntelligence.v1",
+  "version": "V44",
+  "currentTarget": "V43",
+  "sourceSafetyVerdict": "source-safe-packs-portfolio-market-intelligence-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v44-packs-portfolio-market-intelligence:f2db4b23fb85c6ac6f0c2c5a",
+  "passed": true,
+  "portfolioViewIds": [
+    "enterprise-pack-portfolio",
+    "pack-portfolio-position",
+    "saved-filter-preset",
+    "organization-view",
+    "proof-root-drilldown"
+  ],
+  "marketSignalIds": [
+    "demand",
+    "supply",
+    "unfit-need",
+    "settlement",
+    "compensation",
+    "delivery",
+    "repair"
+  ],
+  "marketFacetIds": [
+    "settlementState",
+    "compensationState",
+    "deliveryState",
+    "repairState",
+    "repository",
+    "type",
+    "state"
+  ],
+  "forbiddenPayloadIds": [
+    "protected-source-payloads",
+    "unpaid-assetpack-source",
+    "source-snippets",
+    "raw-prompts",
+    "interpolated-prompts",
+    "raw-provider-responses",
+    "credentials",
+    "wallet-private-material",
+    "private-settlement-payloads"
+  ],
+  "rows": [
+    {
+      "rowId": "portfolio-position-projection",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "contract": "PackPortfolioPositionProjection groups source-safe PackActivity rows into enterprise portfolio positions with BTD estimates, sats values, signal counts, proof counts, and state readback.",
+      "requiredFields": [
+        "assetPackTitle",
+        "repository",
+        "activityCount",
+        "valueTotalSats",
+        "btdEstimate",
+        "proofRootCount"
+      ],
+      "rowRoot": "v44-packs-portfolio-market-row:d79157690ecee393a831ecfb",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "market-signal-projection",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "contract": "PackMarketSignalProjection exposes demand, supply, unfit-Need, settlement, compensation, delivery, and repair signals without source-bearing payloads.",
+      "requiredFields": [
+        "kind",
+        "strength",
+        "state",
+        "relatedRecordIds",
+        "proofRoots"
+      ],
+      "rowRoot": "v44-packs-portfolio-market-row:c568a5c63f0c4fcf639451f5",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "saved-filter-presets",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "contract": "/packs renders saved source-safe filters for repair cases, demand signals, supply signals, settlement facets, and compensation facets.",
+      "requiredFields": [
+        "savedFilters",
+        "writeParams",
+        "Settlement facets",
+        "Compensation facets"
+      ],
+      "rowRoot": "v44-packs-portfolio-market-row:e93081a5971fe563f6d6fc69",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "portfolio-market-api",
+      "owner": "apps/uapi/app/api/packs/activity/route.ts",
+      "contract": "/api/packs/activity returns marketIntelligence beside records, detail, summary, query, and sourceSafety.",
+      "requiredFields": [
+        "marketIntelligence",
+        "buildPackPortfolioMarketIntelligence",
+        "sourceSafety"
+      ],
+      "rowRoot": "v44-packs-portfolio-market-row:6a64c79cfe3b6713d2641fa4",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "spec": "BITCODE_SPEC_V44.md:398a20b55d38df2ebced0591",
+    "delta": "BITCODE_SPEC_V44_DELTA.md:eb779597425caf299574a313",
+    "notes": "BITCODE_SPEC_V44_NOTES.md:bedf9abebdc5d8ac538222b1",
+    "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:533bbfe052c5c8469c31c1af",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
+    "readme": "README.md:d28ec731634e03953d8adfe6",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
+    "packageJson": "package.json:b79014968c556bc1b43ab341",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
+    "economicModel": "scripts/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
+    "model": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "route": "apps/uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
+    "client": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "uapiTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "packageIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageTest": "scripts/specifying/test/v44-packs-portfolio-market-intelligence.test.js:ea02fa03d210e6480036fc0f",
+    "generator": "scripts/generate-v44-packs-portfolio-market-intelligence.mjs:c106ef7138e3a330d405bec2",
+    "checker": "scripts/check-v44-gate3-packs-portfolio-market-intelligence.mjs:0de0b87cbc96bb307cc1533a"
+  },
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v44-draft-or-promoted",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate3",
+      "sourcePath": "BITCODE_SPEC_V44.md",
+      "passed": true
+    },
+    {
+      "id": "spec-names-gate3-artifact",
+      "sourcePath": "BITCODE_SPEC_V44.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate3",
+      "sourcePath": "BITCODE_SPEC_V44_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate3",
+      "sourcePath": "BITCODE_SPEC_V44_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate3",
+      "sourcePath": "BITCODE_SPEC_V44_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate3",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readme-records-gate3",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "protocol-readme-records-gate3",
+      "sourcePath": "scripts/specifying/README.md",
+      "passed": true
+    },
+    {
+      "id": "economic-model-prerequisite-present",
+      "sourcePath": "scripts/specifying/src/canonical/v44-economic-domain-model.js",
+      "passed": true
+    },
+    {
+      "id": "model-defines-market-intelligence",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "model-defines-saved-filters",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "model-defines-market-signals",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "model-defines-facets",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "api-returns-market-intelligence",
+      "sourcePath": "apps/uapi/app/api/packs/activity/route.ts",
+      "passed": true
+    },
+    {
+      "id": "client-renders-portfolio-positions",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "client-renders-market-signals",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "client-renders-saved-filters",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "client-renders-facet-filters",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "uapi-test-covers-gate3-model",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "package-test-covers-gate3",
+      "sourcePath": "scripts/specifying/test/v44-packs-portfolio-market-intelligence.test.js",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate3",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-types-export-gate3",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate3",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate3",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate3",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v44-packs-portfolio-market-intelligence.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v44-gate3-packs-portfolio-market-intelligence.mjs",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "portfolioPositionsImplemented": true,
+    "savedFiltersImplemented": true,
+    "organizationViewsImplemented": true,
+    "marketSignalsImplemented": true,
+    "unfitNeedSignalsImplemented": true,
+    "settlementFacetsImplemented": true,
+    "compensationFacetsImplemented": true,
+    "proofRootDrilldownImplemented": true,
+    "apiProjectionImplemented": true,
+    "uiProjectionImplemented": true,
+    "noSourceLeakTestsImplemented": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "sourceSnippetVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "requiredPredicateCount": 28,
+    "passedPredicateCount": 28,
+    "failedPredicateIds": []
+  }
+}

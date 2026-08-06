@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Finish PromptPart for sequencing evidence storage and Shippable delivery"
+ * intent: "Bitcode Finish PromptPart for sequencing evidence storage and AssetPack delivery"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_PLAN_STRATEGY: PromptPart = 
-  'Plan Finish using complete pipeline state: store validated AssetPack evidence first, confirm proof and receipt fields, choose the requested delivery mechanism, prepare Shippables only from stored evidence, record destination-specific delivery evidence, and preserve rereadable operator summary' as PromptPart;
+  'Plan Finish using complete pipeline state: store validated AssetPack evidence first, confirm proof and receipt fields, choose the requested delivery mechanism, record destination-specific delivery evidence, and preserve rereadable operator summary' as PromptPart;

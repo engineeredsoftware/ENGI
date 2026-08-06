@@ -55,7 +55,7 @@ Atomic Bitcode written-asset mutation support for agentic asset-pack synthesis. 
 ### Architecture Pattern
 ```typescript
 class FileOperationTool extends Tool<typeof runEditCommand> {
-  use = runEditCommand;
+ use = runEditCommand;
 }
 ```
 
@@ -67,11 +67,11 @@ class FileOperationTool extends Tool<typeof runEditCommand> {
 ### Transactional File Editor Integration
 ```typescript
 import {
-  editCommandSchema,
-  runEditCommand,
-  TransactionalFileEditor,
-  EditError
-} from '@bitcode/editing';
+ editCommandSchema,
+ runEditCommand,
+ TransactionalFileEditor,
+ EditError
+} from '@bitcode/file-editing';
 ```
 
 ### Error Handling
@@ -87,44 +87,44 @@ import {
 import { createFileTool } from '@bitcode/generic-tools-editing';
 
 const result = await createFileTool.use({
-  operation: 'create',
-  filePath: '/project/src/config.ts',
-  content: 'export const config = { api: "prod" };',
-  permissions: '644'
+ operation: 'create',
+ filePath: '/project/src/config.ts',
+ content: 'export const config = { api: "prod" };',
+ permissions: '644'
 });
 ```
 
 ### Multi-File Transaction
 ```typescript
-import { 
-  beginTransactionTool,
-  textEditorTool,
-  commitTransactionTool 
+import {
+ beginTransactionTool,
+ textEditorTool,
+ commitTransactionTool
 } from '@bitcode/generic-tools-editing';
 
 // Start transaction
 const transaction = await beginTransactionTool.use({
-  metadata: { operation: 'config-update' }
+ metadata: { operation: 'config-update' }
 });
 
 // Perform operations
 await textEditorTool.use({
-  transactionId: transaction.transactionId,
-  operation: 'edit',
-  filePath: '/project/config/database.ts',
-  content: 'updated database config'
+ transactionId: transaction.transactionId,
+ operation: 'edit',
+ filePath: '/project/config/database.ts',
+ content: 'updated database config'
 });
 
 await textEditorTool.use({
-  transactionId: transaction.transactionId,
-  operation: 'edit',
-  filePath: '/project/config/api.ts',
-  content: 'updated api config'
+ transactionId: transaction.transactionId,
+ operation: 'edit',
+ filePath: '/project/config/api.ts',
+ content: 'updated api config'
 });
 
 // Commit all changes
 await commitTransactionTool.use({
-  transactionId: transaction.transactionId
+ transactionId: transaction.transactionId
 });
 ```
 
@@ -133,10 +133,10 @@ await commitTransactionTool.use({
 import { replaceFileTool } from '@bitcode/generic-tools-editing';
 
 const result = await replaceFileTool.use({
-  operation: 'replace',
-  filePath: '/project/src/retired.ts',
-  content: modernImplementation,
-  backupPath: '/project/backups/retired.ts.bak'
+ operation: 'replace',
+ filePath: '/project/src/retired.ts',
+ content: modernImplementation,
+ backupPath: '/project/backups/retired.ts.bak'
 });
 ```
 
@@ -174,6 +174,6 @@ const result = await replaceFileTool.use({
 
 ### Security Features
 - Permission validation on all operations
-- Secure backup creation with proper access controls  
+- Secure backup creation with proper access controls
 - Transaction isolation to prevent race conditions
 - Audit logging for compliance and debugging

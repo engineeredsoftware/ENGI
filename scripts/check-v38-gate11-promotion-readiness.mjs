@@ -8,18 +8,18 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v38/promotion-readiness-report.json';
 
 const V38_GATE_ARTIFACTS = [
-  '.bitcode/v38-inference-surface-inventory.json',
-  '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-  '.bitcode/v38-prompt-benchmark-report.json',
-  '.bitcode/v38-disclosure-boundary-report.json',
-  '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-  '.bitcode/v38-read-fits-finding-search-embeddings.json',
-  '.bitcode/v38-assetpack-synthesis-economic-traceability.json',
-  '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
-  '.bitcode/v38-local-staging-inference-depository-search-rehearsal.json',
+  '.proofs/v38/inference-surface-inventory.json',
+  '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+  '.proofs/v38/prompt-benchmark-report.json',
+  '.proofs/v38/disclosure-boundary-report.json',
+  '.proofs/v38/read-need-comprehension-inference-hardening.json',
+  '.proofs/v38/read-fits-finding-search-embeddings.json',
+  '.proofs/v38/assetpack-synthesis-economic-traceability.json',
+  '.proofs/v38/conversation-tool-prompt-inference-parity.json',
+  '.proofs/v38/local-staging-inference-depository-search-rehearsal.json',
 ];
 
 const SECRET_MARKERS = [
@@ -101,7 +101,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
   const promotedPointer = args.promotionMode && pointer === 'V38';
 
   assertCheck(
@@ -122,10 +122,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V38.md',
+    '.specifications/BITCODE_SPEC_V38_DELTA.md',
+    '.specifications/BITCODE_SPEC_V38_NOTES.md',
+    '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
     ARTIFACT_PATH,
     'scripts/generate-v38-promotion-readiness-report.mjs',
     'scripts/check-v38-gate11-promotion-readiness.mjs',
@@ -136,16 +136,16 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v38-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/inference-promotion-readiness-report.js',
-    'packages/protocol/test/v38-promotion-readiness.test.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/src/canonical/inference-promotion-readiness-report.js',
+    'scripts/specifying/test/v38-promotion-readiness.test.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     ...V38_GATE_ARTIFACTS,
   ];
 
@@ -219,10 +219,10 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -230,10 +230,10 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V38 promotion readiness canon'), 'V38 SPEC must define promotion readiness canon.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH) && spec.includes('V38 active / draft V39'), 'V38 SPEC must include Gate 11 artifact and post-promotion posture.');
@@ -304,7 +304,7 @@ function main() {
 
   if (failures.length === 0 && !args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v38-promotion-readiness.test.js']);
+      run(root, 'pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v38-promotion-readiness.test.js']);
       run(root, 'node', ['scripts/promote-bitcode-canon.mjs', '--version', 'V38', '--commit', 'HEAD', '--dry-run']);
     } catch (error) {
       failures.push(`V38 Gate 11 package promotion tests failed: ${error.stderr || error.message}`);

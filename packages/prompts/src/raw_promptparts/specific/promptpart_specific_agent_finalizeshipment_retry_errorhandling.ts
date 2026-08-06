@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Finish PromptPart for retrying failed evidence storage or Shippable delivery"
+ * intent: "Bitcode Finish PromptPart for retrying failed evidence storage or AssetPack delivery"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_RETRY_ERRORHANDLING: PromptPart = 
-  'Handle Finish failures with context preservation: recover missing AssetPack evidence from execution stores, separate evidence-storage failures from delivery-mechanism failures, keep Shippables undelivered until evidence is complete, record retry receipts, and fail closed when destination proof is insufficient' as PromptPart;
+  'Handle Finish failures with context preservation: recover missing AssetPack evidence from execution stores, separate evidence-storage failures from delivery-mechanism failures, keep AssetPacks undelivered until evidence is complete, record retry receipts, and fail closed when destination proof is insufficient' as PromptPart;

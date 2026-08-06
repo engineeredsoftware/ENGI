@@ -66,7 +66,7 @@ function telemetryInput(
     proofRoot: `${subject.root}-proof`,
     ledgerAnchorId:
       subject.subjectKind === 'ledger_projection' ? 'ledger-anchor-telemetry-1' : undefined,
-    artifactPath: `.bitcode/${subject.subjectKind}.json`,
+    artifactPath: `.proofs/${subject.subjectKind}.json`,
     metadata: {
       sourceSafe: true,
       subjectKind: subject.subjectKind,
@@ -90,8 +90,8 @@ describe('Protocol telemetry and proof hooks', () => {
         telemetryRoot: telemetry[index].telemetryRoot,
         theoremIds: ['source-safe', 'typed-output'],
         replayStepIds: ['emit-telemetry', 'bind-proof-hook'],
-        witnessArtifactPaths: [`.bitcode/${subject.subjectKind}-proof.json`],
-        generatedArtifactPath: `.bitcode/generated/${subject.subjectKind}-proof.json`,
+        witnessArtifactPaths: [`.proofs/${subject.subjectKind}-proof.json`],
+        generatedArtifactPath: `.proofs/generated/${subject.subjectKind}-proof.json`,
         issuedAt,
       })),
       issuedAt,
@@ -166,7 +166,7 @@ describe('Protocol telemetry and proof hooks', () => {
             telemetryRoot: 'missing-telemetry-root',
             theoremIds: ['source-safe'],
             replayStepIds: ['emit-telemetry'],
-            witnessArtifactPaths: ['.bitcode/receipt-proof.json'],
+            witnessArtifactPaths: ['.proofs/_shared/receipt-proof.json'],
           },
         ],
       }),
@@ -183,7 +183,7 @@ describe('Protocol telemetry and proof hooks', () => {
         telemetryRoot: 'telemetry-root',
         theoremIds: [],
         replayStepIds: ['emit-telemetry'],
-        witnessArtifactPaths: ['.bitcode/receipt-proof.json'],
+        witnessArtifactPaths: ['.proofs/_shared/receipt-proof.json'],
       }),
     ).toThrow(/theoremId/);
   });

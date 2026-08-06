@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Finish PromptPart for recovery strategy across evidence and Shippable delivery"
+ * intent: "Bitcode Finish PromptPart for recovery strategy across evidence and AssetPack delivery"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

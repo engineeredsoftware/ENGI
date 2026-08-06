@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-stream-event-contract.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-stream-event-contract.json';
 
 const REQUIRED_EVENT_KIND_IDS = [
   'model_delta',
@@ -114,7 +114,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -133,32 +133,32 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-stream-event-contract.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-stream-event-contract.test.js',
+    'scripts/specifying/src/canonical/conversation-stream-event-contract.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-stream-event-contract.test.js',
     'packages/api/src/conversations/stream-events.ts',
     'packages/api/src/conversations/__tests__/stream-events.test.ts',
     'packages/api/src/routes/conversations.ts',
     'scripts/generate-v37-conversation-stream-event-contract.mjs',
     'scripts/check-v37-gate3-conversation-stream-event-contracts.mjs',
-    'uapi/app/api/conversations/_shared.ts',
-    'uapi/hooks/useConversationStream.ts',
-    'uapi/app/conversations/components/hooks/usePipelineState.ts',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx',
-    'uapi/tests/api/conversationStreamEventContract.test.ts',
-    'uapi/tests/conversationStreamPipelineLog.test.tsx',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'uapi/jest.config.cjs',
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/api/conversations/_shared.ts',
+    'apps/uapi/hooks/useConversationStream.ts',
+    'apps/uapi/app/conversations/components/hooks/usePipelineState.ts',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+    'apps/uapi/tests/api/conversationStreamEventContract.test.ts',
+    'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'apps/uapi/jest.config.cjs',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/conversations/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -178,7 +178,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-stream-event-contract.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-stream-event-contract.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation stream event package test failed: ${error.stderr || error.message}`);
     }
@@ -200,7 +200,7 @@ function main() {
       ]);
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationStreamEventContract.test.ts',
@@ -270,22 +270,22 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V37.md');
-  const delta = read(root, 'BITCODE_SPEC_V37_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V37_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V37.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V37_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V37_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const conversationsReadme = read(root, 'uapi/app/conversations/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const packageJson = read(root, 'package.json');
-  const uapiJestConfig = read(root, 'uapi/jest.config.cjs');
+  const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const streamEvents = read(root, 'packages/api/src/conversations/stream-events.ts');
-  const streamHook = read(root, 'uapi/hooks/useConversationStream.ts');
-  const pipelineState = read(root, 'uapi/app/conversations/components/hooks/usePipelineState.ts');
-  const logHeader = read(root, 'uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx');
+  const streamHook = read(root, 'apps/uapi/hooks/useConversationStream.ts');
+  const pipelineState = read(root, 'apps/uapi/app/conversations/components/hooks/usePipelineState.ts');
+  const logHeader = read(root, 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
 
   for (const phrase of [
     'ConversationStreamEvent',
@@ -296,7 +296,7 @@ function main() {
     'retry states',
     'completion decisions',
     'error rows',
-    '.bitcode/v37-conversation-stream-event-contract.json',
+    '.proofs/v37/conversation-stream-event-contract.json',
     'source-safe-conversation-stream-event-metadata',
     'check:v37-gate3',
   ]) {
@@ -323,7 +323,7 @@ function main() {
   assertCheck(failures, logHeader.includes('promptDisclosurePosture'), 'Execution log header must show prompt disclosure posture.');
   assertCheck(failures, logHeader.includes('resultDisclosurePosture'), 'Execution log header must show result disclosure posture.');
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();

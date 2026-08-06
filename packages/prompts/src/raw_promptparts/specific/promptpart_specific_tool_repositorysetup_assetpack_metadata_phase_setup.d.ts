@@ -6,7 +6,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "phase_accuracy", "test": "Correctly identifies SDIVS phase", "score": 0.5 }
+ *   { "name": "phase_accuracy", "test": "Correctly identifies SDIVF phase", "score": 0.5 }
  * ]
  */
 export declare const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_METADATA_PHASE_SETUP: PromptPart;

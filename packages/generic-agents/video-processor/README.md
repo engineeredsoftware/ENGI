@@ -38,38 +38,38 @@ Advanced video analysis agent that extracts comprehensive insights from video co
 ### Video Analysis Schema
 ```typescript
 {
-  metadata: {
-    duration: number,
-    resolution: { width: number, height: number },
-    quality: 'high' | 'medium' | 'low',
-    hasAudio: boolean
-  },
-  transcription: {
-    fullText: string,
-    segments: Array<{
-      start: number,
-      end: number,
-      text: string,
-      confidence: number
-    }>,
-    language: string,
-    confidence: number
-  } | null,
-  visualAnalysis: {
-    sceneCount: number,
-    detectedText: string[],
-    technicalElements: string[],
-    uiElements: string[],
-    screenshotType: 'presentation' | 'demo' | 'code' | 'ui' | 'other'
-  },
-  analysis: {
-    contentType: 'tutorial' | 'meeting' | 'demo' | 'presentation' | 'code-review' | 'other',
-    technicalTerms: string[],
-    topics: string[],
-    sentiment: 'positive' | 'negative' | 'neutral'
-  },
-  relevanceScore: number,
-  keyInsights: string[]
+ metadata: {
+ duration: number,
+ resolution: { width: number, height: number },
+ quality: 'high' | 'medium' | 'low',
+ hasAudio: boolean
+ },
+ transcription: {
+ fullText: string,
+ segments: Array<{
+ start: number,
+ end: number,
+ text: string,
+ confidence: number
+ }>,
+ language: string,
+ confidence: number
+ } | null,
+ visualAnalysis: {
+ sceneCount: number,
+ detectedText: string[],
+ technicalElements: string[],
+ uiElements: string[],
+ screenshotType: 'presentation' | 'demo' | 'code' | 'ui' | 'other'
+ },
+ analysis: {
+ contentType: 'tutorial' | 'meeting' | 'demo' | 'presentation' | 'code-review' | 'other',
+ technicalTerms: string[],
+ topics: string[],
+ sentiment: 'positive' | 'negative' | 'neutral'
+ },
+ relevanceScore: number,
+ keyInsights: string[]
 }
 ```
 
@@ -83,7 +83,7 @@ Advanced video analysis agent that extracts comprehensive insights from video co
 
 ### Quality Metrics
 - **Visual Clarity**: Resolution and compression quality assessment
-- **Audio Quality**: Transcription confidence and clarity scoring  
+- **Audio Quality**: Transcription confidence and clarity scoring
 - **Content Relevance**: Task alignment measurement
 - **Technical Depth**: Code and technical element density
 - **Overall Score**: Weighted composite quality assessment

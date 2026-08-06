@@ -8,5 +8,9 @@
     "@supabase/supabase-js": "^2.0.0",
     "@supabase/ssr": "^0.0.7",
     "ai": "^4.3.16"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

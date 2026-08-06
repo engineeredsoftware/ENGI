@@ -18,7 +18,7 @@ import {
   ConversationListOptions,
   ConversationListResult,
   CreateConversationInput
-} from '@bitcode/conversations-generics';
+} from '@bitcode/conversations';
 
 type ConversationMessageRow = {
   id: string;

@@ -1,1 +1,0 @@
-export { AnimatedListWork } from './MarketingAnimatedListOfWork';

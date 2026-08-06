@@ -83,15 +83,15 @@ notionSearchTool: Workspace-wide content discovery
 ### Workspace Connection
 ```typescript
 interface NotionContext {
-  user_id: string;              // User identifier for connection lookup
-  connection?: NotionConnection; // Optional direct connection override
+ user_id: string; // User identifier for connection lookup
+ connection?: NotionConnection; // Optional direct connection override
 }
 
 interface NotionConnection {
-  access_token: string;         // Notion integration token
-  workspace_id: string;         // Target workspace identifier
-  bot_id?: string;              // Bot user identifier
-  permissions: string[];        // Granted permission scopes
+ access_token: string; // Notion integration token
+ workspace_id: string; // Target workspace identifier
+ bot_id?: string; // Bot user identifier
+ permissions: string[]; // Granted permission scopes
 }
 ```
 

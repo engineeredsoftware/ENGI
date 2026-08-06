@@ -36,7 +36,6 @@ export type { AssetPackEvidenceRecord } from './models/asset-pack-evidence';
 export {
   AssetPackGeneratedAssetsModel,
   AssetPackPhaseExecutionsModel,
-  AssetPackRunInstructionsModel,
   AssetPackRunJobsModel,
   AssetPackStreamLogsModel,
   AssetPackVectorsModel,
@@ -87,6 +86,7 @@ export type Conversation = Tables<'conversations'>;
 export type Message = Tables<'messages'>;
 export type MessageAttachment = Tables<'message_attachments'>;
 export {
+  DEFAULT_EMAIL_NOTIFICATION_PREFERENCES,
   hydrateBitcodeProfile,
   mergeBitcodeProfileSettings,
   profileHasWalletBinding,
@@ -96,6 +96,7 @@ export {
   readBitcodeWalletBindingFromProfile,
 } from './profile-contract';
 export type {
+  BitcodeEmailNotificationPreferences,
   BitcodeProfileSettings,
   BitcodeWalletCapability,
   BitcodeWalletBinding,
@@ -113,9 +114,6 @@ export type {
   AssetPackPhaseExecution,
   AssetPackPhaseExecutionInsert,
   AssetPackPhaseExecutionUpdate,
-  AssetPackRunInstruction,
-  AssetPackRunInstructionInsert,
-  AssetPackRunInstructionUpdate,
   AssetPackRunJob,
   AssetPackRunJobInsert,
   AssetPackRunJobUpdate,

@@ -64,7 +64,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -84,11 +84,11 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V29.md',
-    'BITCODE_SPEC_V29_DELTA.md',
-    'BITCODE_SPEC_V29_NOTES.md',
-    'BITCODE_SPEC_V29_PARITY_MATRIX.md',
-    'BITCODE_V29_QA.md',
+    '.specifications/BITCODE_SPEC_V29.md',
+    '.specifications/BITCODE_SPEC_V29_DELTA.md',
+    '.specifications/BITCODE_SPEC_V29_NOTES.md',
+    '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    '.qa/BITCODE_V29_QA.md',
     'scripts/check-v29-gate10-local-staging-promotion-readiness.mjs',
     'scripts/promote-bitcode-canon.mjs',
     'scripts/prepare-bitcode-spec-family-promotion.mjs',
@@ -96,11 +96,11 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v29-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'protocol-demonstration/src/canon-posture.js',
-    'protocol-demonstration/README.md',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/README.md',
     'package.json',
     'README.md',
   ];
@@ -109,11 +109,11 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 10 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V29.md');
-  const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const qa = read(root, 'BITCODE_V29_QA.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const qa = read(root, '.qa/BITCODE_V29_QA.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -121,9 +121,9 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const packageCanonPosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const packageState = read(root, 'packages/protocol/data/state.json');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const packageCanonPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const packageState = read(root, 'scripts/specifying/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
 
   assertCheck(failures, spec.includes('V29 local and staging promotion readiness canon'), 'V29 SPEC must define local/staging promotion readiness canon.');
@@ -156,10 +156,10 @@ function main() {
     failures,
     promotionWorkflow.includes('head.ref == \'version/v29\'') &&
       promotionWorkflow.includes('npm run promote:canon -- --version V29') &&
-      promotionWorkflow.includes('BITCODE_SPEC_V29_PROVEN.md') &&
-      promotionWorkflow.includes('packages/protocol/src/canon-posture.js') &&
-      promotionWorkflow.includes('packages/protocol/data/state.json') &&
-      promotionWorkflow.includes('packages/protocol/README.md') &&
+      promotionWorkflow.includes('.specifications/BITCODE_SPEC_V29_PROVEN.md') &&
+      promotionWorkflow.includes('scripts/specifying/src/canon-posture.js') &&
+      promotionWorkflow.includes('scripts/specifying/data/state.json') &&
+      promotionWorkflow.includes('scripts/specifying/README.md') &&
       promotionWorkflow.includes('Promote V29 canon files'),
     'V29 promotion workflow must validate version/v29 and commit V29 promotion artifacts.',
   );
@@ -177,8 +177,8 @@ function main() {
   assertCheck(
     failures,
     prepareSpecScript.includes("if (version === 'V29')") &&
-      prepareSpecScript.includes('V29 canonical system specification for Terminal transaction depth') &&
-      prepareSpecScript.includes('BITCODE_SPEC_V29_PROVEN.md') &&
+      prepareSpecScript.includes('V29 canonical system specification for product transaction depth') &&
+      prepareSpecScript.includes('.specifications/BITCODE_SPEC_V29_PROVEN.md') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments') &&
       prepareSpecScript.includes('implementation matrix') &&
       prepareSpecScript.includes('implementation checklist'),

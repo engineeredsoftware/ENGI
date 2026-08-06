@@ -31,26 +31,26 @@ The agent implements comprehensive Jira REST API integration with the following 
 
 ```typescript
 // Project Management Tools
-jiraListProjectsTool          // Project discovery and enumeration
-jiraGetProjectTool           // Detailed project configuration analysis
-jiraSearchIssuesTool         // Advanced issue querying and filtering
+jiraListProjectsTool // Project discovery and enumeration
+jiraGetProjectTool // Detailed project configuration analysis
+jiraSearchIssuesTool // Advanced issue querying and filtering
 
 // Issue Management Tools
-jiraGetIssueTool             // Individual issue detail retrieval
-jiraCreateIssueTool          // Structured issue creation
-jiraUpdateIssueTool          // Issue modification and enhancement
-jiraTransitionIssueTool      // Workflow state management
-jiraAssignIssueTool          // Team coordination and assignment
+jiraGetIssueTool // Individual issue detail retrieval
+jiraCreateIssueTool // Structured issue creation
+jiraUpdateIssueTool // Issue modification and enhancement
+jiraTransitionIssueTool // Workflow state management
+jiraAssignIssueTool // Team coordination and assignment
 
 // Collaboration Tools
-jiraAddCommentTool           // Communication and documentation
-jiraGetCommentsTool          // Historical context retrieval
-jiraCreateIssueLinkTool      // Dependency relationship management
+jiraAddCommentTool // Communication and documentation
+jiraGetCommentsTool // Historical context retrieval
+jiraCreateIssueLinkTool // Dependency relationship management
 
 // Configuration Tools
-jiraSearchUsersTool          // Team member discovery
-jiraGetIssueTypesTool        // Issue type configuration analysis
-jiraGetPrioritiesTool        // Priority framework mapping
+jiraSearchUsersTool // Team member discovery
+jiraGetIssueTypesTool // Issue type configuration analysis
+jiraGetPrioritiesTool // Priority framework mapping
 ```
 
 ### Processing Framework
@@ -66,35 +66,35 @@ The agent utilizes a PTRR execution pattern optimized for project management wor
 ### Project Analysis Results
 ```typescript
 interface ProjectAnalysis {
-  key: string;                    // Project identifier
-  name: string;                   // Project display name
-  health: {
-    issueDistribution: Record<string, number>;    // Issue type breakdown
-    statusDistribution: Record<string, number>;   // Workflow state analysis
-    assignmentBalance: number;                     // Team workload distribution
-    velocityTrend: string;                        // Performance trajectory
-  };
-  recommendations: string[];      // Optimization suggestions
+ key: string; // Project identifier
+ name: string; // Project display name
+ health: {
+ issueDistribution: Record<string, number>; // Issue type breakdown
+ statusDistribution: Record<string, number>; // Workflow state analysis
+ assignmentBalance: number; // Team workload distribution
+ velocityTrend: string; // Performance trajectory
+ };
+ recommendations: string[]; // Optimization suggestions
 }
 ```
 
 ### Issue Management Output
 ```typescript
 interface IssueManagement {
-  createdIssues: IssueRecord[];           // New issues generated
-  updatedIssues: IssueUpdate[];           // Modified issue tracking
-  teamCoordination: CoordinationAction[]; // Assignment and collaboration actions
+ createdIssues: IssueRecord[]; // New issues generated
+ updatedIssues: IssueUpdate[]; // Modified issue tracking
+ teamCoordination: CoordinationAction[]; // Assignment and collaboration actions
 }
 ```
 
 ### Quality Assessment Framework
 ```typescript
 interface QualityAssessment {
-  projectManagement: number;      // Project structure and organization quality
-  issueOrganization: number;      // Issue structure and categorization effectiveness
-  teamCollaboration: number;      // Collaboration workflow efficiency
-  workflowEfficiency: number;     // Process automation and optimization level
-  overallScore: number;           // Composite quality metric
+ projectManagement: number; // Project structure and organization quality
+ issueOrganization: number; // Issue structure and categorization effectiveness
+ teamCollaboration: number; // Collaboration workflow efficiency
+ workflowEfficiency: number; // Process automation and optimization level
+ overallScore: number; // Composite quality metric
 }
 ```
 

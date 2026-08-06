@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json';
+const ARTIFACT = '.proofs/v34/local-staging-testnet-deployment-rehearsal.json';
 const REQUIRED_REHEARSAL_IDS = [
   'local_full_stack_rehearsal',
   'staging_testnet_full_stack_rehearsal',
@@ -87,7 +87,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
   assertCheck(failures, pointer === 'V33', `BITCODE_SPEC.txt must remain V33 during V34 gate work. Observed ${pointer || 'empty'}.`);
 
   if (!args.skipBranchCheck) {
@@ -107,14 +107,14 @@ function main() {
     'packages/btd/__tests__/deployment-readiness-rehearsal.test.ts',
     'scripts/generate-v34-local-staging-testnet-deployment-rehearsal.mjs',
     'scripts/check-v34-gate9-local-staging-testnet-deployment-rehearsal.mjs',
-    'BITCODE_SPEC_V34.md',
-    'BITCODE_SPEC_V34_DELTA.md',
-    'BITCODE_SPEC_V34_NOTES.md',
-    'BITCODE_SPEC_V34_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V34.md',
+    '.specifications/BITCODE_SPEC_V34_DELTA.md',
+    '.specifications/BITCODE_SPEC_V34_NOTES.md',
+    '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V34 Gate 9 file: ${relativePath}`);
@@ -151,7 +151,7 @@ function main() {
     assertCheck(failures, artifact.coverage.credentialsSerialized === false, 'Artifact must not serialize credentials.');
     assertCheck(failures, artifact.coverage.protectedSourceVisible === false, 'Artifact must not expose protected source.');
     assertCheck(failures, artifact.rehearsals.every((rehearsal) => /^deployment-readiness-rehearsal:[a-f0-9]{24}$/u.test(rehearsal.rehearsalRoot)), 'Rehearsal rows must have deterministic roots.');
-    assertCheck(failures, artifact.rehearsals.some((rehearsal) => rehearsal.laneId === 'local' && rehearsal.exercisedSurfaces.includes('terminal')), 'Local rehearsal must exercise Terminal.');
+    assertCheck(failures, artifact.rehearsals.some((rehearsal) => rehearsal.laneId === 'local' && rehearsal.exercisedSurfaces.includes('terminal')), 'Local rehearsal must exercise product.');
     assertCheck(failures, artifact.rehearsals.some((rehearsal) => rehearsal.laneId === 'staging-testnet' && rehearsal.exercisedSurfaces.includes('reading_pipeline_execution_receipts')), 'Staging-testnet rehearsal must exercise Reading pipeline receipts.');
     assertCheck(failures, artifact.rehearsals.some((rehearsal) => rehearsal.laneId === 'value-bearing-mainnet' && rehearsal.admissionVerdict === 'blocked_value_bearing_mainnet'), 'Value-bearing mainnet must be explicitly blocked.');
     assertCheck(failures, artifact.sourceEvidence.every((entry) => entry.requiredTokens.every((token) => token.present === true)), 'Source evidence tokens must all be present.');
@@ -159,18 +159,18 @@ function main() {
     assertCheck(failures, artifact.workflowEvidence.every((entry) => entry.requiredTokens.every((token) => token.present === true)), 'Workflow evidence tokens must all be present.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V34.md');
-  const delta = read(root, 'BITCODE_SPEC_V34_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V34_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V34_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V34.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V34_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V34_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const btdPackageJson = read(root, 'packages/btd/package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const source = read(root, 'packages/btd/src/deployment-readiness-rehearsal.ts');
   const test = read(root, 'packages/btd/__tests__/deployment-readiness-rehearsal.test.ts');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
-  const requiredTerms = ['DeploymentReadinessRehearsal', ARTIFACT, 'local full-stack deployment rehearsal', 'staging-testnet full-stack deployment rehearsal', 'value-bearing mainnet blocked rehearsal', 'Terminal', 'public API', 'MCP API', 'ChatGPT App', 'Reading pipeline execution receipts', 'settlement/finality simulation', 'storage posture', 'repair posture'];
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
+  const requiredTerms = ['DeploymentReadinessRehearsal', ARTIFACT, 'local full-stack deployment rehearsal', 'staging-testnet full-stack deployment rehearsal', 'value-bearing mainnet blocked rehearsal', 'product', 'public API', 'MCP API', 'ChatGPT App', 'Reading pipeline execution receipts', 'settlement/finality simulation', 'storage posture', 'repair posture'];
   for (const doc of [spec, delta, notes, parity]) {
     for (const term of requiredTerms) assertCheck(failures, doc.includes(term), `V34 docs must mention ${term}.`);
   }

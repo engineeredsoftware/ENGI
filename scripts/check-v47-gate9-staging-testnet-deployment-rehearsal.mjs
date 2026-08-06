@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_STAGING_TESTNET_REHEARSAL_ARTIFACT_PATH,
   buildV47StagingTestnetDeploymentRehearsal,
-} from '../packages/protocol/src/canonical/v47-staging-testnet-deployment-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -71,7 +71,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -86,26 +86,26 @@ function main() {
 
   for (const relativePath of [
     V47_STAGING_TESTNET_REHEARSAL_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v47-staging-testnet-deployment-rehearsal.js',
-    'packages/protocol/test/v47-staging-testnet-deployment-rehearsal.test.js',
+    'scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js',
+    'scripts/specifying/test/v47-staging-testnet-deployment-rehearsal.test.js',
     'scripts/generate-v47-staging-testnet-deployment-rehearsal.mjs',
     'scripts/check-v47-gate9-staging-testnet-deployment-rehearsal.mjs',
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'vercel.json',
     'supabase/config.toml',
     'supabase/migrations/001_v26_production.sql',
     'supabase/migrations/002_v27_btd_crypto_registry.sql',
-    'Dockerfile.long-runner',
-    'Dockerfile.long-runner-worker',
-    'infra/k8s/long-runner.yaml',
-    'uapi/package.json',
-    'uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    'containers/Dockerfile.long-runner',
+    'containers/Dockerfile.long-runner-worker',
+    'containers/k8/long-runner.yaml',
+    'apps/uapi/package.json',
+    'apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -165,7 +165,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -173,7 +173,7 @@ function main() {
         'test/v47-staging-testnet-deployment-rehearsal.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol test/v47-staging-testnet-deployment-rehearsal.test.js must pass.');
+      failures.push('scripts/specifying test/v47-staging-testnet-deployment-rehearsal.test.js must pass.');
     }
   }
 

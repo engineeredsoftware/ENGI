@@ -29,10 +29,10 @@ function record(
 function records(): BtdInterfaceIntegrationRecordInput[] {
   return [
     record({
-      surface: 'terminal',
+      surface: 'product',
       consumerId: 'terminal-transaction-cockpit',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
       objectFamilies: ['btd_registry', 'read_access', 'terminal_journal'],
     }),
     record({
@@ -46,42 +46,42 @@ function records(): BtdInterfaceIntegrationRecordInput[] {
       surface: 'mcp',
       consumerId: 'bitcode-mcp-interface',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
+      adapterPath: 'apps/mcp/src/interface-integration.ts',
       objectFamilies: ['source_to_shares_proof', 'organization_authority'],
     }),
     record({
       surface: 'chatgpt_app',
       consumerId: 'bitcode-chatgpt-app-interface',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'packages/chatgptapp/src/interface-integration.ts',
+      adapterPath: 'apps/chatgpt/src/interface-integration.ts',
       objectFamilies: ['read_access', 'organization_authority'],
     }),
     record({
       surface: 'auxillaries_hook',
       consumerId: 'auxillaries-interface-hook',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
       objectFamilies: ['btd_registry', 'organization_authority'],
     }),
     record({
       surface: 'exchange_hook',
       consumerId: 'exchange-interface-hook',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
       objectFamilies: ['btd_receipts', 'btc_fee_operation', 'ledger_projection'],
     }),
     record({
       surface: 'conversations_hook',
       consumerId: 'conversations-interface-hook',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
       objectFamilies: ['read_access', 'organization_authority', 'protocol_telemetry'],
     }),
   ];
 }
 
 describe('interface integration regression proof', () => {
-  it('proves Terminal, API, MCP, ChatGPT App, Auxillaries, Exchange, and Conversations hooks use package-owned objects', () => {
+  it('proves product, API, MCP, ChatGPT App, Auxillaries, Exchange, and Conversations hooks use package-owned objects', () => {
     const proof = buildBtdInterfaceIntegrationRegressionProof({
       records: records(),
       lowDetailProofRoot: 'terminal-low-detail-source-safe-proof-root',

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v33-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v33/promotion-readiness-report.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -24,14 +24,14 @@ const SECRET_MARKERS = Object.freeze([
 const SECRET_PATTERN = new RegExp(SECRET_MARKERS.map(escapeRegex).join('|'), 'u');
 
 const V33_GATE_ARTIFACTS = Object.freeze([
-  '.bitcode/v33-interface-contract-catalog.json',
-  '.bitcode/v33-mcp-api-tool-contracts.json',
-  '.bitcode/v33-chatgpt-app-action-contracts.json',
-  '.bitcode/v33-interface-authorization-policy.json',
-  '.bitcode/v33-read-license-assetpack-rights-contracts.json',
-  '.bitcode/v33-api-schema-compatibility-matrix.json',
-  '.bitcode/v33-interface-telemetry-proof-hooks.json',
-  '.bitcode/v33-interface-consumer-ux-regression-proof.json',
+  '.proofs/v33/interface-contract-catalog.json',
+  '.proofs/v33/mcp-api-tool-contracts.json',
+  '.proofs/v33/chatgpt-app-action-contracts.json',
+  '.proofs/v33/interface-authorization-policy.json',
+  '.proofs/v33/read-license-assetpack-rights-contracts.json',
+  '.proofs/v33/api-schema-compatibility-matrix.json',
+  '.proofs/v33/interface-telemetry-proof-hooks.json',
+  '.proofs/v33/interface-consumer-ux-regression-proof.json',
 ]);
 
 function escapeRegex(value) {
@@ -112,7 +112,7 @@ export function buildV33PromotionReadinessReport() {
     scanTokens('scripts/check-v33-gate10-promotion-readiness.mjs', [
       'V33 Gate 10 promotion readiness',
       '--promotion-mode',
-      '.bitcode/v33-promotion-readiness-report.json',
+      '.proofs/v33/promotion-readiness-report.json',
     ]),
     scanTokens('scripts/generate-v33-promotion-readiness-report.mjs', [
       'buildV33PromotionReadinessReport',
@@ -128,8 +128,8 @@ export function buildV33PromotionReadinessReport() {
     scanTokens('scripts/prepare-bitcode-spec-family-promotion.mjs', [
       "if (version === 'V33')",
       'V33 canonical system specification for commercial interface depth',
-      'BITCODE_SPEC_V33_PROVEN.md',
-      '.bitcode/v33-promotion-readiness-report.json',
+      '.specifications/BITCODE_SPEC_V33_PROVEN.md',
+      '.proofs/v33/promotion-readiness-report.json',
     ]),
     scanTokens('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
       '--next-draft',
@@ -139,7 +139,7 @@ export function buildV33PromotionReadinessReport() {
     scanTokens('.github/workflows/v33-canon-promotion.yml', [
       "head.ref == 'version/v33'",
       'npm run promote:canon -- --version V33',
-      'BITCODE_SPEC_V33_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V33_PROVEN.md',
       'Promote V33 canon files',
     ]),
     scanTokens('.github/workflows/bitcode-gate-quality.yml', [
@@ -150,13 +150,13 @@ export function buildV33PromotionReadinessReport() {
       'elif [ "$POINTER" = "V33" ]',
       '--active-canon V33 --draft-target V34',
     ]),
-    scanTokens('packages/protocol/src/canonical/proven-generator.js', [
+    scanTokens('scripts/specifying/src/canonical/proven-generator.js', [
       'buildV33ProvenPackage',
       'buildV33PromotionReadinessReport',
-      '.bitcode/v33-promotion-readiness-report.json',
+      '.proofs/v33/promotion-readiness-report.json',
     ]),
-    scanTokens('packages/protocol/src/canonical/v21-specifying.js', [
-      '.bitcode/v33-promotion-readiness-report.json',
+    scanTokens('scripts/specifying/src/canonical/v21-specifying.js', [
+      '.proofs/v33/promotion-readiness-report.json',
     ]),
     scanTokens('package.json', [
       'generate:v33-promotion-readiness',
@@ -165,35 +165,35 @@ export function buildV33PromotionReadinessReport() {
     ]),
   ];
   const documentationEvidence = [
-    scanTokens('BITCODE_SPEC_V33.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', [
       'V33 promotion readiness canon',
-      '.bitcode/v33-promotion-readiness-report.json',
+      '.proofs/v33/promotion-readiness-report.json',
       'V33 active / V34 draft',
     ]),
-    scanTokens('BITCODE_SPEC_V33_DELTA.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V33_DELTA.md', [
       'Gate 10: V33 Promotion Readiness',
-      '.bitcode/v33-promotion-readiness-report.json',
+      '.proofs/v33/promotion-readiness-report.json',
       'promotion scripts support V33',
     ]),
-    scanTokens('BITCODE_SPEC_V33_NOTES.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V33_NOTES.md', [
       'Gate 10: V33 Promotion Readiness',
-      '.bitcode/v33-promotion-readiness-report.json',
+      '.proofs/v33/promotion-readiness-report.json',
       'active V33 / draft V34',
     ]),
-    scanTokens('BITCODE_SPEC_V33_PARITY_MATRIX.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', [
       '## Gate 10 Parity',
-      '.bitcode/v33-promotion-readiness-report.json',
+      '.proofs/v33/promotion-readiness-report.json',
       'closed',
     ]),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', [
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', [
       'Current working gate: V33 Gate 10 Promotion Readiness',
-      'BITCODE_SPEC_V33_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V33_PROVEN.md',
     ]),
     scanTokens('README.md', [
       'check:v33-gate10',
       'v33-canon-promotion.yml',
     ]),
-    scanTokens('packages/protocol/README.md', [
+    scanTokens('scripts/specifying/README.md', [
       'V33 Gate 10',
       'V33` active, `V34` draft',
     ]),
@@ -246,9 +246,9 @@ export function buildV33PromotionReadinessReport() {
       versionPromotionPullRequestTitlePrefix: 'V33 Canonical Promotion',
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'BITCODE_SPEC_V33_PROVEN.md',
+      provenAppendixPath: '.specifications/BITCODE_SPEC_V33_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v33-',
+      generatedArtifactPrefix: '.proofs/v33/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

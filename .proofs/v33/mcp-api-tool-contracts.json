@@ -1,0 +1,252 @@
+{
+  "artifactId": "v33-mcp-api-tool-contracts",
+  "closureCommand": "pnpm run check:v33-gate3",
+  "contracts": [
+    {
+      "authPolicyId": "interface.authorization.pipeline-permission",
+      "category": "pipelines",
+      "contractRoot": "v33-mcp-api-tool-contract:d37acb48606663faf222a539",
+      "deniedStates": [
+        "MISSING_API_KEY",
+        "INSUFFICIENT_PERMISSIONS",
+        "PROVIDER_BINDING_REQUIRED",
+        "SCHEMA_VALIDATION_FAILED",
+        "RATE_LIMITED",
+        "UNKNOWN_TOOL"
+      ],
+      "examples": [
+        {
+          "exampleId": "mcp-asset-pack-create-success-queued",
+          "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "posture": "success_queued"
+        },
+        {
+          "exampleId": "mcp-asset-pack-create-denied-permission",
+          "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "posture": "denied_permission"
+        },
+        {
+          "exampleId": "mcp-asset-pack-create-denied-auth",
+          "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/auth.test.ts",
+          "posture": "denied_auth"
+        },
+        {
+          "exampleId": "mcp-asset-pack-create-denied-provider-binding",
+          "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "posture": "denied_provider_binding"
+        }
+      ],
+      "inputSchemaId": "bitcode.mcp.assetPackCreate.input.v1",
+      "outputSchemaId": "bitcode.mcp.assetPackCreate.output.v1",
+      "proofRootFields": [
+        "toolId",
+        "inputSchemaId",
+        "outputSchemaId",
+        "authPolicyId",
+        "requestRoot",
+        "responseRoot",
+        "writeAdmission"
+      ],
+      "protectedSourcePolicy": "source-safe-preview-and-metadata-before-settlement",
+      "requestRootFields": [
+        "task",
+        "repository",
+        "attachments",
+        "connections",
+        "subtype",
+        "streaming"
+      ],
+      "requiredPermissions": [
+        "pipelines.create"
+      ],
+      "responseRootFields": [
+        "runId",
+        "assetPackEvidenceId",
+        "status",
+        "interfaceSurface",
+        "writeAdmission",
+        "outputMeaning",
+        "monitoringUrl"
+      ],
+      "sourceSafetyClass": "protected-source-locked",
+      "toolId": "bitcode://pipelines/asset-pack/create",
+      "validationCommands": [
+        "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/mcp-tool-contract.test.ts",
+        "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand"
+      ]
+    }
+  ],
+  "coverage": {
+    "credentialsSerialized": false,
+    "deniedStateCoverage": true,
+    "missingToolIds": [],
+    "observedToolIds": [
+      "bitcode://pipelines/asset-pack/create"
+    ],
+    "proofRootCoverage": true,
+    "protectedSourceVisible": false,
+    "toolDiscoveryPackageDerived": true
+  },
+  "currentTarget": "V32",
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "passed": true,
+  "requiredDeniedStates": [
+    "MISSING_API_KEY",
+    "INSUFFICIENT_PERMISSIONS",
+    "PROVIDER_BINDING_REQUIRED",
+    "SCHEMA_VALIDATION_FAILED",
+    "RATE_LIMITED",
+    "UNKNOWN_TOOL"
+  ],
+  "requiredProofRootFields": [
+    "toolId",
+    "inputSchemaId",
+    "outputSchemaId",
+    "authPolicyId",
+    "requestRoot",
+    "responseRoot",
+    "writeAdmission"
+  ],
+  "requiredToolIds": [
+    "bitcode://pipelines/asset-pack/create"
+  ],
+  "schemaId": "bitcode.v33.mcpApiToolContracts.v1",
+  "sharedFixtureFiles": [
+    "packages/btd/src/mcp-tool-contract.ts",
+    "packages/btd/src/index.ts",
+    "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+    "packages/mcp-generics/src/mcp-server/src/types/index.ts",
+    "packages/mcp-generics/src/mcp-server/src/server.ts",
+    "packages/btd/__tests__/mcp-tool-contract.test.ts",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/auth.test.ts",
+    "scripts/check-v33-gate3-mcp-api-tool-contracts.mjs"
+  ],
+  "sourceEvidence": [
+    {
+      "digest": "sha256:ed7ff68bb55bd47afc9c538b346a3df3b4559c4278f21f5551cb00a212d98c03",
+      "relativePath": "packages/btd/src/mcp-tool-contract.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildBtdMcpToolContractRegistry"
+        },
+        {
+          "present": true,
+          "token": "bitcode://pipelines/asset-pack/create"
+        },
+        {
+          "present": true,
+          "token": "SCHEMA_VALIDATION_FAILED"
+        },
+        {
+          "present": true,
+          "token": "PROVIDER_BINDING_REQUIRED"
+        },
+        {
+          "present": true,
+          "token": "source-safe-preview-and-metadata-before-settlement"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:9bc3a8d5811e7cab7ec0311f9ead833b2d9d10bcf57d67190b32ecd74a38eae9",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "getBtdMcpToolContract"
+        },
+        {
+          "present": true,
+          "token": "assetPackCreateContract.toolId"
+        },
+        {
+          "present": true,
+          "token": "assetPackCreateContract.description"
+        },
+        {
+          "present": true,
+          "token": "AssetPackPipelineToolSchema"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:7780b32086b7ae3f6bbd10b98b2b69e16b0fa7e7547076725723182111e03dec",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/types/index.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "AssetPackPipelineToolSchema"
+        },
+        {
+          "present": true,
+          "token": "PipelineNameValues"
+        },
+        {
+          "present": true,
+          "token": "PipelineConnectionInputSchema"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe-mcp-api-tool-contract-metadata",
+  "testEvidence": [
+    {
+      "digest": "sha256:27ef7ecf25bdbcb8420466d898b28b5808ef30121ae24d5378a906573607c585",
+      "relativePath": "packages/btd/__tests__/mcp-tool-contract.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "publishes the package-owned AssetPack create tool contract"
+        },
+        {
+          "present": true,
+          "token": "carries proof-root fields, request roots, response roots, denied states, and examples"
+        },
+        {
+          "present": true,
+          "token": "fails closed when the required MCP tool id is missing"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:b6a65ab71085aa0218109c207a5c079076aea59c4e7c531f25d51b4a1b58f428",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "discovers the AssetPack create tool from the package-owned BTD contract"
+        },
+        {
+          "present": true,
+          "token": "rejects invalid MCP tool input before execution"
+        },
+        {
+          "present": true,
+          "token": "declares source-safe output fields and proof roots for MCP responses"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:ef8475335bd430ca5926466e8556f9da3ca9db4e8d1f4ec86b9fc27f5c34a07c",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "rejects MCP pipeline writes without pipelines.create permission"
+        },
+        {
+          "present": true,
+          "token": "rejects incoherent repository/provider ingress before queueing MCP work"
+        },
+        {
+          "present": true,
+          "token": "returns asset-pack-normalized results for completed MCP writes"
+        }
+      ]
+    }
+  ],
+  "version": "V33"
+}

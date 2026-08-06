@@ -3,7 +3,7 @@ import { assertNonEmptyString } from './constants';
 import type { BtdProtocolTelemetrySourceSafety } from './telemetry';
 
 export const BTD_INTERFACE_TELEMETRY_PROOF_HOOK_INTERFACE_IDS = [
-  'terminal_handoff',
+  'product_handoff',
   'public_api',
   'mcp_api',
   'chatgpt_app',
@@ -125,16 +125,16 @@ export function buildBtdInterfaceTelemetryProofHookInputs(): BtdInterfaceTelemet
   return [
     {
       hookId: 'interface.telemetry.terminal-reading-handoff',
-      interfaceId: 'terminal_handoff',
+      interfaceId: 'product_handoff',
       actionId: 'terminal.reading.assetPackPreview',
       executionId: 'execution-terminal-reading-preview',
       roots: rootSet('terminal-preview'),
       posture: 'blocked',
       replayCommand:
-        'pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
+        'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
       theoremIds: ['interface-preview-not-source', 'interface-denial-readable'],
       replayStepIds: ['terminal-read-model', 'terminal-preview-blocked-readback'],
-      witnessArtifactPaths: ['uapi/tests/terminalOrganizationAuthority.test.ts'],
+      witnessArtifactPaths: ['apps/uapi/tests/terminalOrganizationAuthority.test.ts'],
       denialReason: 'assetpack-source-locked-until-settlement',
       repairPosture: 'settle-btc-fee-before-full-assetpack-delivery',
     },
@@ -161,11 +161,11 @@ export function buildBtdInterfaceTelemetryProofHookInputs(): BtdInterfaceTelemet
       roots: rootSet('mcp-reading-pipeline'),
       posture: 'success',
       replayCommand:
-        'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+        'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       theoremIds: ['interface-execution-rooted', 'interface-proof-replayable'],
       replayStepIds: ['mcp-auth-context', 'mcp-pipeline-queue-readback'],
       witnessArtifactPaths: [
-        'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       ],
       successSummary: 'mcp-reading-pipeline-queued-with-source-safe-roots',
       repairPosture: 'replay-mcp-pipeline-ingress-before-investigating-downstream-hosts',
@@ -181,7 +181,7 @@ export function buildBtdInterfaceTelemetryProofHookInputs(): BtdInterfaceTelemet
         'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
       theoremIds: ['interface-confirmation-required', 'interface-preview-not-source'],
       replayStepIds: ['chatgpt-confirmation-check', 'chatgpt-assetpack-delivery-blocked'],
-      witnessArtifactPaths: ['packages/chatgptapp/src/__tests__/tools.test.ts'],
+      witnessArtifactPaths: ['apps/chatgpt/src/__tests__/tools.test.ts'],
       denialReason: 'reader-confirmation-or-paid-rights-missing',
       repairPosture: 'confirm-action-and-settle-before-full-delivery',
     },

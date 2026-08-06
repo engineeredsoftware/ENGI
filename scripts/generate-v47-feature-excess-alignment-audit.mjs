@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH,
   buildV47FeatureExcessAlignmentAudit,
-} from '../packages/protocol/src/canonical/v47-feature-excess-alignment-audit.js';
+} from '../scripts/specifying/src/canonical/v47-feature-excess-alignment-audit.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

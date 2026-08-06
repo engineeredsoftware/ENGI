@@ -6,7 +6,7 @@
  * messages, etc.) without having to refactor dozens of call sites.
  */
 
-import { captureException } from '@bitcode/sentry';
+import { captureException } from '@bitcode/external-telemetry-sentry';
 
 export interface BitcodeErrorOptions {
   /**

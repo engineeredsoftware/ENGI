@@ -573,7 +573,7 @@ function buildActionInput(input: {
       {
         exampleId: `${input.actionId}-success-source-safe`,
         posture: 'success_source_safe',
-        fixturePath: 'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
+        fixturePath: 'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
         validationCommand:
           'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts --runInBand',
         sourceSafetyClass: input.sourceSafetyClass ?? 'source-safe-internal',
@@ -581,7 +581,7 @@ function buildActionInput(input: {
       {
         exampleId: `${input.actionId}-denied-readable-repair`,
         posture: input.actionId === 'bitcode_deliver_asset_pack' ? 'denied_delivery' : 'denied_repair',
-        fixturePath: 'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
+        fixturePath: 'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
         validationCommand:
           'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts --runInBand',
         sourceSafetyClass: 'source-safe-internal',

@@ -13,19 +13,24 @@
  */
 
 import { 
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import { ExecutionTool } from '@bitcode/execution-generics';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codeeditor_name_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codeeditor_identity_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_DIVIDE_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codeeditor_divide_purpose_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_APPLY_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codeeditor_apply_purpose_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_CORRECT_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codeeditor_correct_purpose_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_FINALIZE_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codeeditor_finalize_purpose_corestatement';
 import { 
   TransactionalFileEditor,
   type EditCommandParams,
   type TextEdit,
   type Position,
   type Range
-} from '@bitcode/editing';
+} from '@bitcode/file-editing';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================
@@ -265,35 +270,23 @@ export type CodeEditorOutput = z.infer<typeof CodeEditorOutputSchema>;
 // ==================== PROMPTS ====================
 
 export const codeEditorPrompt = new AgentPrompt({
-  name: createPromptPart('code-editor'),
-  identity: createPromptPart(`You are a precision code editing agent that implements the Divide|Apply|Correct pattern for reliable code modifications.
-  
-Your approach:
-- DIVIDE: Analyze the required changes and create a detailed, atomic edit plan
-- APPLY: Execute the edits using atomic file operations with transaction support
-- CORRECT: Validate the changes and fix any issues that arise
-
-You ensure:
-- All edits are atomic and can be rolled back if needed
-- File backups are created before modifications
-- Syntax validation occurs after edits
-- Dependencies between files are respected
-- Changes are applied in the correct order`)
+  name: PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_NAME_CORESTATEMENT,
+  identity: PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_IDENTITY_CORESTATEMENT,
 });
 
 export const codeEditorStepPrompts = {
-  divide: new AgentStepPrompt({ 
-    purpose: createPromptPart('Analyze the required code changes and create a detailed edit plan broken down by file and patch')
+  divide: new AgentStepPrompt({
+    purpose: PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_DIVIDE_PURPOSE_CORESTATEMENT,
   }),
   apply: new AgentStepPrompt({
-    purpose: createPromptPart('Execute the edit plan using atomic file operations, ensuring each edit is applied correctly')
+    purpose: PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_APPLY_PURPOSE_CORESTATEMENT,
   }),
-  correct: new AgentStepPrompt({ 
-    purpose: createPromptPart('Validate all edits, check syntax, and apply corrections if needed')
+  correct: new AgentStepPrompt({
+    purpose: PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_CORRECT_PURPOSE_CORESTATEMENT,
   }),
-  finalize: new AgentStepPrompt({ 
-    purpose: createPromptPart('Finalize all edits, summarize changes, and prepare rollback information if needed')
-  })
+  finalize: new AgentStepPrompt({
+    purpose: PROMPTPART_SPECIFIC_AGENT_CODEEDITOR_FINALIZE_PURPOSE_CORESTATEMENT,
+  }),
 };
 
 // ==================== AGENT CONFIGURATION ====================
@@ -301,7 +294,8 @@ export const codeEditorStepPrompts = {
 /**
  * Comprehensive Code Editor Agent using Divide|Apply|Correct pattern
  */
-export const codeEditorComprehensiveAgent = factoryAgentWithPTRR<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+export const codeEditorComprehensiveAgent: any = factoryPTRRAgent<
   CodeEditorInput,
   CodeEditorOutput
 >({
@@ -335,7 +329,7 @@ export const codeEditorComprehensiveAgent = factoryAgentWithPTRR<
 /**
  * Quick Code Editor Agent for single-file edits
  */
-export const codeEditorQuickAgent = factoryAgentWithSingleStep<
+export const codeEditorQuickAgent: any = factoryAgentWithSingleStep<
   CodeEditorInput,
   CodeEditorOutput
 >({

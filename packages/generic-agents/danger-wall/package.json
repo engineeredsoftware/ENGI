@@ -8,7 +8,13 @@
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/prompts": "workspace:*",
-    "@bitcode/streams": "workspace:*",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@bitcode/api": "workspace:*"
+  },
+  "devDependencies": {},
+  "peerDependencies": {},
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

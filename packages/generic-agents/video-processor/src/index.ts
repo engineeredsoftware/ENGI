@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { z } from 'zod';
@@ -293,7 +293,8 @@ export const videoProcessorStepPrompts = {
  * Comprehensive video processing agent
  * Uses full PTRR cycle for thorough video analysis
  */
-const comprehensiveVideo = factoryAgentWithPTRR<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveVideo: any = factoryPTRRAgent<
   z.infer<typeof VideoProcessorInputSchema>,
   z.infer<typeof VideoProcessorRetrySchema>
 >({
@@ -335,7 +336,7 @@ const comprehensiveVideo = factoryAgentWithPTRR<
  * Quick video processing agent
  * Single-step execution for simple video tasks
  */
-const quickVideo = factoryAgentWithSingleStep<
+const quickVideo: any = factoryAgentWithSingleStep<
   z.infer<typeof VideoProcessorInputSchema>,
   z.infer<typeof VideoProcessorRetrySchema>
 >({
@@ -427,10 +428,10 @@ export type VideoProcessorRetryOutput = z.infer<typeof VideoProcessorRetrySchema
  * When videoProcessorAgent is called:
  * 1. selectVariation picks comprehensive or quick
  * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
+ *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thinkings)
+ *    - factoryTryGeneration(schema) creates Try generation (failsafed thinkings)
+ *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thinkings)
+ *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thinkings)
  * 3. Each executor automatically:
  *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
  *    - Each parent runs Reason→Judge→StructuredOutput

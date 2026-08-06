@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_READER_WEBSITE_COMPLETION_ARTIFACT_PATH,
   buildV47ReaderWebsiteCompletion,
-} from '../packages/protocol/src/canonical/v47-reader-website-completion.js';
+} from '../scripts/specifying/src/canonical/v47-reader-website-completion.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -87,26 +87,26 @@ function main() {
 
   for (const relativePath of [
     V47_READER_WEBSITE_COMPLETION_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v47-reader-website-completion.js',
-    'packages/protocol/test/v47-reader-website-completion.test.js',
+    'scripts/specifying/src/canonical/v47-reader-website-completion.js',
+    'scripts/specifying/test/v47-reader-website-completion.test.js',
     'scripts/generate-v47-reader-website-completion.mjs',
     'scripts/check-v47-gate5-reader-website-completion.mjs',
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/read/read-route-model.ts',
-    'uapi/tests/readPageClient.test.tsx',
-    'uapi/tests/readRouteModel.test.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
-    'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-    'packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/tests/readRouteModel.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need-review-resynthesis.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
+    'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -154,7 +154,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -162,7 +162,7 @@ function main() {
         'test/v47-reader-website-completion.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol test/v47-reader-website-completion.test.js must pass.');
+      failures.push('scripts/specifying test/v47-reader-website-completion.test.js must pass.');
     }
   }
 
@@ -170,7 +170,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

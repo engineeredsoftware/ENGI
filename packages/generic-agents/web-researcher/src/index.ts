@@ -10,7 +10,7 @@
 import {
   AgentPrompt,
   AgentStepPrompt,
-  factoryAgentWithPTRR
+  factoryPTRRAgent
 } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import {
@@ -45,7 +45,7 @@ export const bitcodeExternalEvidenceResearcherStepPrompts = bitcodeReadSynthesis
 export const webResearcherPrompt = bitcodeReadSynthesisWebResearcherPrompt;
 export const webResearcherStepPrompts = bitcodeReadSynthesisWebResearcherStepPrompts;
 
-export const bitcodeReadSynthesisWebResearcher = factoryAgentWithPTRR<
+export const bitcodeReadSynthesisWebResearcher: any = factoryPTRRAgent<
   BitcodeExternalEvidenceResearchInputType,
   BitcodeExternalEvidenceResearchResultType
 >({

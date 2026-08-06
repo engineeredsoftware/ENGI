@@ -5,13 +5,13 @@
  * collect source-attributed external evidence, score source quality, surface
  * volatility, and hand unresolved questions to downstream read/proof owners.
  * This package does not own canonical read interpretation, proof generation,
- * mutation, delivery, Exchange product behavior, or Terminal product behavior.
+ * mutation, delivery, Exchange product behavior, or product behavior.
  */
 
 import {
   AgentPrompt,
   AgentStepPrompt,
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -151,7 +151,8 @@ export const bitcodeReadSynthesisWebSearchStepPrompts = {
 export const webSearchPrompt = bitcodeReadSynthesisWebSearchPrompt;
 export const webSearchStepPrompts = bitcodeReadSynthesisWebSearchStepPrompts;
 
-const bitcodeReadSynthesisWebSearchAgent = factoryAgentWithPTRR<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const bitcodeReadSynthesisWebSearchAgent: any = factoryPTRRAgent<
   z.infer<typeof BitcodeReadSynthesisWebSearchInputSchema>,
   z.infer<typeof BitcodeReadSynthesisWebSearchRetrySchema>
 >({
@@ -187,7 +188,7 @@ const bitcodeReadSynthesisWebSearchAgent = factoryAgentWithPTRR<
   }
 });
 
-const quickBitcodeReadSynthesisWebSearchAgent = factoryAgentWithSingleStep<
+const quickBitcodeReadSynthesisWebSearchAgent: any = factoryAgentWithSingleStep<
   z.infer<typeof BitcodeReadSynthesisWebSearchInputSchema>,
   z.infer<typeof BitcodeReadSynthesisWebSearchRetrySchema>
 >({

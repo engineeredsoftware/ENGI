@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v39-interface-conversation-product-parity.json';
+const ARTIFACT_PATH = '.proofs/v39/interface-conversation-product-parity.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -107,26 +107,26 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/reading-interface-product-parity.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/package.json',
-    'uapi/tests/api/conversationReadingInterfaceParity.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
-    'packages/protocol/src/canonical/v39-interface-conversation-product-parity.js',
-    'packages/protocol/test/v39-interface-conversation-product-parity.test.js',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-interface-product-parity.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-interface-product-parity.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts',
+    'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
+    'scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js',
+    'scripts/specifying/test/v39-interface-conversation-product-parity.test.js',
     'scripts/generate-v39-interface-conversation-product-parity.mjs',
     'scripts/check-v39-gate9-interface-conversation-product-parity.mjs',
-    'BITCODE_SPEC_V39.md',
-    'BITCODE_SPEC_V39_DELTA.md',
-    'BITCODE_SPEC_V39_NOTES.md',
-    'BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -149,7 +149,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-interface-conversation-product-parity.test.js',
+        'scripts/specifying/test/v39-interface-conversation-product-parity.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 interface and Conversation product parity protocol test failed: ${error.stderr || error.message}`);
@@ -160,7 +160,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -180,7 +180,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -190,7 +190,7 @@ function main() {
       ]);
       run(root, 'pnpm', [
         '--dir',
-        'packages/executions-mcp/src/mcp-server',
+        'apps/mcp',
         'run',
         'test:mcp',
         '--',
@@ -246,9 +246,9 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 9 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V39.md');
-  const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('ReadingInterfaceProductParity'), 'V39 spec must name ReadingInterfaceProductParity.');
   assertCheck(failures, spec.includes('v39-interface-conversation-product-parity'), 'V39 spec must name the Gate 9 artifact.');
   assertCheck(failures, parity.includes('Gate 9 Parity'), 'V39 parity matrix must include Gate 9 parity.');

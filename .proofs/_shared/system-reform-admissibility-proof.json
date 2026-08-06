@@ -1,0 +1,173 @@
+{
+  "reportId": "v26-system-reform-admissibility-proof",
+  "version": "V26",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "classificationCounts": {
+    "governance": 1,
+    "ingress-only": 1,
+    "compatibility-only": 1,
+    "reference-only": 2,
+    "ingress-or-support": 4
+  },
+  "reformClasses": [
+    "governance",
+    "ingress-only",
+    "compatibility-only",
+    "reference-only",
+    "ingress-or-support"
+  ],
+  "closureBasis": "Retained families are admissible for fifth-gate only when their live-path role is explicitly classified as governance, ingress-only, compatibility-only, reference-only, or auxiliary-input rather than surviving as parallel product ownership.",
+  "checks": [
+    {
+      "checkId": "system-reform-governance-witnesses",
+      "label": "System-reform governance remains explicit in the active V26 family",
+      "passed": true,
+      "detail": "7 required files present",
+      "requiredFiles": [
+        "BITCODE_SPEC_V26.md",
+        "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+        "BITCODE_SPEC_V26_NOTES.md",
+        "protocol-demonstration/V26_APPLICATION_SYSTEMS.md",
+        "protocol-demonstration/V26_PROOF_SURFACES.md",
+        "protocol-demonstration/V26_REFORM_STRATEGY.md",
+        "protocol-demonstration/test/v26-reform-strategy.test.js"
+      ],
+      "missingFiles": [],
+      "reformClass": "governance",
+      "livePathRole": "The canonical spec family and supplementary architecture/proof docs classify compatibility-bounded retained families rather than leaving them implicit."
+    },
+    {
+      "checkId": "webhook-ingress-boundary",
+      "label": "Retained webhook carriers are explicit ingress-only automation boundaries",
+      "passed": true,
+      "detail": "4 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/api/webhook/route.ts",
+        "apps/uapi/app/api/webhook/verify.ts",
+        "apps/uapi/tests/webhookRoute.test.ts",
+        "apps/uapi/tests/api/webhookSignature.test.ts"
+      ],
+      "missingFiles": [],
+      "reformClass": "ingress-only",
+      "livePathRole": "GitHub-triggered automation ingress may schedule work, but it does not own Bitcode Exchange state semantics."
+    },
+    {
+      "checkId": "asset-pack-compatibility-export-boundary",
+      "label": "AssetPack run export keeps route compatibility explicit while Shippable output is primary",
+      "passed": true,
+      "detail": "2 required files present",
+      "requiredFiles": [
+        "packages/asset-packs-pipelines/domain/src/run.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts"
+      ],
+      "missingFiles": [],
+      "reformClass": "compatibility-only",
+      "livePathRole": "Admitted path exports stay available for current callers while canonical Bitcode behavior remains elsewhere."
+    },
+    {
+      "checkId": "vcs-agent-reference-boundary",
+      "label": "Retained VCS agent layer remains explicit reference-only automation",
+      "passed": true,
+      "detail": "3 required files present",
+      "requiredFiles": [
+        "packages/generic-agents/vcs/src/index.ts",
+        "apps/uapi/app/application/ApplicationRepositoryContextPanel.tsx",
+        "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx"
+      ],
+      "missingFiles": [],
+      "reformClass": "reference-only",
+      "livePathRole": "The VCS agent layer can support retained callers, but repository scope in the Bitcode product belongs to Connects and application-owned panels."
+    },
+    {
+      "checkId": "computer-use-read-measurement-boundary",
+      "label": "Retained computer-use tooling is internal Read-measurement support only",
+      "passed": true,
+      "detail": "10 required files present",
+      "requiredFiles": [
+        "packages/generic-tools/use-computer/src/index.ts",
+        "packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts",
+        "packages/asset-packs-pipelines/domain/src/tools/BitcodeReadMeasurementComputerUseTool.ts",
+        "packages/asset-packs-pipelines/domain/src/tools/index.ts",
+        "packages/api/src/routes/shippables.ts",
+        "packages/execution-generics/src/store/registry.ts",
+        "apps/uapi/app/executions/components/ExecutionsPageClient.tsx",
+        "apps/uapi/components/base/bitcode/execution/execution-option-toggle.tsx",
+        "protocol-demonstration/test/v26-active-product-naming.test.js"
+      ],
+      "missingFiles": [],
+      "reformClass": "ingress-or-support",
+      "livePathRole": "Computer use may supply server-flagged Read-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT, but it is not a Terminal option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner."
+    },
+    {
+      "checkId": "jira-tool-reference-boundary",
+      "label": "Retained Jira tooling remains explicit reference-only ingress/integration support",
+      "passed": true,
+      "detail": "2 required files present",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/jira/src/index.ts",
+        "packages/externals/jira/src/index.ts"
+      ],
+      "missingFiles": [],
+      "reformClass": "reference-only",
+      "livePathRole": "Jira tooling can contribute admitted integration context without becoming Bitcode Exchange ownership."
+    },
+    {
+      "checkId": "lsp-measure-need-boundary",
+      "label": "Retained LSP infrastructure is repurposed as static Read/AssetPack measurement",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md",
+        "protocol-demonstration/src/bitcode-demo.js",
+        "protocol-demonstration/src/canonical/read-measurement.js",
+        "packages/lsp/src/index.ts",
+        "packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts"
+      ],
+      "missingFiles": [],
+      "reformClass": "ingress-or-support",
+      "livePathRole": "LSP tooling may remain only as replayable symbol/path/config/type evidence for Read measurement, AssetPack fit, and proof replay."
+    },
+    {
+      "checkId": "web-search-auxiliary-input-boundary",
+      "label": "Retained web-search carriers are Bitcode read-synthesis evidence support",
+      "passed": true,
+      "detail": "11 required files present",
+      "requiredFiles": [
+        "packages/generic-agents/web-search/README.md",
+        "packages/generic-agents/web-search/src/index.ts",
+        "packages/generic-tools/web-search/README.md",
+        "packages/generic-tools/web-search/src/index.ts",
+        "packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolpurpose.ts",
+        "protocol-demonstration/test/v26-web-search-support-compatibility.test.js",
+        "packages/web-search/src/index.ts",
+        "apps/chatgpt/src/tools.ts",
+        "protocol-demonstration/test/v26-active-product-naming.test.js"
+      ],
+      "missingFiles": [],
+      "reformClass": "ingress-or-support",
+      "livePathRole": "External search/research context may support discovery-phase read synthesis with source-attributed evidence, but it does not own canonical read, proof, mutation, delivery, Terminal, or Exchange truth."
+    },
+    {
+      "checkId": "danger-wall-risk-admission-boundary",
+      "label": "Retained danger-wall carrier is Bitcode read/AssetPack risk admission",
+      "passed": true,
+      "detail": "4 required files present",
+      "requiredFiles": [
+        "packages/generic-agents/danger-wall/README.md",
+        "packages/generic-agents/danger-wall/src/index.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.ts",
+        "protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js"
+      ],
+      "missingFiles": [],
+      "reformClass": "ingress-or-support",
+      "livePathRole": "Danger-wall compatibility may admit, block, or require manual review before a retained pipeline phase proceeds, but it does not own canonical read, proof, mutation, delivery, or product semantics."
+    }
+  ]
+}

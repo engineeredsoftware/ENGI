@@ -1,0 +1,102 @@
+{
+  "proofId": "v27-gate-13-terminal-journal-proof",
+  "version": "V27",
+  "generatedAt": "2026-05-06T00:00:00.000Z",
+  "activeCanonicalPointer": "V27",
+  "state": "draft-target-gate-closure",
+  "gate": {
+    "number": 13,
+    "name": "Terminal Transactions And Journal Diffing",
+    "status": "closed"
+  },
+  "closureCriteria": [
+    {
+      "criterion": "Terminal transaction families cover Read, Fit, proof, mint, BTC fee, AssetPack anchor, read license, order, transfer, dispute, and settlement finalization",
+      "status": "closed",
+      "evidence": [
+        "packages/btd/src/terminal-journal.ts defines REQUIRED_TERMINAL_TRANSACTION_KINDS for the V27 Terminal family set",
+        "buildTerminalJournalCoverageReceipt emits a blocking receipt when any required family is missing",
+        "packages/btd/__tests__/v27-crypto-primitives.test.ts and protocol-demonstration/test/v27-crypto-primitives.test.js prove full coverage and missing-family blocking behavior"
+      ]
+    },
+    {
+      "criterion": "journal entries carry stable ids, pre-state roots, post-state roots, receipt roots, and ledger anchor references",
+      "status": "closed",
+      "evidence": [
+        "buildTerminalJournalEntry validates journalEntryId, transactionKind, actorId, preStateRoot, postStateRoot, receiptRoots, ledgerAnchorIds, positive Exchange sequence, and issuedAt",
+        "btd_terminal_journal_entries persists journal id, kind, actor, pre/post state roots, receipt roots, ledger anchor ids, Exchange sequence, and issued_at",
+        "btd_terminal_journal_kind and btd_terminal_journal_exchange_sequence SQL constraints fail closed on unsupported families or non-positive sequence"
+      ]
+    },
+    {
+      "criterion": "journal diffing detects disagreement among Terminal intent, Exchange journal, ledger observation, database projection, and proof artifacts",
+      "status": "closed",
+      "evidence": [
+        "diffTerminalJournalProjection blocks drift in journal id, post-state root, receipt roots, and ledger anchor ids",
+        "/api/btd/terminal-journal exposes diff_projection for commercial route-level drift checks",
+        "package/API tests prove stale post-state drift blocks before UI or API can claim finality"
+      ]
+    },
+    {
+      "criterion": "commercial route is unversioned and commit-gated",
+      "status": "closed",
+      "evidence": [
+        "packages/api/src/routes/btd-crypto.ts exposes /btd/terminal-journal with commit_entry, diff_projection, and coverage actions",
+        "apps/uapi/app/api/btd/terminal-journal/route.ts binds the Next.js App Router endpoint without a versioned route prefix",
+        "registry writes occur only for commit_entry when commitToRegistry is explicitly true"
+      ]
+    }
+  ],
+  "validatedCommands": [
+    {
+      "command": "pnpm -C packages/api build",
+      "status": "passed"
+    },
+    {
+      "command": "pnpm -C packages/orm build",
+      "status": "passed"
+    },
+    {
+      "command": "pnpm -C protocol-demonstration test:v27-crypto",
+      "status": "passed",
+      "assertions": 9
+    },
+    {
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
+      "status": "passed",
+      "assertions": 57,
+      "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
+    },
+    {
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/orm focused ts-jest config...}' --runInBand",
+      "status": "passed",
+      "assertions": 3,
+      "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 ORM slice."
+    }
+  ],
+  "sourceSurfaces": [
+    "BITCODE_SPEC_V27.md",
+    "BITCODE_SPEC_V27_DELTA.md",
+    "BITCODE_SPEC_V27_NOTES.md",
+    "BITCODE_SPEC_V27_PARITY_MATRIX.md",
+    "packages/btd/src/terminal-journal.ts",
+    "packages/btd/__tests__/v27-crypto-primitives.test.ts",
+    "packages/api/src/routes/btd-crypto.ts",
+    "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+    "apps/uapi/app/api/btd/terminal-journal/route.ts",
+    "supabase/migrations/002_v27_btd_crypto_registry.sql",
+    "packages/orm/src/models/btd-registry.ts",
+    "packages/orm/src/__tests__/btd-registry.test.ts",
+    "protocol-demonstration/src/receipt-schemas.js",
+    "protocol-demonstration/src/v27-crypto-primitives.js",
+    "protocol-demonstration/test/v27-crypto-primitives.test.js"
+  ],
+  "nonPromotionAssertions": [
+    "BITCODE_SPEC.txt remained V26 until Gate 16 promotion",
+    "BITCODE_SPEC_V27_PROVEN.md did not exist until Gate 16 promotion",
+    "Gate 13 closure does not claim every V28 Terminal workflow, live value-bearing product UX, generated V27 proof-family closure, or V27 promotion",
+    "All BTD API route paths remain unversioned"
+  ],
+  "remainingGateFamilies": [],
+  "activeCanonicalPointerAtGeneration": "V26"
+}

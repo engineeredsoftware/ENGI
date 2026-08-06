@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-interface-contract-catalog.json';
+const ARTIFACT = '.proofs/v33/interface-contract-catalog.json';
 
 const REQUIRED_INTERFACE_IDS = [
   'terminal_handoff',
@@ -106,7 +106,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -130,14 +130,14 @@ function main() {
     'packages/btd/__tests__/interface-contract-catalog.test.ts',
     'scripts/generate-v33-interface-contract-catalog.mjs',
     'scripts/check-v33-gate2-interface-contract-catalog.mjs',
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -198,16 +198,16 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V33.md');
-  const delta = read(root, 'BITCODE_SPEC_V33_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V33_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V33.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const btdSource = read(root, 'packages/btd/src/interface-contract-catalog.ts');
   const btdTest = read(root, 'packages/btd/__tests__/interface-contract-catalog.test.ts');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V33 docs must mention ${ARTIFACT}.`);
@@ -242,7 +242,7 @@ function main() {
   }
 
   for (const phrase of [
-    'catalogs Terminal handoff, public API, MCP API, ChatGPT App, package consumers, and deferred hooks',
+    'catalogs product handoff, public API, MCP API, ChatGPT App, package consumers, and deferred hooks',
     'fails closed when a required interface catalog row is missing',
     'fails closed when deferred hooks are accidentally admitted as compatible active contracts',
     'fails closed on secret-shaped or protected-source catalog text',

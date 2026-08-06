@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v42-settlement-rights-delivery.json';
+const ARTIFACT_PATH = '.proofs/v42/settlement-rights-delivery.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -107,28 +107,28 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
-    'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
-    'uapi/tests/api/pipelineHarnessRoute.test.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'packages/protocol/src/canonical/v42-settlement-rights-delivery.js',
-    'packages/protocol/test/v42-settlement-rights-delivery.test.js',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
+    'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
+    'apps/uapi/tests/api/pipelineHostRoute.test.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'scripts/specifying/src/canonical/v42-settlement-rights-delivery.js',
+    'scripts/specifying/test/v42-settlement-rights-delivery.test.js',
     'scripts/generate-v42-settlement-rights-delivery.mjs',
     'scripts/check-v42-gate6-settlement-rights-delivery.mjs',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/README.md',
-    'uapi/app/terminal/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -151,7 +151,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v42-settlement-rights-delivery.test.js',
+        'scripts/specifying/test/v42-settlement-rights-delivery.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 settlement rights delivery protocol test failed: ${error.stderr || error.message}`);
@@ -162,7 +162,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -180,7 +180,7 @@ function main() {
         'exec',
         'jest',
         '--runTestsByPath',
-        'src/__tests__/asset-pack-harness.test.ts',
+        'src/__tests__/asset-pack-host-plan.test.ts',
         '--runInBand',
         '--forceExit',
       ]);
@@ -193,11 +193,11 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
-        'tests/api/pipelineHarnessRoute.test.ts',
+        'tests/api/pipelineHostRoute.test.ts',
         'tests/terminalPipelineHarnessClient.test.ts',
         '--runInBand',
       ]);
@@ -232,7 +232,7 @@ function main() {
     assertCheck(failures, artifact.coverage.credentialsSerialized === false, 'Gate 6 artifact must not serialize credentials.');
     assertCheck(failures, artifact.coverage.hostBoundaryMaterializationCovered === true, 'Gate 6 must cover live harness boundary materialization.');
     assertCheck(failures, artifact.coverage.routeReadbackCovered === true, 'Gate 6 must cover route readback.');
-    assertCheck(failures, artifact.coverage.terminalReadbackCovered === true, 'Gate 6 must cover Terminal readback.');
+    assertCheck(failures, artifact.coverage.terminalReadbackCovered === true, 'Gate 6 must cover product readback.');
     assertCheck(failures, artifact.coverage.confirmedPaymentCovered === true, 'Gate 6 must cover confirmed payment.');
     assertCheck(failures, artifact.coverage.underpaymentBlockedCovered === true, 'Gate 6 must cover underpayment blocking.');
     assertCheck(failures, artifact.coverage.finalityBlockedCovered === true, 'Gate 6 must cover finality blocking.');

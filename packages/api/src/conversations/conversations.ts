@@ -4,7 +4,7 @@
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
-import { Conversation } from '@bitcode/conversations-generics';
+import { Conversation } from '@bitcode/conversations';
 import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 

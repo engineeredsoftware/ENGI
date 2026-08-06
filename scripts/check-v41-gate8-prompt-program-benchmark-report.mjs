@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-prompt-program-benchmark-report.json';
+const ARTIFACT_PATH = '.proofs/v41/prompt-program-benchmark-report.json';
 
 const REQUIRED_ROW_IDS = [
   'post-rewrite-prompt-inventory-delta',
@@ -131,7 +131,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -150,35 +150,35 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-prompt-benchmark-report.json',
-    '.bitcode/v38-disclosure-boundary-report.json',
-    '.bitcode/v39-operational-telemetry-repair-readback.json',
-    '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json',
-    '.bitcode/v41-promptpart-prompt-inventory.json',
-    '.bitcode/v41-registry-interpolation-contracts.json',
-    '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-    '.bitcode/v41-readneed-prompt-hardening.json',
-    '.bitcode/v41-readfitsfinding-prompt-hardening.json',
-    '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json',
-    'packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js',
-    'packages/protocol/test/v41-prompt-program-benchmark-report.test.js',
+    '.proofs/v38/prompt-benchmark-report.json',
+    '.proofs/v38/disclosure-boundary-report.json',
+    '.proofs/v39/operational-telemetry-repair-readback.json',
+    '.proofs/v40/prompt-benchmark-smoke-v41-readiness.json',
+    '.proofs/v41/promptpart-prompt-inventory.json',
+    '.proofs/v41/registry-interpolation-contracts.json',
+    '.proofs/v41/reading-prompt-benchmark-baselines.json',
+    '.proofs/v41/readneed-prompt-hardening.json',
+    '.proofs/v41/readfitsfinding-prompt-hardening.json',
+    '.proofs/v41/conversation-tool-interface-prompt-rewrite.json',
+    'scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js',
+    'scripts/specifying/test/v41-prompt-program-benchmark-report.test.js',
     'scripts/generate-v41-prompt-program-benchmark-report.mjs',
     'scripts/check-v41-gate8-prompt-program-benchmark-report.mjs',
     'packages/prompts/src/benchmarking/runner.ts',
     'packages/prompts/src/benchmarking/types.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts',
-    'packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-observability.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-operational-telemetry-repair-readback.ts',
     'packages/api/src/conversations/stream-events.ts',
     'packages/api/src/conversations/telemetry.ts',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx',
-    'BITCODE_SPEC_V41.md',
-    'BITCODE_SPEC_V41_DELTA.md',
-    'BITCODE_SPEC_V41_NOTES.md',
-    'BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -201,7 +201,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v41-prompt-program-benchmark-report.test.js',
+        'scripts/specifying/test/v41-prompt-program-benchmark-report.test.js',
       ]);
     } catch (error) {
       failures.push(`V41 prompt-program benchmark report protocol test failed: ${error.stderr || error.message}`);
@@ -280,7 +280,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-prompt-program-benchmark-report'), 'package.json must expose generate:v41-prompt-program-benchmark-report.');
   assertCheck(failures, packageJson.includes('check:v41-gate8'), 'package.json must expose check:v41-gate8.');
 
-  const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, '.specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, '.specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(failures, /Current working gate: V41 Gate (?:8|9)\b/u.test(roadmap), 'Roadmap must name V41 Gate 8 or later V41 gate progression.');
   assertCheck(failures, roadmap.includes('V41 Gate 9 closure anchor'), 'Roadmap must carry V41 Gate 9 closure anchor after Gate 8.');
   assertCheck(failures, roadmap.includes('V41 Gate 8 closure anchor'), 'Roadmap must preserve V41 Gate 8 closure anchor.');

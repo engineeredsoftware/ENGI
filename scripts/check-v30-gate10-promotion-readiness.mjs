@@ -90,7 +90,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -110,11 +110,11 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V30.md',
-    'BITCODE_SPEC_V30_DELTA.md',
-    'BITCODE_SPEC_V30_NOTES.md',
-    'BITCODE_SPEC_V30_PARITY_MATRIX.md',
-    'BITCODE_V30_QA.md',
+    '.specifications/BITCODE_SPEC_V30.md',
+    '.specifications/BITCODE_SPEC_V30_DELTA.md',
+    '.specifications/BITCODE_SPEC_V30_NOTES.md',
+    '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
+    '.qa/BITCODE_V30_QA.md',
     'scripts/check-v30-gate10-promotion-readiness.mjs',
     'scripts/promote-bitcode-canon.mjs',
     'scripts/prepare-bitcode-spec-family-promotion.mjs',
@@ -123,13 +123,13 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v30-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'protocol-demonstration/src/canon-posture.js',
-    'protocol-demonstration/README.md',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/README.md',
     'package.json',
     'README.md',
   ];
@@ -138,11 +138,11 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 10 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V30.md');
-  const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V30_PARITY_MATRIX.md');
-  const qa = read(root, 'BITCODE_V30_QA.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V30.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V30_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V30_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
+  const qa = read(root, '.qa/BITCODE_V30_QA.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -150,11 +150,11 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const v21Specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
-  const packageCanonPosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const packageState = read(root, 'packages/protocol/data/state.json');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const v21Specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
+  const packageCanonPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const packageState = read(root, 'scripts/specifying/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
 
   assertCheck(failures, spec.includes('V30 local and staging promotion readiness canon'), 'V30 SPEC must define local/staging promotion readiness canon.');
@@ -186,8 +186,8 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v30'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V30') &&
-      promotionWorkflow.includes('BITCODE_SPEC_V30_PROVEN.md') &&
-      promotionWorkflow.includes('.bitcode') &&
+      promotionWorkflow.includes('.specifications/BITCODE_SPEC_V30_PROVEN.md') &&
+      promotionWorkflow.includes('.proofs') &&
       promotionWorkflow.includes('Promote V30 canon files'),
     'V30 promotion workflow must validate version/v30 and commit V30 promotion artifacts.',
   );
@@ -221,7 +221,7 @@ function main() {
     failures,
     prepareSpecScript.includes("if (version === 'V30')") &&
       prepareSpecScript.includes('V30 canonical system specification for Protocol/BTD') &&
-      prepareSpecScript.includes('BITCODE_SPEC_V30_PROVEN.md') &&
+      prepareSpecScript.includes('.specifications/BITCODE_SPEC_V30_PROVEN.md') &&
       prepareSpecScript.includes('v30-protocol-telemetry-proof-hooks.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V30 hand-authored status truth and promoted parity judgments.',
@@ -237,8 +237,8 @@ function main() {
     failures,
     provenGenerator.includes('buildV30ProvenPackage') &&
       provenGenerator.includes('v30-protocol-telemetry-proof-hooks') &&
-      v21Specifying.includes('.bitcode/v30-canon-posture-drift-report.json') &&
-      v21Specifying.includes('.bitcode/v30-protocol-telemetry-proof-hooks.json'),
+      v21Specifying.includes('.proofs/v30/canon-posture-drift-report.json') &&
+      v21Specifying.includes('.proofs/v30/protocol-telemetry-proof-hooks.json'),
     'Generated appendix support must include V30 proof artifacts.',
   );
 
@@ -268,13 +268,13 @@ function main() {
     'README must document the Gate 10 command and V30 promotion workflow.',
   );
 
-  assertJsonArtifact(failures, root, '.bitcode/v30-spec-family-report.json', ['"version": "V30"', '"reportId": "v30-spec-family-report"']);
-  assertJsonArtifact(failures, root, '.bitcode/v30-canonical-input-report.json', ['"checkedTargetVersion": "V30"', 'v30-protocol-telemetry-proof-hooks.json']);
-  assertJsonArtifact(failures, root, '.bitcode/v30-canon-posture-drift-report.json', ['"checkedActiveCanonVersion": "V30"', '"checkedDraftTargetVersion": "V31"']);
-  assertJsonArtifact(failures, root, '.bitcode/v30-protocol-telemetry-proof-hooks.json', ['"reportId": "v30-protocol-telemetry-proof-hooks"', '"sourceSafe": true']);
+  assertJsonArtifact(failures, root, '.proofs/v30/spec-family-report.json', ['"version": "V30"', '"reportId": "v30-spec-family-report"']);
+  assertJsonArtifact(failures, root, '.proofs/v30/canonical-input-report.json', ['"checkedTargetVersion": "V30"', 'v30-protocol-telemetry-proof-hooks.json']);
+  assertJsonArtifact(failures, root, '.proofs/v30/canon-posture-drift-report.json', ['"checkedActiveCanonVersion": "V30"', '"checkedDraftTargetVersion": "V31"']);
+  assertJsonArtifact(failures, root, '.proofs/v30/protocol-telemetry-proof-hooks.json', ['"reportId": "v30-protocol-telemetry-proof-hooks"', '"sourceSafe": true']);
 
-  if (fileExists(root, 'BITCODE_SPEC_V30_PROVEN.md')) {
-    const proven = read(root, 'BITCODE_SPEC_V30_PROVEN.md');
+  if (fileExists(root, '.specifications/BITCODE_SPEC_V30_PROVEN.md')) {
+    const proven = read(root, '.specifications/BITCODE_SPEC_V30_PROVEN.md');
     assertCheck(failures, proven.includes('Bitcode Spec V30') || proven.includes('V30'), 'BITCODE_SPEC_V30_PROVEN.md must render V30 proof content.');
   }
 

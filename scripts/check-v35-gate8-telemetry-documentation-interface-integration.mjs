@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-telemetry-documentation-interface-integration.json';
+const ARTIFACT_PATH = '.proofs/v35/telemetry-documentation-interface-integration.json';
 
 const REQUIRED_INTEGRATION_IDS = [
   'terminal',
@@ -96,7 +96,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -115,27 +115,27 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/telemetry-documentation-interface-integration.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v35-telemetry-documentation-interface-integration.test.js',
+    'scripts/specifying/src/canonical/telemetry-documentation-interface-integration.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-telemetry-documentation-interface-integration.test.js',
     'scripts/generate-v35-telemetry-documentation-interface-integration.mjs',
     'scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'BITCODE_SPEC_V35.md',
-    'BITCODE_SPEC_V35_DELTA.md',
-    'BITCODE_SPEC_V35_NOTES.md',
-    'BITCODE_SPEC_V35_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'scripts/specifying/src/canonical/v21-specifying.js',
+    '.specifications/BITCODE_SPEC_V35.md',
+    '.specifications/BITCODE_SPEC_V35_DELTA.md',
+    '.specifications/BITCODE_SPEC_V35_NOTES.md',
+    '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/terminal/README.md',
-    'uapi/app/auxillaries/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'apps/uapi/app/auxillaries/README.md',
     'packages/api/README.md',
-    'packages/executions-mcp/src/mcp-server/README.md',
-    'packages/chatgptapp/README.md',
-    'internal-docs/README.md',
-    'uapi/app/docs/bitcode-docs-content.ts',
+    'apps/mcp/README.md',
+    'apps/chatgpt/README.md',
+    '.docs/README.md',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -156,7 +156,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -186,7 +186,7 @@ function main() {
     );
     assertCheck(failures, includesAll(artifact.coverage.observedIntegrationIds, REQUIRED_INTEGRATION_IDS), 'Interface integration must cover every required surface.');
     assertCheck(failures, artifact.coverage.integrationCount === REQUIRED_INTEGRATION_IDS.length, 'Interface integration must prove eight rows.');
-    assertCheck(failures, artifact.coverage.terminalCovered === true, 'Interface integration must cover Terminal.');
+    assertCheck(failures, artifact.coverage.terminalCovered === true, 'Interface integration must cover product.');
     assertCheck(failures, artifact.coverage.auxillariesCovered === true, 'Interface integration must cover Auxillaries.');
     assertCheck(failures, artifact.coverage.apiCovered === true, 'Interface integration must cover API.');
     assertCheck(failures, artifact.coverage.mcpApiCovered === true, 'Interface integration must cover MCP API.');
@@ -222,10 +222,10 @@ function main() {
     );
   }
 
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
   assertCheck(failures, protocolIndex.includes('buildTelemetryDocumentationInterfaceIntegration'), 'Protocol index must export buildTelemetryDocumentationInterfaceIntegration.');
 
-  const packageTypes = read(root, 'packages/protocol/src/index.d.ts');
+  const packageTypes = read(root, 'scripts/specifying/src/index.d.ts');
   assertCheck(failures, packageTypes.includes('buildTelemetryDocumentationInterfaceIntegration'), 'Protocol type surface must export buildTelemetryDocumentationInterfaceIntegration.');
 
   const packageJson = read(root, 'package.json');
@@ -236,21 +236,21 @@ function main() {
   assertCheck(failures, workflow.includes('check-v35-gate8-telemetry-documentation-interface-integration.mjs'), 'Gate workflow must run V35 Gate 8 checker when present.');
   assertCheck(failures, workflow.includes('test/v35-telemetry-documentation-interface-integration.test.js'), 'Gate workflow must run V35 interface integration package test.');
 
-  const spec = read(root, 'BITCODE_SPEC_V35.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V35.md');
   assertCheck(failures, spec.includes('V35 TelemetryDocumentationInterfaceIntegration canon'), 'V35 spec must include TelemetryDocumentationInterfaceIntegration canon section.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH), 'V35 spec must name interface integration artifact.');
 
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   assertCheck(failures, roadmap.includes('V35 Gate 8 closure anchor'), 'Roadmap must include V35 Gate 8 closure anchor.');
 
   const activeSurfaceText = [
-    'uapi/app/terminal/README.md',
-    'uapi/app/auxillaries/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'apps/uapi/app/auxillaries/README.md',
     'packages/api/README.md',
-    'packages/executions-mcp/src/mcp-server/README.md',
-    'packages/chatgptapp/README.md',
-    'internal-docs/README.md',
-    'uapi/app/docs/bitcode-docs-content.ts',
+    'apps/mcp/README.md',
+    'apps/chatgpt/README.md',
+    '.docs/README.md',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
   ].map((relativePath) => read(root, relativePath)).join('\n');
   for (const token of ['event ids', 'proof roots', 'docs links', 'runbook links', 'redaction posture']) {
     assertCheck(failures, activeSurfaceText.includes(token), `Active interface docs must mention ${token}.`);

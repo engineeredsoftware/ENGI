@@ -127,12 +127,15 @@ export const EXECUTION_NAMESPACES = {
     'evidence_documents',  // object — route preprocess snapshot
   ],
   'finish/asset_pack_completion': [
-    'summary',          // string | object
+    'summary',          // string | object — synthesis Finish evidence
     'processingStats',  // { time, tokens?, measuredBtd?, feeAsset?, btcFeesPaid? }
     'repoSnapshot',     // { org, repo, branch, commit }
     'writtenAssets',    // semantic written-asset rollups
+    'assetPackSynthesisArtifacts', // implementation/finish synthesis artifacts
+    'reviewReadiness',  // user-review posture (not Delivery)
     'read',             // semantic expressed read
     'writtenAssetType', // semantic written-asset type
+    // Settlement/Delivery surfaces are settle-pipeline exclusive
   ],
   postprocessed: [
     'result',       // normalized postprocessed AssetPack or measurement result

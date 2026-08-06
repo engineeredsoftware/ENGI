@@ -1,0 +1,399 @@
+{
+  "artifactId": "v45-prompt-completeness-proof",
+  "schemaId": "bitcode.v45.proofFamilyArtifact.v1",
+  "version": "V45",
+  "currentTarget": "V44",
+  "generatedAt": "2026-05-31T00:00:00.000Z",
+  "proofSourceCommit": "draft-v45-gate16-proof-source-snapshot",
+  "sourceSafetyVerdict": "source-safe-v45-proof-family-generated-metadata",
+  "proofFamilyId": "prompt-completeness",
+  "proofFamily": "Prompt-completeness",
+  "artifactPath": ".proofs/v45/prompt-completeness-proof.json",
+  "status": "pass",
+  "proofFamilyInventory": {
+    "proofFamilyId": "prompt-completeness",
+    "proofFamily": "Prompt-completeness",
+    "proofArtifactPath": ".proofs/v45/prompt-completeness-proof.json",
+    "memberIds": [
+      "prompt parts",
+      "prompts",
+      "registries",
+      "templates",
+      "interpolation"
+    ],
+    "theoremIds": [
+      "total prompt catalog",
+      "no raw prompt leakage",
+      "benchmarkable parts"
+    ],
+    "replayStepIds": [
+      "registry resolution",
+      "interpolation",
+      "redaction",
+      "benchmark run"
+    ],
+    "witnessArtifactPaths": [
+      ".proofs/v41/promptpart-prompt-inventory.json",
+      ".proofs/v41/registry-interpolation-contracts.json",
+      ".proofs/v41/prompt-program-benchmark-report.json"
+    ]
+  },
+  "memberInventory": [
+    {
+      "memberId": "prompt parts",
+      "closureCriteria": "prompt parts must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "prompts",
+      "closureCriteria": "prompts must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "registries",
+      "closureCriteria": "registries must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "templates",
+      "closureCriteria": "templates must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "interpolation",
+      "closureCriteria": "interpolation must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    }
+  ],
+  "theoremInventory": [
+    {
+      "theoremId": "total prompt catalog",
+      "memberBindings": [
+        "prompt parts",
+        "prompts",
+        "registries",
+        "templates",
+        "interpolation"
+      ],
+      "replayStepBindings": [
+        "registry resolution",
+        "benchmark run"
+      ],
+      "closureReading": "The Prompt-completeness theorem \"total prompt catalog\" binds source-safe evidence, typed state, and replayable proof roots."
+    },
+    {
+      "theoremId": "no raw prompt leakage",
+      "memberBindings": [
+        "prompt parts",
+        "prompts",
+        "registries",
+        "templates",
+        "interpolation"
+      ],
+      "replayStepBindings": [
+        "interpolation"
+      ],
+      "closureReading": "The Prompt-completeness theorem \"no raw prompt leakage\" binds source-safe evidence, typed state, and replayable proof roots."
+    },
+    {
+      "theoremId": "benchmarkable parts",
+      "memberBindings": [
+        "prompt parts",
+        "prompts",
+        "registries",
+        "templates",
+        "interpolation"
+      ],
+      "replayStepBindings": [
+        "redaction"
+      ],
+      "closureReading": "The Prompt-completeness theorem \"benchmarkable parts\" binds source-safe evidence, typed state, and replayable proof roots."
+    }
+  ],
+  "replayStepInventory": [
+    {
+      "replayStepId": "registry resolution",
+      "theoremBindings": [
+        "total prompt catalog"
+      ],
+      "witnessBindings": [
+        ".proofs/v41/promptpart-prompt-inventory.json",
+        ".proofs/v41/registry-interpolation-contracts.json",
+        ".proofs/v41/prompt-program-benchmark-report.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "interpolation",
+      "theoremBindings": [
+        "no raw prompt leakage"
+      ],
+      "witnessBindings": [
+        ".proofs/v41/promptpart-prompt-inventory.json",
+        ".proofs/v41/registry-interpolation-contracts.json",
+        ".proofs/v41/prompt-program-benchmark-report.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "redaction",
+      "theoremBindings": [
+        "benchmarkable parts"
+      ],
+      "witnessBindings": [
+        ".proofs/v41/promptpart-prompt-inventory.json",
+        ".proofs/v41/registry-interpolation-contracts.json",
+        ".proofs/v41/prompt-program-benchmark-report.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "benchmark run",
+      "theoremBindings": [
+        "total prompt catalog"
+      ],
+      "witnessBindings": [
+        ".proofs/v41/promptpart-prompt-inventory.json",
+        ".proofs/v41/registry-interpolation-contracts.json",
+        ".proofs/v41/prompt-program-benchmark-report.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    }
+  ],
+  "witnessArtifactInventory": [
+    {
+      "relativePath": ".proofs/v41/promptpart-prompt-inventory.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:927738d4b3bdab4f2f9734e7e51fc004176bf2dd825de4be6596de712b56d5f9",
+      "byteLength": 2406081,
+      "sourceSafe": true,
+      "artifactId": "v41-promptpart-prompt-inventory",
+      "sourceSafetyVerdict": "source-safe-promptpart-prompt-inventory-metadata"
+    },
+    {
+      "relativePath": ".proofs/v41/registry-interpolation-contracts.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:ee84aff9248f77fc811b2a5ab29b9144b3db1a4563bbc9ce29abe87c2f5fb757",
+      "byteLength": 50150,
+      "sourceSafe": true,
+      "artifactId": "v41-registry-interpolation-contracts",
+      "sourceSafetyVerdict": "source-safe-registry-interpolation-contract-metadata"
+    },
+    {
+      "relativePath": ".proofs/v41/prompt-program-benchmark-report.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:3040b2eb94d7137a11f268d28260959329433449eb934ff50ace91607c98a249",
+      "byteLength": 76442,
+      "sourceSafe": true,
+      "artifactId": "v41-prompt-program-benchmark-report",
+      "sourceSafetyVerdict": "source-safe-prompt-program-benchmark-telemetry-metadata"
+    }
+  ],
+  "generatedArtifactInventory": [
+    ".proofs/v45/inference-synthesis-proof.json",
+    ".proofs/v45/prompt-completeness-proof.json",
+    ".proofs/v45/static-code-analysis-proof.json",
+    ".proofs/v45/verification-decisions-proof.json",
+    ".proofs/v45/selection-materialization-proof.json",
+    ".proofs/v45/authorization-sensitive-flow-proof.json",
+    ".proofs/v45/settlement-source-to-shares-proof.json",
+    ".proofs/v45/disclosure-boundary-proof.json",
+    ".proofs/v45/proof-contract-proof.json",
+    ".proofs/v45/spec-family-report.json",
+    ".proofs/v45/canonical-input-report.json",
+    "BITCODE_SPEC_V45_PROVEN.md"
+  ],
+  "scenarioRunCoverageMatrix": [
+    {
+      "scenarioId": "v45-prompt-completeness-source-safe-replay",
+      "family": "Prompt-completeness",
+      "memberCount": 5,
+      "theoremCount": 3,
+      "replayStepCount": 4,
+      "expectedVerdict": "pass"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "relativePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "present": true,
+      "digest": "sha256:75952a25cc72ee8b58d5a956d952ee91abf7770477674e5fcf8f715a99e4fbd1",
+      "byteLength": 22216,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "rawPromptTextSerialized",
+          "present": true
+        },
+        {
+          "token": "PromptPartRegistry.generic",
+          "present": true
+        },
+        {
+          "token": "ReadNeedComprehensionSynthesis",
+          "present": true
+        },
+        {
+          "token": "ReadFitsFindingSynthesis",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js",
+      "present": true,
+      "digest": "sha256:b2853d91a04f7dd4b40d77fce5740f6308740cf7cac58e5e738508883ae18a24",
+      "byteLength": 45140,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "registryId",
+          "present": true
+        },
+        {
+          "token": "interpolation",
+          "present": true
+        },
+        {
+          "token": "templateVariableNames",
+          "present": true
+        },
+        {
+          "token": "source_hash_source_safe",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
+      "present": true,
+      "digest": "sha256:43d1f0545e4d02c5b7e97284b3e6eb2987cdf5e2508290cc24a1434962b2f550",
+      "byteLength": 48888,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "V41_PROMPT_PROGRAM_BENCHMARK_REPORT_ARTIFACT_PATH",
+          "present": true
+        },
+        {
+          "token": "benchmark",
+          "present": true
+        },
+        {
+          "token": "sourceSafe",
+          "present": true
+        },
+        {
+          "token": "rawPrompt",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/test/v41-promptpart-prompt-inventory.test.js",
+      "present": true,
+      "digest": "sha256:960ff512e1c7d46310602d4853e07d34bbfd8105f85984cb1d07ef4191edbca2",
+      "byteLength": 3715,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "rawPromptTextSerialized",
+          "present": true
+        },
+        {
+          "token": "benchmarkFixtureIds",
+          "present": true
+        },
+        {
+          "token": "ReadFitsFindingSynthesis",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "inputRoots": {
+    "specRoot": "sha256:eb4158cc1fdb059bd001304518bfa9a9333dfe4778eca91757396a0f47c93701",
+    "sourceEvidenceRoot": "sha256:f3b5955146a60f3a2b74807a9aa502769208f60cd123f3bfce6b39dac2683a70",
+    "witnessArtifactRoot": "sha256:b36854f7acff53ede1ad3206fb1abba5a0812da0e28e62f015c89de6a244394e"
+  },
+  "artifactRoots": {
+    "proofFamilyInventoryRoot": "sha256:a5006482dfeb85e1730d7b8ff8a7601ce38255c31d2944fc6c1a56bb89bae340",
+    "replayBindingRoot": "sha256:8288322e6a123cc0e8b67508c64099628afa96ba1ebf7e0b1bd63c6189002651"
+  },
+  "artifactRoot": "v45-prompt-completeness-proof:ca14b2ad7bec005a1a513c31",
+  "minimumArtifactReplayBindingSet": [
+    "prompt part id",
+    "prompt id",
+    "registry id",
+    "rendered prompt hash"
+  ],
+  "proofObjectFields": [
+    "prompt ids",
+    "interpolation inputs",
+    "output type"
+  ],
+  "generatedArtifactAndTestBindings": [
+    "scripts/specifying/test/v41-promptpart-prompt-inventory.test.js",
+    "scripts/specifying/test/v41-registry-interpolation-contracts.test.js",
+    "scripts/specifying/test/v41-prompt-program-benchmark-report.test.js",
+    "scripts/specifying/test/v45-proof-family-artifacts.test.js"
+  ],
+  "failClosedConditions": [
+    "missing prompt part",
+    "unsafe interpolation",
+    "raw prompt exposure",
+    "unbenchmarked critical prompt"
+  ],
+  "sourceSafety": {
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceSerialized": false,
+    "rawPromptSerialized": false,
+    "rawInterpolatedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "walletPrivateMaterialSerialized": false,
+    "credentialsSerialized": false,
+    "privateSettlementPayloadSerialized": false,
+    "unpaidAssetPackSourceSerialized": false,
+    "forbiddenSerializedPayloadClasses": [
+      "protected-source",
+      "unpaid-assetpack-source",
+      "raw-prompt",
+      "raw-provider-response",
+      "wallet-private-material",
+      "credentials",
+      "private-settlement-payload"
+    ]
+  },
+  "coverage": {
+    "sourceEvidenceComplete": true,
+    "witnessArtifactsComplete": true,
+    "memberCount": 5,
+    "theoremCount": 3,
+    "replayStepCount": 4,
+    "witnessArtifactCount": 3,
+    "generatedArtifactBindingCount": 4,
+    "failClosedConditionCount": 4,
+    "protectedSourceSerialized": false,
+    "rawPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "walletPrivateMaterialSerialized": false,
+    "credentialsSerialized": false,
+    "privateSettlementPayloadSerialized": false,
+    "unpaidAssetPackSourceSerialized": false
+  },
+  "repairInstructions": [
+    "Regenerate .proofs/v45/prompt-completeness-proof.json with pnpm run generate:v45-proof-families.",
+    "Repair missing source evidence, witness artifacts, tests, or workflow bindings before claiming V45 proof-family closure."
+  ],
+  "passed": true,
+  "failures": [],
+  "warnings": [],
+  "validationCommand": "pnpm run check:v45-gate16"
+}

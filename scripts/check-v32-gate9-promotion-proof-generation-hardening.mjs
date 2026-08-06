@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v32-promotion-proof-generation-hardening.json';
+const ARTIFACT = '.proofs/v32/promotion-proof-generation-hardening.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -82,7 +82,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V31', `BITCODE_SPEC.txt must remain V31 during V32 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -101,14 +101,14 @@ function main() {
     'scripts/generate-v32-promotion-proof-generation-hardening.mjs',
     'scripts/check-v32-gate9-promotion-proof-generation-hardening.mjs',
     'scripts/promote-bitcode-canon.mjs',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'packages/protocol/test/v32-promotion-proof-generation.test.js',
-    'BITCODE_SPEC_V32.md',
-    'BITCODE_SPEC_V32_DELTA.md',
-    'BITCODE_SPEC_V32_NOTES.md',
-    'BITCODE_SPEC_V32_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/test/v32-promotion-proof-generation.test.js',
+    '.specifications/BITCODE_SPEC_V32.md',
+    '.specifications/BITCODE_SPEC_V32_DELTA.md',
+    '.specifications/BITCODE_SPEC_V32_NOTES.md',
+    '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     'scripts/v32-proof-coverage-matrix.mjs',
@@ -152,17 +152,17 @@ function main() {
   }
 
   const generator = read(root, 'scripts/generate-bitcode-proven.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
-  const spec = read(root, 'BITCODE_SPEC_V32.md');
-  const delta = read(root, 'BITCODE_SPEC_V32_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V32_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V32_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V32.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V32_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V32_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const matrix = read(root, 'scripts/v32-proof-coverage-matrix.mjs');
-  const test = read(root, 'packages/protocol/test/v32-promotion-proof-generation.test.js');
+  const test = read(root, 'scripts/specifying/test/v32-promotion-proof-generation.test.js');
 
   assertCheck(failures, generator.includes('--dry-run'), 'generate-bitcode-proven must expose --dry-run.');
   assertCheck(failures, generator.includes('buildSourceSafeDiffSummary'), 'generate-bitcode-proven must build source-safe diff summaries.');

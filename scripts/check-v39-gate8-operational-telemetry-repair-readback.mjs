@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v39-operational-telemetry-repair-readback.json';
+const ARTIFACT_PATH = '.proofs/v39/operational-telemetry-repair-readback.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -107,28 +107,28 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-operational-telemetry-repair-readback.test.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/package.json',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx',
-    'uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js',
-    'packages/protocol/test/v39-operational-telemetry-repair-readback.test.js',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-operational-telemetry-repair-readback.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+    'apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js',
+    'scripts/specifying/test/v39-operational-telemetry-repair-readback.test.js',
     'scripts/generate-v39-operational-telemetry-repair-readback.mjs',
     'scripts/check-v39-gate8-operational-telemetry-repair-readback.mjs',
-    'BITCODE_SPEC_V39.md',
-    'BITCODE_SPEC_V39_DELTA.md',
-    'BITCODE_SPEC_V39_NOTES.md',
-    'BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -151,7 +151,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-operational-telemetry-repair-readback.test.js',
+        'scripts/specifying/test/v39-operational-telemetry-repair-readback.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 operational telemetry repair readback protocol test failed: ${error.stderr || error.message}`);
@@ -162,7 +162,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -183,7 +183,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -228,9 +228,9 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 8 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V39.md');
-  const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('ReadingOperationalTelemetryRepairReadback'), 'V39 spec must name ReadingOperationalTelemetryRepairReadback.');
   assertCheck(failures, spec.includes('v39-operational-telemetry-repair-readback'), 'V39 spec must name the Gate 8 artifact.');
   assertCheck(failures, parity.includes('Gate 8 Parity'), 'V39 parity matrix must include Gate 8 parity.');

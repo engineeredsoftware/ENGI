@@ -1,0 +1,427 @@
+{
+  "artifactId": "v44-organization-policy-wallet-authority",
+  "schemaId": "bitcode.v44.organizationPolicyWalletAuthority.v1",
+  "version": "V44",
+  "currentTarget": "V43",
+  "sourceSafetyVerdict": "source-safe-organization-policy-wallet-authority-metadata",
+  "objectIds": [
+    "OrganizationPolicyWalletAuthority",
+    "OrganizationPolicyActionStatement",
+    "OrganizationBudgetApprovalPolicy",
+    "OrganizationDepositApprovalPolicy",
+    "OrganizationWalletAuthorityStatement",
+    "OrganizationGovernanceDecision",
+    "PackActivityGovernanceReadback",
+    "BtdOrganizationPolicyAuthority"
+  ],
+  "routeIds": [
+    "/read",
+    "/deposit",
+    "/packs"
+  ],
+  "actionIds": [
+    "request_read",
+    "review_need",
+    "request_finding_fits",
+    "review_asset_pack_preview",
+    "pay_btc_fee",
+    "unlock_asset_pack_source",
+    "deliver_asset_pack",
+    "synthesize_deposit_options",
+    "approve_deposit_option",
+    "submit_deposit",
+    "read_transaction",
+    "repair_projection",
+    "administer_organization"
+  ],
+  "stateIds": [
+    "allowed",
+    "denied",
+    "repair-required",
+    "within-limit",
+    "approval-required",
+    "limit-exceeded",
+    "sub-critical-approved",
+    "source-criticality-approval-required",
+    "critical-source-blocked",
+    "deposit-approval-required",
+    "verified",
+    "missing",
+    "not-required"
+  ],
+  "forbiddenPayloadIds": [
+    "protected-source-payloads",
+    "raw-source-text",
+    "unpaid-assetpack-source",
+    "raw-prompts",
+    "interpolated-prompts",
+    "raw-provider-responses",
+    "credentials",
+    "wallet-private-material",
+    "private-settlement-payloads",
+    "value-bearing-mainnet-admission"
+  ],
+  "rows": [
+    {
+      "rowId": "btd-deposit-actions",
+      "owner": "packages/btd/src/authority.ts",
+      "contract": "BTD organization authority covers deposit option synthesis, approval, and submission beside Reading spend, source unlock, delivery, repair, and administration.",
+      "requiredFields": [
+        "synthesize_deposit_options",
+        "approve_deposit_option",
+        "submit_deposit",
+        "wallet_binding_missing"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "rowRoot": "v44-organization-policy-row:f1d23f21ef4fb9a1f52cc75f"
+    },
+    {
+      "rowId": "source-safe-governance-statement",
+      "owner": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
+      "contract": "OrganizationPolicyWalletAuthority composes budget approval, deposit approval, wallet authority, action statements, aggregate blockers, roots, and source-safety disclosure.",
+      "requiredFields": [
+        "OrganizationPolicyWalletAuthority",
+        "budgetApproval",
+        "depositApproval",
+        "walletAuthority"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "rowRoot": "v44-organization-policy-row:8037685c886ebaab143f55b5"
+    },
+    {
+      "rowId": "read-route-authority",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
+      "contract": "/read binds organization policy wallet authority to budgeted quotes, buyer approval, wallet authority, and source-safe route assertions.",
+      "requiredFields": [
+        "organizationPolicyWalletAuthority",
+        "pay_btc_fee",
+        "source_safe_read_route_metadata"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "rowRoot": "v44-organization-policy-row:e97e951d1651226fc8ff3e19"
+    },
+    {
+      "rowId": "deposit-route-authority",
+      "owner": "apps/uapi/app/deposit/deposit-route-model.ts",
+      "contract": "/deposit binds source criticality approval, deposit approval, wallet authority, and deposit admission policy into route state.",
+      "requiredFields": [
+        "organizationPolicyWalletAuthority",
+        "sourceCriticalityApproved",
+        "admissionAndIndexingPolicyPresent"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "rowRoot": "v44-organization-policy-row:fa255c011ff1467242e2fc55"
+    },
+    {
+      "rowId": "packs-governance-readback",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "contract": "/packs projects source-safe governance readback into searchable activity detail without serializing secrets or protected source.",
+      "requiredFields": [
+        "PackActivityGovernanceReadback",
+        "buildGovernanceReadback",
+        "authorityRoot"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "rowRoot": "v44-organization-policy-row:bc943098dad2eaa05dcd226b"
+    },
+    {
+      "rowId": "read-deposit-ui-governance",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
+      "contract": "/read and /deposit render Organization authority sections with authority state, wallet state, blockers, and authority roots.",
+      "requiredFields": [
+        "Organization authority",
+        "Authority blockers",
+        "organizationPolicyWalletAuthority"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "rowRoot": "v44-organization-policy-row:e4341cfac5e8d6251829e726"
+    },
+    {
+      "rowId": "fail-closed-tests",
+      "owner": "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts",
+      "contract": "Focused tests prove approved Reading spend, missing wallet denial, approved deposit submission, and critical-source deposit blocking.",
+      "requiredFields": [
+        "pay_btc_fee",
+        "wallet_binding_missing",
+        "sub-critical-approved",
+        "critical-source-blocked"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "rowRoot": "v44-organization-policy-row:49e0624bb053f6a95c5cd0b5"
+    },
+    {
+      "rowId": "workflow-and-artifact-wiring",
+      "owner": "scripts/check-v44-gate7-organization-policy-wallet-authority.mjs",
+      "contract": "Gate 7 closes only when generator, checker, package exports, protocol exports, docs, workflows, and generated artifact are current.",
+      "requiredFields": [
+        "check-v44-gate7-organization-policy-wallet-authority",
+        "generate-v44-organization-policy-wallet-authority"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "rowRoot": "v44-organization-policy-row:ddbda655a267ec781d168a50"
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v44-draft-or-promoted",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate7",
+      "sourcePath": "BITCODE_SPEC_V44.md",
+      "passed": true
+    },
+    {
+      "id": "spec-names-gate7-artifact",
+      "sourcePath": "BITCODE_SPEC_V44.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate7",
+      "sourcePath": "BITCODE_SPEC_V44_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate7",
+      "sourcePath": "BITCODE_SPEC_V44_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate7",
+      "sourcePath": "BITCODE_SPEC_V44_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate7",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readme-records-gate7",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "protocol-readme-records-gate7",
+      "sourcePath": "scripts/specifying/README.md",
+      "passed": true
+    },
+    {
+      "id": "btd-authority-actions-defined",
+      "sourcePath": "packages/btd/src/authority.ts",
+      "passed": true
+    },
+    {
+      "id": "btd-authority-test-covers-deposit-actions",
+      "sourcePath": "packages/btd/__tests__/btd.test.ts",
+      "passed": true
+    },
+    {
+      "id": "package-helper-defined",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
+      "passed": true
+    },
+    {
+      "id": "package-helper-source-safe-assertion",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
+      "passed": true
+    },
+    {
+      "id": "package-helper-test-covers-policy-paths",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-package-exports-helper",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-manifest-exports-helper",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
+      "passed": true
+    },
+    {
+      "id": "read-route-model-binds-authority",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "read-route-test-covers-authority",
+      "sourcePath": "apps/uapi/tests/readRouteModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "read-client-renders-authority",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "read-client-test-covers-authority",
+      "sourcePath": "apps/uapi/tests/readPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-route-model-binds-authority",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-route-test-covers-authority",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-authority",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-test-covers-authority",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "packs-model-projects-governance",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "packs-client-renders-governance",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-test-covers-governance",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "packs-client-test-covers-governance",
+      "sourcePath": "apps/uapi/tests/packsPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "package-test-covers-gate7",
+      "sourcePath": "scripts/specifying/test/v44-organization-policy-wallet-authority.test.js",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate7",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-types-export-gate7",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate7",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate7",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate7",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v44-organization-policy-wallet-authority.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v44-gate7-organization-policy-wallet-authority.mjs",
+      "passed": true
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "spec": "BITCODE_SPEC_V44.md:398a20b55d38df2ebced0591",
+    "delta": "BITCODE_SPEC_V44_DELTA.md:eb779597425caf299574a313",
+    "notes": "BITCODE_SPEC_V44_NOTES.md:bedf9abebdc5d8ac538222b1",
+    "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:533bbfe052c5c8469c31c1af",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
+    "readme": "README.md:d28ec731634e03953d8adfe6",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
+    "packageJson": "package.json:b79014968c556bc1b43ab341",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
+    "btdAuthority": "packages/btd/src/authority.ts:20b1fe9ef12d791fab3e1de7",
+    "btdAuthorityTest": "packages/btd/__tests__/btd.test.ts:21a5e15a3ec931d2c4c7a1cd",
+    "packageHelper": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
+    "packageHelperTest": "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts:dffe4b5f7918abac32d9930b",
+    "assetPackPackageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
+    "assetPackPackageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
+    "readRouteModel": "apps/uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
+    "readRouteTest": "apps/uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
+    "readClientTest": "apps/uapi/tests/readPageClient.test.tsx:45cea103fa46706d1f39c4f4",
+    "depositRouteModel": "apps/uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
+    "depositRouteTest": "apps/uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "depositClientTest": "apps/uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "packActivityModelTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "packsClientTest": "apps/uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
+    "packageIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageSource": "scripts/specifying/src/canonical/v44-organization-policy-wallet-authority.js:50d1fae80749c01012041f97",
+    "packageTest": "scripts/specifying/test/v44-organization-policy-wallet-authority.test.js:95d6dc48346a60a88d83d4b7",
+    "generator": "scripts/generate-v44-organization-policy-wallet-authority.mjs:faabf63e75da42310d30df06",
+    "checker": "scripts/check-v44-gate7-organization-policy-wallet-authority.mjs:fd3dc2088ab6e5a322658257"
+  },
+  "coverage": {
+    "organizationPolicyWalletAuthorityImplemented": true,
+    "btdDepositActionsImplemented": true,
+    "readRouteAuthorityImplemented": true,
+    "depositRouteAuthorityImplemented": true,
+    "packsGovernanceReadbackImplemented": true,
+    "testsImplemented": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetAdmitted": false,
+    "failedPredicateIds": []
+  },
+  "passed": true,
+  "artifactRoot": "v44-organization-policy-wallet-authority:6d392fcd6e2c993770087fb2"
+}

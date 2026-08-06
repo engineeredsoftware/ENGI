@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_PACKS_AUXILLARIES_DASHBOARD_ARTIFACT_PATH,
   buildV47PacksAuxillariesCommercialDashboard,
-} from '../packages/protocol/src/canonical/v47-packs-auxillaries-commercial-dashboard.js';
+} from '../scripts/specifying/src/canonical/v47-packs-auxillaries-commercial-dashboard.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -87,29 +87,29 @@ function main() {
 
   for (const relativePath of [
     V47_PACKS_AUXILLARIES_DASHBOARD_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v47-packs-auxillaries-commercial-dashboard.js',
-    'packages/protocol/test/v47-packs-auxillaries-commercial-dashboard.test.js',
+    'scripts/specifying/src/canonical/v47-packs-auxillaries-commercial-dashboard.js',
+    'scripts/specifying/test/v47-packs-auxillaries-commercial-dashboard.test.js',
     'scripts/generate-v47-packs-auxillaries-commercial-dashboard.mjs',
     'scripts/check-v47-gate6-packs-auxillaries-commercial-dashboard.mjs',
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
-    'uapi/app/api/packs/activity/route.ts',
-    'uapi/app/auxillaries/page.tsx',
-    'uapi/app/auxillaries/components/auxillary-pane-meta.ts',
-    'uapi/app/auxillaries/components/organization/OrganizationSettings.tsx',
-    'uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx',
-    'uapi/app/auxillaries/components/AuxillariesWalletPane.tsx',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/tests/packsPageClient.test.tsx',
-    'uapi/tests/auxillariesWalletPane.test.tsx',
-    'uapi/tests/auxillariesWorkspacePanels.test.tsx',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/app/api/packs/activity/route.ts',
+    'apps/uapi/app/auxillaries/page.tsx',
+    'apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts',
+    'apps/uapi/app/auxillaries/components/organization/OrganizationSettings.tsx',
+    'apps/uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx',
+    'apps/uapi/app/auxillaries/components/AuxillariesWalletPane.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/tests/packsPageClient.test.tsx',
+    'apps/uapi/tests/auxillariesWalletPane.test.tsx',
+    'apps/uapi/tests/auxillariesWorkspacePanels.test.tsx',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -157,7 +157,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -165,7 +165,7 @@ function main() {
         'test/v47-packs-auxillaries-commercial-dashboard.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol test/v47-packs-auxillaries-commercial-dashboard.test.js must pass.');
+      failures.push('scripts/specifying test/v47-packs-auxillaries-commercial-dashboard.test.js must pass.');
     }
   }
 
@@ -173,7 +173,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

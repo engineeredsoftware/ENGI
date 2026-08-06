@@ -1,0 +1,143 @@
+name: V48 Canon Promotion
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  promote-v48:
+    name: V48 Promotion Validation
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        (
+          github.event.pull_request.base.ref == 'main' &&
+          github.event.pull_request.head.ref == 'version/v48' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        )
+      }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout version branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          token: ${{ github.token }}
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate V48 promotion readiness (as-is)
+        run: |
+          set -euo pipefail
+
+          run_checked() {
+            echo "::group::$*"
+            "$@"
+            echo "::endgroup::"
+          }
+
+          run_bounded() {
+            local limit="$1"
+            shift
+            echo "::group::$*"
+            timeout --kill-after=30s "$limit" "$@"
+            echo "::endgroup::"
+          }
+
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
+          if [ "$POINTER" = "V47" ]; then
+            # Pre-pointer as-is path: draft V48 + living gate4 + promote dry-run
+            run_checked node scripts/check-bitcode-spec-family.mjs --version V48 --mode draft --current-target V47
+            run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V47 --draft-target V48
+            run_checked node scripts/check-bitcode-canonical-inputs.mjs --current-target V47
+            if [ -f scripts/check-v48-gate4-depositor-website-completion.mjs ]; then
+              run_checked node scripts/check-v48-gate4-depositor-website-completion.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
+            fi
+            run_checked node scripts/promote-bitcode-canon.mjs --version V48 --commit HEAD --dry-run
+          elif [ "$POINTER" = "V48" ]; then
+            run_checked node scripts/check-bitcode-spec-family.mjs --version V48 --mode promoted --current-target V48
+            run_checked node scripts/check-bitcode-canonical-inputs.mjs --current-target V48
+            run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V48 --draft-target V48
+            for check in $(ls scripts/check-v48-gate*.mjs 2>/dev/null | sort -V); do
+              run_checked node "$check" --skip-branch-check --skip-package-tests --skip-uapi-tests
+            done
+          else
+            echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
+            exit 1
+          fi
+          run_bounded 5m pnpm --filter @bitcode/specifying typecheck
+          run_bounded 15m pnpm --filter @bitcode/specifying test
+          run_bounded 5m pnpm --filter @bitcode/btd typecheck
+          run_bounded 5m pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
+          run_bounded 5m pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
+          run_bounded 5m pnpm --filter @bitcode/pipeline-hosts typecheck
+          run_bounded 5m pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          run_bounded 5m pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          run_checked git diff --check
+
+      - name: Promote V48 canon files
+        if: >-
+          ${{
+            github.event_name == 'pull_request' &&
+            github.event.pull_request.head.ref == 'version/v48'
+          }}
+        env:
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          if [ "$(cat .specifications/BITCODE_SPEC.txt)" = "V48" ]; then
+            echo "BITCODE_SPEC.txt already points to V48."
+            exit 0
+          fi
+          PROOF_SOURCE_COMMIT="$(git rev-parse HEAD)"
+          node scripts/prepare-bitcode-spec-family-promotion.mjs --version V48 --commit "$PROOF_SOURCE_COMMIT"
+          node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V48 --next-draft V48
+          printf "V48\n" > .specifications/BITCODE_SPEC.txt
+          node scripts/generate-bitcode-proven.mjs --version V48 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output .specifications/BITCODE_SPEC_V48_PROVEN.md --allow-dirty
+          node scripts/generate-bitcode-proven.mjs --version V48 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output .specifications/BITCODE_SPEC_V48_PROVEN.md --check --allow-dirty
+          node scripts/check-bitcode-canonical-inputs.mjs --current-target V48
+          node scripts/check-bitcode-spec-family.mjs --version V48 --mode promoted --current-target V48
+          node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V48 --draft-target V48
+          git diff --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            .specifications/BITCODE_SPEC.txt \
+            .specifications/BITCODE_SPEC_V48.md \
+            .specifications/BITCODE_SPEC_V48_DELTA.md \
+            .specifications/BITCODE_SPEC_V48_NOTES.md \
+            .specifications/BITCODE_SPEC_V48_PARITY_MATRIX.md \
+            .specifications/BITCODE_SPEC_V48_PROVEN.md \
+            scripts/specifying/src/canon-posture.js \
+            scripts/specifying/data/state.json \
+            scripts/specifying/README.md \
+            .proofs
+          git commit -m "Promote Bitcode canon to V48"
+          git push origin "HEAD:$HEAD_BRANCH"

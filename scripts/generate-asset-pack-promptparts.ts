@@ -38,7 +38,7 @@ const AGENTS = {
     { name: 'assesscomplexity', display: 'Assess Complexity', purpose: 'evaluate technical business integration and testing complexity metrics' }
   ],
   implementation: [
-    { name: 'dividepullrequest', display: 'Divide Pull Request', purpose: 'plan code written assets that can later finish through a pull request Shippable' },
+    { name: 'dividepullrequest', display: 'Divide Pull Request', purpose: 'plan code written assets that can later finish through a pull request settle delivery' },
     { name: 'applyfile', display: 'Apply File', purpose: 'apply planned changes in individual files according to Read-satisfaction evidence' },
     { name: 'correctpullrequest', display: 'Correct Pull Request', purpose: 'validate and correct code written assets for consistency and quality before Finish' },
     { name: 'reviewcodechanges', display: 'Review Code Changes', purpose: 'perform comprehensive review of code written assets before PR-backed Finish' }
@@ -50,7 +50,7 @@ const AGENTS = {
     { name: 'readytofinish', display: 'AssetPack Ready to Finish', purpose: 'decide whether validated Read-satisfaction AssetPack synthesis artifacts and required evidence may enter Finish or must short-circuit with BTC fee-hold release evidence' }
   ],
   finish: [
-    { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create the PR Shippable with title description and metadata on a VCS platform' },
+    { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create the PR settle delivery with title description and metadata on a VCS platform' },
     { name: 'assetpackcompletion', display: 'AssetPack Completion', purpose: 'complete AssetPack Finish with metrics proof evidence and confirmation' }
   ]
 };

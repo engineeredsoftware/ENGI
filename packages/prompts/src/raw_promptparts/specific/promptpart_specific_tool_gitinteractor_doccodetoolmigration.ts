@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLMIGRATION: PromptPart = 
-  'Use Git interactor tools when the Bitcode operation is concretely Git-shaped; use @bitcode/vcs-tools when the operation should be provider-generic from the start. Keep this package active while it owns current Git-shaped repository semantics.' as PromptPart;
+  'Use Git interactor tools when the Bitcode operation is concretely Git-shaped; use @bitcode/generic-tools-vcs when the operation should be provider-generic from the start. Keep this package active while it owns current Git-shaped repository semantics.' as PromptPart;

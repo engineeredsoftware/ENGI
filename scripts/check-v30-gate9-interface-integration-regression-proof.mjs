@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -87,23 +87,23 @@ function main() {
     'packages/btd/__tests__/interface-integration.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'uapi/app/api/btd/interface-integration-regression/route.ts',
-    'uapi/app/terminal/terminal-interface-integration-regression.ts',
-    'uapi/app/terminal/terminal-protocol-projection.ts',
-    'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
-    'uapi/tests/terminalProtocolProjection.test.ts',
-    'packages/chatgptapp/src/interface-integration.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts',
+    'apps/uapi/app/api/btd/interface-integration-regression/route.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-interface-integration-regression.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-protocol-projection.ts',
+    'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+    'apps/uapi/tests/terminalProtocolProjection.test.ts',
+    'apps/chatgpt/src/interface-integration.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/mcp/src/interface-integration.ts',
+    'apps/mcp/src/__tests__/unit/auth.test.ts',
     'packages/btd/README.md',
-    'uapi/app/terminal/README.md',
-    'packages/chatgptapp/README.md',
-    'packages/executions-mcp/src/mcp-server/README.md',
-    'BITCODE_SPEC_V30.md',
-    'BITCODE_SPEC_V30_DELTA.md',
-    'BITCODE_SPEC_V30_NOTES.md',
-    'BITCODE_SPEC_V30_PARITY_MATRIX.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'apps/chatgpt/README.md',
+    'apps/mcp/README.md',
+    '.specifications/BITCODE_SPEC_V30.md',
+    '.specifications/BITCODE_SPEC_V30_DELTA.md',
+    '.specifications/BITCODE_SPEC_V30_NOTES.md',
+    '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V30 Gate 9 file: ${relativePath}`);
   }
@@ -115,23 +115,23 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/interface-integration.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const nextRoute = read(root, 'uapi/app/api/btd/interface-integration-regression/route.ts');
-  const terminalAdapter = read(root, 'uapi/app/terminal/terminal-interface-integration-regression.ts');
-  const terminalProjection = read(root, 'uapi/app/terminal/terminal-protocol-projection.ts');
-  const terminalTest = read(root, 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts');
-  const terminalProjectionTest = read(root, 'uapi/tests/terminalProtocolProjection.test.ts');
-  const chatgptAdapter = read(root, 'packages/chatgptapp/src/interface-integration.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
-  const mcpAdapter = read(root, 'packages/executions-mcp/src/mcp-server/src/interface-integration.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts');
+  const nextRoute = read(root, 'apps/uapi/app/api/btd/interface-integration-regression/route.ts');
+  const terminalAdapter = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-interface-integration-regression.ts');
+  const terminalProjection = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-protocol-projection.ts');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts');
+  const terminalProjectionTest = read(root, 'apps/uapi/tests/terminalProtocolProjection.test.ts');
+  const chatgptAdapter = read(root, 'apps/chatgpt/src/interface-integration.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const mcpAdapter = read(root, 'apps/mcp/src/interface-integration.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/auth.test.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const chatgptReadme = read(root, 'packages/chatgptapp/README.md');
-  const mcpReadme = read(root, 'packages/executions-mcp/src/mcp-server/README.md');
-  const spec = read(root, 'BITCODE_SPEC_V30.md');
-  const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V30_PARITY_MATRIX.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
+  const chatgptReadme = read(root, 'apps/chatgpt/README.md');
+  const mcpReadme = read(root, 'apps/mcp/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V30.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V30_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V30_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -210,18 +210,18 @@ function main() {
     'buildTerminalInterfaceIntegrationRegressionRecords',
     'buildTerminalInterfaceIntegrationRegressionSummary',
   ]) {
-    assertCheck(failures, terminalAdapter.includes(adapterEvidence), `Terminal adapter must include ${adapterEvidence}.`);
+    assertCheck(failures, terminalAdapter.includes(adapterEvidence), `product adapter must include ${adapterEvidence}.`);
   }
   assertCheck(
     failures,
     terminalProjection.includes('interfaceIntegrationRegression'),
-    'Terminal protocol projection must expose interface integration regression summary.',
+    'product protocol projection must expose interface integration regression summary.',
   );
   assertCheck(
     failures,
     terminalTest.includes('source-safe low-detail') &&
       terminalProjectionTest.includes('interfaceIntegrationRegression'),
-    'Terminal tests must cover low-detail interface integration regression.',
+    'product tests must cover low-detail interface integration regression.',
   );
 
   assertCheck(
@@ -247,7 +247,7 @@ function main() {
     failures,
     terminalReadme.includes('/btd/interface-integration-regression') &&
       terminalReadme.includes('@bitcode/btd/interface-integration-contract'),
-    'Terminal README must document interface integration proof consumption.',
+    'product README must document interface integration proof consumption.',
   );
   assertCheck(
     failures,
@@ -290,7 +290,7 @@ function main() {
   assertCheck(
     failures,
     gateWorkflow.includes('terminalInterfaceIntegrationRegression.test.ts'),
-    'Gate workflow must run Terminal interface integration regression tests.',
+    'Gate workflow must run product interface integration regression tests.',
   );
 
   if (failures.length) {

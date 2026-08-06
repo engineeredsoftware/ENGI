@@ -16,12 +16,12 @@ Tools in Bitcode are type-safe wrappers around functions that:
 
 ```typescript
 export abstract class Tool<T extends ToolFunction = ToolFunction> {
-  abstract use: T;
-  
-  // Runtime execution
-  async execute(...args: Parameters<T>): Promise<Awaited<ReturnType<T>>> {
-    return this.use(...args);
-  }
+ abstract use: T;
+
+ // Runtime execution
+ async execute(...args: Parameters<T>): Promise<Awaited<ReturnType<T>>> {
+ return this.use(...args);
+ }
 }
 ```
 
@@ -33,19 +33,20 @@ import { z } from 'zod';
 
 // Define the tool function
 async function searchCode(query: string, options?: { limit?: number }) {
-  // Implementation
-  return results;
+ // Implementation
+ return results;
 }
 
 // Create the Tool class
 export class SearchCodeTool extends Tool<typeof searchCode> {
-  use = searchCode;
+ use = searchCode;
 }
 ```
 
 ## Doc-Code Integration
 
-Tools use `@doc-code-tool` comments that ARE prompts:
+Tools use `@doc-code-tool` comments that **are** the LLM documentation surface
+(purpose, capabilities, **parameters**, **output**):
 
 ```typescript
 /**
@@ -56,11 +57,30 @@ Tools use `@doc-code-tool` comments that ARE prompts:
  * @output Array of matched locations with context
  */
 export class SearchCodeTool extends Tool<typeof searchCode> {
-  use = searchCode;
+ use = searchCode;
 }
 ```
 
-The doc-code-tool plugin processes these comments at build time to generate tool documentation and integrate with the prompt system.
+Build-time doc-code (`@bitcode/generic-doc-comments-doc-code`) attaches
+`DocCodeToolPrompt` to `tool.__docCodePrompt`. Runtime:
+
+```ts
+import { formatUsableTools, attachDocCodeToolPrompt } from '@bitcode/tools-generics';
+
+const docsForLlm = formatUsableTools([searchTool, …]);
+// Agent PTRR auto-injects this as auto:tools_doc_code_tools (see agent-generics TOOLS-IN-PTRR.md)
+```
+
+### Agent + PTRR (parameters and results)
+
+| Concern | Mechanism |
+| --- | --- |
+| Parameters (how the model fills args) | Doc-code `@parameters` + step schema `useTools: [{ name, input, reason }]` |
+| Selection | Structured output `output.useTools` after Failsafe×Thinkings |
+| Execution | `factoryToolsExecution` → `execution.tools.getTool(name).execute(input)` |
+| Results | `usedTools: [{ tool, input?, output?, error? }]` + `auto:tools_results` interpolation |
+
+Full lifecycle: **`@bitcode/agent-generics` → `TOOLS-IN-PTRR.md`**.
 
 ## MCP Integration
 
@@ -70,10 +90,10 @@ The package provides MCP (Model Context Protocol) wrappers for external tools:
 import { wrapMCPTool } from '@bitcode/tools-generics';
 
 const mcpTool = wrapMCPTool({
-  name: 'github-create-pr',
-  description: 'Create a pull request',
-  inputSchema: { /* zod schema */ },
-  handler: async (params) => { /* implementation */ }
+ name: 'github-create-pr',
+ description: 'Create a pull request',
+ inputSchema: { /* zod schema */ },
+ handler: async (params) => { /* implementation */ }
 });
 ```
 
@@ -89,14 +109,14 @@ const mcpTool = wrapMCPTool({
 
 ```
 /src/
-├── Tool.ts           # Core Tool class
-├── types.ts          # Type definitions
-├── mcp/              # MCP integration
-│   └── MCPToolWrapper.ts
-└── doc-code-tool/    # Doc-code prompt + formatter infrastructure
-    ├── DocCodeToolPrompt.ts
-    ├── DocCodeToolDecorator.ts
-    └── formatUsableTools.ts
+├── Tool.ts # Core Tool class
+├── types.ts # Type definitions
+├── mcp/ # MCP integration
+│ └── MCPToolWrapper.ts
+└── doc-code-tool/ # Doc-code prompt + formatter infrastructure
+ ├── DocCodeToolPrompt.ts
+ ├── DocCodeToolDecorator.ts
+ └── formatUsableTools.ts
 ```
 
 ## Philosophy

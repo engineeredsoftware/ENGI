@@ -1,5 +1,5 @@
 export const BTD_INTERFACE_INTEGRATION_REQUIRED_SURFACES = [
-  'terminal',
+  'product',
   'api',
   'mcp',
   'chatgpt_app',

@@ -71,7 +71,7 @@ Format: `GA<generation>.<quality>.<variant>`
 ## Integration Points
 
 - **execution-generics**: ExecutionPrompt extends Prompt
-- **pipelines-generics**: PipelinePrompt for hierarchy
+- **pipelines-generics**: ExecutionPipelinePrompt for hierarchy
 - **agent-generics**: AgentPrompt for PTRR context
 - **tools-generics**: ToolPrompt for capabilities
 

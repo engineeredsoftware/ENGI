@@ -16,7 +16,7 @@ import {
   DocComment, 
   DocCommentMetadata,
   ParseLocation 
-} from '@bitcode/doc-comment';
+} from '@bitcode/doc-comment-generics';
 
 // ==================== TYPES ====================
 
@@ -342,7 +342,7 @@ export const docPromptPlugin = new DocPromptPlugin();
 // ==================== AUTO-REGISTRATION ====================
 
 // Auto-register when imported
-import { registerPlugin } from '@bitcode/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment-generics';
 registerPlugin(docPromptPartPlugin);
 registerPlugin(docPromptPlugin);
 

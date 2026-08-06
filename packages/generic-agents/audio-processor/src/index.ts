@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { z } from 'zod';
@@ -230,7 +230,8 @@ export const audioProcessorStepPrompts = {
  * Comprehensive audio processing variation
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveAudioVariation = factoryAgentWithPTRR<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveAudioVariation: any = factoryPTRRAgent<
   z.infer<typeof AudioProcessorInputSchema>,
   z.infer<typeof AudioProcessorRetrySchema>
 >({
@@ -272,7 +273,7 @@ const comprehensiveAudioVariation = factoryAgentWithPTRR<
  * Quick audio analysis variation
  * Single-step execution for simple audio tasks
  */
-const quickAudioVariation = factoryAgentWithSingleStep<
+const quickAudioVariation: any = factoryAgentWithSingleStep<
   z.infer<typeof AudioProcessorInputSchema>,
   z.infer<typeof AudioProcessorRetrySchema>
 >({

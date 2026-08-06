@@ -63,7 +63,7 @@ describe('Interface consumer UX regression proof', () => {
       denialCode: 'CONFIRMATION_OR_SETTLEMENT_REQUIRED',
     });
     expect(terminal).toMatchObject({
-      surface: 'terminal_handoff',
+      surface: 'product_handoff',
       visibilityBoundary: 'blocked_until_settlement',
       denialCode: 'ASSETPACK_SOURCE_LOCKED_UNTIL_SETTLEMENT',
     });
@@ -149,7 +149,8 @@ describe('Interface consumer UX regression proof', () => {
     expect(() =>
       buildBtdInterfaceConsumerUxRegressionRow({
         ...row,
-        fixturePath: 'protocol-demonstration/src/consumer-fixture.test.ts',
+        // Must match BRITTLE_DEMONSTRATION_PATTERNS (protocol-demonstration|demo-only|mock-only).
+        fixturePath: 'protocol-demonstration/consumer-fixture.test.ts',
       }),
     ).toThrow(/demonstration-only/);
   });

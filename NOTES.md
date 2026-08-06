@@ -1,1 +1,0 @@
-- digitizing and tokenizing scaled engineering economies

@@ -1,4 +1,0 @@
-export const PIPELINE_CONSTANTS = {
-  MAX_RETRIES: 3,
-  DRY_RUN_LLM_RESPONSE_JSON: '{}',
-};

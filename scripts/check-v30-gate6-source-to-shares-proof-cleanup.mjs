@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -86,13 +86,13 @@ function main() {
     'packages/btd/__tests__/source-to-shares.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'uapi/app/api/btd/source-to-shares-proof/route.ts',
+    'apps/uapi/app/api/btd/source-to-shares-proof/route.ts',
     'packages/btd/README.md',
-    'uapi/app/terminal/README.md',
-    'BITCODE_SPEC_V30.md',
-    'BITCODE_SPEC_V30_DELTA.md',
-    'BITCODE_SPEC_V30_NOTES.md',
-    'BITCODE_SPEC_V30_PARITY_MATRIX.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    '.specifications/BITCODE_SPEC_V30.md',
+    '.specifications/BITCODE_SPEC_V30_DELTA.md',
+    '.specifications/BITCODE_SPEC_V30_NOTES.md',
+    '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V30 Gate 6 file: ${relativePath}`);
   }
@@ -103,13 +103,13 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/source-to-shares.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const uapiRoute = read(root, 'uapi/app/api/btd/source-to-shares-proof/route.ts');
+  const uapiRoute = read(root, 'apps/uapi/app/api/btd/source-to-shares-proof/route.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const spec = read(root, 'BITCODE_SPEC_V30.md');
-  const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V30_PARITY_MATRIX.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V30.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V30_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V30_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -124,7 +124,7 @@ function main() {
     'ancestryEvidence',
     'largest_remainder',
     'settlementAdmissible',
-    '.bitcode/v30-settlement-source-to-shares-proof.json',
+    '.proofs/v30/settlement-source-to-shares-proof.json',
   ]) {
     assertCheck(failures, sourceToShares.includes(symbol), `BTD source-to-shares primitive is missing ${symbol}.`);
   }
@@ -179,7 +179,7 @@ function main() {
     failures,
     terminalReadme.includes('Source-to-shares settlement evidence') &&
       terminalReadme.includes('no-overpayment and no-underpayment'),
-    'Terminal README must document source-to-shares proof consumption.',
+    'product README must document source-to-shares proof consumption.',
   );
   assertCheck(
     failures,

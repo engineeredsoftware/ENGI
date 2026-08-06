@@ -46,7 +46,7 @@ describe('branchAssetPackRun', () => {
         id: sourceId,
         user_id: userId,
         type: 'agentic-execution:asset-pack',
-        guide: 'Develop',
+        guide: 'SDIVF',
         status: 'running',
         config: { foo: 'bar' },
         input: { task: 'demo' },

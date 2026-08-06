@@ -28,7 +28,7 @@ export interface TemplatedPromptPart<TVariables = Record<string, any>> {
 /**
  * Create a templated prompt part
  */
-export function createTemplatedPromptPart<T = Record<string, any>>(
+export function createTemplatedPromptPart<T extends Record<string, any> = Record<string, any>>(
   template: string,
   variables?: (keyof T)[],
   defaults?: Partial<T>
@@ -46,7 +46,7 @@ export function createTemplatedPromptPart<T = Record<string, any>>(
 /**
  * Resolve a templated prompt part with actual values
  */
-export function resolveTemplate<T>(
+export function resolveTemplate<T extends Record<string, any>>(
   templated: TemplatedPromptPart<T>,
   values: T
 ): PromptPart {
@@ -60,7 +60,7 @@ export function resolveTemplate<T>(
   
   // Check all required variables are provided
   for (const variable of templated.variables) {
-    if (!(variable in finalValues)) {
+    if (!(variable in (finalValues as object))) {
       throw new Error(`Missing required template variable: ${String(variable)}`);
     }
   }

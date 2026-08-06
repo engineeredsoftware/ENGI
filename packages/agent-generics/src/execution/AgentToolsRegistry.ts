@@ -197,26 +197,43 @@ export class AgentToolsRegistry extends RegistryImpl<ExecutionTool> {
   }
   
   /**
-   * Get all tools available in hierarchy
+   * Get all tools available in hierarchy, then apply this level's allowlist
+   * (`restrictTo`) so step-scoped surfaces do not leak agent/pipeline tools.
+   *
+   * - `restrictTo` unset → full hierarchy registrations
+   * - `restrictTo([])` → empty surface
+   * - `restrictTo(['a','b'])` → only those keys (resolved via getTool)
    */
   getUsableTools(): Record<string, ExecutionTool> {
+    // Allowlist mode: resolve only permitted keys (empty set → nothing usable).
+    if (this.allowedKeys) {
+      const filtered: Record<string, ExecutionTool> = {};
+      for (const key of this.allowedKeys) {
+        const tool = this.getTool(key);
+        if (tool) filtered[key] = tool;
+      }
+      return filtered;
+    }
+
     const tools: Record<string, ExecutionTool> = {};
-    
+
     // Collect from entire hierarchy (bottom-up so children override parents)
     const collectFromExecution = (exec: Execution) => {
       if (exec.parent) {
         collectFromExecution(exec.parent);
       }
-      
-      // Add tools from this level if it has a registry
+
       if ('tools' in exec && exec.tools instanceof AgentToolsRegistry) {
         const registry = exec.tools as AgentToolsRegistry;
-        const paths = registry.getPaths();
-        for (const path of paths) {
-          const tool = registry.get(path);
-          if (tool) {
-            tools[path] = tool;
+        if (registry === this) {
+          // This level: local registrations only
+          for (const path of registry.getPaths()) {
+            const tool = registry.get(path);
+            if (tool) tools[path] = tool;
           }
+        } else {
+          // Ancestor: honor its allowlist via its getUsableTools
+          Object.assign(tools, registry.getUsableTools());
         }
       } else if ('tools' in exec) {
         const parentTools = (exec as any).tools;
@@ -235,9 +252,8 @@ export class AgentToolsRegistry extends RegistryImpl<ExecutionTool> {
         }
       }
     };
-    
+
     collectFromExecution(this.execution);
-    
     return tools;
   }
 }

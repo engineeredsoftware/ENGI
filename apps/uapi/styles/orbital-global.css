@@ -1,0 +1,12 @@
+/*
+ * Overlay open: lock background scroll only.
+ *
+ * Width stability comes from html { scrollbar-gutter: stable } in globals —
+ * do NOT add padding-right, overflow-x:hidden, or 100vw compensation here.
+ * Those double-reserved the gutter and reintroduced page shift / aux strip.
+ */
+html:is(.orbital-open, .auxillaries-open),
+html:is(.orbital-open, .auxillaries-open) body {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}

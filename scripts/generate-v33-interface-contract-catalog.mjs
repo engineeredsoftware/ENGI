@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v33-interface-contract-catalog.json';
+const ARTIFACT_PATH = '.proofs/v33/interface-contract-catalog.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -57,14 +57,14 @@ const catalogRows = Object.freeze([
     interfaceId: 'terminal_handoff',
     status: 'active_contract',
     bindingKind: 'terminal_handoff',
-    ownerPackage: 'uapi/app/terminal',
+    ownerPackage: 'apps/uapi/app/terminal',
     actionId: 'terminal.reading.handoff',
     schemaId: 'bitcode.interface.terminalReadingHandoff.v1',
     authPolicyId: 'interface.authorization.reader-session',
     sourceSafetyClass: 'protected-source-locked',
-    exampleFixturePath: 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+    exampleFixturePath: 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
     validationCommand:
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
     compatibilityStatus: 'compatible',
     failureMode: 'terminal-handoff-denies-protected-assetpack-source-before-settlement',
     repairPosture: 'review-source-safe-preview-and-settle-before-full-delivery',
@@ -91,15 +91,15 @@ const catalogRows = Object.freeze([
     interfaceId: 'mcp_api',
     status: 'active_contract',
     bindingKind: 'mcp_tool',
-    ownerPackage: 'packages/executions-mcp/src/mcp-server',
+    ownerPackage: 'apps/mcp',
     actionId: 'mcp.reading.pipeline',
     schemaId: 'bitcode.interface.mcpReadingTool.v1',
     authPolicyId: 'interface.authorization.pipeline-permission',
     sourceSafetyClass: 'source-safe-internal',
     exampleFixturePath:
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     validationCommand:
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     compatibilityStatus: 'compatible',
     failureMode: 'mcp-tool-denies-missing-pipelines-create-permission',
     repairPosture: 'grant-pipeline-permission-or-use-source-safe-readonly-tool',
@@ -114,7 +114,7 @@ const catalogRows = Object.freeze([
     schemaId: 'bitcode.interface.chatGptReadingAction.v1',
     authPolicyId: 'interface.authorization.confirmed-connected-write',
     sourceSafetyClass: 'source-safe-internal',
-    exampleFixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+    exampleFixturePath: 'apps/chatgpt/src/__tests__/tools.test.ts',
     validationCommand:
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
     compatibilityStatus: 'compatible',
@@ -143,14 +143,14 @@ const catalogRows = Object.freeze([
     interfaceId: 'exchange_hook',
     status: 'deferred_blocked',
     bindingKind: 'deferred_hook',
-    ownerPackage: 'uapi/app/exchange',
+    ownerPackage: 'apps/uapi/app/exchange',
     actionId: 'exchange.reading.hook',
     schemaId: 'bitcode.interface.exchangeHook.v1',
     authPolicyId: 'interface.authorization.deferred-not-admitted',
     sourceSafetyClass: 'deferred-blocker',
-    exampleFixturePath: 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+    exampleFixturePath: 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
     validationCommand:
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
     compatibilityStatus: 'deferred_not_admitted',
     failureMode: 'exchange-hook-remains-blocked-until-exchange-product-depth-gate',
     repairPosture: 'wait-for-exchange-depth-gate-before-interface-admission',
@@ -161,14 +161,14 @@ const catalogRows = Object.freeze([
     interfaceId: 'conversations_hook',
     status: 'deferred_blocked',
     bindingKind: 'deferred_hook',
-    ownerPackage: 'uapi/app/conversations',
+    ownerPackage: 'apps/uapi/app/conversations',
     actionId: 'conversations.reading.hook',
     schemaId: 'bitcode.interface.conversationsHook.v1',
     authPolicyId: 'interface.authorization.deferred-not-admitted',
     sourceSafetyClass: 'deferred-blocker',
-    exampleFixturePath: 'uapi/tests/api/conversationsRouteRead.test.ts',
+    exampleFixturePath: 'apps/uapi/tests/api/conversationsRouteRead.test.ts',
     validationCommand:
-      'pnpm --dir uapi exec jest --runTestsByPath tests/api/conversationsRouteRead.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/api/conversationsRouteRead.test.ts --runInBand',
     compatibilityStatus: 'deferred_not_admitted',
     failureMode: 'conversations-hook-remains-blocked-until-conversations-product-depth-gate',
     repairPosture: 'wait-for-conversations-depth-gate-before-interface-admission',
@@ -180,9 +180,9 @@ const catalogRows = Object.freeze([
 const sourceFiles = Object.freeze([
   'packages/btd/src/interface-contract-catalog.ts',
   'packages/btd/src/index.ts',
-  'BITCODE_SPEC_V33.md',
-  'BITCODE_SPEC_V33_DELTA.md',
-  'BITCODE_SPEC_V33_PARITY_MATRIX.md',
+  '.specifications/BITCODE_SPEC_V33.md',
+  '.specifications/BITCODE_SPEC_V33_DELTA.md',
+  '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
 ]);
 
 const testFiles = Object.freeze([
@@ -280,14 +280,14 @@ export function buildV33InterfaceContractCatalogArtifact() {
       'deferred_not_admitted',
     ]),
     scanTokens('packages/btd/src/index.ts', ['interface-contract-catalog']),
-    scanTokens('BITCODE_SPEC_V33.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', [
       'InterfaceContractCatalog',
-      '.bitcode/v33-interface-contract-catalog.json',
+      '.proofs/v33/interface-contract-catalog.json',
     ]),
   ];
   const testEvidence = [
     scanTokens('packages/btd/__tests__/interface-contract-catalog.test.ts', [
-      'catalogs Terminal handoff, public API, MCP API, ChatGPT App, package consumers, and deferred hooks',
+      'catalogs product handoff, public API, MCP API, ChatGPT App, package consumers, and deferred hooks',
       'fails closed when a required interface catalog row is missing',
       'fails closed when deferred hooks are accidentally admitted as compatible active contracts',
       'fails closed on secret-shaped or protected-source catalog text',

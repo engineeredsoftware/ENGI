@@ -1,0 +1,2164 @@
+{
+  "artifactId": "v37-conversation-source-selector",
+  "schemaId": "bitcode.v37.conversationSourceSelector.v1",
+  "version": "V37",
+  "currentTarget": "V36",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-conversation-source-selector-metadata",
+  "disclosureBoundary": {
+    "selectorMayExpose": [
+      "selector_kind",
+      "source_ref_summary",
+      "source_safe_preview_label",
+      "policy_verdict",
+      "denial_reason",
+      "retry_action",
+      "proof_roots",
+      "event_ids"
+    ],
+    "selectorMustNotExpose": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "unpaid_assetpack_source",
+      "settlement_private_payloads",
+      "global_ledger_authority_claim"
+    ]
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredKindIds": [
+      "repository",
+      "branch",
+      "commit",
+      "deposit",
+      "btd_range",
+      "assetpack_preview",
+      "document",
+      "prior_conversation"
+    ],
+    "observedKindIds": [
+      "repository",
+      "branch",
+      "commit",
+      "deposit",
+      "btd_range",
+      "assetpack_preview",
+      "document",
+      "prior_conversation"
+    ],
+    "missingKindIds": [],
+    "requiredGovernanceIds": [
+      "account",
+      "organization",
+      "wallet",
+      "rights",
+      "settlement",
+      "disclosure",
+      "policy"
+    ],
+    "observedGovernanceIds": [
+      "account",
+      "organization",
+      "wallet",
+      "rights",
+      "settlement",
+      "disclosure",
+      "policy"
+    ],
+    "missingGovernanceIds": [],
+    "requiredPreviewStates": [
+      "allowed",
+      "denied",
+      "retry_required"
+    ],
+    "observedPreviewStates": [
+      "allowed",
+      "denied",
+      "retry_required"
+    ],
+    "missingPreviewStates": [],
+    "requiredFieldIds": [
+      "selector_kind",
+      "source_ref",
+      "account_posture",
+      "organization_posture",
+      "wallet_posture",
+      "rights_posture",
+      "settlement_posture",
+      "disclosure_posture",
+      "policy_posture",
+      "preview_policy",
+      "denial_reason",
+      "retry_action",
+      "proof_roots",
+      "event_ids"
+    ],
+    "selectorKindCount": 8,
+    "allKindsCovered": true,
+    "allGovernanceCovered": true,
+    "allPreviewStatesCovered": true,
+    "repositoryCovered": true,
+    "branchCovered": true,
+    "commitCovered": true,
+    "depositCovered": true,
+    "btdRangeCovered": true,
+    "assetpackPreviewCovered": true,
+    "documentCovered": true,
+    "priorConversationCovered": true,
+    "denialStatesCovered": true,
+    "retryStatesCovered": true,
+    "proofRootsCovered": true,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "globalLedgerAuthorityClaimed": false
+  },
+  "requiredKindIds": [
+    "repository",
+    "branch",
+    "commit",
+    "deposit",
+    "btd_range",
+    "assetpack_preview",
+    "document",
+    "prior_conversation"
+  ],
+  "requiredGovernanceIds": [
+    "account",
+    "organization",
+    "wallet",
+    "rights",
+    "settlement",
+    "disclosure",
+    "policy"
+  ],
+  "requiredPreviewStates": [
+    "allowed",
+    "denied",
+    "retry_required"
+  ],
+  "requiredFieldIds": [
+    "selector_kind",
+    "source_ref",
+    "account_posture",
+    "organization_posture",
+    "wallet_posture",
+    "rights_posture",
+    "settlement_posture",
+    "disclosure_posture",
+    "policy_posture",
+    "preview_policy",
+    "denial_reason",
+    "retry_action",
+    "proof_roots",
+    "event_ids"
+  ],
+  "rows": [
+    {
+      "selectorKind": "repository",
+      "label": "Repository source",
+      "sourceRefShape": "provider/repository slug with optional default branch summary",
+      "previewSummary": "Repository selectors expose repository identity and policy status, not repository source contents.",
+      "allowedWhen": [
+        "account_connected",
+        "organization_allows_repository_context",
+        "disclosure_source_safe"
+      ],
+      "deniedWhen": [
+        "account_missing",
+        "organization_denies_repository",
+        "repository_not_visible"
+      ],
+      "retryWhen": [
+        "provider_connection_expired",
+        "repository_list_stale"
+      ],
+      "eventIds": [
+        "conversation.source.repository.selected",
+        "conversation.source.repository.denied"
+      ],
+      "fieldIds": [
+        "selector_kind",
+        "source_ref",
+        "account_posture",
+        "organization_posture",
+        "wallet_posture",
+        "rights_posture",
+        "settlement_posture",
+        "disclosure_posture",
+        "policy_posture",
+        "preview_policy",
+        "denial_reason",
+        "retry_action",
+        "proof_roots",
+        "event_ids"
+      ],
+      "governanceIds": [
+        "account",
+        "organization",
+        "wallet",
+        "rights",
+        "settlement",
+        "disclosure",
+        "policy"
+      ],
+      "previewStates": [
+        "allowed",
+        "denied",
+        "retry_required"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_source_selector_metadata",
+      "previewPolicy": {
+        "mayExpose": [
+          "selector_kind",
+          "source_ref_summary",
+          "source_safe_preview_label",
+          "policy_verdict",
+          "denial_reason",
+          "retry_action",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "policyPosture": {
+        "account": "requires_authenticated_account_scope",
+        "organization": "requires_selected_organization_or_personal_scope",
+        "wallet": "requires_wallet_presence_for_btd_or_settlement_bound_sources",
+        "rights": "requires_reader_visible_rights_or_source_safe_preview_rights",
+        "settlement": "requires_settlement_for_full_assetpack_or_btd_source_visibility",
+        "disclosure": "source_safe_preview_only_before_rights_and_settlement",
+        "policy": "fails_closed_until_all_applicable_policy_dimensions_are_known"
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "repository.conversation-source-selector-row-present",
+          "command": "pnpm run check:v37-gate5",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_selector_kind",
+            "missing_policy_dimension",
+            "missing_denial_state",
+            "missing_retry_state",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "accountPolicyRoot": "conversation-source-selector-proof:3855cb05f2ccd9bdb60a9b27",
+        "organizationPolicyRoot": "conversation-source-selector-proof:fa334feccff6b5a20a434ce5",
+        "walletPolicyRoot": "conversation-source-selector-proof:d830ce896a1f7708b3145e9b",
+        "rightsPolicyRoot": "conversation-source-selector-proof:35ffed7ed52042840d28baec",
+        "settlementPolicyRoot": "conversation-source-selector-proof:5c178e7f6f0f616e738f9168",
+        "disclosurePolicyRoot": "conversation-source-selector-proof:15350d1b19180e950b326908",
+        "policyPolicyRoot": "conversation-source-selector-proof:6c732b0c79e58a952b7508ff"
+      },
+      "rowRoot": "conversation-source-selector-row:183d8bf5054804bd37762189",
+      "detailRoot": "conversation-source-selector-detail:e785d29d30829d69c6b4231e"
+    },
+    {
+      "selectorKind": "branch",
+      "label": "Branch source",
+      "sourceRefShape": "repository slug plus branch name",
+      "previewSummary": "Branch selectors expose branch identity and freshness posture only.",
+      "allowedWhen": [
+        "repository_allowed",
+        "branch_visible",
+        "disclosure_source_safe"
+      ],
+      "deniedWhen": [
+        "repository_denied",
+        "branch_not_visible"
+      ],
+      "retryWhen": [
+        "branch_refresh_required",
+        "provider_connection_expired"
+      ],
+      "eventIds": [
+        "conversation.source.branch.selected",
+        "conversation.source.branch.retry_required"
+      ],
+      "fieldIds": [
+        "selector_kind",
+        "source_ref",
+        "account_posture",
+        "organization_posture",
+        "wallet_posture",
+        "rights_posture",
+        "settlement_posture",
+        "disclosure_posture",
+        "policy_posture",
+        "preview_policy",
+        "denial_reason",
+        "retry_action",
+        "proof_roots",
+        "event_ids"
+      ],
+      "governanceIds": [
+        "account",
+        "organization",
+        "wallet",
+        "rights",
+        "settlement",
+        "disclosure",
+        "policy"
+      ],
+      "previewStates": [
+        "allowed",
+        "denied",
+        "retry_required"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_source_selector_metadata",
+      "previewPolicy": {
+        "mayExpose": [
+          "selector_kind",
+          "source_ref_summary",
+          "source_safe_preview_label",
+          "policy_verdict",
+          "denial_reason",
+          "retry_action",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "policyPosture": {
+        "account": "requires_authenticated_account_scope",
+        "organization": "requires_selected_organization_or_personal_scope",
+        "wallet": "requires_wallet_presence_for_btd_or_settlement_bound_sources",
+        "rights": "requires_reader_visible_rights_or_source_safe_preview_rights",
+        "settlement": "requires_settlement_for_full_assetpack_or_btd_source_visibility",
+        "disclosure": "source_safe_preview_only_before_rights_and_settlement",
+        "policy": "fails_closed_until_all_applicable_policy_dimensions_are_known"
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "branch.conversation-source-selector-row-present",
+          "command": "pnpm run check:v37-gate5",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_selector_kind",
+            "missing_policy_dimension",
+            "missing_denial_state",
+            "missing_retry_state",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "accountPolicyRoot": "conversation-source-selector-proof:3c507359adea79fdd6f2b8a3",
+        "organizationPolicyRoot": "conversation-source-selector-proof:dcd596b7578a4659564554c9",
+        "walletPolicyRoot": "conversation-source-selector-proof:13caa962bc54290c3ef7556f",
+        "rightsPolicyRoot": "conversation-source-selector-proof:0ef223f69e44c8456dc2ed9f",
+        "settlementPolicyRoot": "conversation-source-selector-proof:3abdabed6d874a25ca4a3d91",
+        "disclosurePolicyRoot": "conversation-source-selector-proof:d989f89431b303cec50c315c",
+        "policyPolicyRoot": "conversation-source-selector-proof:51df0b184882ad88415e131b"
+      },
+      "rowRoot": "conversation-source-selector-row:4912229c019e3c299ca74c1e",
+      "detailRoot": "conversation-source-selector-detail:846314cfc18f658379287017"
+    },
+    {
+      "selectorKind": "commit",
+      "label": "Commit source",
+      "sourceRefShape": "repository slug plus branch and commit hash",
+      "previewSummary": "Commit selectors expose commit identity, short hash, and proof roots only.",
+      "allowedWhen": [
+        "repository_allowed",
+        "commit_visible",
+        "disclosure_source_safe"
+      ],
+      "deniedWhen": [
+        "repository_denied",
+        "commit_not_visible"
+      ],
+      "retryWhen": [
+        "commit_refresh_required",
+        "provider_connection_expired"
+      ],
+      "eventIds": [
+        "conversation.source.commit.selected",
+        "conversation.source.commit.retry_required"
+      ],
+      "fieldIds": [
+        "selector_kind",
+        "source_ref",
+        "account_posture",
+        "organization_posture",
+        "wallet_posture",
+        "rights_posture",
+        "settlement_posture",
+        "disclosure_posture",
+        "policy_posture",
+        "preview_policy",
+        "denial_reason",
+        "retry_action",
+        "proof_roots",
+        "event_ids"
+      ],
+      "governanceIds": [
+        "account",
+        "organization",
+        "wallet",
+        "rights",
+        "settlement",
+        "disclosure",
+        "policy"
+      ],
+      "previewStates": [
+        "allowed",
+        "denied",
+        "retry_required"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_source_selector_metadata",
+      "previewPolicy": {
+        "mayExpose": [
+          "selector_kind",
+          "source_ref_summary",
+          "source_safe_preview_label",
+          "policy_verdict",
+          "denial_reason",
+          "retry_action",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "policyPosture": {
+        "account": "requires_authenticated_account_scope",
+        "organization": "requires_selected_organization_or_personal_scope",
+        "wallet": "requires_wallet_presence_for_btd_or_settlement_bound_sources",
+        "rights": "requires_reader_visible_rights_or_source_safe_preview_rights",
+        "settlement": "requires_settlement_for_full_assetpack_or_btd_source_visibility",
+        "disclosure": "source_safe_preview_only_before_rights_and_settlement",
+        "policy": "fails_closed_until_all_applicable_policy_dimensions_are_known"
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "commit.conversation-source-selector-row-present",
+          "command": "pnpm run check:v37-gate5",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_selector_kind",
+            "missing_policy_dimension",
+            "missing_denial_state",
+            "missing_retry_state",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "accountPolicyRoot": "conversation-source-selector-proof:23dabe85d5534dfe1cdf9cb2",
+        "organizationPolicyRoot": "conversation-source-selector-proof:71341fc48eba829b87920a5b",
+        "walletPolicyRoot": "conversation-source-selector-proof:adbde1c058d62e655622dc05",
+        "rightsPolicyRoot": "conversation-source-selector-proof:787548759f2a3b34bd0dd8f8",
+        "settlementPolicyRoot": "conversation-source-selector-proof:6eff5662cf3eaa42f070c8f4",
+        "disclosurePolicyRoot": "conversation-source-selector-proof:108e8c687a3ec3ecc05c3f0e",
+        "policyPolicyRoot": "conversation-source-selector-proof:ce27b5f1e5f8fb49306e366f"
+      },
+      "rowRoot": "conversation-source-selector-row:0e5d147fc551dccaec47a193",
+      "detailRoot": "conversation-source-selector-detail:5c172ab96a00ef3a98803562"
+    },
+    {
+      "selectorKind": "deposit",
+      "label": "Deposit source",
+      "sourceRefShape": "deposit id with depository evidence and depositor ownership posture",
+      "previewSummary": "Deposit selectors expose source-safe deposit metadata, owner posture, and matching readiness.",
+      "allowedWhen": [
+        "account_authenticated",
+        "deposit_discoverable",
+        "rights_preview_allowed"
+      ],
+      "deniedWhen": [
+        "deposit_private_to_other_party",
+        "rights_denied",
+        "policy_denies_deposit_context"
+      ],
+      "retryWhen": [
+        "deposit_index_refresh_required",
+        "rights_check_pending"
+      ],
+      "eventIds": [
+        "conversation.source.deposit.selected",
+        "conversation.source.deposit.denied"
+      ],
+      "fieldIds": [
+        "selector_kind",
+        "source_ref",
+        "account_posture",
+        "organization_posture",
+        "wallet_posture",
+        "rights_posture",
+        "settlement_posture",
+        "disclosure_posture",
+        "policy_posture",
+        "preview_policy",
+        "denial_reason",
+        "retry_action",
+        "proof_roots",
+        "event_ids"
+      ],
+      "governanceIds": [
+        "account",
+        "organization",
+        "wallet",
+        "rights",
+        "settlement",
+        "disclosure",
+        "policy"
+      ],
+      "previewStates": [
+        "allowed",
+        "denied",
+        "retry_required"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_source_selector_metadata",
+      "previewPolicy": {
+        "mayExpose": [
+          "selector_kind",
+          "source_ref_summary",
+          "source_safe_preview_label",
+          "policy_verdict",
+          "denial_reason",
+          "retry_action",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "policyPosture": {
+        "account": "requires_authenticated_account_scope",
+        "organization": "requires_selected_organization_or_personal_scope",
+        "wallet": "requires_wallet_presence_for_btd_or_settlement_bound_sources",
+        "rights": "requires_reader_visible_rights_or_source_safe_preview_rights",
+        "settlement": "requires_settlement_for_full_assetpack_or_btd_source_visibility",
+        "disclosure": "source_safe_preview_only_before_rights_and_settlement",
+        "policy": "fails_closed_until_all_applicable_policy_dimensions_are_known"
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "deposit.conversation-source-selector-row-present",
+          "command": "pnpm run check:v37-gate5",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_selector_kind",
+            "missing_policy_dimension",
+            "missing_denial_state",
+            "missing_retry_state",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "accountPolicyRoot": "conversation-source-selector-proof:3bae3f7848bd7aac3c568136",
+        "organizationPolicyRoot": "conversation-source-selector-proof:5f24f8b17f89ba3f5e217d0e",
+        "walletPolicyRoot": "conversation-source-selector-proof:8592c6c07eab77a269a51957",
+        "rightsPolicyRoot": "conversation-source-selector-proof:101db8e14dcef18c78f80d41",
+        "settlementPolicyRoot": "conversation-source-selector-proof:5c1029f0fc3757bc0c798697",
+        "disclosurePolicyRoot": "conversation-source-selector-proof:f83b15fad6aed02b716e333f",
+        "policyPolicyRoot": "conversation-source-selector-proof:8ab38872d87c8bb4c5961629"
+      },
+      "rowRoot": "conversation-source-selector-row:c6e37f888a8e3a7c8687af24",
+      "detailRoot": "conversation-source-selector-detail:f40135854913c3151f6a3f29"
+    },
+    {
+      "selectorKind": "btd_range",
+      "label": "BTD range source",
+      "sourceRefShape": "BTD id range or deterministic BTD root range",
+      "previewSummary": "BTD range selectors expose ownership and rights posture without private BTD source.",
+      "allowedWhen": [
+        "wallet_present",
+        "rights_preview_allowed",
+        "btd_range_visible"
+      ],
+      "deniedWhen": [
+        "wallet_missing",
+        "rights_denied",
+        "btd_range_not_visible"
+      ],
+      "retryWhen": [
+        "wallet_connection_required",
+        "rights_check_pending"
+      ],
+      "eventIds": [
+        "conversation.source.btd_range.selected",
+        "conversation.source.btd_range.denied"
+      ],
+      "fieldIds": [
+        "selector_kind",
+        "source_ref",
+        "account_posture",
+        "organization_posture",
+        "wallet_posture",
+        "rights_posture",
+        "settlement_posture",
+        "disclosure_posture",
+        "policy_posture",
+        "preview_policy",
+        "denial_reason",
+        "retry_action",
+        "proof_roots",
+        "event_ids"
+      ],
+      "governanceIds": [
+        "account",
+        "organization",
+        "wallet",
+        "rights",
+        "settlement",
+        "disclosure",
+        "policy"
+      ],
+      "previewStates": [
+        "allowed",
+        "denied",
+        "retry_required"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_source_selector_metadata",
+      "previewPolicy": {
+        "mayExpose": [
+          "selector_kind",
+          "source_ref_summary",
+          "source_safe_preview_label",
+          "policy_verdict",
+          "denial_reason",
+          "retry_action",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "policyPosture": {
+        "account": "requires_authenticated_account_scope",
+        "organization": "requires_selected_organization_or_personal_scope",
+        "wallet": "requires_wallet_presence_for_btd_or_settlement_bound_sources",
+        "rights": "requires_reader_visible_rights_or_source_safe_preview_rights",
+        "settlement": "requires_settlement_for_full_assetpack_or_btd_source_visibility",
+        "disclosure": "source_safe_preview_only_before_rights_and_settlement",
+        "policy": "fails_closed_until_all_applicable_policy_dimensions_are_known"
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "btd_range.conversation-source-selector-row-present",
+          "command": "pnpm run check:v37-gate5",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_selector_kind",
+            "missing_policy_dimension",
+            "missing_denial_state",
+            "missing_retry_state",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "accountPolicyRoot": "conversation-source-selector-proof:7ba9064cce7c92d495642068",
+        "organizationPolicyRoot": "conversation-source-selector-proof:a20f8a5c0c05219723a9f47f",
+        "walletPolicyRoot": "conversation-source-selector-proof:8bd33da7d096d2ad8bc70d63",
+        "rightsPolicyRoot": "conversation-source-selector-proof:7f4ff7c28bbee7acdfd30c55",
+        "settlementPolicyRoot": "conversation-source-selector-proof:1eaa344d65deae5b23b2ad9c",
+        "disclosurePolicyRoot": "conversation-source-selector-proof:c6f9d97b410bb4d076716c48",
+        "policyPolicyRoot": "conversation-source-selector-proof:be62676e18d491f1ad2f184d"
+      },
+      "rowRoot": "conversation-source-selector-row:9d0bb84fc996c3ab3f49f093",
+      "detailRoot": "conversation-source-selector-detail:20631d0e7c8fce0bd7cee800"
+    },
+    {
+      "selectorKind": "assetpack_preview",
+      "label": "AssetPack preview source",
+      "sourceRefShape": "AssetPack preview id with measurement roots and settlement posture",
+      "previewSummary": "AssetPack preview selectors expose measurements and preview metadata only until settlement.",
+      "allowedWhen": [
+        "preview_visible",
+        "disclosure_source_safe",
+        "settlement_not_required_for_preview"
+      ],
+      "deniedWhen": [
+        "preview_not_visible",
+        "policy_denies_preview",
+        "settlement_required_for_requested_detail"
+      ],
+      "retryWhen": [
+        "preview_generation_pending",
+        "settlement_state_refresh_required"
+      ],
+      "eventIds": [
+        "conversation.source.assetpack_preview.selected",
+        "conversation.source.assetpack_preview.retry_required"
+      ],
+      "fieldIds": [
+        "selector_kind",
+        "source_ref",
+        "account_posture",
+        "organization_posture",
+        "wallet_posture",
+        "rights_posture",
+        "settlement_posture",
+        "disclosure_posture",
+        "policy_posture",
+        "preview_policy",
+        "denial_reason",
+        "retry_action",
+        "proof_roots",
+        "event_ids"
+      ],
+      "governanceIds": [
+        "account",
+        "organization",
+        "wallet",
+        "rights",
+        "settlement",
+        "disclosure",
+        "policy"
+      ],
+      "previewStates": [
+        "allowed",
+        "denied",
+        "retry_required"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_source_selector_metadata",
+      "previewPolicy": {
+        "mayExpose": [
+          "selector_kind",
+          "source_ref_summary",
+          "source_safe_preview_label",
+          "policy_verdict",
+          "denial_reason",
+          "retry_action",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "policyPosture": {
+        "account": "requires_authenticated_account_scope",
+        "organization": "requires_selected_organization_or_personal_scope",
+        "wallet": "requires_wallet_presence_for_btd_or_settlement_bound_sources",
+        "rights": "requires_reader_visible_rights_or_source_safe_preview_rights",
+        "settlement": "requires_settlement_for_full_assetpack_or_btd_source_visibility",
+        "disclosure": "source_safe_preview_only_before_rights_and_settlement",
+        "policy": "fails_closed_until_all_applicable_policy_dimensions_are_known"
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "assetpack_preview.conversation-source-selector-row-present",
+          "command": "pnpm run check:v37-gate5",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_selector_kind",
+            "missing_policy_dimension",
+            "missing_denial_state",
+            "missing_retry_state",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "accountPolicyRoot": "conversation-source-selector-proof:f99d75c0f632f854b28c57ae",
+        "organizationPolicyRoot": "conversation-source-selector-proof:4cdd0fbe91e0e3b3818c7bb5",
+        "walletPolicyRoot": "conversation-source-selector-proof:ddb35b037180a5d4cf784a0b",
+        "rightsPolicyRoot": "conversation-source-selector-proof:23aab62b88fe70256abdf497",
+        "settlementPolicyRoot": "conversation-source-selector-proof:db418acb09de7e6354c3cdbd",
+        "disclosurePolicyRoot": "conversation-source-selector-proof:9f5cfcc79fee344e24b20eb4",
+        "policyPolicyRoot": "conversation-source-selector-proof:d31c7d46dbdbf571cf4a6eac"
+      },
+      "rowRoot": "conversation-source-selector-row:10a209ff182c9e1d612e5772",
+      "detailRoot": "conversation-source-selector-detail:7c9b48599e2173847832d13d"
+    },
+    {
+      "selectorKind": "document",
+      "label": "Document source",
+      "sourceRefShape": "document id, attachment id, or source-safe document reference",
+      "previewSummary": "Document selectors expose title, type, owner, and redaction posture.",
+      "allowedWhen": [
+        "document_attached_or_visible",
+        "disclosure_source_safe",
+        "policy_allows_document_context"
+      ],
+      "deniedWhen": [
+        "document_not_visible",
+        "document_contains_unredacted_protected_source"
+      ],
+      "retryWhen": [
+        "document_redaction_required",
+        "document_upload_pending"
+      ],
+      "eventIds": [
+        "conversation.source.document.selected",
+        "conversation.source.document.retry_required"
+      ],
+      "fieldIds": [
+        "selector_kind",
+        "source_ref",
+        "account_posture",
+        "organization_posture",
+        "wallet_posture",
+        "rights_posture",
+        "settlement_posture",
+        "disclosure_posture",
+        "policy_posture",
+        "preview_policy",
+        "denial_reason",
+        "retry_action",
+        "proof_roots",
+        "event_ids"
+      ],
+      "governanceIds": [
+        "account",
+        "organization",
+        "wallet",
+        "rights",
+        "settlement",
+        "disclosure",
+        "policy"
+      ],
+      "previewStates": [
+        "allowed",
+        "denied",
+        "retry_required"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_source_selector_metadata",
+      "previewPolicy": {
+        "mayExpose": [
+          "selector_kind",
+          "source_ref_summary",
+          "source_safe_preview_label",
+          "policy_verdict",
+          "denial_reason",
+          "retry_action",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "policyPosture": {
+        "account": "requires_authenticated_account_scope",
+        "organization": "requires_selected_organization_or_personal_scope",
+        "wallet": "requires_wallet_presence_for_btd_or_settlement_bound_sources",
+        "rights": "requires_reader_visible_rights_or_source_safe_preview_rights",
+        "settlement": "requires_settlement_for_full_assetpack_or_btd_source_visibility",
+        "disclosure": "source_safe_preview_only_before_rights_and_settlement",
+        "policy": "fails_closed_until_all_applicable_policy_dimensions_are_known"
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "document.conversation-source-selector-row-present",
+          "command": "pnpm run check:v37-gate5",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_selector_kind",
+            "missing_policy_dimension",
+            "missing_denial_state",
+            "missing_retry_state",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "accountPolicyRoot": "conversation-source-selector-proof:c2880b51b2f6fae27adc43d6",
+        "organizationPolicyRoot": "conversation-source-selector-proof:e2624c046f36cbb58af3ec8f",
+        "walletPolicyRoot": "conversation-source-selector-proof:266fcdd72e0f7f72c07bae31",
+        "rightsPolicyRoot": "conversation-source-selector-proof:048208a57d23f8c45f7ba225",
+        "settlementPolicyRoot": "conversation-source-selector-proof:5b9dd4278a4090b59f2975b3",
+        "disclosurePolicyRoot": "conversation-source-selector-proof:5acc6c90d3148443ba4f93f6",
+        "policyPolicyRoot": "conversation-source-selector-proof:776f36b9f4cd9eb206f3cac2"
+      },
+      "rowRoot": "conversation-source-selector-row:456bd8a1adc38c8459da8588",
+      "detailRoot": "conversation-source-selector-detail:4dc6203dee88c415a0cf0ee4"
+    },
+    {
+      "selectorKind": "prior_conversation",
+      "label": "Prior conversation source",
+      "sourceRefShape": "conversation id, message id, or source-safe summarized conversation root",
+      "previewSummary": "Prior conversation selectors expose route-local summaries and proof roots only.",
+      "allowedWhen": [
+        "conversation_owned_by_account",
+        "history_restorable",
+        "disclosure_source_safe"
+      ],
+      "deniedWhen": [
+        "conversation_not_owned",
+        "history_redacted_or_deleted"
+      ],
+      "retryWhen": [
+        "history_restore_required",
+        "redaction_checkpoint_pending"
+      ],
+      "eventIds": [
+        "conversation.source.prior_conversation.selected",
+        "conversation.source.prior_conversation.denied"
+      ],
+      "fieldIds": [
+        "selector_kind",
+        "source_ref",
+        "account_posture",
+        "organization_posture",
+        "wallet_posture",
+        "rights_posture",
+        "settlement_posture",
+        "disclosure_posture",
+        "policy_posture",
+        "preview_policy",
+        "denial_reason",
+        "retry_action",
+        "proof_roots",
+        "event_ids"
+      ],
+      "governanceIds": [
+        "account",
+        "organization",
+        "wallet",
+        "rights",
+        "settlement",
+        "disclosure",
+        "policy"
+      ],
+      "previewStates": [
+        "allowed",
+        "denied",
+        "retry_required"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_source_selector_metadata",
+      "previewPolicy": {
+        "mayExpose": [
+          "selector_kind",
+          "source_ref_summary",
+          "source_safe_preview_label",
+          "policy_verdict",
+          "denial_reason",
+          "retry_action",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "policyPosture": {
+        "account": "requires_authenticated_account_scope",
+        "organization": "requires_selected_organization_or_personal_scope",
+        "wallet": "requires_wallet_presence_for_btd_or_settlement_bound_sources",
+        "rights": "requires_reader_visible_rights_or_source_safe_preview_rights",
+        "settlement": "requires_settlement_for_full_assetpack_or_btd_source_visibility",
+        "disclosure": "source_safe_preview_only_before_rights_and_settlement",
+        "policy": "fails_closed_until_all_applicable_policy_dimensions_are_known"
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "prior_conversation.conversation-source-selector-row-present",
+          "command": "pnpm run check:v37-gate5",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_selector_kind",
+            "missing_policy_dimension",
+            "missing_denial_state",
+            "missing_retry_state",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "accountPolicyRoot": "conversation-source-selector-proof:8892abb2d5fd4697694975e0",
+        "organizationPolicyRoot": "conversation-source-selector-proof:9162a6f506ee4f4eda67c34a",
+        "walletPolicyRoot": "conversation-source-selector-proof:3954cb0913457eab52006675",
+        "rightsPolicyRoot": "conversation-source-selector-proof:f01251751c7e28475d53afd9",
+        "settlementPolicyRoot": "conversation-source-selector-proof:f5b3db15044a999a3516ea09",
+        "disclosurePolicyRoot": "conversation-source-selector-proof:d4df96b1b329bee1e361ae77",
+        "policyPolicyRoot": "conversation-source-selector-proof:45512df6eb821bccee8443e4"
+      },
+      "rowRoot": "conversation-source-selector-row:f99e634f186d0fd80059fff0",
+      "detailRoot": "conversation-source-selector-detail:29264e2f00523d8bfeffd148"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "selectorKind": "repository",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "selectorKind": "branch",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "selectorKind": "commit",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "selectorKind": "deposit",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "selectorKind": "btd_range",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "selectorKind": "assetpack_preview",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "selectorKind": "document",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "selectorKind": "prior_conversation",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate5-conversation-source-selector.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "conversation-source-selector:47f2b3e2a9feb370962e8acf"
+}

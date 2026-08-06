@@ -5,7 +5,7 @@ export type ProjectionRepairKind =
   | 'ledger_anchor_root'
   | 'object_storage_artifact'
   | 'staging_testnet_readback'
-  | 'terminal_post_state'
+  | 'product_post_state'
   | 'receipt_root'
   | 'settlement_conservation'
   | 'delivery_recovery';
@@ -343,7 +343,7 @@ export function reconcileLedgerDatabaseProjection(input: {
       reconciliationId,
       factId: databaseFact.factId,
       suffix: 'orphan_projection',
-      repairKind: 'terminal_post_state',
+      repairKind: 'product_post_state',
       driftKind: 'database_orphan_projection',
       repairActionKind: 'quarantine_database_projection',
       before: databaseFact.projectedLedgerRoot,

@@ -4,12 +4,12 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define VCS agent system role"
- * current_version: "V26.50.0"
- * versions: ["V26.00.0", "V26.48.0"]
-  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ * current_version: "V48.1.0"
+ * versions: ["V26.48.0"]
+ * benchmarks: [
+ *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.70 },
+ *   { "name": "call_site_brevity", "test": "Short enough for every hierarchy call-site?", "score": 0.75 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_VCS_SYSTEM_ROLE: PromptPart = 
-  'Execute version control operations via provider REST APIs, manage branch workflows (VCSFlow/GitHub Flow/GitLab Flow), perform merge conflict resolution using API-based three-way merge algorithms, automate commit message validation through API endpoints, and integrate with remote repositories through authenticated API protocols' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_VCS_SYSTEM_ROLE: PromptPart =
+  'Prepare Host-bound repository workspaces via provider APIs: resolve provider/owner/name/ref, authenticate as configured, clone or adopt checkout, record workspacePath and revision metadata. Stay provider-agnostic and non-destructive.' as PromptPart;

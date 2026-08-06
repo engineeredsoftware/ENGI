@@ -1,11 +1,63 @@
 # Agent Generics
 
-Agents execute decisions through PTRR methodology with hierarchical prompt accumulation using typed Generations.
+Agent **primitives**: execution, registries, generation-layer factories,
+`factoryAgent` / `factoryQuickAgent`.
+
+## Tests (core vs edges)
+
+| Category | Path | Role |
+| --- | --- | --- |
+| **Core** | `src/__tests__/core/*.core.test.ts` | Default / happy-path package contracts |
+| **Edges** | `src/__tests__/edges/*.edges.test.ts` | Flags, failures, bounds, telemetry corners |
+
+```bash
+pnpm test              # both (required green)
+pnpm test:core         # convenience
+pnpm test:edges        # convenience — not a commit skip
+```
+
+Law: `.docs/AGENTS.md`, `CONTRIBUTING.md` §8.0. Core should teach Thinkings +
+failsafe *composition* + PTRR step tools without reading edges.
+
+**Not here:** PrepareConciseContext (PCC) base pins live in
+`@bitcode/generic-generations-failsafes` (`packages/generic-generations/failsafes/`).
+This package may still *host* the transitional LLM-bound factory and may test how
+agents *use* PCC; it must not re-host the PCC base suite.
+
+## Hierarchy
+
+```
+Generation / FailsafeGeneration / ThinkingsGeneration # generation-generics
+ ↑
+@bitcode/agent-generics # this package (Agent primitive + LLM-bound factories)
+ ↑
+@bitcode/generic-agents-ptrr # PTRRAgent base (Plan→Try→Retry→Refine)
+ ↑
+product / generic-agent-* # specialized agents
+```
+
+Within each PTRR step: **FailsafeGeneration** ×3 (each runs **ThinkingsGeneration**
+Reason→Judge→StructuredOutput) + **tools postprocess** (if `output.useTools`).
+
+### Tools (parameters, docs, results)
+
+See **[TOOLS-IN-PTRR.md](./TOOLS-IN-PTRR.md)** for the full contract:
+
+1. Register tools on `AgentExecution.tools` (or parent pipeline registry).
+2. Doc-code docs auto-interpolate as `auto:tools_doc_code_tools` before Thinkings LLM calls.
+3. Model selects `useTools: [{ name, input, reason }]`.
+4. `factoryToolsExecution` runs `getTool(name).execute(input)` → `usedTools`.
+5. Prior `usedTools` auto-interpolate as `auto:tools_results` on later generations.
+
+Vocabulary: `FailsafeGeneration` / `ThinkingsGeneration` / `GenerationExecution` under `src/generations/`.
+
+PTRR base factories (`factoryPTRRAgent`) live in
+`@bitcode/generic-agents-ptrr` and are re-exported here for compatibility.
 
 ## Quick vs. PTRR Agents
 
-- Agent (PTRR): Canonical, sequences Plan → Try → Refine → Retry. Each generation uses the 3×3 failsafed generation pattern by default.
-- QuickAgent: Minimal, single‑generation agent for setup/utility behaviors where PTRR is unnecessary. Uses standard Execution state and registry access.
+- **PTRRAgent** (`@bitcode/generic-agents-ptrr`): sequences Plan → Try → Retry → Refine. Each step uses FailsafeGeneration × ThinkingsGeneration by default.
+- **QuickAgent** (this package): Minimal, single‑generation agent for setup/utility behaviors where PTRR is unnecessary.
 
 Create a QuickAgent:
 
@@ -13,11 +65,11 @@ Create a QuickAgent:
 import { factoryQuickAgent } from '@bitcode/agent-generics';
 
 export const InitializeSomething = factoryQuickAgent({
-  name: 'setup:initialize-something',
-  execute: async (input, execution) => {
-    // Typed input → output; use Execution for state.
-    return { ok: true };
-  }
+ name: 'setup:initialize-something',
+ execute: async (input, execution) => {
+ // Typed input → output; use Execution for state.
+ return { ok: true };
+ }
 });
 ```
 
@@ -26,7 +78,7 @@ export const InitializeSomething = factoryQuickAgent({
 ALL generic agents now follow the **exact same declarative pattern**:
 - **Agents define ONLY schemas and prompts**
 - **Factories handle ALL execution automatically**
-- **Every generation runs the SAME failsafed thricified sequence**
+- **Every generation runs the SAME failsafed thinkings sequence**
 - **Tools execute conditionally based on output schemas (postprocess)**
 
 ## Failsafed Generation Architecture
@@ -37,20 +89,20 @@ Every PTRR generation (Plan, Try, Refine, Retry) automatically executes the core
 1. PrepareConciseContext (CONTEXT SIGNAL/NOISE)
 2. ChunkThenSum (BIG INPUT)
 3. StitchUntilComplete (CONVERSATIONSUTPUT)
-   
+
 ## GA Failsafe Behavior and Stop Reason
 
 - ChunkThenSum runs chunks in parallel by default when `PrepareConciseContext` returns multiple contexts (configurable per call).
 - StitchUntilComplete is schema‑first:
-  - If the structured output matches the expected schema, stitching stops immediately.
-  - Truncation checks measure only the structured output (not the entire accumulator) to avoid false positives.
-  - Default stitch instruction: "Continue and complete the previous JSON output". You can refine this via the prompt/registry pattern at agent/generation scope.
+ - If the structured output matches the expected schema, stitching stops immediately.
+ - Truncation checks measure only the structured output (not the entire accumulator) to avoid false positives.
+ - Default stitch instruction: "Continue and complete the previous JSON output". You can refine this via the prompt/registry pattern at agent/generation scope.
 
 ### Provider‑Agnostic Stop Reason
 
 - Every LLM call returns `LLMOutput` with `metadata.stopReason?: string`.
-  - Common values: `'stop' | 'length' | 'content_filter' | 'unknown'`.
-  - Providers map their native signals; execution registries normalize it at runtime if missing so consumers can always read `metadata.stopReason`.
+ - Common values: `'stop' | 'length' | 'content_filter' | 'unknown'`.
+ - Providers map their native signals; execution registries normalize it at runtime if missing so consumers can always read `metadata.stopReason`.
 - Failsafes can consult `stopReason` together with token usage to distinguish genuine truncation from complete outputs and decide whether to stitch.
 
 + Generation Postprocess: Conditional Tool Execution (if useTools in output)
@@ -65,17 +117,17 @@ import { createFailsafeGenerationSequence } from '@bitcode/agent-generics/src/st
 
 const core = createFailsafeGenerationSequence({ outputSchema, enableParallelChunks: true });
 
-### ThricifiedGeneration
+### ThinkingsGeneration
 
-A ThricifiedGeneration is the atomic typed generation used by agents: Reason → Judge → StructuredOutput. It wraps three LLM calls into a single Generation.
+A ThinkingsGeneration is the atomic typed generation used by agents: Reason → Judge → StructuredOutput. It wraps three LLM calls into a single Generation.
 
 ```ts
-import { createThricifiedGeneration } from '@bitcode/agent-generics/src/steps/thricified-generation';
+import { createThinkingsGeneration } from '@bitcode/agent-generics/src/steps/thinkings-generation';
 
-const gen = createThricifiedGeneration(outputSchema);
+const gen = createThinkingsGeneration(outputSchema);
 ```
 
-PTRR failsafes execute this ThricifiedGeneration under three different “parents” (Prepare/Chunk/Stitch). Agents compose failsafes; QuickAgents can also use thricified generations directly for one-off typed calls.
+PTRR failsafes execute this ThinkingsGeneration under three different “parents” (Prepare/Chunk/Stitch). Agents compose failsafes; QuickAgents can also use thinkings generations directly for one-off typed calls.
 ```
 
 ## Prompt Hierarchy
@@ -85,11 +137,11 @@ Prompts follow progressive specificity with MINIMAL content at each level:
 ```
 Agent (name + identity)
 └── Generation (purpose)
-    └── Failsafe (handle)
-        └── GenerationCall (generate)
-            └── [Auto-injected: tools_doc_code_tools + output_schema]
-    └── ToolExecution (execute, postprocess)
-        └── [Auto-injected: available_tool_docs]
+ └── Failsafe (handle)
+ └── GenerationCall (generate)
+ └── [Auto-injected: tools_doc_code_tools + output_schema]
+ └── ToolExecution (execute, postprocess)
+ └── [Auto-injected: available_tool_docs]
 ```
 
 ## Diagnostics & Prompt I/O
@@ -109,7 +161,8 @@ Agent (name + identity)
 - BITCODE_DEBUG_ONLY_AGENT: substring match on agent name; non‑matching agents no‑op.
 - BITCODE_DEBUG_ONLY_STEP: one of plan|try|refine|retry — executes only that PTRR generation.
 - BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — runs only those parent failsafes.
-- BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — runs only those child generations under each parent.
+- BITCODE_DEBUG_SKIP_FAILSAFES: when true/1, skips all failsafes and runs bare task Thinkings (envelope still { context, output, finalOutput }).
+- BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT: when true/1, each Thinkings sequence is Reason only (dual reasoning+output envelope; no Judge/SO LLM).
 
 Notes
 - Generations are child sub‑executions of failsafes. The hierarchy is: Generation → Failsafe (parent) → GenerationCall (child). Tools run after all failsafes.
@@ -133,7 +186,7 @@ All diagnostics are fully env‑gated and inert by default. Enabling is safe and
 4. **GenerationCallPrompt** - Just `generate` (Reason/Judge/Output)
 5. **ToolExecutionPrompt** - Just `execute` (tool execution instruction)
 
-**CRITICAL**: 
+**CRITICAL**:
 - Prompts are MINIMAL - only what applies to all children
 - Tools are NEVER in prompts - they're in execution registries
 - Tool doc-code-tool prompts are automatically injected
@@ -145,19 +198,19 @@ All diagnostics are fully env‑gated and inert by default. Enabling is safe and
 
 ```typescript
 // Everything is an Executor
-type Executor<TInput = any, TOutput = any> = 
-  (input: TInput, execution: Execution) => Promise<TOutput>;
+type Executor<TInput = any, TOutput = any> =
+ (input: TInput, execution: Execution) => Promise<TOutput>;
 
 // Execution hierarchy with proper parent/child relationships
-Pipeline (PipelineExecution)
-├── Phase (PhaseDelegation) - pipeline.child('implementation')
-│   ├── Agent (AgentStepper) - phase.child('code-generator')
-│   │   ├── Variation (VariationStepping) - agent.child('generate-component')
-│   │   │   ├── Generation (GenerationExecution) - variation.child('plan')
-│   │   │   │   ├── Failsafe (PARENT) - generation.child('prepare_context')
-│   │   │   │   │   ├── GenerationCall (CHILD) - parent.child('reason')
-│   │   │   │   │   ├── GenerationSubMetaSubStep (CHILD) - parent.child('judge')
-│   │   │   │   │   └── GenerationSubMetaSubStep (CHILD) - parent.child('structured_output')
+Pipeline (ExecutionPipeline)
+├── Phase (ExecutionPhase) - pipeline.child('implementation')
+│ ├── Agent (AgentStepper) - phase.child('code-generator')
+│ │ ├── Variation (VariationStepping) - agent.child('generate-component')
+│ │ │ ├── Generation (GenerationExecution) - variation.child('plan')
+│ │ │ │ ├── Failsafe (PARENT) - generation.child('prepare_context')
+│ │ │ │ │ ├── GenerationCall (CHILD) - parent.child('reason')
+│ │ │ │ │ ├── ThinkingsGeneration (CHILD) - parent.child('judge')
+│ │ │ │ │ └── ThinkingsGeneration (CHILD) - parent.child('structured_output')
 ```
 
 ### Agent Definition Pattern
@@ -168,29 +221,29 @@ import type { PromptPart } from '@bitcode/prompts';
 
 // Define schemas for each PTRR step
 const AgentPlanSchema = z.object({
-  strategy: z.string(),
-  useTools: z.array(UseToolSchema).optional(),
-  // ... plan fields
+ strategy: z.string(),
+ useTools: z.array(UseToolSchema).optional(),
+ // ... plan fields
 });
 
 const AgentTrySchema = z.object({
-  results: z.array(z.any()),
-  useTools: z.array(UseToolSchema).optional(),
-  // ... try fields
+ results: z.array(z.any()),
+ useTools: z.array(UseToolSchema).optional(),
+ // ... try fields
 });
 
 // Define MINIMAL prompts - only what applies to ALL calls
 const agentPrompt = new AgentPrompt({
-  name: 'my-agent' as PromptPart,
-  identity: 'Process data' as PromptPart  // Ultra-minimal
+ name: 'my-agent' as PromptPart,
+ identity: 'Process data' as PromptPart // Ultra-minimal
 });
 
 // Step prompts - just the purpose
 const stepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Analyze requirements' as PromptPart }),
-  try: new AgentStepPrompt({ purpose: 'Execute processing' as PromptPart }),
-  refine: new AgentStepPrompt({ purpose: 'Enhance results' as PromptPart }),
-  retry: new AgentStepPrompt({ purpose: 'Complete processing' as PromptPart })
+ plan: new AgentStepPrompt({ purpose: 'Analyze requirements' as PromptPart }),
+ try: new AgentStepPrompt({ purpose: 'Execute processing' as PromptPart }),
+ refine: new AgentStepPrompt({ purpose: 'Enhance results' as PromptPart }),
+ retry: new AgentStepPrompt({ purpose: 'Complete processing' as PromptPart })
 };
 
 // PTRR agent factories fail closed unless the agent Prompt registry and all
@@ -201,33 +254,33 @@ const agentTools = [tool1, tool2];
 
 // Create agent with factories
 export const myAgent = factoryAgent({
-  name: 'my-agent',
-  variations: [
-    factoryVariationWithPTRR({
-      name: 'comprehensive',
-      outputSchema: RetrySchema,
-      // Factories handle ALL execution
-    }),
-    factoryVariationWithSingleStep({
-      name: 'quick',
-      execute: async (input, execution) => {
-        // Read the prompt registry that the factory attached to this execution.
-        const promptText = execution.prompt.format();
-        // Register tools in execution
-        execution.tools.register('tool1', tool1);
-        // Simple logic
-        return result;
-      }
-    })
-  ],
-  selectVariation: async (input, execution) => {
-    // Keep prompts factory-owned; register only runtime tool availability here.
-    agentTools.forEach(tool => 
-      execution.tools.register(tool.name, tool)
-    );
-    // Only logic we write - variation selection
-    return needsComprehensive ? 'comprehensive' : 'quick';
-  }
+ name: 'my-agent',
+ variations: [
+ factoryVariationWithPTRR({
+ name: 'comprehensive',
+ outputSchema: RetrySchema,
+ // Factories handle ALL execution
+ }),
+ factoryVariationWithSingleStep({
+ name: 'quick',
+ execute: async (input, execution) => {
+ // Read the prompt registry that the factory attached to this execution.
+ const promptText = execution.prompt.format();
+ // Register tools in execution
+ execution.tools.register('tool1', tool1);
+ // Simple logic
+ return result;
+ }
+ })
+ ],
+ selectVariation: async (input, execution) => {
+ // Keep prompts factory-owned; register only runtime tool availability here.
+ agentTools.forEach(tool =>
+ execution.tools.register(tool.name, tool)
+ );
+ // Only logic we write - variation selection
+ return needsComprehensive ? 'comprehensive' : 'quick';
+ }
 });
 ```
 
@@ -248,7 +301,6 @@ export const myAgent = factoryAgent({
 - **Tools**: security-scanner, threat-detector, vulnerability-analyzer
 - **Variations**: comprehensive-security-analysis, quick-security-check
 
-### 📊 Digester
 - **Purpose**: Codebase analysis and digest generation
 - **Tools**: code-analyzer, metrics-extractor, pattern-detector
 - **Variations**: comprehensive-digest, quick-summary
@@ -331,20 +383,20 @@ When any agent is called:
 
 1. **Variation Selection** - Agent picks comprehensive or quick based on input
 2. **If Comprehensive (PTRR)**:
-   - `factoryPlanStep(schema)` creates Plan executor with 7 substeps
-   - `factoryTryStep(schema)` creates Try executor with 7 substeps
-   - `factoryRefineStep(schema)` creates Refine executor with 7 substeps
-   - `factoryRetryStep(schema)` creates Retry executor with 7 substeps
+ - `factoryPlanStep(schema)` creates Plan executor with Failsafe×Thinkings generations
+ - `factoryTryStep(schema)` creates Try executor with Failsafe×Thinkings generations
+ - `factoryRefineStep(schema)` creates Refine executor with Failsafe×Thinkings generations
+ - `factoryRetryStep(schema)` creates Retry executor with Failsafe×Thinkings generations
 3. **Each Executor Automatically**:
-   - Runs `PrepareConciseContext → ChunkThenSum → StitchUntilComplete`
-   - Each parent runs `Reason → Judge → StructuredOutput`
-   - Stores everything to `execution.store()`
-   - Executes tools if `useTools` is in output
+ - Runs `PrepareConciseContext → ChunkThenSum → StitchUntilComplete`
+ - Each parent runs `Reason → Judge → StructuredOutput`
+ - Stores everything to `execution.store()`
+ - Executes tools if `useTools` is in output
 4. **The Execution Tree Accumulates**:
-   - Every LLM call result
-   - Every tool execution
-   - Every substep output
-   - All in namespaced stores
+ - Every LLM call result
+ - Every tool execution
+ - Every substep output
+ - All in namespaced stores
 
 ### Key Benefits
 
@@ -365,12 +417,12 @@ import { codeSearcherAgent } from '@bitcode/generic-agents-rag-snippets';
 
 // Use any agent - they all follow the same pattern
 const result = await audioProcessorAgent(
-  {
-    audioUrl: 'https://example.com/audio.mp3',
-    taskDescription: 'Transcribe and analyze sentiment',
-    analysisDepth: 'comprehensive'
-  },
-  execution
+ {
+ audioUrl: 'https://example.com/audio.mp3',
+ taskDescription: 'Transcribe and analyze sentiment',
+ analysisDepth: 'comprehensive'
+ },
+ execution
 );
 
 // Result matches the Retry schema for that agent
@@ -398,7 +450,7 @@ The declarative pattern transforms agents from:
 
 This architecture provides:
 - **Consistency**: Every agent works identically
-- **Reliability**: Proven 7-substep sequence
+- **Reliability**: Proven Failsafe×Thinkings sequence
 - **Quality**: Built-in reasoning and judgment
 - **Scalability**: Easy to add new agents
 - **Maintainability**: Minimal code, maximum capability
@@ -408,7 +460,7 @@ This architecture provides:
 The agent-generics package represents the pinnacle of declarative architecture:
 - Agents are specifications, not implementations
 - Execution is automatic and consistent
-- Quality is built-in through the 7-substep sequence
+- Quality is built-in through the Failsafe×Thinkings sequence
 - Everything just works through the framework
 
 ---

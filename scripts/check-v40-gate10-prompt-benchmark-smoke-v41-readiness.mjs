@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json';
+const ARTIFACT_PATH = '.proofs/v40/prompt-benchmark-smoke-v41-readiness.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -94,7 +94,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V39', `BITCODE_SPEC.txt must remain V39 during V40 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -112,24 +112,24 @@ function main() {
     'scripts/run-v40-prompt-benchmark-smoke.mjs',
     'scripts/generate-v40-prompt-benchmark-smoke-v41-readiness.mjs',
     'scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs',
-    'packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js',
-    'packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/src/canonical/prompt-benchmark-report.js',
-    'packages/protocol/test/v38-prompt-benchmark-report.test.js',
+    'scripts/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js',
+    'scripts/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/src/canonical/prompt-benchmark-report.js',
+    'scripts/specifying/test/v38-prompt-benchmark-report.test.js',
     'packages/prompts/src/benchmarking/runner.ts',
     'packages/prompts/src/benchmarking/cli.ts',
     'packages/prompts/src/benchmarking/types.ts',
     'packages/prompts/src/benchmarking/README.md',
     'packages/prompts/package.json',
-    'BITCODE_SPEC_V40.md',
-    'BITCODE_SPEC_V40_DELTA.md',
-    'BITCODE_SPEC_V40_NOTES.md',
-    'BITCODE_SPEC_V40_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V40.md',
+    '.specifications/BITCODE_SPEC_V40_DELTA.md',
+    '.specifications/BITCODE_SPEC_V40_NOTES.md',
+    '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -168,7 +168,7 @@ function main() {
 
   if (failures.length === 0 && !args.skipPackageTests) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js']);
     } catch (error) {
       failures.push(`V40 prompt benchmark smoke protocol test failed: ${error.stderr || error.message}`);
     }
@@ -216,13 +216,13 @@ function main() {
     assertCheck(failures, smokeReceipt.sourceSafety.promptFileMutated === false, 'Gate 10 smoke receipt must be non-mutating.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V40.md');
-  const delta = read(root, 'BITCODE_SPEC_V40_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V40_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V40.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

@@ -8,7 +8,7 @@ import {
   V44_SCALED_NETWORK_REHEARSAL_ARTIFACT_PATH,
   V44_SCALED_NETWORK_REHEARSAL_MINIMUM_COUNTS,
   buildV44ScaledNetworkRehearsal,
-} from '../packages/protocol/src/canonical/v44-scaled-network-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v44-scaled-network-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -124,7 +124,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V43', `BITCODE_SPEC.txt must remain V43 during V44 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -139,18 +139,18 @@ function main() {
 
   for (const relativePath of [
     V44_SCALED_NETWORK_REHEARSAL_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v44-scaled-network-rehearsal.js',
-    'packages/protocol/test/v44-scaled-network-rehearsal.test.js',
+    'scripts/specifying/src/canonical/v44-scaled-network-rehearsal.js',
+    'scripts/specifying/test/v44-scaled-network-rehearsal.test.js',
     'scripts/generate-v44-scaled-network-rehearsal.mjs',
     'scripts/check-v44-gate9-scaled-network-rehearsal.mjs',
     'scripts/rehearse-v44-scaled-network-flow.mjs',
-    'BITCODE_SPEC_V44.md',
-    'BITCODE_SPEC_V44_DELTA.md',
-    'BITCODE_SPEC_V44_NOTES.md',
-    'BITCODE_SPEC_V44_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V44.md',
+    '.specifications/BITCODE_SPEC_V44_DELTA.md',
+    '.specifications/BITCODE_SPEC_V44_NOTES.md',
+    '.specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -251,15 +251,15 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-scaled-network-rehearsal.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-scaled-network-rehearsal.test.js']);
     } catch {
-      failures.push('packages/protocol/test/v44-scaled-network-rehearsal.test.js must pass.');
+      failures.push('scripts/specifying/test/v44-scaled-network-rehearsal.test.js must pass.');
     }
   }
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi enterprise route tests must pass for Gate 9 scaled readback.');
     }

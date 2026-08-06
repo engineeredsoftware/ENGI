@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -85,16 +85,16 @@ function main() {
     'packages/api/src/routes/auxillaries-contract.ts',
     'packages/api/src/routes/auxillaries.ts',
     'packages/api/src/routes/__tests__/auxillaries-contract.test.ts',
-    'uapi/app/auxillaries/components/AuxillariesWalletPane.tsx',
-    'uapi/hooks/useUserData.ts',
-    'uapi/hooks/useUserData.js',
-    'uapi/tests/auxillariesWalletPane.test.tsx',
-    'uapi/tests/userDataRoute.test.ts',
-    'BITCODE_SPEC_V31.md',
-    'BITCODE_SPEC_V31_DELTA.md',
-    'BITCODE_SPEC_V31_NOTES.md',
-    'BITCODE_SPEC_V31_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/auxillaries/components/AuxillariesWalletPane.tsx',
+    'apps/uapi/hooks/useUserData.ts',
+    'apps/uapi/hooks/useUserData.js',
+    'apps/uapi/tests/auxillariesWalletPane.test.tsx',
+    'apps/uapi/tests/userDataRoute.test.ts',
+    '.specifications/BITCODE_SPEC_V31.md',
+    '.specifications/BITCODE_SPEC_V31_DELTA.md',
+    '.specifications/BITCODE_SPEC_V31_NOTES.md',
+    '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V31 Gate 5 file: ${relativePath}`);
   }
@@ -105,18 +105,18 @@ function main() {
   const contract = read(root, 'packages/api/src/routes/auxillaries-contract.ts');
   const route = read(root, 'packages/api/src/routes/auxillaries.ts');
   const contractTest = read(root, 'packages/api/src/routes/__tests__/auxillaries-contract.test.ts');
-  const walletPane = read(root, 'uapi/app/auxillaries/components/AuxillariesWalletPane.tsx');
-  const useUserData = read(root, 'uapi/hooks/useUserData.ts');
-  const useUserDataJs = read(root, 'uapi/hooks/useUserData.js');
-  const walletPaneTest = read(root, 'uapi/tests/auxillariesWalletPane.test.tsx');
-  const userDataRouteTest = read(root, 'uapi/tests/userDataRoute.test.ts');
-  const spec = read(root, 'BITCODE_SPEC_V31.md');
-  const delta = read(root, 'BITCODE_SPEC_V31_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V31_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V31_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const walletPane = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesWalletPane.tsx');
+  const useUserData = read(root, 'apps/uapi/hooks/useUserData.ts');
+  const useUserDataJs = read(root, 'apps/uapi/hooks/useUserData.js');
+  const walletPaneTest = read(root, 'apps/uapi/tests/auxillariesWalletPane.test.tsx');
+  const userDataRouteTest = read(root, 'apps/uapi/tests/userDataRoute.test.ts');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V31.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V31_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V31_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const apiReadme = read(root, 'packages/api/README.md');
-  const auxReadme = read(root, 'uapi/app/auxillaries/README.md');
+  const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
   const btdReadme = read(root, 'packages/btd/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
@@ -218,7 +218,7 @@ function main() {
         apiReadme.includes(docPhrase) ||
         auxReadme.includes(docPhrase) ||
         btdReadme.includes(docPhrase),
-      `V31 Gate 5 docs/spec must describe ${docPhrase}.`,
+      `V31 Gate 5 .docs/spec must describe ${docPhrase}.`,
     );
   }
 

@@ -2,7 +2,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -40,7 +40,7 @@ import {
   type JiraGetIssueTypesToolFn,
   type JiraGetPrioritiesToolFn,
   type JiraCreateIssueLinkToolFn,
-} from '@bitcode/jira-tools';
+} from '@bitcode/generic-tools-mcps-jira';
 
 // ==================== SOPHISTICATED SCHEMAS ====================
 
@@ -803,7 +803,8 @@ export const jiraProcessorStepPrompts = {
 /**
  * Comprehensive Jira coordination variation using full PTRR cycle for complex enterprise environments
  */
-const comprehensiveJiraVariation = factoryAgentWithPTRR<JiraInput, JiraProcessorAgentRetryStepOutput>({
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveJiraVariation: any = factoryPTRRAgent<JiraInput, JiraProcessorAgentRetryStepOutput>({
   name: 'comprehensive-jira',
   description: 'Complete Jira project coordination with enterprise-grade analysis and strategic planning',
   prompt: jiraProcessorPrompt,
@@ -823,7 +824,7 @@ const comprehensiveJiraVariation = factoryAgentWithPTRR<JiraInput, JiraProcessor
 /**
  * Quick Jira coordination variation for rapid project status and basic operations
  */
-const quickJiraVariation = factoryAgentWithSingleStep<JiraInput, JiraProcessorAgentRetryStepOutput>({
+const quickJiraVariation: any = factoryAgentWithSingleStep<JiraInput, JiraProcessorAgentRetryStepOutput>({
   name: 'quick-jira',
   description: 'Fast Jira coordination for basic project management operations',
   execute: async (input, execution) => {

@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 
 const checks = [
   {
-    file: 'BITCODE_SPEC_V28.md',
+    file: '.specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 12: Settlement, Rights, Delivery, And Reconciliation',
       'bitcode.asset-pack.settlement-unlock',
@@ -17,7 +17,7 @@ const checks = [
     forbidden: ['commercialSettlementAdmissible', 'ReadFindingFitsSynthesis'],
   },
   {
-    file: 'BITCODE_SPEC_V28_PARITY_MATRIX.md',
+    file: '.specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
     needles: [
       'BTC settlement and read-license/right transfer',
       'AssetPack delivery as pull request',
@@ -27,7 +27,7 @@ const checks = [
     forbidden: ['commercialSettlementAdmissible', 'ReadFindingFitsSynthesis'],
   },
   {
-    file: 'BITCODE_V28_QA.md',
+    file: '.qa/BITCODE_V28_QA.md',
     needles: [
       'Gate 12 Settlement, Rights, Delivery, And Reconciliation QA',
       'pnpm run check:v28-gate12',
@@ -62,7 +62,7 @@ const checks = [
     ],
   },
   {
-    file: 'packages/pipeline-hosts/src/asset-pack-harness.ts',
+    file: 'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     needles: [
       'buildAssetPackSettlementUnlock',
       'applyAssetPackSettlementUnlockToPreview',
@@ -72,7 +72,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
+    file: 'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
     needles: [
       'BITCODE_PIPELINE_BTC_FEE_SATS',
       'protectedSourceUnlock',
@@ -81,7 +81,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    file: 'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
     needles: [
       'protectedSourceUnlock',
       'Read license',
@@ -90,7 +90,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+    file: 'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     needles: [
       'protectedSourceUnlock',
       'sourceAvailable',

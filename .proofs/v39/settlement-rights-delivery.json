@@ -1,0 +1,512 @@
+{
+  "artifactId": "v39-settlement-rights-delivery",
+  "schemaId": "bitcode.v39.settlementRightsDelivery.v1",
+  "version": "V39",
+  "currentTarget": "V38",
+  "sourceSafetyVerdict": "source-safe-settlement-rights-delivery",
+  "rowIds": [
+    "settlement:btc-payment-finality",
+    "rights:btd-transfer-receipt",
+    "compensation:source-to-shares-conservation",
+    "delivery:post-settlement-pr-unlock",
+    "sync:ledger-database-storage-reconciliation",
+    "repair:fail-closed-boundary",
+    "storage:settlement-projection",
+    "replay:settlement-rights-delivery-receipt",
+    "proof:tests-artifact-workflow"
+  ],
+  "rows": [
+    {
+      "rowId": "settlement:btc-payment-finality",
+      "purpose": "Observe reader BTC payment against the deterministic quote and bind finality before rights or delivery unlock.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/btd/src/settlement.ts"
+      ],
+      "emittedTypes": [
+        "AssetPackSettlementPaymentObservation",
+        "AssetPackSettlementFinalityReceipt"
+      ],
+      "requiredEvidence": [
+        "observedDebitSats",
+        "observedCreditSats",
+        "finalityState",
+        "serverCustody: false"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:71795b6baf8679c3a493de00",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "rights:btd-transfer-receipt",
+      "purpose": "Mint or transfer the AssetPack BTD read right to the reader only after confirmed BTC fee finality.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/receipts.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "emittedTypes": [
+        "BtdRightsTransferReceipt",
+        "BtdReadReceipt"
+      ],
+      "requiredEvidence": [
+        "buildBtdRightsTransferReceipt",
+        "btcFeeFinalityState",
+        "protectedSourceVisible"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:19fa2d3588cdf68940257e94",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "compensation:source-to-shares-conservation",
+      "purpose": "Allocate settlement sats to selected fit deposits with source-to-shares conservation and contributor traceability.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/source-to-shares.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "emittedTypes": [
+        "SourceToSharesProof"
+      ],
+      "requiredEvidence": [
+        "buildSourceToSharesProof",
+        "settlementConservation",
+        "settlementAllocations"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:8d69b6c060bb87916dd00328",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "delivery:post-settlement-pr-unlock",
+      "purpose": "Unlock source-bearing pull-request delivery only after payment, rights transfer, compensation, and projection readback agree.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/settlement.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts"
+      ],
+      "emittedTypes": [
+        "AssetPackDeliveryUnlockReceipt",
+        "AssetPackSettlementUnlock"
+      ],
+      "requiredEvidence": [
+        "source_bearing_pull_request_ready",
+        "pull_request_after_settlement",
+        "sourceBearingDeliveryVisibleToReader"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:74c7b83ca57df44618433ec5",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "sync:ledger-database-storage-reconciliation",
+      "purpose": "Synchronize ledger facts, database projections, object-storage artifacts, and staging-testnet readback before delivery.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/reconciliation.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "emittedTypes": [
+        "LedgerDatabaseReconciliationReport"
+      ],
+      "requiredEvidence": [
+        "reconcileLedgerDatabaseProjection",
+        "buildSupabaseStagingTestnetProjectionReadback",
+        "objectStorageArtifacts"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:418bed502488469483d1b205",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "repair:fail-closed-boundary",
+      "purpose": "Represent underpayment, missing finality, projection drift, and missing delivery as auditable blockers and repair actions.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "emittedTypes": [
+        "AssetPackSettlementRightsDeliveryRepairPosture"
+      ],
+      "requiredEvidence": [
+        "blocked_until_compensation_conservation",
+        "blocked_until_payment_finality",
+        "blocked_until_projection_repair"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:581828a2164baac1db5c437d",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "storage:settlement-projection",
+      "purpose": "Persist source-safe payment, finality, source-to-shares, BTD receipt, delivery, reconciliation, replay, and repair records.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts"
+      ],
+      "emittedTypes": [
+        "AssetPackSettlementRightsDeliveryStorageRecord"
+      ],
+      "requiredEvidence": [
+        "asset-pack/settlement",
+        "storageProjection",
+        "rightsTransferReceipt"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:2edba69940c426fd79b4ffd6",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "replay:settlement-rights-delivery-receipt",
+      "purpose": "Replay settlement, rights transfer, compensation, synchronization, and delivery unlock from proof roots.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "emittedTypes": [
+        "AssetPackSettlementRightsDeliveryReplayReceipt"
+      ],
+      "requiredEvidence": [
+        "settlement-rights-delivery-replay",
+        "paymentMatchesQuote",
+        "deliveryUnlockedOnlyAfterSettlement"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:18ca4be6ec7c7a5aa4cc9e55",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "proof:tests-artifact-workflow",
+      "purpose": "Bind Gate 7 closure to package tests, protocol artifact tests, generated artifact, docs, package exports, and workflow wiring.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "emittedTypes": [
+        "V39SettlementRightsDelivery"
+      ],
+      "requiredEvidence": [
+        "check-v39-gate7-settlement-rights-delivery.mjs",
+        "v39-settlement-rights-delivery"
+      ],
+      "rowRoot": "v39-settlement-rights-delivery-row:b09ae61cf4664f8a3914be8e",
+      "sourceSafetyClass": "source_safe_settlement_rights_delivery_boundary",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "boundary-defines-core-types",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "boundary-composes-btd-primitives",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "boundary-builds-source-to-shares",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "boundary-builds-reconciliation",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "boundary-fail-closed-states",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "boundary-source-safety",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "receipts-enforce-confirmed-finality",
+      "sourcePath": "packages/btd/src/receipts.ts",
+      "passed": true
+    },
+    {
+      "id": "settlement-unlock-enforces-readback",
+      "sourcePath": "packages/btd/src/settlement.ts",
+      "passed": true
+    },
+    {
+      "id": "package-exports-boundary",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
+      "passed": true
+    },
+    {
+      "id": "btd-subpaths-exported",
+      "sourcePath": "packages/btd/package.json",
+      "passed": true
+    },
+    {
+      "id": "jest-maps-btd-subpaths",
+      "sourcePath": "packages/asset-packs-pipelines/domain/jest.config.cjs",
+      "passed": true
+    },
+    {
+      "id": "postprocess-optionally-emits-settlement",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-confirmed-delivery",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-underpayment",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-finality",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-reconciliation-drift",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "passed": true
+    },
+    {
+      "id": "spec-gate7-expanded",
+      "sourcePath": "BITCODE_SPEC_V39.md",
+      "passed": true
+    },
+    {
+      "id": "delta-gate7-expanded",
+      "sourcePath": "BITCODE_SPEC_V39_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-gate7-expanded",
+      "sourcePath": "BITCODE_SPEC_V39_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-gate7-expanded",
+      "sourcePath": "BITCODE_SPEC_V39_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-advanced-to-gate7",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-document-gate7",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate7-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "rowCount": 9,
+    "sourceSafetyVerdict": "source-safe-settlement-rights-delivery",
+    "runtimeType": "AssetPackSettlementRightsDeliveryBoundary",
+    "paymentType": "AssetPackSettlementPaymentObservation",
+    "btcSettlementReadbackType": "AssetPackBtcSettlementReadback",
+    "finalityType": "AssetPackSettlementFinalityReceipt",
+    "rightsTransferType": "BtdRightsTransferReceipt",
+    "readReceiptType": "BtdReadReceipt",
+    "sourceToSharesType": "SourceToSharesProof",
+    "reconciliationType": "LedgerDatabaseReconciliationReport",
+    "deliveryType": "AssetPackDeliveryUnlockReceipt",
+    "replayType": "AssetPackSettlementRightsDeliveryReplayReceipt",
+    "storageRecordKinds": [
+      "btc_payment_observation",
+      "btc_settlement_readback",
+      "settlement_finality",
+      "source_to_shares_compensation",
+      "btd_read_receipt",
+      "btd_rights_transfer",
+      "delivery_unlock",
+      "ledger_database_storage_reconciliation",
+      "replay_receipt",
+      "repair_posture"
+    ],
+    "requiredReadbacksBeforeUnlock": [
+      "btc_payment_observation",
+      "settlement_finality",
+      "source_to_shares_compensation",
+      "btd_rights_transfer",
+      "ledger_database_storage_reconciliation"
+    ],
+    "stagingProjectRef": "tkpyosihuouusyaxtbau",
+    "stagingRestHost": "https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/",
+    "sourceSafeMetadataOnly": true,
+    "protectedSourcePayloadSerialized": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "credentialsSerialized": false,
+    "confirmedPaymentCovered": true,
+    "underpaymentBlockedCovered": true,
+    "finalityBlockedCovered": true,
+    "reconciliationRepairCovered": true,
+    "btdRightsTransferCovered": true,
+    "sourceToSharesCovered": true,
+    "failedPredicateIds": []
+  },
+  "passed": true,
+  "artifactRoot": "v39-settlement-rights-delivery:ac368ea9dcc45bda1c5ef73d"
+}

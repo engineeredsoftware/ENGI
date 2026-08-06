@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: formatting
  * intent: "Label for doc-code-tool metadata section"
- * current_version: "V26.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "metadata_label_clarity", "test": "Unambiguously indicates doc-code-tool metadata section", "score": 0.50 },

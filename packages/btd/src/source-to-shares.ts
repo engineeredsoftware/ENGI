@@ -195,8 +195,8 @@ export interface SourceToSharesProof {
   assetPackId: string;
   acceptedNeedRoot: string;
   findingFitsResultRoot: string;
-  proofArtifactPath: '.bitcode/v30-settlement-source-to-shares-proof.json';
-  sourceToSharesArtifactPath: '.bitcode/source-to-shares.json';
+  proofArtifactPath: '.proofs/v30/settlement-source-to-shares-proof.json';
+  sourceToSharesArtifactPath: '.proofs/_shared/source-to-shares.json';
   feeQuote: {
     quoteId: string;
     quoteRoot: string;
@@ -296,8 +296,8 @@ export function buildSourceToSharesProof(input: SourceToSharesProofInput): Sourc
       input.findingFitsResultRoot,
       'findingFitsResultRoot',
     ),
-    proofArtifactPath: '.bitcode/v30-settlement-source-to-shares-proof.json',
-    sourceToSharesArtifactPath: '.bitcode/source-to-shares.json',
+    proofArtifactPath: '.proofs/v30/settlement-source-to-shares-proof.json',
+    sourceToSharesArtifactPath: '.proofs/_shared/source-to-shares.json',
     feeQuote,
     paymentObservation,
     fitDeposits,

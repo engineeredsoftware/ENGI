@@ -46,7 +46,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V43', `BITCODE_SPEC.txt must remain V43 during V44 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -60,14 +60,14 @@ function main() {
   }
 
   for (const relativePath of [
-    'BITCODE_SPEC_V44.md',
-    'BITCODE_SPEC_V44_DELTA.md',
-    'BITCODE_SPEC_V44_NOTES.md',
-    'BITCODE_SPEC_V44_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V44.md',
+    '.specifications/BITCODE_SPEC_V44_DELTA.md',
+    '.specifications/BITCODE_SPEC_V44_NOTES.md',
+    '.specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'protocol-demonstration/README.md',
+    'scripts/specifying/README.md',
+    'scripts/specifying/README.md',
     '.github/pull_request_template.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -76,14 +76,14 @@ function main() {
     assertCheck(failures, exists(root, relativePath), `Missing required V44 Gate 1 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V44.md');
-  const delta = read(root, 'BITCODE_SPEC_V44_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V44_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V44_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V44.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V44_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V44_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const demoReadme = read(root, 'protocol-demonstration/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const demoReadme = read(root, 'scripts/specifying/README.md');
   const prTemplate = read(root, '.github/pull_request_template.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');

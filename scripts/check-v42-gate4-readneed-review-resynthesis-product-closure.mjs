@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v42-readneed-review-resynthesis-product-closure.json';
+const ARTIFACT_PATH = '.proofs/v42/readneed-review-resynthesis-product-closure.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -73,7 +73,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v42-gate4-readneed-review-resynthesis-product-closure.mjs [--skip-branch-check] [--skip-package-tests] [--skip-uapi-tests] [--repo-root <path>]',
       '',
-      'Checks V42 Gate 4 ReadNeed product closure, review/resynthesis, rejection, accepted-Need admission, source-safe runtime storage, telemetry receipts, Terminal readback, tests, docs, workflow wiring, and proof artifact.',
+      'Checks V42 Gate 4 ReadNeed product closure, review/resynthesis, rejection, accepted-Need admission, source-safe runtime storage, telemetry receipts, product readback, tests, docs, workflow wiring, and proof artifact.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -107,29 +107,29 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
-    'uapi/app/api/read-review/route.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/tests/api/readReviewRoute.test.ts',
-    'uapi/tests/api/readReviewProtocolParity.test.ts',
-    'packages/protocol/src/canonical/v42-readneed-review-resynthesis-product-closure.js',
-    'packages/protocol/test/v42-readneed-review-resynthesis-product-closure.test.js',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need-review-resynthesis.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need-review-resynthesis.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-contract.test.ts',
+    'apps/uapi/app/api/read-review/route.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/tests/api/readReviewRoute.test.ts',
+    'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
+    'scripts/specifying/src/canonical/v42-readneed-review-resynthesis-product-closure.js',
+    'scripts/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js',
     'scripts/generate-v42-readneed-review-resynthesis-product-closure.mjs',
     'scripts/check-v42-gate4-readneed-review-resynthesis-product-closure.mjs',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'uapi/app/terminal/README.md',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -152,7 +152,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v42-readneed-review-resynthesis-product-closure.test.js',
+        'scripts/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 ReadNeed review/resynthesis protocol test failed: ${error.stderr || error.message}`);
@@ -163,7 +163,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -184,7 +184,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -226,7 +226,7 @@ function main() {
     assertCheck(failures, artifact.coverage.thricifiedGenerationCount === 48, 'Gate 4 must cover forty-eight ThricifiedGeneration receipts.');
     assertCheck(failures, artifact.coverage.acceptedNeedRequiredForFindingFits === true, 'Gate 4 must require accepted Need before Finding Fits.');
     assertCheck(failures, artifact.coverage.rejectedNeedBlocksFindingFits === true, 'Gate 4 must block Finding Fits after rejected Need.');
-    assertCheck(failures, artifact.coverage.terminalRuntimeReadbackCovered === true, 'Gate 4 must cover Terminal runtime readback.');
+    assertCheck(failures, artifact.coverage.terminalRuntimeReadbackCovered === true, 'Gate 4 must cover product runtime readback.');
     assertCheck(failures, artifact.coverage.sourceSafeMetadataOnly === true, 'Gate 4 must remain source-safe metadata only.');
     assertCheck(failures, artifact.coverage.protectedSourceVisible === false, 'Gate 4 artifact must not expose protected source.');
     assertCheck(failures, artifact.coverage.rawProtectedPromptVisible === false, 'Gate 4 artifact must not expose protected prompts.');
@@ -239,12 +239,12 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 4 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V42.md');
-  const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V42.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   assertCheck(failures, spec.includes('V42 Gate 4') && spec.includes('v42-readneed-review-resynthesis-product-closure'), 'V42 spec must expand Gate 4 ReadNeed product closure.');
   assertCheck(failures, parity.includes('ReadNeed product closure') && parity.includes('implemented'), 'V42 parity matrix must mark ReadNeed product closure implemented.');
-  assertCheck(failures, terminalReadme.includes('V42 Gate 4') && terminalReadme.includes('ReadNeedReviewResynthesisRuntime'), 'Terminal README must document Gate 4 ReadNeed runtime readback.');
+  assertCheck(failures, terminalReadme.includes('V42 Gate 4') && terminalReadme.includes('ReadNeedReviewResynthesisRuntime'), 'product README must document Gate 4 ReadNeed runtime readback.');
 
   if (failures.length > 0) {
     process.stderr.write(`V42 Gate 4 ReadNeed product closure check failed:\n- ${failures.join('\n- ')}\n`);

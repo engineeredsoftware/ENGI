@@ -1,0 +1,416 @@
+{
+  "artifactId": "v42-ai-reading-demonstration",
+  "schemaId": "bitcode.v42.aiReadingDemonstration.v1",
+  "version": "V42",
+  "currentTarget": "V41",
+  "sourceSafetyVerdict": "source-safe-v42-ai-reading-demonstration-metadata",
+  "rowIds": [
+    "baseline:public-data-only-ai-reading",
+    "need:source-bound-read-comprehension",
+    "fits:local-depository-assetpack-selection",
+    "assetpack:enhanced-ai-reading",
+    "measurement:benchmark-uplift",
+    "source-safety:settlement-gated-disclosure",
+    "boundary:self-contained-demonstration",
+    "proof:artifact-tests-workflows"
+  ],
+  "rows": [
+    {
+      "rowId": "baseline:public-data-only-ai-reading",
+      "purpose": "Represent the public-data-only AI answer as the baseline before any AssetPack knowledge is available.",
+      "sourceRoots": [
+        "protocol-demonstration/src/ai-reading-demonstration.js",
+        "protocol-demonstration/test/v42-ai-reading-mvp.test.js"
+      ],
+      "emittedTypes": [
+        "publicDataOnlyBaseline",
+        "scoreAssistantResponse"
+      ],
+      "requiredEvidence": [
+        "public-data-only",
+        "missingTerms",
+        "scoreBp"
+      ],
+      "rowRoot": "v42-ai-reading-demonstration-row:5ffb14f264ed1562ad56f42c",
+      "sourceSafetyClass": "source_safe_v42_ai_reading_demonstration_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "outsideRuntimeImportRequired": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "secret-values",
+        "outside-runtime-imports"
+      ]
+    },
+    {
+      "rowId": "need:source-bound-read-comprehension",
+      "purpose": "Reuse the local ReadNeed synthesis loop so the demonstration starts from a reviewed source-bound Need.",
+      "sourceRoots": [
+        "protocol-demonstration/src/ai-reading-demonstration.js",
+        "protocol-demonstration/src/local-fit-finding.js",
+        "protocol-demonstration/test/v42-ai-reading-mvp.test.js"
+      ],
+      "emittedTypes": [
+        "readNeed",
+        "synthesizeReadNeedLocally",
+        "acceptReadNeedLocally"
+      ],
+      "requiredEvidence": [
+        "Acquire an AssetPack",
+        "needs_acceptance",
+        "accepted"
+      ],
+      "rowRoot": "v42-ai-reading-demonstration-row:442af48e760474900ab98cc6",
+      "sourceSafetyClass": "source_safe_v42_ai_reading_demonstration_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "outsideRuntimeImportRequired": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "secret-values",
+        "outside-runtime-imports"
+      ]
+    },
+    {
+      "rowId": "fits:local-depository-assetpack-selection",
+      "purpose": "Find the deposited AssetPack candidate locally, rank it, and preserve proof roots without importing product code.",
+      "sourceRoots": [
+        "protocol-demonstration/src/ai-reading-demonstration.js",
+        "protocol-demonstration/src/local-fit-finding.js",
+        "protocol-demonstration/test/v42-ai-reading-mvp.test.js"
+      ],
+      "emittedTypes": [
+        "findNeedFitLocally",
+        "selectedDepositIds",
+        "rankingRoot"
+      ],
+      "requiredEvidence": [
+        "deposit-auth-migration-runbook",
+        "worthy_fit",
+        "queryRoot"
+      ],
+      "rowRoot": "v42-ai-reading-demonstration-row:86b108220396ff6f9cd23c24",
+      "sourceSafetyClass": "source_safe_v42_ai_reading_demonstration_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "outsideRuntimeImportRequired": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "secret-values",
+        "outside-runtime-imports"
+      ]
+    },
+    {
+      "rowId": "assetpack:enhanced-ai-reading",
+      "purpose": "Apply the selected AssetPack knowledge to the AI answer after rights are available, while pre-settlement source remains withheld.",
+      "sourceRoots": [
+        "protocol-demonstration/src/ai-reading-demonstration.js",
+        "protocol-demonstration/test/v42-ai-reading-mvp.test.js"
+      ],
+      "emittedTypes": [
+        "assetPackEnhancedReading",
+        "assetPackPreview",
+        "sourceSafety"
+      ],
+      "requiredEvidence": [
+        "assetpack-enhanced-after-rights",
+        "withheld_until_settlement",
+        "sourceBearingDeliveryRequiresSettlement"
+      ],
+      "rowRoot": "v42-ai-reading-demonstration-row:2b0ecabe25a5188357a9fb9c",
+      "sourceSafetyClass": "source_safe_v42_ai_reading_demonstration_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "outsideRuntimeImportRequired": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "secret-values",
+        "outside-runtime-imports"
+      ]
+    },
+    {
+      "rowId": "measurement:benchmark-uplift",
+      "purpose": "Measure basis-point improvement between public baseline and AssetPack-enhanced reading.",
+      "sourceRoots": [
+        "protocol-demonstration/src/ai-reading-demonstration.js",
+        "protocol-demonstration/src/benchmark-model.js",
+        "protocol-demonstration/test/v42-ai-reading-mvp.test.js"
+      ],
+      "emittedTypes": [
+        "benchmark",
+        "improvement",
+        "buildBenchmarkComparison"
+      ],
+      "requiredEvidence": [
+        "minimumUpliftBp",
+        "upliftBp",
+        "treatmentBp"
+      ],
+      "rowRoot": "v42-ai-reading-demonstration-row:63b02f505c01000a26880b15",
+      "sourceSafetyClass": "source_safe_v42_ai_reading_demonstration_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "outsideRuntimeImportRequired": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "secret-values",
+        "outside-runtime-imports"
+      ]
+    },
+    {
+      "rowId": "source-safety:settlement-gated-disclosure",
+      "purpose": "Keep protected source and unpaid AssetPack source out of the demonstration result and preview.",
+      "sourceRoots": [
+        "protocol-demonstration/src/ai-reading-demonstration.js",
+        "protocol-demonstration/test/v42-ai-reading-mvp.test.js",
+        "protocol-demonstration/test/v28-boundary-separation.test.js"
+      ],
+      "emittedTypes": [
+        "sourceSafety",
+        "assetPackPreview"
+      ],
+      "requiredEvidence": [
+        "protectedSourceBeforeSettlement",
+        "publicBaselineUsesDepositorySource: false",
+        "v28-boundary-separation"
+      ],
+      "rowRoot": "v42-ai-reading-demonstration-row:d92819266a8a7ecb1ed19f3c",
+      "sourceSafetyClass": "source_safe_v42_ai_reading_demonstration_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "outsideRuntimeImportRequired": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "secret-values",
+        "outside-runtime-imports"
+      ]
+    },
+    {
+      "rowId": "boundary:self-contained-demonstration",
+      "purpose": "Maintain the demonstration as self-contained code with no product runtime imports.",
+      "sourceRoots": [
+        "protocol-demonstration/src/ai-reading-demonstration.js",
+        "protocol-demonstration/src/index.js",
+        "protocol-demonstration/package.json",
+        "protocol-demonstration/test/v28-boundary-separation.test.js"
+      ],
+      "emittedTypes": [
+        "runAiReadingDominantDemonstration",
+        "buildAiReadingDemonstrationInput"
+      ],
+      "requiredEvidence": [
+        "outsideSourceImportsAllowed: false",
+        "test:v42-ai-reading-mvp",
+        "does not import outside source"
+      ],
+      "rowRoot": "v42-ai-reading-demonstration-row:16dc6761067d69eec8e9dff5",
+      "sourceSafetyClass": "source_safe_v42_ai_reading_demonstration_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "outsideRuntimeImportRequired": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "secret-values",
+        "outside-runtime-imports"
+      ]
+    },
+    {
+      "rowId": "proof:artifact-tests-workflows",
+      "purpose": "Bind V42 Gate 7 closure to generated artifact, protocol test, demonstration test, docs, package scripts, and workflows.",
+      "sourceRoots": [
+        "scripts/specifying/test/v42-ai-reading-demonstration.test.js",
+        "package.json",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "emittedTypes": [
+        "V42AiReadingDemonstration"
+      ],
+      "requiredEvidence": [
+        "v42-ai-reading-demonstration",
+        "check-v42-gate7-ai-reading-demonstration.mjs"
+      ],
+      "rowRoot": "v42-ai-reading-demonstration-row:e57a2afa0a3f278e270c8196",
+      "sourceSafetyClass": "source_safe_v42_ai_reading_demonstration_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "outsideRuntimeImportRequired": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "secret-values",
+        "outside-runtime-imports"
+      ]
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "demo-runtime-builds-input",
+      "sourcePath": "protocol-demonstration/src/ai-reading-demonstration.js",
+      "passed": true
+    },
+    {
+      "id": "demo-runtime-runs-fit-search",
+      "sourcePath": "protocol-demonstration/src/ai-reading-demonstration.js",
+      "passed": true
+    },
+    {
+      "id": "demo-runtime-measures-uplift",
+      "sourcePath": "protocol-demonstration/src/ai-reading-demonstration.js",
+      "passed": true
+    },
+    {
+      "id": "demo-runtime-source-safe",
+      "sourcePath": "protocol-demonstration/src/ai-reading-demonstration.js",
+      "passed": true
+    },
+    {
+      "id": "demo-index-exports-runtime",
+      "sourcePath": "protocol-demonstration/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "demo-test-proves-uplift",
+      "sourcePath": "protocol-demonstration/test/v42-ai-reading-mvp.test.js",
+      "passed": true
+    },
+    {
+      "id": "demo-test-proves-determinism",
+      "sourcePath": "protocol-demonstration/test/v42-ai-reading-mvp.test.js",
+      "passed": true
+    },
+    {
+      "id": "demo-boundary-test-retained",
+      "sourcePath": "protocol-demonstration/test/v28-boundary-separation.test.js",
+      "passed": true
+    },
+    {
+      "id": "demo-package-script-wired",
+      "sourcePath": "protocol-demonstration/package.json",
+      "passed": true
+    },
+    {
+      "id": "protocol-test-wired",
+      "sourcePath": "scripts/specifying/test/v42-ai-reading-demonstration.test.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-export-wired",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-scripts-wired",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate7",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "v42-docs-expanded",
+      "sourcePath": "BITCODE_SPEC_V42.md",
+      "passed": true
+    },
+    {
+      "id": "v42-delta-expanded",
+      "sourcePath": "BITCODE_SPEC_V42_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "v42-notes-expanded",
+      "sourcePath": "BITCODE_SPEC_V42_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "v42-parity-implemented",
+      "sourcePath": "BITCODE_SPEC_V42_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate7-closure",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-document-gate7",
+      "sourcePath": "README.md",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "rowCount": 8,
+    "sourceSafetyVerdict": "source-safe-v42-ai-reading-demonstration-metadata",
+    "demonstrationRuntime": "protocol-demonstration/src/ai-reading-demonstration.js",
+    "demonstrationTest": "protocol-demonstration/test/v42-ai-reading-mvp.test.js",
+    "baselineMode": "public-data-only",
+    "enhancedMode": "assetpack-enhanced-after-rights",
+    "minimumUpliftBp": 2400,
+    "expectedBaselineBp": 0,
+    "expectedTreatmentBp": 10000,
+    "expectedSelectedDepositId": "deposit-auth-migration-runbook",
+    "expectedFitResultState": "worthy_fit",
+    "protectedSourceBeforeSettlement": "withheld_until_settlement",
+    "sourceBearingDeliveryRequiresSettlement": true,
+    "deterministicLocalOnly": true,
+    "selfContainedDemonstration": true,
+    "outsideRuntimeImportRequired": false,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourcePayloadSerialized": false,
+    "rawProtectedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "failedPredicateIds": []
+  },
+  "passed": true,
+  "artifactRoot": "v42-ai-reading-demonstration:8d5fb53a20ade8253f106da8"
+}

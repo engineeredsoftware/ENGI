@@ -39,22 +39,23 @@ class ArchitectureReviewer {
 
   private validateCanonicalSpecFamily(): void {
     this.withResult('Canonical V26 specification family', (details, violations) => {
-      this.expectFile('BITCODE_SPEC.txt', details, violations);
-      this.expectFile('BITCODE_SPEC_V26.md', details, violations);
-      this.expectFile('BITCODE_SPEC_V26_NOTES.md', details, violations);
-      this.expectFile('BITCODE_SPEC_V26_PARITY_MATRIX.md', details, violations);
-      this.expectFile('BITCODE_SPEC_V26_PROVEN.md', details, violations);
-      this.expectFile('protocol-demonstration/V26_PROMPT_SURFACES.md', details, violations);
-      this.expectFile('protocol-demonstration/V26_INFERENCE_SYSTEMS.md', details, violations);
+      this.expectFile('.specifications/BITCODE_SPEC.txt', details, violations);
+      this.expectFile('.specifications/BITCODE_SPEC_V26.md', details, violations);
+      this.expectFile('.specifications/BITCODE_SPEC_V26_NOTES.md', details, violations);
+      this.expectFile('.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', details, violations);
+      this.expectFile('.specifications/BITCODE_SPEC_V26_PROVEN.md', details, violations);
+      // Living prompt law is under packages + .docs (not a removed witness tree).
+      this.expectFile('.docs/PROMPTING.md', details, violations);
+      this.expectFile('packages/prompts/README.md', details, violations);
 
-      const pointer = this.readText('BITCODE_SPEC.txt').trim();
+      const pointer = this.readText('.specifications/BITCODE_SPEC.txt').trim();
       if (pointer === 'V26') {
         details.push('BITCODE_SPEC.txt points at V26.');
       } else {
         violations.push(`BITCODE_SPEC.txt must point at V26, found "${pointer}".`);
       }
 
-      const promptSurfaces = this.readText('protocol-demonstration/V26_PROMPT_SURFACES.md');
+      const promptSurfaces = this.readText('.docs/PROMPTING.md');
       this.expectContains(
         promptSurfaces,
         'PromptPart',
@@ -239,67 +240,44 @@ class ArchitectureReviewer {
 
   private validateInferenceSystemSpecifications(): void {
     this.withResult('Inference implementation specification density', (details, violations) => {
-      const inferenceSpec = this.readText('protocol-demonstration/V26_INFERENCE_SYSTEMS.md');
-      const requiredTerms = [
-        'canonicalRead',
-        'promptImplementation',
-        'toolImplementation',
-        'agentImplementation',
-        'executionImplementation',
-        'assetPackImplementation',
-        'Prompt primitives',
-        'Read-comprehension compatibility'
-      ];
-
-      for (const term of requiredTerms) {
-        this.expectContains(
-          inferenceSpec,
-          term,
-          `Inference spec includes ${term}.`,
-          `Inference spec must include ${term}.`,
-          details,
-          violations
-        );
-      }
-
-      this.expectNotContains(
-        inferenceSpec,
-        'DELIVERABLE as primary object',
-        'Inference spec does not promote DELIVERABLE as the primary Bitcode object.',
-        'Inference spec must keep assets/asset-packs primary over delivery mechanisms.',
-        details,
-        violations
-      );
+      // Product inference systems live under packages/*; living docs under .docs/.
+      this.expectFile('.docs/PROMPTING.md', details, violations);
+      this.expectFile('packages/prompts/README.md', details, violations);
+      this.expectDirectory('packages/prompts/src/raw_promptparts/generic', details, violations);
+      this.expectDirectory('packages/agent-generics/src', details, violations);
+      this.expectDirectory('packages/tools-generics/src', details, violations);
+      this.expectDirectory('packages/execution-generics/src', details, violations);
+      details.push('Inference/product systems are owned by packages/* (not scripts tooling).');
     });
   }
 
   private validateDocCommentToolPromptBridge(): void {
     this.withResult('Doc-comment and tool prompt injection bridge', (details, violations) => {
       const requiredFiles = [
-        'packages/doc-comment/package.json',
-        'packages/doc-code/package.json',
+        'packages/doc-comment-generics/package.json',
+        'packages/generic-doc-comments/doc-code/package.json',
         'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
-        'protocol-demonstration/V26_DOC_COMMENT_REFORM.md'
+        'packages/tools-generics/README.md',
       ];
 
       for (const file of requiredFiles) {
         this.expectFile(file, details, violations);
       }
 
-      const docCommentSpec = this.readText('protocol-demonstration/V26_DOC_COMMENT_REFORM.md');
+      const toolsReadme = this.readText('packages/tools-generics/README.md');
       this.expectContains(
-        docCommentSpec,
-        'tool prompt injection',
-        'Doc-comment reform specifies tool prompt injection.',
-        'Doc-comment reform must specify tool prompt injection.',
+        toolsReadme,
+        'DocCodeToolPrompt',
+        'Tools package documents DocCodeToolPrompt injection.',
+        'Tools package must document DocCodeToolPrompt injection.',
         details,
         violations
       );
       this.expectContains(
-        docCommentSpec,
-        'DocCodeToolPrompt',
-        'Doc-comment reform binds DocCodeToolPrompt.',
-        'Doc-comment reform must bind DocCodeToolPrompt.',
+        toolsReadme,
+        'formatUsableTools',
+        'Tools package documents formatUsableTools.',
+        'Tools package must document formatUsableTools.',
         details,
         violations
       );
@@ -460,7 +438,7 @@ function findRepoRoot(startPath: string): string {
   let current = path.resolve(startPath);
 
   while (true) {
-    if (fs.existsSync(path.join(current, 'BITCODE_SPEC.txt'))) {
+    if (fs.existsSync(path.join(current, '.specifications/BITCODE_SPEC.txt'))) {
       return current;
     }
 

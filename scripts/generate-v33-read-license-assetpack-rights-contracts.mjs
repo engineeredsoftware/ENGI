@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v33-read-license-assetpack-rights-contracts.json';
+const ARTIFACT_PATH = '.proofs/v33/read-license-assetpack-rights-contracts.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const requiredSurfaces = Object.freeze(['api', 'mcp', 'chatgpt_app', 'terminal']);
@@ -155,7 +155,7 @@ export function buildV33ReadLicenseAssetPackRightsContractsArtifact() {
   ];
   const testEvidence = [
     scanTokens('packages/btd/__tests__/read-license-assetpack-rights-contract.test.ts', [
-      'publishes shared fixtures across API, MCP, ChatGPT App, and Terminal',
+      'publishes shared fixtures across API, MCP, ChatGPT App, and product',
       'denies locked AssetPack delivery when license, settlement, and rights transfer are missing',
       'admits paid delivery only after confirmed BTC finality and rights transfer',
     ]),
@@ -163,24 +163,24 @@ export function buildV33ReadLicenseAssetPackRightsContractsArtifact() {
       'shares the package-owned ReadLicense and AssetPackRights fixture for API preview admission',
       'api-read-license-source-safe-preview',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned ReadLicense and AssetPackRights fixture for MCP Finding Fits preview',
       'mcp-finding-fits-source-safe-preview',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned ReadLicense and AssetPackRights fixture for unpaid ChatGPT App delivery denial',
       'chatgpt-unpaid-delivery-denied',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned ReadLicense and AssetPackRights fixture for paid Terminal delivery',
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
+      'shares the package-owned ReadLicense and AssetPackRights fixture for paid product delivery',
       'terminal-paid-rights-delivery',
     ]),
   ];
   const docsEvidence = [
-    scanTokens('BITCODE_SPEC_V33.md', ['ReadLicenseInterfaceContract', 'AssetPackRightsInterfaceContract', 'Gate 6']),
-    scanTokens('BITCODE_SPEC_V33_DELTA.md', ['Read License And AssetPack Rights Interface Contracts']),
-    scanTokens('BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Read license and AssetPack rights contracts']),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', ['V33 Gate 6 Read License And AssetPack Rights Interface Contracts']),
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', ['ReadLicenseInterfaceContract', 'AssetPackRightsInterfaceContract', 'Gate 6']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_DELTA.md', ['Read License And AssetPack Rights Interface Contracts']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Read license and AssetPack rights contracts']),
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 6 Read License And AssetPack Rights Interface Contracts']),
   ];
   const observedSurfaces = Array.from(new Set(fixtureRows.map((row) => row.interfaceSurface))).sort();
   const missingSurfaces = requiredSurfaces.filter((surface) => !observedSurfaces.includes(surface));

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_DEPOSIT_OPTION_ADMISSION_ARTIFACT_PATH,
   buildV43DepositOptionAdmission,
-} from '../packages/protocol/src/canonical/v43-deposit-option-admission.js';
+} from '../scripts/specifying/src/canonical/v43-deposit-option-admission.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V42', `BITCODE_SPEC.txt must remain V42 during V43 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -82,26 +82,26 @@ function main() {
 
   for (const relativePath of [
     V43_DEPOSIT_OPTION_ADMISSION_ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts',
-    'packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-admission.test.ts',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
-    'uapi/tests/depositRouteModel.test.ts',
-    'uapi/tests/depositPageClient.test.tsx',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/jest.config.cjs',
-    'packages/protocol/src/canonical/v43-deposit-option-admission.js',
-    'packages/protocol/test/v43-deposit-option-admission.test.js',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-admission.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/tests/depositRouteModel.test.ts',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/jest.config.cjs',
+    'scripts/specifying/src/canonical/v43-deposit-option-admission.js',
+    'scripts/specifying/test/v43-deposit-option-admission.test.js',
     'scripts/generate-v43-deposit-option-admission.mjs',
     'scripts/check-v43-gate7-deposit-option-admission.mjs',
-    'BITCODE_SPEC_V43.md',
-    'BITCODE_SPEC_V43_DELTA.md',
-    'BITCODE_SPEC_V43_NOTES.md',
-    'BITCODE_SPEC_V43_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V43.md',
+    '.specifications/BITCODE_SPEC_V43_DELTA.md',
+    '.specifications/BITCODE_SPEC_V43_NOTES.md',
+    '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -153,7 +153,7 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', 'deposit-asset-pack-option-admission.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', 'deposit-asset-pack-option-admission.test.ts', '--runInBand']);
     } catch {
       failures.push('asset-pack deposit-asset-pack-option-admission.test.ts must pass.');
     }
@@ -161,7 +161,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', 'packActivityModel.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', 'packActivityModel.test.ts', '--runInBand']);
     } catch {
       failures.push('uapi depositRouteModel.test.ts, depositPageClient.test.tsx, and packActivityModel.test.ts must pass.');
     }

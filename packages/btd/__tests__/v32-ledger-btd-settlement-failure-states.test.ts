@@ -635,7 +635,7 @@ describe('V32 Gate 5 ledger BTD settlement failure-state coverage', () => {
         readerWalletId: 'wallet-reader-v32-gate5',
         readback: settledReadback(),
       },
-      pullRequestTarget: 'engineeredsoftware/ENGI#123',
+      pullRequestTarget: 'octocat/Spoon-Knife#123',
     });
 
     expect(unlocked).toMatchObject({
@@ -657,7 +657,7 @@ describe('V32 Gate 5 ledger BTD settlement failure-state coverage', () => {
     ).toMatchObject({
       accessPolicy: { readRightState: 'licensed_read' },
       unlock: { sourceAvailable: true },
-      delivery: { pullRequestTarget: 'engineeredsoftware/ENGI#123' },
+      delivery: { pullRequestTarget: 'octocat/Spoon-Knife#123' },
     });
   });
 });

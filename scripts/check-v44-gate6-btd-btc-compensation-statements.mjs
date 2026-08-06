@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH,
   buildV44BtdBtcCompensationStatements,
-} from '../packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js';
+} from '../scripts/specifying/src/canonical/v44-btd-btc-compensation-statements.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V43', `BITCODE_SPEC.txt must remain V43 during V44 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -87,28 +87,28 @@ function main() {
 
   for (const relativePath of [
     V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/btd-btc-compensation-statements.ts',
-    'packages/pipelines/asset-pack/src/__tests__/btd-btc-compensation-statements.test.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-btc-compensation-statements.test.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/src/receipts.ts',
     'packages/btd/src/reconciliation.ts',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/tests/packsPageClient.test.tsx',
-    'packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js',
-    'packages/protocol/test/v44-btd-btc-compensation-statements.test.js',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/tests/packsPageClient.test.tsx',
+    'scripts/specifying/src/canonical/v44-btd-btc-compensation-statements.js',
+    'scripts/specifying/test/v44-btd-btc-compensation-statements.test.js',
     'scripts/generate-v44-btd-btc-compensation-statements.mjs',
     'scripts/check-v44-gate6-btd-btc-compensation-statements.mjs',
-    'BITCODE_SPEC_V44.md',
-    'BITCODE_SPEC_V44_DELTA.md',
-    'BITCODE_SPEC_V44_NOTES.md',
-    'BITCODE_SPEC_V44_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V44.md',
+    '.specifications/BITCODE_SPEC_V44_DELTA.md',
+    '.specifications/BITCODE_SPEC_V44_NOTES.md',
+    '.specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -162,13 +162,13 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-btd-btc-compensation-statements.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-btd-btc-compensation-statements.test.js']);
     } catch {
-      failures.push('packages/protocol/test/v44-btd-btc-compensation-statements.test.js must pass.');
+      failures.push('scripts/specifying/test/v44-btd-btc-compensation-statements.test.js must pass.');
     }
 
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'test', '--', 'btd-btc-compensation-statements.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'test', '--', 'btd-btc-compensation-statements.test.ts', '--runInBand']);
     } catch {
       failures.push('packages/pipelines/asset-pack BTD/BTC compensation statement tests must pass.');
     }
@@ -176,7 +176,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'packActivityModel.test.ts', 'packsPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'packActivityModel.test.ts', 'packsPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi Packs activity model/page tests must pass.');
     }

@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -85,63 +85,63 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V38.md',
+    '.specifications/BITCODE_SPEC_V38_DELTA.md',
+    '.specifications/BITCODE_SPEC_V38_NOTES.md',
+    '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
     'BITCODE_SPECIFYING.md',
-    'BITCODE_SPEC_TEMPLATEGUIDE.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_TEMPLATEGUIDE.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/pull_request_template.md',
     'README.md',
     'AGENTS.md',
     'package.json',
-    'packages/protocol/README.md',
-    'protocol-demonstration/README.md',
-    'packages/protocol/src/canon-posture.js',
-    'protocol-demonstration/src/canon-posture.js',
-    'packages/protocol/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
     'packages/agent-generics/src/steps/failsafe-sequence.ts',
     'packages/agent-generics/src/steps/thricified-generation.ts',
     'packages/agent-generics/src/agents/factories.ts',
     'packages/tools-generics/src/Tool.ts',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts',
   ];
 
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing required V38 Gate 1 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const prTemplate = read(root, '.github/pull_request_template.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const demoReadme = read(root, 'protocol-demonstration/README.md');
-  const packagePosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const demoPosture = read(root, 'protocol-demonstration/src/canon-posture.js');
-  const postureState = read(root, 'packages/protocol/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const demoReadme = read(root, 'scripts/specifying/README.md');
+  const packagePosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const demoPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const postureState = read(root, 'scripts/specifying/data/state.json');
   const failsafeSource = read(root, 'packages/agent-generics/src/steps/failsafe-sequence.ts');
   const thricifiedSource = read(root, 'packages/agent-generics/src/steps/thricified-generation.ts');
   const agentFactorySource = read(root, 'packages/agent-generics/src/agents/factories.ts');
   const toolPromptSource = read(root, 'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts');
   const usableToolsSource = read(root, 'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts');
-  const readingContractSource = read(root, 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts');
-  const embeddingConfigSource = read(root, 'packages/pipelines/asset-pack/src/embedding-config.ts');
-  const searchSource = read(root, 'packages/pipelines/asset-pack/src/depository-search.ts');
+  const readingContractSource = read(root, 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts');
+  const embeddingConfigSource = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/embedding-config.ts');
+  const searchSource = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts');
 
   for (const [label, content] of [
     ['V38 SPEC', spec],
@@ -158,7 +158,7 @@ function main() {
 
   for (const phrase of [
     'inference stack',
-    'PipelineExecution',
+    'ExecutionPipeline',
     'PTRR',
     'Plan',
     'Try',
@@ -249,7 +249,7 @@ function main() {
 
   assertCheck(failures, failsafeSource.includes('ThricifiedGeneration'), 'Failsafe source must delegate to ThricifiedGeneration.');
   assertCheck(failures, thricifiedSource.includes('Reason') && thricifiedSource.includes('Judge'), 'Thricified source must preserve Reason and Judge stages.');
-  assertCheck(failures, agentFactorySource.includes('factoryAgentWithPTRR'), 'Agent factory source must expose factoryAgentWithPTRR.');
+  assertCheck(failures, agentFactorySource.includes('factoryPTRRAgent'), 'Agent factory source must expose factoryPTRRAgent.');
   assertCheck(failures, toolPromptSource.includes('DocCodeToolPrompt'), 'Tool prompt source must expose DocCodeToolPrompt.');
   assertCheck(failures, usableToolsSource.includes('formatToolsWithDocCodeToolsIntoUsableTools'), 'Tool formatting source must expose usable tool formatting.');
   assertCheck(failures, readingContractSource.includes('ReadNeedComprehensionSynthesis'), 'Reading contract must name ReadNeedComprehensionSynthesis.');
@@ -258,7 +258,7 @@ function main() {
   assertCheck(failures, embeddingConfigSource.includes('match_deliverable_vectors'), 'Embedding config source must preserve vector match function name.');
   assertCheck(failures, searchSource.includes('buildAssetPackEmbeddingPolicy'), 'Depository search source must consume the embedding policy.');
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();

@@ -11,7 +11,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { z } from 'zod';
@@ -243,7 +243,7 @@ export const codeSearcherStepPrompts = {
  * Comprehensive code search agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveSearch = factoryAgentWithPTRR<
+const comprehensiveSearch: any = factoryPTRRAgent<
   z.infer<typeof CodeSearchInputSchema>,
   z.infer<typeof CodeSearcherRetrySchema>
 >({
@@ -286,7 +286,7 @@ const comprehensiveSearch = factoryAgentWithPTRR<
  * Quick code search agent
  * Single-step execution for simple searches
  */
-const quickSearch = factoryAgentWithSingleStep<
+const quickSearch: any = factoryAgentWithSingleStep<
   z.infer<typeof CodeSearchInputSchema>,
   z.infer<typeof CodeSearcherRetrySchema>
 >({
@@ -358,10 +358,10 @@ export const quickCodeSearcherAgent = quickCodeSearcher;
  * When codeSearcherAgent is called:
  * 1. selectVariation picks comprehensive or quick
  * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
+ *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thinkings)
+ *    - factoryTryGeneration(schema) creates Try generation (failsafed thinkings)
+ *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thinkings)
+ *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thinkings)
  * 3. Each executor automatically:
  *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
  *    - Each parent runs Reason→Judge→StructuredOutput

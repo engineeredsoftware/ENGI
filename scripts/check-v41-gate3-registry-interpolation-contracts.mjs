@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-registry-interpolation-contracts.json';
+const ARTIFACT_PATH = '.proofs/v41/registry-interpolation-contracts.json';
 
 const REQUIRED_FIELD_IDS = [
   'contractId',
@@ -49,7 +49,7 @@ const REQUIRED_PREDICATE_IDS = [
   'stepfactory.attaches-step-purpose',
   'failsafe.delegates-to-thricified',
   'thricified.sequences-reason-judge-structured-output',
-  'substep.builds-hierarchical-prompt',
+  'generation.builds-hierarchical-prompt',
   'generationprompt.injects-tool-docs-and-schema',
   'execution.finds-up-ancestry',
   'doccodetoolprompt.composes-required-sections',
@@ -139,7 +139,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -158,31 +158,31 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v41-promptpart-prompt-inventory.json',
-    'packages/protocol/src/canonical/v41-registry-interpolation-contracts.js',
-    'packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js',
-    'packages/protocol/test/v41-registry-interpolation-contracts.test.js',
+    '.proofs/v41/promptpart-prompt-inventory.json',
+    'scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js',
+    'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
+    'scripts/specifying/test/v41-registry-interpolation-contracts.test.js',
     'scripts/generate-v41-registry-interpolation-contracts.mjs',
     'scripts/check-v41-gate3-registry-interpolation-contracts.mjs',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     'packages/prompts/src/prompt.ts',
     'packages/prompts/src/parts/TemplatedPromptPart.ts',
     'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
     'packages/agent-generics/src/agents/factories.ts',
     'packages/agent-generics/src/steps/failsafe-sequence.ts',
     'packages/agent-generics/src/steps/thricified-generation.ts',
-    'packages/agent-generics/src/substeps/factories.ts',
+    'packages/agent-generics/src/generations/llm-bound-factories.ts',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-    'BITCODE_SPEC_V41.md',
-    'BITCODE_SPEC_V41_DELTA.md',
-    'BITCODE_SPEC_V41_NOTES.md',
-    'BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -202,7 +202,7 @@ function main() {
 
   if (!args.skipPackageTests && failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v41-registry-interpolation-contracts.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v41-registry-interpolation-contracts.test.js']);
     } catch (error) {
       failures.push(`V41 registry/interpolation protocol test failed: ${error.stderr || error.message}`);
     }
@@ -271,7 +271,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-registry-interpolation-contracts'), 'package.json must expose generate:v41-registry-interpolation-contracts.');
   assertCheck(failures, packageJson.includes('check:v41-gate3'), 'package.json must expose check:v41-gate3.');
 
-  const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, '.specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, '.specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(failures, /Current working gate: V41 Gate (?:3|4|5|6|7|8|9)\b/u.test(roadmap), 'Roadmap must name V41 Gate 3 or later as current working gate.');
   assertCheck(failures, roadmap.includes('V42 should focus on the reliable MVP product experience'), 'Roadmap must preserve V42 reliable MVP product note.');
   assertCheck(failures, roadmap.includes('AI-reading dominant demonstration'), 'Roadmap must preserve AI-reading dominant demonstration note.');

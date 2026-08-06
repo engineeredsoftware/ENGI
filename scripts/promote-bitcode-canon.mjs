@@ -10,17 +10,12 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 
 function archivedSpecPath(version, suffix = '') {
-  const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 26
-    ? path.join(repoRoot, `BITCODE_SPEC_${version}${suffix}.md`)
-    : path.join(repoRoot, `_legacy/ENGI_SPEC_${version}${suffix}.md`);
+  // Living SPEC family is under .specifications/ only (ENGI/_legacy removed).
+  return path.join(repoRoot, '.specifications', `BITCODE_SPEC_${version}${suffix}.md`);
 }
 
 function archivedProvenOutput(version) {
-  const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 26
-    ? `BITCODE_SPEC_${version}_PROVEN.md`
-    : `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
+  return path.join('.specifications', `BITCODE_SPEC_${version}_PROVEN.md`);
 }
 
 /**
@@ -47,7 +42,7 @@ function printHelp() {
       'Usage: npm run promote:canon -- --version V20 --commit <proof-source-commit> [--dry-run]',
       '',
       'Options:',
-      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, V47.',
+      '  --version <VN>           Canonical version to promote. Accepted targets: V19–V25, V28–V48.',
       '  --commit <sha>           Proof-source commit to render into the generated appendix.',
       '  --dry-run                Print the promotion plan without executing commands or writing files.',
       '  --allow-dirty-start      Permit a dirty worktree before promotion. Not for canonical use.',
@@ -173,9 +168,9 @@ function normalizeActivePromotionLanguage(value) {
     .replaceAll('scripts/prepare-engi-spec-family-promotion.mjs', 'scripts/prepare-bitcode-spec-family-promotion.mjs')
     .replaceAll('scripts/promote-engi-canon.mjs', 'scripts/promote-bitcode-canon.mjs')
     .replaceAll('generate-engi-proven.mjs', 'generate-bitcode-proven.mjs')
-    .replaceAll('engi-demo/src/', 'protocol-demonstration/src/')
-    .replaceAll('engi-demo/', 'protocol-demonstration/')
-    .replaceAll('.engi/', '.bitcode/');
+    .replaceAll('engi-demo/src/', 'scripts/specifying/src/')
+    .replaceAll('engi-demo/', 'scripts/specifying/')
+    .replaceAll('.engi/', '.proofs/');
 }
 
 /**
@@ -475,7 +470,7 @@ function buildCommandPlan(version, commit) {
   const v37Gate3Command = ['node', ['scripts/check-v37-gate3-conversation-stream-event-contracts.mjs', '--skip-branch-check']];
   const v37Gate4Command = ['node', ['scripts/check-v37-gate4-conversation-writing-workspace.mjs', '--skip-branch-check']];
   const v37Gate5Command = ['node', ['scripts/check-v37-gate5-conversation-source-selector.mjs', '--skip-branch-check']];
-  const v37Gate6Command = ['node', ['scripts/check-v37-gate6-conversation-terminal-handoff.mjs', '--skip-branch-check']];
+  const v37Gate6Command = ['node', ['scripts/check-v37-gate6-conversation-product-handoff.mjs', '--skip-branch-check']];
   const v37Gate7Command = ['node', ['scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs', '--skip-branch-check']];
   const v37Gate8Command = ['node', ['scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs', '--skip-branch-check']];
   const v37Gate9Command = ['node', ['scripts/check-v37-gate9-conversation-rehearsal.mjs', '--skip-branch-check']];
@@ -671,26 +666,37 @@ function buildCommandPlan(version, commit) {
   const v47PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V47']];
   const v47PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V47', '--mode', 'promoted', '--current-target', 'V47']];
   const v47PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V47', '--draft-target', 'V48']];
+  // V48 as-is promotion: sole complete commercial website; next draft stays V48
+  // (no V49 family until opened). Only living check-v48-gate* scripts run.
+  const v48DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V48', '--mode', 'draft', '--current-target', 'V47']];
+  const v48CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V47']];
+  const v48DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V47', '--draft-target', 'V48']];
+  const v48Gate4Command = ['node', ['scripts/check-v48-gate4-depositor-website-completion.mjs', '--skip-branch-check', '--skip-package-tests', '--skip-uapi-tests']];
+  const v48PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V48', '--commit', commit]];
+  const v48PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V48', '--next-draft', 'V48']];
+  const v48PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V48']];
+  const v48PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V48', '--mode', 'promoted', '--current-target', 'V48']];
+  const v48PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V48', '--draft-target', 'V48']];
   const inheritedProofCommands = [
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'typecheck']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:unit']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:integration']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:e2e']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:proof-member-matrix']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:theorem-evidence-matrix']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:state-machine']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:deterministic-replay']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:volatility']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:negative-mutation-matrix']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:contract-ledger']]
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'typecheck']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:unit']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:integration']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:e2e']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:proof-member-matrix']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:theorem-evidence-matrix']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:state-machine']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:deterministic-replay']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:volatility']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:negative-mutation-matrix']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:contract-ledger']]
   ];
   const v20QualityCommands = [
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-operator-transcript']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-accessibility']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-visual']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-performance']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-projection-quality']],
-    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-quality-summary']]
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v20-operator-transcript']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v20-accessibility']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v20-visual']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v20-performance']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v20-projection-quality']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v20-quality-summary']]
   ];
   const generatedCommands = [
     ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -700,7 +706,7 @@ function buildCommandPlan(version, commit) {
   if (version === 'V19') {
     return [
       ...inheritedProofCommands,
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ...generatedCommands
     ];
   }
@@ -708,7 +714,7 @@ function buildCommandPlan(version, commit) {
     return [
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ...generatedCommands
     ];
   }
@@ -718,7 +724,7 @@ function buildCommandPlan(version, commit) {
       v21CanonicalInputCheckCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       v21PreparePromotionSpecFamilyCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--check', '--allow-dirty']],
@@ -734,7 +740,7 @@ function buildCommandPlan(version, commit) {
       v22DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       v22PreparePromotionSpecFamilyCommand,
       v22PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -752,7 +758,7 @@ function buildCommandPlan(version, commit) {
       v23DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       v23PreparePromotionSpecFamilyCommand,
       v23PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -770,7 +776,7 @@ function buildCommandPlan(version, commit) {
       v24DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       v24PreparePromotionSpecFamilyCommand,
       v24PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -788,7 +794,7 @@ function buildCommandPlan(version, commit) {
       v25DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       v25PreparePromotionSpecFamilyCommand,
       v25PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -813,13 +819,17 @@ function buildCommandPlan(version, commit) {
       ['pnpm', ['test:qa:v28:pipeline-readback']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/orbitalsInterfacesPane.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/orbitalsInterfacesPane.test.tsx', '--runInBand']],
       v28PreparePromotionSpecFamilyCommand,
       v28PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -846,19 +856,23 @@ function buildCommandPlan(version, commit) {
       v29Gate9Command,
       v29Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:terminal-ux']],
       v29PreparePromotionSpecFamilyCommand,
       v29PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -885,19 +899,23 @@ function buildCommandPlan(version, commit) {
       v30Gate9Command,
       v30Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:terminal-ux']],
       v30PreparePromotionSpecFamilyCommand,
       v30PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -924,17 +942,21 @@ function buildCommandPlan(version, commit) {
       v31Gate9Command,
       v31Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/profileStep.test.tsx', 'tests/auxillariesExternalsPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/api/vcsRoutes.test.ts', 'tests/api/auxillariesGithubConnectionRoute.test.ts', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/profileStep.test.tsx', 'tests/auxillariesExternalsPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/api/vcsRoutes.test.ts', 'tests/api/auxillariesGithubConnectionRoute.test.ts', '--runInBand']],
       v31PreparePromotionSpecFamilyCommand,
       v31PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -961,20 +983,24 @@ function buildCommandPlan(version, commit) {
       v32Gate9Command,
       v32Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:v32-browser-proof']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:terminal-ux']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:v32-browser-proof']],
       v32PreparePromotionSpecFamilyCommand,
       v32PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -1001,20 +1027,24 @@ function buildCommandPlan(version, commit) {
       v33Gate9Command,
       v33Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:v32-browser-proof']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:terminal-ux']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:v32-browser-proof']],
       v33PreparePromotionSpecFamilyCommand,
       v33PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -1041,20 +1071,24 @@ function buildCommandPlan(version, commit) {
       v34Gate9Command,
       v34Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:v32-browser-proof']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:terminal-ux']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:v32-browser-proof']],
       v34PreparePromotionSpecFamilyCommand,
       v34PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -1081,20 +1115,24 @@ function buildCommandPlan(version, commit) {
       v35Gate9Command,
       v35Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:v32-browser-proof']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:terminal-ux']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:v32-browser-proof']],
       v35PreparePromotionSpecFamilyCommand,
       v35PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -1121,20 +1159,24 @@ function buildCommandPlan(version, commit) {
       v36Gate9Command,
       v36Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:v32-browser-proof']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:terminal-ux']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:v32-browser-proof']],
       v36PreparePromotionSpecFamilyCommand,
       v36PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -1161,20 +1203,24 @@ function buildCommandPlan(version, commit) {
       v37Gate9Command,
       v37Gate10Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/api/conversationSessionRouteHistory.test.ts', 'tests/api/conversationSessionRouteHistoryContract.test.ts', 'tests/api/conversationStreamEventContract.test.ts', 'tests/conversationStreamPipelineLog.test.tsx', 'tests/conversationWritingWorkspace.test.tsx', 'tests/conversationSourceSelector.test.tsx', 'tests/conversationTerminalHandoff.test.tsx', 'tests/api/conversationPersistencePrivacyRedaction.test.ts', 'tests/conversationPersistencePrivacyPanel.test.tsx', 'tests/api/conversationTelemetryProofHooks.test.ts', 'tests/conversationTelemetryProofPanel.test.tsx', 'tests/api/conversationRehearsal.test.ts', 'tests/conversationRehearsalPanel.test.tsx', '--runInBand']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:terminal-ux']],
-      ['pnpm', ['--dir', 'uapi', 'run', 'test:e2e:v32-browser-proof']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/api/conversationSessionRouteHistory.test.ts', 'tests/api/conversationSessionRouteHistoryContract.test.ts', 'tests/api/conversationStreamEventContract.test.ts', 'tests/conversationStreamPipelineLog.test.tsx', 'tests/conversationWritingWorkspace.test.tsx', 'tests/conversationSourceSelector.test.tsx', 'tests/conversationTerminalHandoff.test.tsx', 'tests/api/conversationPersistencePrivacyRedaction.test.ts', 'tests/conversationPersistencePrivacyPanel.test.tsx', 'tests/api/conversationTelemetryProofHooks.test.ts', 'tests/conversationTelemetryProofPanel.test.tsx', 'tests/api/conversationRehearsal.test.ts', 'tests/conversationRehearsalPanel.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'playwright', 'install', 'chromium', '--with-deps']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:terminal-ux']],
+      ['pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:v32-browser-proof']],
       v37PreparePromotionSpecFamilyCommand,
       v37PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -1202,17 +1248,21 @@ function buildCommandPlan(version, commit) {
       v38Gate10Command,
       v38Gate11Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/api/conversationSessionRouteHistory.test.ts', 'tests/api/conversationSessionRouteHistoryContract.test.ts', 'tests/api/conversationStreamEventContract.test.ts', 'tests/conversationStreamPipelineLog.test.tsx', 'tests/conversationWritingWorkspace.test.tsx', 'tests/conversationSourceSelector.test.tsx', 'tests/conversationTerminalHandoff.test.tsx', 'tests/api/conversationPersistencePrivacyRedaction.test.ts', 'tests/conversationPersistencePrivacyPanel.test.tsx', 'tests/api/conversationTelemetryProofHooks.test.ts', 'tests/conversationTelemetryProofPanel.test.tsx', 'tests/api/conversationRehearsal.test.ts', 'tests/conversationRehearsalPanel.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/api/conversationSessionRouteHistory.test.ts', 'tests/api/conversationSessionRouteHistoryContract.test.ts', 'tests/api/conversationStreamEventContract.test.ts', 'tests/conversationStreamPipelineLog.test.tsx', 'tests/conversationWritingWorkspace.test.tsx', 'tests/conversationSourceSelector.test.tsx', 'tests/conversationTerminalHandoff.test.tsx', 'tests/api/conversationPersistencePrivacyRedaction.test.ts', 'tests/conversationPersistencePrivacyPanel.test.tsx', 'tests/api/conversationTelemetryProofHooks.test.ts', 'tests/conversationTelemetryProofPanel.test.tsx', 'tests/api/conversationRehearsal.test.ts', 'tests/conversationRehearsalPanel.test.tsx', '--runInBand']],
       v38PreparePromotionSpecFamilyCommand,
       v38PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -1240,17 +1290,21 @@ function buildCommandPlan(version, commit) {
       v39Gate10Command,
       v39Gate11Command,
       ['pnpm', ['test:qa:v28:pipeline-readback']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/api/conversationSessionRouteHistory.test.ts', 'tests/api/conversationSessionRouteHistoryContract.test.ts', 'tests/api/conversationStreamEventContract.test.ts', 'tests/conversationStreamPipelineLog.test.tsx', 'tests/conversationWritingWorkspace.test.tsx', 'tests/conversationSourceSelector.test.tsx', 'tests/conversationTerminalHandoff.test.tsx', 'tests/api/conversationPersistencePrivacyRedaction.test.ts', 'tests/conversationPersistencePrivacyPanel.test.tsx', 'tests/api/conversationTelemetryProofHooks.test.ts', 'tests/conversationTelemetryProofPanel.test.tsx', 'tests/api/conversationRehearsal.test.ts', 'tests/conversationRehearsalPanel.test.tsx', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/userDataRoute.test.ts', 'tests/auxillariesWalletPane.test.tsx', 'tests/auxillariesContent.access.test.tsx', 'tests/auxillariesWorkspacePanels.access.test.tsx', 'tests/auxillariesWorkspacePanels.test.tsx', 'tests/api/auxillariesGithubConnectionRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/auxillariesExternalsPane.test.tsx', 'tests/profileStep.test.tsx', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/terminalDepositReadWorkbench.test.ts', 'tests/terminalTransactionQuery.test.ts', 'tests/terminalTransactionReadModel.test.ts', 'tests/terminalProtocolProjection.test.ts', 'tests/terminalInterfaceIntegrationRegression.test.ts', 'tests/terminalWalletBtcOperation.test.ts', 'tests/terminalJournalReconciliation.test.ts', 'tests/terminalOrganizationAuthority.test.ts', 'tests/protocolCommercialBoundary.test.ts', 'tests/terminalTransactionDetailCards.test.tsx', 'tests/terminalTransactionDetailSnapshot.test.ts', 'tests/terminalUxBrowserProof.test.tsx', 'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', 'tests/pipelineExecutionLogHeader.test.tsx', 'tests/api/conversationSessionRouteHistory.test.ts', 'tests/api/conversationSessionRouteHistoryContract.test.ts', 'tests/api/conversationStreamEventContract.test.ts', 'tests/conversationStreamPipelineLog.test.tsx', 'tests/conversationWritingWorkspace.test.tsx', 'tests/conversationSourceSelector.test.tsx', 'tests/conversationTerminalHandoff.test.tsx', 'tests/api/conversationPersistencePrivacyRedaction.test.ts', 'tests/conversationPersistencePrivacyPanel.test.tsx', 'tests/api/conversationTelemetryProofHooks.test.ts', 'tests/conversationTelemetryProofPanel.test.tsx', 'tests/api/conversationRehearsal.test.ts', 'tests/conversationRehearsalPanel.test.tsx', '--runInBand']],
       v39PreparePromotionSpecFamilyCommand,
       v39PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
@@ -1277,15 +1331,19 @@ function buildCommandPlan(version, commit) {
       v40Gate9Command,
       v40Gate10Command,
       v40Gate11Command,
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       v40PreparePromotionSpecFamilyCommand,
       v40PrepareRuntimePromotionCommand,
@@ -1311,15 +1369,19 @@ function buildCommandPlan(version, commit) {
       v41Gate7Command,
       v41Gate8Command,
       v41Gate9Command,
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       v41PreparePromotionSpecFamilyCommand,
       v41PrepareRuntimePromotionCommand,
@@ -1345,15 +1407,19 @@ function buildCommandPlan(version, commit) {
       v42Gate7Command,
       v42Gate8Command,
       v42Gate9Command,
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       v42PreparePromotionSpecFamilyCommand,
       v42PrepareRuntimePromotionCommand,
@@ -1380,15 +1446,19 @@ function buildCommandPlan(version, commit) {
       v43Gate8Command,
       v43Gate9Command,
       v43Gate10Command,
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       v43PreparePromotionSpecFamilyCommand,
       v43PrepareRuntimePromotionCommand,
@@ -1415,15 +1485,19 @@ function buildCommandPlan(version, commit) {
       v44Gate8Command,
       v44Gate9Command,
       v44Gate10Command,
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       v44PreparePromotionSpecFamilyCommand,
       v44PrepareRuntimePromotionCommand,
@@ -1457,15 +1531,19 @@ function buildCommandPlan(version, commit) {
       v45Gate16Command,
       v45Gate17Command,
       v45Gate18Command,
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       v45PreparePromotionSpecFamilyCommand,
       v45PrepareRuntimePromotionCommand,
@@ -1490,15 +1568,19 @@ function buildCommandPlan(version, commit) {
       v46Gate6Command,
       v46Gate7Command,
       v46Gate8Command,
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       v46PreparePromotionSpecFamilyCommand,
       v46PrepareRuntimePromotionCommand,
@@ -1525,15 +1607,19 @@ function buildCommandPlan(version, commit) {
       v47Gate8Command,
       v47Gate9Command,
       v47Gate10Command,
-      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
       ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/btd', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
-      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'typecheck']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
       v47PreparePromotionSpecFamilyCommand,
       v47PrepareRuntimePromotionCommand,
@@ -1545,7 +1631,33 @@ function buildCommandPlan(version, commit) {
       ['git', ['diff', '--check']]
     ];
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, or V46.`);
+  if (version === 'V48') {
+    // As-is promotion: human override of full Gate 2–10 matrix. Only living
+    // V48 gate scripts present on disk (today: gate4) plus family/posture.
+    return [
+      v48DraftSpecCheckCommand,
+      v48CanonicalInputCheckCommand,
+      v48DraftCanonPostureDriftCommand,
+      v48Gate4Command,
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'test']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      v48PreparePromotionSpecFamilyCommand,
+      v48PrepareRuntimePromotionCommand,
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--check', '--allow-dirty']],
+      v48PromotedCanonicalInputCheckCommand,
+      v48PromotedSpecCheckCommand,
+      v48PromotedCanonPostureDriftCommand,
+      ['git', ['diff', '--check']],
+    ];
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19–V25 or V28–V48.`);
 }
 
 /**
@@ -1837,7 +1949,7 @@ async function buildDerivedV25CommitMessageBody(commit) {
  */
 async function buildDerivedV28CommitMessageBody(commit) {
   const { spec, delta, parity } = await readSpecFamily('V28');
-  const scope = extractStatusValue(spec, 'Scope') || 'V28 canonical system specification for commercial Protocol implementation and Terminal MVP QA';
+  const scope = extractStatusValue(spec, 'Scope') || 'V28 canonical system specification for commercial Protocol implementation and product MVP QA';
   const focus = deriveScopeFocus(scope);
   const decisionSection = extractSection(delta, 'Accepted V28 decisions');
   const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
@@ -1857,7 +1969,7 @@ async function buildDerivedV28CommitMessageBody(commit) {
 
   const prioritizedAreas = [
     'Pipeline runtime deployment reality',
-    'Five-step Terminal Reading UX',
+    'Five-step Reading UX',
     'Depository Finding Fits discovery',
     'Source-safe preview and Share-to-Fee',
     'Buy AssetPack and settle',
@@ -1890,7 +2002,7 @@ async function buildDerivedV28CommitMessageBody(commit) {
  */
 async function buildDerivedV29CommitMessageBody(commit) {
   const { spec, delta, parity } = await readSpecFamily('V29');
-  const scope = extractStatusValue(spec, 'Scope') || 'V29 canonical system specification for Terminal transaction depth';
+  const scope = extractStatusValue(spec, 'Scope') || 'V29 canonical system specification for product transaction depth';
   const focus = deriveScopeFocus(scope);
   const decisionSection = extractSection(delta, 'Accepted V29 decisions');
   const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
@@ -1906,14 +2018,14 @@ async function buildDerivedV29CommitMessageBody(commit) {
   }
 
   const prioritizedAreas = [
-    'Terminal transaction read models',
+    'product transaction read models',
     'Wallet signer/BTC operations',
     'Reading pipeline observability',
     'AssetPack disclosure rights',
     'Settlement reconciliation repair',
     'Organization permission authority',
     'Commercial formalization',
-    'Terminal UX quality',
+    'product UX quality',
     'Promotion readiness'
   ];
   for (const area of prioritizedAreas) {
@@ -1971,7 +2083,7 @@ async function buildDerivedV30CommitMessageBody(commit) {
     if (!row) continue;
     const closureSignal = trimTrailingPeriod(
       stripMarkdown(row['Required V30 result'] || row['Closure signal'] || row['Source evidence'] || '')
-        .replace('.bitcode/v30-,', '.bitcode/v30-*,')
+        .replace('.proofs/v30/,', '.proofs/v30/*,')
     );
     if (!closureSignal) continue;
     bullets.push(`${stripMarkdown(area)}: ${closureSignal}`);
@@ -2288,7 +2400,7 @@ async function buildDerivedV36CommitMessageBody(commit) {
     'Pricing quote',
     'Settlement reconciliation',
     'Dispute repair revenue routes',
-    'Exchange UX and Terminal integration',
+    'Exchange UX and product integration',
     'Local staging rehearsal',
     'Promotion readiness'
   ];
@@ -2341,7 +2453,7 @@ async function buildDerivedV37CommitMessageBody(commit) {
     'Conversation stream events',
     'Writing workspace',
     'Source selectors',
-    'Terminal handoff',
+    'product handoff',
     'Persistence privacy redaction',
     'Telemetry proof hooks docs',
     'Local staging rehearsal',
@@ -2508,7 +2620,7 @@ async function buildDerivedV40CommitMessageBody(commit) {
     'Unit coverage',
     'API integration contracts',
     'Reading pipeline integration',
-    'Conversation and Terminal integration',
+    'Conversation and product integration',
     'Browser E2E and visual proof',
     'Ledger storage synchronization',
     'Local staging rehearsal automation',
@@ -3035,7 +3147,18 @@ async function buildCommitMessageBody(version, commit) {
   if (version === 'V47') {
     return buildDerivedV47CommitMessageBody(commit);
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, or V47.`);
+  if (version === 'V48') {
+    return [
+      'Promotes V48 as active sole-complete commercial website testnet canon.',
+      '',
+      'As-is promotion override: formal Gate 2–3/5–10 machine matrix residual;',
+      'living product tree + sole-complete SPEC family accepted for pointer',
+      'advance. Value-bearing mainnet remains blocked.',
+      '',
+      `Proof-source commit: ${commit}`,
+    ].join('\n');
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19–V25 or V28–V48.`);
 }
 
 async function main() {
@@ -3046,8 +3169,8 @@ async function main() {
   }
 
   const version = args.version || '';
-  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28', 'V29', 'V30', 'V31', 'V32', 'V33', 'V34', 'V35', 'V36', 'V37', 'V38', 'V39', 'V40', 'V41', 'V42', 'V43', 'V44', 'V45', 'V46', 'V47'].includes(version)) {
-    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, or V47. Received ${version || 'none'}.`);
+  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28', 'V29', 'V30', 'V31', 'V32', 'V33', 'V34', 'V35', 'V36', 'V37', 'V38', 'V39', 'V40', 'V41', 'V42', 'V43', 'V44', 'V45', 'V46', 'V47', 'V48'].includes(version)) {
+    throw new Error(`Canonical promotion accepts --version V19–V25 or V28–V48. Received ${version || 'none'}.`);
   }
   const commit = args.commit || '';
   if (!commit) {
@@ -3082,7 +3205,7 @@ async function main() {
   for (const [file, commandArgs] of commands.slice(0, generatedCommandIndex)) {
     execFileSync(file, commandArgs, { cwd: repoRoot, stdio: 'inherit' });
   }
-  await fs.writeFile(path.join(repoRoot, 'BITCODE_SPEC.txt'), `${version}\n`, 'utf8');
+  await fs.writeFile(path.join(repoRoot, '.specifications/BITCODE_SPEC.txt'), `${version}\n`, 'utf8');
   for (const [file, commandArgs] of commands.slice(generatedCommandIndex)) {
     execFileSync(file, commandArgs, { cwd: repoRoot, stdio: 'inherit' });
   }

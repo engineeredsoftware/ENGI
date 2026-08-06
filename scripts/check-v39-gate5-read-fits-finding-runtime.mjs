@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v39-read-fits-finding-runtime.json';
+const ARTIFACT_PATH = '.proofs/v39/read-fits-finding-runtime.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -90,7 +90,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -109,27 +109,27 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts',
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts',
-    'packages/pipelines/asset-pack/src/depository-supply-index.ts',
-    'packages/pipelines/asset-pack/src/embedding-config.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/src/canonical/v39-read-fits-finding-runtime.js',
-    'packages/protocol/test/v39-read-fits-finding-runtime.test.js',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-fits-finding-runtime.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-search.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-supply-index.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/embedding-config.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/src/canonical/v39-read-fits-finding-runtime.js',
+    'scripts/specifying/test/v39-read-fits-finding-runtime.test.js',
     'scripts/generate-v39-read-fits-finding-runtime.mjs',
     'scripts/check-v39-gate5-read-fits-finding-runtime.mjs',
-    'BITCODE_SPEC_V39.md',
-    'BITCODE_SPEC_V39_DELTA.md',
-    'BITCODE_SPEC_V39_NOTES.md',
-    'BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -152,7 +152,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-read-fits-finding-runtime.test.js',
+        'scripts/specifying/test/v39-read-fits-finding-runtime.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 ReadFitsFinding runtime protocol test failed: ${error.stderr || error.message}`);
@@ -163,7 +163,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -226,9 +226,9 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 5 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V39.md');
-  const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('ReadFitsFindingReplayReceipt'), 'V39 spec must name ReadFitsFindingReplayReceipt.');
   assertCheck(failures, spec.includes('v39-read-fits-finding-runtime'), 'V39 spec must name the Gate 5 artifact.');
   assertCheck(failures, parity.includes('Gate 5 Parity'), 'V39 parity matrix must include Gate 5 parity.');

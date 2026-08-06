@@ -31,18 +31,18 @@ The agent utilizes specialized LSP query tools for comprehensive code analysis:
 
 ```typescript
 // Core LSP Operations
-referencesTool      // Find all references to a symbol
-definitionTool      // Navigate to symbol definition
-hoverInfoTool       // Retrieve symbol type and documentation information
+referencesTool // Find all references to a symbol
+definitionTool // Navigate to symbol definition
+hoverInfoTool // Retrieve symbol type and documentation information
 ```
 
 ### Query Processing Architecture
 ```typescript
 interface LanguageQuery {
-  query: string;                    // Natural language query
-  filePath?: string;                // Target file path (optional)
-  line?: number;                    // Cursor line position (optional)
-  character?: number;               // Cursor character position (optional)
+ query: string; // Natural language query
+ filePath?: string; // Target file path (optional)
+ line?: number; // Cursor line position (optional)
+ character?: number; // Cursor character position (optional)
 }
 ```
 
@@ -52,13 +52,13 @@ The agent implements pattern-matching logic for query interpretation:
 ```typescript
 // Query Pattern Detection
 if (query.includes('reference') || query.startsWith('where')) {
-  // Route to references tool
+ // Route to references tool
 }
 if (query.includes('definition') || query.startsWith('go to')) {
-  // Route to definition tool  
+ // Route to definition tool
 }
 if (query.includes('hover') || query.includes('type of')) {
-  // Route to hover information tool
+ // Route to hover information tool
 }
 ```
 
@@ -67,14 +67,14 @@ When precise cursor coordinates are unavailable, the agent employs intelligent p
 
 ```typescript
 async function guessPosition(filePath: string, symbol: string) {
-  const lines = fs.readFileSync(filePath, 'utf8').split(/\r?\n/);
-  for (let i = 0; i < lines.length; i++) {
-    const idx = lines[i].indexOf(symbol);
-    if (idx !== -1) {
-      return { line: i, character: idx };
-    }
-  }
-  return { line: 0, character: 0 };
+ const lines = fs.readFileSync(filePath, 'utf8').split(/\r?\n/);
+ for (let i = 0; i < lines.length; i++) {
+ const idx = lines[i].indexOf(symbol);
+ if (idx !== -1) {
+ return { line: i, character: idx };
+ }
+ }
+ return { line: 0, character: 0 };
 }
 ```
 
@@ -85,14 +85,14 @@ The agent generates markdown-formatted responses with detailed code intelligence
 
 ```typescript
 interface LanguageResponse {
-  query: string;                    // Original natural language query
-  locationHint: string;             // File path and line information
-  result: {
-    uri?: string;                   // File URI for definitions
-    locations?: Location[];         // Reference locations array
-    hover?: HoverInfo;              // Type and documentation information
-  };
-  details: string;                  // JSON-formatted detailed results
+ query: string; // Original natural language query
+ locationHint: string; // File path and line information
+ result: {
+ uri?: string; // File URI for definitions
+ locations?: Location[]; // Reference locations array
+ hover?: HoverInfo; // Type and documentation information
+ };
+ details: string; // JSON-formatted detailed results
 }
 ```
 
@@ -106,11 +106,11 @@ interface LanguageResponse {
 
 ```json
 {
-  "uri": "file:///project/src/services/user.ts",
-  "range": {
-    "start": { "line": 10, "character": 13 },
-    "end": { "line": 10, "character": 24 }
-  }
+ "uri": "file:///project/src/services/user.ts",
+ "range": {
+ "start": { "line": 10, "character": 13 },
+ "end": { "line": 10, "character": 24 }
+ }
 }
 ```
 
@@ -125,16 +125,16 @@ interface LanguageResponse {
 
 ```json
 {
-  "locations": [
-    {
-      "uri": "file:///project/src/components/Cart.tsx",
-      "range": { "start": { "line": 45, "character": 8 }, "end": { "line": 45, "character": 22 } }
-    },
-    {
-      "uri": "file:///project/src/services/order.ts", 
-      "range": { "start": { "line": 78, "character": 15 }, "end": { "line": 78, "character": 29 } }
-    }
-  ]
+ "locations": [
+ {
+ "uri": "file:///project/src/components/Cart.tsx",
+ "range": { "start": { "line": 45, "character": 8 }, "end": { "line": 45, "character": 22 } }
+ },
+ {
+ "uri": "file:///project/src/services/order.ts",
+ "range": { "start": { "line": 78, "character": 15 }, "end": { "line": 78, "character": 29 } }
+ }
+ ]
 }
 ```
 

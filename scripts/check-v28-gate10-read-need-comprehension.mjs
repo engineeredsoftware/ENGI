@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 
 const checks = [
   {
-    file: 'BITCODE_SPEC_V28.md',
+    file: '.specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 10: Read Request To Read-Need Comprehension',
       'ReadNeedComprehensionSynthesis',
@@ -17,7 +17,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis'],
   },
   {
-    file: 'BITCODE_SPEC_V28_PARITY_MATRIX.md',
+    file: '.specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
     needles: [
       'Read Request capture',
       'Read-Need synthesis, review, and resynthesis',
@@ -27,7 +27,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis'],
   },
   {
-    file: 'BITCODE_V28_QA.md',
+    file: '.qa/BITCODE_V28_QA.md',
     needles: [
       'ReadNeedComprehensionSynthesis',
       'ReadFitsFindingSynthesis',
@@ -36,7 +36,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis', 'findingFitsAdmission'],
   },
   {
-    file: 'packages/pipelines/asset-pack/src/read-need.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
     needles: [
       "schema: 'bitcode.read.request'",
       'export interface ReadNeedRequest',
@@ -48,20 +48,20 @@ const checks = [
     forbidden: ['admitReadFindingFits', 'ReadFindingFitsAdmission'],
   },
   {
-    file: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
     needles: [
       'READ_NEED_COMPREHENSION_SYNTHESIS',
       'READ_FITS_FINDING_SYNTHESIS',
       'ReadFitsFindingSynthesis',
       'type PTRRAgentConfig',
       'listReadingPipelineTelemetryTrace',
-      'factoryAgentWithPTRR',
+      'factoryPTRRAgent',
       'thricifiedGenerationIds',
     ],
     forbidden: ['PptrAgentConfig', 'PtrrAgentConfig', 'READ_FINDING_FITS_SYNTHESIS', 'ReadFindingFitsSynthesis'],
   },
   {
-    file: 'packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts',
     needles: [
       'ReadFitsFindingSynthesisSetupPlanAgent',
       'ReadFitsFindingSynthesis.prompt.setup-plan',
@@ -69,7 +69,7 @@ const checks = [
     forbidden: ['asset-pack-setup-plan-agent', 'realSetupPlanAgent'],
   },
   {
-    file: 'packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts',
     needles: [
       'ReadFitsFindingSynthesisReadComprehensionAgent',
       'ReadFitsFindingSynthesis.prompt.read-comprehension',
@@ -77,7 +77,7 @@ const checks = [
     forbidden: ['asset-pack-comprehend-read-agent', 'AssetPackComprehendReadAgent', 'bitcode-setup-read-comprehension'],
   },
   {
-    file: 'packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts',
     needles: [
       'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
       'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
@@ -85,7 +85,7 @@ const checks = [
     forbidden: ['asset-pack-synthesize-artifacts-agent', 'AssetPackSynthesizeArtifactsAgent'],
   },
   {
-    file: 'packages/pipelines/asset-pack/src/phases/setup.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/phases/setup.ts',
     needles: [
       'setup:ReadFitsFindingSynthesisSetupPlanAgent',
       'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
@@ -93,14 +93,14 @@ const checks = [
     forbidden: ['setup:asset-pack-setup-plan-agent', 'setup:asset-pack-comprehend-read-agent'],
   },
   {
-    file: 'packages/pipelines/asset-pack/src/phases/implementation.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/phases/implementation.ts',
     needles: [
       'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
     ],
     forbidden: ['implementation:asset-pack-synthesize-artifacts-agent'],
   },
   {
-    file: 'uapi/app/api/read-review/route.ts',
+    file: 'apps/uapi/app/api/read-review/route.ts',
     needles: [
       'synthesize_read_need',
       'resynthesize_read_need',
@@ -113,7 +113,7 @@ const checks = [
     forbidden: ['READ_FINDING_FITS_SYNTHESIS', 'ReadFindingFitsSynthesis', 'findingFitsAdmission'],
   },
   {
-    file: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    file: 'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
     needles: [
       'Synthesize Read-Need',
       'Resynthesize with feedback',
@@ -125,7 +125,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis', 'findingFitsAdmission', 'TerminalFitPipelineHarness', 'readFitProgress'],
   },
   {
-    file: 'uapi/tests/api/readReviewRoute.test.ts',
+    file: 'apps/uapi/tests/api/readReviewRoute.test.ts',
     needles: [
       'resynthesizes a Read-Need with feedback',
       'pipelineTrace',
@@ -133,7 +133,7 @@ const checks = [
     ],
   },
   {
-    file: 'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need.test.ts',
     needles: [
       'carries Read Request lineage and feedback through resynthesis',
       'bitcode.read.request',

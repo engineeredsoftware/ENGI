@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-session-route-history.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-session-route-history.json';
 
 const REQUIRED_SESSION_FIELD_IDS = [
   'route_local_session_id',
@@ -113,7 +113,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -132,30 +132,30 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-session-route-history.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-session-route-history.test.js',
+    'scripts/specifying/src/canonical/conversation-session-route-history.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-session-route-history.test.js',
     'scripts/generate-v37-conversation-session-route-history.mjs',
     'scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs',
-    'uapi/app/conversations/conversation-session-route-history.ts',
-    'uapi/app/api/conversations/route.ts',
-    'uapi/app/api/conversations/[conversationId]/route.ts',
-    'uapi/app/api/conversations/stream/route.ts',
-    'uapi/app/api/conversations/[conversationId]/stream/route.ts',
-    'uapi/app/api/conversations/branch/route.ts',
-    'uapi/app/api/conversations/_shared.ts',
-    'uapi/tests/api/conversationSessionRouteHistory.test.ts',
-    'uapi/tests/api/conversationSessionRouteHistoryContract.test.ts',
+    'apps/uapi/app/conversations/conversation-session-route-history.ts',
+    'apps/uapi/app/api/conversations/route.ts',
+    'apps/uapi/app/api/conversations/[conversationId]/route.ts',
+    'apps/uapi/app/api/conversations/stream/route.ts',
+    'apps/uapi/app/api/conversations/[conversationId]/stream/route.ts',
+    'apps/uapi/app/api/conversations/branch/route.ts',
+    'apps/uapi/app/api/conversations/_shared.ts',
+    'apps/uapi/tests/api/conversationSessionRouteHistory.test.ts',
+    'apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts',
     'packages/api/src/routes/conversations.ts',
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/conversations/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -175,7 +175,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-session-route-history.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-session-route-history.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation session route-history package test failed: ${error.stderr || error.message}`);
     }
@@ -185,7 +185,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationSessionRouteHistory.test.ts',
@@ -268,18 +268,18 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V37.md');
-  const delta = read(root, 'BITCODE_SPEC_V37_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V37_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V37.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V37_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V37_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const conversationsReadme = read(root, 'uapi/app/conversations/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const routeContracts = read(root, 'uapi/app/conversations/conversation-session-route-history.ts');
+  const routeContracts = read(root, 'apps/uapi/app/conversations/conversation-session-route-history.ts');
 
   for (const phrase of [
     'ConversationSession',
@@ -289,7 +289,7 @@ function main() {
     'branch',
     'retry',
     'redaction',
-    '.bitcode/v37-conversation-session-route-history.json',
+    '.proofs/v37/conversation-session-route-history.json',
     'source-safe-conversation-session-route-history-metadata',
     'check:v37-gate2',
   ]) {
@@ -315,7 +315,7 @@ function main() {
     assertCheck(failures, routeContracts.includes(routeId), `Route contract module must include ${routeId}.`);
   }
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();

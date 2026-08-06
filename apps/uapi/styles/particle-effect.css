@@ -1,0 +1,53 @@
+/* Dedicated styles for the ParticleEffect component */
+/* .particle-effect-container is sized to the highlight text; particles must fly past its box. */
+.particle-effect-container {
+  pointer-events: none;
+  overflow: visible !important;
+  /* No paint containment — that clips particles mid-flight. */
+  contain: none;
+  will-change: transform;
+  /*
+   * Stack under Auxillaries / modal portals (z-10000), not hide when they open.
+   * Body-portal particles previously used z-9999 and painted ON TOP of the overlay.
+   * Opaque overlay floor + lower z keeps bursts running under Auxillaries without blink.
+   */
+  z-index: 20;
+}
+
+/* Particle effect dot styling */
+.particle-effect-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(103, 254, 183, 0.9);
+  box-shadow: 0 0 10px rgba(103, 254, 183, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  will-change: opacity, transform;
+  animation: particle-effect-float 2s ease-out forwards;
+}
+
+/* Smooth particle float animation with natural easing */
+@keyframes particle-effect-float {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+
+  20% {
+    opacity: 0.9;
+    transform: translate(calc(var(--x, 0) * 10px), calc(var(--y, 0) * 12px - 5px)) scale(1);
+  }
+
+  80% {
+    opacity: 0.6;
+    transform: translate(calc(var(--x, 0) * 40px), calc(var(--y, 0) * 45px - 15px)) scale(0.8);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--x, 0) * 60px), calc(var(--y, 0) * 65px - 25px)) scale(0.2);
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@bitcode/external-telemetry-google",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Google Analytics telemetry (packages/external-telemetry/google)",
+  "main": "src/ga.ts",
+  "types": "src/ga.ts",
+  "exports": {
+    ".": "./src/ga.ts",
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/external-telemetry-sentry": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  }
+}

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH,
   buildV43RouteVocabularyInventory,
-} from '../packages/protocol/src/canonical/v43-route-vocabulary-inventory.js';
+} from '../scripts/specifying/src/canonical/v43-route-vocabulary-inventory.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -61,7 +61,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V42', `BITCODE_SPEC.txt must remain V42 during V43 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -76,15 +76,15 @@ function main() {
 
   for (const relativePath of [
     V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH,
-    'BITCODE_SPEC_V43.md',
-    'BITCODE_SPEC_V43_DELTA.md',
-    'BITCODE_SPEC_V43_NOTES.md',
-    'BITCODE_SPEC_V43_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V43.md',
+    '.specifications/BITCODE_SPEC_V43_DELTA.md',
+    '.specifications/BITCODE_SPEC_V43_NOTES.md',
+    '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/v43-route-vocabulary-inventory.js',
-    'packages/protocol/test/v43-route-vocabulary-inventory.test.js',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/v43-route-vocabulary-inventory.js',
+    'scripts/specifying/test/v43-route-vocabulary-inventory.test.js',
     'scripts/generate-v43-route-vocabulary-inventory.mjs',
     'scripts/check-v43-gate2-route-vocabulary-inventory.mjs',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -114,13 +114,13 @@ function main() {
     `${V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH} must be generated and current.`,
   );
 
-  const spec = read(root, 'BITCODE_SPEC_V43.md');
-  const delta = read(root, 'BITCODE_SPEC_V43_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V43_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V43_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V43.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V43_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V43_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -129,7 +129,7 @@ function main() {
     'v43-route-vocabulary-inventory',
     '/exchange',
     '/packs',
-    '/terminal',
+    '/packs',
     '/read',
     '/deposit',
     'retained debug cockpit',

@@ -1,0 +1,29 @@
+{
+  "name": "@bitcode/vcs-generics",
+  "version": "1.0.0",
+  "description": "VCS primitive abstraction: types, AbstractVCSProvider, factory, service, connections, cache",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  },
+  "dependencies": {
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/errors": "workspace:*",
+    "@supabase/supabase-js": "^2.0.0",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.1.1"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

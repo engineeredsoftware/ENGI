@@ -9,7 +9,7 @@ import { buildV33ApiSchemaCompatibilityMatrixArtifact } from './generate-v33-api
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-api-schema-compatibility-matrix.json';
+const ARTIFACT = '.proofs/v33/api-schema-compatibility-matrix.json';
 
 const REQUIRED_CONSUMER_SURFACES = ['public_api', 'mcp_api', 'chatgpt_app', 'terminal_handoff', 'package_consumer'];
 const REQUIRED_EXAMPLE_POSTURES = ['success', 'denied', 'blocked', 'stale', 'deferred'];
@@ -94,7 +94,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -118,19 +118,19 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'uapi/tests/terminalOrganizationAuthority.test.ts',
+    'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-api-schema-compatibility-matrix.mjs',
     'scripts/check-v33-gate7-api-schema-compatibility-matrix.mjs',
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V33 Gate 7 file: ${relativePath}`);
@@ -183,19 +183,19 @@ function main() {
   const btdSource = read(root, 'packages/btd/src/api-schema-compatibility-matrix.ts');
   const btdTest = read(root, 'packages/btd/__tests__/api-schema-compatibility-matrix.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
-  const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
-    read(root, 'BITCODE_SPEC_V33.md'),
-    read(root, 'BITCODE_SPEC_V33_DELTA.md'),
-    read(root, 'BITCODE_SPEC_V33_NOTES.md'),
-    read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md'),
-    read(root, 'SPECIFICATIONS_ROADMAP.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md'),
+    read(root, '.specifications/SPECIFICATIONS_ROADMAP.md'),
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');
-  const protocolSpecifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const protocolSpecifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   assertCheck(failures, btdSource.includes('buildBtdApiSchemaCompatibilityMatrix'), 'BTD source must build APISchemaCompatibilityMatrix.');
   assertCheck(failures, btdSource.includes('BTD_API_SCHEMA_COMPATIBILITY_EXAMPLE_POSTURES'), 'BTD source must define required example postures.');
@@ -205,7 +205,7 @@ function main() {
   assertCheck(failures, apiTest.includes('shares the package-owned API schema compatibility matrix for versionless public routes'), 'API tests must share Gate 7 matrix.');
   assertCheck(failures, mcpTest.includes('shares the package-owned API schema compatibility matrix for MCP tool calls'), 'MCP tests must share Gate 7 matrix.');
   assertCheck(failures, chatgptTest.includes('shares the package-owned API schema compatibility matrix for ChatGPT App blocked delivery'), 'ChatGPT App tests must share Gate 7 matrix.');
-  assertCheck(failures, terminalTest.includes('shares the package-owned API schema compatibility matrix for Terminal handoff rows'), 'Terminal tests must share Gate 7 matrix.');
+  assertCheck(failures, terminalTest.includes('shares the package-owned API schema compatibility matrix for product handoff rows'), 'product tests must share Gate 7 matrix.');
   assertCheck(failures, specs.includes('V33 Gate 7 API Schemas Examples And Compatibility Matrix'), 'Spec/roadmap must describe Gate 7 as current work.');
   assertCheck(failures, packageJson.includes('check:v33-gate7'), 'package.json must expose check:v33-gate7.');
   assertCheck(failures, workflow.includes('check-v33-gate7-api-schema-compatibility-matrix.mjs'), 'Gate workflow must run Gate 7 checker.');

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v39-enterprise-reading-ux-state.json';
+const ARTIFACT_PATH = '.proofs/v39/enterprise-reading-ux-state.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -85,7 +85,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -104,33 +104,33 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-deposit-read-workbench.ts',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-    'uapi/app/conversations/conversation-terminal-handoff.ts',
-    'uapi/app/terminal/terminal-transaction-query.ts',
-    'uapi/tests/terminalEnterpriseReadingUxState.test.ts',
-    'uapi/tests/terminalDepositReadWorkbench.test.ts',
-    'uapi/tests/conversationTerminalHandoff.test.tsx',
-    'uapi/tests/terminalTransactionQuery.test.ts',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'uapi/tests/terminalUxBrowserProof.test.tsx',
-    'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
-    'packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js',
-    'packages/protocol/test/v39-enterprise-reading-ux-state.test.js',
+    'apps/uapi/app/ (removed cockpit tree) terminal-enterprise-reading-ux-state.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
+    'apps/uapi/app/conversations/conversation-product-handoff.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts',
+    'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts',
+    'apps/uapi/tests/terminalDepositReadWorkbench.test.ts',
+    'apps/uapi/tests/conversationTerminalHandoff.test.tsx',
+    'apps/uapi/tests/terminalTransactionQuery.test.ts',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'apps/uapi/tests/terminalUxBrowserProof.test.tsx',
+    'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
+    'scripts/specifying/src/canonical/v39-enterprise-reading-ux-state.js',
+    'scripts/specifying/test/v39-enterprise-reading-ux-state.test.js',
     'scripts/generate-v39-enterprise-reading-ux-state.mjs',
     'scripts/check-v39-gate3-enterprise-reading-ux-state.mjs',
-    'BITCODE_SPEC_V39.md',
-    'BITCODE_SPEC_V39_DELTA.md',
-    'BITCODE_SPEC_V39_NOTES.md',
-    'BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'uapi/app/terminal/README.md',
-    'uapi/app/conversations/README.md',
-    'packages/protocol/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'apps/uapi/app/conversations/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -153,7 +153,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-enterprise-reading-ux-state.test.js',
+        'scripts/specifying/test/v39-enterprise-reading-ux-state.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 enterprise Reading UX state protocol test failed: ${error.stderr || error.message}`);
@@ -164,7 +164,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -214,13 +214,13 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 3 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V39.md');
-  const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  assertCheck(failures, spec.includes('TerminalEnterpriseReadingUxState'), 'V39 spec must name TerminalEnterpriseReadingUxState.');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
+  assertCheck(failures, spec.includes('ProductEnterpriseReadingUxState'), 'V39 spec must name ProductEnterpriseReadingUxState.');
   assertCheck(failures, spec.includes('readingStage'), 'V39 spec must describe source-safe readingStage route state.');
   assertCheck(failures, parity.includes('Gate 3 Parity'), 'V39 parity matrix must include Gate 3 parity.');
-  assertCheck(failures, terminalReadme.includes('TerminalEnterpriseReadingUxState'), 'Terminal README must document Gate 3 state contract.');
+  assertCheck(failures, terminalReadme.includes('ProductEnterpriseReadingUxState'), 'product README must document Gate 3 state contract.');
 
   if (failures.length > 0) {
     process.stderr.write(`V39 Gate 3 enterprise Reading UX state check failed:\n- ${failures.join('\n- ')}\n`);

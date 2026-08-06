@@ -1,11 +1,22 @@
 #!/usr/bin/env node
 
+/**
+ * Living required gates for ACTIVE_CANON_VERSION + DRAFT_TARGET_VERSION only.
+ *
+ * Prior-era `scripts/check-vN-*` suites are frozen after promotion (§4.3 /
+ * §13.1). They are expected to break against later trees; do not re-run them
+ * here and do not edit them to chase renames. New draft checks must be
+ * exhaustive full-system for present sole-canon.
+ *
+ * Law: .specifications/BITCODE_SPECIFYING.md §4.3, §13.1
+ */
+
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../packages/protocol/src/index.js';
+import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -97,10 +108,10 @@ function runStrictVersionChecks(cwd, version) {
   }
 
   if (version === DRAFT_TARGET_VERSION) {
-    const draftSpecPath = path.join(cwd, `BITCODE_SPEC_${version}.md`);
-    const draftDeltaPath = path.join(cwd, `BITCODE_SPEC_${version}_DELTA.md`);
-    const draftParityPath = path.join(cwd, `BITCODE_SPEC_${version}_PARITY_MATRIX.md`);
-    const draftNotesPath = path.join(cwd, `BITCODE_SPEC_${version}_NOTES.md`);
+    const draftSpecPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${version}.md`);
+    const draftDeltaPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${version}_DELTA.md`);
+    const draftParityPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${version}_PARITY_MATRIX.md`);
+    const draftNotesPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${version}_NOTES.md`);
     const hasFullDraftFamily = existsSync(draftSpecPath) && existsSync(draftDeltaPath) && existsSync(draftParityPath);
     if (hasFullDraftFamily) {
       runNode(cwd, `${version} draft spec-family`, [
@@ -161,9 +172,9 @@ function runBasicChecks(cwd) {
       'promoted'
     ]);
   }
-  const draftSpecPath = path.join(cwd, `BITCODE_SPEC_${DRAFT_TARGET_VERSION}.md`);
-  const draftDeltaPath = path.join(cwd, `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_DELTA.md`);
-  const draftParityPath = path.join(cwd, `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_PARITY_MATRIX.md`);
+  const draftSpecPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}.md`);
+  const draftDeltaPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_DELTA.md`);
+  const draftParityPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_PARITY_MATRIX.md`);
   if (existsSync(draftSpecPath) && existsSync(draftDeltaPath) && existsSync(draftParityPath)) {
     runNode(cwd, `${DRAFT_TARGET_VERSION} draft spec-family`, [
       path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
@@ -175,10 +186,12 @@ function runBasicChecks(cwd) {
       ACTIVE_CANON_VERSION
     ]);
   }
-  runNode(cwd, 'specifying and canon-drift tests', [
+  // V48: standalone witness tree removed. Specifying (scripts/) owns gate/canon tooling; packages/* own product systems
+  // canon-posture / package-boundary proofs (not a separate demo tree).
+  runNode(cwd, 'specifying package boundary and promotion posture tests', [
     '--test',
-    path.join(cwd, 'protocol-demonstration/test/v21-specifying.test.js'),
-    path.join(cwd, 'protocol-demonstration/test/v22-canon-drift.test.js')
+    path.join(cwd, 'scripts/specifying/test/specifying-package-boundary.test.js'),
+    path.join(cwd, 'scripts/specifying/test/spec-family-promotion-posture.test.js')
   ]);
 }
 

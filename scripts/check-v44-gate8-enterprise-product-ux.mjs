@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH,
   buildV44EnterpriseProductUx,
-} from '../packages/protocol/src/canonical/v44-enterprise-product-ux.js';
+} from '../scripts/specifying/src/canonical/v44-enterprise-product-ux.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V43', `BITCODE_SPEC.txt must remain V43 during V44 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -87,24 +87,24 @@ function main() {
 
   for (const relativePath of [
     V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH,
-    'uapi/components/base/bitcode/routes/product-route-shell.tsx',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/tests/packsPageClient.test.tsx',
-    'uapi/tests/readPageClient.test.tsx',
-    'uapi/tests/depositPageClient.test.tsx',
-    'packages/protocol/src/canonical/v44-enterprise-product-ux.js',
-    'packages/protocol/test/v44-enterprise-product-ux.test.js',
+    'apps/uapi/components/bitcode/routes/product-route-shell.tsx',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/tests/packsPageClient.test.tsx',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'scripts/specifying/src/canonical/v44-enterprise-product-ux.js',
+    'scripts/specifying/test/v44-enterprise-product-ux.test.js',
     'scripts/generate-v44-enterprise-product-ux.mjs',
     'scripts/check-v44-gate8-enterprise-product-ux.mjs',
-    'BITCODE_SPEC_V44.md',
-    'BITCODE_SPEC_V44_DELTA.md',
-    'BITCODE_SPEC_V44_NOTES.md',
-    'BITCODE_SPEC_V44_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V44.md',
+    '.specifications/BITCODE_SPEC_V44_DELTA.md',
+    '.specifications/BITCODE_SPEC_V44_NOTES.md',
+    '.specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -155,15 +155,15 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-enterprise-product-ux.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-enterprise-product-ux.test.js']);
     } catch {
-      failures.push('packages/protocol/test/v44-enterprise-product-ux.test.js must pass.');
+      failures.push('scripts/specifying/test/v44-enterprise-product-ux.test.js must pass.');
     }
   }
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi enterprise product UX tests must pass.');
     }

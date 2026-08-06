@@ -78,18 +78,18 @@ supabaseDeleteTool: Safe deletion with referential integrity checks
 ### Supabase Connection
 ```typescript
 interface SupabaseConfig {
-  url: string;                  // Supabase project URL
-  anonKey: string;              // Anonymous/public API key
-  serviceRoleKey?: string;      // Service role key for elevated operations
-  auth: {
-    autoRefreshToken: boolean;  // Automatic token refresh
-    persistSession: boolean;    // Session persistence
-    detectSessionInUrl: boolean; // URL-based session detection
-  };
-  realtime: {
-    enabled: boolean;           // Real-time subscriptions
-    heartbeatIntervalMs: number; // Connection heartbeat interval
-  };
+ url: string; // Supabase project URL
+ anonKey: string; // Anonymous/public API key
+ serviceRoleKey?: string; // Service role key for elevated operations
+ auth: {
+ autoRefreshToken: boolean; // Automatic token refresh
+ persistSession: boolean; // Session persistence
+ detectSessionInUrl: boolean; // URL-based session detection
+ };
+ realtime: {
+ enabled: boolean; // Real-time subscriptions
+ heartbeatIntervalMs: number; // Connection heartbeat interval
+ };
 }
 ```
 

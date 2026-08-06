@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -80,34 +80,34 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V29.md',
-    'BITCODE_SPEC_V29_DELTA.md',
-    'BITCODE_SPEC_V29_NOTES.md',
-    'BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V29.md',
+    '.specifications/BITCODE_SPEC_V29_DELTA.md',
+    '.specifications/BITCODE_SPEC_V29_NOTES.md',
+    '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate7-organization-permission-authority.mjs',
     'packages/btd/src/authority.ts',
     'packages/btd/src/index.ts',
     'packages/btd/__tests__/btd.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'uapi/app/api/btd/organization-interface-authority/route.ts',
-    'packages/executions-mcp/src/mcp-server/src/auth/middleware.ts',
-    'packages/executions-mcp/src/mcp-server/src/types/index.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts',
-    'packages/chatgptapp/src/tools.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'packages/chatgptapp/package.json',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
-    'uapi/app/terminal/terminal-organization-authority.ts',
-    'uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx',
-    'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
-    'uapi/app/terminal/terminal-transaction-read-model.ts',
-    'uapi/app/terminal/terminal-transaction-query.ts',
-    'uapi/app/terminal/README.md',
-    'uapi/tests/terminalOrganizationAuthority.test.ts',
-    'uapi/tests/terminalTransactionDetailCards.test.tsx',
-    'uapi/tests/terminalTransactionDetailSnapshot.test.ts',
+    'apps/uapi/app/api/btd/organization-interface-authority/route.ts',
+    'apps/mcp/src/auth/middleware.ts',
+    'apps/mcp/src/types/index.ts',
+    'apps/mcp/src/__tests__/unit/auth.test.ts',
+    'apps/chatgpt/src/tools.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/chatgpt/package.json',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-organization-authority.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionOrganizationAuthorityCard.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+    'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
+    'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     'package.json',
   ];
@@ -116,33 +116,33 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 7 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V29.md');
-  const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
   const btdAuthority = read(root, 'packages/btd/src/authority.ts');
   const btdIndex = read(root, 'packages/btd/src/index.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btd.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const uapiRoute = read(root, 'uapi/app/api/btd/organization-interface-authority/route.ts');
-  const mcpAuth = read(root, 'packages/executions-mcp/src/mcp-server/src/auth/middleware.ts');
-  const mcpTypes = read(root, 'packages/executions-mcp/src/mcp-server/src/types/index.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts');
-  const chatgptTools = read(root, 'packages/chatgptapp/src/tools.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
-  const chatgptPackage = read(root, 'packages/chatgptapp/package.json');
-  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
-  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts');
-  const terminalProjection = read(root, 'uapi/app/terminal/terminal-organization-authority.ts');
-  const terminalCard = read(root, 'uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx');
-  const terminalSnapshot = read(root, 'uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
-  const terminalReadModel = read(root, 'uapi/app/terminal/terminal-transaction-read-model.ts');
-  const terminalQuery = read(root, 'uapi/app/terminal/terminal-transaction-query.ts');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
-  const terminalCardTest = read(root, 'uapi/tests/terminalTransactionDetailCards.test.tsx');
-  const terminalSnapshotTest = read(root, 'uapi/tests/terminalTransactionDetailSnapshot.test.ts');
+  const uapiRoute = read(root, 'apps/uapi/app/api/btd/organization-interface-authority/route.ts');
+  const mcpAuth = read(root, 'apps/mcp/src/auth/middleware.ts');
+  const mcpTypes = read(root, 'apps/mcp/src/types/index.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/auth.test.ts');
+  const chatgptTools = read(root, 'apps/chatgpt/src/tools.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const chatgptPackage = read(root, 'apps/chatgpt/package.json');
+  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
+  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
+  const terminalProjection = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-organization-authority.ts');
+  const terminalCard = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionOrganizationAuthorityCard.tsx');
+  const terminalSnapshot = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts');
+  const terminalReadModel = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts');
+  const terminalQuery = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
+  const terminalCardTest = read(root, 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx');
+  const terminalSnapshotTest = read(root, 'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -233,7 +233,7 @@ function main() {
       terminalCardTest.includes('Organization authority') &&
       terminalSnapshotTest.includes('organizationAuthority') &&
       terminalReadme.includes('Organization Authority section'),
-    'Terminal projection/card/read-model/docs/tests must expose authority detail.',
+    'product projection/card/read-model/docs/tests must expose authority detail.',
   );
   assertCheck(
     failures,
@@ -241,7 +241,7 @@ function main() {
       gateWorkflow.includes('check-v29-gate7-organization-permission-authority.mjs') &&
       gateWorkflow.includes('terminalOrganizationAuthority.test.ts') &&
       gateWorkflow.includes('packages/chatgptapp') &&
-      gateWorkflow.includes('packages/executions-mcp/src/mcp-server'),
+      gateWorkflow.includes('apps/mcp'),
     'Package scripts and gate-quality workflow must invoke Gate 7 checker and focused tests.',
   );
 

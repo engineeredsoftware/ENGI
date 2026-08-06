@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-telemetry-taxonomy-catalog.json';
+const ARTIFACT_PATH = '.proofs/v35/telemetry-taxonomy-catalog.json';
 
 const REQUIRED_EVENT_FAMILIES = [
   'pipeline',
@@ -102,7 +102,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -121,18 +121,18 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/telemetry-taxonomy-catalog.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v35-telemetry-taxonomy-catalog.test.js',
+    'scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-telemetry-taxonomy-catalog.test.js',
     'scripts/generate-v35-telemetry-taxonomy-catalog.mjs',
     'scripts/check-v35-gate3-telemetry-taxonomy-event-schema-redaction.mjs',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'BITCODE_SPEC_V35.md',
-    'BITCODE_SPEC_V35_DELTA.md',
-    'BITCODE_SPEC_V35_NOTES.md',
-    'BITCODE_SPEC_V35_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'scripts/specifying/src/canonical/v21-specifying.js',
+    '.specifications/BITCODE_SPEC_V35.md',
+    '.specifications/BITCODE_SPEC_V35_DELTA.md',
+    '.specifications/BITCODE_SPEC_V35_NOTES.md',
+    '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -151,7 +151,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v35-telemetry-taxonomy-catalog.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v35-telemetry-taxonomy-catalog.test.js']);
     } catch (error) {
       failures.push(`V35 telemetry taxonomy package test failed: ${error.stderr || error.message}`);
     }
@@ -222,18 +222,18 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V35.md');
-  const delta = read(root, 'BITCODE_SPEC_V35_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V35_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V35_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V35.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V35_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V35_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
-  const source = read(root, 'packages/protocol/src/canonical/telemetry-taxonomy-catalog.js');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
-  const test = read(root, 'packages/protocol/test/v35-telemetry-taxonomy-catalog.test.js');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const source = read(root, 'scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
+  const test = read(root, 'scripts/specifying/test/v35-telemetry-taxonomy-catalog.test.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V35 docs must mention ${ARTIFACT_PATH}.`);

@@ -38,7 +38,7 @@ async function loadExecutionStreamAdapter() {
  * 
  * Stores data in namespaced maps with optional persistence control.
  * No domain knowledge. No special handling. Just state.
- * No registries - those belong at higher layers (PromptExecution, PipelineExecution).
+ * No registries - those belong at higher layers (PromptExecution, ExecutionPipeline).
  *
  * See also: store registry for canonical namespaces and typed helpers
  * `@bitcode/execution-generics/src/store/registry.ts`.

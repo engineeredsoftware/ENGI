@@ -24,6 +24,7 @@
 export type { PromptPart } from './parts/PromptPart';
 export {
   createPromptPart,
+  createPromptPartFromPrompt,
   isPromptPart,
   EMPTY_PROMPT_PART
 } from './parts/PromptPart';
@@ -52,23 +53,22 @@ export type { PromptFormatter } from './prompt';
 
 // ==================== DOCUMENTATION ====================
 /**
- * USAGE GUIDELINES:
+ * USAGE GUIDELINES (PromptPart residence LAW):
  *
- * 1. For public primitives, import from the package root:
- *    import { Prompt, createPromptPart, hierarchicalFormatter } from '@bitcode/prompts';
+ * 1. Authored PromptPart *strings* live ONLY in raw_promptparts/{generic,specific}/.
+ *    NEVER write prose with createPromptPart('…') outside that tree.
  *
- * 2. For raw PromptParts, prefer narrow subpath imports or an existing curated root re-export:
- *    import { PROMPTPART_NAME } from '@bitcode/prompts/raw_promptparts/specific/...';
+ * 2. Import raw constants and assemble Prompt registries:
+ *    import { PROMPTPART_… } from '@bitcode/prompts/raw_promptparts/…';
+ *    prompt.set('identity', PROMPTPART_…);
  *
- * 3. For prompt composition:
- *    const prompt = new Prompt();
- *    prompt.set('identity', createPromptPart('You are Bitcode.'));
+ * 3. Brand a composed Prompt for call-site node blocks (no new prose):
+ *    import { createPromptPartFromPrompt } from '@bitcode/prompts';
+ *    const part = createPromptPartFromPrompt(composedPrompt);
  *
- * 4. For prompt-aware executions:
- *    const execution = new PromptExecution('bitcode/run');
- *    execution.prompts.set('system:identity', createPromptPart('You are Bitcode.'));
+ * 4. createPromptPart() is for branding inside raw_promptparts files only.
  *
- * 5. For formatting:
+ * 5. Format for the model:
  *    const formatted = prompt.format(hierarchicalFormatter);
  *
  * RAW PROMPT ORGANIZATION:
@@ -147,10 +147,10 @@ export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_RETRY_STRATEGY } from './raw_prompt
 export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_RETRY_ERRORHANDLING } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_retry_errorhandling';
 
 // AssetPack Tool PromptParts (Repository Setup additions)
-export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PIPELINE } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_pipeline';
-export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PHASE_SETUP } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_phase_setup';
-export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_PURPOSE_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_purpose_addendum';
-export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_CAPABILITIES_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_capabilities_addendum';
+export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_METADATA_PIPELINE } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_pipeline';
+export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_METADATA_PHASE_SETUP } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_phase_setup';
+export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_PURPOSE_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_purpose_addendum';
+export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_CAPABILITIES_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_capabilities_addendum';
 
 // AssetPack Agent PromptParts (Clone VCS Repository)
 export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_SYSTEM_IDENTITY } from './raw_promptparts/specific/promptpart_specific_agent_assetpackpipeline_clonevcsrepository_system_identity';

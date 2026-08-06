@@ -1,7 +1,7 @@
 # Bitcode Supabase Data Health
 
 Supabase/PostgreSQL is Bitcode's secondary data realm: it stores authenticated
-profile, wallet, GitHub, Terminal, BTD registry, telemetry, and reconciliation
+profile, wallet, GitHub, BTD registry, telemetry, and reconciliation
 projections. It is not the source of cryptographic finality. Ledgerized journals,
 anchors, signed wallet proofs, and canonical receipts remain authoritative.
 
@@ -10,7 +10,7 @@ They are designed for three uses:
 
 - Daily staging/production checks against live Supabase databases.
 - CI/CD checks for schema, ORM, generated type, and projection parity.
-- Local QA validation while manually testing onboarding, Terminal Deposit/Read, Fit
+- Local QA validation while manually testing onboarding, Deposit/Read, Fit
   admission, synthetic measurement, AssetPack minting, and ledger anchoring.
 
 ## Connection
@@ -91,10 +91,10 @@ pnpm db:schema-types:check
 | --- | --- |
 | `schema` | Required tables, required columns, extensions, migrations, RLS, provider-scope readiness. |
 | `identity` | Custom Bitcoin Auth projection, wallet profile/connection parity, signed Bitcoin wallet row shape, GitHub installation row shape, repository cache addressability. |
-| `terminal` | Terminal journal replay order and AssetPack mint journal coverage. |
+| `journal` | BTD journal replay order and AssetPack mint journal coverage. |
 | `ledger` | BTD supply, measuremint receipts, AssetPack ranges, cells, anchors, BTC fees, revenue conservation, reconciliation repairs. |
 | `operational` | Recent critical crypto telemetry and application error rows. |
-| `ci` | Schema + identity + Terminal + ledger checks. |
+| `ci` | Schema + identity + journal + ledger checks. |
 | `daily` | CI checks plus operational checks. |
 | `qa` | Daily checks, normally with `--fail-on warning` during manual QA. |
 
@@ -117,7 +117,7 @@ reusable checks:
 - `v28_qa_terminal_01_prerequisites_wallet_github_repo`:
   `supabase/queries/v28_qa_terminal_01_prerequisites_wallet_github_repo.sql`
   confirms Supabase Auth, wallet binding, GitHub installation, and repository
-  inventory before Terminal Deposit/Read QA.
+  inventory before Deposit/Read QA.
 - `v28_qa_01b_backfill_profile_wallet_projection_from_connection`:
   `supabase/queries/v28_qa_01b_backfill_profile_wallet_projection_from_connection.sql`
   is a targeted staging repair that copies non-secret wallet metadata from the
@@ -125,22 +125,22 @@ reusable checks:
   projection when a later profile write has dropped network/auth/payment fields.
 - `v28_qa_terminal_02_activity_after_write`:
   `supabase/queries/v28_qa_terminal_02_activity_after_write.sql` checks
-  Terminal activity, execution events, pipeline rows, stream logs, and errors
-  after each Terminal write action.
+  product activity, execution events, pipeline rows, stream logs, and errors
+  after each product write action.
 - `v28_qa_terminal_04_deposit_repository_alignment`:
   `supabase/queries/v28_qa_terminal_04_deposit_repository_alignment.sql` confirms
-  the Terminal Deposit source is the connected GitHub repository inventory and
-  flags any live-lane leakage from protocol demonstration `frontier/*` data.
+  the Deposit source is the connected GitHub repository inventory and
+  flags any live-lane leakage from specifying machine `frontier/*` data.
 - `v28_qa_terminal_08_depository_evidence_after_deposit`:
   `supabase/queries/v28_qa_terminal_08_depository_evidence_after_deposit.sql`
-  checks Gate 9 deposited-source evidence after a Terminal deposit: candidate
+  checks Gate 9 deposited-source evidence after a Deposit: candidate
   asset id, proof root, measurement root, reconciliation readback root,
   lexical/vector document roots, aggregate depository search root, depositor
   wallet boundary, and vector embedding policy posture.
 - `v28_qa_terminal_03_btd_ledger_after_terminal`:
   `supabase/queries/v28_qa_terminal_03_btd_ledger_after_terminal.sql` checks
-  BTD measuremint, ranges, BTC fee receipts, Terminal journal, ledger anchors,
-  reconciliation repairs, and crypto telemetry after Terminal closure actions.
+  BTD measuremint, ranges, BTC fee receipts, BTD journal, ledger anchors,
+  reconciliation repairs, and crypto telemetry after product closure actions.
 
 The script runner is authoritative for pass/fail automation. The saved queries
 are for operator inspection and QA narration.

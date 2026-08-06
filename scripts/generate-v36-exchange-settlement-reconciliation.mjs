@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   EXCHANGE_SETTLEMENT_RECONCILIATION_ARTIFACT_PATH,
   buildExchangeSettlementReconciliation,
-} from '../packages/protocol/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

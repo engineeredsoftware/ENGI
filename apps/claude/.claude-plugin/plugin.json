@@ -1,0 +1,8 @@
+{
+  "name": "bitcode",
+  "version": "0.1.0",
+  "description": "Bitcode protocol operator surface for Claude Code: AssetPacks, deposits, reads, Externals, and source-safe workflows.",
+  "author": {
+    "name": "Bitcode"
+  }
+}

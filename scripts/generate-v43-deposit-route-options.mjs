@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_DEPOSIT_ROUTE_OPTIONS_ARTIFACT_PATH,
   buildV43DepositRouteOptions,
-} from '../packages/protocol/src/canonical/v43-deposit-route-options.js';
+} from '../scripts/specifying/src/canonical/v43-deposit-route-options.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

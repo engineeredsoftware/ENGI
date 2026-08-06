@@ -1,0 +1,41 @@
+import React from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import BitcodeDetailPanel from '@/components/bitcode/pipeline/BitcodeDetailPanel/BitcodeDetailPanel';
+
+describe('BitcodeDetailPanel', () => {
+  it('renders summary, metrics, rows, and action follow-through', () => {
+    const onAction = jest.fn();
+
+    render(
+      <BitcodeDetailPanel
+        badge="master"
+        title="Bitcode"
+        summary="Search, filter, and inspect Bitcode activity inside the Bitcode."
+        metrics={[
+          { label: 'Status', value: 'completed' },
+          { label: 'Started', value: 'Apr 16, 12:00 PM' },
+        ]}
+        rows={[
+          { label: 'Activity id', value: 'tx-001' },
+          { label: 'Repository', value: 'bitcode/bitcode' },
+        ]}
+        tagLabel="substructure"
+        actionLabel="Open Exchange"
+        onAction={onAction}
+      />,
+    );
+
+    expect(screen.getByText('master')).toBeTruthy();
+    expect(screen.getByText('Bitcode')).toBeTruthy();
+    expect(screen.getByText('Search, filter, and inspect Bitcode activity inside the Bitcode.')).toBeTruthy();
+    expect(screen.getByText('Status')).toBeTruthy();
+    expect(screen.getByText('completed')).toBeTruthy();
+    expect(screen.getByText('Activity id')).toBeTruthy();
+    expect(screen.getByText('tx-001')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open Exchange' }));
+
+    expect(onAction).toHaveBeenCalled();
+  });
+});

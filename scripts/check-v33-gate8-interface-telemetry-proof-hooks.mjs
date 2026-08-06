@@ -9,7 +9,7 @@ import { buildV33InterfaceTelemetryProofHooksArtifact } from './generate-v33-int
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-interface-telemetry-proof-hooks.json';
+const ARTIFACT = '.proofs/v33/interface-telemetry-proof-hooks.json';
 
 const REQUIRED_INTERFACE_IDS = [
   'terminal_handoff',
@@ -109,7 +109,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -133,19 +133,19 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'uapi/tests/terminalOrganizationAuthority.test.ts',
+    'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-interface-telemetry-proof-hooks.mjs',
     'scripts/check-v33-gate8-interface-telemetry-proof-hooks.mjs',
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V33 Gate 8 file: ${relativePath}`);
@@ -192,7 +192,7 @@ function main() {
     assertCheck(failures, artifact.coverage.generatedProofRootRecorded === true, 'Gate 8 must record generated proof root.');
     assertCheck(failures, artifact.coverage.rootSetRootRecorded === true, 'Gate 8 must record root-set root.');
     assertCheck(failures, artifact.coverage.replayCommandRecorded === true, 'Gate 8 must record replay command.');
-    assertCheck(failures, artifact.coverage.terminalApiMcpChatGptJoined === true, 'Gate 8 must join Terminal, API, MCP, and ChatGPT App activity.');
+    assertCheck(failures, artifact.coverage.terminalApiMcpChatGptJoined === true, 'Gate 8 must join product, API, MCP, and ChatGPT App activity.');
     assertCheck(failures, artifact.coverage.protectedPayloadSerialized === false, 'Gate 8 artifact must not serialize protected payloads.');
     assertCheck(failures, artifact.coverage.credentialsSerialized === false, 'Gate 8 artifact must not serialize credentials.');
     assertCheck(failures, artifact.hookRows.every((row) => typeof row.executionId === 'string' && row.executionId.startsWith('execution-')), 'Every Gate 8 row must serialize executionId.');
@@ -203,19 +203,19 @@ function main() {
   const btdSource = read(root, 'packages/btd/src/interface-telemetry-proof-hook.ts');
   const btdTest = read(root, 'packages/btd/__tests__/interface-telemetry-proof-hook.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
-  const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
-    read(root, 'BITCODE_SPEC_V33.md'),
-    read(root, 'BITCODE_SPEC_V33_DELTA.md'),
-    read(root, 'BITCODE_SPEC_V33_NOTES.md'),
-    read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md'),
-    read(root, 'SPECIFICATIONS_ROADMAP.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md'),
+    read(root, '.specifications/SPECIFICATIONS_ROADMAP.md'),
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');
-  const protocolSpecifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const protocolSpecifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const sourcePhrase of [
     'BtdInterfaceTelemetryProofHook',
@@ -231,12 +231,12 @@ function main() {
   ]) {
     assertCheck(failures, btdSource.includes(sourcePhrase), `BTD source must include ${sourcePhrase}.`);
   }
-  assertCheck(failures, btdTest.includes('records execution and replay roots for Terminal, API, MCP, ChatGPT App, and package consumers'), 'BTD tests must cover cross-interface replay roots.');
+  assertCheck(failures, btdTest.includes('records execution and replay roots for product, API, MCP, ChatGPT App, and package consumers'), 'BTD tests must cover cross-interface replay roots.');
   assertCheck(failures, btdTest.includes('rejects secrets, prompt bodies, and protected payloads'), 'BTD tests must cover source-safe rejection.');
   assertCheck(failures, apiTest.includes('shares the package-owned InterfaceTelemetryProofHook for public API readback replay'), 'API tests must share Gate 8 hook.');
   assertCheck(failures, mcpTest.includes('shares the package-owned InterfaceTelemetryProofHook for MCP pipeline replay'), 'MCP tests must share Gate 8 hook.');
   assertCheck(failures, chatgptTest.includes('shares the package-owned InterfaceTelemetryProofHook for ChatGPT App delivery blockers'), 'ChatGPT App tests must share Gate 8 hook.');
-  assertCheck(failures, terminalTest.includes('shares the package-owned InterfaceTelemetryProofHook for Terminal handoff replay'), 'Terminal tests must share Gate 8 hook.');
+  assertCheck(failures, terminalTest.includes('shares the package-owned InterfaceTelemetryProofHook for product handoff replay'), 'product tests must share Gate 8 hook.');
   assertCheck(failures, specs.includes('V33 Gate 8 Interface Telemetry And Proof Replay Hooks'), 'Spec/roadmap must describe Gate 8 as current work.');
   assertCheck(failures, packageJson.includes('check:v33-gate8'), 'package.json must expose check:v33-gate8.');
   assertCheck(failures, workflow.includes('check-v33-gate8-interface-telemetry-proof-hooks.mjs'), 'Gate workflow must run Gate 8 checker.');

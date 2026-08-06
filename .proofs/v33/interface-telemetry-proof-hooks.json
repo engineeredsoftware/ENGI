@@ -1,0 +1,407 @@
+{
+  "artifactId": "v33-interface-telemetry-proof-hooks",
+  "artifactRoot": "v33-interface-telemetry-proof-hooks-artifact:56b6d7d36597ebb4375c2db8",
+  "coverage": {
+    "actionIdRecorded": true,
+    "credentialsSerialized": false,
+    "databaseRootRecorded": true,
+    "executionIdRecorded": true,
+    "generatedProofRootRecorded": true,
+    "ledgerRootRecorded": true,
+    "objectStorageRootRecorded": true,
+    "packageConsumerJoined": true,
+    "protectedPayloadSerialized": false,
+    "replayCommandRecorded": true,
+    "requestRootRecorded": true,
+    "responseRootRecorded": true,
+    "rootSetRootRecorded": true,
+    "successDeniedBlockedPostures": true,
+    "terminalApiMcpChatGptJoined": true
+  },
+  "currentTarget": "V32",
+  "docsEvidence": [
+    {
+      "digest": "sha256:f4f18279dea8ecc27de7e13ee5c4c4496b45ad5e4dfd37aa2909355fda7f391e",
+      "relativePath": "BITCODE_SPEC_V33.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "InterfaceTelemetryProofHook"
+        },
+        {
+          "present": true,
+          "token": "Gate 8"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:82166f72b7f63ad1dae97e1ddb258af14cfca8d69b1e0dbd4437432e8455ca5d",
+      "relativePath": "BITCODE_SPEC_V33_DELTA.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Interface Telemetry And Proof Replay Hooks"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:a08ef4caf86e231ca2402522f3d750de8ab81a8271bd63b8b541adb91b87d164",
+      "relativePath": "BITCODE_SPEC_V33_PARITY_MATRIX.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Interface telemetry proof hooks"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:ce9ec6145a06aed32c5b346095152dc44892f5d71bf0987ed2af282c664ac5c1",
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "V33 Gate 8 Interface Telemetry And Proof Replay Hooks"
+        }
+      ]
+    }
+  ],
+  "docsEvidenceComplete": true,
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "hookRows": [
+    {
+      "actionId": "terminal.reading.assetPackPreview",
+      "databaseRoot": "database-root:terminal-preview",
+      "denialReason": "assetpack-source-locked-until-settlement",
+      "executionId": "execution-terminal-reading-preview",
+      "executionRoot": "v33-interface-telemetry-execution:4f992414e73f998d5d645939",
+      "generatedProofRoot": "generated-proof-root:terminal-preview",
+      "hookId": "interface.telemetry.terminal-reading-handoff",
+      "interfaceId": "terminal_handoff",
+      "ledgerRoot": "ledger-root:terminal-preview",
+      "objectStorageRoot": "object-storage-root:terminal-preview",
+      "posture": "blocked",
+      "repairPosture": "settle-btc-fee-before-full-assetpack-delivery",
+      "replayCommand": "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand",
+      "replayStepIds": [
+        "terminal-preview-blocked-readback",
+        "terminal-read-model"
+      ],
+      "requestRoot": "request-root:terminal-preview",
+      "responseRoot": "response-root:terminal-preview",
+      "rootSetRoot": "btd-interface-telemetry-root-set:52ff3b9d44f58c2a0aec6e7b",
+      "rowRoot": "v33-interface-telemetry-hook-row:7a280069b641905f7899daab",
+      "theoremIds": [
+        "interface-denial-readable",
+        "interface-preview-not-source"
+      ],
+      "witnessArtifactPaths": [
+        "apps/uapi/tests/terminalOrganizationAuthority.test.ts"
+      ]
+    },
+    {
+      "actionId": "api.btd.readAccess",
+      "databaseRoot": "database-root:public-api-read-access",
+      "denialReason": "read-license-or-authority-missing",
+      "executionId": "execution-public-api-read-access",
+      "executionRoot": "v33-interface-telemetry-execution:42c89ed6c7ffbbbcb4a60600",
+      "generatedProofRoot": "generated-proof-root:public-api-read-access",
+      "hookId": "interface.telemetry.public-api-reading",
+      "interfaceId": "public_api",
+      "ledgerRoot": "ledger-root:public-api-read-access",
+      "objectStorageRoot": "object-storage-root:public-api-read-access",
+      "posture": "denied",
+      "repairPosture": "refresh-read-license-and-organization-authority-before-delivery",
+      "replayCommand": "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand",
+      "replayStepIds": [
+        "api-denial-readback",
+        "api-read-access-check"
+      ],
+      "requestRoot": "request-root:public-api-read-access",
+      "responseRoot": "response-root:public-api-read-access",
+      "rootSetRoot": "btd-interface-telemetry-root-set:f211e14235a9931933f26324",
+      "rowRoot": "v33-interface-telemetry-hook-row:ffeb39591870c72981369e86",
+      "theoremIds": [
+        "interface-auth-fail-closed",
+        "interface-denial-readable"
+      ],
+      "witnessArtifactPaths": [
+        "packages/api/src/routes/__tests__/btd-crypto.test.ts"
+      ]
+    },
+    {
+      "actionId": "mcp.reading.pipeline",
+      "databaseRoot": "database-root:mcp-reading-pipeline",
+      "executionId": "execution-mcp-reading-pipeline",
+      "executionRoot": "v33-interface-telemetry-execution:720886bf8b815893029af4da",
+      "generatedProofRoot": "generated-proof-root:mcp-reading-pipeline",
+      "hookId": "interface.telemetry.mcp-reading-tool",
+      "interfaceId": "mcp_api",
+      "ledgerRoot": "ledger-root:mcp-reading-pipeline",
+      "objectStorageRoot": "object-storage-root:mcp-reading-pipeline",
+      "posture": "success",
+      "repairPosture": "replay-mcp-pipeline-ingress-before-investigating-downstream-hosts",
+      "replayCommand": "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand",
+      "replayStepIds": [
+        "mcp-auth-context",
+        "mcp-pipeline-queue-readback"
+      ],
+      "requestRoot": "request-root:mcp-reading-pipeline",
+      "responseRoot": "response-root:mcp-reading-pipeline",
+      "rootSetRoot": "btd-interface-telemetry-root-set:9f6c2477dc5842e6398e9e5f",
+      "rowRoot": "v33-interface-telemetry-hook-row:50872f4bf2872fb0f4a5c5bd",
+      "successSummary": "mcp-reading-pipeline-queued-with-source-safe-roots",
+      "theoremIds": [
+        "interface-execution-rooted",
+        "interface-proof-replayable"
+      ],
+      "witnessArtifactPaths": [
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts"
+      ]
+    },
+    {
+      "actionId": "chatgpt.reading.action",
+      "databaseRoot": "database-root:chatgpt-reading-action",
+      "denialReason": "reader-confirmation-or-paid-rights-missing",
+      "executionId": "execution-chatgpt-reading-action",
+      "executionRoot": "v33-interface-telemetry-execution:f5eb52d603d79728734a1476",
+      "generatedProofRoot": "generated-proof-root:chatgpt-reading-action",
+      "hookId": "interface.telemetry.chatgpt-reading-action",
+      "interfaceId": "chatgpt_app",
+      "ledgerRoot": "ledger-root:chatgpt-reading-action",
+      "objectStorageRoot": "object-storage-root:chatgpt-reading-action",
+      "posture": "blocked",
+      "repairPosture": "confirm-action-and-settle-before-full-delivery",
+      "replayCommand": "pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand",
+      "replayStepIds": [
+        "chatgpt-assetpack-delivery-blocked",
+        "chatgpt-confirmation-check"
+      ],
+      "requestRoot": "request-root:chatgpt-reading-action",
+      "responseRoot": "response-root:chatgpt-reading-action",
+      "rootSetRoot": "btd-interface-telemetry-root-set:6b4c68bbcd0d484fd3b44678",
+      "rowRoot": "v33-interface-telemetry-hook-row:1ecf7d27342ba7f000e9e068",
+      "theoremIds": [
+        "interface-confirmation-required",
+        "interface-preview-not-source"
+      ],
+      "witnessArtifactPaths": [
+        "apps/chatgpt/src/__tests__/tools.test.ts"
+      ]
+    },
+    {
+      "actionId": "package.interface.contract-catalog",
+      "databaseRoot": "database-root:package-contract-catalog",
+      "executionId": "execution-package-contract-catalog",
+      "executionRoot": "v33-interface-telemetry-execution:c41a11bdbe4bd07321e4b79c",
+      "generatedProofRoot": "generated-proof-root:package-contract-catalog",
+      "hookId": "interface.telemetry.package-contract-catalog",
+      "interfaceId": "package_consumer",
+      "ledgerRoot": "ledger-root:package-contract-catalog",
+      "objectStorageRoot": "object-storage-root:package-contract-catalog",
+      "posture": "success",
+      "repairPosture": "regenerate-hook-registry-from-package-source",
+      "replayCommand": "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-telemetry-proof-hook.test.ts",
+      "replayStepIds": [
+        "package-build-hook-registry",
+        "package-root-readback"
+      ],
+      "requestRoot": "request-root:package-contract-catalog",
+      "responseRoot": "response-root:package-contract-catalog",
+      "rootSetRoot": "btd-interface-telemetry-root-set:c2cacea38ef708dcf48e020c",
+      "rowRoot": "v33-interface-telemetry-hook-row:b2f4fbd69f7b341c16e1e11b",
+      "successSummary": "package-consumer-can-replay-interface-proof-hooks",
+      "theoremIds": [
+        "interface-package-owned-contract",
+        "interface-proof-replayable"
+      ],
+      "witnessArtifactPaths": [
+        "packages/btd/__tests__/interface-telemetry-proof-hook.test.ts"
+      ]
+    }
+  ],
+  "missingInterfaceIds": [],
+  "missingPostures": [],
+  "observedInterfaceIds": [
+    "chatgpt_app",
+    "mcp_api",
+    "package_consumer",
+    "public_api",
+    "terminal_handoff"
+  ],
+  "observedPostures": [
+    "blocked",
+    "denied",
+    "success"
+  ],
+  "passed": true,
+  "requiredInterfaceIds": [
+    "terminal_handoff",
+    "public_api",
+    "mcp_api",
+    "chatgpt_app",
+    "package_consumer"
+  ],
+  "requiredPostures": [
+    "success",
+    "denied",
+    "blocked"
+  ],
+  "requiredRootKinds": [
+    "request",
+    "response",
+    "ledger",
+    "database",
+    "object_storage",
+    "generated_proof",
+    "root_set"
+  ],
+  "schemaId": "bitcode.v33.interfaceTelemetryProofHooks.v1",
+  "sourceEvidence": [
+    {
+      "digest": "sha256:4d98e8cd159b16b615bc0c8bd5f500db5ac0dd72a0b31de91d7ab990e85df898",
+      "relativePath": "packages/btd/src/interface-telemetry-proof-hook.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "BtdInterfaceTelemetryProofHook"
+        },
+        {
+          "present": true,
+          "token": "buildBtdInterfaceTelemetryProofHookRegistry"
+        },
+        {
+          "present": true,
+          "token": "requestRoot"
+        },
+        {
+          "present": true,
+          "token": "responseRoot"
+        },
+        {
+          "present": true,
+          "token": "ledgerRoot"
+        },
+        {
+          "present": true,
+          "token": "databaseRoot"
+        },
+        {
+          "present": true,
+          "token": "objectStorageRoot"
+        },
+        {
+          "present": true,
+          "token": "generatedProofRoot"
+        },
+        {
+          "present": true,
+          "token": "replayCommand"
+        },
+        {
+          "present": true,
+          "token": "protectedPayloadSerialized"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:820b0db3c5cfa0bf533ac140d95b41c3d9f499a7d910ea0a191aa6ed8eb4d0b0",
+      "relativePath": "packages/btd/src/index.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "interface-telemetry-proof-hook"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:e7775638c2da3d41e61b4cc2af2c3bdf4ea3696fe3d0261803381dd385149df9",
+      "relativePath": "packages/btd/package.json",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "./interface-telemetry-proof-hook"
+        }
+      ]
+    }
+  ],
+  "sourceEvidenceComplete": true,
+  "sourceSafetyVerdict": "source-safe-interface-telemetry-roots-only",
+  "testEvidence": [
+    {
+      "digest": "sha256:0037492f14746d5ff881fcec367302866cd34621f6fa7c9ff242c293b1b087ab",
+      "relativePath": "packages/btd/__tests__/interface-telemetry-proof-hook.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "publishes source-safe hooks for every required interface and posture"
+        },
+        {
+          "present": true,
+          "token": "records execution and replay roots for Terminal, API, MCP, ChatGPT App, and package consumers"
+        },
+        {
+          "present": true,
+          "token": "rejects secrets, prompt bodies, and protected payloads"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:c0c94cbd3006b1eb181d3dde771765c530b66870c1287ce584eb4e4e06cf34aa",
+      "relativePath": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned InterfaceTelemetryProofHook for public API readback replay"
+        },
+        {
+          "present": true,
+          "token": "interface.telemetry.public-api-reading"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:ef8475335bd430ca5926466e8556f9da3ca9db4e8d1f4ec86b9fc27f5c34a07c",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned InterfaceTelemetryProofHook for MCP pipeline replay"
+        },
+        {
+          "present": true,
+          "token": "interface.telemetry.mcp-reading-tool"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:bd3b2ab267858fb98a2ccc0e7d50666c3f7d86c55d44b81dd79202d0d0394014",
+      "relativePath": "apps/chatgpt/src/__tests__/tools.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned InterfaceTelemetryProofHook for ChatGPT App delivery blockers"
+        },
+        {
+          "present": true,
+          "token": "interface.telemetry.chatgpt-reading-action"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:67b4f82b5e94bfcddef7f349f6dd9eb361753c7bc1690be1266f2025147eee4c",
+      "relativePath": "apps/uapi/tests/terminalOrganizationAuthority.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "shares the package-owned InterfaceTelemetryProofHook for Terminal handoff replay"
+        },
+        {
+          "present": true,
+          "token": "interface.telemetry.terminal-reading-handoff"
+        }
+      ]
+    }
+  ],
+  "testEvidenceComplete": true,
+  "version": "V33"
+}

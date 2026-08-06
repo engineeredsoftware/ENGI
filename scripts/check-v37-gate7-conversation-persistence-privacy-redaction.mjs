@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-persistence-privacy-redaction.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-persistence-privacy-redaction.json';
 
 const REQUIRED_OPERATION_IDS = [
   'persist_message',
@@ -135,7 +135,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -154,31 +154,31 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-persistence-privacy-redaction.test.js',
+    'scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-persistence-privacy-redaction.test.js',
     'scripts/generate-v37-conversation-persistence-privacy-redaction.mjs',
     'scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs',
     'packages/api/src/conversations/privacy.ts',
     'packages/api/src/conversations/messages.ts',
     'packages/api/src/routes/conversations.ts',
     'packages/api/src/conversations/__tests__/privacy.test.ts',
-    'uapi/app/conversations/conversation-persistence-privacy-redaction.ts',
-    'uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts',
-    'uapi/tests/conversationPersistencePrivacyPanel.test.tsx',
-    'uapi/jest.config.cjs',
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts',
+    'apps/uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts',
+    'apps/uapi/tests/conversationPersistencePrivacyPanel.test.tsx',
+    'apps/uapi/jest.config.cjs',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/conversations/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -201,7 +201,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/conversation-persistence-privacy-redaction.test.js',
+        'scripts/specifying/test/conversation-persistence-privacy-redaction.test.js',
       ]);
     } catch (error) {
       failures.push(`V37 Conversation persistence privacy package test failed: ${error.stderr || error.message}`);
@@ -231,7 +231,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationPersistencePrivacyRedaction.test.ts',
@@ -307,14 +307,14 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V37.md');
-  const delta = read(root, 'BITCODE_SPEC_V37_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V37_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V37.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V37_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V37_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
-  const uapiReadme = read(root, 'uapi/app/conversations/README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const uapiReadme = read(root, 'apps/uapi/app/conversations/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

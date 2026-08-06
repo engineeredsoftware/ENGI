@@ -15,7 +15,7 @@ module.exports = {
     ],
   },
   moduleNameMapper: {
-    '^@bitcode/models/src/(.+)$': '<rootDir>/../models/src/$1',
+    '^@bitcode/generic-llms/models/src/(.+)$': '<rootDir>/../generic-llms/models/src/$1',
     '^@bitcode/supabase$': '<rootDir>/__tests__/mocks/supabase.ts',
   },
 };

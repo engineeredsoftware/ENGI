@@ -1,0 +1,31 @@
+{
+  "reportId": "v43-canonical-input-report",
+  "version": "V43",
+  "proofSourceCommit": "b29e088ba95c33a62247ff4e80b3ca09ff7a6b1c",
+  "generatedAt": "2026-05-31T08:38:40-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "checkedTargetVersion": "V43",
+  "pointerVersion": "V43",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "specPath": "BITCODE_SPEC_V43.md",
+  "notesPath": "BITCODE_SPEC_V43_NOTES.md",
+  "provenPath": "BITCODE_SPEC_V43_PROVEN.md",
+  "parityPath": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [
+    ".proofs/v43/spec-family-report.json",
+    ".proofs/v43/canonical-input-report.json",
+    ".proofs/v43/route-vocabulary-inventory.json",
+    ".proofs/v43/packs-activity-master-detail.json",
+    ".proofs/v43/read-route-five-step-ux.json",
+    ".proofs/v43/deposit-route-options.json",
+    ".proofs/v43/deposit-policy-compensation.json",
+    ".proofs/v43/deposit-option-admission.json",
+    ".proofs/v43/route-ux-product-excellence.json",
+    ".proofs/v43/cross-route-rehearsal-telemetry-repair.json",
+    ".proofs/v43/promotion-readiness-report.json"
+  ],
+  "requiredGeneratedArtifactCount": 11
+}

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-telemetry-proof-hooks.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-telemetry-proof-hooks.json';
 
 const REQUIRED_EVENT_FAMILIES = [
   'session',
@@ -28,7 +28,7 @@ const REQUIRED_DASHBOARD_PANELS = [
   'conversation.dashboard.stream-quality',
   'conversation.dashboard.tool-policy',
   'conversation.dashboard.source-policy',
-  'conversation.dashboard.terminal-handoff',
+  'conversation.dashboard.product-handoff',
   'conversation.dashboard.retry-recovery',
   'conversation.dashboard.error-recovery',
   'conversation.dashboard.completion-quality',
@@ -40,7 +40,7 @@ const REQUIRED_RUNBOOK_IDS = [
   'runbook.conversation.stream-debug',
   'runbook.conversation.tool-policy-denial',
   'runbook.conversation.source-selector-policy',
-  'runbook.conversation.terminal-handoff-repair',
+  'runbook.conversation.product-handoff-repair',
   'runbook.conversation.retry-loop',
   'runbook.conversation.error-recovery',
   'runbook.conversation.completion-repair',
@@ -150,7 +150,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -169,35 +169,35 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-telemetry-proof-hooks.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-telemetry-proof-hooks.test.js',
+    'scripts/specifying/src/canonical/conversation-telemetry-proof-hooks.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-telemetry-proof-hooks.test.js',
     'scripts/generate-v37-conversation-telemetry-proof-hooks.mjs',
     'scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs',
     'packages/api/src/conversations/telemetry.ts',
     'packages/api/src/conversations/stream-events.ts',
     'packages/api/src/conversations/__tests__/telemetry.test.ts',
     'packages/api/src/conversations/__tests__/stream-events.test.ts',
-    'uapi/app/conversations/conversation-telemetry-proof-hooks.ts',
-    'uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/api/conversationTelemetryProofHooks.test.ts',
-    'uapi/tests/conversationTelemetryProofPanel.test.tsx',
-    'uapi/tests/conversationStreamPipelineLog.test.tsx',
-    'uapi/jest.config.cjs',
-    'docs/conversations.md',
-    'internal-docs/BITCODE_CONVERSATIONS.md',
-    'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts',
+    'apps/uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/api/conversationTelemetryProofHooks.test.ts',
+    'apps/uapi/tests/conversationTelemetryProofPanel.test.tsx',
+    'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
+    'apps/uapi/jest.config.cjs',
+    '.docs/conversations.md',
+    '.docs/BITCODE_CONVERSATIONS.md',
+    '.docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/conversations/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -217,7 +217,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-telemetry-proof-hooks.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-telemetry-proof-hooks.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation telemetry proof hooks package test failed: ${error.stderr || error.message}`);
     }
@@ -247,7 +247,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationTelemetryProofHooks.test.ts',
@@ -312,7 +312,7 @@ function main() {
     );
   }
 
-  const protocolSource = read(root, 'packages/protocol/src/canonical/conversation-telemetry-proof-hooks.js');
+  const protocolSource = read(root, 'scripts/specifying/src/canonical/conversation-telemetry-proof-hooks.js');
   assertCheck(failures, protocolSource.includes('CONVERSATION_TELEMETRY_EVENT_FAMILY_IDS'), 'Protocol source must define event family ids.');
   assertCheck(failures, protocolSource.includes('CONVERSATION_TELEMETRY_DASHBOARD_PANEL_IDS'), 'Protocol source must define dashboard panel ids.');
   assertCheck(failures, protocolSource.includes('CONVERSATION_TELEMETRY_RUNBOOK_IDS'), 'Protocol source must define runbook ids.');
@@ -333,21 +333,21 @@ function main() {
   assertCheck(failures, streamEvents.includes('dashboardPanel'), 'Conversation stream log metadata must expose dashboard panel ids.');
   assertCheck(failures, streamEvents.includes('runbookId'), 'Conversation stream log metadata must expose runbook ids.');
 
-  const uiTelemetry = read(root, 'uapi/app/conversations/conversation-telemetry-proof-hooks.ts');
+  const uiTelemetry = read(root, 'apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts');
   assertCheck(failures, uiTelemetry.includes('buildConversationTelemetryProofPreview'), 'UAPI must expose a telemetry proof preview helper.');
   assertCheck(failures, uiTelemetry.includes('source-safe-conversation-telemetry-proof-hooks-metadata'), 'UAPI telemetry proof preview must use the source-safe verdict.');
   assertCheck(failures, !uiTelemetry.includes('process.env'), 'UAPI telemetry proof helper must not read credentials or env values.');
 
-  const overlay = read(root, 'uapi/app/conversations/components/ConversationsOverlay.tsx');
+  const overlay = read(root, 'apps/uapi/app/conversations/components/ConversationsOverlay.tsx');
   assertCheck(failures, overlay.includes('ConversationTelemetryProofPanel'), 'Conversations overlay must expose the telemetry proof panel.');
 
-  const docs = read(root, 'docs/conversations.md');
+  const docs = read(root, '.docs/conversations.md');
   assertCheck(failures, docs.includes('ConversationTelemetryProofHooks'), 'Public conversation docs must mention ConversationTelemetryProofHooks.');
   assertCheck(failures, docs.includes('Route-Local History'), 'Public conversation docs must document route-local history.');
-  assertCheck(failures, docs.includes('Terminal Handoff'), 'Public conversation docs must document Terminal handoff.');
+  assertCheck(failures, docs.includes('product Handoff'), 'Public conversation docs must document product handoff.');
   assertCheck(failures, docs.includes('source-safe'), 'Public conversation docs must document source-safe telemetry posture.');
 
-  const runbook = read(root, 'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
+  const runbook = read(root, '.docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
   assertCheck(failures, runbook.includes('ConversationTelemetryProofHooks'), 'Internal runbook must mention ConversationTelemetryProofHooks.');
   assertCheck(failures, includesAll(runbook, REQUIRED_DASHBOARD_PANELS), 'Internal runbook must list every dashboard panel.');
   assertCheck(failures, includesAll(runbook, REQUIRED_RUNBOOK_IDS), 'Internal runbook must list every runbook id.');
@@ -368,7 +368,7 @@ function main() {
   assertCheck(failures, packageJson.scripts?.['check:v37-gate8'], 'package.json must expose check:v37-gate8.');
   assertCheck(failures, packageJson.scripts?.['generate:v37-conversation-telemetry-proof-hooks'], 'package.json must expose telemetry proof hook generation.');
 
-  const spec = read(root, 'BITCODE_SPEC_V37.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V37.md');
   assertCheck(failures, spec.includes('ConversationTelemetryProofHooks'), 'V37 spec must document ConversationTelemetryProofHooks.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH), 'V37 spec must list the telemetry proof hooks artifact.');
 

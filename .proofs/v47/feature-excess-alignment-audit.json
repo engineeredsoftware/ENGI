@@ -1,0 +1,356 @@
+{
+  "artifactId": "v47-feature-excess-alignment-audit",
+  "schemaId": "bitcode.v47.featureExcessAlignmentAudit.v1",
+  "version": "V47",
+  "currentTarget": "V46",
+  "sourceSafetyVerdict": "source-safe-launch-scope-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v47-feature-excess-alignment-audit:dab72941b86dd32b989699fa",
+  "passed": true,
+  "launchRouteIds": [
+    "/deposit",
+    "/read",
+    "/packs"
+  ],
+  "supportingSurfaceIds": [
+    "/",
+    "/docs",
+    "/auxillaries",
+    "/btd/[assetPackId]",
+    "/executions/[runId]",
+    "/api/activity",
+    "/api/deposits",
+    "/api/read-review",
+    "/api/make-bitcode-branch",
+    "/api/executions"
+  ],
+  "deferredSurfaceIds": [
+    "/terminal direct product entry",
+    "/conversations direct commercial launch",
+    "/exchange direct product entry",
+    "/orbitals direct route family",
+    "/edgetimes",
+    "/demo-video",
+    "ChatGPT App commercialization",
+    "MCP/API commercialization",
+    "Bitcode Chat commercialization",
+    "value-bearing mainnet BTC settlement",
+    "advanced market mechanics"
+  ],
+  "featurePolicyIds": [
+    "public-nav-current-routes-only",
+    "landing-cta-current-routes-only",
+    "btd-detail-current-routes-only",
+    "exchange-compatibility-redirect-only",
+    "terminal-direct-entry-flaggable",
+    "conversations-direct-entry-flaggable",
+    "testnet-btc-only",
+    "source-safe-preview-only"
+  ],
+  "forbiddenLaunchEntryTargets": [
+    "/terminal?intent=acquire-btd",
+    "/terminal?intent=submit-read-for-btd",
+    "/exchange?intent=buy-existing-btd",
+    "router.push('/terminal')",
+    "window.location.assign('/terminal"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_assetpack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload",
+    "mainnet_value_bearing_payment_secret"
+  ],
+  "auditRows": [
+    {
+      "rowId": "launch-routes-are-current-product-entrypoints",
+      "classification": "launch",
+      "owner": "website-product-routes",
+      "routeIds": [
+        "/deposit",
+        "/read",
+        "/packs"
+      ],
+      "policy": "The V47 website MVP opens through Deposit, Read, and Packs; public navigation and landing acquisition actions must point at those route roots.",
+      "requiredPolicyIds": [
+        "public-nav-current-routes-only",
+        "landing-cta-current-routes-only"
+      ],
+      "rowRoot": "v47-feature-excess-row:ea73c2d5b16a4df3e4c7a7dc",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "launchBlockingWhenViolated": true
+    },
+    {
+      "rowId": "compatibility-routes-cannot-own-product-state",
+      "classification": "compatibility",
+      "owner": "compatibility-routes",
+      "routeIds": [
+        "/exchange",
+        "/btd/[assetPackId]"
+      ],
+      "policy": "Compatibility routes may preserve old links only when they redirect or point into Packs/Read and do not claim independent Exchange or Terminal product authority.",
+      "requiredPolicyIds": [
+        "exchange-compatibility-redirect-only",
+        "btd-detail-current-routes-only"
+      ],
+      "rowRoot": "v47-feature-excess-row:e191b697d12abdddde5f2d14",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "launchBlockingWhenViolated": true
+    },
+    {
+      "rowId": "retained-workspaces-are-flagged-or-direct-only",
+      "classification": "deferred",
+      "owner": "retained-workspaces",
+      "routeIds": [
+        "/terminal",
+        "/conversations"
+      ],
+      "policy": "Terminal and Conversations remain retained operator/composition workspaces; they must not be primary launch CTAs and direct entry must be flaggable for launch mode.",
+      "requiredPolicyIds": [
+        "terminal-direct-entry-flaggable",
+        "conversations-direct-entry-flaggable"
+      ],
+      "rowRoot": "v47-feature-excess-row:7f5941cec87ea2b766915ab6",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "launchBlockingWhenViolated": true
+    },
+    {
+      "rowId": "commercial-surfaces-deferred",
+      "classification": "deferred",
+      "owner": "non-website-commercial-surfaces",
+      "routeIds": [
+        "MCP/API",
+        "ChatGPT App",
+        "Bitcode Chat"
+      ],
+      "policy": "API/MCP, ChatGPT App, and Bitcode Chat are protocol/interface surfaces only in V47 and must not be presented as commercially launched website flows.",
+      "requiredPolicyIds": [
+        "testnet-btc-only",
+        "source-safe-preview-only"
+      ],
+      "rowRoot": "v47-feature-excess-row:ad4ea3f63b6f0cf6dd67212d",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "launchBlockingWhenViolated": true
+    },
+    {
+      "rowId": "source-and-value-boundaries-remain-launch-blockers",
+      "classification": "blocked",
+      "owner": "source-safety-and-mainnet",
+      "routeIds": [
+        "mainnet settlement",
+        "source-bearing preview"
+      ],
+      "policy": "V47 testnet launch cannot expose unpaid AssetPack source, raw prompts, raw provider responses, secrets, wallet private material, or value-bearing mainnet settlement.",
+      "requiredPolicyIds": [
+        "testnet-btc-only",
+        "source-safe-preview-only"
+      ],
+      "rowRoot": "v47-feature-excess-row:7ab47362d3f4342bfaae9cf7",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "launchBlockingWhenViolated": true
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V47.md:476ca5a5d0b07b31694f0b68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
+    "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
+    "nav": "apps/uapi/components/base/bitcode/layout/nav.tsx:2b2eaaf65982969883af8d1e",
+    "features": "apps/uapi/config/features.ts:6ff2da113ab17dfc468d7461",
+    "workspaceSurface": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
+    "home": "apps/uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
+    "heroClient": "apps/uapi/app/hero-client.tsx:2a524ab6b50787be4414f8ba",
+    "marketingPricing": "apps/uapi/app/(root)/components/MarketingPricingSection.tsx:6eda1c0801da2e0e2b6dc47c",
+    "packsPage": "apps/uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
+    "readPage": "apps/uapi/app/read/page.tsx:37a723ed87feac05c0504249",
+    "depositPage": "apps/uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
+    "terminalPage": "apps/uapi/app/terminal/page.tsx:6b75306c69248605ab1bb69b",
+    "conversationsPage": "apps/uapi/app/conversations/page.tsx:bb3f749e94dbe158142bbe0d",
+    "exchangePage": "apps/uapi/app/exchange/page.tsx:be7a744d1f9c9252d1b6eba9",
+    "exchangeReadme": "apps/uapi/app/exchange/README.md:3a0b7052de6be76fcda2b094",
+    "btdDetailPage": "apps/uapi/app/btd/[assetPackId]/page.tsx:b94efe66179c2a2a27bde659",
+    "packageJson": "package.json:4d9f041eb01a920860a26f75",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-feature-excess-alignment-audit.js:3b2f56997d5b108960a5c9e2",
+    "protocolTest": "scripts/specifying/test/v47-feature-excess-alignment-audit.test.js:d4eb230b98bcbc3ee18af459",
+    "generator": "scripts/generate-v47-feature-excess-alignment-audit.mjs:1132b37cd29dddc216db998d",
+    "checker": "scripts/check-v47-gate2-feature-excess-alignment-audit.mjs:007c139e5c0a60e0d621e7f4",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
+  },
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v47-launch-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-records-gate2-feature-excess",
+      "sourcePath": "BITCODE_SPEC_V47.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate2-artifact",
+      "sourcePath": "BITCODE_SPEC_V47_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-record-gate2-policy",
+      "sourcePath": "BITCODE_SPEC_V47_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate2-closure",
+      "sourcePath": "BITCODE_SPEC_V47_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate2-closure",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "public-nav-current-routes-only",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "passed": true
+    },
+    {
+      "id": "landing-cta-current-routes-only",
+      "sourcePath": "apps/uapi/app/hero-client.tsx",
+      "passed": true
+    },
+    {
+      "id": "marketing-acquisition-current-routes-only",
+      "sourcePath": "apps/uapi/app/(root)/components/MarketingPricingSection.tsx",
+      "passed": true
+    },
+    {
+      "id": "btd-detail-current-routes-only",
+      "sourcePath": "apps/uapi/app/btd/[assetPackId]/page.tsx",
+      "passed": true
+    },
+    {
+      "id": "exchange-compatibility-redirect-only",
+      "sourcePath": "apps/uapi/app/exchange/page.tsx",
+      "passed": true
+    },
+    {
+      "id": "terminal-direct-entry-flaggable",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/nav.tsx",
+      "passed": true
+    },
+    {
+      "id": "terminal-metadata-retained-operator-workspace",
+      "sourcePath": "apps/uapi/app/terminal/page.tsx",
+      "passed": true
+    },
+    {
+      "id": "conversations-direct-entry-flaggable",
+      "sourcePath": "apps/uapi/app/conversations/page.tsx",
+      "passed": true
+    },
+    {
+      "id": "feature-config-owns-deferred-flags",
+      "sourcePath": "apps/uapi/config/features.ts",
+      "passed": true
+    },
+    {
+      "id": "public-shell-launch-routes-classified",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts",
+      "passed": true
+    },
+    {
+      "id": "public-launch-sources-avoid-deferred-entry-targets",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "passed": true
+    },
+    {
+      "id": "protocol-test-covers-artifact",
+      "sourcePath": "scripts/specifying/test/v47-feature-excess-alignment-audit.test.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-package-exports-gate2",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-types-export-gate2",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate2",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate2",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate2",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v47-feature-excess-alignment-audit.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v47-gate2-feature-excess-alignment-audit.mjs",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "websiteLaunchRoutesOnly": true,
+    "publicNavCurrentRoutesOnly": true,
+    "launchCtasCurrentRoutesOnly": true,
+    "btdDetailCurrentRoutesOnly": true,
+    "exchangeCompatibilityRedirectOnly": true,
+    "terminalDirectEntryFlaggable": true,
+    "conversationsDirectEntryFlaggable": true,
+    "nonWebsiteCommercialSurfacesDeferred": true,
+    "testnetBtcOnly": true,
+    "sourceSafePreviewOnly": true,
+    "launchRouteCount": 3,
+    "supportingSurfaceCount": 10,
+    "deferredSurfaceCount": 11,
+    "launchAuditRowCount": 1,
+    "deferredAuditRowCount": 2,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetEnabled": false,
+    "requiredPredicateCount": 25,
+    "passedPredicateCount": 25,
+    "failedPredicateIds": []
+  }
+}

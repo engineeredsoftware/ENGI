@@ -1,19 +1,31 @@
 /**
- * VCS Core integration for Bitbucket MCP tools
- * This file provides tools that use the unified VCS abstraction
+ * Bitbucket MCP ↔ VCS hierarchy bridge.
+ *
+ * Uses @bitcode/vcs-generics factory (registered to generic-vcs-bitbucket).
+ * Prefer hierarchy packages.
  */
 
-import { createVCSTools } from '@bitcode/vcs';
-import { createClient as createSupabaseServerClient } from '@bitcode/supabase/ssr/server';
+import {
+  VCSProviderFactory,
+  createBitbucketProvider,
+  type AbstractVCSProvider,
+  type VCSAuth,
+} from '@bitcode/vcs-generics';
 
-// Export VCS-based tools for Bitbucket
-export const bitbucketVCSTools = createVCSTools('bitbucket', () => createSupabaseServerClient());
+/** Ensure bitbucket is registered (factory self-registers on import of vcs-generics). */
+export function isBitbucketProviderRegistered(): boolean {
+  return VCSProviderFactory.hasProvider('bitbucket');
+}
 
-// Re-export individual tools for convenience
-export const bitbucketListRepositories = bitbucketVCSTools.find(t => t.name === 'bitbucket_list_repositories');
-export const bitbucketGetRepository = bitbucketVCSTools.find(t => t.name === 'bitbucket_get_repository');
-export const bitbucketListBranches = bitbucketVCSTools.find(t => t.name === 'bitbucket_list_branches');
-export const bitbucketCreatePullRequest = bitbucketVCSTools.find(t => t.name === 'bitbucket_create_pull_request');
-export const bitbucketListPullRequests = bitbucketVCSTools.find(t => t.name === 'bitbucket_list_pull_requests');
-export const bitbucketGetFileContent = bitbucketVCSTools.find(t => t.name === 'bitbucket_get_file_content');
-export const bitbucketCreateWebhook = bitbucketVCSTools.find(t => t.name === 'bitbucket_create_webhook');
+/** Create Bitbucket provider via hierarchy factory. */
+export async function getBitbucketProvider(): Promise<AbstractVCSProvider> {
+  return createBitbucketProvider();
+}
+
+/** List repositories for a user auth using the Bitbucket provider base. */
+export async function bitbucketListRepositories(auth: VCSAuth) {
+  const provider = await getBitbucketProvider();
+  return provider.listRepositories(auth);
+}
+
+export { createBitbucketProvider, VCSProviderFactory };

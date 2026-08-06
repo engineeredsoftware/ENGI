@@ -26,9 +26,9 @@ const { data: user } = await supabase.auth.getUser();
 
 // Admin client (server)
 const { data: users } = await supabaseAdmin
-  .from('users')
-  .select('*')
-  .limit(10);
+ .from('users')
+ .select('*')
+ .limit(10);
 ```
 
 ## SSR Integration
@@ -46,17 +46,17 @@ export const middleware = updateSession;
 ## MCP Tools
 
 ```typescript
-import { 
-  supabaseMcpTool,
-  supabaseQueryTool,
-  supabaseInsertTool 
+import {
+ supabaseMcpTool,
+ supabaseQueryTool,
+ supabaseInsertTool
 } from '@bitcode/supabase';
 
 // Template matching
 const templates = await supabaseMcpTool({
-  userId: 'user-123',
-  query: 'authentication',
-  count: 5
+ userId: 'user-123',
+ query: 'authentication',
+ count: 5
 });
 ```
 

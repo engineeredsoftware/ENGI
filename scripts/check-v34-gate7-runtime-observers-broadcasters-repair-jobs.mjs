@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json';
+const ARTIFACT = '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json';
 
 const REQUIRED_JOB_IDS = [
   'settlement_observer',
@@ -97,7 +97,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -122,14 +122,14 @@ function main() {
     'packages/btd/__tests__/runtime-observer-repair-job.test.ts',
     'scripts/generate-v34-runtime-observers-broadcasters-repair-jobs.mjs',
     'scripts/check-v34-gate7-runtime-observers-broadcasters-repair-jobs.mjs',
-    'BITCODE_SPEC_V34.md',
-    'BITCODE_SPEC_V34_DELTA.md',
-    'BITCODE_SPEC_V34_NOTES.md',
-    'BITCODE_SPEC_V34_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V34.md',
+    '.specifications/BITCODE_SPEC_V34_DELTA.md',
+    '.specifications/BITCODE_SPEC_V34_NOTES.md',
+    '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -216,17 +216,17 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V34.md');
-  const delta = read(root, 'BITCODE_SPEC_V34_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V34_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V34_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V34.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V34_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V34_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const btdPackageJson = read(root, 'packages/btd/package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const source = read(root, 'packages/btd/src/runtime-observer-repair-job.ts');
   const test = read(root, 'packages/btd/__tests__/runtime-observer-repair-job.test.ts');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V34 docs must mention ${ARTIFACT}.`);

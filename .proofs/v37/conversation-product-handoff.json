@@ -1,0 +1,1860 @@
+{
+  "artifactId": "v37-conversation-product-handoff",
+  "schemaId": "bitcode.v37.conversationTerminalHandoff.v1",
+  "version": "V37",
+  "currentTarget": "V36",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-conversation-product-handoff-metadata",
+  "disclosureBoundary": {
+    "handoffMayExpose": [
+      "conversation_id",
+      "handoff_workflow",
+      "transaction_id",
+      "repository_anchor",
+      "source_selector_refs",
+      "source_safe_summary",
+      "policy_result",
+      "terminal_route",
+      "transaction_detail",
+      "proof_roots",
+      "event_ids"
+    ],
+    "handoffMustNotExpose": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "unpaid_assetpack_source",
+      "settlement_private_payloads",
+      "ledger_write_authority",
+      "wallet_signing_authority",
+      "terminal_transaction_authority_bypass"
+    ]
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredWorkflowIds": [
+      "depositing",
+      "reading",
+      "finding_fits",
+      "exchange",
+      "settlement",
+      "delivery"
+    ],
+    "observedWorkflowIds": [
+      "depositing",
+      "reading",
+      "finding_fits",
+      "exchange",
+      "settlement",
+      "delivery"
+    ],
+    "missingWorkflowIds": [],
+    "requiredFieldIds": [
+      "conversation_id",
+      "message_root",
+      "handoff_workflow",
+      "transaction_id",
+      "repository_anchor",
+      "source_selector_refs",
+      "source_safe_summary",
+      "policy_result",
+      "terminal_route",
+      "transaction_detail",
+      "proof_roots",
+      "event_ids"
+    ],
+    "observedFieldIds": [
+      "conversation_id",
+      "message_root",
+      "handoff_workflow",
+      "transaction_id",
+      "repository_anchor",
+      "source_selector_refs",
+      "source_safe_summary",
+      "policy_result",
+      "terminal_route",
+      "transaction_detail",
+      "proof_roots",
+      "event_ids"
+    ],
+    "missingFieldIds": [],
+    "requiredAuthorityIds": [
+      "terminal_transaction_cockpit",
+      "ledger_authority_boundary",
+      "wallet_authority_boundary",
+      "source_disclosure_boundary",
+      "retry_repair_boundary"
+    ],
+    "observedAuthorityIds": [
+      "terminal_transaction_cockpit",
+      "ledger_authority_boundary",
+      "wallet_authority_boundary",
+      "source_disclosure_boundary",
+      "retry_repair_boundary"
+    ],
+    "missingAuthorityIds": [],
+    "requiredPolicyStates": [
+      "allowed",
+      "retry_required",
+      "denied"
+    ],
+    "observedPolicyStates": [
+      "allowed",
+      "retry_required",
+      "denied"
+    ],
+    "missingPolicyStates": [],
+    "workflowCount": 6,
+    "allWorkflowsCovered": true,
+    "allFieldsCovered": true,
+    "allAuthorityBoundariesCovered": true,
+    "allPolicyStatesCovered": true,
+    "depositingCovered": true,
+    "readingCovered": true,
+    "findingFitsCovered": true,
+    "exchangeCovered": true,
+    "settlementCovered": true,
+    "deliveryCovered": true,
+    "retryStatesCovered": true,
+    "proofRootsCovered": true,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "ledgerAuthorityClaimed": false,
+    "walletSigningAuthorityClaimed": false,
+    "terminalCockpitBypassed": false
+  },
+  "requiredWorkflowIds": [
+    "depositing",
+    "reading",
+    "finding_fits",
+    "exchange",
+    "settlement",
+    "delivery"
+  ],
+  "requiredFieldIds": [
+    "conversation_id",
+    "message_root",
+    "handoff_workflow",
+    "transaction_id",
+    "repository_anchor",
+    "source_selector_refs",
+    "source_safe_summary",
+    "policy_result",
+    "terminal_route",
+    "transaction_detail",
+    "proof_roots",
+    "event_ids"
+  ],
+  "requiredAuthorityIds": [
+    "terminal_transaction_cockpit",
+    "ledger_authority_boundary",
+    "wallet_authority_boundary",
+    "source_disclosure_boundary",
+    "retry_repair_boundary"
+  ],
+  "requiredPolicyStates": [
+    "allowed",
+    "retry_required",
+    "denied"
+  ],
+  "rows": [
+    {
+      "workflowId": "depositing",
+      "label": "Depositing handoff",
+      "productDetail": "activity",
+      "routeIntent": "prepare-deposit",
+      "receives": [
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result"
+      ],
+      "blockedPayloads": [
+        "protected_source_payloads",
+        "provider_tokens",
+        "wallet_private_material"
+      ],
+      "retryWhen": [
+        "repository_context_missing",
+        "policy_unknown",
+        "provider_connection_expired"
+      ],
+      "eventIds": [
+        "conversation.terminal_handoff.depositing.prepared",
+        "conversation.terminal_handoff.depositing.retry_required"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_root",
+        "handoff_workflow",
+        "transaction_id",
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result",
+        "terminal_route",
+        "transaction_detail",
+        "proof_roots",
+        "event_ids"
+      ],
+      "authorityIds": [
+        "terminal_transaction_cockpit",
+        "ledger_authority_boundary",
+        "wallet_authority_boundary",
+        "source_disclosure_boundary",
+        "retry_repair_boundary"
+      ],
+      "policyStates": [
+        "allowed",
+        "retry_required",
+        "denied"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
+      "terminalAuthority": {
+        "productRemainsTransactionWorkspace": true,
+        "conversationMayPrepareIntent": true,
+        "conversationMayWriteLedger": false,
+        "conversationMaySignWalletOperations": false,
+        "conversationMayExposeProtectedSource": false,
+        "conversationMayExposeUnpaidAssetPackSource": false
+      },
+      "routePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "handoff_workflow",
+          "transaction_id",
+          "repository_anchor",
+          "source_selector_refs",
+          "source_safe_summary",
+          "policy_result",
+          "terminal_route",
+          "transaction_detail",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "terminal_transaction_authority_bypass"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "depositing.conversation-product-handoff-row-present",
+          "command": "pnpm run check:v37-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_terminal_workflow",
+            "terminal_authority_bypass",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "wallet_signing_authority_claimed",
+            "ledger_write_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:8d4bb304f578bc8ec83cdbf0",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:d0d6f55b48e6929b44813115",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:dfffe53f6aa5b8e9117ad11a",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:94b7973c636b8a43da503394",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:0c3bb2e6527b0912601fddb5"
+      },
+      "rowRoot": "conversation-product-handoff-row:2abd708b0c1a2a81014daa2e",
+      "detailRoot": "conversation-product-handoff-detail:8078dc8c80b5df7f4b786df8"
+    },
+    {
+      "workflowId": "reading",
+      "label": "Reading handoff",
+      "productDetail": "transaction",
+      "routeIntent": "prepare-read",
+      "receives": [
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result"
+      ],
+      "blockedPayloads": [
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "raw_model_responses_with_protected_source"
+      ],
+      "retryWhen": [
+        "read_request_summary_missing",
+        "source_selector_retry_required",
+        "policy_unknown"
+      ],
+      "eventIds": [
+        "conversation.terminal_handoff.reading.prepared",
+        "conversation.terminal_handoff.reading.denied"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_root",
+        "handoff_workflow",
+        "transaction_id",
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result",
+        "terminal_route",
+        "transaction_detail",
+        "proof_roots",
+        "event_ids"
+      ],
+      "authorityIds": [
+        "terminal_transaction_cockpit",
+        "ledger_authority_boundary",
+        "wallet_authority_boundary",
+        "source_disclosure_boundary",
+        "retry_repair_boundary"
+      ],
+      "policyStates": [
+        "allowed",
+        "retry_required",
+        "denied"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
+      "terminalAuthority": {
+        "productRemainsTransactionWorkspace": true,
+        "conversationMayPrepareIntent": true,
+        "conversationMayWriteLedger": false,
+        "conversationMaySignWalletOperations": false,
+        "conversationMayExposeProtectedSource": false,
+        "conversationMayExposeUnpaidAssetPackSource": false
+      },
+      "routePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "handoff_workflow",
+          "transaction_id",
+          "repository_anchor",
+          "source_selector_refs",
+          "source_safe_summary",
+          "policy_result",
+          "terminal_route",
+          "transaction_detail",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "terminal_transaction_authority_bypass"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "reading.conversation-product-handoff-row-present",
+          "command": "pnpm run check:v37-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_terminal_workflow",
+            "terminal_authority_bypass",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "wallet_signing_authority_claimed",
+            "ledger_write_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:e48fa95ba074e72ee14e21ba",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:7fff53bd04a895a191b5e8a1",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:4b5211d87e25627166de53e1",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:1bce22fbbbc5ae28f5e25100",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:e5092a9508339247b36765fa"
+      },
+      "rowRoot": "conversation-product-handoff-row:a1cff44aeb4662d56de4b08d",
+      "detailRoot": "conversation-product-handoff-detail:fa4ebe71efef6b5671f8cc18"
+    },
+    {
+      "workflowId": "finding_fits",
+      "label": "Finding Fits handoff",
+      "productDetail": "activity",
+      "routeIntent": "prepare-finding-fits",
+      "receives": [
+        "transaction_id",
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result"
+      ],
+      "blockedPayloads": [
+        "unpaid_assetpack_source",
+        "protected_source_payloads",
+        "raw_model_responses_with_protected_source"
+      ],
+      "retryWhen": [
+        "need_root_missing",
+        "read_activity_missing",
+        "depository_policy_unknown"
+      ],
+      "eventIds": [
+        "conversation.terminal_handoff.finding_fits.prepared",
+        "conversation.terminal_handoff.finding_fits.retry_required"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_root",
+        "handoff_workflow",
+        "transaction_id",
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result",
+        "terminal_route",
+        "transaction_detail",
+        "proof_roots",
+        "event_ids"
+      ],
+      "authorityIds": [
+        "terminal_transaction_cockpit",
+        "ledger_authority_boundary",
+        "wallet_authority_boundary",
+        "source_disclosure_boundary",
+        "retry_repair_boundary"
+      ],
+      "policyStates": [
+        "allowed",
+        "retry_required",
+        "denied"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
+      "terminalAuthority": {
+        "productRemainsTransactionWorkspace": true,
+        "conversationMayPrepareIntent": true,
+        "conversationMayWriteLedger": false,
+        "conversationMaySignWalletOperations": false,
+        "conversationMayExposeProtectedSource": false,
+        "conversationMayExposeUnpaidAssetPackSource": false
+      },
+      "routePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "handoff_workflow",
+          "transaction_id",
+          "repository_anchor",
+          "source_selector_refs",
+          "source_safe_summary",
+          "policy_result",
+          "terminal_route",
+          "transaction_detail",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "terminal_transaction_authority_bypass"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "finding_fits.conversation-product-handoff-row-present",
+          "command": "pnpm run check:v37-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_terminal_workflow",
+            "terminal_authority_bypass",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "wallet_signing_authority_claimed",
+            "ledger_write_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:4b1b1000f0fab42f62e88796",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:d2f439342c5468a7cef52968",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:6f3d94a12685970b36285f1c",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:81881b33c2fad7d77209a02f",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:ce66adccb1c738a08eb4fca9"
+      },
+      "rowRoot": "conversation-product-handoff-row:b19ce98d8ec02a723e0b8140",
+      "detailRoot": "conversation-product-handoff-detail:5c32c7911edeaf6234e3e0a4"
+    },
+    {
+      "workflowId": "exchange",
+      "label": "Exchange handoff",
+      "productDetail": "activity",
+      "routeIntent": "prepare-exchange-review",
+      "receives": [
+        "transaction_id",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result"
+      ],
+      "blockedPayloads": [
+        "private_buyer_payloads",
+        "wallet_private_material",
+        "settlement_private_payloads"
+      ],
+      "retryWhen": [
+        "rights_preview_missing",
+        "wallet_policy_unknown",
+        "exchange_activity_missing"
+      ],
+      "eventIds": [
+        "conversation.terminal_handoff.exchange.prepared",
+        "conversation.terminal_handoff.exchange.denied"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_root",
+        "handoff_workflow",
+        "transaction_id",
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result",
+        "terminal_route",
+        "transaction_detail",
+        "proof_roots",
+        "event_ids"
+      ],
+      "authorityIds": [
+        "terminal_transaction_cockpit",
+        "ledger_authority_boundary",
+        "wallet_authority_boundary",
+        "source_disclosure_boundary",
+        "retry_repair_boundary"
+      ],
+      "policyStates": [
+        "allowed",
+        "retry_required",
+        "denied"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
+      "terminalAuthority": {
+        "productRemainsTransactionWorkspace": true,
+        "conversationMayPrepareIntent": true,
+        "conversationMayWriteLedger": false,
+        "conversationMaySignWalletOperations": false,
+        "conversationMayExposeProtectedSource": false,
+        "conversationMayExposeUnpaidAssetPackSource": false
+      },
+      "routePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "handoff_workflow",
+          "transaction_id",
+          "repository_anchor",
+          "source_selector_refs",
+          "source_safe_summary",
+          "policy_result",
+          "terminal_route",
+          "transaction_detail",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "terminal_transaction_authority_bypass"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "exchange.conversation-product-handoff-row-present",
+          "command": "pnpm run check:v37-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_terminal_workflow",
+            "terminal_authority_bypass",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "wallet_signing_authority_claimed",
+            "ledger_write_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:914488cf0d9d5b6db87e6bf0",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:0558849a78c2f60c95ef7d13",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:fe4e34bad43f83f9eeb0c79d",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:cf34926dd1e6b005e3187dd0",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:94da56083327d0026223dcd1"
+      },
+      "rowRoot": "conversation-product-handoff-row:7fd521d30ce04a51bae7800c",
+      "detailRoot": "conversation-product-handoff-detail:6d71b230576a24a95adf3d25"
+    },
+    {
+      "workflowId": "settlement",
+      "label": "Settlement handoff",
+      "productDetail": "wallet-btc",
+      "routeIntent": "prepare-settlement-review",
+      "receives": [
+        "transaction_id",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result"
+      ],
+      "blockedPayloads": [
+        "wallet_private_material",
+        "ledger_write_authority",
+        "wallet_signing_authority"
+      ],
+      "retryWhen": [
+        "wallet_missing",
+        "settlement_quote_stale",
+        "policy_unknown"
+      ],
+      "eventIds": [
+        "conversation.terminal_handoff.settlement.prepared",
+        "conversation.terminal_handoff.settlement.retry_required"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_root",
+        "handoff_workflow",
+        "transaction_id",
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result",
+        "terminal_route",
+        "transaction_detail",
+        "proof_roots",
+        "event_ids"
+      ],
+      "authorityIds": [
+        "terminal_transaction_cockpit",
+        "ledger_authority_boundary",
+        "wallet_authority_boundary",
+        "source_disclosure_boundary",
+        "retry_repair_boundary"
+      ],
+      "policyStates": [
+        "allowed",
+        "retry_required",
+        "denied"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
+      "terminalAuthority": {
+        "productRemainsTransactionWorkspace": true,
+        "conversationMayPrepareIntent": true,
+        "conversationMayWriteLedger": false,
+        "conversationMaySignWalletOperations": false,
+        "conversationMayExposeProtectedSource": false,
+        "conversationMayExposeUnpaidAssetPackSource": false
+      },
+      "routePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "handoff_workflow",
+          "transaction_id",
+          "repository_anchor",
+          "source_selector_refs",
+          "source_safe_summary",
+          "policy_result",
+          "terminal_route",
+          "transaction_detail",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "terminal_transaction_authority_bypass"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "settlement.conversation-product-handoff-row-present",
+          "command": "pnpm run check:v37-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_terminal_workflow",
+            "terminal_authority_bypass",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "wallet_signing_authority_claimed",
+            "ledger_write_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:f33d97fbafe355ceb57da3e7",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:5369b118998e98e9c0001e8a",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:4376cbc856604f965e9c0203",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:0b1c1c84c3ba9a8058caf640",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:2041c7be42a4eb1792044031"
+      },
+      "rowRoot": "conversation-product-handoff-row:1ca5681bb752fde0cde76407",
+      "detailRoot": "conversation-product-handoff-detail:490209305b93cdaaf2346681"
+    },
+    {
+      "workflowId": "delivery",
+      "label": "Delivery handoff",
+      "productDetail": "shippables",
+      "routeIntent": "prepare-delivery-review",
+      "receives": [
+        "transaction_id",
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result"
+      ],
+      "blockedPayloads": [
+        "unpaid_assetpack_source",
+        "protected_source_payloads",
+        "provider_tokens"
+      ],
+      "retryWhen": [
+        "settlement_not_final",
+        "delivery_target_missing",
+        "repository_context_missing"
+      ],
+      "eventIds": [
+        "conversation.terminal_handoff.delivery.prepared",
+        "conversation.terminal_handoff.delivery.denied"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_root",
+        "handoff_workflow",
+        "transaction_id",
+        "repository_anchor",
+        "source_selector_refs",
+        "source_safe_summary",
+        "policy_result",
+        "terminal_route",
+        "transaction_detail",
+        "proof_roots",
+        "event_ids"
+      ],
+      "authorityIds": [
+        "terminal_transaction_cockpit",
+        "ledger_authority_boundary",
+        "wallet_authority_boundary",
+        "source_disclosure_boundary",
+        "retry_repair_boundary"
+      ],
+      "policyStates": [
+        "allowed",
+        "retry_required",
+        "denied"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
+      "terminalAuthority": {
+        "productRemainsTransactionWorkspace": true,
+        "conversationMayPrepareIntent": true,
+        "conversationMayWriteLedger": false,
+        "conversationMaySignWalletOperations": false,
+        "conversationMayExposeProtectedSource": false,
+        "conversationMayExposeUnpaidAssetPackSource": false
+      },
+      "routePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "handoff_workflow",
+          "transaction_id",
+          "repository_anchor",
+          "source_selector_refs",
+          "source_safe_summary",
+          "policy_result",
+          "terminal_route",
+          "transaction_detail",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "terminal_transaction_authority_bypass"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "delivery.conversation-product-handoff-row-present",
+          "command": "pnpm run check:v37-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_terminal_workflow",
+            "terminal_authority_bypass",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "wallet_signing_authority_claimed",
+            "ledger_write_authority_claimed"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:23fedc58c88294a5fbccc40b",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:125cd4f82752281b6e2042a9",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:76fe740b9fc430c8445ee24d",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:5defda288e9443d921628d07",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:63668618c98042e97b2b4302"
+      },
+      "rowRoot": "conversation-product-handoff-row:bbba99ff6df1ca0737e7b63e",
+      "detailRoot": "conversation-product-handoff-detail:28df0f953fff2f0f5514744d"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "workflowId": "depositing",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "workflowId": "reading",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "workflowId": "finding_fits",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "workflowId": "exchange",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "workflowId": "settlement",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "workflowId": "delivery",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "conversation-product-handoff:de14b4ca61353b1626e7925a"
+}

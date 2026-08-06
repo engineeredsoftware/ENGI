@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json';
+const ARTIFACT = '.proofs/v34/rollback-upgrade-data-repair-playbooks.json';
 const REQUIRED_PLAYBOOK_IDS = [
   'deployment_rollback',
   'deployment_upgrade',
@@ -76,7 +76,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
   assertCheck(failures, pointer === 'V33', `BITCODE_SPEC.txt must remain V33 during V34 gate work. Observed ${pointer || 'empty'}.`);
 
   if (!args.skipBranchCheck) {
@@ -96,14 +96,14 @@ function main() {
     'packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts',
     'scripts/generate-v34-rollback-upgrade-data-repair-playbooks.mjs',
     'scripts/check-v34-gate8-rollback-upgrade-data-repair-playbooks.mjs',
-    'BITCODE_SPEC_V34.md',
-    'BITCODE_SPEC_V34_DELTA.md',
-    'BITCODE_SPEC_V34_NOTES.md',
-    'BITCODE_SPEC_V34_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V34.md',
+    '.specifications/BITCODE_SPEC_V34_DELTA.md',
+    '.specifications/BITCODE_SPEC_V34_NOTES.md',
+    '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V34 Gate 8 file: ${relativePath}`);
@@ -155,17 +155,17 @@ function main() {
     assertCheck(failures, artifact.workflowEvidence.every((entry) => entry.requiredTokens.every((token) => token.present === true)), 'Workflow evidence tokens must all be present.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V34.md');
-  const delta = read(root, 'BITCODE_SPEC_V34_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V34_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V34_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V34.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V34_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V34_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const btdPackageJson = read(root, 'packages/btd/package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const source = read(root, 'packages/btd/src/rollback-upgrade-repair-playbook.ts');
   const test = read(root, 'packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
   const requiredTerms = ['RollbackUpgradeRepairPlaybook', ARTIFACT, 'rollback', 'upgrade', 'migration rollback', 'object-storage repair', 'database repair', 'ledger projection repair', 'secret rotation incident response', 'generated artifact repair', 'operator approval', 'fail-closed'];
   for (const doc of [spec, delta, notes, parity]) {
     for (const term of requiredTerms) assertCheck(failures, doc.includes(term), `V34 docs must mention ${term}.`);

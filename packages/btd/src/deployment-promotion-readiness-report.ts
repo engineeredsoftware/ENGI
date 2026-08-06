@@ -3,16 +3,16 @@ import { assertNonEmptyString } from './constants';
 import type { BtdProtocolTelemetrySourceSafety } from './telemetry';
 
 export const DEPLOYMENT_PROMOTION_READINESS_ARTIFACT_PATHS = [
-  '.bitcode/v34-deployment-host-capability-catalog.json',
-  '.bitcode/v34-environment-lane-contracts.json',
-  '.bitcode/v34-distributed-execution-runtime-receipts.json',
-  '.bitcode/v34-deployment-storage-posture.json',
-  '.bitcode/v34-secret-rotation-boundary-operations.json',
-  '.bitcode/v34-migration-cicd-approval-gates.json',
-  '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
-  '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
-  '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-  '.bitcode/v34-promotion-readiness-report.json',
+  '.proofs/v34/deployment-host-capability-catalog.json',
+  '.proofs/v34/environment-lane-contracts.json',
+  '.proofs/v34/distributed-execution-runtime-receipts.json',
+  '.proofs/v34/deployment-storage-posture.json',
+  '.proofs/v34/secret-rotation-boundary-operations.json',
+  '.proofs/v34/migration-cicd-approval-gates.json',
+  '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
+  '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
+  '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
+  '.proofs/v34/promotion-readiness-report.json',
 ] as const;
 
 export type DeploymentPromotionReadinessArtifactPath =
@@ -103,11 +103,11 @@ export function buildDeploymentPromotionReadinessReportInput(): DeploymentPromot
       'node scripts/promote-bitcode-canon.mjs --version V34 --commit HEAD --dry-run',
     ],
     generatedProofOutputs: [
-      'BITCODE_SPEC_V34_PROVEN.md',
-      '.bitcode/v34-spec-family-report.json',
-      '.bitcode/v34-canonical-input-report.json',
-      '.bitcode/v34-canon-posture-drift-report.json',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.specifications/BITCODE_SPEC_V34_PROVEN.md',
+      '.proofs/v34/spec-family-report.json',
+      '.proofs/v34/canonical-input-report.json',
+      '.proofs/v34/canon-posture-drift-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
     ],
     promotionWorkflowPath: '.github/workflows/v34-canon-promotion.yml',
     gateQualityWorkflowPath: '.github/workflows/bitcode-gate-quality.yml',
@@ -225,10 +225,10 @@ function assertReportInvariants(
   if (!report.promotionValidationCommands.some((command) => command.includes('promote-bitcode-canon.mjs --version V34'))) {
     throw new Error('Deployment promotion readiness requires the V34 canonical promotion dry run.');
   }
-  if (!report.generatedProofOutputs.includes('BITCODE_SPEC_V34_PROVEN.md')) {
+  if (!report.generatedProofOutputs.includes('.specifications/BITCODE_SPEC_V34_PROVEN.md')) {
     throw new Error('Deployment promotion readiness requires the V34 generated proof appendix.');
   }
-  if (!report.generatedProofOutputs.includes('.bitcode/v34-promotion-readiness-report.json')) {
+  if (!report.generatedProofOutputs.includes('.proofs/v34/promotion-readiness-report.json')) {
     throw new Error('Deployment promotion readiness requires the V34 promotion readiness artifact.');
   }
   if (report.valueBearingMainnetAdmission !== false) {

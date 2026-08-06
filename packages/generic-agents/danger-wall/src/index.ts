@@ -11,7 +11,7 @@
 import {
   AgentPrompt,
   AgentStepPrompt,
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -217,10 +217,7 @@ export const bitcodeReadRiskAdmissionStepPrompts = {
 export const dangerWallPrompt = bitcodeReadRiskAdmissionPrompt;
 export const dangerWallStepPrompts = bitcodeReadRiskAdmissionStepPrompts;
 
-export const bitcodeReadRiskAdmissionVariation = factoryAgentWithPTRR<
-  BitcodeReadRiskAdmissionInput,
-  BitcodeReadRiskAdmissionResult
->({
+export const bitcodeReadRiskAdmissionVariation: any = factoryPTRRAgent<any, any>({
   name: 'bitcode-read-risk-admission',
   description: 'Bitcode read, AssetPack, proof-gap, and delivery-mechanism risk admission for retained pipeline setup',
   prompt: bitcodeReadRiskAdmissionPrompt,
@@ -230,7 +227,7 @@ export const bitcodeReadRiskAdmissionVariation = factoryAgentWithPTRR<
     refine: () => bitcodeReadRiskAdmissionStepPrompts.refine,
     retry: () => bitcodeReadRiskAdmissionStepPrompts.retry
   },
-  outputSchema: BitcodeReadRiskAdmissionResultSchema,
+  outputSchema: BitcodeReadRiskAdmissionResultSchema as any,
   plan: {
     chunkThreshold: 1000
   },
@@ -247,7 +244,7 @@ export const bitcodeReadRiskAdmissionVariation = factoryAgentWithPTRR<
   }
 });
 
-export const quickBitcodeReadRiskAdmissionVariation = factoryAgentWithSingleStep<
+export const quickBitcodeReadRiskAdmissionVariation: any = factoryAgentWithSingleStep<
   BitcodeReadRiskAdmissionInput,
   BitcodeReadRiskAdmissionResult
 >({

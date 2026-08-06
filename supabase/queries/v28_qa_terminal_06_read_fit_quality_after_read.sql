@@ -15,7 +15,7 @@ BEGIN
         jsonb_build_array(
           jsonb_build_object(
             'missing_table', 'public.executions',
-            'impact', 'Terminal Deposit, Read, and Fit activity cannot be QAed until execution history is persisted.'
+            'impact', 'product Deposit, Read, and Fit activity cannot be QAed until execution history is persisted.'
           )
         );
   ELSE

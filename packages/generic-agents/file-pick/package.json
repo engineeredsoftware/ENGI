@@ -4,7 +4,10 @@
   "main": "src/index.ts",
   "private": true,
   "dependencies": {
-    "@bitcode/agent-generics": "workspace:*",
-    "@bitcode/digest": "workspace:*"
+    "@bitcode/agent-generics": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

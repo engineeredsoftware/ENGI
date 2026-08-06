@@ -1,0 +1,676 @@
+{
+  "artifactId": "v42-readfitsfinding-preview-quote",
+  "schemaId": "bitcode.v42.readFitsFindingPreviewQuote.v1",
+  "version": "V42",
+  "currentTarget": "V41",
+  "sourceSafetyVerdict": "source-safe-readfitsfinding-preview-quote-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v42-readfitsfinding-preview-quote:69267c22ee5a9efe19024b6d",
+  "passed": true,
+  "rows": [
+    {
+      "rowId": "admission:accepted-need-required",
+      "purpose": "Require an accepted ReadNeedComprehensionSynthesis Need before ReadFitsFindingSynthesis can search or preview an AssetPack.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+      ],
+      "emittedTypes": [
+        "ReadFitsFindingAdmission",
+        "accepted_need_admission"
+      ],
+      "requiredEvidence": [
+        "accepted_read_need_missing",
+        "findingFitsAdmission",
+        "acceptedNeed"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:fbe895bf78a96e815c9be5d6",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "search:many-candidate-depository-discovery",
+      "purpose": "Search Depository AssetPack supply for many candidates above threshold before selecting the fit set.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
+      ],
+      "emittedTypes": [
+        "DepositorySearchResult",
+        "DepositoryCandidate"
+      ],
+      "requiredEvidence": [
+        "searchedAssetCount",
+        "candidateRanking",
+        "maxSelectedCandidates"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:a7549cf3806d92ce20f13fff",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "search:multi-channel-vector-provider-tooling",
+      "purpose": "Bind lexical, symbolic, path, metadata, measurement, embedding-vector, and provider-specific search channels to source-safe tool receipts.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts"
+      ],
+      "emittedTypes": [
+        "ReadFitsFindingSynthesisSearchReceipt",
+        "DepositorySearchQueryPlan"
+      ],
+      "requiredEvidence": [
+        "lexical",
+        "symbolic",
+        "path",
+        "metadata",
+        "measurement",
+        "embedding-vector",
+        "provider-specific",
+        "ReadFitsFindingSynthesis.tool.vector-depository-search"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:26ef6786dfdec3d0571c9d19",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "ranking:candidate-ranking-and-thresholds",
+      "purpose": "Rank candidates with deterministic scores, thresholds, blockers, rejected counts, and proof/measurement requirements.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
+      ],
+      "emittedTypes": [
+        "DepositoryCandidateRanking",
+        "DepositoryCandidateFitEvidence"
+      ],
+      "requiredEvidence": [
+        "finalScore",
+        "semanticScore",
+        "proofScore",
+        "measurementScore",
+        "rejectedCandidateCount"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:aff87ef4ef37eaf19c22272c",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "provenance:selected-fit-provenance",
+      "purpose": "Persist selected fit provenance with selected candidate ids, fit deposit ids, proof roots, measurement roots, and reconciliation roots.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts"
+      ],
+      "emittedTypes": [
+        "selected_fit_provenance",
+        "AssetPackPreviewSelectedFitProvenance"
+      ],
+      "requiredEvidence": [
+        "selectedFitProvenanceRoot",
+        "fitDepositAssetIds",
+        "reconciliationReadbackRoot"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:799590ec67d4c203c0d80ca9",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "preview:source-safe-assetpack-preview",
+      "purpose": "Create the source-safe AssetPack preview that exposes measurements, fit posture, roots, and delivery posture while source stays locked.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
+      ],
+      "emittedTypes": [
+        "AssetPackSourceSafePreview",
+        "AssetPackPreviewBoundary"
+      ],
+      "requiredEvidence": [
+        "sourceSafePreview",
+        "AssetPackPreviewBoundary",
+        "sourceBearingDeliveryVisible"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:6c78f5b53697900316d08828",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "quote:deterministic-share-to-fee-btc-quote",
+      "purpose": "Read back deterministic BTD/BTC quote calculation from measurement weight, measurement volume, admitted fit quality, dust floor, and minimum sats.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
+      ],
+      "emittedTypes": [
+        "ShareToFeeQuote",
+        "AssetPackPreviewQuoteReceipt"
+      ],
+      "requiredEvidence": [
+        "sum(measurement.weight * measurement.volume * admitted_fit_quality)",
+        "deterministic",
+        "quoteRoot"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:2cd3ae0f6b53015ff194183b",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "disclosure:no-pre-settlement-source",
+      "purpose": "Fail closed when preview, telemetry, route summary, or UI readback would expose protected source or unpaid AssetPack source before settlement.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+      ],
+      "emittedTypes": [
+        "AssetPackDisclosureReview",
+        "AssetPackPreviewBoundarySourceSafety"
+      ],
+      "requiredEvidence": [
+        "protectedSourceVisible: false",
+        "unpaidAssetPackSourceVisible: false",
+        "credentialsSerialized: false"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:6c6f576e66de92dfbfcb4b73",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "settlement:instructions-before-rights-transfer",
+      "purpose": "Expose source-safe settlement instructions and delivery lock before Gate 6 rights-transfer and repository delivery unlock.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
+      ],
+      "emittedTypes": [
+        "AssetPackPreviewSettlementInstructions",
+        "AssetPackPreviewDeliveryPosture"
+      ],
+      "requiredEvidence": [
+        "quote_ready_settlement_required",
+        "reader_wallet_authorized_before_broadcast",
+        "withheld_until_settlement"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:3072bb82f264a8795871106d",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "route:harness-preview-quote-summary",
+      "purpose": "Summarize preview boundary, quote receipt, selected-fit provenance, settlement instructions, delivery posture, and disclosure review through the pipeline harness route without source payloads.",
+      "sourceRoots": [
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts"
+      ],
+      "emittedTypes": [
+        "assetPackPreviewBoundary",
+        "assetPackQuoteReceipt",
+        "assetPackSettlementInstructions",
+        "assetPackDeliveryPosture"
+      ],
+      "requiredEvidence": [
+        "summarizeAssetPackPreviewBoundary",
+        "assetPackPreviewBoundary",
+        "storageRecordCount"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:0ffb7be9b16813de0ef71096",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "ui:terminal-preview-quote-provenance-readback",
+      "purpose": "Render Terminal Finding Fits preview, quote, provenance, settlement, delivery, and replay roots as expandable source-safe metadata.",
+      "sourceRoots": [
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts"
+      ],
+      "emittedTypes": [
+        "assetPackPreviewBoundaryRows",
+        "TerminalReadFitsFindingSynthesisHarnessStreamSnapshot"
+      ],
+      "requiredEvidence": [
+        "Finding Fits preview, quote, and provenance",
+        "quote_ready_settlement_required",
+        "withheld_until_settlement"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:0291291e16e03e2e74707398",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "proof:tests-artifact-workflow",
+      "purpose": "Bind V42 Gate 5 closure to package tests, UAPI tests, protocol artifact tests, docs, scripts, workflows, and generated source-safe proof.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml",
+        "BITCODE_SPEC_V42.md",
+        "BITCODE_SPEC_V42_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md"
+      ],
+      "emittedTypes": [
+        "V42ReadFitsFindingPreviewQuote"
+      ],
+      "requiredEvidence": [
+        "check-v42-gate5-readfitsfinding-preview-quote.mjs",
+        "v42-readfitsfinding-preview-quote"
+      ],
+      "rowRoot": "v42-readfitsfinding-preview-quote-row:b09ae61cf4664f8a3914be8e",
+      "sourceSafetyClass": "source_safe_readfitsfinding_preview_quote_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    }
+  ],
+  "rowIds": [
+    "admission:accepted-need-required",
+    "search:many-candidate-depository-discovery",
+    "search:multi-channel-vector-provider-tooling",
+    "ranking:candidate-ranking-and-thresholds",
+    "provenance:selected-fit-provenance",
+    "preview:source-safe-assetpack-preview",
+    "quote:deterministic-share-to-fee-btc-quote",
+    "disclosure:no-pre-settlement-source",
+    "settlement:instructions-before-rights-transfer",
+    "route:harness-preview-quote-summary",
+    "ui:terminal-preview-quote-provenance-readback",
+    "proof:tests-artifact-workflow"
+  ],
+  "predicateResults": [
+    {
+      "id": "accepted-need-gates-finding-fits",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+      "passed": true
+    },
+    {
+      "id": "search-defines-many-channel-ids",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "search-defines-tool-ids",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "search-covers-provider-embedding-policy",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "search-tests-many-candidates",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+      "passed": true
+    },
+    {
+      "id": "runtime-persists-selected-fit-provenance",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+      "passed": true
+    },
+    {
+      "id": "runtime-telemetry-counts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+      "passed": true
+    },
+    {
+      "id": "runtime-tests-source-safe-counts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+      "passed": true
+    },
+    {
+      "id": "preview-boundary-defines-quote-provenance-settlement-delivery",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+      "passed": true
+    },
+    {
+      "id": "preview-boundary-source-safety",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+      "passed": true
+    },
+    {
+      "id": "quote-formula-implemented",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "preview-tests-cover-determinism-and-storage-safety",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
+      "passed": true
+    },
+    {
+      "id": "package-postprocess-surfaces-boundary",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+      "passed": true
+    },
+    {
+      "id": "contract-keeps-readfitsfinding-topology",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "harness-route-summarizes-preview-boundary",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "passed": true
+    },
+    {
+      "id": "harness-route-tests-preview-boundary-summary",
+      "sourcePath": "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+      "passed": true
+    },
+    {
+      "id": "terminal-ui-renders-preview-boundary-rows",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "passed": true
+    },
+    {
+      "id": "terminal-client-summarizes-boundary",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "passed": true
+    },
+    {
+      "id": "terminal-client-tests-boundary-summary",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "passed": true
+    },
+    {
+      "id": "spec-gate5-expanded",
+      "sourcePath": "BITCODE_SPEC_V42.md",
+      "passed": true
+    },
+    {
+      "id": "delta-gate5-expanded",
+      "sourcePath": "BITCODE_SPEC_V42_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-gate5-expanded",
+      "sourcePath": "BITCODE_SPEC_V42_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-gate5-implemented",
+      "sourcePath": "BITCODE_SPEC_V42_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-advanced-to-gate5",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-document-gate5",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate5-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "rowCount": 12,
+    "requiredPredicateCount": 26,
+    "passedPredicateCount": 26,
+    "failedPredicateIds": [],
+    "pipelineName": "ReadFitsFindingSynthesis",
+    "requiredPriorPipelineName": "ReadNeedComprehensionSynthesis",
+    "phaseCount": 7,
+    "agentCount": 8,
+    "ptrrStepCount": 32,
+    "failsafeSequenceCount": 96,
+    "thricifiedGenerationCount": 96,
+    "searchChannelIds": [
+      "lexical",
+      "symbolic",
+      "path",
+      "metadata",
+      "measurement",
+      "embedding-vector",
+      "provider-specific"
+    ],
+    "selectedFitProvenanceRequired": true,
+    "sourceSafePreviewRequired": true,
+    "deterministicQuoteRequired": true,
+    "noProtectedSourceBeforeSettlement": true,
+    "settlementInstructionsRequired": true,
+    "terminalPreviewQuoteReadbackCovered": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "credentialsSerialized": false,
+    "legacySourceRoots": false
+  },
+  "sourceRoots": {
+    "depositorySearch": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+    "readFitsFindingRuntime": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+    "assetPackPreviewBoundary": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+    "readNeed": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+    "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts",
+    "postprocess": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+    "readingPipelineContract": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+    "depositorySearchTest": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+    "runtimeTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+    "previewBoundaryTest": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
+    "postprocessTest": "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts",
+    "harnessRunner": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+    "harnessRouteTest": "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+    "terminalHarnessClient": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+    "terminalHarnessClientTest": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml",
+    "v42Spec": "BITCODE_SPEC_V42.md",
+    "v42Delta": "BITCODE_SPEC_V42_DELTA.md",
+    "v42Notes": "BITCODE_SPEC_V42_NOTES.md",
+    "v42Parity": "BITCODE_SPEC_V42_PARITY_MATRIX.md",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md",
+    "rootReadme": "README.md",
+    "terminalReadme": "apps/uapi/app/terminal/README.md",
+    "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
+    "protocolReadme": "scripts/specifying/README.md"
+  }
+}

@@ -8,7 +8,7 @@ import {
 } from '../src/interface-authorization-policy';
 
 describe('InterfaceAuthorizationPolicy', () => {
-  it('publishes shared policy fixtures for API, MCP, ChatGPT App, and Terminal', () => {
+  it('publishes shared policy fixtures for API, MCP, ChatGPT App, and product', () => {
     const registry = buildBtdInterfaceAuthorizationPolicyRegistry();
 
     expect(registry.kind).toBe('btd.interface_authorization_policy_registry');
@@ -18,7 +18,7 @@ describe('InterfaceAuthorizationPolicy', () => {
       [...BTD_INTERFACE_AUTHORIZATION_POLICY_SURFACES].sort(),
     );
     expect(registry.policies.map((policy) => policy.interfaceSurface)).toEqual(
-      expect.arrayContaining(['api', 'mcp', 'chatgpt_app', 'terminal']),
+      expect.arrayContaining(['api', 'mcp', 'chatgpt_app', 'product']),
     );
     expect(registry.sourceSafety).toMatchObject({
       sourceSafe: true,
@@ -69,7 +69,7 @@ describe('InterfaceAuthorizationPolicy', () => {
   });
 
   it('fails closed with readable repair posture for stale authority', () => {
-    const fixture = getBtdInterfaceAuthorizationPolicyFixture('terminal-stale-authority-denied');
+    const fixture = getBtdInterfaceAuthorizationPolicyFixture('product-stale-authority-denied');
     const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
 
     expect(policy.decision).toBe('denied');

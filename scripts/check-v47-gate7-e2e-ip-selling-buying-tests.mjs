@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_E2E_IP_EXCHANGE_TESTS_ARTIFACT_PATH,
   buildV47E2eIpSellingBuyingTests,
-} from '../packages/protocol/src/canonical/v47-e2e-ip-selling-buying-tests.js';
+} from '../scripts/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,7 +73,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -88,21 +88,21 @@ function main() {
 
   for (const relativePath of [
     V47_E2E_IP_EXCHANGE_TESTS_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v47-e2e-ip-selling-buying-tests.js',
-    'packages/protocol/test/v47-e2e-ip-selling-buying-tests.test.js',
+    'scripts/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js',
+    'scripts/specifying/test/v47-e2e-ip-selling-buying-tests.test.js',
     'scripts/generate-v47-e2e-ip-selling-buying-tests.mjs',
     'scripts/check-v47-gate7-e2e-ip-selling-buying-tests.mjs',
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
-    'uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
-    'uapi/tests/e2e/commercial-mvp.helpers.ts',
-    'uapi/playwright.config.ts',
-    'uapi/package.json',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
+    'apps/uapi/tests/e2e/commercial-mvp.helpers.ts',
+    'apps/uapi/playwright.config.ts',
+    'apps/uapi/package.json',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -148,7 +148,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -156,13 +156,13 @@ function main() {
         'test/v47-e2e-ip-selling-buying-tests.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol test/v47-e2e-ip-selling-buying-tests.test.js must pass.');
+      failures.push('scripts/specifying test/v47-e2e-ip-selling-buying-tests.test.js must pass.');
     }
   }
 
   if (args.runBrowserTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'run', 'test:e2e:ip-exchange']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:ip-exchange']);
     } catch {
       failures.push('uapi test:e2e:ip-exchange browser proof must pass.');
     }

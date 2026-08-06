@@ -69,6 +69,3 @@ export async function log(message: string, level: LogLevel = 'info', data?: Reco
 
 // No-op for edge (no file I/O)
 export function reinitLoggerFile(_identifier: string, _opts?: any) {}
-
-// Match full logger signature
-export { log, reinitLoggerFile };

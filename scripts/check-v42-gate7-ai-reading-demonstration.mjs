@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v42-ai-reading-demonstration.json';
+const ARTIFACT_PATH = '.proofs/v42/ai-reading-demonstration.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -111,17 +111,17 @@ function main() {
     'protocol-demonstration/test/v42-ai-reading-mvp.test.js',
     'protocol-demonstration/package.json',
     'protocol-demonstration/README.md',
-    'packages/protocol/src/canonical/v42-ai-reading-demonstration.js',
-    'packages/protocol/test/v42-ai-reading-demonstration.test.js',
+    'scripts/specifying/src/canonical/v42-ai-reading-demonstration.js',
+    'scripts/specifying/test/v42-ai-reading-demonstration.test.js',
     'scripts/generate-v42-ai-reading-demonstration.mjs',
     'scripts/check-v42-gate7-ai-reading-demonstration.mjs',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -144,7 +144,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v42-ai-reading-demonstration.test.js',
+        'scripts/specifying/test/v42-ai-reading-demonstration.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 AI-reading demonstration protocol test failed: ${error.stderr || error.message}`);

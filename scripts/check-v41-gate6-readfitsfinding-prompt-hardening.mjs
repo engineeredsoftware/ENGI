@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-readfitsfinding-prompt-hardening.json';
+const ARTIFACT_PATH = '.proofs/v41/readfitsfinding-prompt-hardening.json';
 
 const REQUIRED_HARDENING_IDS = [
   'readfits-assetpack-promptpart-rewrite-boundary',
@@ -112,7 +112,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -131,30 +131,30 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v41-promptpart-prompt-inventory.json',
-    '.bitcode/v41-registry-interpolation-contracts.json',
-    '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-    '.bitcode/v41-readneed-prompt-hardening.json',
-    'packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js',
-    'packages/protocol/test/v41-readfitsfinding-prompt-hardening.test.js',
+    '.proofs/v41/promptpart-prompt-inventory.json',
+    '.proofs/v41/registry-interpolation-contracts.json',
+    '.proofs/v41/reading-prompt-benchmark-baselines.json',
+    '.proofs/v41/readneed-prompt-hardening.json',
+    'scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js',
+    'scripts/specifying/test/v41-readfitsfinding-prompt-hardening.test.js',
     'scripts/generate-v41-readfitsfinding-prompt-hardening.mjs',
     'scripts/check-v41-gate6-readfitsfinding-prompt-hardening.mjs',
-    'packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts',
-    'packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts',
-    'packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts',
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts',
-    'BITCODE_SPEC_V41.md',
-    'BITCODE_SPEC_V41_DELTA.md',
-    'BITCODE_SPEC_V41_NOTES.md',
-    'BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -174,7 +174,7 @@ function main() {
 
   if (!args.skipPackageTests && failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v41-readfitsfinding-prompt-hardening.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v41-readfitsfinding-prompt-hardening.test.js']);
     } catch (error) {
       failures.push(`V41 ReadFitsFinding prompt hardening protocol test failed: ${error.stderr || error.message}`);
     }
@@ -245,7 +245,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-readfitsfinding-prompt-hardening'), 'package.json must expose generate:v41-readfitsfinding-prompt-hardening.');
   assertCheck(failures, packageJson.includes('check:v41-gate6'), 'package.json must expose check:v41-gate6.');
 
-  const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, '.specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, '.specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(
     failures,
     roadmap.includes('Current working gate: V41 Gate 6') ||

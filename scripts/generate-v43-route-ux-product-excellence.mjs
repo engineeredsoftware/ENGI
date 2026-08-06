@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_ROUTE_UX_PRODUCT_EXCELLENCE_ARTIFACT_PATH,
   buildV43RouteUxProductExcellence,
-} from '../packages/protocol/src/canonical/v43-route-ux-product-excellence.js';
+} from '../scripts/specifying/src/canonical/v43-route-ux-product-excellence.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

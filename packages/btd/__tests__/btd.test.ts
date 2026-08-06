@@ -80,7 +80,7 @@ describe('AssetPack settlement unlock', () => {
         readerWalletId: 'wallet-reader',
         readback: completeReadback,
       },
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/42',
     });
 
     expect(unlock).toMatchObject({
@@ -111,7 +111,7 @@ describe('AssetPack settlement unlock', () => {
         sourceAvailable: true,
       },
       delivery: {
-        pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+        pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/42',
       },
       settlementUnlock: unlock,
     });
@@ -129,7 +129,7 @@ describe('AssetPack settlement unlock', () => {
           readLicense: false,
         },
       },
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/42',
     });
 
     expect(unlock).toMatchObject({
@@ -547,7 +547,7 @@ describe('organization interface authority', () => {
         accessPolicyHash: 'policy-hash',
         reason: 'wallet_has_valid_policy_matching_license',
       },
-      targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+      targetAnchor: 'github:octocat/Spoon-Knife/pull/42',
       at: '2026-05-19T00:00:00.000Z',
     });
 
@@ -582,7 +582,7 @@ describe('organization interface authority', () => {
       actorId: 'user-1',
       organizationId: 'org-1',
       organizationRole: 'admin',
-      interfaceSurface: 'terminal',
+      interfaceSurface: 'product',
       action: 'unlock_asset_pack_source',
       walletId: 'wallet-reader',
       settlementState: 'pending',
@@ -623,7 +623,7 @@ describe('organization interface authority', () => {
       memberId: 'member-operator',
       organizationRole: 'admin',
       organizationPermissionGrants: ['settlement:pay_btc_fee'],
-      interfaceSurface: 'terminal',
+      interfaceSurface: 'product',
       action: 'pay_btc_fee',
       walletId: 'wallet-reader',
       settlementState: 'not_required',
@@ -639,7 +639,7 @@ describe('organization interface authority', () => {
         approverIds: ['member-operator', 'member-reviewer'],
         policyRoot: 'multisig-root-1',
       },
-      recoveryRoute: '/terminal?auxillary-open-to=profile',
+      recoveryRoute: '/packs?auxillary-open-to=profile',
       at: '2026-05-21T00:00:00.000Z',
     });
 
@@ -657,7 +657,7 @@ describe('organization interface authority', () => {
         policyId: 'policy-1',
         policyHash: 'policy-hash-1',
         action: 'pay_btc_fee',
-        interfaceSurface: 'terminal',
+        interfaceSurface: 'product',
       },
       multiSigPosture: {
         state: 'ready',
@@ -683,7 +683,7 @@ describe('organization interface authority', () => {
       memberId: 'member-operator',
       organizationRole: 'member',
       organizationPermissionGrants: [],
-      interfaceSurface: 'terminal',
+      interfaceSurface: 'product',
       action: 'deliver_asset_pack',
       walletId: null,
       settlementState: 'pending',
@@ -741,7 +741,7 @@ describe('organization interface authority', () => {
       memberId: 'member-depositor',
       organizationRole: 'admin',
       organizationPermissionGrants: ['deposit:submit'],
-      interfaceSurface: 'terminal',
+      interfaceSurface: 'product',
       action: 'submit_deposit',
       walletId: 'wallet-depositor',
       confirmed: true,
@@ -759,7 +759,7 @@ describe('organization interface authority', () => {
       sourceVisibility: 'source_safe_preview',
       policy: {
         action: 'submit_deposit',
-        interfaceSurface: 'terminal',
+        interfaceSurface: 'product',
       },
     });
     expect(authority.actionDecision?.decision).toBe('allowed');
@@ -771,7 +771,7 @@ describe('organization interface authority', () => {
       organizationId: 'org-1',
       organizationRole: 'admin',
       organizationPermissionGrants: ['deposit:approve_option'],
-      interfaceSurface: 'terminal',
+      interfaceSurface: 'product',
       action: 'approve_deposit_option',
       walletId: null,
       confirmed: false,

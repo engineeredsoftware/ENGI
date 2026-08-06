@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v42-depositing-shortest-path.json';
+const ARTIFACT_PATH = '.proofs/v42/depositing-shortest-path.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -87,7 +87,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -106,28 +106,28 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/depository-supply-index.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/src/canonical/v42-depositing-shortest-path.js',
-    'packages/protocol/test/v42-depositing-shortest-path.test.js',
-    'packages/protocol/test/protocol-package-boundary.test.js',
-    'packages/protocol/server.js',
-    'packages/protocol/src/bitcode-demo.js',
-    'uapi/app/api/deposits/route.ts',
-    'uapi/app/terminal/TerminalDepositComposer.tsx',
-    'uapi/app/terminal/terminal-activity-history.ts',
-    'uapi/app/terminal/terminal-deposit-read-workbench.ts',
-    'uapi/app/terminal/terminal-run-data.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-supply-index.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-supply-index.test.ts',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/src/canonical/v42-depositing-shortest-path.js',
+    'scripts/specifying/test/v42-depositing-shortest-path.test.js',
+    'scripts/specifying/test/specifying-package-boundary.test.js',
+    'scripts/specifying/server.js',
+    'scripts/specifying/src/bitcode-demo.js',
+    'apps/uapi/app/api/deposit/synthesize-options',
+    'apps/uapi/app/ (removed cockpit tree) TerminalDepositComposer.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-activity-history.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-run-data.ts',
     'scripts/generate-v42-depositing-shortest-path.mjs',
     'scripts/check-v42-gate2-depositing-shortest-path.mjs',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -150,8 +150,8 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v42-depositing-shortest-path.test.js',
-        'packages/protocol/test/protocol-package-boundary.test.js',
+        'scripts/specifying/test/v42-depositing-shortest-path.test.js',
+        'scripts/specifying/test/specifying-package-boundary.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 Depositing shortest path protocol tests failed: ${error.stderr || error.message}`);
@@ -162,7 +162,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -199,7 +199,7 @@ function main() {
     assertCheck(failures, artifact.coverage.storageProjectionCovered === true, 'Gate 2 must cover storage projection.');
     assertCheck(failures, artifact.coverage.depositorySearchDocumentCovered === true, 'Gate 2 must cover Depository search documents.');
     assertCheck(failures, artifact.coverage.sourceToSharesCompensationReadbackCovered === true, 'Gate 2 must cover source-to-shares compensation readback.');
-    assertCheck(failures, artifact.coverage.terminalCompensationVisibilityCovered === true, 'Gate 2 must cover Terminal compensation visibility.');
+    assertCheck(failures, artifact.coverage.terminalCompensationVisibilityCovered === true, 'Gate 2 must cover product compensation visibility.');
     assertCheck(failures, artifact.coverage.localStagingRehearsalCovered === true, 'Gate 2 must cover local/staging rehearsal posture.');
     assertCheck(failures, artifact.coverage.sourceSafeMetadataOnly === true, 'Gate 2 must remain source-safe metadata only.');
     assertCheck(failures, artifact.coverage.protectedSourceVisible === false, 'Gate 2 artifact must not expose protected source.');
@@ -211,9 +211,9 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 2 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V42.md');
-  const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V42.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('V42 Gate 2') && spec.includes('compensation route preview'), 'V42 spec must expand Gate 2 compensation route preview.');
   assertCheck(failures, parity.includes('Gate 2') && parity.includes('implemented'), 'V42 parity matrix must mark Gate 2 implemented.');
   assertCheck(failures, readme.includes('compensation preview') && readme.includes('source-to-shares'), 'AssetPack README must document compensation preview.');

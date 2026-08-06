@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -245,7 +245,8 @@ export const imageProcessorStepPrompts = {
  * Comprehensive image processing variation
  * Uses full PTRR cycle for thorough image analysis
  */
-const comprehensiveImageVariation = factoryAgentWithPTRR<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveImageVariation: any = factoryPTRRAgent<
   z.infer<typeof ImageProcessorInputSchema>,
   z.infer<typeof ImageProcessorRetrySchema>
 >({
@@ -281,7 +282,7 @@ const comprehensiveImageVariation = factoryAgentWithPTRR<
  * Quick image processing variation
  * Single-step execution for simple image analysis
  */
-const quickImageVariation = factoryAgentWithSingleStep<
+const quickImageVariation: any = factoryAgentWithSingleStep<
   z.infer<typeof ImageProcessorInputSchema>,
   z.infer<typeof ImageProcessorRetrySchema>
 >({
@@ -359,10 +360,10 @@ export const quickImageProcessor = quickImageVariation;
  * When imageProcessorAgent is called:
  * 1. selectVariation picks comprehensive or quick
  * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
+ *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thinkings)
+ *    - factoryTryGeneration(schema) creates Try generation (failsafed thinkings)
+ *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thinkings)
+ *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thinkings)
  * 3. Each executor automatically:
  *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
  *    - Each parent runs Reason→Judge→StructuredOutput

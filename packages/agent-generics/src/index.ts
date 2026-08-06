@@ -1,33 +1,53 @@
 /**
- * AGENT-GENERICS - Retained agent orchestration primitives
+ * AGENT-GENERICS - Agent orchestration primitives over generation bases
  *
- * Agents are Executors that sequence retained PTRR-style steps.
- * This package survives as reusable orchestration infrastructure and as a
- * reference surface for Bitcode-native pipelines; it is not itself proof that
- * the old agent families remain live Bitcode canon.
+ * Hierarchy:
+ *   generation-generics → generic-generations/{failsafes,thinkings}
+ *     → agent-generics (this package: Agent, Step, Generation factories, QuickAgent)
+ *     → generic-agents/PTRR (PTRRAgent base: Plan→Try→Retry→Refine)
+ *     → product / measure / conversation agents
  *
- * Different agent implementations are selected from registries dynamically.
- * Each step runs 3 failsafe parents sequentially, each running 3 generation children.
- * Tools execute AFTER all failsafes complete (conditional on reasoning + judgment output).
- * 
- * Key Abstractions:
- * - Agent: Executor that sequences PTRR steps
- * - Step: StepExecutor that sequences 7 SubSteps
- * - SubStep: The atomic operations (3 failsafes + 3 generation + 1 tool)
- * 
+ * PTRR base lives in `@bitcode/generic-agents-ptrr` and is re-exported for product agent assembly.
+ * Each PTRR step runs 3 FailsafeGenerations (PrepareConciseContext → ChunkThenSum →
+ * StitchUntilComplete), each driving ThinkingsGeneration (Reason → Judge → StructuredOutput).
+ * There is no "substep" construct — Failsafes and Thinkings are Generations.
+ *
+ * Generation vocabulary: @bitcode/generation-generics
+ * Failsafe prepared-context types: @bitcode/generic-generations-failsafes
+ * LLM-bound failsafe/thinkings factories: ./generations
+ *
  * @doc-package
  * version: 1.0.0
- * pattern: ptrr-orchestration
- * philosophy: "Retained orchestration families remain reusable, but Bitcode decides which ones are admitted as live product behavior"
+ * pattern: agent-primitives + ptrr-reexport
+ * philosophy: "Agents compose generic generations; product specializes agents"
  */
 
 // ==================== CORE TYPES ====================
 
+// Generation vocabulary (prefer direct import from generation-generics)
+export {
+  FailsafeGeneration,
+  ThinkingsGeneration,
+  type Generation,
+} from '@bitcode/generation-generics';
+
+// Failsafe prepared-context types (prefer generic-generations-failsafes)
+export type {
+  PreparedContext,
+  ContextSelector,
+  PrepareConciseContextOptions,
+  PrepareConciseContextResult,
+} from '@bitcode/generic-generations-failsafes';
+export {
+  estimateSerializedSize,
+  createContextSelectors,
+  chunkContext,
+  prepareConciseContext,
+} from '@bitcode/generic-generations-failsafes';
+
 // Agent enums and types
 export {
   AgentVariationStep,
-  FailsafeMetaSubStep,
-  GenerationSubMetaSubStep
 } from './types';
 
 // Agent interfaces
@@ -37,35 +57,63 @@ export type {
   AgentGeneration,
   QuickAgent,
   StepExecutor,
-  PreparedContext,
   Chunk,
   Reasoning,
   UseTool,
+  UseTools,
+  ToolWave,
+  ToolPlan,
   Judgment,
-  UsedTool
+  UsedTool,
+  UsedTools,
 } from './types';
 
 // ==================== AGENT FACTORIES ====================
 
-// Agent creation
+// Agent creation (primitives)
 export {
   factoryAgent,
-  factoryAgentWithPTRR,
   factoryAgentWithSingleStep,
-  factoryQuickAgent
-} from './agents/factories';
-export {
+  factoryQuickAgent,
   factoryAgentWithGenerations,
-  factoryAgentWithPTRRGenerations
 } from './agents/factories';
-export type {
-  BitcodePTRRFactoryConfig,
-  BitcodePTRRPromptCarrier,
-  BitcodePTRRPromptValue,
-  BitcodePTRRStepName,
-  BitcodePTRRStepPromptCarrier,
-  BitcodePTRRStepPromptRegistry
-} from './agents/factories';
+
+// PTRR base — implementation in @bitcode/generic-agents-ptrr (prefer direct import)
+export {
+  factoryPTRRAgent,
+  factoryPTRRAgentWithGenerations,
+  type PTRRAgent,
+  type BitcodePTRRFactoryConfig,
+  type BitcodePTRRPromptCarrier,
+  type BitcodePTRRPromptValue,
+  type BitcodePTRRStepName,
+  type BitcodePTRRStepPromptCarrier,
+  type BitcodePTRRStepPromptRegistry,
+} from '@bitcode/generic-agents-ptrr';
+
+
+// ==================== MEASUREMENT ====================
+//
+// Hierarchy (import leaf packages directly — do not re-export higher bases here;
+// re-exporting agent-measure-absolutes created a cycle:
+// agent-generics → agent-measure-absolutes → tools → agent-generics barrel).
+//
+//   Measurement primitives     → @bitcode/measurement-generics
+//   Bare absolute kinds        → @bitcode/generic-measurements-absolutes-<kind>
+//   Tools                      → @bitcode/generic-tools-tool-measure-<kind>
+//   MeasureAgent base          → @bitcode/generic-agents-agent-measure
+//   AbsolutesMeasureAgent      → @bitcode/generic-agents-agent-measure-absolutes
+//   NeedinessesMeasureAgent    → @bitcode/generic-measurements-needinesses
+//   Product synthesis          → @bitcode/generic-asset-packs-synthesis
+
+export {
+  MeasurementReadingSchema,
+  MeasurementOutputSchema,
+  type MeasurementKindCategory,
+  type MeasurementSpec,
+  type MeasurementReading,
+  type MeasurementOutput,
+} from '@bitcode/measurement-generics';
 
 // ==================== STEP FACTORIES ====================
 
@@ -77,7 +125,15 @@ export {
   factoryRetryStep,
   factoryStep
 } from './steps/factories';
-// Generation-first aliases
+// Canonical PTRR STEP output schemas (step outputs validate against STEP
+// schemas, not the full agent schema — Plan's default plan shape lives here)
+export {
+  PlanStepOutputSchema,
+  omitUseToolsFromSchema,
+  sanitizeRefineStepOutput,
+  type PlanStepOutput,
+} from './steps/step-schemas';
+// Generation factories (Failsafe + Thinkings + tools + step aliases)
 export {
   factoryPlanGeneration,
   factoryTryGeneration,
@@ -85,39 +141,35 @@ export {
   factoryRetryGeneration,
   factoryGeneration,
   createFailsafedGenerationSequence,
-  createFailsafedThricifiedGeneration,
-  createFailsafedGeneration
-} from './generations/factories';
-export { createThricifiedGeneration } from './steps/thricified-generation';
-export {
-  createFailsafeGenerationSequence,
-  createContextfulFailsafedThricifiedGeneration
-} from './steps/failsafe-sequence';
-
-// ==================== SUBSTEP FACTORIES ====================
-
-// Failsafe substeps
-export {
+  createFailsafedThinkingsGeneration,
+  createFailsafedGeneration,
   factoryPrepareConciseContext,
   factoryChunkThenSum,
-  factoryStitchUntilComplete
-} from './substeps/factories';
-
-// Generation substeps
-export {
+  factoryStitchUntilComplete,
+  PCC_KEY_SELECTION_SCHEMA,
+  type PrepareConciseContextSelectionInput,
   factoryReason,
   factoryJudge,
   factoryStructuredOutput,
   factoryToolsExecution,
-  factoryValidation
-} from './substeps/factories';
-
-// Substep execution factories
+  factoryValidation,
+  factoryAgentFailsafeGenerationExecution,
+  factoryAgentThinkingsGenerationExecution,
+  factoryAgentToolGenerationExecution,
+  projectPromptSafeValue,
+  safePromptJson,
+  isPreparedTaskInput,
+  buildPreparedTaskLlmPayload,
+} from './generations/factories';
 export {
-  factoryAgentFailsafeSubStepExecution,
-  factoryAgentGenerationSubStepExecution,
-  factoryAgentToolSubStepExecution
-} from './substeps/factories';
+  createThinkingsGeneration,
+  isSkipThinkingsJudgeAndStructuredOutput,
+} from './steps/thinkings-generation';
+export {
+  createFailsafeGenerationSequence,
+  createContextfulFailsafedThinkingsGeneration,
+  isSkipFailsafes,
+} from './steps/failsafe-sequence';
 
 // ==================== EXECUTION TYPES ====================
 
@@ -126,16 +178,20 @@ export {
   AgentExecution,
   createAgentExecution,
   StepExecution,
-  SubStepExecution,
+  GenerationExecution,
+  FailsafeGenerationExecution,
+  ThinkingsGenerationExecution,
   factoryStepExecution,
-  factorySubStepExecution,
-  
+  factoryGenerationExecution,
+  factoryFailsafeGenerationExecution,
+  factoryThinkingsGenerationExecution,
+
   // Registries
   AgentPromptsRegistry,
   AgentToolsRegistry,
   AgentLLMsRegistry,
   AgentAgentsRegistry,
-  
+
   // Types
   ExecutionTool
 } from './execution';

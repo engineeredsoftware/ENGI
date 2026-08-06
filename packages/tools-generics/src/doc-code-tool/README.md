@@ -1,6 +1,6 @@
 # Doc-Code-Tool Implementation
 
-The `@doc-code-tool` pattern is implemented through the webpack loader in the `@bitcode/doc-code` package. This document describes how to use it with Tool classes.
+The `@doc-code-tool` pattern is implemented through the webpack loader in the `@bitcode/generic-doc-comments-doc-code` package. This document describes how to use it with Tool classes.
 
 ## Pattern
 
@@ -10,7 +10,7 @@ The `@doc-code-tool` pattern is implemented through the webpack loader in the `@
  * @prompt MY_TOOL_PROMPT
  */
 class MyTool extends Tool {
-  // Tool implementation
+ // Tool implementation
 }
 ```
 
@@ -44,10 +44,10 @@ All descriptive fields belong in the `DocCodeToolPrompt` class, NOT in the comme
 
 ```typescript
 export class MyToolPrompt extends DocCodeToolPrompt {
-  name = "My Tool";
-  category = "utility";
-  description = "Does something useful";
-  // ... other fields
+ name = "My Tool";
+ category = "utility";
+ description = "Does something useful";
+ // ... other fields
 }
 
 export const MY_TOOL_PROMPT = new MyToolPrompt();
@@ -73,11 +73,11 @@ The Tool base class includes:
 
 ```typescript
 export abstract class Tool<T extends ToolFunction = ToolFunction> {
-  /**
-   * DocCodeToolPrompt attached by build-time transform.
-   * @internal
-   */
-  __docCodePrompt?: any;
+ /**
+ * DocCodeToolPrompt attached by build-time transform.
+ * @internal
+ */
+ __docCodePrompt?: any;
 }
 ```
 

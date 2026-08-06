@@ -1,0 +1,500 @@
+{
+  "artifactId": "v39-interface-conversation-product-parity",
+  "schemaId": "bitcode.v39.interfaceConversationProductParity.v1",
+  "version": "V39",
+  "currentTarget": "V38",
+  "generatedAt": "deterministic",
+  "passed": true,
+  "artifactRoot": "v39-interface-conversation-product-parity:2a964967cff8736ca4961195",
+  "sourceSafetyVerdict": "source-safe-interface-conversation-product-parity",
+  "coverage": {
+    "rowCount": 9,
+    "surfaces": [
+      "terminal",
+      "conversation",
+      "public_api",
+      "mcp_api",
+      "chatgpt_app",
+      "package_consumer"
+    ],
+    "stageIds": [
+      "accepted-need-gate",
+      "finding-fits-request",
+      "source-safe-preview",
+      "settlement-unlock",
+      "btd-rights-delivery"
+    ],
+    "runtimeType": "ReadingInterfaceProductParity",
+    "noBypassCovered": true,
+    "conversationCovered": true,
+    "mcpCovered": true,
+    "chatgptCovered": true,
+    "packageConsumerCovered": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourcePayloadSerialized": false,
+    "rawProtectedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "rawInterpolatedPromptVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "credentialsSerialized": false,
+    "failedPredicateIds": []
+  },
+  "rows": [
+    {
+      "rowId": "surface:terminal-authority",
+      "surface": "terminal",
+      "purpose": "Keep Terminal as the Reading transaction authority for the five-step enterprise Reading product path.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
+        "BITCODE_SPEC_V39.md"
+      ],
+      "requiredEvidence": [
+        "terminal-authority",
+        "acceptedNeedRequired",
+        "btdRightsRequiredForDelivery"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:a7fc07eba7c2324ec50f3f58",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "surface:conversation-terminal-handoff",
+      "surface": "conversation",
+      "purpose": "Make Conversation a source-safe handoff into Terminal Reading authority rather than a parallel buyer authority.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+        "BITCODE_SPEC_V39.md"
+      ],
+      "requiredEvidence": [
+        "conversation.terminal-reading-handoff",
+        "terminal-delegated-handoff",
+        "readingStage"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:fb7864a5741218420a16bae8",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "surface:public-api-contract",
+      "surface": "public_api",
+      "purpose": "Bind public API Reading access to accepted Need, source-safe preview, settlement, BTD rights, and delivery boundaries.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts"
+      ],
+      "requiredEvidence": [
+        "public_api",
+        "api.reading.interface",
+        "readLicenseContractRoot"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:a3d2db9aeb3cf81fb432fbfc",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "surface:mcp-reading-pipeline",
+      "surface": "mcp_api",
+      "purpose": "Bind MCP Reading pipeline tools to source-safe queueing, accepted Need admission, and downstream Terminal authority.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts"
+      ],
+      "requiredEvidence": [
+        "mcp_api",
+        "mcp.reading.pipeline",
+        "assetPackRightsContractRoot"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:544094de116c5f4ffc3891af",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "surface:chatgpt-app-action",
+      "surface": "chatgpt_app",
+      "purpose": "Bind ChatGPT App actions to confirmation, source-safe preview, settlement unlock, and paid BTD rights delivery.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
+      ],
+      "requiredEvidence": [
+        "chatgpt_app",
+        "chatgpt.reading.action",
+        "settle before delivery"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:71199ee1229856874474139d",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "surface:package-consumer-contract",
+      "surface": "package_consumer",
+      "purpose": "Expose package-owned Reading interface parity as source-safe contract readback, not operational authority.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
+        "packages/asset-packs-pipelines/domain/package.json"
+      ],
+      "requiredEvidence": [
+        "package-contract-readback",
+        "./reading-interface-product-parity",
+        "packageConsumersReadContractsOnly"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:d457d197b61e2bb97321d17c",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "boundary:accepted-need-source-safe-preview",
+      "surface": "all",
+      "purpose": "Ensure every interface denies Finding Fits without accepted Need and exposes only source-safe preview metadata before settlement.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts"
+      ],
+      "requiredEvidence": [
+        "denied_without_accepted_need",
+        "source_safe_metadata_only_before_settlement",
+        "sourceSafePreviewOnlyBeforeSettlement"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:74cdc2b4eec61e917c343a02",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "boundary:settlement-rights-delivery",
+      "surface": "all",
+      "purpose": "Ensure every interface keeps source-bearing delivery locked until BTC settlement, BTD rights transfer, and delivery authorization.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts"
+      ],
+      "requiredEvidence": [
+        "required_before_source_delivery",
+        "source_bearing_delivery_locked_until_settlement_and_rights",
+        "sourceBearingDeliveryAllowedBeforeSettlement: false"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:d2c25c6b94d4f78196ecb08c",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "proof:tests-artifact-workflow",
+      "surface": "all",
+      "purpose": "Bind Gate 9 closure to package tests, Conversation handoff tests, MCP/ChatGPT interface tests, docs, workflows, and generated artifact freshness.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "requiredEvidence": [
+        "check-v39-gate9-interface-conversation-product-parity.mjs",
+        "v39-interface-conversation-product-parity"
+      ],
+      "rowRoot": "v39-interface-conversation-product-parity-row:b09ae61cf4664f8a3914be8e",
+      "sourceSafetyClass": "source_safe_reading_interface_product_parity_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "parallelAuthorityCreated": false,
+      "sameAuthorityAsTerminal": true,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    }
+  ],
+  "predicates": [
+    {
+      "id": "parity-defines-required-surfaces",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+      "passed": true
+    },
+    {
+      "id": "parity-defines-required-stages",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+      "passed": true
+    },
+    {
+      "id": "parity-enforces-terminal-authority",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+      "passed": true
+    },
+    {
+      "id": "parity-enforces-no-bypass",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+      "passed": true
+    },
+    {
+      "id": "parity-source-safety",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+      "passed": true
+    },
+    {
+      "id": "parity-composes-btd-primitives",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+      "passed": true
+    },
+    {
+      "id": "package-exports-parity",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
+      "passed": true
+    },
+    {
+      "id": "pipeline-preprocess-emits-parity",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
+      "passed": true
+    },
+    {
+      "id": "postprocess-emits-parity",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+      "passed": true
+    },
+    {
+      "id": "package-tests-cover-surfaces",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
+      "passed": true
+    },
+    {
+      "id": "package-tests-cover-persistence",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
+      "passed": true
+    },
+    {
+      "id": "conversation-test-covers-parity",
+      "sourcePath": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+      "passed": true
+    },
+    {
+      "id": "mcp-test-covers-parity",
+      "sourcePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-test-covers-parity",
+      "sourcePath": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+      "passed": true
+    },
+    {
+      "id": "docs-cover-gate9",
+      "sourcePath": "BITCODE_SPEC_V39.md",
+      "passed": true
+    },
+    {
+      "id": "delta-cover-gate9",
+      "sourcePath": "BITCODE_SPEC_V39_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-cover-gate9",
+      "sourcePath": "BITCODE_SPEC_V39_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-matrix-cover-gate9",
+      "sourcePath": "BITCODE_SPEC_V39_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-advanced-to-gate9",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-cover-gate9",
+      "sourcePath": "packages/asset-packs-pipelines/domain/README.md",
+      "passed": true
+    },
+    {
+      "id": "workflows-cover-gate9",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    }
+  ]
+}

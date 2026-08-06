@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v40-unit-coverage-inventory.json';
+const ARTIFACT_PATH = '.proofs/v40/unit-coverage-inventory.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -78,12 +78,12 @@ function printHelp() {
 
 function runPackageSmoke(root, failures) {
   const commands = [
-    ['pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-unit-coverage-inventory.test.js']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-unit-coverage-inventory.test.js']],
     ['pnpm', ['--filter', '@bitcode/prompts', 'test']],
     ['pnpm', ['--filter', '@bitcode/agent-generics', 'test']],
     ['pnpm', ['--filter', '@bitcode/pipelines-generics', 'test']],
     ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'test']],
-    ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'test']],
+    ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'test']],
   ];
 
   for (const [command, args] of commands) {
@@ -105,7 +105,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V39', `BITCODE_SPEC.txt must remain V39 during V40 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -120,15 +120,15 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-unit-coverage-inventory.js',
-    'packages/protocol/test/v40-unit-coverage-inventory.test.js',
+    'scripts/specifying/src/canonical/v40-unit-coverage-inventory.js',
+    'scripts/specifying/test/v40-unit-coverage-inventory.test.js',
     'scripts/generate-v40-unit-coverage-inventory.mjs',
     'scripts/check-v40-gate3-unit-coverage.mjs',
-    'BITCODE_SPEC_V40.md',
-    'BITCODE_SPEC_V40_DELTA.md',
-    'BITCODE_SPEC_V40_NOTES.md',
-    'BITCODE_SPEC_V40_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V40.md',
+    '.specifications/BITCODE_SPEC_V40_DELTA.md',
+    '.specifications/BITCODE_SPEC_V40_NOTES.md',
+    '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -151,7 +151,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v40-unit-coverage-inventory.test.js',
+        'scripts/specifying/test/v40-unit-coverage-inventory.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 unit coverage protocol test failed: ${error.stderr || error.message}`);
@@ -200,11 +200,11 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 3 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V40.md');
-  const delta = read(root, 'BITCODE_SPEC_V40_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V40_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V40.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V40 Gate 3 Unit Coverage For Packages And Primitives'), 'V40 spec must document Gate 3 unit coverage.');
   assertCheck(failures, delta.includes('Gate 3 closes with package-backed `V40UnitCoverageInventory`'), 'V40 delta must document Gate 3 closure.');

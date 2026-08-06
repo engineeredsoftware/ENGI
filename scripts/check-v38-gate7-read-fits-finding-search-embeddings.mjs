@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-read-fits-finding-search-embeddings.json';
+const ARTIFACT_PATH = '.proofs/v38/read-fits-finding-search-embeddings.json';
 
 const REQUIRED_PHASE_IDS = [
   'ReadFitsFindingSynthesis.admit',
@@ -131,7 +131,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -150,30 +150,30 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-inference-surface-inventory.json',
-    '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-    '.bitcode/v38-prompt-benchmark-report.json',
-    '.bitcode/v38-disclosure-boundary-report.json',
-    '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-    'packages/protocol/src/canonical/read-fits-finding-search-embeddings.js',
-    'packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js',
+    '.proofs/v38/inference-surface-inventory.json',
+    '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+    '.proofs/v38/prompt-benchmark-report.json',
+    '.proofs/v38/disclosure-boundary-report.json',
+    '.proofs/v38/read-need-comprehension-inference-hardening.json',
+    'scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js',
+    'scripts/specifying/test/v38-read-fits-finding-search-embeddings.test.js',
     'scripts/generate-v38-read-fits-finding-search-embeddings.mjs',
     'scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs',
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipelines/asset-pack/src/embedding-config.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/embedding-config.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
-    'uapi/lib/search.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/embedding-config.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-search.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/embedding-config.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-contract.test.ts',
+    'apps/uapi/lib/search.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    '.specifications/BITCODE_SPEC_V38.md',
+    '.specifications/BITCODE_SPEC_V38_DELTA.md',
+    '.specifications/BITCODE_SPEC_V38_NOTES.md',
+    '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -196,7 +196,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js',
+        'scripts/specifying/test/v38-read-fits-finding-search-embeddings.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 ReadFitsFindingSynthesis protocol test failed: ${error.stderr || error.message}`);
@@ -207,7 +207,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -267,18 +267,18 @@ function main() {
     assertCheck(failures, artifact.coverage.legacySourceRoots === false, 'Gate 7 artifact must not point at _legacy roots.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38ReadFitsFindingSearchEmbeddings'), 'V38 spec must name the Gate 7 report.');
   assertCheck(failures, delta.includes('Gate 7: ReadFitsFindingSynthesis Depository Search And Embeddings'), 'V38 delta must include Gate 7.');

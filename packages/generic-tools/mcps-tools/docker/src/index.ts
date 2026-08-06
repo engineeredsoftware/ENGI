@@ -25,7 +25,7 @@ import {
   dockerListVolumesTool as _dockerListVolumes,
   dockerCreateVolumeTool as _dockerCreateVolume,
   dockerRemoveVolumeTool as _dockerRemoveVolume,
-} from '@bitcode/docker';
+} from '@bitcode/containerizations-docker';
 
 // Import DocCodeToolPrompt
 import { DOCKER_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/DockerMCPDocCodeToolPrompt';

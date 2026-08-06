@@ -1,0 +1,1490 @@
+{
+  "artifactId": "v36-exchange-settlement-reconciliation",
+  "schemaId": "bitcode.v36.exchangeSettlementReconciliation.v1",
+  "version": "V36",
+  "currentTarget": "V35",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-exchange-settlement-reconciliation-metadata",
+  "reconciliationBoundary": {
+    "exchangeSettlementReceiptMayExpose": [
+      "settlement_receipt_identity",
+      "payment_observation",
+      "finality_state",
+      "rights_transfer_receipt",
+      "ledger_root",
+      "database_projection_root",
+      "object_storage_root",
+      "delivery_state",
+      "repair_id",
+      "observer_jobs",
+      "proof_roots",
+      "event_ids"
+    ],
+    "exchangeSettlementReceiptMustNotExpose": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "wallet_seed_phrase",
+      "wallet_private_key",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "unpaid_assetpack_source",
+      "private_payment_credentials",
+      "buyer_private_repository_payload",
+      "object_storage_private_bytes"
+    ],
+    "settlementBinding": "payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id",
+    "repairBinding": "observers and repair jobs reconcile database projections to ledger truth",
+    "auditBinding": "settlement finality and delivery are auditable"
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredReceiptStates": [
+      "payment_observed_pending_finality",
+      "finalized_rights_transferred",
+      "database_projection_repaired",
+      "object_storage_repaired",
+      "delivery_blocked_pending_repair"
+    ],
+    "observedReceiptStates": [
+      "payment_observed_pending_finality",
+      "finalized_rights_transferred",
+      "database_projection_repaired",
+      "object_storage_repaired",
+      "delivery_blocked_pending_repair"
+    ],
+    "missingRequiredReceiptStates": [],
+    "receiptCount": 5,
+    "allRequiredReceiptStatesCovered": true,
+    "paymentObservationCovered": true,
+    "finalityStateCovered": true,
+    "rightsTransferReceiptCovered": true,
+    "ledgerDatabaseObjectStorageRootsCovered": true,
+    "deliveryStateCovered": true,
+    "repairIdCovered": true,
+    "observersRepairJobsCovered": true,
+    "databaseProjectionsReconcileToLedgerTruth": true,
+    "settlementFinalityAuditable": true,
+    "deliveryAuditable": true,
+    "proofRootsCovered": true,
+    "eventIdsCovered": true,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "credentialsSerialized": false,
+    "privateWalletMaterialSerialized": false,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false
+  },
+  "requiredReceiptStates": [
+    "payment_observed_pending_finality",
+    "finalized_rights_transferred",
+    "database_projection_repaired",
+    "object_storage_repaired",
+    "delivery_blocked_pending_repair"
+  ],
+  "requiredFieldIds": [
+    "settlementReceiptId",
+    "paymentObservation",
+    "finalityState",
+    "rightsTransferReceipt",
+    "ledgerRoot",
+    "databaseProjectionRoot",
+    "objectStorageRoot",
+    "deliveryState",
+    "repairId",
+    "observerJobs",
+    "reconciliationDecision",
+    "proofRoots",
+    "eventIds"
+  ],
+  "rows": [
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:payment-observed-alpha",
+      "receiptState": "payment_observed_pending_finality",
+      "label": "Payment observed pending finality",
+      "orderId": "exchange-order:buy:source-safe-alpha",
+      "assetPackId": "assetpack:source-safe-preview-alpha",
+      "btdRangeId": "btd-range:1000-1048",
+      "buyerPrincipal": "principal:reader-beta",
+      "sellerPrincipal": "principal:depositor-alpha",
+      "paymentStatus": "payment_observed_exact",
+      "observedAmountSatoshis": 631300,
+      "quoteAmountSatoshis": 631300,
+      "finalityState": {
+        "state": "pending_confirmations",
+        "confirmationCount": 1,
+        "finalityBasis": "btc_observation_and_ledger_journal_finality_root",
+        "auditable": true
+      },
+      "confirmationCount": 1,
+      "rightsTransferState": "pending_finality",
+      "databaseProjectionState": "awaiting_finality_projection",
+      "objectStorageState": "source_locked_until_finality",
+      "deliveryState": {
+        "state": "blocked_pending_finality",
+        "assetPackId": "assetpack:source-safe-preview-alpha",
+        "deliveryBasis": "delivery_blocked_until_repair_or_finality",
+        "auditable": true,
+        "protectedSourceVisibility": "protected_source_hidden"
+      },
+      "repairId": "repair:none",
+      "reconciliationDecision": "observe_until_finality_before_rights_transfer_and_delivery",
+      "eventIds": [
+        "exchange.settlement.payment_observed",
+        "exchange.settlement.finality.pending"
+      ],
+      "failClosedConditions": [
+        "missing_finality_state",
+        "delivery_not_unlocked"
+      ],
+      "canonicalObject": "ExchangeSettlementReceipt",
+      "paymentObservation": {
+        "observationId": "exchange-settlement-receipt:payment-observed-alpha:payment-observation",
+        "paymentStatus": "payment_observed_exact",
+        "observedAmountSatoshis": 631300,
+        "quoteAmountSatoshis": 631300,
+        "amountComparison": "exact",
+        "visibility": "amount_status_and_observation_root_only_no_private_payment_credentials"
+      },
+      "rightsTransferReceipt": {
+        "receiptId": "exchange-settlement-receipt:payment-observed-alpha:rights-transfer-receipt",
+        "rightsTransferState": "pending_finality",
+        "btdRangeId": "btd-range:1000-1048",
+        "buyerPrincipal": "principal:reader-beta",
+        "sellerPrincipal": "principal:depositor-alpha",
+        "visibility": "receipt_id_range_principals_and_state_only"
+      },
+      "ledgerRoot": "exchange-ledger-root:fd57128186ef094ab7999ad3",
+      "databaseProjectionRoot": "exchange-database-projection-root:75dd34525ea96da758f0559b",
+      "objectStorageRoot": "exchange-object-storage-root:ca68c06b125c216957eb2d2e",
+      "repairJob": {
+        "repairId": "repair:none",
+        "repairRequired": false,
+        "repairCommand": "none",
+        "verificationCommand": "pnpm run check:v36-gate6"
+      },
+      "observerJobs": [
+        {
+          "observerId": "exchange.settlement.payment-observer",
+          "observes": [
+            "paymentObservation",
+            "finalityState",
+            "ledgerRoot"
+          ],
+          "reconciliationRule": "ledger_root_is_settlement_truth"
+        },
+        {
+          "observerId": "exchange.settlement.database-projection-repair",
+          "observes": [
+            "ledgerRoot",
+            "databaseProjectionRoot"
+          ],
+          "reconciliationRule": "database_projection_reconciles_to_ledger_truth"
+        },
+        {
+          "observerId": "exchange.settlement.object-storage-repair",
+          "observes": [
+            "ledgerRoot",
+            "objectStorageRoot",
+            "deliveryState"
+          ],
+          "reconciliationRule": "object_storage_projection_reconciles_to_settled_delivery_truth"
+        }
+      ],
+      "proofRootFields": [
+        "settlementReceiptRoot",
+        "paymentObservationRoot",
+        "finalityRoot",
+        "rightsTransferReceiptRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "objectStorageRoot",
+        "deliveryRoot",
+        "repairRoot",
+        "telemetryRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_settlement_receipt_metadata",
+      "sourceSafetyPosture": "settlement_roots_observer_state_and_delivery_state_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_settlement_reconciliation_redaction_v1",
+        "allowedPayloadClasses": [
+          "settlement_receipt_identity",
+          "payment_observation",
+          "finality_state",
+          "rights_transfer_receipt",
+          "ledger_root",
+          "database_projection_root",
+          "object_storage_root",
+          "delivery_state",
+          "repair_id",
+          "observer_jobs",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-settlement-receipt:payment-observed-alpha.settlement-reconciliation-present",
+          "command": "pnpm run check:v36-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_payment_observation",
+            "missing_finality_state",
+            "missing_rights_transfer_receipt",
+            "missing_ledger_root",
+            "missing_database_projection_root",
+            "missing_object_storage_root",
+            "missing_delivery_state",
+            "missing_repair_id",
+            "database_projection_drift",
+            "object_storage_drift",
+            "rights_transfer_receipt_missing",
+            "delivery_not_unlocked"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "settlementReceiptRoot": "exchange-settlement-receipt:bb3b1dec86b29752780ab3c9",
+      "proofRoots": {
+        "settlementReceiptRoot": "exchange-proof:e019648c07930ff9c03b199d",
+        "paymentObservationRoot": "exchange-proof:59b1e57df58f33d1f1c9a6ad",
+        "finalityRoot": "exchange-proof:c6c06d5d715058b9eb845183",
+        "rightsTransferReceiptRoot": "exchange-proof:5a0b2dfaedae6774ac27b909",
+        "ledgerRoot": "exchange-ledger-root:fd57128186ef094ab7999ad3",
+        "databaseProjectionRoot": "exchange-proof:7ddc45bb399c5e2ff44c627f",
+        "objectStorageRoot": "exchange-proof:c88d215e557fc3dbbeb7b9fb",
+        "deliveryRoot": "exchange-proof:8345b7042eb46ea863cd8845",
+        "repairRoot": "exchange-proof:a10b3acab56f71fb04744230",
+        "telemetryRoot": "exchange-proof:933434f71c68675d0b13ceac"
+      }
+    },
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:finalized-beta",
+      "receiptState": "finalized_rights_transferred",
+      "label": "Finalized rights transferred and delivered",
+      "orderId": "exchange-order:accept:source-safe-alpha",
+      "assetPackId": "assetpack:source-safe-preview-alpha",
+      "btdRangeId": "btd-range:1000-1048",
+      "buyerPrincipal": "principal:reader-beta",
+      "sellerPrincipal": "principal:depositor-alpha",
+      "paymentStatus": "payment_finalized_exact",
+      "observedAmountSatoshis": 631300,
+      "quoteAmountSatoshis": 631300,
+      "finalityState": {
+        "state": "btc_finality_confirmed",
+        "confirmationCount": 6,
+        "finalityBasis": "btc_observation_and_ledger_journal_finality_root",
+        "auditable": true
+      },
+      "confirmationCount": 6,
+      "rightsTransferState": "rights_transfer_receipt_issued",
+      "databaseProjectionState": "projection_synced_to_ledger",
+      "objectStorageState": "settled_assetpack_delivery_recorded",
+      "deliveryState": {
+        "state": "delivered_after_settlement",
+        "assetPackId": "assetpack:source-safe-preview-alpha",
+        "deliveryBasis": "paid_finality_and_rights_transfer_receipt",
+        "auditable": true,
+        "protectedSourceVisibility": "source_delivery_allowed_to_settled_right_holder"
+      },
+      "repairId": "repair:none",
+      "reconciliationDecision": "delivery_admitted_after_paid_finality_and_rights_transfer",
+      "eventIds": [
+        "exchange.settlement.finalized",
+        "exchange.delivery.completed"
+      ],
+      "failClosedConditions": [
+        "ledger_database_projection_drift",
+        "object_storage_drift"
+      ],
+      "canonicalObject": "ExchangeSettlementReceipt",
+      "paymentObservation": {
+        "observationId": "exchange-settlement-receipt:finalized-beta:payment-observation",
+        "paymentStatus": "payment_finalized_exact",
+        "observedAmountSatoshis": 631300,
+        "quoteAmountSatoshis": 631300,
+        "amountComparison": "exact",
+        "visibility": "amount_status_and_observation_root_only_no_private_payment_credentials"
+      },
+      "rightsTransferReceipt": {
+        "receiptId": "exchange-settlement-receipt:finalized-beta:rights-transfer-receipt",
+        "rightsTransferState": "rights_transfer_receipt_issued",
+        "btdRangeId": "btd-range:1000-1048",
+        "buyerPrincipal": "principal:reader-beta",
+        "sellerPrincipal": "principal:depositor-alpha",
+        "visibility": "receipt_id_range_principals_and_state_only"
+      },
+      "ledgerRoot": "exchange-ledger-root:400977894b24e45e3a0d9321",
+      "databaseProjectionRoot": "exchange-database-projection-root:c865a2f18881a27eccd1f4cb",
+      "objectStorageRoot": "exchange-object-storage-root:2c2ee11d340bd8c8cf4475a5",
+      "repairJob": {
+        "repairId": "repair:none",
+        "repairRequired": false,
+        "repairCommand": "none",
+        "verificationCommand": "pnpm run check:v36-gate6"
+      },
+      "observerJobs": [
+        {
+          "observerId": "exchange.settlement.payment-observer",
+          "observes": [
+            "paymentObservation",
+            "finalityState",
+            "ledgerRoot"
+          ],
+          "reconciliationRule": "ledger_root_is_settlement_truth"
+        },
+        {
+          "observerId": "exchange.settlement.database-projection-repair",
+          "observes": [
+            "ledgerRoot",
+            "databaseProjectionRoot"
+          ],
+          "reconciliationRule": "database_projection_reconciles_to_ledger_truth"
+        },
+        {
+          "observerId": "exchange.settlement.object-storage-repair",
+          "observes": [
+            "ledgerRoot",
+            "objectStorageRoot",
+            "deliveryState"
+          ],
+          "reconciliationRule": "object_storage_projection_reconciles_to_settled_delivery_truth"
+        }
+      ],
+      "proofRootFields": [
+        "settlementReceiptRoot",
+        "paymentObservationRoot",
+        "finalityRoot",
+        "rightsTransferReceiptRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "objectStorageRoot",
+        "deliveryRoot",
+        "repairRoot",
+        "telemetryRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_settlement_receipt_metadata",
+      "sourceSafetyPosture": "settlement_roots_observer_state_and_delivery_state_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_settlement_reconciliation_redaction_v1",
+        "allowedPayloadClasses": [
+          "settlement_receipt_identity",
+          "payment_observation",
+          "finality_state",
+          "rights_transfer_receipt",
+          "ledger_root",
+          "database_projection_root",
+          "object_storage_root",
+          "delivery_state",
+          "repair_id",
+          "observer_jobs",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-settlement-receipt:finalized-beta.settlement-reconciliation-present",
+          "command": "pnpm run check:v36-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_payment_observation",
+            "missing_finality_state",
+            "missing_rights_transfer_receipt",
+            "missing_ledger_root",
+            "missing_database_projection_root",
+            "missing_object_storage_root",
+            "missing_delivery_state",
+            "missing_repair_id",
+            "database_projection_drift",
+            "object_storage_drift",
+            "rights_transfer_receipt_missing",
+            "delivery_not_unlocked"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "settlementReceiptRoot": "exchange-settlement-receipt:339e08c4983095690e95b4df",
+      "proofRoots": {
+        "settlementReceiptRoot": "exchange-proof:9b72bbb586cb34f52750cdf4",
+        "paymentObservationRoot": "exchange-proof:9b8b1f82049d8877d32370f7",
+        "finalityRoot": "exchange-proof:e887ec758742f3ac754a4c1d",
+        "rightsTransferReceiptRoot": "exchange-proof:38fe08819dbe91567df91c27",
+        "ledgerRoot": "exchange-ledger-root:400977894b24e45e3a0d9321",
+        "databaseProjectionRoot": "exchange-proof:dce5dd80cac1d2150fe02aa1",
+        "objectStorageRoot": "exchange-proof:91803a657e55b38134cb9394",
+        "deliveryRoot": "exchange-proof:41dc096ad09a4f3dee5d2bf3",
+        "repairRoot": "exchange-proof:394e951e579660016c7660c5",
+        "telemetryRoot": "exchange-proof:b93bd91dfe27f70fe4ea7f38"
+      }
+    },
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:projection-repaired-gamma",
+      "receiptState": "database_projection_repaired",
+      "label": "Database projection repaired from ledger truth",
+      "orderId": "exchange-order:settle:source-safe-alpha",
+      "assetPackId": "assetpack:source-safe-preview-beta",
+      "btdRangeId": "btd-range:2100-2132",
+      "buyerPrincipal": "principal:reader-delta",
+      "sellerPrincipal": "principal:depositor-gamma",
+      "paymentStatus": "payment_finalized_exact",
+      "observedAmountSatoshis": 475500,
+      "quoteAmountSatoshis": 475500,
+      "finalityState": {
+        "state": "btc_finality_confirmed",
+        "confirmationCount": 6,
+        "finalityBasis": "btc_observation_and_ledger_journal_finality_root",
+        "auditable": true
+      },
+      "confirmationCount": 6,
+      "rightsTransferState": "rights_transfer_receipt_issued",
+      "databaseProjectionState": "projection_repaired_to_ledger_truth",
+      "objectStorageState": "settled_assetpack_delivery_recorded",
+      "deliveryState": {
+        "state": "delivered_after_projection_repair",
+        "assetPackId": "assetpack:source-safe-preview-beta",
+        "deliveryBasis": "delivery_blocked_until_repair_or_finality",
+        "auditable": true,
+        "protectedSourceVisibility": "protected_source_hidden"
+      },
+      "repairId": "repair:database-projection-drift-gamma",
+      "reconciliationDecision": "database_projection_reconciled_to_ledger_truth",
+      "eventIds": [
+        "exchange.repair.database_projection.completed",
+        "exchange.settlement.ledger_truth_restored"
+      ],
+      "failClosedConditions": [
+        "database_projection_drift"
+      ],
+      "canonicalObject": "ExchangeSettlementReceipt",
+      "paymentObservation": {
+        "observationId": "exchange-settlement-receipt:projection-repaired-gamma:payment-observation",
+        "paymentStatus": "payment_finalized_exact",
+        "observedAmountSatoshis": 475500,
+        "quoteAmountSatoshis": 475500,
+        "amountComparison": "exact",
+        "visibility": "amount_status_and_observation_root_only_no_private_payment_credentials"
+      },
+      "rightsTransferReceipt": {
+        "receiptId": "exchange-settlement-receipt:projection-repaired-gamma:rights-transfer-receipt",
+        "rightsTransferState": "rights_transfer_receipt_issued",
+        "btdRangeId": "btd-range:2100-2132",
+        "buyerPrincipal": "principal:reader-delta",
+        "sellerPrincipal": "principal:depositor-gamma",
+        "visibility": "receipt_id_range_principals_and_state_only"
+      },
+      "ledgerRoot": "exchange-ledger-root:67e617da7d408ffebfbca8bd",
+      "databaseProjectionRoot": "exchange-database-projection-root:99e8dccfc96fbc50d34ca978",
+      "objectStorageRoot": "exchange-object-storage-root:cdbc34db9a1ad51fe7dbb206",
+      "repairJob": {
+        "repairId": "repair:database-projection-drift-gamma",
+        "repairRequired": true,
+        "repairCommand": "pnpm run check:v36-gate6 -- --repair-id repair:database-projection-drift-gamma",
+        "verificationCommand": "pnpm run check:v36-gate6"
+      },
+      "observerJobs": [
+        {
+          "observerId": "exchange.settlement.payment-observer",
+          "observes": [
+            "paymentObservation",
+            "finalityState",
+            "ledgerRoot"
+          ],
+          "reconciliationRule": "ledger_root_is_settlement_truth"
+        },
+        {
+          "observerId": "exchange.settlement.database-projection-repair",
+          "observes": [
+            "ledgerRoot",
+            "databaseProjectionRoot"
+          ],
+          "reconciliationRule": "database_projection_reconciles_to_ledger_truth"
+        },
+        {
+          "observerId": "exchange.settlement.object-storage-repair",
+          "observes": [
+            "ledgerRoot",
+            "objectStorageRoot",
+            "deliveryState"
+          ],
+          "reconciliationRule": "object_storage_projection_reconciles_to_settled_delivery_truth"
+        }
+      ],
+      "proofRootFields": [
+        "settlementReceiptRoot",
+        "paymentObservationRoot",
+        "finalityRoot",
+        "rightsTransferReceiptRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "objectStorageRoot",
+        "deliveryRoot",
+        "repairRoot",
+        "telemetryRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_settlement_receipt_metadata",
+      "sourceSafetyPosture": "settlement_roots_observer_state_and_delivery_state_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_settlement_reconciliation_redaction_v1",
+        "allowedPayloadClasses": [
+          "settlement_receipt_identity",
+          "payment_observation",
+          "finality_state",
+          "rights_transfer_receipt",
+          "ledger_root",
+          "database_projection_root",
+          "object_storage_root",
+          "delivery_state",
+          "repair_id",
+          "observer_jobs",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-settlement-receipt:projection-repaired-gamma.settlement-reconciliation-present",
+          "command": "pnpm run check:v36-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_payment_observation",
+            "missing_finality_state",
+            "missing_rights_transfer_receipt",
+            "missing_ledger_root",
+            "missing_database_projection_root",
+            "missing_object_storage_root",
+            "missing_delivery_state",
+            "missing_repair_id",
+            "database_projection_drift",
+            "object_storage_drift",
+            "rights_transfer_receipt_missing",
+            "delivery_not_unlocked"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "settlementReceiptRoot": "exchange-settlement-receipt:9b70fdcbfacf2aa2beacc86d",
+      "proofRoots": {
+        "settlementReceiptRoot": "exchange-proof:654c940f6fc239f37b5704a1",
+        "paymentObservationRoot": "exchange-proof:798a2463f625fa5d56a18116",
+        "finalityRoot": "exchange-proof:194b2bf2c10251f463479dd6",
+        "rightsTransferReceiptRoot": "exchange-proof:53575a15001b343c564e02fc",
+        "ledgerRoot": "exchange-ledger-root:67e617da7d408ffebfbca8bd",
+        "databaseProjectionRoot": "exchange-proof:a00bc88da6796546c9159747",
+        "objectStorageRoot": "exchange-proof:087a2adda9091c0b72c37ce2",
+        "deliveryRoot": "exchange-proof:6e17fa750406490bf40404ab",
+        "repairRoot": "exchange-proof:228d94c626f6082f4ce50413",
+        "telemetryRoot": "exchange-proof:257c8b3c759758efb51f5e88"
+      }
+    },
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:object-storage-repaired-delta",
+      "receiptState": "object_storage_repaired",
+      "label": "Object storage repaired from settled delivery truth",
+      "orderId": "exchange-order:settle:source-safe-beta",
+      "assetPackId": "assetpack:source-safe-preview-gamma",
+      "btdRangeId": "btd-range:3000-3040",
+      "buyerPrincipal": "principal:reader-zeta",
+      "sellerPrincipal": "principal:depositor-epsilon",
+      "paymentStatus": "payment_finalized_exact",
+      "observedAmountSatoshis": 413500,
+      "quoteAmountSatoshis": 413500,
+      "finalityState": {
+        "state": "btc_finality_confirmed",
+        "confirmationCount": 6,
+        "finalityBasis": "btc_observation_and_ledger_journal_finality_root",
+        "auditable": true
+      },
+      "confirmationCount": 6,
+      "rightsTransferState": "rights_transfer_receipt_issued",
+      "databaseProjectionState": "projection_synced_to_ledger",
+      "objectStorageState": "object_storage_delivery_projection_repaired",
+      "deliveryState": {
+        "state": "delivered_after_object_storage_repair",
+        "assetPackId": "assetpack:source-safe-preview-gamma",
+        "deliveryBasis": "delivery_blocked_until_repair_or_finality",
+        "auditable": true,
+        "protectedSourceVisibility": "protected_source_hidden"
+      },
+      "repairId": "repair:object-storage-drift-delta",
+      "reconciliationDecision": "object_storage_projection_reconciled_to_settled_delivery_truth",
+      "eventIds": [
+        "exchange.repair.object_storage.completed",
+        "exchange.delivery.audit_restored"
+      ],
+      "failClosedConditions": [
+        "object_storage_drift"
+      ],
+      "canonicalObject": "ExchangeSettlementReceipt",
+      "paymentObservation": {
+        "observationId": "exchange-settlement-receipt:object-storage-repaired-delta:payment-observation",
+        "paymentStatus": "payment_finalized_exact",
+        "observedAmountSatoshis": 413500,
+        "quoteAmountSatoshis": 413500,
+        "amountComparison": "exact",
+        "visibility": "amount_status_and_observation_root_only_no_private_payment_credentials"
+      },
+      "rightsTransferReceipt": {
+        "receiptId": "exchange-settlement-receipt:object-storage-repaired-delta:rights-transfer-receipt",
+        "rightsTransferState": "rights_transfer_receipt_issued",
+        "btdRangeId": "btd-range:3000-3040",
+        "buyerPrincipal": "principal:reader-zeta",
+        "sellerPrincipal": "principal:depositor-epsilon",
+        "visibility": "receipt_id_range_principals_and_state_only"
+      },
+      "ledgerRoot": "exchange-ledger-root:a13a1db7852af9ad3fe4a41a",
+      "databaseProjectionRoot": "exchange-database-projection-root:a024f07bedacc539acdf77f9",
+      "objectStorageRoot": "exchange-object-storage-root:a96053b196e2d933f5b0594f",
+      "repairJob": {
+        "repairId": "repair:object-storage-drift-delta",
+        "repairRequired": true,
+        "repairCommand": "pnpm run check:v36-gate6 -- --repair-id repair:object-storage-drift-delta",
+        "verificationCommand": "pnpm run check:v36-gate6"
+      },
+      "observerJobs": [
+        {
+          "observerId": "exchange.settlement.payment-observer",
+          "observes": [
+            "paymentObservation",
+            "finalityState",
+            "ledgerRoot"
+          ],
+          "reconciliationRule": "ledger_root_is_settlement_truth"
+        },
+        {
+          "observerId": "exchange.settlement.database-projection-repair",
+          "observes": [
+            "ledgerRoot",
+            "databaseProjectionRoot"
+          ],
+          "reconciliationRule": "database_projection_reconciles_to_ledger_truth"
+        },
+        {
+          "observerId": "exchange.settlement.object-storage-repair",
+          "observes": [
+            "ledgerRoot",
+            "objectStorageRoot",
+            "deliveryState"
+          ],
+          "reconciliationRule": "object_storage_projection_reconciles_to_settled_delivery_truth"
+        }
+      ],
+      "proofRootFields": [
+        "settlementReceiptRoot",
+        "paymentObservationRoot",
+        "finalityRoot",
+        "rightsTransferReceiptRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "objectStorageRoot",
+        "deliveryRoot",
+        "repairRoot",
+        "telemetryRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_settlement_receipt_metadata",
+      "sourceSafetyPosture": "settlement_roots_observer_state_and_delivery_state_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_settlement_reconciliation_redaction_v1",
+        "allowedPayloadClasses": [
+          "settlement_receipt_identity",
+          "payment_observation",
+          "finality_state",
+          "rights_transfer_receipt",
+          "ledger_root",
+          "database_projection_root",
+          "object_storage_root",
+          "delivery_state",
+          "repair_id",
+          "observer_jobs",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-settlement-receipt:object-storage-repaired-delta.settlement-reconciliation-present",
+          "command": "pnpm run check:v36-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_payment_observation",
+            "missing_finality_state",
+            "missing_rights_transfer_receipt",
+            "missing_ledger_root",
+            "missing_database_projection_root",
+            "missing_object_storage_root",
+            "missing_delivery_state",
+            "missing_repair_id",
+            "database_projection_drift",
+            "object_storage_drift",
+            "rights_transfer_receipt_missing",
+            "delivery_not_unlocked"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "settlementReceiptRoot": "exchange-settlement-receipt:4c3c87f9eba239a390efa278",
+      "proofRoots": {
+        "settlementReceiptRoot": "exchange-proof:5a492bfbb3240efcd7d3c64a",
+        "paymentObservationRoot": "exchange-proof:77bbfaddb8e25278e66b2f87",
+        "finalityRoot": "exchange-proof:71f44f7f130a48b9262f6ba2",
+        "rightsTransferReceiptRoot": "exchange-proof:e39f0e31184461e0e66b3886",
+        "ledgerRoot": "exchange-ledger-root:a13a1db7852af9ad3fe4a41a",
+        "databaseProjectionRoot": "exchange-proof:b99b1d33bcb4b8da41d3d9fa",
+        "objectStorageRoot": "exchange-proof:ae4f8e9d8d3b4196c6bc3343",
+        "deliveryRoot": "exchange-proof:436ce3dd211372e0991e5fd4",
+        "repairRoot": "exchange-proof:8e68650c23667d4b27e2d5d2",
+        "telemetryRoot": "exchange-proof:ac7bb746f86797ec63f5fb43"
+      }
+    },
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:blocked-epsilon",
+      "receiptState": "delivery_blocked_pending_repair",
+      "label": "Delivery blocked pending repair",
+      "orderId": "exchange-order:settle:source-safe-gamma",
+      "assetPackId": "assetpack:source-safe-preview-delta",
+      "btdRangeId": "btd-range:4100-4136",
+      "buyerPrincipal": "principal:reader-theta",
+      "sellerPrincipal": "principal:depositor-eta",
+      "paymentStatus": "payment_observed_exact",
+      "observedAmountSatoshis": 559900,
+      "quoteAmountSatoshis": 559900,
+      "finalityState": {
+        "state": "btc_finality_confirmed",
+        "confirmationCount": 6,
+        "finalityBasis": "btc_observation_and_ledger_journal_finality_root",
+        "auditable": true
+      },
+      "confirmationCount": 6,
+      "rightsTransferState": "rights_transfer_receipt_missing",
+      "databaseProjectionState": "projection_blocked_by_missing_receipt",
+      "objectStorageState": "source_locked_missing_rights_transfer_receipt",
+      "deliveryState": {
+        "state": "blocked_missing_rights_transfer_receipt",
+        "assetPackId": "assetpack:source-safe-preview-delta",
+        "deliveryBasis": "delivery_blocked_until_repair_or_finality",
+        "auditable": true,
+        "protectedSourceVisibility": "protected_source_hidden"
+      },
+      "repairId": "repair:rights-transfer-receipt-missing-epsilon",
+      "reconciliationDecision": "block_delivery_until_rights_transfer_receipt_repair",
+      "eventIds": [
+        "exchange.delivery.blocked",
+        "exchange.repair.rights_transfer_receipt.required"
+      ],
+      "failClosedConditions": [
+        "rights_transfer_receipt_missing",
+        "delivery_not_unlocked"
+      ],
+      "canonicalObject": "ExchangeSettlementReceipt",
+      "paymentObservation": {
+        "observationId": "exchange-settlement-receipt:blocked-epsilon:payment-observation",
+        "paymentStatus": "payment_observed_exact",
+        "observedAmountSatoshis": 559900,
+        "quoteAmountSatoshis": 559900,
+        "amountComparison": "exact",
+        "visibility": "amount_status_and_observation_root_only_no_private_payment_credentials"
+      },
+      "rightsTransferReceipt": {
+        "receiptId": "exchange-settlement-receipt:blocked-epsilon:rights-transfer-receipt",
+        "rightsTransferState": "rights_transfer_receipt_missing",
+        "btdRangeId": "btd-range:4100-4136",
+        "buyerPrincipal": "principal:reader-theta",
+        "sellerPrincipal": "principal:depositor-eta",
+        "visibility": "receipt_id_range_principals_and_state_only"
+      },
+      "ledgerRoot": "exchange-ledger-root:94ada9992575c71abbd6efb9",
+      "databaseProjectionRoot": "exchange-database-projection-root:6be237586ad5ca7afc2f4063",
+      "objectStorageRoot": "exchange-object-storage-root:9b8f1a9c1a105c613287aa06",
+      "repairJob": {
+        "repairId": "repair:rights-transfer-receipt-missing-epsilon",
+        "repairRequired": true,
+        "repairCommand": "pnpm run check:v36-gate6 -- --repair-id repair:rights-transfer-receipt-missing-epsilon",
+        "verificationCommand": "pnpm run check:v36-gate6"
+      },
+      "observerJobs": [
+        {
+          "observerId": "exchange.settlement.payment-observer",
+          "observes": [
+            "paymentObservation",
+            "finalityState",
+            "ledgerRoot"
+          ],
+          "reconciliationRule": "ledger_root_is_settlement_truth"
+        },
+        {
+          "observerId": "exchange.settlement.database-projection-repair",
+          "observes": [
+            "ledgerRoot",
+            "databaseProjectionRoot"
+          ],
+          "reconciliationRule": "database_projection_reconciles_to_ledger_truth"
+        },
+        {
+          "observerId": "exchange.settlement.object-storage-repair",
+          "observes": [
+            "ledgerRoot",
+            "objectStorageRoot",
+            "deliveryState"
+          ],
+          "reconciliationRule": "object_storage_projection_reconciles_to_settled_delivery_truth"
+        }
+      ],
+      "proofRootFields": [
+        "settlementReceiptRoot",
+        "paymentObservationRoot",
+        "finalityRoot",
+        "rightsTransferReceiptRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "objectStorageRoot",
+        "deliveryRoot",
+        "repairRoot",
+        "telemetryRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_settlement_receipt_metadata",
+      "sourceSafetyPosture": "settlement_roots_observer_state_and_delivery_state_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_settlement_reconciliation_redaction_v1",
+        "allowedPayloadClasses": [
+          "settlement_receipt_identity",
+          "payment_observation",
+          "finality_state",
+          "rights_transfer_receipt",
+          "ledger_root",
+          "database_projection_root",
+          "object_storage_root",
+          "delivery_state",
+          "repair_id",
+          "observer_jobs",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-settlement-receipt:blocked-epsilon.settlement-reconciliation-present",
+          "command": "pnpm run check:v36-gate6",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_payment_observation",
+            "missing_finality_state",
+            "missing_rights_transfer_receipt",
+            "missing_ledger_root",
+            "missing_database_projection_root",
+            "missing_object_storage_root",
+            "missing_delivery_state",
+            "missing_repair_id",
+            "database_projection_drift",
+            "object_storage_drift",
+            "rights_transfer_receipt_missing",
+            "delivery_not_unlocked"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "settlementReceiptRoot": "exchange-settlement-receipt:9ee1d908d977cd8e80addebb",
+      "proofRoots": {
+        "settlementReceiptRoot": "exchange-proof:e4dd2ffba61175ad4170cdc8",
+        "paymentObservationRoot": "exchange-proof:668e3e4fc833b4bbed5c1e99",
+        "finalityRoot": "exchange-proof:51afd26ea0bbdf015a42ff41",
+        "rightsTransferReceiptRoot": "exchange-proof:61f73fda86599090191024d9",
+        "ledgerRoot": "exchange-ledger-root:94ada9992575c71abbd6efb9",
+        "databaseProjectionRoot": "exchange-proof:53881a51a0ed86283c2b93ee",
+        "objectStorageRoot": "exchange-proof:b53e502d27e19b5b8c81adc5",
+        "deliveryRoot": "exchange-proof:ffd2b702e33e9bc0c77c1203",
+        "repairRoot": "exchange-proof:ddb5c0915ec9fbe7b34eddd0",
+        "telemetryRoot": "exchange-proof:33cb5cf62b6c13f16253fd4c"
+      }
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:payment-observed-alpha",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:finalized-beta",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:projection-repaired-gamma",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:object-storage-repaired-delta",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "settlementReceiptId": "exchange-settlement-receipt:blocked-epsilon",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "exchange-settlement-reconciliation:d0504e7b8f89ad071ae8fadf"
+}

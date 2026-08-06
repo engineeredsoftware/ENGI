@@ -6,7 +6,7 @@ export const BTD_API_SCHEMA_COMPATIBILITY_CONSUMER_SURFACES = [
   'public_api',
   'mcp_api',
   'chatgpt_app',
-  'terminal_handoff',
+  'product_handoff',
   'package_consumer',
 ] as const;
 
@@ -199,7 +199,7 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
         'pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand',
       example: {
         request: {
-          interfaceSurface: 'terminal',
+          interfaceSurface: 'product',
           action: 'deliver_asset_pack',
           authorityObservedAt: '2026-05-21T00:00:00.000Z',
         },
@@ -216,7 +216,7 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       consumerSurface: 'mcp_api',
       routeId: 'mcp.tool.assetPackCreate',
       method: 'TOOL_CALL',
-      path: 'bitcode://pipelines/asset-pack/create',
+      path: 'bitcode://synthesize-asset-packs-for-deposit',
       schemaId: 'bitcode.mcp.assetPackCreate.v1',
       requestSchemaId: 'bitcode.mcp.assetPackCreate.input.v1',
       responseSchemaId: 'bitcode.mcp.assetPackCreate.output.v1',
@@ -226,14 +226,14 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       examplePosture: 'success',
       exampleId: 'mcp-asset-pack-create-success',
       examplePath:
-        'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts#queues-asset-pack-create',
-      fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts#queues-asset-pack-create',
+      fixturePath: 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       validationCommand:
-        'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+        'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       example: {
         request: {
           task: 'Synthesize a source-safe AssetPack preview for a reviewed ReadNeed.',
-          repository: { provider: 'github', owner: 'engineeredsoftware', name: 'ENGI' },
+          repository: { provider: 'github', owner: 'octocat', name: 'Spoon-Knife' },
         },
         response: {
           status: 'queued',
@@ -257,8 +257,8 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       breakingChangePolicy: 'gate_review_required',
       examplePosture: 'blocked',
       exampleId: 'chatgpt-deliver-assetpack-blocked',
-      examplePath: 'packages/chatgptapp/src/__tests__/tools.test.ts#denies-unpaid-assetpack-delivery',
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      examplePath: 'apps/chatgpt/src/__tests__/tools.test.ts#denies-unpaid-assetpack-delivery',
+      fixturePath: 'apps/chatgpt/src/__tests__/tools.test.ts',
       validationCommand:
         'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
       example: {
@@ -273,7 +273,7 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
     },
     {
       rowId: 'terminal-handoff-preview-blocked',
-      consumerSurface: 'terminal_handoff',
+      consumerSurface: 'product_handoff',
       routeId: 'terminal.reading.assetPackPreview',
       method: 'HANDOFF',
       path: 'terminal://reading/asset-pack-preview',
@@ -285,10 +285,10 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       breakingChangePolicy: 'gate_review_required',
       examplePosture: 'blocked',
       exampleId: 'terminal-assetpack-preview-blocked',
-      examplePath: 'uapi/tests/terminalOrganizationAuthority.test.ts#terminal-paid-delivery-rights-fixture',
-      fixturePath: 'uapi/tests/terminalOrganizationAuthority.test.ts',
+      examplePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts#product-paid-delivery-rights-fixture',
+      fixturePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts',
       validationCommand:
-        'pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
+        'pnpm --dir apps/uapi exec jest --runTestsByPath tests/productOrganizationAuthority.test.ts --runInBand',
       example: {
         request: { transactionId: 'terminal-schema-preview', assetPackId: 'asset-pack-schema-preview' },
         response: {

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v33-interface-authorization-policy.json';
+const ARTIFACT_PATH = '.proofs/v33/interface-authorization-policy.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const requiredSurfaces = Object.freeze(['api', 'mcp', 'chatgpt_app', 'terminal']);
@@ -119,12 +119,12 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
       'STALE_AUTHORITY',
       'PROTECTED_SOURCE_DISCLOSURE_BLOCKED',
     ]),
-    scanTokens('packages/chatgptapp/src/tools.ts', [
+    scanTokens('apps/chatgpt/src/tools.ts', [
       'buildBtdInterfaceAuthorizationPolicy',
       'interfaceAuthorizationPolicy',
       'Bitcode ChatGPT App write admission denied by interface authorization policy',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', [
+    scanTokens('apps/mcp/src/tools/pipeline-tools.ts', [
       'buildBtdInterfaceAuthorizationPolicy',
       'mcp-pipeline-create-request-finding-fits',
       'interfaceAuthorizationPolicy',
@@ -132,29 +132,29 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
   ];
   const testEvidence = [
     scanTokens('packages/btd/__tests__/interface-authorization-policy.test.ts', [
-      'publishes shared policy fixtures for API, MCP, ChatGPT App, and Terminal',
+      'publishes shared policy fixtures for API, MCP, ChatGPT App, and product',
       'fails closed with readable repair posture for stale authority',
       'fails closed before locked AssetPack delivery',
     ]),
     scanTokens('packages/api/src/routes/__tests__/btd-crypto.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for API request admission',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for MCP Finding Fits admission',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for ChatGPT App delivery',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned InterfaceAuthorizationPolicy fixture for Terminal BTC fee admission',
-      'renders stale Terminal authority as a readable fail-closed denial',
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
+      'shares the package-owned InterfaceAuthorizationPolicy fixture for product BTC fee admission',
+      'renders stale product authority as a readable fail-closed denial',
     ]),
   ];
   const docsEvidence = [
-    scanTokens('BITCODE_SPEC_V33.md', ['InterfaceAuthorizationPolicy', 'Gate 5']),
-    scanTokens('BITCODE_SPEC_V33_DELTA.md', ['Interface Authorization Policy Fail-Closed']),
-    scanTokens('BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface authorization policy']),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', ['V33 Gate 5 Interface Authorization Policy Fail-Closed']),
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', ['InterfaceAuthorizationPolicy', 'Gate 5']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_DELTA.md', ['Interface Authorization Policy Fail-Closed']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface authorization policy']),
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 5 Interface Authorization Policy Fail-Closed']),
   ];
   const observedSurfaces = Array.from(new Set(fixtureRows.map((row) => row.interfaceSurface))).sort();
   const missingSurfaces = requiredSurfaces.filter((surface) => !observedSurfaces.includes(surface));

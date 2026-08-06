@@ -1,0 +1,3048 @@
+{
+  "artifactId": "v32-reading-pipeline-proof-coverage",
+  "boundaryCoverage": [
+    {
+      "assertionId": "accepted-need-gates-finding-fits",
+      "evidence": "AcceptedReadNeed",
+      "passed": true
+    },
+    {
+      "assertionId": "discovery-returns-plural-fit-deposits",
+      "evidence": "depository/search.result, depository/search.queryRoot, depository/search.rankingRoot, fit/deposits, fit/depositAssetIds",
+      "passed": true
+    },
+    {
+      "assertionId": "implementation-requires-discovered-fits-context",
+      "evidence": "acceptedReadNeed, depositorySearchResult, fitDepositAssetIds, fitDeposits, sourceRevision, deliveryMechanismTemplate",
+      "passed": true
+    },
+    {
+      "assertionId": "preview-is-source-safe-before-settlement",
+      "evidence": "AssetPackSourceSafePreview; tools=0",
+      "passed": true
+    },
+    {
+      "assertionId": "delivery-tool-runs-only-after-settlement-bound-preview",
+      "evidence": "AssetPackSourceSafePreview; ReadFitsFindingSynthesis.tool.vcs-create-pull-request",
+      "passed": true
+    }
+  ],
+  "currentTarget": "V31",
+  "expectedCounts": {
+    "readFitsFinding": {
+      "modelStructuredPtrrSteps": 16,
+      "phases": 7,
+      "ptrrAgents": 8,
+      "ptrrSteps": 32,
+      "thricifiedGenerations": 96,
+      "tools": 4
+    },
+    "readNeed": {
+      "modelStructuredPtrrSteps": 4,
+      "phases": 4,
+      "ptrrAgents": 4,
+      "ptrrSteps": 16,
+      "thricifiedGenerations": 48,
+      "tools": 0
+    }
+  },
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "modelStructuredStepCoverage": [
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "interpolatedContextKeys": [
+        "read.prompt",
+        "sourceConstraints",
+        "targetArtifactKinds",
+        "closureCriteria",
+        "feedbackHistory"
+      ],
+      "outputType": "ReadNeed",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "promptTemplateDigest": "sha256:d0e71620a41f20ce895242d9b156e9d1240ac997941cf6641bbdb3908ab1dfbf",
+      "promptTemplateId": "ReadNeedComprehensionSynthesis.prompt.need-synthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.plan",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "interpolatedContextKeys": [
+        "read.prompt",
+        "sourceConstraints",
+        "targetArtifactKinds",
+        "closureCriteria",
+        "feedbackHistory"
+      ],
+      "outputType": "ReadNeed",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "promptTemplateDigest": "sha256:d0e71620a41f20ce895242d9b156e9d1240ac997941cf6641bbdb3908ab1dfbf",
+      "promptTemplateId": "ReadNeedComprehensionSynthesis.prompt.need-synthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "interpolatedContextKeys": [
+        "read.prompt",
+        "sourceConstraints",
+        "targetArtifactKinds",
+        "closureCriteria",
+        "feedbackHistory"
+      ],
+      "outputType": "ReadNeed",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "promptTemplateDigest": "sha256:d0e71620a41f20ce895242d9b156e9d1240ac997941cf6641bbdb3908ab1dfbf",
+      "promptTemplateId": "ReadNeedComprehensionSynthesis.prompt.need-synthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.refine",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "interpolatedContextKeys": [
+        "read.prompt",
+        "sourceConstraints",
+        "targetArtifactKinds",
+        "closureCriteria",
+        "feedbackHistory"
+      ],
+      "outputType": "ReadNeed",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "promptTemplateDigest": "sha256:d0e71620a41f20ce895242d9b156e9d1240ac997941cf6641bbdb3908ab1dfbf",
+      "promptTemplateId": "ReadNeedComprehensionSynthesis.prompt.need-synthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.retry",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "interpolatedContextKeys": [
+        "read",
+        "repository",
+        "sourceRevision",
+        "fitResult"
+      ],
+      "outputType": "PlanSchema",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:b98eda0f1bc7f3fd809c6b4212d82945e7eca89849ad5bdc76dee5f896e766df",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.setup-plan",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.plan",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "interpolatedContextKeys": [
+        "read",
+        "repository",
+        "sourceRevision",
+        "fitResult"
+      ],
+      "outputType": "PlanSchema",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:b98eda0f1bc7f3fd809c6b4212d82945e7eca89849ad5bdc76dee5f896e766df",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.setup-plan",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.try",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "interpolatedContextKeys": [
+        "read",
+        "repository",
+        "sourceRevision",
+        "fitResult"
+      ],
+      "outputType": "PlanSchema",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:b98eda0f1bc7f3fd809c6b4212d82945e7eca89849ad5bdc76dee5f896e766df",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.setup-plan",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.refine",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "interpolatedContextKeys": [
+        "read",
+        "repository",
+        "sourceRevision",
+        "fitResult"
+      ],
+      "outputType": "PlanSchema",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:b98eda0f1bc7f3fd809c6b4212d82945e7eca89849ad5bdc76dee5f896e766df",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.setup-plan",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.retry",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "interpolatedContextKeys": [
+        "read",
+        "definitionOfRead",
+        "repository",
+        "sourceRevision",
+        "deposit",
+        "fitResult"
+      ],
+      "outputType": "BoundedReadComprehensionSchema",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:6bc18bc0e60e745a9ef87e6ea673e1fb6476c9ed8e8f476306fdabf7d81bb7e7",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.read-comprehension",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.plan",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "interpolatedContextKeys": [
+        "read",
+        "definitionOfRead",
+        "repository",
+        "sourceRevision",
+        "deposit",
+        "fitResult"
+      ],
+      "outputType": "BoundedReadComprehensionSchema",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:6bc18bc0e60e745a9ef87e6ea673e1fb6476c9ed8e8f476306fdabf7d81bb7e7",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.read-comprehension",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.try",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "interpolatedContextKeys": [
+        "read",
+        "definitionOfRead",
+        "repository",
+        "sourceRevision",
+        "deposit",
+        "fitResult"
+      ],
+      "outputType": "BoundedReadComprehensionSchema",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:6bc18bc0e60e745a9ef87e6ea673e1fb6476c9ed8e8f476306fdabf7d81bb7e7",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.read-comprehension",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.refine",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "interpolatedContextKeys": [
+        "read",
+        "definitionOfRead",
+        "repository",
+        "sourceRevision",
+        "deposit",
+        "fitResult"
+      ],
+      "outputType": "BoundedReadComprehensionSchema",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:6bc18bc0e60e745a9ef87e6ea673e1fb6476c9ed8e8f476306fdabf7d81bb7e7",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.read-comprehension",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.retry",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "interpolatedContextKeys": [
+        "acceptedReadNeed",
+        "depositorySearchResult",
+        "fitDepositAssetIds",
+        "fitDeposits",
+        "sourceRevision",
+        "deliveryMechanismTemplate"
+      ],
+      "outputType": "AssetPackSynthesisOutput",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:cd65d199b46339780e666b66151d6bac36a4f2db5e77464d5c68203c4956a2d4",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.asset-pack-synthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.plan",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "interpolatedContextKeys": [
+        "acceptedReadNeed",
+        "depositorySearchResult",
+        "fitDepositAssetIds",
+        "fitDeposits",
+        "sourceRevision",
+        "deliveryMechanismTemplate"
+      ],
+      "outputType": "AssetPackSynthesisOutput",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:cd65d199b46339780e666b66151d6bac36a4f2db5e77464d5c68203c4956a2d4",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.asset-pack-synthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.try",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "interpolatedContextKeys": [
+        "acceptedReadNeed",
+        "depositorySearchResult",
+        "fitDepositAssetIds",
+        "fitDeposits",
+        "sourceRevision",
+        "deliveryMechanismTemplate"
+      ],
+      "outputType": "AssetPackSynthesisOutput",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:cd65d199b46339780e666b66151d6bac36a4f2db5e77464d5c68203c4956a2d4",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.asset-pack-synthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.refine",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "interpolatedContextKeys": [
+        "acceptedReadNeed",
+        "depositorySearchResult",
+        "fitDepositAssetIds",
+        "fitDeposits",
+        "sourceRevision",
+        "deliveryMechanismTemplate"
+      ],
+      "outputType": "AssetPackSynthesisOutput",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:cd65d199b46339780e666b66151d6bac36a4f2db5e77464d5c68203c4956a2d4",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.asset-pack-synthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.retry",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "interpolatedContextKeys": [
+        "acceptedReadNeed",
+        "depositorySearchResult",
+        "assetPackSynthesisOutput",
+        "sourceSafePreview"
+      ],
+      "outputType": "ReadyToFinishOutput",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:383027b9f4353e15ee08afd52439ccbf0c8f1085c4ae0259327425e6021ec3a0",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.fit-quality-validation",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.plan",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "interpolatedContextKeys": [
+        "acceptedReadNeed",
+        "depositorySearchResult",
+        "assetPackSynthesisOutput",
+        "sourceSafePreview"
+      ],
+      "outputType": "ReadyToFinishOutput",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:383027b9f4353e15ee08afd52439ccbf0c8f1085c4ae0259327425e6021ec3a0",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.fit-quality-validation",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.try",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "interpolatedContextKeys": [
+        "acceptedReadNeed",
+        "depositorySearchResult",
+        "assetPackSynthesisOutput",
+        "sourceSafePreview"
+      ],
+      "outputType": "ReadyToFinishOutput",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:383027b9f4353e15ee08afd52439ccbf0c8f1085c4ae0259327425e6021ec3a0",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.fit-quality-validation",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.refine",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "interpolatedContextKeys": [
+        "acceptedReadNeed",
+        "depositorySearchResult",
+        "assetPackSynthesisOutput",
+        "sourceSafePreview"
+      ],
+      "outputType": "ReadyToFinishOutput",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptTemplateDigest": "sha256:383027b9f4353e15ee08afd52439ccbf0c8f1085c4ae0259327425e6021ec3a0",
+      "promptTemplateId": "ReadFitsFindingSynthesis.prompt.fit-quality-validation",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.retry",
+      "telemetryReady": {
+        "interpolatedPrompt": true,
+        "parsedTypedOutput": true,
+        "promptTemplate": true,
+        "rawModelResponse": true
+      }
+    }
+  ],
+  "passed": true,
+  "phaseCoverage": [
+    {
+      "agentIds": [
+        "ReadNeedComprehensionSynthesis.request.normalize"
+      ],
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "stores": [
+        "read/request.raw",
+        "read/source-revision.input"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer"
+      ],
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "stores": [
+        "read/need.prompt-template",
+        "read/need.interpolated-context"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadNeedComprehensionSynthesis.measure.need-measurement"
+      ],
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "stores": [
+        "read/need.measurement-vector",
+        "read/need.pricing-inputs"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadNeedComprehensionSynthesis.review.operator-review"
+      ],
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "stores": [
+        "read/need.feedback-history",
+        "read/need.acceptance-root"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadFitsFindingSynthesis.admit.accepted-need-gate"
+      ],
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "stores": [
+        "read/need.accepted",
+        "fit/admission"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadFitsFindingSynthesis.prepare.setup-plan",
+        "ReadFitsFindingSynthesis.prepare.read-comprehension"
+      ],
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "stores": [
+        "setup.plan",
+        "setup/read-comprehension.model",
+        "setup/danger-wall.result"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadFitsFindingSynthesis.discovery.finding-fits"
+      ],
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "stores": [
+        "depository/search.result",
+        "fit/result"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadFitsFindingSynthesis.implementation.asset-pack"
+      ],
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "stores": [
+        "implementation.assetPack",
+        "implementation.assetPackSynthesisArtifacts"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadFitsFindingSynthesis.validate.fit-quality"
+      ],
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "stores": [
+        "validation.discovery.issues",
+        "validation.implementation.issues",
+        "validation.readyToFinish"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadFitsFindingSynthesis.preview.source-safe-preview"
+      ],
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "stores": [
+        "asset-pack/preview.sourceSafe",
+        "asset-pack/preview.feeQuote"
+      ]
+    },
+    {
+      "agentIds": [
+        "ReadFitsFindingSynthesis.settle.buy-deliver"
+      ],
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "stores": [
+        "ledger.settlement",
+        "finish.deliveryMechanism",
+        "finish.asset_pack_completion"
+      ]
+    }
+  ],
+  "pipelineNames": [
+    "ReadNeedComprehensionSynthesis",
+    "ReadFitsFindingSynthesis"
+  ],
+  "pipelineSummaries": [
+    {
+      "agentCount": 4,
+      "modelStructuredPtrrStepCount": 4,
+      "phaseCount": 4,
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrAgentCount": 4,
+      "ptrrStepCount": 16,
+      "returnTypes": [
+        "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+        "ReadNeed",
+        "ReadNeedPricingMeasurementInputs",
+        "ReadNeedReviewState",
+        "ReadNeedSourceInput"
+      ],
+      "thricifiedGenerationCount": 48,
+      "toolCount": 0
+    },
+    {
+      "agentCount": 8,
+      "modelStructuredPtrrStepCount": 16,
+      "phaseCount": 7,
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrAgentCount": 8,
+      "ptrrStepCount": 32,
+      "returnTypes": [
+        "AssetPackCompletionOutput",
+        "AssetPackSourceSafePreview",
+        "AssetPackSynthesisOutput",
+        "BoundedReadComprehensionSchema",
+        "DepositoryFitsResult",
+        "PlanSchema",
+        "ReadFitsFindingAdmission",
+        "ReadyToFinishOutput"
+      ],
+      "thricifiedGenerationCount": 96,
+      "toolCount": 4
+    }
+  ],
+  "ptrrAgentCoverage": [
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan",
+          "ReadNeedComprehensionSynthesis.prompt.request.normalize.try",
+          "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine",
+          "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadNeedComprehensionSynthesis.request.normalize.plan",
+        "ReadNeedComprehensionSynthesis.request.normalize.try",
+        "ReadNeedComprehensionSynthesis.request.normalize.refine",
+        "ReadNeedComprehensionSynthesis.request.normalize.retry"
+      ],
+      "returnType": "ReadNeedSourceInput"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan",
+          "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try",
+          "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine",
+          "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.plan",
+        "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try",
+        "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.refine",
+        "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.retry"
+      ],
+      "returnType": "ReadNeed"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan",
+          "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try",
+          "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine",
+          "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadNeedComprehensionSynthesis.measure.need-measurement.plan",
+        "ReadNeedComprehensionSynthesis.measure.need-measurement.try",
+        "ReadNeedComprehensionSynthesis.measure.need-measurement.refine",
+        "ReadNeedComprehensionSynthesis.measure.need-measurement.retry"
+      ],
+      "returnType": "ReadNeedPricingMeasurementInputs"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan",
+          "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try",
+          "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine",
+          "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadNeedComprehensionSynthesis.review.operator-review.plan",
+        "ReadNeedComprehensionSynthesis.review.operator-review.try",
+        "ReadNeedComprehensionSynthesis.review.operator-review.refine",
+        "ReadNeedComprehensionSynthesis.review.operator-review.retry"
+      ],
+      "returnType": "ReadNeedReviewState"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan",
+          "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try",
+          "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine",
+          "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadFitsFindingSynthesis.admit.accepted-need-gate.plan",
+        "ReadFitsFindingSynthesis.admit.accepted-need-gate.try",
+        "ReadFitsFindingSynthesis.admit.accepted-need-gate.refine",
+        "ReadFitsFindingSynthesis.admit.accepted-need-gate.retry"
+      ],
+      "returnType": "ReadFitsFindingAdmission"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan",
+          "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try",
+          "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine",
+          "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadFitsFindingSynthesis.prepare.setup-plan.plan",
+        "ReadFitsFindingSynthesis.prepare.setup-plan.try",
+        "ReadFitsFindingSynthesis.prepare.setup-plan.refine",
+        "ReadFitsFindingSynthesis.prepare.setup-plan.retry"
+      ],
+      "returnType": "PlanSchema"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan",
+          "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try",
+          "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine",
+          "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadFitsFindingSynthesis.prepare.read-comprehension.plan",
+        "ReadFitsFindingSynthesis.prepare.read-comprehension.try",
+        "ReadFitsFindingSynthesis.prepare.read-comprehension.refine",
+        "ReadFitsFindingSynthesis.prepare.read-comprehension.retry"
+      ],
+      "returnType": "BoundedReadComprehensionSchema"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan",
+          "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try",
+          "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine",
+          "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadFitsFindingSynthesis.discovery.finding-fits.plan",
+        "ReadFitsFindingSynthesis.discovery.finding-fits.try",
+        "ReadFitsFindingSynthesis.discovery.finding-fits.refine",
+        "ReadFitsFindingSynthesis.discovery.finding-fits.retry"
+      ],
+      "returnType": "DepositoryFitsResult"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan",
+          "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try",
+          "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine",
+          "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadFitsFindingSynthesis.implementation.asset-pack.plan",
+        "ReadFitsFindingSynthesis.implementation.asset-pack.try",
+        "ReadFitsFindingSynthesis.implementation.asset-pack.refine",
+        "ReadFitsFindingSynthesis.implementation.asset-pack.retry"
+      ],
+      "returnType": "AssetPackSynthesisOutput"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan",
+          "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try",
+          "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine",
+          "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadFitsFindingSynthesis.validate.fit-quality.plan",
+        "ReadFitsFindingSynthesis.validate.fit-quality.try",
+        "ReadFitsFindingSynthesis.validate.fit-quality.refine",
+        "ReadFitsFindingSynthesis.validate.fit-quality.retry"
+      ],
+      "returnType": "ReadyToFinishOutput"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan",
+          "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try",
+          "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine",
+          "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadFitsFindingSynthesis.preview.source-safe-preview.plan",
+        "ReadFitsFindingSynthesis.preview.source-safe-preview.try",
+        "ReadFitsFindingSynthesis.preview.source-safe-preview.refine",
+        "ReadFitsFindingSynthesis.preview.source-safe-preview.retry"
+      ],
+      "returnType": "AssetPackSourceSafePreview"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "promptRegistry": {
+        "agentPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.agent",
+        "carrier": "prompt+stepPrompts",
+        "factory": "factoryAgentWithPTRR",
+        "ptrrStepPromptIds": [
+          "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan",
+          "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try",
+          "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine",
+          "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry"
+        ]
+      },
+      "ptrrStepIds": [
+        "ReadFitsFindingSynthesis.settle.buy-deliver.plan",
+        "ReadFitsFindingSynthesis.settle.buy-deliver.try",
+        "ReadFitsFindingSynthesis.settle.buy-deliver.refine",
+        "ReadFitsFindingSynthesis.settle.buy-deliver.retry"
+      ],
+      "returnType": "AssetPackCompletionOutput"
+    }
+  ],
+  "schemaId": "bitcode.v32.readingPipelineProofCoverage.v1",
+  "sourceCommit": "draft-gate-4-source-derived",
+  "sourceSafetyVerdict": "source-safe-contract-metadata",
+  "thricifiedGenerationCoverage": [
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.request.normalize.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.request.normalize.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeedSourceInput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.request.normalize.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.comprehend.need-synthesizer.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.measure.need-measurement.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.measure.need-measurement.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadNeedPricingMeasurementInputs",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.measure.need-measurement.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.plan",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.try",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.refine",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.prepare-concise-context.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.chunk-then-sum.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.stitch-until-complete.judge",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "pipelineName": "ReadNeedComprehensionSynthesis",
+      "ptrrStepId": "ReadNeedComprehensionSynthesis.review.operator-review.retry",
+      "reasonPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadNeedComprehensionSynthesis.prompt.review.operator-review.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "AcceptedReadNeed | ResynthesisRequestedReadNeed",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadNeedComprehensionSynthesis.thricified-generation.review.operator-review.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.admit.accepted-need-gate",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.admit",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.admit.accepted-need-gate.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.admit.accepted-need-gate.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadFitsFindingAdmission",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.admit.accepted-need-gate.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.setup-plan",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.setup-plan.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.setup-plan.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "PlanSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.setup-plan.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.prepare.read-comprehension",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.prepare",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.prepare.read-comprehension.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.prepare.read-comprehension.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "BoundedReadComprehensionSchema",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.prepare.read-comprehension.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.discovery.finding-fits.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "DepositoryFitsResult",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.implementation.asset-pack",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.implementation",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.implementation.asset-pack.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.implementation.asset-pack.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackSynthesisOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.validate.fit-quality.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "ReadyToFinishOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.validate.fit-quality.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.preview.source-safe-preview",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.preview",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.preview.source-safe-preview.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.preview.source-safe-preview.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackSourceSafePreview",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.preview.source-safe-preview.retry.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.plan.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.plan.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.plan",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.plan.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.plan.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.try.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.try.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.try",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.try.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.try.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.refine.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.refine.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.refine",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.refine.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.refine.stitch-until-complete"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "prepare-concise-context",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.prepare-concise-context.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.prepare-concise-context.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.prepare-concise-context.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.retry.prepare-concise-context"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "chunk-then-sum",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.chunk-then-sum.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.chunk-then-sum.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.chunk-then-sum.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.retry.chunk-then-sum"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "failsafe": "stitch-until-complete",
+      "judgePromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.stitch-until-complete.judge",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.retry",
+      "reasonPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.stitch-until-complete.reason",
+      "storesTypedOutput": true,
+      "structuredOutputPromptId": "ReadFitsFindingSynthesis.prompt.settle.buy-deliver.retry.stitch-until-complete.structured-output",
+      "structuredOutputType": "AssetPackCompletionOutput",
+      "telemetryTypedOutput": true,
+      "thricifiedGenerationId": "ReadFitsFindingSynthesis.thricified-generation.settle.buy-deliver.retry.stitch-until-complete"
+    }
+  ],
+  "toolCoverage": [
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "inputType": "DepositorySearchRead",
+      "outputType": "DepositorySearchResult",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.try",
+      "telemetryReady": {
+        "toolInput": true,
+        "toolOutput": true
+      },
+      "toolId": "ReadFitsFindingSynthesis.tool.lexical-depository-search",
+      "tryStepOnly": true
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "inputType": "EmbeddingSearchRequest",
+      "outputType": "EmbeddingSearchResult",
+      "phaseId": "ReadFitsFindingSynthesis.discovery",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.discovery.finding-fits.try",
+      "telemetryReady": {
+        "toolInput": true,
+        "toolOutput": true
+      },
+      "toolId": "ReadFitsFindingSynthesis.tool.vector-depository-search",
+      "tryStepOnly": true
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.validate.fit-quality",
+      "inputType": "AssetPackVerificationEvidenceInput",
+      "outputType": "AssetPackVerificationEvidenceResult",
+      "phaseId": "ReadFitsFindingSynthesis.validate",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.validate.fit-quality.try",
+      "telemetryReady": {
+        "toolInput": true,
+        "toolOutput": true
+      },
+      "toolId": "ReadFitsFindingSynthesis.tool.verification-evidence",
+      "tryStepOnly": true
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesis.settle.buy-deliver",
+      "inputType": "PullRequestDeliveryInput",
+      "outputType": "PullRequestDeliveryResult",
+      "phaseId": "ReadFitsFindingSynthesis.settle",
+      "pipelineName": "ReadFitsFindingSynthesis",
+      "ptrrStepId": "ReadFitsFindingSynthesis.settle.buy-deliver.try",
+      "telemetryReady": {
+        "toolInput": true,
+        "toolOutput": true
+      },
+      "toolId": "ReadFitsFindingSynthesis.tool.vcs-create-pull-request",
+      "tryStepOnly": true
+    }
+  ],
+  "totals": {
+    "deterministicSteps": 16,
+    "modelStructuredPtrrSteps": 20,
+    "phases": 11,
+    "pipelines": 2,
+    "promptTemplates": 5,
+    "ptrrAgents": 12,
+    "ptrrSteps": 48,
+    "reviewSteps": 4,
+    "settlementSteps": 4,
+    "thricifiedGenerationPrompts": 432,
+    "thricifiedGenerations": 144,
+    "tools": 4,
+    "toolSteps": 4
+  },
+  "uxStepIds": [
+    "request-read",
+    "review-synthesized-need",
+    "request-fit",
+    "review-synthesized-asset-pack",
+    "buy-asset-pack-settle"
+  ],
+  "validationCommands": [
+    "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand",
+    "pnpm run check:v32-reading-pipeline-proof-coverage",
+    "pnpm run check:v32-gate4"
+  ],
+  "version": "V32"
+}

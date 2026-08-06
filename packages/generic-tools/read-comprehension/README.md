@@ -127,17 +127,17 @@ why, how, when, where, what, and who does this code serve in Bitcode's source-to
 
 ```typescript
 import {
-  analyzeReadSemanticsTool,
-  AnalyzeReadSemanticsTool
+ analyzeReadSemanticsTool,
+ AnalyzeReadSemanticsTool
 } from '@bitcode/generic-tools-read-comprehension';
 
 const semantics = await analyzeReadSemanticsTool.use({
-  expressed_read: 'Fix the OAuth redirect regression and open a pull request',
-  context_information: {
-    repository_type: 'Next.js application',
-    technology_stack: ['Next.js', 'Supabase'],
-    existing_attachments: ['failed-login-trace.txt']
-  }
+ expressed_read: 'Fix the OAuth redirect regression and open a pull request',
+ context_information: {
+ repository_type: 'Next.js application',
+ technology_stack: ['Next.js', 'Supabase'],
+ existing_attachments: ['failed-login-trace.txt']
+ }
 });
 
 console.log(semantics.read.expressed_read);
@@ -169,5 +169,5 @@ The matching JavaScript raw promptpart files must carry the same literal content
 
 This package does not make pre-reform task semantics canonical.
 It does not retain noncanonical tool, prompt, primitive, or schema exports after read-first owners exist.
-It does not promote generic tooling into an agent or live Exchange/Terminal product path by itself.
+It does not promote generic tooling into an agent or live Exchange/product path by itself.
 Agent promotion requires `@bitcode/generic-agents-read-comprehension`, explicit V26 proof coverage, package-boundary hardening, and product-surface integration in the active specification family.

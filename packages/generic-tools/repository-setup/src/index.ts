@@ -17,7 +17,7 @@ import { log } from '@bitcode/logger';
 // Do not import types from a non-existent path; Tool is imported above
 import { 
   type VCSProviderType
-} from '@bitcode/vcs';
+} from '@bitcode/vcs-generics';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';

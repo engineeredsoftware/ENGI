@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_ARTIFACT_PATH,
   buildV41ConversationToolInterfacePromptRewrite,
-} from '../packages/protocol/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

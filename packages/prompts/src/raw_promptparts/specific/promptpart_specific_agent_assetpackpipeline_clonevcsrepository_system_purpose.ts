@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_SYSTEM_PURPOSE: PromptPart =
-  'Clone provider repositories reliably, set a workspace path, and persist minimal metadata required for SDIVS Discovery' as PromptPart;
+  'Clone provider repositories reliably, set a workspace path, and persist minimal metadata required for SDIVF Discovery' as PromptPart;

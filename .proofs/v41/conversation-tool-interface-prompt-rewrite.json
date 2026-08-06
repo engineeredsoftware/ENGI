@@ -1,0 +1,1431 @@
+{
+  "artifactId": "v41-conversation-tool-interface-prompt-rewrite",
+  "schemaId": "bitcode.v41.conversationToolInterfacePromptRewrite.v1",
+  "version": "V41",
+  "currentTarget": "V40",
+  "sourceSafetyVerdict": "source-safe-conversation-tool-interface-prompt-rewrite-metadata",
+  "artifactPath": ".proofs/v41/conversation-tool-interface-prompt-rewrite.json",
+  "generatedAt": "2026-05-26T00:00:00.000Z",
+  "artifactRoot": "v41-conversation-tool-interface-prompt-rewrite:d064df3adfcedd5a35a2b777",
+  "passed": true,
+  "failures": [],
+  "metricIds": [
+    "conversation_ptrr_prompt_program_integrity",
+    "route_authority_source_selection_policy",
+    "stream_log_disclosure_metadata",
+    "doccode_tool_schema_prompt_integrity",
+    "tool_prompt_registry_hierarchy",
+    "mcp_api_action_contract_prompt_integrity",
+    "chatgpt_app_tool_prompt_boundary",
+    "public_api_terminal_summary_source_safety",
+    "interface_parsed_return_type_conformance",
+    "source_safe_prompt_telemetry_redaction"
+  ],
+  "disclosureTiers": [
+    "prompt_identity_source_safe",
+    "promptpart_identity_source_safe",
+    "source_hash_source_safe",
+    "predicate_verdict_source_safe",
+    "parser_target_id_source_safe",
+    "tool_schema_id_source_safe",
+    "route_authority_id_source_safe",
+    "raw_prompt_text_private",
+    "raw_interpolated_prompt_private",
+    "raw_provider_response_private",
+    "protected_source_private",
+    "private_context_private",
+    "unpaid_assetpack_source_private",
+    "wallet_private_material_private",
+    "settlement_private_payload_private"
+  ],
+  "rows": [
+    {
+      "rewriteId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "label": "Conversation PTRR PromptParts preserve route authority, source selection, disclosure, and typed output boundaries",
+      "surfaceFamilyIds": [
+        "Conversation",
+        "Interface"
+      ],
+      "sourceRoots": [
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_name.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts",
+        "packages/conversations/src/agent/ConversationAgent.ts"
+      ],
+      "promptFamilyIds": [
+        "Conversation",
+        "Interface",
+        "GenericPTRRFailsafeThricifiedPromptParts"
+      ],
+      "promptSurfaceIds": [
+        "ConversationAgent.identity",
+        "ConversationAgent.ptrr.plan",
+        "ConversationAgent.ptrr.try",
+        "ConversationAgent.ptrr.refine",
+        "ConversationAgent.ptrr.retry"
+      ],
+      "parserTargetIds": [
+        "ConversationPlanSchema",
+        "ConversationTrySchema",
+        "ConversationRefineSchema",
+        "ConversationRetrySchema"
+      ],
+      "metricIds": [
+        "conversation_ptrr_prompt_program_integrity",
+        "route_authority_source_selection_policy",
+        "interface_parsed_return_type_conformance",
+        "source_safe_prompt_telemetry_redaction"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.conversation.terminal-system-boundary",
+        "fixture.interface.source-safe-user-visible-prompting"
+      ],
+      "requiredPredicateIds": [
+        "conversation-agent-uses-ptrr",
+        "conversation-agent-step-prompts-use-promptparts",
+        "conversation-promptparts-mention-source-safe",
+        "conversation-promptparts-mention-route-authority",
+        "conversation-promptparts-mention-source-selection",
+        "conversation-promptparts-mention-disclosure",
+        "conversation-promptparts-mention-typed-output",
+        "conversation-promptparts-block-protected-payloads"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:1d0e9b62b3e4e44d9aa5dd2e",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts": "72c9665579f0db97896b3194",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_name.ts": "3d04ed2aa310cb81087ce7b8",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts": "0bd1566910a215a7d52d9f8b",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts": "6d063ca6ed8e670daa0a9a9e",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose.ts": "0661a9bfd5a8063a2536d7b0",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose.ts": "0a88d2640092a4325ed6bc8e",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts": "e9a890f6fc8bb33c5205c70f",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts": "cb04b9ba4b01cd81cec89376",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts": "f8cfc824a9d3f39de3df5fb3",
+        "packages/conversations/src/agent/ConversationAgent.ts": "c1fb960ed573bdf1f5adfa33"
+      }
+    },
+    {
+      "rewriteId": "conversation-terminal-system-prompt-boundary",
+      "label": "Terminal conversation system prompt remains registry-composed and source-safe across route handoffs",
+      "surfaceFamilyIds": [
+        "Conversation",
+        "Interface",
+        "Terminal"
+      ],
+      "sourceRoots": [
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts"
+      ],
+      "promptFamilyIds": [
+        "Conversation",
+        "Interface"
+      ],
+      "promptSurfaceIds": [
+        "BitcodeTerminalConversationSystemPrompt",
+        "BITCODE_TERMINAL_APP_SYSTEM_PROMPT"
+      ],
+      "parserTargetIds": [
+        "ConversationStreamEvent",
+        "TerminalConversationSystemPrompt"
+      ],
+      "metricIds": [
+        "route_authority_source_selection_policy",
+        "public_api_terminal_summary_source_safety",
+        "source_safe_prompt_telemetry_redaction"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.conversation.terminal-system-boundary"
+      ],
+      "requiredPredicateIds": [
+        "system-prompt-requires-hierarchy",
+        "system-prompt-uses-specific-promptparts",
+        "uapi-terminal-prompt-imports-canonical-system-prompt",
+        "system-promptparts-mention-route-authority",
+        "system-promptparts-mention-prompt-result-disclosure",
+        "system-promptparts-block-protected-payloads"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:bea1b0c8e458935d416d840c",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts": "2d058deda99d3de2b2e75bf2",
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts": "3ffedfa546e463ea9ba5bbcd",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts": "e9a890f6fc8bb33c5205c70f",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts": "cb04b9ba4b01cd81cec89376",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts": "f8cfc824a9d3f39de3df5fb3"
+      }
+    },
+    {
+      "rewriteId": "conversation-stream-log-disclosure-boundary",
+      "label": "Conversation stream and rich execution-log rows disclose prompt/result shape without raw prompt or provider payloads",
+      "surfaceFamilyIds": [
+        "Conversation",
+        "Interface",
+        "Telemetry"
+      ],
+      "sourceRoots": [
+        "packages/api/src/conversations/stream-events.ts",
+        "packages/api/src/conversations/telemetry.ts",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+        "packages/api/src/conversations/__tests__/stream-events.test.ts",
+        "packages/api/src/conversations/__tests__/telemetry.test.ts",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx"
+      ],
+      "promptFamilyIds": [
+        "Conversation",
+        "Interface"
+      ],
+      "promptSurfaceIds": [
+        "ConversationStreamEvent",
+        "PipelineExecutionLog",
+        "PipelineExecutionLogHeader"
+      ],
+      "parserTargetIds": [
+        "ConversationStreamEvent:model_delta",
+        "ConversationStreamEvent:tool_call",
+        "ConversationStreamEvent:completion_decision"
+      ],
+      "metricIds": [
+        "stream_log_disclosure_metadata",
+        "source_safe_prompt_telemetry_redaction"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.conversation.stream-log-disclosure"
+      ],
+      "requiredPredicateIds": [
+        "stream-events-use-prompt-template-only",
+        "stream-events-use-parsed-result-shape-only",
+        "stream-events-sanitize-unsafe-metadata",
+        "conversation-telemetry-redacts-secrets",
+        "pipeline-log-renders-prompt-disclosure",
+        "pipeline-log-renders-return-schema-metadata",
+        "pipeline-log-tests-source-safe-disclosure"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:b791b73ee844587964500c60",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
+        "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+        "packages/api/src/conversations/__tests__/stream-events.test.ts": "b8cf51cd980b71ef83c4f7ab",
+        "packages/api/src/conversations/__tests__/telemetry.test.ts": "b39d24fe1ad77a65eca15b1f",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4"
+      }
+    },
+    {
+      "rewriteId": "doccode-tool-prompt-program-boundary",
+      "label": "DocCode tool prompts remain PromptPart-composed and tool-schema source-safe",
+      "surfaceFamilyIds": [
+        "ToolDefinition"
+      ],
+      "sourceRoots": [
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+        "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+        "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
+        "packages/agent-generics/src/prompts/AgentPrompt.ts"
+      ],
+      "promptFamilyIds": [
+        "ToolDefinition",
+        "GenericPTRRFailsafeThricifiedPromptParts"
+      ],
+      "promptSurfaceIds": [
+        "DocCodeToolPrompt",
+        "formatToolsWithDocCodeToolsIntoUsableTools",
+        "ToolExecutionPrompt"
+      ],
+      "parserTargetIds": [
+        "ToolDefinitionPrompt",
+        "ToolInputSchema",
+        "ToolOutputSchema"
+      ],
+      "metricIds": [
+        "doccode_tool_schema_prompt_integrity",
+        "source_safe_prompt_telemetry_redaction"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.tool-definition.doc-code-contract"
+      ],
+      "requiredPredicateIds": [
+        "doccode-tool-prompt-extends-prompt",
+        "doccode-tool-prompt-uses-promptparts",
+        "format-usable-tools-formats-doccode-prompts",
+        "format-usable-tools-exposes-doccode-presence",
+        "tool-execution-injects-available-tool-docs",
+        "agent-prompt-excludes-tools-from-agent-level"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:2c5bd1600d8a0ef02257c55a",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts": "f18057b2ff7e48683f12f63b",
+        "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts": "f0afc94ef8b5082eda3c950c",
+        "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts": "0a1f0025946b1a169c2e7f09",
+        "packages/agent-generics/src/prompts/AgentPrompt.ts": "411a4ee56ab5100a6c281ec2"
+      }
+    },
+    {
+      "rewriteId": "tool-prompt-registry-hierarchy-boundary",
+      "label": "ToolPromptRegistry hierarchy resolves execution-owned prompt carriers without bypassing PTRR steps",
+      "surfaceFamilyIds": [
+        "ToolDefinition",
+        "Execution"
+      ],
+      "sourceRoots": [
+        "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
+        "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
+        "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js"
+      ],
+      "promptFamilyIds": [
+        "ToolDefinition",
+        "GenericPTRRFailsafeThricifiedPromptParts"
+      ],
+      "promptSurfaceIds": [
+        "ToolPromptRegistry",
+        "ToolExecutionPrompt.injectAvailableTools",
+        "V41RegistryInterpolationContracts.tool-doc-code-prompt-injection"
+      ],
+      "parserTargetIds": [
+        "ToolPromptRegistryResolution",
+        "ToolPromptRegistryFallback"
+      ],
+      "metricIds": [
+        "tool_prompt_registry_hierarchy",
+        "doccode_tool_schema_prompt_integrity"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.tool-definition.registry-hierarchy"
+      ],
+      "requiredPredicateIds": [
+        "tool-prompt-registry-extends-registry",
+        "tool-prompt-registry-walks-execution-parent-chain",
+        "tool-prompt-registry-uses-fallback-keys",
+        "tool-prompt-registry-formats-input-output-error",
+        "gate3-covers-tool-doc-code-injection"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:221bc7ff843da6c52d33bcca",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "packages/tools-generics/src/execution/ToolPromptRegistry.ts": "2458e94a4816b24aa3fe7275",
+        "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts": "0a1f0025946b1a169c2e7f09",
+        "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
+      }
+    },
+    {
+      "rewriteId": "mcp-api-public-contract-prompt-boundary",
+      "label": "MCP API and public API action contracts preserve source-safe tool schemas, denied states, and proof roots",
+      "surfaceFamilyIds": [
+        "MCP API",
+        "Public API",
+        "ToolDefinition"
+      ],
+      "sourceRoots": [
+        "packages/btd/src/mcp-tool-contract.ts",
+        "packages/btd/__tests__/mcp-tool-contract.test.ts",
+        "packages/btd/src/api-boundaries.ts",
+        "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts"
+      ],
+      "promptFamilyIds": [
+        "ToolDefinition",
+        "Interface"
+      ],
+      "promptSurfaceIds": [
+        "BTD_MCP_TOOL_CONTRACT_IDS",
+        "BtdApiSchemaCompatibilityMatrix",
+        "PublicDocsPageContent"
+      ],
+      "parserTargetIds": [
+        "McpToolInputSchema",
+        "McpToolOutputSchema",
+        "BtdApiBoundaryResult"
+      ],
+      "metricIds": [
+        "mcp_api_action_contract_prompt_integrity",
+        "public_api_terminal_summary_source_safety",
+        "interface_parsed_return_type_conformance"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.interface.mcp-api-tool-contract",
+        "fixture.interface.public-api-source-safe-readback"
+      ],
+      "requiredPredicateIds": [
+        "mcp-contract-declares-required-tool-ids",
+        "mcp-contract-declares-input-schema-ids",
+        "mcp-contract-declares-denied-states",
+        "mcp-contract-source-safety-guards-private-payloads",
+        "mcp-contract-tests-source-safety",
+        "public-api-docs-teach-request-shape-and-failure-posture"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:28a3358d1b36ee478ab1fd13",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "packages/btd/src/mcp-tool-contract.ts": "ed7ff68bb55bd47afc9c538b",
+        "packages/btd/__tests__/mcp-tool-contract.test.ts": "27ef7ecf25bdbcb8420466d8",
+        "packages/btd/src/api-boundaries.ts": "f5fc231ed68d390c3102f0c7",
+        "packages/api/src/routes/__tests__/btd-crypto.test.ts": "c0c94cbd3006b1eb181d3dde",
+        "apps/uapi/app/docs/bitcode-docs-content.ts": "5c7e56156db21c2d368277e6"
+      }
+    },
+    {
+      "rewriteId": "chatgpt-app-tool-prompt-boundary",
+      "label": "ChatGPT App tool prompts and action schemas preserve read/settlement authority before connected-interface writes",
+      "surfaceFamilyIds": [
+        "ChatGPT App",
+        "ToolDefinition",
+        "Interface"
+      ],
+      "sourceRoots": [
+        "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+        "apps/chatgpt/src/tools.ts",
+        "packages/btd/src/chatgpt-app-action-contract.ts",
+        "apps/chatgpt/src/__tests__/tools.test.ts",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
+      ],
+      "promptFamilyIds": [
+        "ToolDefinition",
+        "Interface"
+      ],
+      "promptSurfaceIds": [
+        "ChatGptToolDocPrompts",
+        "BtdChatGptAppActionContractRegistry",
+        "BitcodeTool.meta.docCodePrompt"
+      ],
+      "parserTargetIds": [
+        "BtdChatGptAppActionInputSchema",
+        "BtdChatGptAppSourceSafeResponse",
+        "BitcodeToolInputSchema"
+      ],
+      "metricIds": [
+        "chatgpt_app_tool_prompt_boundary",
+        "doccode_tool_schema_prompt_integrity",
+        "interface_parsed_return_type_conformance"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.interface.chatgpt-action-contract",
+        "fixture.tool-definition.doc-code-contract"
+      ],
+      "requiredPredicateIds": [
+        "chatgpt-prompts-use-doccode-prompt",
+        "chatgpt-prompts-export-tool-carriers",
+        "chatgpt-tools-format-doccode-prompts",
+        "chatgpt-tools-carry-doccode-prompt-metadata",
+        "chatgpt-tools-enforce-read-access-and-organization-authority",
+        "chatgpt-action-contract-covers-reading-actions",
+        "chatgpt-action-contract-declares-source-safe-renderers",
+        "chatgpt-tests-cover-write-admission"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:e076eaedc03a00f702d0c0d8",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts": "bebc8c802c60830ea6630503",
+        "apps/chatgpt/src/tools.ts": "01098e7c683c6394a4ff6918",
+        "packages/btd/src/chatgpt-app-action-contract.ts": "a24a464bd0910f8b8284ddfe",
+        "apps/chatgpt/src/__tests__/tools.test.ts": "bd3b2ab267858fb98a2ccc0e",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts": "4d61df32d3f61c9a2f1efa5c"
+      }
+    },
+    {
+      "rewriteId": "terminal-public-api-interface-summary-boundary",
+      "label": "Terminal and public API summaries keep Conversation and Reading prompt outputs source-safe before settlement",
+      "surfaceFamilyIds": [
+        "Terminal",
+        "Public API",
+        "Interface"
+      ],
+      "sourceRoots": [
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
+        "apps/uapi/app/api/conversations/_shared.ts",
+        "packages/api/src/routes/conversations.ts",
+        "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts"
+      ],
+      "promptFamilyIds": [
+        "Interface",
+        "Conversation"
+      ],
+      "promptSurfaceIds": [
+        "BITCODE_TERMINAL_APP_SYSTEM_PROMPT",
+        "conversation route shared events",
+        "terminal-commercial-launch-readiness"
+      ],
+      "parserTargetIds": [
+        "ConversationRouteResponse",
+        "TerminalSummaryProjection",
+        "PublicDocsInterfaceProjection"
+      ],
+      "metricIds": [
+        "public_api_terminal_summary_source_safety",
+        "route_authority_source_selection_policy",
+        "interface_parsed_return_type_conformance"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.interface.source-safe-user-visible-prompting"
+      ],
+      "requiredPredicateIds": [
+        "terminal-app-prompt-uses-canonical-conversation-prompt",
+        "conversation-route-shared-stream-events-source-safe",
+        "conversation-api-route-projects-prompt-disclosure",
+        "terminal-readiness-names-connected-interface-authority",
+        "public-docs-cover-mcp-chatgpt-api-terminal-boundaries"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:67a47a814172602ab3a8fc17",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts": "3ffedfa546e463ea9ba5bbcd",
+        "apps/uapi/app/api/conversations/_shared.ts": "66789580a62df36a6ff2ff12",
+        "packages/api/src/routes/conversations.ts": "5e58470bbe10ab4eb0e1f54a",
+        "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts": "57a4003516368404a5f3756d",
+        "apps/uapi/app/docs/bitcode-docs-content.ts": "5c7e56156db21c2d368277e6"
+      }
+    },
+    {
+      "rewriteId": "conversation-tool-interface-tests-docs-workflows",
+      "label": "Gate 7 documentation, source-safe artifacts, tests, scripts, and workflows close Conversation/tool/interface prompt parity",
+      "surfaceFamilyIds": [
+        "Proof",
+        "Workflow",
+        "Documentation"
+      ],
+      "sourceRoots": [
+        "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+        "scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+        "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs",
+        "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs",
+        "BITCODE_SPEC_V41.md",
+        "BITCODE_SPEC_V41_DELTA.md",
+        "BITCODE_SPEC_V41_NOTES.md",
+        "BITCODE_SPEC_V41_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        "README.md",
+        "scripts/specifying/README.md",
+        "package.json",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "promptFamilyIds": [
+        "Conversation",
+        "ToolDefinition",
+        "Interface"
+      ],
+      "promptSurfaceIds": [
+        "V41ConversationToolInterfacePromptRewrite"
+      ],
+      "parserTargetIds": [
+        "V41ConversationToolInterfacePromptRewriteArtifact"
+      ],
+      "metricIds": [
+        "source_safe_prompt_telemetry_redaction"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.prompt-program.gate7-proof"
+      ],
+      "requiredPredicateIds": [
+        "gate7-source-exists",
+        "gate7-test-exists",
+        "gate7-generator-exists",
+        "gate7-checker-exists",
+        "package-json-exposes-gate7-scripts",
+        "workflows-run-gate7-checker",
+        "spec-documents-gate7-closure",
+        "roadmap-documents-gate7-closure",
+        "readmes-document-gate7-helpers"
+      ],
+      "rowRoot": "v41-conversation-tool-interface-prompt-rewrite-row:423a1a7d2f6959fda170b5d5",
+      "sourceSafetyClass": "source_safe_conversation_tool_interface_prompt_rewrite_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "tool_schema_id_source_safe",
+        "route_authority_id_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "private_context_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "passed": true,
+      "hardeningScore": 1,
+      "sourceHashes": {
+        "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
+        "scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js": "0f36d8bf304ccc54f6eae328",
+        "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs": "16b23544d652ac6d7e1afa81",
+        "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs": "b304b421d52d19c8de34e163",
+        "BITCODE_SPEC_V41.md": "9174742d79d0b0045bb0eebf",
+        "BITCODE_SPEC_V41_DELTA.md": "a368d8732b02b4f943017df9",
+        "BITCODE_SPEC_V41_NOTES.md": "38e4d70e19dff8c367acf279",
+        "BITCODE_SPEC_V41_PARITY_MATRIX.md": "5f49852cfb6323d19db8be1c",
+        "SPECIFICATIONS_ROADMAP.md": "2400ea79d304ff28b7fd8e7a",
+        "README.md": "14085be712ec8e13c811c62a",
+        "scripts/specifying/README.md": "1a81b9507325d3a5da87f627",
+        "package.json": "4d9f041eb01a920860a26f75",
+        ".github/workflows/bitcode-gate-quality.yml": "379d7561d515468f9237bf02",
+        ".github/workflows/bitcode-canon-quality.yml": "ab37403273c35c918071e3cd"
+      }
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "conversation-agent-uses-ptrr",
+      "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
+      "passed": true
+    },
+    {
+      "id": "conversation-agent-step-prompts-use-promptparts",
+      "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
+      "passed": true
+    },
+    {
+      "id": "conversation-promptparts-mention-source-safe",
+      "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "conversation-promptparts-mention-route-authority",
+      "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "conversation-promptparts-mention-source-selection",
+      "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "conversation-promptparts-mention-disclosure",
+      "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "conversation-promptparts-mention-typed-output",
+      "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "conversation-promptparts-block-protected-payloads",
+      "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "system-prompt-requires-hierarchy",
+      "rowId": "conversation-terminal-system-prompt-boundary",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "system-prompt-uses-specific-promptparts",
+      "rowId": "conversation-terminal-system-prompt-boundary",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "uapi-terminal-prompt-imports-canonical-system-prompt",
+      "rowId": "conversation-terminal-system-prompt-boundary",
+      "sourcePath": "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
+      "passed": true
+    },
+    {
+      "id": "system-promptparts-mention-route-authority",
+      "rowId": "conversation-terminal-system-prompt-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "system-promptparts-mention-prompt-result-disclosure",
+      "rowId": "conversation-terminal-system-prompt-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "system-promptparts-block-protected-payloads",
+      "rowId": "conversation-terminal-system-prompt-boundary",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "passed": true
+    },
+    {
+      "id": "stream-events-use-prompt-template-only",
+      "rowId": "conversation-stream-log-disclosure-boundary",
+      "sourcePath": "packages/api/src/conversations/stream-events.ts",
+      "passed": true
+    },
+    {
+      "id": "stream-events-use-parsed-result-shape-only",
+      "rowId": "conversation-stream-log-disclosure-boundary",
+      "sourcePath": "packages/api/src/conversations/stream-events.ts",
+      "passed": true
+    },
+    {
+      "id": "stream-events-sanitize-unsafe-metadata",
+      "rowId": "conversation-stream-log-disclosure-boundary",
+      "sourcePath": "packages/api/src/conversations/stream-events.ts",
+      "passed": true
+    },
+    {
+      "id": "conversation-telemetry-redacts-secrets",
+      "rowId": "conversation-stream-log-disclosure-boundary",
+      "sourcePath": "packages/api/src/conversations/telemetry.ts",
+      "passed": true
+    },
+    {
+      "id": "pipeline-log-renders-prompt-disclosure",
+      "rowId": "conversation-stream-log-disclosure-boundary",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "passed": true
+    },
+    {
+      "id": "pipeline-log-renders-return-schema-metadata",
+      "rowId": "conversation-stream-log-disclosure-boundary",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "passed": true
+    },
+    {
+      "id": "pipeline-log-tests-source-safe-disclosure",
+      "rowId": "conversation-stream-log-disclosure-boundary",
+      "sourcePath": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "doccode-tool-prompt-extends-prompt",
+      "rowId": "doccode-tool-prompt-program-boundary",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "doccode-tool-prompt-uses-promptparts",
+      "rowId": "doccode-tool-prompt-program-boundary",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "format-usable-tools-formats-doccode-prompts",
+      "rowId": "doccode-tool-prompt-program-boundary",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+      "passed": true
+    },
+    {
+      "id": "format-usable-tools-exposes-doccode-presence",
+      "rowId": "doccode-tool-prompt-program-boundary",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+      "passed": true
+    },
+    {
+      "id": "tool-execution-injects-available-tool-docs",
+      "rowId": "doccode-tool-prompt-program-boundary",
+      "sourcePath": "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "agent-prompt-excludes-tools-from-agent-level",
+      "rowId": "doccode-tool-prompt-program-boundary",
+      "sourcePath": "packages/agent-generics/src/prompts/AgentPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "tool-prompt-registry-extends-registry",
+      "rowId": "tool-prompt-registry-hierarchy-boundary",
+      "sourcePath": "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
+      "passed": true
+    },
+    {
+      "id": "tool-prompt-registry-walks-execution-parent-chain",
+      "rowId": "tool-prompt-registry-hierarchy-boundary",
+      "sourcePath": "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
+      "passed": true
+    },
+    {
+      "id": "tool-prompt-registry-uses-fallback-keys",
+      "rowId": "tool-prompt-registry-hierarchy-boundary",
+      "sourcePath": "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
+      "passed": true
+    },
+    {
+      "id": "tool-prompt-registry-formats-input-output-error",
+      "rowId": "tool-prompt-registry-hierarchy-boundary",
+      "sourcePath": "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
+      "passed": true
+    },
+    {
+      "id": "gate3-covers-tool-doc-code-injection",
+      "rowId": "tool-prompt-registry-hierarchy-boundary",
+      "sourcePath": "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js",
+      "passed": true
+    },
+    {
+      "id": "mcp-contract-declares-required-tool-ids",
+      "rowId": "mcp-api-public-contract-prompt-boundary",
+      "sourcePath": "packages/btd/src/mcp-tool-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "mcp-contract-declares-input-schema-ids",
+      "rowId": "mcp-api-public-contract-prompt-boundary",
+      "sourcePath": "packages/btd/src/mcp-tool-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "mcp-contract-declares-denied-states",
+      "rowId": "mcp-api-public-contract-prompt-boundary",
+      "sourcePath": "packages/btd/src/mcp-tool-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "mcp-contract-source-safety-guards-private-payloads",
+      "rowId": "mcp-api-public-contract-prompt-boundary",
+      "sourcePath": "packages/btd/src/mcp-tool-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "mcp-contract-tests-source-safety",
+      "rowId": "mcp-api-public-contract-prompt-boundary",
+      "sourcePath": "packages/btd/__tests__/mcp-tool-contract.test.ts",
+      "passed": true
+    },
+    {
+      "id": "public-api-docs-teach-request-shape-and-failure-posture",
+      "rowId": "mcp-api-public-contract-prompt-boundary",
+      "sourcePath": "apps/uapi/app/docs/bitcode-docs-content.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-prompts-use-doccode-prompt",
+      "rowId": "chatgpt-app-tool-prompt-boundary",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-prompts-export-tool-carriers",
+      "rowId": "chatgpt-app-tool-prompt-boundary",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-tools-format-doccode-prompts",
+      "rowId": "chatgpt-app-tool-prompt-boundary",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-tools-carry-doccode-prompt-metadata",
+      "rowId": "chatgpt-app-tool-prompt-boundary",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-tools-enforce-read-access-and-organization-authority",
+      "rowId": "chatgpt-app-tool-prompt-boundary",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-action-contract-covers-reading-actions",
+      "rowId": "chatgpt-app-tool-prompt-boundary",
+      "sourcePath": "packages/btd/src/chatgpt-app-action-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-action-contract-declares-source-safe-renderers",
+      "rowId": "chatgpt-app-tool-prompt-boundary",
+      "sourcePath": "packages/btd/src/chatgpt-app-action-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-tests-cover-write-admission",
+      "rowId": "chatgpt-app-tool-prompt-boundary",
+      "sourcePath": "apps/chatgpt/src/__tests__/tools.test.ts",
+      "passed": true
+    },
+    {
+      "id": "terminal-app-prompt-uses-canonical-conversation-prompt",
+      "rowId": "terminal-public-api-interface-summary-boundary",
+      "sourcePath": "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
+      "passed": true
+    },
+    {
+      "id": "conversation-route-shared-stream-events-source-safe",
+      "rowId": "terminal-public-api-interface-summary-boundary",
+      "sourcePath": "apps/uapi/app/api/conversations/_shared.ts",
+      "passed": true
+    },
+    {
+      "id": "conversation-api-route-projects-prompt-disclosure",
+      "rowId": "terminal-public-api-interface-summary-boundary",
+      "sourcePath": "packages/api/src/routes/conversations.ts",
+      "passed": true
+    },
+    {
+      "id": "terminal-readiness-names-connected-interface-authority",
+      "rowId": "terminal-public-api-interface-summary-boundary",
+      "sourcePath": "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts",
+      "passed": true
+    },
+    {
+      "id": "public-docs-cover-mcp-chatgpt-api-terminal-boundaries",
+      "rowId": "terminal-public-api-interface-summary-boundary",
+      "sourcePath": "apps/uapi/app/docs/bitcode-docs-content.ts",
+      "passed": true
+    },
+    {
+      "id": "gate7-source-exists",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+      "passed": true
+    },
+    {
+      "id": "gate7-test-exists",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": "scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+      "passed": true
+    },
+    {
+      "id": "gate7-generator-exists",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs",
+      "passed": true
+    },
+    {
+      "id": "gate7-checker-exists",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate7-scripts",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate7-checker",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "spec-documents-gate7-closure",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": "BITCODE_SPEC_V41.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-documents-gate7-closure",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-document-gate7-helpers",
+      "rowId": "conversation-tool-interface-tests-docs-workflows",
+      "sourcePath": "scripts/specifying/README.md",
+      "passed": true
+    }
+  ],
+  "dependencyRoots": {
+    "v38ConversationToolPromptInferenceParityRoot": "v38-conversation-tool-prompt-inference-parity:7d674fb4a75188f34ae07e2c",
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
+    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
+    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388",
+    "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:0584cc9e2385dfe150b0b96a"
+  },
+  "coverage": {
+    "rowCount": 9,
+    "requiredPredicateCount": 60,
+    "passedPredicateCount": 60,
+    "failedPredicateIds": [],
+    "failingRowIds": [],
+    "sourceRootCount": 52,
+    "sourceRootPresentCount": 52,
+    "missingSourceRoots": [],
+    "legacySourceRoots": [],
+    "promptSurfaceCount": 25,
+    "parserTargetCount": 24,
+    "benchmarkFixtureCount": 9,
+    "metricCount": 10,
+    "hardeningScoreMinimum": 1,
+    "conversationPromptPartRowCount": 14,
+    "conversationPromptRowCount": 2,
+    "toolPromptPartRowCount": 589,
+    "toolPromptRowCount": 74,
+    "interfacePromptPartRowCount": 79,
+    "interfacePromptRowCount": 10,
+    "v38ConversationToolParityPassed": true,
+    "gate2InventoryPassed": true,
+    "gate3RegistryInterpolationPassed": true,
+    "gate4ReadingBenchmarkPassed": true,
+    "gate5ReadNeedHardeningPassed": true,
+    "gate6ReadFitsFindingHardeningPassed": true,
+    "sourceSafeMetadataOnly": true,
+    "rawPromptTextSerialized": false,
+    "rawInterpolatedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false
+  },
+  "sourceSafety": {
+    "sourceSafeMetadataOnly": true,
+    "rawPromptTextSerialized": false,
+    "rawInterpolatedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "protectedSourceVisible": false,
+    "privateContextSerialized": false,
+    "credentialsSerialized": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "forbiddenPayloadClasses": [
+      "secret-values",
+      "provider-tokens",
+      "wallet-private-material",
+      "settlement-private-payloads",
+      "protected-source-payloads",
+      "raw-protected-prompts",
+      "raw-prompt-text",
+      "raw-interpolated-prompts",
+      "raw-provider-responses",
+      "private-context",
+      "unpaid-assetpack-source"
+    ],
+    "rowCount": 9
+  },
+  "sourceRoots": {
+    "conversationAgent": "packages/conversations/src/agent/ConversationAgent.ts",
+    "conversationSystemPrompt": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+    "conversationPromptParts": "packages/prompts/src/raw_promptparts/specific",
+    "uapiTerminalSystemPrompt": "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
+    "conversationRouteShared": "apps/uapi/app/api/conversations/_shared.ts",
+    "conversationApiRoute": "packages/api/src/routes/conversations.ts",
+    "conversationStreamEvents": "packages/api/src/conversations/stream-events.ts",
+    "conversationTelemetry": "packages/api/src/conversations/telemetry.ts",
+    "conversationStreamEventsTest": "packages/api/src/conversations/__tests__/stream-events.test.ts",
+    "conversationTelemetryTest": "packages/api/src/conversations/__tests__/telemetry.test.ts",
+    "conversationStreamUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+    "conversationStreamUiHeader": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+    "conversationStreamUiTest": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+    "docCodeToolPrompt": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+    "formatUsableTools": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+    "toolPromptRegistry": "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
+    "toolExecutionPrompt": "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
+    "agentPrompt": "packages/agent-generics/src/prompts/AgentPrompt.ts",
+    "btdMcpToolContract": "packages/btd/src/mcp-tool-contract.ts",
+    "btdMcpToolContractTest": "packages/btd/__tests__/mcp-tool-contract.test.ts",
+    "btdApiBoundaries": "packages/btd/src/api-boundaries.ts",
+    "btdApiRouteTest": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+    "chatGptToolDocPrompts": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+    "chatGptTools": "apps/chatgpt/src/tools.ts",
+    "chatGptActionContract": "packages/btd/src/chatgpt-app-action-contract.ts",
+    "chatGptToolsTest": "apps/chatgpt/src/__tests__/tools.test.ts",
+    "chatGptActionContractTest": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+    "publicDocs": "apps/uapi/app/docs/bitcode-docs-content.ts",
+    "terminalReadiness": "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts",
+    "gate2InventorySource": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+    "gate2InventoryArtifact": ".proofs/v41/promptpart-prompt-inventory.json",
+    "gate3ContractsSource": "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js",
+    "gate3ContractsArtifact": ".proofs/v41/registry-interpolation-contracts.json",
+    "gate4BaselinesSource": "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
+    "gate4BaselinesArtifact": ".proofs/v41/reading-prompt-benchmark-baselines.json",
+    "gate5ReadNeedSource": "scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js",
+    "gate5ReadNeedArtifact": ".proofs/v41/readneed-prompt-hardening.json",
+    "gate6ReadFitsSource": "scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
+    "gate6ReadFitsArtifact": ".proofs/v41/readfitsfinding-prompt-hardening.json",
+    "v38ConversationToolParitySource": "scripts/specifying/src/canonical/conversation-tool-prompt-inference-parity.js",
+    "v38ConversationToolParityArtifact": ".proofs/v38/conversation-tool-prompt-inference-parity.json",
+    "packageSource": "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+    "packageTest": "scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+    "generator": "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs",
+    "checker": "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs",
+    "spec": "BITCODE_SPEC_V41.md",
+    "delta": "BITCODE_SPEC_V41_DELTA.md",
+    "notes": "BITCODE_SPEC_V41_NOTES.md",
+    "parity": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md",
+    "readme": "README.md",
+    "protocolReadme": "scripts/specifying/README.md",
+    "packageJson": "package.json",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml"
+  }
+}

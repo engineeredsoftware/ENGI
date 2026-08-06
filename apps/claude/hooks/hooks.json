@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[bitcode plugin] Session start — hierarchy: vcs-generics, artifact-generics, attachment-generics, asset-pack-generics\""
+          }
+        ]
+      }
+    ]
+  }
+}

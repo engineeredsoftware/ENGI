@@ -1,0 +1,389 @@
+{
+  "artifactId": "v32-interface-contract-regression-suite",
+  "closureCommand": "pnpm run check:v32-gate6",
+  "coverage": {
+    "activeContractCount": 5,
+    "credentialsSerialized": false,
+    "deferredBlockedCount": 2,
+    "missingObjectFamilies": [],
+    "missingSurfaces": [],
+    "observedObjectFamilies": [
+      "btc_fee_operation",
+      "btd_receipts",
+      "btd_registry",
+      "ledger_projection",
+      "organization_authority",
+      "protocol_telemetry",
+      "read_access",
+      "source_to_shares_proof",
+      "terminal_journal"
+    ],
+    "observedSurfaces": [
+      "terminal",
+      "api",
+      "mcp",
+      "chatgpt_app",
+      "auxillaries_hook",
+      "exchange_hook",
+      "conversations_hook"
+    ],
+    "protectedSourceVisible": false,
+    "routeLocalReimplementation": false
+  },
+  "currentTarget": "V31",
+  "deferredSurfaces": [
+    "exchange_hook",
+    "conversations_hook"
+  ],
+  "fixtureRows": [
+    {
+      "assertions": [
+        "auth-boundary-asserted",
+        "policy-denial-asserted",
+        "source-safety-class-asserted",
+        "protected-source-nondisclosure-asserted"
+      ],
+      "authBoundary": "authenticated_route",
+      "boundaryKind": "terminal_ui",
+      "fixturePath": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "objectFamilies": [
+        "btd_registry",
+        "read_access",
+        "terminal_journal",
+        "protocol_telemetry"
+      ],
+      "policyDenial": "terminal-detail-denies-protected-source-before-paid-unlock",
+      "sharedFixtureBasis": [
+        "TerminalTransactionReadModel",
+        "BtdReadAccessDecision"
+      ],
+      "sourceSafetyClass": "protected-source-locked",
+      "status": "active_contract",
+      "surface": "terminal"
+    },
+    {
+      "assertions": [
+        "auth-boundary-asserted",
+        "policy-denial-asserted",
+        "source-safety-class-asserted",
+        "protected-source-nondisclosure-asserted"
+      ],
+      "authBoundary": "authenticated_route",
+      "boundaryKind": "api_route",
+      "fixturePath": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+      "objectFamilies": [
+        "btd_receipts",
+        "btc_fee_operation",
+        "ledger_projection",
+        "protocol_telemetry"
+      ],
+      "policyDenial": "btd-routes-return-401-or-400-before-settlement-admission",
+      "sharedFixtureBasis": [
+        "BtdInterfaceIntegrationRegressionSettlement",
+        "BtdReadAccessDecision"
+      ],
+      "sourceSafetyClass": "source-safe-internal",
+      "status": "active_contract",
+      "surface": "api"
+    },
+    {
+      "assertions": [
+        "auth-boundary-asserted",
+        "policy-denial-asserted",
+        "source-safety-class-asserted",
+        "protected-source-nondisclosure-asserted"
+      ],
+      "authBoundary": "pipeline_permission",
+      "boundaryKind": "mcp_tool",
+      "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "objectFamilies": [
+        "source_to_shares_proof",
+        "organization_authority",
+        "protocol_telemetry"
+      ],
+      "policyDenial": "mcp-pipeline-write-denies-missing-pipelines-create",
+      "sharedFixtureBasis": [
+        "MCPAuthContext",
+        "pipeline write admission receipt"
+      ],
+      "sourceSafetyClass": "source-safe-internal",
+      "status": "active_contract",
+      "surface": "mcp"
+    },
+    {
+      "assertions": [
+        "auth-boundary-asserted",
+        "policy-denial-asserted",
+        "source-safety-class-asserted",
+        "protected-source-nondisclosure-asserted"
+      ],
+      "authBoundary": "confirmed_connected_write",
+      "boundaryKind": "chatgpt_tool",
+      "fixturePath": "apps/chatgpt/src/__tests__/tools.test.ts",
+      "objectFamilies": [
+        "read_access",
+        "organization_authority",
+        "protocol_telemetry"
+      ],
+      "policyDenial": "chatgpt-app-write-denies-missing-confirmation-read-access-or-authority",
+      "sharedFixtureBasis": [
+        "ChatGPT App write admission receipt",
+        "BtdReadAccessDecision"
+      ],
+      "sourceSafetyClass": "source-safe-internal",
+      "status": "active_contract",
+      "surface": "chatgpt_app"
+    },
+    {
+      "assertions": [
+        "auth-boundary-asserted",
+        "policy-denial-asserted",
+        "source-safety-class-asserted",
+        "protected-source-nondisclosure-asserted"
+      ],
+      "authBoundary": "support_plane_policy",
+      "boundaryKind": "auxillaries_ui",
+      "fixturePath": "apps/uapi/tests/auxillariesContent.access.test.tsx",
+      "objectFamilies": [
+        "btd_registry",
+        "organization_authority",
+        "read_access"
+      ],
+      "policyDenial": "auxillaries-support-plane-denies-protected-actions-without-interface-admission",
+      "sharedFixtureBasis": [
+        "AuxillariesInterfaceAdmission",
+        "BtdOrganizationPolicyAuthority"
+      ],
+      "sourceSafetyClass": "source-safe-internal",
+      "status": "active_contract",
+      "surface": "auxillaries_hook"
+    },
+    {
+      "assertions": [
+        "auth-boundary-asserted",
+        "policy-denial-asserted",
+        "source-safety-class-asserted",
+        "protected-source-nondisclosure-asserted"
+      ],
+      "authBoundary": "deferred_not_admitted",
+      "boundaryKind": "deferred_interface_hook",
+      "deferredReason": "Exchange product depth is outside V32 Gate 6.",
+      "fixturePath": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "objectFamilies": [
+        "btd_receipts",
+        "btc_fee_operation",
+        "ledger_projection"
+      ],
+      "policyDenial": "exchange-hook-remains-blocked-until-exchange-product-depth-gate",
+      "sharedFixtureBasis": [
+        "deferred Exchange interface admission blocker"
+      ],
+      "sourceSafetyClass": "deferred-blocker",
+      "status": "deferred_blocked",
+      "surface": "exchange_hook"
+    },
+    {
+      "assertions": [
+        "auth-boundary-asserted",
+        "policy-denial-asserted",
+        "source-safety-class-asserted",
+        "protected-source-nondisclosure-asserted"
+      ],
+      "authBoundary": "deferred_not_admitted",
+      "boundaryKind": "deferred_interface_hook",
+      "deferredReason": "Conversations product depth is outside V32 Gate 6.",
+      "fixturePath": "apps/uapi/tests/api/conversationsRouteRead.test.ts",
+      "objectFamilies": [
+        "read_access",
+        "organization_authority",
+        "protocol_telemetry"
+      ],
+      "policyDenial": "conversations-hook-remains-blocked-until-conversations-product-depth-gate",
+      "sharedFixtureBasis": [
+        "deferred Conversations interface admission blocker"
+      ],
+      "sourceSafetyClass": "deferred-blocker",
+      "status": "deferred_blocked",
+      "surface": "conversations_hook"
+    }
+  ],
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "passed": true,
+  "requiredAssertions": [
+    "auth-boundary-asserted",
+    "policy-denial-asserted",
+    "source-safety-class-asserted",
+    "protected-source-nondisclosure-asserted"
+  ],
+  "requiredObjectFamilies": [
+    "btd_registry",
+    "read_access",
+    "btd_receipts",
+    "btc_fee_operation",
+    "ledger_projection",
+    "source_to_shares_proof",
+    "protocol_telemetry",
+    "organization_authority",
+    "terminal_journal"
+  ],
+  "requiredSurfaces": [
+    "terminal",
+    "api",
+    "mcp",
+    "chatgpt_app",
+    "auxillaries_hook",
+    "exchange_hook",
+    "conversations_hook"
+  ],
+  "schemaId": "bitcode.v32.interfaceContractRegressionSuite.v1",
+  "sharedFixtureFiles": [
+    "packages/btd/src/interface-contract-regression.ts",
+    "packages/btd/src/interface-integration-contract.ts",
+    "packages/btd/src/interface-integration.ts",
+    "apps/uapi/app/terminal/terminal-interface-integration-regression.ts",
+    "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
+    "apps/chatgpt/src/interface-integration.ts",
+    "packages/btd/__tests__/v32-interface-contract-regression.test.ts",
+    "packages/btd/__tests__/interface-integration.test.ts",
+    "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+    "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+    "apps/chatgpt/src/__tests__/tools.test.ts",
+    "apps/uapi/tests/auxillariesContent.access.test.tsx",
+    "apps/uapi/tests/api/conversationsRouteRead.test.ts"
+  ],
+  "sourceEvidence": [
+    {
+      "digest": "sha256:2e6b8e6d0730a12b680a4c9b751b3f630f437cbd52d506448b1340b57ea63e14",
+      "relativePath": "packages/btd/src/interface-contract-regression.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "buildBtdInterfaceContractRegressionProof"
+        },
+        {
+          "present": true,
+          "token": "conversations_hook"
+        },
+        {
+          "present": true,
+          "token": "deferred_blocked"
+        },
+        {
+          "present": true,
+          "token": "protected-source-nondisclosure-asserted"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:9d5a31ff8fd761a2643a4cb0ebbe7ea65b14b51b22f8c6c2653f7324b79b5a99",
+      "relativePath": "packages/btd/src/interface-integration-contract.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "BTD_INTERFACE_INTEGRATION_REQUIRED_SURFACES"
+        },
+        {
+          "present": true,
+          "token": "conversations_hook"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:e13b23c5679a5020c5d5cc4d899e25198febef12c6755f56a6c0dfff70684604",
+      "relativePath": "apps/uapi/app/terminal/terminal-interface-integration-regression.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "conversations-interface-hook"
+        },
+        {
+          "present": true,
+          "token": "exchange-interface-hook"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:c09f752e418c23b85c4bb583aab39a5e36037602d10ffbcde0ca58def6343144",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "pipelines.create permission"
+        },
+        {
+          "present": true,
+          "token": "writeAdmission"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:1196162b7949e519c7277b0387c6506abc0813dcc6dad0aea73df7cfbab9e834",
+      "relativePath": "apps/chatgpt/src/__tests__/tools.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "requiresConfirmation"
+        },
+        {
+          "present": true,
+          "token": "readAccess"
+        },
+        {
+          "present": true,
+          "token": "organizationAuthority"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe-interface-contract-proof-metadata",
+  "testEvidence": [
+    {
+      "digest": "sha256:9cdf94a005f4e120e14840fbb4cc3415ab11ba818cafa99e29cf3f7052e277db",
+      "relativePath": "packages/btd/__tests__/v32-interface-contract-regression.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "Exchange and Conversations represented only as blocked deferred contract rows"
+        },
+        {
+          "present": true,
+          "token": "authentication, policy denial, source-safety class"
+        },
+        {
+          "present": true,
+          "token": "fails closed when a required interface fixture is missing"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:5da723fad64226a9e542c7769b5388d5ddbe43b195429bd3f9821bd9947b5a2e",
+      "relativePath": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "returns JSON-safe interface integration regression proof from the route boundary"
+        },
+        {
+          "present": true,
+          "token": "conversations_hook"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:138bf2b8563dada41cdd6ab84f34ae0d491c917d8582a486cb6bb62f1a2e0ff4",
+      "relativePath": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "conversations_hook"
+        },
+        {
+          "present": true,
+          "token": "source-safe low-detail proof"
+        }
+      ]
+    }
+  ],
+  "version": "V32"
+}

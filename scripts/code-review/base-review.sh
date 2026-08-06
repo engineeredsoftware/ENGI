@@ -16,7 +16,7 @@ WHITE='\033[1;37m'
 GRAY='\033[0;90m'
 NC='\033[0m' # No Color
 
-# Terminal control
+# TTY control
 CLEAR='\033[2J'
 HOME='\033[H'
 SAVE_CURSOR='\033[s'

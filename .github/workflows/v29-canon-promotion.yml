@@ -55,7 +55,7 @@ jobs:
 
       - name: Validate V29 promotion readiness
         run: |
-          POINTER="$(cat BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V28" ]; then
             node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
@@ -81,17 +81,17 @@ jobs:
             exit 1
           fi
           pnpm test:qa:v28:pipeline-readback
-          pnpm --filter @bitcode/protocol typecheck
-          pnpm --filter @bitcode/protocol test
+          pnpm --filter @bitcode/specifying typecheck
+          pnpm --filter @bitcode/specifying test
           pnpm --filter @bitcode/btd typecheck
           pnpm --filter @bitcode/btd test
-          npm --prefix protocol-demonstration test
-          npm --prefix protocol-demonstration run test:v28-mvp-qa
-          pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/specifying-package-boundary.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v42-ai-reading-demonstration.test.js
+          pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
-          pnpm --dir uapi exec jest --runTestsByPath \
+          pnpm --dir apps/uapi exec jest --runTestsByPath \
             tests/api/readReviewRoute.test.ts \
             tests/api/pipelineHarnessRoute.test.ts \
             tests/terminalPipelineHarnessClient.test.ts \
@@ -107,8 +107,8 @@ jobs:
             tests/terminalUxBrowserProof.test.tsx \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
-          pnpm --dir uapi exec playwright install chromium --with-deps
-          pnpm --dir uapi run test:e2e:terminal-ux
+          pnpm --dir apps/uapi exec playwright install chromium --with-deps
+          pnpm --dir apps/uapi run test:e2e:terminal-ux
           git diff --check
 
       - name: Promote V29 canon files
@@ -120,7 +120,7 @@ jobs:
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if [ "$(cat BITCODE_SPEC.txt)" = "V29" ]; then
+          if [ "$(cat .specifications/BITCODE_SPEC.txt)" = "V29" ]; then
             echo "BITCODE_SPEC.txt already points to V29."
             exit 0
           fi
@@ -129,17 +129,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
-            BITCODE_SPEC.txt \
-            BITCODE_SPEC_V29.md \
-            BITCODE_SPEC_V29_DELTA.md \
-            BITCODE_SPEC_V29_NOTES.md \
-            BITCODE_SPEC_V29_PARITY_MATRIX.md \
-            BITCODE_SPEC_V29_PROVEN.md \
-            protocol-demonstration/src/canon-posture.js \
-            protocol-demonstration/README.md \
-            packages/protocol/src/canon-posture.js \
-            packages/protocol/data/state.json \
-            packages/protocol/README.md \
-            .bitcode
+            .specifications/BITCODE_SPEC.txt \
+            .specifications/BITCODE_SPEC_V29.md \
+            .specifications/BITCODE_SPEC_V29_DELTA.md \
+            .specifications/BITCODE_SPEC_V29_NOTES.md \
+            .specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md \
+            .specifications/BITCODE_SPEC_V29_PROVEN.md \
+            scripts/specifying/src/canon-posture.js \
+            scripts/specifying/data/state.json \
+            scripts/specifying/README.md \
+            .proofs
           git commit -m "Promote Bitcode canon to V29"
           git push origin "HEAD:$HEAD_BRANCH"

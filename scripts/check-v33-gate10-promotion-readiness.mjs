@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-promotion-readiness-report.json';
+const ARTIFACT = '.proofs/v33/promotion-readiness-report.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -22,14 +22,14 @@ const SECRET_MARKERS = [
 ];
 
 const V33_GATE_ARTIFACTS = [
-  '.bitcode/v33-interface-contract-catalog.json',
-  '.bitcode/v33-mcp-api-tool-contracts.json',
-  '.bitcode/v33-chatgpt-app-action-contracts.json',
-  '.bitcode/v33-interface-authorization-policy.json',
-  '.bitcode/v33-read-license-assetpack-rights-contracts.json',
-  '.bitcode/v33-api-schema-compatibility-matrix.json',
-  '.bitcode/v33-interface-telemetry-proof-hooks.json',
-  '.bitcode/v33-interface-consumer-ux-regression-proof.json',
+  '.proofs/v33/interface-contract-catalog.json',
+  '.proofs/v33/mcp-api-tool-contracts.json',
+  '.proofs/v33/chatgpt-app-action-contracts.json',
+  '.proofs/v33/interface-authorization-policy.json',
+  '.proofs/v33/read-license-assetpack-rights-contracts.json',
+  '.proofs/v33/api-schema-compatibility-matrix.json',
+  '.proofs/v33/interface-telemetry-proof-hooks.json',
+  '.proofs/v33/interface-consumer-ux-regression-proof.json',
 ];
 
 function read(root, relativePath) {
@@ -119,7 +119,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -139,10 +139,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
     ARTIFACT,
     'scripts/generate-v33-promotion-readiness-report.mjs',
     'scripts/check-v33-gate10-promotion-readiness.mjs',
@@ -153,14 +153,14 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v33-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     ...V33_GATE_ARTIFACTS,
   ];
 
@@ -176,10 +176,10 @@ function main() {
     }
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V33.md');
-  const delta = read(root, 'BITCODE_SPEC_V33_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V33_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V33.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -187,13 +187,13 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const v21Specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
-  const packageCanonPosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const packageState = read(root, 'packages/protocol/data/state.json');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const v21Specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
+  const packageCanonPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const packageState = read(root, 'scripts/specifying/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V33 promotion readiness canon'), 'V33 SPEC must define promotion readiness canon.');
   assertCheck(failures, spec.includes(ARTIFACT) && spec.includes('V33 active / V34 draft'), 'V33 SPEC must include Gate 10 artifact and post-promotion posture.');
@@ -237,8 +237,8 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v33'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V33') &&
-      promotionWorkflow.includes('BITCODE_SPEC_V33_PROVEN.md') &&
-      promotionWorkflow.includes('.bitcode') &&
+      promotionWorkflow.includes('.specifications/BITCODE_SPEC_V33_PROVEN.md') &&
+      promotionWorkflow.includes('.proofs') &&
       promotionWorkflow.includes('Promote V33 canon files'),
     'V33 promotion workflow must validate version/v33 and commit V33 promotion artifacts.',
   );
@@ -272,8 +272,8 @@ function main() {
     failures,
     prepareSpecScript.includes("if (version === 'V33')") &&
       prepareSpecScript.includes('V33 canonical system specification for commercial interface depth') &&
-      prepareSpecScript.includes('BITCODE_SPEC_V33_PROVEN.md') &&
-      prepareSpecScript.includes('.bitcode/v33-promotion-readiness-report.json') &&
+      prepareSpecScript.includes('.specifications/BITCODE_SPEC_V33_PROVEN.md') &&
+      prepareSpecScript.includes('.proofs/v33/promotion-readiness-report.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V33 hand-authored status truth and promoted parity judgments.',
   );
@@ -319,14 +319,14 @@ function main() {
     'README must document the Gate 10 command and V33 promotion workflow.',
   );
 
-  assertJsonArtifact(failures, root, '.bitcode/v33-interface-contract-catalog.json', ['"artifactId": "v33-interface-contract-catalog"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-mcp-api-tool-contracts.json', ['"artifactId": "v33-mcp-api-tool-contracts"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-chatgpt-app-action-contracts.json', ['"artifactId": "v33-chatgpt-app-action-contracts"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-interface-authorization-policy.json', ['"artifactId": "v33-interface-authorization-policy"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-read-license-assetpack-rights-contracts.json', ['"artifactId": "v33-read-license-assetpack-rights-contracts"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-api-schema-compatibility-matrix.json', ['"artifactId": "v33-api-schema-compatibility-matrix"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-interface-telemetry-proof-hooks.json', ['"artifactId": "v33-interface-telemetry-proof-hooks"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-interface-consumer-ux-regression-proof.json', ['"artifactId": "v33-interface-consumer-ux-regression-proof"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/interface-contract-catalog.json', ['"artifactId": "v33-interface-contract-catalog"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/mcp-api-tool-contracts.json', ['"artifactId": "v33-mcp-api-tool-contracts"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/chatgpt-app-action-contracts.json', ['"artifactId": "v33-chatgpt-app-action-contracts"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/interface-authorization-policy.json', ['"artifactId": "v33-interface-authorization-policy"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/read-license-assetpack-rights-contracts.json', ['"artifactId": "v33-read-license-assetpack-rights-contracts"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/api-schema-compatibility-matrix.json', ['"artifactId": "v33-api-schema-compatibility-matrix"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/interface-telemetry-proof-hooks.json', ['"artifactId": "v33-interface-telemetry-proof-hooks"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/interface-consumer-ux-regression-proof.json', ['"artifactId": "v33-interface-consumer-ux-regression-proof"', '"version": "V33"']);
   const readinessArtifact = assertJsonArtifact(failures, root, ARTIFACT, ['v33-promotion-readiness-report', '"version": "V33"']);
 
   if (readinessArtifact) {
@@ -353,8 +353,8 @@ function main() {
     }
   }
 
-  if (fileExists(root, 'BITCODE_SPEC_V33_PROVEN.md')) {
-    const proven = read(root, 'BITCODE_SPEC_V33_PROVEN.md');
+  if (fileExists(root, '.specifications/BITCODE_SPEC_V33_PROVEN.md')) {
+    const proven = read(root, '.specifications/BITCODE_SPEC_V33_PROVEN.md');
     assertCheck(failures, proven.includes('Bitcode Spec V33') || proven.includes('V33'), 'BITCODE_SPEC_V33_PROVEN.md must render V33 proof content.');
   }
 

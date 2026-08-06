@@ -31,7 +31,6 @@ done < <(
 echo "Checking for remaining malformed imports..."
 rg "agentprompt'|} from.*} from|promptpart } from" "$pipeline_dir" \
   --glob '*.ts' \
-  --glob '!_legacy/**' \
   --glob '!node_modules/**' \
   --max-count 5 || echo "No malformed import patterns found."
 

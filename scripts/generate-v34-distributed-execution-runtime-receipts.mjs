@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v34-distributed-execution-runtime-receipts.json';
+const ARTIFACT_PATH = '.proofs/v34/distributed-execution-runtime-receipts.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -226,9 +226,9 @@ const receiptRows = Object.freeze([
 const sourceFiles = Object.freeze([
   'packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts',
   'packages/pipeline-hosts/src/index.ts',
-  'BITCODE_SPEC_V34.md',
-  'BITCODE_SPEC_V34_DELTA.md',
-  'BITCODE_SPEC_V34_PARITY_MATRIX.md',
+  '.specifications/BITCODE_SPEC_V34.md',
+  '.specifications/BITCODE_SPEC_V34_DELTA.md',
+  '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
 ]);
 
 const testFiles = Object.freeze([
@@ -338,7 +338,7 @@ export function buildV34DistributedExecutionRuntimeReceiptsArtifact() {
     scanTokens('packages/pipeline-hosts/src/index.ts', [
       'distributed-execution-runtime-receipt',
     ]),
-    scanTokens('BITCODE_SPEC_V34.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34.md', [
       ARTIFACT_PATH,
       'DistributedExecutionRuntimeReceipt',
       'request_response_not_required',

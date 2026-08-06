@@ -1,0 +1,135 @@
+{
+  "proofId": "v27-gate-9-ancestry-antigame-proof",
+  "version": "V27",
+  "generatedAt": "2026-05-06T00:00:00.000Z",
+  "activeCanonicalPointer": "V27",
+  "state": "draft-target-gate-closure",
+  "gate": {
+    "number": 9,
+    "name": "Ancestry And Anti-Game",
+    "status": "closed"
+  },
+  "closureCriteria": [
+    {
+      "criterion": "ancestry edge schema exists",
+      "status": "closed",
+      "evidence": [
+        "packages/btd/src/ancestry.ts defines BtdAncestorEdgeInput, BtdAncestorEdge, BtdAncestorGraphEdge, review receipts, status, risk flags, source fingerprint, claimant/reviewer ids, and route weight",
+        "supabase/migrations/002_v27_btd_crypto_registry.sql defines btd_ancestor_edges with review_id, evidence roots, source_fingerprint_root, claimant_id, reviewer_id, risk_flags, status, route_weight, conflict disclosure, receipt, and issued_at",
+        "protocol-demonstration/src/receipt-schemas.js requires ancestry review counts, supplyEffect, mintCountDelta, and edges in the demonstration receipt family"
+      ]
+    },
+    {
+      "criterion": "createdAfterChildFit is enforced",
+      "status": "closed",
+      "evidence": [
+        "packages/btd/src/ancestry.ts rejects edges with createdAfterChildFit !== true as not_late_bound",
+        "supabase/migrations/002_v27_btd_crypto_registry.sql permits non-late-bound rows only when the row is rejected, preventing payable pre-fit ancestry",
+        "packages/btd/__tests__/v27-crypto-primitives.test.ts proves pre-fit ancestry is rejected"
+      ]
+    },
+    {
+      "criterion": "ancestry never affects mint count",
+      "status": "closed",
+      "evidence": [
+        "packages/btd/src/ancestry.ts stamps each review receipt and each reviewed edge with supplyEffect: 'none' and mintCountDelta: 0",
+        "supabase/migrations/002_v27_btd_crypto_registry.sql has btd_ancestor_edges_non_supply requiring supply_effect = 'none' and mint_count_delta = 0",
+        "package, API, and demonstration tests assert ancestry review receipts and edges keep zero mint-count delta"
+      ]
+    },
+    {
+      "criterion": "low-confidence edges are unpaid",
+      "status": "closed",
+      "evidence": [
+        "packages/btd/src/ancestry.ts marks confidence_below_threshold edges as recorded_unpaid with routeWeight 0",
+        "citation-only edges are recorded_unpaid unless explicitly admitted by review configuration",
+        "disclosed-conflict edges are recorded_unpaid until independent review clears them"
+      ]
+    },
+    {
+      "criterion": "loop/collusion/duplicate-source mitigations are tested",
+      "status": "closed",
+      "evidence": [
+        "packages/btd/src/ancestry.ts rejects reciprocal loops and broader dependency cycles against the supplied graph",
+        "packages/btd/src/ancestry.ts rejects duplicate edge keys, duplicate source fingerprint roots, self edges, child mismatches, pre-fit claims, and claimant/reviewer conflicts",
+        "packages/btd/__tests__/v27-crypto-primitives.test.ts, packages/api/src/routes/__tests__/btd-crypto.test.ts, and protocol-demonstration/test/v27-crypto-primitives.test.js cover the attack paths"
+      ]
+    },
+    {
+      "criterion": "ancestry is optional for base BTD validity",
+      "status": "closed",
+      "evidence": [
+        "packages/btd/src/ancestry.ts is independent of supply, range, measureminting, and mint receipt modules",
+        "buildBtdAncestryReviewSettlement returns a standalone settlement review with a Terminal journal entry and optional registry write",
+        "no mint admission path requires ancestry review to create a valid base BTD range"
+      ]
+    },
+    {
+      "criterion": "commercial API route is unversioned and commit-gated",
+      "status": "closed",
+      "evidence": [
+        "packages/api/src/routes/btd-crypto.ts exposes /btd/ancestry-review and buildBtdAncestryReviewSettlement",
+        "apps/uapi/app/api/btd/ancestry-review/route.ts binds the Next.js App Router endpoint without creating a versioned route prefix",
+        "registry writes occur only when commitToRegistry is explicitly true"
+      ]
+    }
+  ],
+  "validatedCommands": [
+    {
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/btd focused ts-jest config...}' --runInBand",
+      "status": "passed",
+      "assertions": 31,
+      "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 package slice."
+    },
+    {
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/api focused ts-jest config...}' --runInBand",
+      "status": "passed",
+      "assertions": 15,
+      "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 API slice."
+    },
+    {
+      "command": "pnpm -C packages/api build",
+      "status": "passed"
+    },
+    {
+      "command": "pnpm -C packages/orm build",
+      "status": "passed"
+    },
+    {
+      "command": "pnpm -C packages/orm exec jest --runTestsByPath src/__tests__/btd-registry.test.ts --runInBand",
+      "status": "passed",
+      "assertions": 3,
+      "notes": "Jest reports an existing ts-jest globals deprecation warning."
+    },
+    {
+      "command": "pnpm -C protocol-demonstration test:v27-crypto",
+      "status": "passed",
+      "assertions": 9
+    }
+  ],
+  "sourceSurfaces": [
+    "BITCODE_SPEC_V27.md",
+    "BITCODE_SPEC_V27_DELTA.md",
+    "BITCODE_SPEC_V27_NOTES.md",
+    "BITCODE_SPEC_V27_PARITY_MATRIX.md",
+    "packages/btd/src/ancestry.ts",
+    "packages/btd/__tests__/v27-crypto-primitives.test.ts",
+    "packages/api/src/routes/btd-crypto.ts",
+    "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+    "apps/uapi/app/api/btd/ancestry-review/route.ts",
+    "supabase/migrations/002_v27_btd_crypto_registry.sql",
+    "packages/orm/src/__tests__/btd-registry.test.ts",
+    ".docs/BITCODE_EXCHANGE_DATABASE.md",
+    "protocol-demonstration/src/receipt-schemas.js",
+    "protocol-demonstration/src/v27-crypto-primitives.js",
+    "protocol-demonstration/test/v27-crypto-primitives.test.js"
+  ],
+  "nonPromotionAssertions": [
+    "BITCODE_SPEC.txt remained V26 until Gate 16 promotion",
+    "BITCODE_SPEC_V27_PROVEN.md did not exist until Gate 16 promotion",
+    "Gate 9 closure does not claim live graph-anomaly telemetry, live revenue-route consumption of ancestor payouts, generated V27 proof-family closure, or V27 promotion",
+    "All BTD API route paths remain unversioned"
+  ],
+  "remainingGateFamilies": [],
+  "activeCanonicalPointerAtGeneration": "V26"
+}

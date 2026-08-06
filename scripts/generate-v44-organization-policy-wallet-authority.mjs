@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_ARTIFACT_PATH,
   buildV44OrganizationPolicyWalletAuthority,
-} from '../packages/protocol/src/canonical/v44-organization-policy-wallet-authority.js';
+} from '../scripts/specifying/src/canonical/v44-organization-policy-wallet-authority.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

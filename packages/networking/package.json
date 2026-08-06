@@ -6,5 +6,9 @@
   "types": "src/index.ts",
   "dependencies": {
     "@bitcode/logger": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

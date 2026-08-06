@@ -7,20 +7,20 @@
 ALL agents now follow the SAME pattern:
 - **Define schemas** - WHAT each step produces
 - **Define prompts** - WHO the agent is, HOW it thinks
-- **Factories handle everything** - Automatic 7-substep execution
+- **Factories handle everything** - Automatic Failsafe×Thinkings execution
 - **Zero manual implementation** - Framework does ALL the work
 
 ## The Architecture Truth
 
 Each PTRR step runs EXACTLY the same sequence:
-1. **3 FailsafeMetaSubSteps** (parents) run sequentially
-2. **Each parent runs 3 GenerationSubMetaSubSteps** (children)
+1. **3 FailsafeGenerations** (parents) run sequentially
+2. **Each parent runs 3 ThinkingsGenerations** (children)
 3. **Tools execute AFTER all failsafes complete**
 
 ## The Hierarchy
 
 ```
-Pipeline → Phase → Agent[Variation] → Step → FailsafeMetaSubStep → GenerationSubMetaSubStep
+Pipeline → Phase → Agent[Variation] → Step → FailsafeGeneration → ThinkingsGeneration
 ```
 
 Each level creates child executions with accumulated prompts:
@@ -36,16 +36,16 @@ Every agent variation follows PTRR:
 3. **Refine** - Improve results  
 4. **Retry** - Handle failures
 
-## The 7-SubStep Architecture
+## The Failsafe×Thinkings Architecture
 
 Each PTRR step runs IDENTICALLY:
 
-**3 FailsafeMetaSubSteps (PARENTS)**:
+**3 FailsafeGenerations (PARENTS)**:
 - **PrepareConciseContext** - Handles CONTEXT SIGNAL/NOISE
 - **ChunkThenSum** - Handles BIG INPUT (parallel chunks by default when chunked)
 - **StitchUntilComplete** - Handles CONVERSATIONSUTPUT
 
-**3 GenerationSubMetaSubSteps (CHILDREN per parent)**:
+**3 ThinkingsGenerations (CHILDREN per parent)**:
 - **Reason** - Apply logic, select tools (first thinking)
 - **Judge** - Judge reasoning AND tool selections (second thinking)
 - **StructuredOutput** - Format to schema with useTools array (no thinking)
@@ -85,7 +85,8 @@ These are pre‑enabled in `.env.local` for local development.
 - BITCODE_DEBUG_ONLY_AGENT: substring — execute only agents whose name includes this.
 - BITCODE_DEBUG_ONLY_STEP: plan|try|refine|retry — execute only that PTRR step.
 - BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — include only those parent failsafes.
-- BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — include only those child substeps under each parent.
+- BITCODE_DEBUG_SKIP_FAILSAFES: true/1 — bare task Thinkings (no prepare/chunk/stitch).
+- BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT: true/1 — Reason-only dual envelope (no Judge/SO).
 
 Markers
 - Failsafe events log `[failsafe] prepare-context|chunk-then-sum|stitch-until-complete` with start/complete payloads.
@@ -147,8 +148,8 @@ Pipeline prompt
 └── Phase prompt
     └── Agent prompt
         └── Step prompt (Plan/Try/Refine/Retry)
-            └── FailsafeMetaSubStep prompt
-                └── GenerationSubMetaSubStep prompt
+            └── FailsafeGeneration prompt
+                └── ThinkingsGeneration prompt
 ```
 
 Result: 1000s of contextualized LLM calls from combinatorial explosion.
@@ -174,7 +175,6 @@ const StepOutputSchema = z.object({
 - **audio-processor** - Audio transcription and analysis
 - **code-searcher** - LSP-powered semantic search
 - **danger-wall** - Security validation
-- **digester** - Codebase analysis
 - **document-processor** - Document extraction
 - **file-pick** - Intelligent file selection
 - **image-processor** - Computer vision analysis
@@ -213,7 +213,7 @@ const StepOutputSchema = z.object({
 Think of agents as **declarations**:
 1. **Schemas declare** - What each step produces
 2. **Prompts declare** - How the agent thinks
-3. **Factories execute** - The 7-substep sequence automatically
+3. **Factories execute** - The Failsafe×Thinkings sequence automatically
 4. **Framework handles** - All complexity, state, and tool execution
 
 This creates reliable, validated, tool-augmented decision-making at scale with MINIMAL code and MAXIMUM capability.

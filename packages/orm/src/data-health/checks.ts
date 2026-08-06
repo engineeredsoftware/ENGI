@@ -44,7 +44,6 @@ export const CANONICAL_APPLICATION_TABLES = [
   'deliverable_pipeline_phase_delegations',
   'deliverable_pipeline_agent_steps',
   'deliverable_pipeline_generations',
-  'deliverable_pipeline_otf_instructions',
   'deliverable_pipeline_substeps',
   'deliverable_pipeline_tool_executions',
   'error_logs',
@@ -192,7 +191,7 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
     title: 'Canonical public tables exist',
     category: 'schema',
     severity: 'critical',
-    description: 'Confirms the Supabase projection has the user, VCS, Terminal, and BTD registry tables required by the active Bitcode canon.',
+    description: 'Confirms the Supabase projection has the user, VCS, product, and BTD registry tables required by the active Bitcode canon.',
     remediation: 'Run Supabase migrations against the target project and confirm the linked project is the intended staging or production database.',
     sql: `
       WITH required(table_name) AS (
@@ -225,7 +224,7 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
     title: 'Canonical table columns exist',
     category: 'schema',
     severity: 'critical',
-    description: 'Checks the columns that the ORM, Terminal, wallet auth, GitHub linkage, ledger anchors, and BTD registry health checks depend on.',
+    description: 'Checks the columns that the ORM, product, wallet auth, GitHub linkage, ledger anchors, and BTD registry health checks depend on.',
     remediation: 'Refresh migrations and generated schema types, then rerun the data-health suite before deploying.',
     sql: `
       WITH required(table_name, column_name) AS (
@@ -324,7 +323,7 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
     title: 'Critical tables have RLS enabled',
     category: 'schema',
     severity: 'critical',
-    description: 'Confirms row-level security is enabled on the canonical public tables used by wallet, GitHub, Terminal, and ledger projections.',
+    description: 'Confirms row-level security is enabled on the canonical public tables used by wallet, GitHub, product, and ledger projections.',
     remediation: 'Enable RLS on missing tables and confirm the RLS auto-enable event trigger is installed for future tables.',
     sql: `
       WITH required(table_name) AS (
@@ -797,7 +796,7 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
     category: 'ledger',
     severity: 'critical',
     description: 'Confirms every nonzero measuremint receipt has the AssetPack range it emitted, and zero-cell receipts do not claim a range.',
-    remediation: 'Rebuild btd_asset_pack_ranges from btd_measure_mint_receipts and ledgerized Terminal journal entries.',
+    remediation: 'Rebuild btd_asset_pack_ranges from btd_measure_mint_receipts and ledgerized BTD journal entries.',
     requires: ['public.btd_measure_mint_receipts', 'public.btd_asset_pack_ranges'],
     sql: `
       WITH drift AS (
@@ -941,10 +940,10 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
   },
   {
     id: 'terminal.journal-sequences-unique',
-    title: 'Terminal journal exchange sequences are unique',
+    title: 'BTD journal exchange sequences are unique',
     category: 'terminal',
     severity: 'critical',
-    description: 'Confirms Terminal journal entries preserve a deterministic replay order without duplicate exchange_sequence values.',
+    description: 'Confirms BTD journal entries preserve a deterministic replay order without duplicate exchange_sequence values.',
     remediation: 'Replay or renumber duplicate journal entries from the canonical settlement journal before new writes are admitted.',
     requires: ['public.btd_terminal_journal_entries'],
     sql: `
@@ -972,10 +971,10 @@ export const DATA_HEALTH_CHECKS: DataHealthCheckDefinition[] = [
   },
   {
     id: 'terminal.asset-pack-mints-have-journal',
-    title: 'Minted AssetPacks have Terminal journal entries',
+    title: 'Minted AssetPacks have BTD journal entries',
     category: 'terminal',
     severity: 'critical',
-    description: 'Ensures every minted AssetPack range can be replayed through a Terminal journal entry at the mint exchange sequence.',
+    description: 'Ensures every minted AssetPack range can be replayed through a BTD journal entry at the mint exchange sequence.',
     remediation: 'Replay missing journal entries from settlement receipts before relying on Supabase projections for operator QA.',
     requires: ['public.btd_asset_pack_ranges', 'public.btd_terminal_journal_entries'],
     sql: `

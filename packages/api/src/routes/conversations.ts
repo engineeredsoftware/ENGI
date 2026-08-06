@@ -8,11 +8,11 @@
 import * as crypto from 'crypto';
 
 import { createAdminClient } from '@bitcode/orm';
-import type { AttachmentReference } from '@bitcode/attachments-generics';
-import { validateAttachmentCategory } from '@bitcode/attachments-generics';
+import type { AttachmentReference } from '@bitcode/attachment-generics';
+import { validateAttachmentCategory } from '@bitcode/attachment-generics';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { traceRoute } from '@bitcode/observability';
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 
 import {
   attachConversationStreamEvent,
@@ -123,7 +123,7 @@ function deriveConversationInput(body: ConversationStreamRequest) {
 
 function deriveConversationTitle(content: string) {
   const normalized = normalizeConversationText(content);
-  if (!normalized) return 'New Bitcode Terminal conversation';
+  if (!normalized) return 'New Bitcode conversation';
   if (normalized.length <= 72) return normalized;
   return `${normalized.slice(0, 69)}...`;
 }
@@ -136,14 +136,14 @@ function inferAttachmentCategory(token: ConversationStreamToken): AttachmentRefe
 
   const value = resolveConversationTokenValue(token);
   if (value.startsWith('http://') || value.startsWith('https://')) {
-    return 'url';
+    return 'external';
   }
 
-  if (token.type === 'source') return 'integration';
-  if (token.type === 'destination') return 'integration';
+  if (token.type === 'source') return 'external';
+  if (token.type === 'destination') return 'external';
   if (token.type === 'attachment') return 'file';
 
-  return 'integration';
+  return 'external';
 }
 
 function buildAttachmentReferences(tokens: ConversationStreamToken[]) {
@@ -201,7 +201,7 @@ function buildConversationRichInputSummary(
     asset_pack_references: tokens
       .filter((token) => {
         const tokenType = normalizeConversationTokenType(token);
-        return tokenType === 'asset_pack' || tokenType === 'shippable' || tokenType === 'evidence_document';
+        return tokenType === 'asset_pack' || tokenType === 'settle_delivery' || tokenType === 'evidence_document';
       })
       .map(buildRichInputReference),
     read_measurement_intents: tokens.filter(tokenRequestsReadMeasurement).map(buildRichInputReference),
@@ -219,7 +219,7 @@ function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
       return normalizeAgenticExecutionType(candidate);
     }
 
-    if (candidate === 'asset_pack' || candidate === 'shippable' || candidate === 'evidence_document') {
+    if (candidate === 'asset_pack' || candidate === 'settle_delivery' || candidate === 'evidence_document') {
       return normalizeAgenticExecutionType(candidate);
     }
   }
@@ -234,7 +234,7 @@ function countTokenTypes(tokens: ConversationStreamToken[]) {
       if (normalized === 'attachment') acc.attachments += 1;
       if (normalized === 'source') acc.sources += 1;
       if (normalized === 'destination') acc.destinations += 1;
-      if (normalized === 'asset_pack' || normalized === 'shippable' || normalized === 'evidence_document') {
+      if (normalized === 'asset_pack' || normalized === 'settle_delivery' || normalized === 'evidence_document') {
         acc.assetPacks += 1;
       }
       if (tokenRequestsReadMeasurement(token)) acc.readMeasurements += 1;
@@ -254,7 +254,7 @@ function buildAssistantReply(input: {
   execution?: ConversationStreamExecution | null;
 }) {
   const counts = countTokenTypes(input.tokens);
-  const parts = ['Bitcode Terminal write path accepted the instruction.'];
+  const parts = ['Bitcode write path accepted the instruction.'];
 
   if (counts.sources > 0) {
     parts.push(`Bound ${counts.sources} Connects ${pluralize(counts.sources, 'source')}.`);
@@ -332,7 +332,7 @@ async function createConversationExecution(options: {
       user_id: options.userId,
       type: storageType,
       status: 'running',
-      guide: options.canonicalType.includes('read-measurement') ? 'Read' : 'Develop',
+      guide: options.canonicalType.includes('read-measurement') ? 'Read' : 'SDIVF',
       input: {
         conversationId: options.conversationId,
         content: safeContent.value,

@@ -1,0 +1,2896 @@
+{
+  "artifactId": "v41-reading-prompt-benchmark-baselines",
+  "schemaId": "bitcode.v41.readingPromptBenchmarkBaselines.v1",
+  "version": "V41",
+  "currentTarget": "V40",
+  "generatedAt": "2026-05-26T00:00:00.000Z",
+  "artifactPath": ".proofs/v41/reading-prompt-benchmark-baselines.json",
+  "artifactRoot": "v41-reading-prompt-benchmark-baselines:94701c608d6cc4e21dcaadb6",
+  "sourceSafetyVerdict": "source-safe-reading-prompt-benchmark-baseline-metadata",
+  "pipelineIds": [
+    "ReadNeedComprehensionSynthesis",
+    "ReadFitsFindingSynthesis"
+  ],
+  "metricIds": [
+    "need_boundary_precision",
+    "source_constraint_preservation",
+    "registry_composition_integrity",
+    "typed_parser_conformance",
+    "benchmark_fixture_coverage",
+    "many_candidate_fit_recall",
+    "source_safe_preview_boundary",
+    "settlement_quote_explainability",
+    "telemetry_repair_readback",
+    "source_safety_non_disclosure"
+  ],
+  "disclosureTiers": [
+    "benchmark_fixture_id_source_safe",
+    "prompt_identity_source_safe",
+    "promptpart_identity_source_safe",
+    "parser_target_id_source_safe",
+    "registry_contract_id_source_safe",
+    "benchmark_score_source_safe",
+    "raw_prompt_text_private",
+    "raw_interpolated_prompt_private",
+    "raw_provider_response_private",
+    "protected_source_private",
+    "unpaid_assetpack_source_private"
+  ],
+  "rows": [
+    {
+      "baselineId": "readneed-request-to-need-baseline",
+      "pipelineId": "ReadNeedComprehensionSynthesis",
+      "uxStepIds": [
+        "request-read",
+        "review-synthesized-need"
+      ],
+      "phaseIds": [
+        "ReadNeedComprehensionSynthesis.request",
+        "ReadNeedComprehensionSynthesis.comprehend"
+      ],
+      "promptSurfaceIds": [
+        "ReadNeedComprehensionSynthesis.prompt.need-synthesis",
+        "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer"
+      ],
+      "promptFamilyIds": [
+        "ReadNeedComprehensionSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-need.enterprise-request-to-need",
+        "fixture.reading.prompt-registry-composition",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "need_boundary_precision",
+        "source_constraint_preservation",
+        "registry_composition_integrity",
+        "typed_parser_conformance",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "ReadNeed",
+        "ReadNeedComprehensionSynthesisSchema",
+        "ReadNeedSourceInput"
+      ],
+      "registryContractIds": [
+        "readneed-comprehension-return-type-contract",
+        "ptrr-agent-prompt-composition",
+        "ptrr-step-prompt-composition",
+        "thricified-generation-final-resolution"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "need_exactly_matches_request",
+        "need_no_overreach",
+        "need_no_underreach",
+        "source_constraints_preserved"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts",
+        "packages/generic-tools/read-comprehension/src/prompts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:defc86fa0c00aa26a23989c4",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadNeedComprehensionSynthesis"
+        ],
+        "promptPartRowCount": 63,
+        "promptRowCount": 6,
+        "benchmarkFixtureIds": [
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "readneed-request-to-need-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 26,
+        "sourceFileSample": [
+          "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts",
+          "packages/generic-tools/read-comprehension/src/prompts/index.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts"
+        ],
+        "promptTemplateIdCount": 10,
+        "interpolatedContextKeyCount": 7,
+        "ptrrAgentFactoryCount": 15,
+        "thricifiedGenerationCount": 31,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "ReadNeed",
+          "ReadNeedComprehensionSynthesisSchema",
+          "ReadNeedSourceInput"
+        ],
+        "parserTargetPresentCount": 3,
+        "zodSchemaCount": 21,
+        "telemetryCount": 102,
+        "sourceSafetyCount": 18,
+        "benchmarkDefinitionCount": 22,
+        "queryPlanCount": 11,
+        "embeddingPolicyCount": 10,
+        "rankingCount": 19,
+        "previewCount": 36,
+        "quoteCount": 32,
+        "settlementCount": 37,
+        "repairCount": 0
+      },
+      "metricScores": {
+        "need_boundary_precision": 1,
+        "source_constraint_preservation": 1,
+        "registry_composition_integrity": 1,
+        "typed_parser_conformance": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "readneed-review-resynthesis-baseline",
+      "pipelineId": "ReadNeedComprehensionSynthesis",
+      "uxStepIds": [
+        "review-synthesized-need"
+      ],
+      "phaseIds": [
+        "ReadNeedComprehensionSynthesis.review"
+      ],
+      "promptSurfaceIds": [
+        "ReadNeedComprehensionSynthesis.review.operator-review"
+      ],
+      "promptFamilyIds": [
+        "ReadNeedComprehensionSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-need.resynthesis-feedback",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "need_boundary_precision",
+        "typed_parser_conformance",
+        "telemetry_repair_readback",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "ReadNeedReviewResynthesisRuntime",
+        "ReadNeedReviewTelemetryReceipt",
+        "AcceptedReadNeed",
+        "ResynthesisRequestedReadNeed"
+      ],
+      "registryContractIds": [
+        "readneed-comprehension-return-type-contract",
+        "execution-ancestry-context-overlays",
+        "thricified-generation-final-resolution"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "feedback_applied",
+        "measurement_inputs_preserved",
+        "reviewable_need_shape"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:1d8ac98852bf83082ad63c83",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadNeedComprehensionSynthesis"
+        ],
+        "promptPartRowCount": 63,
+        "promptRowCount": 6,
+        "benchmarkFixtureIds": [
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "readneed-review-resynthesis-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 3,
+        "sourceFileSample": [
+          "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+          "packages/asset-packs-pipelines/domain/src/read-need.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+        ],
+        "promptTemplateIdCount": 12,
+        "interpolatedContextKeyCount": 7,
+        "ptrrAgentFactoryCount": 15,
+        "thricifiedGenerationCount": 38,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "AcceptedReadNeed",
+          "ReadNeedReviewResynthesisRuntime",
+          "ReadNeedReviewTelemetryReceipt",
+          "ResynthesisRequestedReadNeed"
+        ],
+        "parserTargetPresentCount": 4,
+        "zodSchemaCount": 21,
+        "telemetryCount": 129,
+        "sourceSafetyCount": 34,
+        "benchmarkDefinitionCount": 0,
+        "queryPlanCount": 11,
+        "embeddingPolicyCount": 10,
+        "rankingCount": 19,
+        "previewCount": 36,
+        "quoteCount": 32,
+        "settlementCount": 39,
+        "repairCount": 0
+      },
+      "metricScores": {
+        "need_boundary_precision": 1,
+        "typed_parser_conformance": 1,
+        "telemetry_repair_readback": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "readneed-measurement-pricing-baseline",
+      "pipelineId": "ReadNeedComprehensionSynthesis",
+      "uxStepIds": [
+        "review-synthesized-need"
+      ],
+      "phaseIds": [
+        "ReadNeedComprehensionSynthesis.measure"
+      ],
+      "promptSurfaceIds": [
+        "ReadNeedComprehensionSynthesis.measure.need-measurement"
+      ],
+      "promptFamilyIds": [
+        "ReadNeedComprehensionSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-need.enterprise-request-to-need",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "need_boundary_precision",
+        "settlement_quote_explainability",
+        "typed_parser_conformance",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "ReadNeedPricingMeasurementInputs",
+        "ReadNeedMeasurementDimension",
+        "ShareToFeeQuote"
+      ],
+      "registryContractIds": [
+        "readneed-comprehension-return-type-contract",
+        "execution-ancestry-context-overlays"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "measurement_vector_present",
+        "weighted_requested_volume_present",
+        "share_to_fee_formula_named"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:37e0cc83f0e7f36cecc22a39",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadNeedComprehensionSynthesis"
+        ],
+        "promptPartRowCount": 63,
+        "promptRowCount": 6,
+        "benchmarkFixtureIds": [
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "readneed-measurement-pricing-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 2,
+        "sourceFileSample": [
+          "packages/asset-packs-pipelines/domain/src/read-need.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+        ],
+        "promptTemplateIdCount": 10,
+        "interpolatedContextKeyCount": 7,
+        "ptrrAgentFactoryCount": 15,
+        "thricifiedGenerationCount": 31,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "ReadNeedMeasurementDimension",
+          "ReadNeedPricingMeasurementInputs",
+          "ShareToFeeQuote"
+        ],
+        "parserTargetPresentCount": 3,
+        "zodSchemaCount": 21,
+        "telemetryCount": 102,
+        "sourceSafetyCount": 18,
+        "benchmarkDefinitionCount": 0,
+        "queryPlanCount": 11,
+        "embeddingPolicyCount": 10,
+        "rankingCount": 19,
+        "previewCount": 36,
+        "quoteCount": 32,
+        "settlementCount": 37,
+        "repairCount": 0
+      },
+      "metricScores": {
+        "need_boundary_precision": 1,
+        "settlement_quote_explainability": 1,
+        "typed_parser_conformance": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "readfits-query-synthesis-baseline",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "uxStepIds": [
+        "request-fit"
+      ],
+      "phaseIds": [
+        "ReadFitsFindingSynthesis.prepare",
+        "ReadFitsFindingSynthesis.discovery"
+      ],
+      "promptSurfaceIds": [
+        "ReadFitsFindingSynthesis.prompt.setup-plan",
+        "ReadFitsFindingSynthesis.prompt.read-comprehension",
+        "ReadFitsFindingSynthesis.discovery.finding-fits"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-fits.find-many-candidates",
+        "fixture.reading.prompt-registry-composition"
+      ],
+      "metricIds": [
+        "many_candidate_fit_recall",
+        "registry_composition_integrity",
+        "benchmark_fixture_coverage",
+        "typed_parser_conformance",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "DepositorySearchQueryPlan",
+        "DepositorySearchRead",
+        "DepositorySearchResult",
+        "EmbeddingSearchRequest"
+      ],
+      "registryContractIds": [
+        "readfits-finding-search-return-type-contract",
+        "tool-doc-code-prompt-injection",
+        "failsafe-sequence-context-handling"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "many_candidate_fit_ids",
+        "ranking_root_present",
+        "threshold_verdicts_present",
+        "selected_fit_provenance_present"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+        "packages/generic-tools/simple-system-text-search/src/prompts",
+        "packages/generic-tools/web-search/src/prompts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:7a004af6d58a5ab3fb9e06b5",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadFitsFindingSynthesis"
+        ],
+        "promptPartRowCount": 490,
+        "promptRowCount": 52,
+        "benchmarkFixtureIds": [
+          "fixture.conversation.terminal-system-boundary",
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "readfits-query-synthesis-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 10,
+        "sourceFileSample": [
+          "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+          "packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts",
+          "packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts",
+          "packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts",
+          "packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts",
+          "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+          "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+          "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+        ],
+        "promptTemplateIdCount": 6,
+        "interpolatedContextKeyCount": 6,
+        "ptrrAgentFactoryCount": 15,
+        "thricifiedGenerationCount": 34,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "DepositorySearchQueryPlan",
+          "DepositorySearchRead",
+          "DepositorySearchResult",
+          "EmbeddingSearchRequest"
+        ],
+        "parserTargetPresentCount": 4,
+        "zodSchemaCount": 2,
+        "telemetryCount": 126,
+        "sourceSafetyCount": 96,
+        "benchmarkDefinitionCount": 0,
+        "queryPlanCount": 121,
+        "embeddingPolicyCount": 132,
+        "rankingCount": 183,
+        "previewCount": 43,
+        "quoteCount": 6,
+        "settlementCount": 42,
+        "repairCount": 44
+      },
+      "metricScores": {
+        "many_candidate_fit_recall": 1,
+        "registry_composition_integrity": 1,
+        "benchmark_fixture_coverage": 1,
+        "typed_parser_conformance": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "readfits-many-candidate-ranking-baseline",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "uxStepIds": [
+        "request-fit"
+      ],
+      "phaseIds": [
+        "ReadFitsFindingSynthesis.discovery"
+      ],
+      "promptSurfaceIds": [
+        "ReadFitsFindingSynthesis.discovery.finding-fits"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-fits.find-many-candidates",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "many_candidate_fit_recall",
+        "typed_parser_conformance",
+        "benchmark_fixture_coverage",
+        "telemetry_repair_readback",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "DepositoryCandidateRanking",
+        "DepositoryCandidateFitEvidence",
+        "DepositoryFitsResult",
+        "ReadFitsFindingRuntime"
+      ],
+      "registryContractIds": [
+        "readfits-finding-search-return-type-contract",
+        "execution-ancestry-context-overlays",
+        "tool-doc-code-prompt-injection"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "many_candidate_fit_ids",
+        "ranking_root_present",
+        "threshold_verdicts_present",
+        "selected_fit_provenance_present"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:45c58e9bd71a8bfc05becdf6",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadFitsFindingSynthesis"
+        ],
+        "promptPartRowCount": 490,
+        "promptRowCount": 52,
+        "benchmarkFixtureIds": [
+          "fixture.conversation.terminal-system-boundary",
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "readfits-many-candidate-ranking-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 4,
+        "sourceFileSample": [
+          "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+          "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+        ],
+        "promptTemplateIdCount": 6,
+        "interpolatedContextKeyCount": 6,
+        "ptrrAgentFactoryCount": 15,
+        "thricifiedGenerationCount": 34,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "DepositoryCandidateFitEvidence",
+          "DepositoryCandidateRanking",
+          "DepositoryFitsResult",
+          "ReadFitsFindingRuntime"
+        ],
+        "parserTargetPresentCount": 4,
+        "zodSchemaCount": 2,
+        "telemetryCount": 126,
+        "sourceSafetyCount": 96,
+        "benchmarkDefinitionCount": 0,
+        "queryPlanCount": 121,
+        "embeddingPolicyCount": 122,
+        "rankingCount": 183,
+        "previewCount": 43,
+        "quoteCount": 6,
+        "settlementCount": 42,
+        "repairCount": 44
+      },
+      "metricScores": {
+        "many_candidate_fit_recall": 1,
+        "typed_parser_conformance": 1,
+        "benchmark_fixture_coverage": 1,
+        "telemetry_repair_readback": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "readfits-assetpack-context-synthesis-baseline",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "uxStepIds": [
+        "review-synthesized-asset-pack"
+      ],
+      "phaseIds": [
+        "ReadFitsFindingSynthesis.implementation",
+        "ReadFitsFindingSynthesis.validate"
+      ],
+      "promptSurfaceIds": [
+        "ReadFitsFindingSynthesis.prompt.asset-pack-synthesis",
+        "ReadFitsFindingSynthesis.prompt.fit-quality-validation"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-fits.assetpack-synthesis-preview",
+        "fixture.reading.prompt-registry-composition",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "registry_composition_integrity",
+        "typed_parser_conformance",
+        "source_safe_preview_boundary",
+        "benchmark_fixture_coverage",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "AssetPackSynthesisOutput",
+        "ReadyToFinishOutput",
+        "AssetPackSynthesisArtifactsSchema",
+        "AssetPackWrittenAssetType"
+      ],
+      "registryContractIds": [
+        "assetpack-synthesis-parser-delivery-contract",
+        "ptrr-agent-prompt-composition",
+        "ptrr-step-prompt-composition",
+        "thricified-generation-final-resolution"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "assetpack_source_hidden_before_settlement",
+        "preview_measurements_present",
+        "settlement_posture_separated",
+        "typed_output_matches_schema"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts",
+        "packages/generic-tools/vcs/src/prompts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:f4de640d212668ae5f30290f",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadFitsFindingSynthesis"
+        ],
+        "promptPartRowCount": 490,
+        "promptRowCount": 52,
+        "benchmarkFixtureIds": [
+          "fixture.conversation.terminal-system-boundary",
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "readfits-assetpack-context-synthesis-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 27,
+        "sourceFileSample": [
+          "packages/generic-tools/vcs/src/prompts/CreateCommentDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/CreateIssueDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/CreateOrUpdateFileDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/CreatePullRequestDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/GetFileContentDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/index.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts"
+        ],
+        "promptTemplateIdCount": 6,
+        "interpolatedContextKeyCount": 6,
+        "ptrrAgentFactoryCount": 18,
+        "thricifiedGenerationCount": 22,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "AssetPackSynthesisArtifactsSchema",
+          "AssetPackSynthesisOutput",
+          "AssetPackWrittenAssetType",
+          "ReadyToFinishOutput"
+        ],
+        "parserTargetPresentCount": 4,
+        "zodSchemaCount": 15,
+        "telemetryCount": 89,
+        "sourceSafetyCount": 6,
+        "benchmarkDefinitionCount": 22,
+        "queryPlanCount": 1,
+        "embeddingPolicyCount": 5,
+        "rankingCount": 8,
+        "previewCount": 16,
+        "quoteCount": 6,
+        "settlementCount": 11,
+        "repairCount": 0
+      },
+      "metricScores": {
+        "registry_composition_integrity": 1,
+        "typed_parser_conformance": 1,
+        "source_safe_preview_boundary": 1,
+        "benchmark_fixture_coverage": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "assetpack-preview-disclosure-quote-baseline",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "uxStepIds": [
+        "review-synthesized-asset-pack"
+      ],
+      "phaseIds": [
+        "ReadFitsFindingSynthesis.preview"
+      ],
+      "promptSurfaceIds": [
+        "ReadFitsFindingSynthesis.preview.source-safe-preview"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-fits.assetpack-synthesis-preview",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "source_safe_preview_boundary",
+        "settlement_quote_explainability",
+        "typed_parser_conformance",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "AssetPackSourceSafePreview",
+        "AssetPackPreviewBoundary",
+        "AssetPackDisclosureReview",
+        "ShareToFeeQuote"
+      ],
+      "registryContractIds": [
+        "assetpack-synthesis-parser-delivery-contract",
+        "execution-ancestry-context-overlays"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "assetpack_source_hidden_before_settlement",
+        "preview_measurements_present",
+        "settlement_posture_separated",
+        "protected_source_not_serialized"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:2659c9cb5c85eb7b42b8840c",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadFitsFindingSynthesis"
+        ],
+        "promptPartRowCount": 490,
+        "promptRowCount": 52,
+        "benchmarkFixtureIds": [
+          "fixture.conversation.terminal-system-boundary",
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "assetpack-preview-disclosure-quote-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 4,
+        "sourceFileSample": [
+          "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+          "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "packages/asset-packs-pipelines/domain/src/read-need.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+        ],
+        "promptTemplateIdCount": 10,
+        "interpolatedContextKeyCount": 7,
+        "ptrrAgentFactoryCount": 15,
+        "thricifiedGenerationCount": 31,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "AssetPackDisclosureReview",
+          "AssetPackPreviewBoundary",
+          "AssetPackSourceSafePreview",
+          "ShareToFeeQuote"
+        ],
+        "parserTargetPresentCount": 4,
+        "zodSchemaCount": 21,
+        "telemetryCount": 102,
+        "sourceSafetyCount": 72,
+        "benchmarkDefinitionCount": 0,
+        "queryPlanCount": 14,
+        "embeddingPolicyCount": 10,
+        "rankingCount": 27,
+        "previewCount": 257,
+        "quoteCount": 115,
+        "settlementCount": 113,
+        "repairCount": 30
+      },
+      "metricScores": {
+        "source_safe_preview_boundary": 1,
+        "settlement_quote_explainability": 1,
+        "typed_parser_conformance": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "settlement-rights-delivery-baseline",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "uxStepIds": [
+        "buy-asset-pack-settle"
+      ],
+      "phaseIds": [
+        "ReadFitsFindingSynthesis.settle"
+      ],
+      "promptSurfaceIds": [
+        "ReadFitsFindingSynthesis.settle.buy-deliver"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-fits.assetpack-synthesis-preview",
+        "fixture.tool-definition.delivery-tool-source-boundary",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "settlement_quote_explainability",
+        "typed_parser_conformance",
+        "telemetry_repair_readback",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "AssetPackCompletionOutput",
+        "AssetPackSettlementRightsDeliveryBoundary",
+        "AssetPackSettlementPaymentObservation",
+        "PullRequestDeliveryResult"
+      ],
+      "registryContractIds": [
+        "assetpack-synthesis-parser-delivery-contract",
+        "tool-doc-code-prompt-injection",
+        "execution-ancestry-context-overlays"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "settlement_requires_reader_payment",
+        "rights_transfer_confirmed",
+        "delivery_unlocked_only_after_settlement",
+        "protected_source_payload_absent"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/generic-tools/vcs/src/prompts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:92dada46326d44f5e23210f2",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadFitsFindingSynthesis"
+        ],
+        "promptPartRowCount": 490,
+        "promptRowCount": 52,
+        "benchmarkFixtureIds": [
+          "fixture.conversation.terminal-system-boundary",
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "settlement-rights-delivery-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 10,
+        "sourceFileSample": [
+          "packages/generic-tools/vcs/src/prompts/CreateCommentDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/CreateIssueDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/CreateOrUpdateFileDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/CreatePullRequestDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/GetFileContentDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
+          "packages/generic-tools/vcs/src/prompts/index.ts",
+          "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+        ],
+        "promptTemplateIdCount": 6,
+        "interpolatedContextKeyCount": 6,
+        "ptrrAgentFactoryCount": 15,
+        "thricifiedGenerationCount": 22,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "AssetPackCompletionOutput",
+          "AssetPackSettlementPaymentObservation",
+          "AssetPackSettlementRightsDeliveryBoundary",
+          "PullRequestDeliveryResult"
+        ],
+        "parserTargetPresentCount": 4,
+        "zodSchemaCount": 2,
+        "telemetryCount": 90,
+        "sourceSafetyCount": 40,
+        "benchmarkDefinitionCount": 1,
+        "queryPlanCount": 1,
+        "embeddingPolicyCount": 5,
+        "rankingCount": 11,
+        "previewCount": 163,
+        "quoteCount": 42,
+        "settlementCount": 362,
+        "repairCount": 47
+      },
+      "metricScores": {
+        "settlement_quote_explainability": 1,
+        "typed_parser_conformance": 1,
+        "telemetry_repair_readback": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "reading-telemetry-summary-baseline",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "uxStepIds": [
+        "request-read",
+        "review-synthesized-need",
+        "request-fit",
+        "review-synthesized-asset-pack",
+        "buy-asset-pack-settle"
+      ],
+      "phaseIds": [
+        "ReadNeedComprehensionSynthesis.comprehend",
+        "ReadFitsFindingSynthesis.discovery",
+        "ReadFitsFindingSynthesis.preview",
+        "ReadFitsFindingSynthesis.settle"
+      ],
+      "promptSurfaceIds": [
+        "ReadingOperationalTelemetryRepairReadback",
+        "ReadingPipelineObservability"
+      ],
+      "promptFamilyIds": [
+        "ReadNeedComprehensionSynthesis",
+        "ReadFitsFindingSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.reading.prompt-registry-composition",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "telemetry_repair_readback",
+        "registry_composition_integrity",
+        "typed_parser_conformance",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "ReadingOperationalTelemetryRepairReadback",
+        "ReadingOperationalTelemetryEvent",
+        "ReadingOperationalOperatorReadback",
+        "ReadingPipelineTelemetryTraceEntry"
+      ],
+      "registryContractIds": [
+        "execution-ancestry-context-overlays",
+        "readneed-comprehension-return-type-contract",
+        "readfits-finding-search-return-type-contract"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "event_stream_source_safe",
+        "operator_readback_stage_states_present",
+        "repair_runbook_hooks_present",
+        "raw_interpolated_prompt_hidden"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:6144e46eb2226ccda513d954",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadNeedComprehensionSynthesis",
+          "ReadFitsFindingSynthesis"
+        ],
+        "promptPartRowCount": 490,
+        "promptRowCount": 54,
+        "benchmarkFixtureIds": [
+          "fixture.conversation.terminal-system-boundary",
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "reading-telemetry-summary-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 3,
+        "sourceFileSample": [
+          "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
+        ],
+        "promptTemplateIdCount": 8,
+        "interpolatedContextKeyCount": 6,
+        "ptrrAgentFactoryCount": 15,
+        "thricifiedGenerationCount": 52,
+        "toolContractCount": 19,
+        "parserTargetsPresent": [
+          "ReadingOperationalOperatorReadback",
+          "ReadingOperationalTelemetryEvent",
+          "ReadingOperationalTelemetryRepairReadback",
+          "ReadingPipelineTelemetryTraceEntry"
+        ],
+        "parserTargetPresentCount": 4,
+        "zodSchemaCount": 18,
+        "telemetryCount": 227,
+        "sourceSafetyCount": 34,
+        "benchmarkDefinitionCount": 0,
+        "queryPlanCount": 1,
+        "embeddingPolicyCount": 5,
+        "rankingCount": 6,
+        "previewCount": 40,
+        "quoteCount": 7,
+        "settlementCount": 88,
+        "repairCount": 105
+      },
+      "metricScores": {
+        "telemetry_repair_readback": 1,
+        "registry_composition_integrity": 1,
+        "typed_parser_conformance": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    },
+    {
+      "baselineId": "failure-repair-prompt-baseline",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "uxStepIds": [
+        "review-synthesized-need",
+        "request-fit",
+        "review-synthesized-asset-pack",
+        "buy-asset-pack-settle"
+      ],
+      "phaseIds": [
+        "ReadNeedComprehensionSynthesis.review",
+        "ReadFitsFindingSynthesis.discovery",
+        "ReadFitsFindingSynthesis.preview",
+        "ReadFitsFindingSynthesis.settle"
+      ],
+      "promptSurfaceIds": [
+        "ReadNeedReviewResynthesisRuntime.repair",
+        "ReadFitsFindingRuntime.repair-posture",
+        "AssetPackPreviewBoundary.repair-posture",
+        "AssetPackSettlementRightsDeliveryBoundary.repair-posture"
+      ],
+      "promptFamilyIds": [
+        "ReadNeedComprehensionSynthesis",
+        "ReadFitsFindingSynthesis"
+      ],
+      "fixtureIds": [
+        "fixture.read-need.resynthesis-feedback",
+        "fixture.read-fits.find-many-candidates",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "metricIds": [
+        "need_boundary_precision",
+        "many_candidate_fit_recall",
+        "telemetry_repair_readback",
+        "source_safety_non_disclosure"
+      ],
+      "parserTargetIds": [
+        "ReadNeedReviewResynthesisRuntime",
+        "ReadFitsFindingRepairPosture",
+        "AssetPackPreviewRepairPosture",
+        "AssetPackSettlementRightsDeliveryRepairPosture"
+      ],
+      "registryContractIds": [
+        "execution-ancestry-context-overlays",
+        "readneed-comprehension-return-type-contract",
+        "readfits-finding-search-return-type-contract",
+        "assetpack-synthesis-parser-delivery-contract"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "feedback_applied",
+        "repair_actions_present",
+        "fail_closed_state_named",
+        "operator_next_action_present"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts"
+      ],
+      "rowRoot": "v41-reading-prompt-baseline-row:804e281bc10eb74dadb441fd",
+      "benchmarkMode": "source-safe-deterministic-metadata-baseline",
+      "baselineThreshold": 0.8,
+      "disclosureTiers": [
+        "benchmark_fixture_id_source_safe",
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "parser_target_id_source_safe",
+        "registry_contract_id_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private"
+      ],
+      "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+      "sourceSafeMetadataOnly": true,
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "inventoryBinding": {
+        "promptFamilyIds": [
+          "ReadNeedComprehensionSynthesis",
+          "ReadFitsFindingSynthesis"
+        ],
+        "promptPartRowCount": 490,
+        "promptRowCount": 54,
+        "benchmarkFixtureIds": [
+          "fixture.conversation.terminal-system-boundary",
+          "fixture.generic-ptrr.reason-judge-structured-output",
+          "fixture.interface.source-safe-user-visible-prompting",
+          "fixture.prompt.task-success",
+          "fixture.promptpart.intent-alignment",
+          "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
+          "fixture.read-need.need-boundary-precision",
+          "fixture.tool-definition.doc-code-contract"
+        ]
+      },
+      "sourceStats": {
+        "baselineId": "failure-repair-prompt-baseline",
+        "sourceRootsPresent": true,
+        "sourceFileCount": 5,
+        "sourceFileSample": [
+          "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts"
+        ],
+        "promptTemplateIdCount": 2,
+        "interpolatedContextKeyCount": 0,
+        "ptrrAgentFactoryCount": 0,
+        "thricifiedGenerationCount": 21,
+        "toolContractCount": 6,
+        "parserTargetsPresent": [
+          "AssetPackPreviewRepairPosture",
+          "AssetPackSettlementRightsDeliveryRepairPosture",
+          "ReadFitsFindingRepairPosture",
+          "ReadNeedReviewResynthesisRuntime"
+        ],
+        "parserTargetPresentCount": 4,
+        "zodSchemaCount": 14,
+        "telemetryCount": 145,
+        "sourceSafetyCount": 153,
+        "benchmarkDefinitionCount": 0,
+        "queryPlanCount": 53,
+        "embeddingPolicyCount": 10,
+        "rankingCount": 55,
+        "previewCount": 355,
+        "quoteCount": 119,
+        "settlementCount": 497,
+        "repairCount": 211
+      },
+      "metricScores": {
+        "need_boundary_precision": 1,
+        "many_candidate_fit_recall": 1,
+        "telemetry_repair_readback": 1,
+        "source_safety_non_disclosure": 1
+      },
+      "baselineScore": 1,
+      "passed": true
+    }
+  ],
+  "sourceStatsByRow": {
+    "readneed-request-to-need-baseline": {
+      "baselineId": "readneed-request-to-need-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 26,
+      "sourceFileSample": [
+        "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/AnalyzeReadSemanticsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/ExtractReadRequirementsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/GenerateReadSatisfactionCriteriaDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts",
+        "packages/generic-tools/read-comprehension/src/prompts/index.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts"
+      ],
+      "promptTemplateIdCount": 10,
+      "interpolatedContextKeyCount": 7,
+      "ptrrAgentFactoryCount": 15,
+      "thricifiedGenerationCount": 31,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "ReadNeed",
+        "ReadNeedComprehensionSynthesisSchema",
+        "ReadNeedSourceInput"
+      ],
+      "parserTargetPresentCount": 3,
+      "zodSchemaCount": 21,
+      "telemetryCount": 102,
+      "sourceSafetyCount": 18,
+      "benchmarkDefinitionCount": 22,
+      "queryPlanCount": 11,
+      "embeddingPolicyCount": 10,
+      "rankingCount": 19,
+      "previewCount": 36,
+      "quoteCount": 32,
+      "settlementCount": 37,
+      "repairCount": 0
+    },
+    "readneed-review-resynthesis-baseline": {
+      "baselineId": "readneed-review-resynthesis-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 3,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "promptTemplateIdCount": 12,
+      "interpolatedContextKeyCount": 7,
+      "ptrrAgentFactoryCount": 15,
+      "thricifiedGenerationCount": 38,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "AcceptedReadNeed",
+        "ReadNeedReviewResynthesisRuntime",
+        "ReadNeedReviewTelemetryReceipt",
+        "ResynthesisRequestedReadNeed"
+      ],
+      "parserTargetPresentCount": 4,
+      "zodSchemaCount": 21,
+      "telemetryCount": 129,
+      "sourceSafetyCount": 34,
+      "benchmarkDefinitionCount": 0,
+      "queryPlanCount": 11,
+      "embeddingPolicyCount": 10,
+      "rankingCount": 19,
+      "previewCount": 36,
+      "quoteCount": 32,
+      "settlementCount": 39,
+      "repairCount": 0
+    },
+    "readneed-measurement-pricing-baseline": {
+      "baselineId": "readneed-measurement-pricing-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 2,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "promptTemplateIdCount": 10,
+      "interpolatedContextKeyCount": 7,
+      "ptrrAgentFactoryCount": 15,
+      "thricifiedGenerationCount": 31,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "ReadNeedMeasurementDimension",
+        "ReadNeedPricingMeasurementInputs",
+        "ShareToFeeQuote"
+      ],
+      "parserTargetPresentCount": 3,
+      "zodSchemaCount": 21,
+      "telemetryCount": 102,
+      "sourceSafetyCount": 18,
+      "benchmarkDefinitionCount": 0,
+      "queryPlanCount": 11,
+      "embeddingPolicyCount": 10,
+      "rankingCount": 19,
+      "previewCount": 36,
+      "quoteCount": 32,
+      "settlementCount": 37,
+      "repairCount": 0
+    },
+    "readfits-query-synthesis-baseline": {
+      "baselineId": "readfits-query-synthesis-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 10,
+      "sourceFileSample": [
+        "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+        "packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts",
+        "packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts",
+        "packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts",
+        "packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "promptTemplateIdCount": 6,
+      "interpolatedContextKeyCount": 6,
+      "ptrrAgentFactoryCount": 15,
+      "thricifiedGenerationCount": 34,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "DepositorySearchQueryPlan",
+        "DepositorySearchRead",
+        "DepositorySearchResult",
+        "EmbeddingSearchRequest"
+      ],
+      "parserTargetPresentCount": 4,
+      "zodSchemaCount": 2,
+      "telemetryCount": 126,
+      "sourceSafetyCount": 96,
+      "benchmarkDefinitionCount": 0,
+      "queryPlanCount": 121,
+      "embeddingPolicyCount": 132,
+      "rankingCount": 183,
+      "previewCount": 43,
+      "quoteCount": 6,
+      "settlementCount": 42,
+      "repairCount": 44
+    },
+    "readfits-many-candidate-ranking-baseline": {
+      "baselineId": "readfits-many-candidate-ranking-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 4,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "promptTemplateIdCount": 6,
+      "interpolatedContextKeyCount": 6,
+      "ptrrAgentFactoryCount": 15,
+      "thricifiedGenerationCount": 34,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "DepositoryCandidateFitEvidence",
+        "DepositoryCandidateRanking",
+        "DepositoryFitsResult",
+        "ReadFitsFindingRuntime"
+      ],
+      "parserTargetPresentCount": 4,
+      "zodSchemaCount": 2,
+      "telemetryCount": 126,
+      "sourceSafetyCount": 96,
+      "benchmarkDefinitionCount": 0,
+      "queryPlanCount": 121,
+      "embeddingPolicyCount": 122,
+      "rankingCount": 183,
+      "previewCount": 43,
+      "quoteCount": 6,
+      "settlementCount": 42,
+      "repairCount": 44
+    },
+    "readfits-assetpack-context-synthesis-baseline": {
+      "baselineId": "readfits-assetpack-context-synthesis-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 27,
+      "sourceFileSample": [
+        "packages/generic-tools/vcs/src/prompts/CreateCommentDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreateIssueDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreateOrUpdateFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreatePullRequestDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/GetFileContentDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/index.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts"
+      ],
+      "promptTemplateIdCount": 6,
+      "interpolatedContextKeyCount": 6,
+      "ptrrAgentFactoryCount": 18,
+      "thricifiedGenerationCount": 22,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "AssetPackSynthesisArtifactsSchema",
+        "AssetPackSynthesisOutput",
+        "AssetPackWrittenAssetType",
+        "ReadyToFinishOutput"
+      ],
+      "parserTargetPresentCount": 4,
+      "zodSchemaCount": 15,
+      "telemetryCount": 89,
+      "sourceSafetyCount": 6,
+      "benchmarkDefinitionCount": 22,
+      "queryPlanCount": 1,
+      "embeddingPolicyCount": 5,
+      "rankingCount": 8,
+      "previewCount": 16,
+      "quoteCount": 6,
+      "settlementCount": 11,
+      "repairCount": 0
+    },
+    "assetpack-preview-disclosure-quote-baseline": {
+      "baselineId": "assetpack-preview-disclosure-quote-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 4,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "promptTemplateIdCount": 10,
+      "interpolatedContextKeyCount": 7,
+      "ptrrAgentFactoryCount": 15,
+      "thricifiedGenerationCount": 31,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "AssetPackDisclosureReview",
+        "AssetPackPreviewBoundary",
+        "AssetPackSourceSafePreview",
+        "ShareToFeeQuote"
+      ],
+      "parserTargetPresentCount": 4,
+      "zodSchemaCount": 21,
+      "telemetryCount": 102,
+      "sourceSafetyCount": 72,
+      "benchmarkDefinitionCount": 0,
+      "queryPlanCount": 14,
+      "embeddingPolicyCount": 10,
+      "rankingCount": 27,
+      "previewCount": 257,
+      "quoteCount": 115,
+      "settlementCount": 113,
+      "repairCount": 30
+    },
+    "settlement-rights-delivery-baseline": {
+      "baselineId": "settlement-rights-delivery-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 10,
+      "sourceFileSample": [
+        "packages/generic-tools/vcs/src/prompts/CreateCommentDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreateIssueDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreateOrUpdateFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreatePullRequestDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/GetFileContentDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/index.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "promptTemplateIdCount": 6,
+      "interpolatedContextKeyCount": 6,
+      "ptrrAgentFactoryCount": 15,
+      "thricifiedGenerationCount": 22,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "AssetPackCompletionOutput",
+        "AssetPackSettlementPaymentObservation",
+        "AssetPackSettlementRightsDeliveryBoundary",
+        "PullRequestDeliveryResult"
+      ],
+      "parserTargetPresentCount": 4,
+      "zodSchemaCount": 2,
+      "telemetryCount": 90,
+      "sourceSafetyCount": 40,
+      "benchmarkDefinitionCount": 1,
+      "queryPlanCount": 1,
+      "embeddingPolicyCount": 5,
+      "rankingCount": 11,
+      "previewCount": 163,
+      "quoteCount": 42,
+      "settlementCount": 362,
+      "repairCount": 47
+    },
+    "reading-telemetry-summary-baseline": {
+      "baselineId": "reading-telemetry-summary-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 3,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
+      ],
+      "promptTemplateIdCount": 8,
+      "interpolatedContextKeyCount": 6,
+      "ptrrAgentFactoryCount": 15,
+      "thricifiedGenerationCount": 52,
+      "toolContractCount": 19,
+      "parserTargetsPresent": [
+        "ReadingOperationalOperatorReadback",
+        "ReadingOperationalTelemetryEvent",
+        "ReadingOperationalTelemetryRepairReadback",
+        "ReadingPipelineTelemetryTraceEntry"
+      ],
+      "parserTargetPresentCount": 4,
+      "zodSchemaCount": 18,
+      "telemetryCount": 227,
+      "sourceSafetyCount": 34,
+      "benchmarkDefinitionCount": 0,
+      "queryPlanCount": 1,
+      "embeddingPolicyCount": 5,
+      "rankingCount": 6,
+      "previewCount": 40,
+      "quoteCount": 7,
+      "settlementCount": 88,
+      "repairCount": 105
+    },
+    "failure-repair-prompt-baseline": {
+      "baselineId": "failure-repair-prompt-baseline",
+      "sourceRootsPresent": true,
+      "sourceFileCount": 5,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts"
+      ],
+      "promptTemplateIdCount": 2,
+      "interpolatedContextKeyCount": 0,
+      "ptrrAgentFactoryCount": 0,
+      "thricifiedGenerationCount": 21,
+      "toolContractCount": 6,
+      "parserTargetsPresent": [
+        "AssetPackPreviewRepairPosture",
+        "AssetPackSettlementRightsDeliveryRepairPosture",
+        "ReadFitsFindingRepairPosture",
+        "ReadNeedReviewResynthesisRuntime"
+      ],
+      "parserTargetPresentCount": 4,
+      "zodSchemaCount": 14,
+      "telemetryCount": 145,
+      "sourceSafetyCount": 153,
+      "benchmarkDefinitionCount": 0,
+      "queryPlanCount": 53,
+      "embeddingPolicyCount": 10,
+      "rankingCount": 55,
+      "previewCount": 355,
+      "quoteCount": 119,
+      "settlementCount": 497,
+      "repairCount": 211
+    }
+  },
+  "sourcePredicateResults": [
+    {
+      "id": "readneed-request-to-need-baseline.source-roots-present",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/agents/prompts,packages/generic-tools/read-comprehension/src/prompts",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.source-files-present",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/agents/prompts,packages/generic-tools/read-comprehension/src/prompts",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.fixtures-known",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.parser-targets-present",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.registry-contracts-bound",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.inventory-family-bound",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.baseline-threshold-met",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.source-safe-metadata-only",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.raw-prompt-text-private",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.raw-interpolated-prompt-private",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.raw-provider-response-private",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-request-to-need-baseline.unpaid-assetpack-source-private",
+      "rowId": "readneed-request-to-need-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.source-roots-present",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.source-files-present",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.fixtures-known",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.parser-targets-present",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.registry-contracts-bound",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.inventory-family-bound",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.baseline-threshold-met",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.source-safe-metadata-only",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.raw-prompt-text-private",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.raw-interpolated-prompt-private",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.raw-provider-response-private",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-review-resynthesis-baseline.unpaid-assetpack-source-private",
+      "rowId": "readneed-review-resynthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.source-roots-present",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.source-files-present",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.fixtures-known",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.parser-targets-present",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.registry-contracts-bound",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.inventory-family-bound",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.baseline-threshold-met",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.source-safe-metadata-only",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.raw-prompt-text-private",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.raw-interpolated-prompt-private",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.raw-provider-response-private",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readneed-measurement-pricing-baseline.unpaid-assetpack-source-private",
+      "rowId": "readneed-measurement-pricing-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.source-roots-present",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/depository-search.ts,packages/asset-packs-pipelines/domain/src/depository-supply-index.ts,packages/asset-packs-pipelines/domain/src/embedding-config.ts,packages/generic-tools/simple-system-text-search/src/prompts,packages/generic-tools/web-search/src/prompts",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.source-files-present",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/depository-search.ts,packages/asset-packs-pipelines/domain/src/depository-supply-index.ts,packages/asset-packs-pipelines/domain/src/embedding-config.ts,packages/generic-tools/simple-system-text-search/src/prompts,packages/generic-tools/web-search/src/prompts",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.fixtures-known",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.parser-targets-present",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.registry-contracts-bound",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.inventory-family-bound",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.baseline-threshold-met",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.source-safe-metadata-only",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.raw-prompt-text-private",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.raw-interpolated-prompt-private",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.raw-provider-response-private",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-query-synthesis-baseline.unpaid-assetpack-source-private",
+      "rowId": "readfits-query-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.source-roots-present",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/depository-search.ts,packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.source-files-present",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/depository-search.ts,packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.fixtures-known",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.parser-targets-present",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.registry-contracts-bound",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.inventory-family-bound",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.baseline-threshold-met",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.source-safe-metadata-only",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.raw-prompt-text-private",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.raw-interpolated-prompt-private",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.raw-provider-response-private",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-many-candidate-ranking-baseline.unpaid-assetpack-source-private",
+      "rowId": "readfits-many-candidate-ranking-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.source-roots-present",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts,packages/asset-packs-pipelines/domain/src/agents/prompts,packages/generic-tools/vcs/src/prompts",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.source-files-present",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts,packages/asset-packs-pipelines/domain/src/agents/prompts,packages/generic-tools/vcs/src/prompts",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.fixtures-known",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.parser-targets-present",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.registry-contracts-bound",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.inventory-family-bound",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.baseline-threshold-met",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.source-safe-metadata-only",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.raw-prompt-text-private",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.raw-interpolated-prompt-private",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.raw-provider-response-private",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "readfits-assetpack-context-synthesis-baseline.unpaid-assetpack-source-private",
+      "rowId": "readfits-assetpack-context-synthesis-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.source-roots-present",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts,packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.source-files-present",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts,packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.fixtures-known",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.parser-targets-present",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.registry-contracts-bound",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.inventory-family-bound",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.baseline-threshold-met",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.source-safe-metadata-only",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.raw-prompt-text-private",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.raw-interpolated-prompt-private",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.raw-provider-response-private",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "assetpack-preview-disclosure-quote-baseline.unpaid-assetpack-source-private",
+      "rowId": "assetpack-preview-disclosure-quote-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.source-roots-present",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts,packages/generic-tools/vcs/src/prompts",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.source-files-present",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts,packages/generic-tools/vcs/src/prompts",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.fixtures-known",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.parser-targets-present",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.registry-contracts-bound",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.inventory-family-bound",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.baseline-threshold-met",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.source-safe-metadata-only",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.raw-prompt-text-private",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.raw-interpolated-prompt-private",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.raw-provider-response-private",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "settlement-rights-delivery-baseline.unpaid-assetpack-source-private",
+      "rowId": "settlement-rights-delivery-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.source-roots-present",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.source-files-present",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.fixtures-known",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.parser-targets-present",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.registry-contracts-bound",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.inventory-family-bound",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.baseline-threshold-met",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.source-safe-metadata-only",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.raw-prompt-text-private",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.raw-interpolated-prompt-private",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.raw-provider-response-private",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "reading-telemetry-summary-baseline.unpaid-assetpack-source-private",
+      "rowId": "reading-telemetry-summary-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.source-roots-present",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts,packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts,packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.source-files-present",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts,packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts,packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.fixtures-known",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "fixtureIds",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.parser-targets-present",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "parserTargetIds",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.registry-contracts-bound",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "registryContractIds",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.inventory-family-bound",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "promptFamilyIds",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.baseline-threshold-met",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "baselineScore",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.source-safe-metadata-only",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.raw-prompt-text-private",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.raw-interpolated-prompt-private",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.raw-provider-response-private",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    },
+    {
+      "id": "failure-repair-prompt-baseline.unpaid-assetpack-source-private",
+      "rowId": "failure-repair-prompt-baseline",
+      "sourcePath": "sourceSafety",
+      "passed": true
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "sourcePath": "packages/generic-tools/read-comprehension/src/prompts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/generic-tools/simple-system-text-search/src/prompts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/generic-tools/vcs/src/prompts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/generic-tools/web-search/src/prompts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+      "exists": true,
+      "legacy": false
+    }
+  ],
+  "dependencyRoots": {
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54",
+    "v38PromptBenchmarkReportRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
+    "v40PromptBenchmarkSmokeRoot": "v40-prompt-benchmark-smoke-v41-readiness:3164923746757b9b02fc30ae"
+  },
+  "sourceSafety": {
+    "sourceSafetyClass": "source_safe_reading_prompt_benchmark_baseline_metadata",
+    "sourceSafeMetadataOnly": true,
+    "rawPromptTextSerialized": false,
+    "rawInterpolatedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "protectedSourceVisible": false,
+    "privateContextSerialized": false,
+    "credentialsSerialized": false,
+    "unpaidAssetPackSourceVisible": false,
+    "forbiddenPayloadClasses": [
+      "secret-values",
+      "provider-tokens",
+      "wallet-private-material",
+      "protected-source-payloads",
+      "raw-protected-prompts",
+      "raw-prompt-text",
+      "raw-interpolated-prompts",
+      "raw-provider-responses",
+      "private-context",
+      "settlement-private-payloads",
+      "unpaid-assetpack-source"
+    ]
+  },
+  "coverage": {
+    "rowCount": 10,
+    "pipelineIds": [
+      "ReadNeedComprehensionSynthesis",
+      "ReadFitsFindingSynthesis"
+    ],
+    "metricIds": [
+      "need_boundary_precision",
+      "source_constraint_preservation",
+      "registry_composition_integrity",
+      "typed_parser_conformance",
+      "benchmark_fixture_coverage",
+      "many_candidate_fit_recall",
+      "source_safe_preview_boundary",
+      "settlement_quote_explainability",
+      "telemetry_repair_readback",
+      "source_safety_non_disclosure"
+    ],
+    "disclosureTiers": [
+      "benchmark_fixture_id_source_safe",
+      "prompt_identity_source_safe",
+      "promptpart_identity_source_safe",
+      "parser_target_id_source_safe",
+      "registry_contract_id_source_safe",
+      "benchmark_score_source_safe",
+      "raw_prompt_text_private",
+      "raw_interpolated_prompt_private",
+      "raw_provider_response_private",
+      "protected_source_private",
+      "unpaid_assetpack_source_private"
+    ],
+    "benchmarkFixtureIds": [
+      "fixture.read-fits.assetpack-synthesis-preview",
+      "fixture.read-fits.find-many-candidates",
+      "fixture.read-need.enterprise-request-to-need",
+      "fixture.read-need.resynthesis-feedback",
+      "fixture.reading.prompt-registry-composition",
+      "fixture.reading.schema-bound-return-types",
+      "fixture.tool-definition.delivery-tool-source-boundary"
+    ],
+    "benchmarkFixtureCount": 7,
+    "parserTargetIds": [
+      "AcceptedReadNeed",
+      "AssetPackCompletionOutput",
+      "AssetPackDisclosureReview",
+      "AssetPackPreviewBoundary",
+      "AssetPackPreviewRepairPosture",
+      "AssetPackSettlementPaymentObservation",
+      "AssetPackSettlementRightsDeliveryBoundary",
+      "AssetPackSettlementRightsDeliveryRepairPosture",
+      "AssetPackSourceSafePreview",
+      "AssetPackSynthesisArtifactsSchema",
+      "AssetPackSynthesisOutput",
+      "AssetPackWrittenAssetType",
+      "DepositoryCandidateFitEvidence",
+      "DepositoryCandidateRanking",
+      "DepositoryFitsResult",
+      "DepositorySearchQueryPlan",
+      "DepositorySearchRead",
+      "DepositorySearchResult",
+      "EmbeddingSearchRequest",
+      "PullRequestDeliveryResult",
+      "ReadFitsFindingRepairPosture",
+      "ReadFitsFindingRuntime",
+      "ReadNeed",
+      "ReadNeedComprehensionSynthesisSchema",
+      "ReadNeedMeasurementDimension",
+      "ReadNeedPricingMeasurementInputs",
+      "ReadNeedReviewResynthesisRuntime",
+      "ReadNeedReviewTelemetryReceipt",
+      "ReadNeedSourceInput",
+      "ReadingOperationalOperatorReadback",
+      "ReadingOperationalTelemetryEvent",
+      "ReadingOperationalTelemetryRepairReadback",
+      "ReadingPipelineTelemetryTraceEntry",
+      "ReadyToFinishOutput",
+      "ResynthesisRequestedReadNeed",
+      "ShareToFeeQuote"
+    ],
+    "parserTargetCount": 36,
+    "registryContractIds": [
+      "assetpack-synthesis-parser-delivery-contract",
+      "execution-ancestry-context-overlays",
+      "failsafe-sequence-context-handling",
+      "ptrr-agent-prompt-composition",
+      "ptrr-step-prompt-composition",
+      "readfits-finding-search-return-type-contract",
+      "readneed-comprehension-return-type-contract",
+      "thricified-generation-final-resolution",
+      "tool-doc-code-prompt-injection"
+    ],
+    "registryContractCount": 9,
+    "promptFamilyIds": [
+      "ReadFitsFindingSynthesis",
+      "ReadNeedComprehensionSynthesis"
+    ],
+    "uxStepIds": [
+      "buy-asset-pack-settle",
+      "request-fit",
+      "request-read",
+      "review-synthesized-asset-pack",
+      "review-synthesized-need"
+    ],
+    "uxStepCount": 5,
+    "sourceRootCount": 18,
+    "sourceRootPresentCount": 18,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "requiredPredicateCount": 120,
+    "passedPredicateCount": 120,
+    "failedPredicateIds": [],
+    "passingRowCount": 10,
+    "failingRowIds": [],
+    "readNeedBaselineRowCount": 3,
+    "readFitsBaselineRowCount": 7,
+    "readNeedInventoryPromptPartRowCount": 63,
+    "readNeedInventoryPromptRowCount": 6,
+    "readFitsInventoryPromptPartRowCount": 490,
+    "readFitsInventoryPromptRowCount": 52,
+    "baselineScoreMinimum": 1,
+    "baselineScoreAverage": 1,
+    "sourceSafeMetadataOnly": true,
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54",
+    "v38PromptBenchmarkReportRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
+    "v40PromptBenchmarkSmokeRoot": "v40-prompt-benchmark-smoke-v41-readiness:3164923746757b9b02fc30ae"
+  },
+  "failures": [],
+  "passed": true
+}

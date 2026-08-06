@@ -126,15 +126,15 @@ import {
   buildV27CryptoTelemetryRecord,
 } from './telemetry';
 import type {
-  TerminalJournalEntry,
-  TerminalJournalProjection,
-  TerminalTransactionKind,
-} from './terminal-journal';
+  JournalEntry,
+  JournalProjection,
+  JournalTransactionKind,
+} from './journal';
 import {
-  buildTerminalJournalCoverageReceipt,
-  buildTerminalJournalEntry,
-  diffTerminalJournalProjection,
-} from './terminal-journal';
+  buildJournalCoverageReceipt,
+  buildJournalEntry,
+  diffJournalProjection,
+} from './journal';
 import type {
   BtdProtocolUpgradeReceipt,
   BtdProtocolUpgradeState,
@@ -188,7 +188,7 @@ export interface BtdMintDraft {
   mintReceipt?: ReturnType<typeof buildBtdMintReceipt>;
   assetPackMintReceipt?: ReturnType<typeof buildBtdAssetPackMintReceipt>;
   contributorAllocation?: ReturnType<typeof allocateBtdContributorCells>;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   blocking: boolean;
   zeroCell: boolean;
 }
@@ -225,7 +225,7 @@ export interface BtdReadReceiptBoundarySettlement {
   kind: 'btd_read_receipt_boundary_settlement';
   actorId: string;
   readReceipt: ReturnType<typeof buildBtdReadReceipt>;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   registryWrite?: unknown;
   committed: boolean;
 }
@@ -377,7 +377,7 @@ export type BtdAssetPackExchangeAction =
   | 'settle_order'
   | 'transfer_rights';
 
-export type BtdTerminalJournalAction = 'commit_entry' | 'diff_projection' | 'coverage';
+export type BtdJournalAction = 'commit_entry' | 'diff_projection' | 'coverage';
 
 export interface BtdAssetPackExchangeInput {
   action: BtdAssetPackExchangeAction;
@@ -412,19 +412,19 @@ export interface BtdAssetPackExchangeInput {
   issuedAt?: string;
 }
 
-export interface BtdTerminalJournalInput {
-  action: BtdTerminalJournalAction;
+export interface BtdJournalInput {
+  action: BtdJournalAction;
   journalEntryId?: string;
-  transactionKind?: TerminalTransactionKind;
+  transactionKind?: JournalTransactionKind;
   preStateRoot?: string;
   postStateRoot?: string;
   receiptRoots?: string[];
   ledgerAnchorIds?: string[];
   exchangeSequence?: bigint;
-  entry?: TerminalJournalEntry;
-  projection?: TerminalJournalProjection;
+  entry?: JournalEntry;
+  projection?: JournalProjection;
   coverageId?: string;
-  entries?: TerminalJournalEntry[];
+  entries?: JournalEntry[];
   commitToRegistry?: boolean;
   actorId?: string;
   issuedAt?: string;
@@ -516,7 +516,7 @@ export interface BtdLicensedReadRevenueSettlement {
   kind: 'btd_licensed_read_revenue_settlement';
   actorId: string;
   receipt: ReturnType<typeof buildLicensedReadRevenueRoute>;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   registryWrite?: unknown;
   committed: boolean;
 }
@@ -525,7 +525,7 @@ export interface BtdAncestryReviewSettlement {
   kind: 'btd_ancestry_review_settlement';
   actorId: string;
   receipt: ReturnType<typeof reviewBtdAncestorEdges>;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   registryWrites?: unknown[];
   committed: boolean;
 }
@@ -536,7 +536,7 @@ export interface BtdBtcFeeTransactionSettlement {
   action: BtdBtcFeeTransactionAction;
   receipt: BtcFeeTransactionReceipt;
   operationPosture: BtcFeeOperationPosture;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   registryWrite?: unknown;
   committed: boolean;
 }
@@ -546,7 +546,7 @@ export interface BtdAssetPackLedgerAnchorSettlement {
   actorId: string;
   action: BtdAssetPackLedgerAnchorAction;
   anchor: AssetPackLedgerAnchor;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   registryWrite?: unknown;
   committed: boolean;
 }
@@ -558,18 +558,18 @@ export interface BtdAssetPackExchangeSettlement {
   order?: AssetPackExchangeOrder;
   rightsTransfer?: AssetPackRightsTransferReceipt;
   btdRightsTransferReceipt?: ReturnType<typeof buildBtdRightsTransferReceipt>;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   registryWrite?: unknown;
   committed: boolean;
 }
 
-export interface BtdTerminalJournalSettlement {
+export interface BtdJournalSettlement {
   kind: 'btd_terminal_journal_settlement';
   actorId: string;
-  action: BtdTerminalJournalAction;
-  entry?: TerminalJournalEntry;
-  diff?: ReturnType<typeof diffTerminalJournalProjection>;
-  coverage?: ReturnType<typeof buildTerminalJournalCoverageReceipt>;
+  action: BtdJournalAction;
+  entry?: JournalEntry;
+  diff?: ReturnType<typeof diffJournalProjection>;
+  coverage?: ReturnType<typeof buildJournalCoverageReceipt>;
   registryWrite?: unknown;
   committed: boolean;
 }
@@ -578,7 +578,7 @@ export interface BtdLedgerDatabaseReconciliationSettlement {
   kind: 'btd_ledger_database_reconciliation_settlement';
   actorId: string;
   report: ReturnType<typeof reconcileLedgerDatabaseProjection>;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   registryWrites?: unknown[];
   committed: boolean;
 }
@@ -587,7 +587,7 @@ export interface BtdSourceToSharesProofSettlement {
   kind: 'btd_source_to_shares_proof_settlement';
   actorId: string;
   proof: ReturnType<typeof buildSourceToSharesProof>;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   committed: false;
 }
 
@@ -595,7 +595,7 @@ export interface BtdBridgeReadinessResearchSettlement {
   kind: 'btd_bridge_readiness_research_settlement';
   actorId: string;
   posture: ReturnType<typeof buildBridgeReadinessResearchPosture>;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   committed: false;
 }
 
@@ -603,7 +603,7 @@ export interface BtdProtocolTelemetrySettlement {
   kind: 'btd_protocol_telemetry_settlement';
   actorId: string;
   envelope: BtdProtocolTelemetryEnvelope;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   committed: false;
 }
 
@@ -611,7 +611,7 @@ export interface BtdInterfaceIntegrationRegressionSettlement {
   kind: 'btd_interface_integration_regression_settlement';
   actorId: string;
   proof: BtdInterfaceIntegrationRegressionProof;
-  terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
+  terminalJournalEntry: ReturnType<typeof buildJournalEntry>;
   committed: false;
 }
 
@@ -764,7 +764,7 @@ export function buildBtdMintDraft(input: BtdMintDraftInput): BtdMintDraft {
       ? buildBtdStableId('btd-contributor-allocation', [input.assetPackId, contributorAllocation.issuedAt])
       : null,
   ].filter((value): value is string => Boolean(value));
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-mint-draft', [
       input.assetPackId,
       input.exchangeSequence.toString(),
@@ -809,7 +809,7 @@ export function assertBtdMintDraft(draft: BtdMintDraft): BtdMintDraft {
     throw new Error('BTD mint draft requires a measuremint receipt.');
   }
   if (!draft.terminalJournalEntry?.journalEntryId) {
-    throw new Error('BTD mint draft requires a terminal journal entry.');
+    throw new Error('BTD mint draft requires a BTD journal entry.');
   }
   return draft;
 }
@@ -871,7 +871,7 @@ export function buildBtdReadReceiptBoundarySettlement(
     readReceipt.deliveryAdmissionState === 'admitted'
       ? 'licensed_read_purchase'
       : 'read_submission';
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-read-receipt', [
       readReceipt.assetPackId,
       readReceipt.readId,
@@ -941,7 +941,7 @@ export function buildBtdLicensedReadRevenueSettlement(
       issuedAt: input.issuedAt,
     }),
   );
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-licensed-read-revenue', [
       receipt.assetPackId,
       receipt.paymentId,
@@ -998,7 +998,7 @@ export function buildBtdAncestryReviewSettlement(
     citationOnlyPayable: input.citationOnlyPayable,
     issuedAt,
   });
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-ancestry-review', [
       receipt.childAssetPackId,
       receipt.reviewId,
@@ -1040,7 +1040,7 @@ export function buildBtdBtcFeeTransactionSettlement(
     payerSession,
     at: issuedAt,
   });
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-btc-fee', [
       receipt.receiptId,
       receipt.finalityState,
@@ -1083,7 +1083,7 @@ export function buildBtdAssetPackLedgerAnchorSettlement(
   }
   const issuedAt = input.issuedAt ?? new Date().toISOString();
   const anchor = buildAssetPackLedgerAnchorForAction(input);
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-asset-pack-anchor', [
       anchor.anchorId,
       anchor.finalityState,
@@ -1151,7 +1151,7 @@ export function buildBtdAssetPackExchangeSettlement(
   if (!receiptRoot) {
     throw new Error('AssetPack Exchange settlement requires an order or rights-transfer receipt.');
   }
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-asset-pack-exchange', [
       input.action,
       receiptRoot,
@@ -1189,18 +1189,18 @@ export function buildBtdAssetPackExchangeSettlement(
   };
 }
 
-export function buildBtdTerminalJournalSettlement(
-  input: BtdTerminalJournalInput & { actorId: string },
-): Omit<BtdTerminalJournalSettlement, 'committed'> {
+export function buildBtdJournalSettlement(
+  input: BtdJournalInput & { actorId: string },
+): Omit<BtdJournalSettlement, 'committed'> {
   const actorId = assertNonEmptyString(input.actorId, 'actorId');
 
   switch (input.action) {
     case 'commit_entry': {
       const entry =
         input.entry ??
-        buildTerminalJournalEntry({
+        buildJournalEntry({
           journalEntryId: assertNonEmptyString(input.journalEntryId, 'journalEntryId'),
-          transactionKind: requireTerminalTransactionKind(input.transactionKind),
+          transactionKind: requireJournalTransactionKind(input.transactionKind),
           actorId,
           preStateRoot: assertNonEmptyString(input.preStateRoot, 'preStateRoot'),
           postStateRoot: assertNonEmptyString(input.postStateRoot, 'postStateRoot'),
@@ -1214,13 +1214,13 @@ export function buildBtdTerminalJournalSettlement(
         kind: 'btd_terminal_journal_settlement',
         actorId,
         action: input.action,
-        entry: normalizeTerminalJournalEntry(entry),
+        entry: normalizeJournalEntry(entry),
       };
     }
     case 'diff_projection': {
-      const entry = normalizeTerminalJournalEntry(input.entry);
+      const entry = normalizeJournalEntry(input.entry);
       if (!input.projection) {
-        throw new Error('Terminal journal diff requires projection.');
+        throw new Error('BTD journal diff requires projection.');
       }
 
       return {
@@ -1228,29 +1228,29 @@ export function buildBtdTerminalJournalSettlement(
         actorId,
         action: input.action,
         entry,
-        diff: diffTerminalJournalProjection(entry, input.projection),
+        diff: diffJournalProjection(entry, input.projection),
       };
     }
     case 'coverage': {
-      if (!input.coverageId) throw new Error('Terminal journal coverage requires coverageId.');
+      if (!input.coverageId) throw new Error('BTD journal coverage requires coverageId.');
       if (!input.entries?.length) {
-        throw new Error('Terminal journal coverage requires entries.');
+        throw new Error('BTD journal coverage requires entries.');
       }
 
       return {
         kind: 'btd_terminal_journal_settlement',
         actorId,
         action: input.action,
-        coverage: buildTerminalJournalCoverageReceipt({
+        coverage: buildJournalCoverageReceipt({
           coverageId: input.coverageId,
-          entries: input.entries.map((entry) => normalizeTerminalJournalEntry(entry)),
+          entries: input.entries.map((entry) => normalizeJournalEntry(entry)),
           issuedAt: input.issuedAt,
         }),
       };
     }
     default:
       throw new Error(
-        `Unsupported Terminal journal action: ${(input as { action: string }).action}.`,
+        `Unsupported BTD journal action: ${(input as { action: string }).action}.`,
       );
   }
 }
@@ -1269,7 +1269,7 @@ export function buildBtdLedgerDatabaseReconciliationSettlement(
     settlementConservationChecks: input.settlementConservationChecks,
     issuedAt: input.issuedAt,
   });
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-reconciliation', [
       report.reconciliationId,
       String(report.repairs.length),
@@ -1321,7 +1321,7 @@ export function buildBtdSourceToSharesProofSettlement(
   }
 
   const proof = buildSourceToSharesProof(input);
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-source-to-shares-proof', [
       proof.proofId,
       input.exchangeSequence.toString(),
@@ -1369,7 +1369,7 @@ export function buildBtdBridgeReadinessResearchSettlement(
   }
 
   const posture = buildBridgeReadinessResearchPosture(input);
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-bridge-readiness-research', [
       posture.postureId,
       input.exchangeSequence.toString(),
@@ -1418,7 +1418,7 @@ export function buildBtdProtocolTelemetrySettlement(
     proofHooks: input.proofHooks,
     issuedAt: input.issuedAt,
   });
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-protocol-telemetry', [
       envelope.envelopeId,
       input.exchangeSequence.toString(),
@@ -1470,7 +1470,7 @@ export function buildBtdInterfaceIntegrationRegressionSettlement(
     transactionCockpitProofRoot: input.transactionCockpitProofRoot,
     issuedAt: input.issuedAt,
   });
-  const terminalJournalEntry = buildTerminalJournalEntry({
+  const terminalJournalEntry = buildJournalEntry({
     journalEntryId: buildBtdStableId('terminal-btd-interface-integration-regression', [
       proof.proofId,
       input.exchangeSequence.toString(),
@@ -2037,22 +2037,22 @@ function normalizeAssetPackExchangeOrder(
   };
 }
 
-function normalizeTerminalJournalEntry(entry: TerminalJournalEntry | undefined): TerminalJournalEntry {
+function normalizeJournalEntry(entry: JournalEntry | undefined): JournalEntry {
   if (!entry) {
-    throw new Error('Terminal journal action requires entry.');
+    throw new Error('BTD journal action requires entry.');
   }
 
-  return buildTerminalJournalEntry({
+  return buildJournalEntry({
     ...entry,
     exchangeSequence: BigInt(entry.exchangeSequence),
   });
 }
 
-function requireTerminalTransactionKind(
-  kind: TerminalTransactionKind | undefined,
-): TerminalTransactionKind {
+function requireJournalTransactionKind(
+  kind: JournalTransactionKind | undefined,
+): JournalTransactionKind {
   if (!kind) {
-    throw new Error('Terminal journal entry requires transactionKind.');
+    throw new Error('BTD journal entry requires transactionKind.');
   }
 
   return kind;

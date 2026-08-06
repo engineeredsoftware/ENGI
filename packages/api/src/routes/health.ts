@@ -12,7 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { traceRoute } from '@bitcode/observability';
 import { log } from '@bitcode/logger';
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 
 // Application start time

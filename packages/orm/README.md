@@ -8,7 +8,7 @@ Type-safe database access layer for the Bitcode platform. Provides 1:1 mapping w
 - **Model System**: Type-safe model classes for all entities
 - **AssetPack Evidence Vectors**: pgvector-backed storage helpers for AssetPack evidence rows
 - **Profile Contracts**: Readiness and profile helpers for Bitcode account state
-- **Data Health**: Supabase/PostgreSQL projection checks for schema, identity, Terminal, ledger, telemetry, and reconciliation parity
+- **Data Health**: Supabase/PostgreSQL projection checks for schema, identity, product, ledger, telemetry, and reconciliation parity
 
 ## Client Types
 
@@ -25,16 +25,16 @@ const adminClient = createAdminClient();
 ## Model Usage
 
 ```typescript
-import { 
-  UsersModel, 
-  AssetPackEvidenceModel, 
-  ConversationsModel 
+import {
+ UsersModel,
+ AssetPackEvidenceModel,
+ ConversationsModel
 } from '@bitcode/orm';
 
 // List user AssetPack evidence
 const assetPackEvidence = await client.assetPackEvidence.list({
-  filter: { status: 'completed' },
-  limit: 10
+ filter: { status: 'completed' },
+ limit: 10
 });
 
 // AssetPack evidence vectors
@@ -71,4 +71,4 @@ roots.
 
 ## Architecture
 
-Provides database as a typed service philosophy. 1:1 mapping with Supabase schema ensures consistency. Vector search, profile contracts, generated types, and data-health checks support Bitcode Terminal, wallet, GitHub, AssetPack, and proof-facing storage without admitting experimental non-Bitcode query corridors.
+Provides database as a typed service philosophy. 1:1 mapping with Supabase schema ensures consistency. Vector search, profile contracts, generated types, and data-health checks support Bitcode, wallet, GitHub, AssetPack, and proof-facing storage without admitting experimental non-Bitcode query corridors.

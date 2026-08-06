@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V42_READFITSFINDING_PREVIEW_QUOTE_ARTIFACT_PATH,
   buildV42ReadFitsFindingPreviewQuote,
-} from '../packages/protocol/src/canonical/v42-readfitsfinding-preview-quote.js';
+} from '../scripts/specifying/src/canonical/v42-readfitsfinding-preview-quote.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

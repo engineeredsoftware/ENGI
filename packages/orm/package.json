@@ -17,12 +17,15 @@
     "test": "jest --passWithNoTests",
     "test:data-health": "jest --runTestsByPath src/__tests__/data-health.contract.test.ts src/__tests__/data-health.e2e.test.ts src/__tests__/schema-types.e2e.test.ts --runInBand",
     "test:data-health:live": "BITCODE_RUN_DB_HEALTH_E2E=true BITCODE_RUN_SCHEMA_TYPES_E2E=true jest --runTestsByPath src/__tests__/data-health.contract.test.ts src/__tests__/data-health.e2e.test.ts src/__tests__/schema-types.e2e.test.ts --runInBand",
-    "generate-types": "mkdir -p ../../.tmp/data-health && supabase gen types typescript --local > ../../.tmp/data-health/database.local.ts && pnpm run schema-types:refresh -- --input ../../.tmp/data-health/database.local.ts"
+    "generate-types": "mkdir -p ../../.tmp/data-health && supabase gen types typescript --local > ../../.tmp/data-health/database.local.ts && pnpm run schema-types:refresh -- --input ../../.tmp/data-health/database.local.ts",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0",
     "pg": "^8.16.3",
-    "zod": "^3.0.0"
+    "zod": "^3.0.0",
+    "@bitcode/conversations": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

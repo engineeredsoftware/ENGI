@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v36-exchange-rehearsal.json';
+const ARTIFACT_PATH = '.proofs/v36/exchange-rehearsal.json';
 const REQUIRED_REHEARSAL_IDS = [
   'local_exchange_rehearsal',
   'staging_testnet_exchange_rehearsal',
@@ -97,7 +97,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -116,20 +116,20 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/exchange-rehearsal.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v36-exchange-rehearsal.test.js',
+    'scripts/specifying/src/canonical/exchange-rehearsal.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v36-exchange-rehearsal.test.js',
     'scripts/generate-v36-exchange-rehearsal.mjs',
     'scripts/check-v36-gate9-exchange-rehearsal.mjs',
-    'BITCODE_SPEC_V36.md',
-    'BITCODE_SPEC_V36_DELTA.md',
-    'BITCODE_SPEC_V36_NOTES.md',
-    'BITCODE_SPEC_V36_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V36.md',
+    '.specifications/BITCODE_SPEC_V36_DELTA.md',
+    '.specifications/BITCODE_SPEC_V36_NOTES.md',
+    '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/exchange/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/exchange/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -149,7 +149,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v36-exchange-rehearsal.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v36-exchange-rehearsal.test.js']);
     } catch (error) {
       failures.push(`V36 Exchange rehearsal package test failed: ${error.stderr || error.message}`);
     }
@@ -210,19 +210,19 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V36.md');
-  const delta = read(root, 'BITCODE_SPEC_V36_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V36_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V36_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V36.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V36_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V36_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const rootPackage = read(root, 'package.json');
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
-  const protocolDts = read(root, 'packages/protocol/src/index.d.ts');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
+  const protocolDts = read(root, 'scripts/specifying/src/index.d.ts');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const exchangeReadme = read(root, 'uapi/app/exchange/README.md');
+  const exchangeReadme = read(root, 'apps/uapi/app/exchange/README.md');
 
   for (const doc of [spec, delta, notes, parity, roadmap, protocolReadme, rootReadme, exchangeReadme]) {
     assertCheck(failures, doc.includes('ExchangeRehearsal'), 'Docs/specs must name ExchangeRehearsal.');

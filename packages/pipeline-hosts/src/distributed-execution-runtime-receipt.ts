@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 export const DISTRIBUTED_EXECUTION_RUNTIME_WORK_KINDS = [
   'pipeline_run',
   'ptrr_agent',
-  'thricified_generation',
+  'thinkings_generation',
   'tool_call',
   'ledger_operation',
   'wallet_operation',
@@ -59,7 +59,7 @@ export type DistributedExecutionRuntimeRouteBoundary =
 
 export type DistributedExecutionRuntimePtrrStep = 'plan' | 'try' | 'refine' | 'retry';
 
-export type DistributedExecutionRuntimeThricifiedGenerationStep =
+export type DistributedExecutionRuntimeThinkingsGenerationStep =
   | 'reason'
   | 'judge'
   | 'structured_output';
@@ -87,7 +87,7 @@ export interface DistributedExecutionRuntimeReceiptInput {
   phaseId?: string;
   agentId?: string;
   ptrrStep?: DistributedExecutionRuntimePtrrStep;
-  thricifiedGenerationStep?: DistributedExecutionRuntimeThricifiedGenerationStep;
+  thinkingsGenerationStep?: DistributedExecutionRuntimeThinkingsGenerationStep;
   toolId?: string;
   repairPosture: string;
   replayCommand: string;
@@ -118,7 +118,7 @@ export interface DistributedExecutionRuntimeReceipt {
   phaseId?: string;
   agentId?: string;
   ptrrStep?: DistributedExecutionRuntimePtrrStep;
-  thricifiedGenerationStep?: DistributedExecutionRuntimeThricifiedGenerationStep;
+  thinkingsGenerationStep?: DistributedExecutionRuntimeThinkingsGenerationStep;
   toolId?: string;
   repairPosture: string;
   replayCommand: string;
@@ -221,15 +221,15 @@ export function buildDistributedExecutionRuntimeReceiptFixtures(): DistributedEx
     },
     {
       ...base,
-      executionId: 'execution-thricified-generation',
+      executionId: 'execution-thinkings-generation',
       hostId: 'pipeline_workers',
-      workKind: 'thricified_generation',
+      workKind: 'thinkings_generation',
       commandOrPipelineId: 'ReadFitsFindingSynthesisDiscoveryAgent.plan.reason',
       parentReceiptRoot: 'receipt:ptrr-agent-root',
       phaseId: 'discovery',
       agentId: 'ReadFitsFindingSynthesisDiscoveryAgent',
       ptrrStep: 'plan',
-      thricifiedGenerationStep: 'reason',
+      thinkingsGenerationStep: 'reason',
       inputRoot: 'sha256:generation-input-root',
       outputRoot: 'sha256:generation-output-root',
       proofRoot: 'sha256:generation-proof-root',
@@ -241,7 +241,7 @@ export function buildDistributedExecutionRuntimeReceiptFixtures(): DistributedEx
       hostId: 'pipeline_workers',
       workKind: 'tool_call',
       commandOrPipelineId: 'AssetPackLexicalDepositorySearchTool',
-      parentReceiptRoot: 'receipt:thricified-generation-root',
+      parentReceiptRoot: 'receipt:thinkings-generation-root',
       phaseId: 'discovery',
       agentId: 'ReadFitsFindingSynthesisDiscoveryAgent',
       ptrrStep: 'try',
@@ -372,8 +372,8 @@ export function buildDistributedExecutionRuntimeReceipt(
     phaseId: input.phaseId ? assertSourceSafeString(input.phaseId, 'phaseId') : undefined,
     agentId: input.agentId ? assertSourceSafeString(input.agentId, 'agentId') : undefined,
     ptrrStep: input.ptrrStep ? assertPtrrStep(input.ptrrStep) : undefined,
-    thricifiedGenerationStep: input.thricifiedGenerationStep
-      ? assertThricifiedGenerationStep(input.thricifiedGenerationStep)
+    thinkingsGenerationStep: input.thinkingsGenerationStep
+      ? assertThinkingsGenerationStep(input.thinkingsGenerationStep)
       : undefined,
     toolId: input.toolId ? assertSourceSafeString(input.toolId, 'toolId') : undefined,
     repairPosture: assertSourceSafeString(input.repairPosture, 'repairPosture'),
@@ -408,7 +408,7 @@ export function buildDistributedExecutionRuntimeReceipt(
       receipt.phaseId ?? 'no-phase',
       receipt.agentId ?? 'no-agent',
       receipt.ptrrStep ?? 'no-ptrr-step',
-      receipt.thricifiedGenerationStep ?? 'no-thricified-generation-step',
+      receipt.thinkingsGenerationStep ?? 'no-thinkings-generation-step',
       receipt.toolId ?? 'no-tool',
       receipt.repairPosture,
       receipt.replayCommand,
@@ -473,7 +473,7 @@ function assertReceiptInvariants(
   }
   if (['succeeded', 'failed', 'blocked', 'repaired'].includes(receipt.status)) {
     if (!receipt.completedAt) {
-      throw new Error('Terminal distributed execution receipts require completedAt.');
+      throw new Error('product distributed execution receipts require completedAt.');
     }
   }
   if (['succeeded', 'repaired'].includes(receipt.status) && !receipt.outputRoot) {
@@ -482,9 +482,9 @@ function assertReceiptInvariants(
   if (receipt.workKind === 'ptrr_agent' && !receipt.agentId) {
     throw new Error('PTRR agent receipts require agentId.');
   }
-  if (receipt.workKind === 'thricified_generation') {
-    if (!receipt.agentId || !receipt.ptrrStep || !receipt.thricifiedGenerationStep) {
-      throw new Error('ThricifiedGeneration receipts require agentId, PTRR step, and generation step.');
+  if (receipt.workKind === 'thinkings_generation') {
+    if (!receipt.agentId || !receipt.ptrrStep || !receipt.thinkingsGenerationStep) {
+      throw new Error('ThinkingsGeneration receipts require agentId, PTRR step, and generation step.');
     }
   }
   if (receipt.workKind === 'tool_call' && !receipt.toolId) {
@@ -568,19 +568,19 @@ function assertPtrrStep(step: string): DistributedExecutionRuntimePtrrStep {
   return step as DistributedExecutionRuntimePtrrStep;
 }
 
-function assertThricifiedGenerationStep(
+function assertThinkingsGenerationStep(
   step: string,
-): DistributedExecutionRuntimeThricifiedGenerationStep {
-  const allowed: readonly DistributedExecutionRuntimeThricifiedGenerationStep[] = [
+): DistributedExecutionRuntimeThinkingsGenerationStep {
+  const allowed: readonly DistributedExecutionRuntimeThinkingsGenerationStep[] = [
     'reason',
     'judge',
     'structured_output',
   ];
-  if (!allowed.includes(step as DistributedExecutionRuntimeThricifiedGenerationStep)) {
-    throw new Error(`Unsupported ThricifiedGeneration step: ${step}.`);
+  if (!allowed.includes(step as DistributedExecutionRuntimeThinkingsGenerationStep)) {
+    throw new Error(`Unsupported ThinkingsGeneration step: ${step}.`);
   }
 
-  return step as DistributedExecutionRuntimeThricifiedGenerationStep;
+  return step as DistributedExecutionRuntimeThinkingsGenerationStep;
 }
 
 function assertRoot(root: string, label: string): string {

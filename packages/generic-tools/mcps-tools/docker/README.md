@@ -65,11 +65,11 @@ Model Context Protocol integration for Docker container orchestration and manage
 ```typescript
 // MCP tool wrapper with type safety
 export const {
-  dockerListContainersTool,
-  dockerCreateContainerTool,
-  dockerRunContainerTool
+ dockerListContainersTool,
+ dockerCreateContainerTool,
+ dockerRunContainerTool
 } = Object.fromEntries(
-  Object.entries(impl).map(([k, v]) => [k, asTool(v as AnyFn)])
+ Object.entries(impl).map(([k, v]) => [k, asTool(v as AnyFn)])
 ) as unknown as typeof impl;
 ```
 
@@ -83,10 +83,10 @@ export const {
 ```typescript
 // Real-time log streaming implementation
 export interface RunDockerOptions {
-  args?: string[];
-  env?: Record<string, string>;
-  remove?: boolean;  // --rm flag
-  interactive?: boolean;  // -i flag
+ args?: string[];
+ env?: Record<string, string>;
+ remove?: boolean; // --rm flag
+ interactive?: boolean; // -i flag
 }
 ```
 
@@ -116,16 +116,16 @@ export DOCKER_REGISTRY_AUTH="base64-encoded-auth"
 ### Tool Registration
 ```typescript
 import {
-  dockerListContainersTool,
-  dockerCreateContainerTool,
-  dockerBuildImageTool
-} from '@bitcode/mcps-tools/docker';
+ dockerListContainersTool,
+ dockerCreateContainerTool,
+ dockerBuildImageTool
+} from '@bitcode/generic-tools-mcps-tools/docker';
 
 // MCP server integration
 const dockerTools = [
-  dockerListContainersTool,
-  dockerCreateContainerTool,
-  dockerBuildImageTool
+ dockerListContainersTool,
+ dockerCreateContainerTool,
+ dockerBuildImageTool
 ];
 ```
 

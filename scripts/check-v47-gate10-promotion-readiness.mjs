@@ -8,17 +8,17 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v47-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v47/promotion-readiness-report.json';
 
 const V47_GATE_ARTIFACTS = [
-  '.bitcode/v47-feature-excess-alignment-audit.json',
-  '.bitcode/v47-seller-buyer-state-machine-law.json',
-  '.bitcode/v47-depositor-website-completion.json',
-  '.bitcode/v47-reader-website-completion.json',
-  '.bitcode/v47-packs-auxillaries-commercial-dashboard.json',
-  '.bitcode/v47-e2e-ip-selling-buying-tests.json',
-  '.bitcode/v47-landing-public-launch-messaging.json',
-  '.bitcode/v47-staging-testnet-deployment-rehearsal.json',
+  '.proofs/v47/feature-excess-alignment-audit.json',
+  '.proofs/v47/seller-buyer-state-machine-law.json',
+  '.proofs/v47/depositor-website-completion.json',
+  '.proofs/v47/reader-website-completion.json',
+  '.proofs/v47/packs-auxillaries-commercial-dashboard.json',
+  '.proofs/v47/e2e-ip-selling-buying-tests.json',
+  '.proofs/v47/landing-public-launch-messaging.json',
+  '.proofs/v47/staging-testnet-deployment-rehearsal.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(
@@ -139,7 +139,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
   const promotedPointer = args.promotionMode && pointer === 'V47';
 
   assertCheck(
@@ -160,11 +160,11 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'BITCODE_SPEC_V47_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V47_PROVEN.md',
     ARTIFACT_PATH,
     'scripts/generate-v47-promotion-readiness-report.mjs',
     'scripts/check-v47-gate10-promotion-readiness.mjs',
@@ -175,16 +175,16 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v47-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/v47-promotion-readiness-report.js',
-    'packages/protocol/test/v47-promotion-readiness.test.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/src/canonical/v47-promotion-readiness-report.js',
+    'scripts/specifying/test/v47-promotion-readiness.test.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     ...V47_GATE_ARTIFACTS,
   ];
 
@@ -247,22 +247,22 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V47.md');
-  const delta = read(root, 'BITCODE_SPEC_V47_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V47_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V47_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V47.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V47_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V47_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
-  const proven = read(root, 'BITCODE_SPEC_V47_PROVEN.md');
+  const proven = read(root, '.specifications/BITCODE_SPEC_V47_PROVEN.md');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const promotionWorkflow = read(root, '.github/workflows/v47-canon-promotion.yml');
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V47 promotion readiness canon'), 'V47 SPEC must define promotion readiness canon.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH) && spec.includes('V47 active / draft V48'), 'V47 SPEC must include Gate 10 artifact and post-promotion posture.');
@@ -345,7 +345,7 @@ function main() {
 
   if (failures.length === 0 && !args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v47-promotion-readiness.test.js']);
+      run(root, 'pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v47-promotion-readiness.test.js']);
       run(root, 'node', ['scripts/promote-bitcode-canon.mjs', '--version', 'V47', '--commit', 'HEAD', '--dry-run']);
     } catch (error) {
       failures.push(`V47 Gate 10 package promotion tests failed: ${error.stderr || error.message}`);

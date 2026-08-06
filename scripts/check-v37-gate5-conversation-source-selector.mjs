@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-source-selector.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-source-selector.json';
 
 const REQUIRED_KIND_IDS = [
   'repository',
@@ -120,7 +120,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -139,26 +139,26 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-source-selector.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-source-selector.test.js',
+    'scripts/specifying/src/canonical/conversation-source-selector.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-source-selector.test.js',
     'scripts/generate-v37-conversation-source-selector.mjs',
     'scripts/check-v37-gate5-conversation-source-selector.mjs',
-    'uapi/app/conversations/conversation-source-selector.ts',
-    'uapi/app/conversations/components/ConversationSourceSelector.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/conversationSourceSelector.test.tsx',
-    'uapi/jest.config.cjs',
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/conversations/conversation-source-selector.ts',
+    'apps/uapi/app/conversations/components/ConversationSourceSelector.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/conversationSourceSelector.test.tsx',
+    'apps/uapi/jest.config.cjs',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/conversations/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -178,7 +178,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-source-selector.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-source-selector.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation source selector package test failed: ${error.stderr || error.message}`);
     }
@@ -186,7 +186,7 @@ function main() {
 
   if (failures.length === 0 && shouldRunUapiTests()) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/conversationSourceSelector.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'tests/conversationSourceSelector.test.tsx', '--runInBand']);
     } catch (error) {
       failures.push(`V37 Conversation source selector UI tests failed: ${error.stderr || error.message}`);
     }
@@ -254,13 +254,13 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V37.md');
-  const delta = read(root, 'BITCODE_SPEC_V37_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V37_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
-  const uapiReadme = read(root, 'uapi/app/conversations/README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V37.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V37_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V37_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
+  const uapiReadme = read(root, 'apps/uapi/app/conversations/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

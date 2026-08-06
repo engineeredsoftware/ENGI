@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH,
   buildV44DepositorEarningsSupplyOpportunities,
-} from '../packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js';
+} from '../scripts/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V43', `BITCODE_SPEC.txt must remain V43 during V44 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -87,25 +87,25 @@ function main() {
 
   for (const relativePath of [
     V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depositor-earning-supply-intelligence.test.ts',
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/tests/depositRouteModel.test.ts',
-    'uapi/tests/depositPageClient.test.tsx',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/depositor-earning-supply-intelligence.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depositor-earning-supply-intelligence.test.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-policy.ts',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/tests/depositRouteModel.test.ts',
+    'apps/uapi/tests/depositPageClient.test.tsx',
     'packages/btd/src/source-to-shares.ts',
-    'packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js',
-    'packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js',
+    'scripts/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js',
+    'scripts/specifying/test/v44-depositor-earnings-supply-opportunities.test.js',
     'scripts/generate-v44-depositor-earnings-supply-opportunities.mjs',
     'scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs',
-    'BITCODE_SPEC_V44.md',
-    'BITCODE_SPEC_V44_DELTA.md',
-    'BITCODE_SPEC_V44_NOTES.md',
-    'BITCODE_SPEC_V44_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V44.md',
+    '.specifications/BITCODE_SPEC_V44_DELTA.md',
+    '.specifications/BITCODE_SPEC_V44_NOTES.md',
+    '.specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -159,13 +159,13 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-depositor-earnings-supply-opportunities.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-depositor-earnings-supply-opportunities.test.js']);
     } catch {
-      failures.push('packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js must pass.');
+      failures.push('scripts/specifying/test/v44-depositor-earnings-supply-opportunities.test.js must pass.');
     }
 
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'test', '--', 'depositor-earning-supply-intelligence.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'test', '--', 'depositor-earning-supply-intelligence.test.ts', '--runInBand']);
     } catch {
       failures.push('packages/pipelines/asset-pack depositor earning supply intelligence tests must pass.');
     }
@@ -173,7 +173,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi deposit route/page tests must pass.');
     }

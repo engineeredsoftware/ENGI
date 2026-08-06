@@ -49,19 +49,19 @@ Production-grade web scraping and crawling tools providing comprehensive web con
 ### Architecture Pattern
 ```typescript
 class WebScrapingTool extends Tool<typeof primitiveFunction> {
-  use = primitiveFunction;
+ use = primitiveFunction;
 }
 ```
 
 ### Firecrawl Integration
 ```typescript
 import {
-  FirecrawlScrapeOptions,
-  FirecrawlCrawlOptions,
-  FirecrawlSearchOptions,
-  FirecrawlPageData,
-  FirecrawlResponse
-} from '@bitcode/firecrawl';
+ FirecrawlScrapeOptions,
+ FirecrawlCrawlOptions,
+ FirecrawlSearchOptions,
+ FirecrawlPageData,
+ FirecrawlResponse
+} from '@bitcode/web-scrapers-firecrawl';
 ```
 
 ### Content Processing Pipeline
@@ -84,13 +84,13 @@ import {
 import { scrapeUrlTool } from '@bitcode/generic-tools-firecrawl';
 
 const result = await scrapeUrlTool.use({
-  url: 'https://example.com/documentation',
-  options: {
-    format: 'markdown',
-    waitFor: 2000,
-    extractMetadata: true,
-    includeImages: true
-  }
+ url: 'https://example.com/documentation',
+ options: {
+ format: 'markdown',
+ waitFor: 2000,
+ extractMetadata: true,
+ includeImages: true
+ }
 });
 ```
 
@@ -99,15 +99,15 @@ const result = await scrapeUrlTool.use({
 import { crawlWebsiteTool } from '@bitcode/generic-tools-firecrawl';
 
 const crawlResult = await crawlWebsiteTool.use({
-  baseUrl: 'https://docs.example.com',
-  maxPages: 100,
-  crawlOptions: {
-    maxDepth: 3,
-    includePatterns: ['/docs/**', '/api/**'],
-    excludePatterns: ['/admin/**', '/private/**'],
-    respectRobotsTxt: true,
-    delay: 1000
-  }
+ baseUrl: 'https://docs.example.com',
+ maxPages: 100,
+ crawlOptions: {
+ maxDepth: 3,
+ includePatterns: ['/docs/**', '/api/**'],
+ excludePatterns: ['/admin/**', '/private/**'],
+ respectRobotsTxt: true,
+ delay: 1000
+ }
 });
 ```
 
@@ -116,14 +116,14 @@ const crawlResult = await crawlWebsiteTool.use({
 import { searchWebTool } from '@bitcode/generic-tools-firecrawl';
 
 const searchResults = await searchWebTool.use({
-  query: 'TypeScript best practices 2024',
-  maxResults: 10,
-  scrapeResults: true,
-  options: {
-    format: 'markdown',
-    extractMainContent: true,
-    includeMetadata: true
-  }
+ query: 'TypeScript best practices 2024',
+ maxResults: 10,
+ scrapeResults: true,
+ options: {
+ format: 'markdown',
+ extractMainContent: true,
+ includeMetadata: true
+ }
 });
 ```
 

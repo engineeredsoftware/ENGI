@@ -1,18 +1,20 @@
 {
-  "name": "@bitcode/figma-tools",
+  "name": "@bitcode/generic-tools-mcps-figma",
   "version": "1.0.0",
   "description": "Figma MCP tool wrappers for Bitcode agents",
   "main": "./src/index.js",
   "types": "./src/index.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "typecheck": "node ../../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
-    "@bitcode/figma": "workspace:*",
     "@bitcode/tools-generics": "workspace:*",
     "ai": "^3.0.0",
-    "zod": "^3.20.0"
+    "zod": "^3.20.0",
+    "@bitcode/externals-figma": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

@@ -1,0 +1,17 @@
+{
+  "name": "@bitcode/generic-measurements-tech-types",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest --config jest.config.cjs --runInBand",
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  },
+  "private": true,
+  "description": "Tech-types absolute measurement (packages/generic-measurements/tech-types)",
+  "exports": {
+    ".": "./dist/index.js"
+  }
+}

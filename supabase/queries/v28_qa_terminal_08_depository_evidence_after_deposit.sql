@@ -1,5 +1,5 @@
 -- Saved query name: v28_qa_terminal_08_depository_evidence_after_deposit
--- Purpose: run after submitting a Terminal deposit. It verifies the deposited
+-- Purpose: run after submitting a product deposit. It verifies the deposited
 -- source evidence spine that Gate 9 requires before later Read/Fit gates can
 -- search, synthesize, settle, or deliver from deposited supply.
 
@@ -15,7 +15,7 @@ BEGIN
         jsonb_build_array(
           jsonb_build_object(
             'missing_table', 'public.executions',
-            'impact', 'Terminal depository evidence cannot be read back until execution history exists.'
+            'impact', 'product depository evidence cannot be read back until execution history exists.'
           )
         );
     RETURN;

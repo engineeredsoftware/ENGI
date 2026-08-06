@@ -297,7 +297,7 @@ export function buildRuntimeObserverRepairJobRows(): RuntimeObserverRepairJobInp
       jobId: 'generated_proof_job',
       label: 'generated proof job',
       jobClass: 'generated_proof_job',
-      ownerPackage: 'packages/protocol',
+      ownerPackage: 'scripts/specifying',
       requiredHostIds: ['proof_services', 'repair_jobs'],
       supportedLaneIds: NON_VALUE_LANES,
       observerId: 'observer.generated_proof.freshness',
@@ -314,7 +314,7 @@ export function buildRuntimeObserverRepairJobRows(): RuntimeObserverRepairJobInp
       unsafeDriftPosture: 'blocks_projection_until_repaired',
       unlockBlockingPolicy: 'promotion and deployment admission stay blocked when proof artifacts are stale',
       auditEventName: 'runtime_observer.generated_proof_job',
-      proofRootBasis: ['BITCODE_SPEC_V34.md', 'v34-canonical-input-report', 'v34-spec-family-report'],
+      proofRootBasis: ['.specifications/BITCODE_SPEC_V34.md', 'v34-canonical-input-report', 'v34-spec-family-report'],
     },
     {
       jobId: 'queue_consumer',

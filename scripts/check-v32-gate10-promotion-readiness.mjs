@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v32-promotion-readiness-report.json';
+const ARTIFACT = '.proofs/v32/promotion-readiness-report.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -107,7 +107,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -127,11 +127,11 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V32.md',
-    'BITCODE_SPEC_V32_DELTA.md',
-    'BITCODE_SPEC_V32_NOTES.md',
-    'BITCODE_SPEC_V32_PARITY_MATRIX.md',
-    'BITCODE_V32_QA.md',
+    '.specifications/BITCODE_SPEC_V32.md',
+    '.specifications/BITCODE_SPEC_V32_DELTA.md',
+    '.specifications/BITCODE_SPEC_V32_NOTES.md',
+    '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
+    '.qa/BITCODE_V32_QA.md',
     ARTIFACT,
     'scripts/generate-v32-promotion-readiness-report.mjs',
     'scripts/check-v32-gate10-promotion-readiness.mjs',
@@ -142,14 +142,14 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v32-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -164,11 +164,11 @@ function main() {
     }
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V32.md');
-  const delta = read(root, 'BITCODE_SPEC_V32_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V32_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V32_PARITY_MATRIX.md');
-  const qa = read(root, 'BITCODE_V32_QA.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V32.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V32_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V32_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md');
+  const qa = read(root, '.qa/BITCODE_V32_QA.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -176,13 +176,13 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const v21Specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
-  const packageCanonPosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const packageState = read(root, 'packages/protocol/data/state.json');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const v21Specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
+  const packageCanonPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const packageState = read(root, 'scripts/specifying/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V32 local and staging promotion readiness canon'), 'V32 SPEC must define local/staging promotion readiness canon.');
   assertCheck(failures, delta.includes('Gate 10: V32 Promotion Readiness') && delta.includes(ARTIFACT), 'V32 DELTA must define Gate 10 closure acceptance and artifact.');
@@ -224,8 +224,8 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v32'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V32') &&
-      promotionWorkflow.includes('BITCODE_SPEC_V32_PROVEN.md') &&
-      promotionWorkflow.includes('.bitcode') &&
+      promotionWorkflow.includes('.specifications/BITCODE_SPEC_V32_PROVEN.md') &&
+      promotionWorkflow.includes('.proofs') &&
       promotionWorkflow.includes('Promote V32 canon files'),
     'V32 promotion workflow must validate version/v32 and commit V32 promotion artifacts.',
   );
@@ -259,8 +259,8 @@ function main() {
     failures,
     prepareSpecScript.includes("if (version === 'V32')") &&
       prepareSpecScript.includes('V32 canonical system specification for provation/testing') &&
-      prepareSpecScript.includes('BITCODE_SPEC_V32_PROVEN.md') &&
-      prepareSpecScript.includes('.bitcode/v32-promotion-readiness-report.json') &&
+      prepareSpecScript.includes('.specifications/BITCODE_SPEC_V32_PROVEN.md') &&
+      prepareSpecScript.includes('.proofs/v32/promotion-readiness-report.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V32 hand-authored status truth and promoted parity judgments.',
   );
@@ -306,14 +306,14 @@ function main() {
     'README must document the Gate 10 command and V32 promotion workflow.',
   );
 
-  assertJsonArtifact(failures, root, '.bitcode/v32-proof-coverage-matrix.json', ['"artifactId": "v32-proof-coverage-matrix"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-deterministic-replay-report.json', ['"artifactId": "v32-deterministic-replay-report"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-reading-pipeline-proof-coverage.json', ['"artifactId": "v32-reading-pipeline-proof-coverage"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json', ['"artifactId": "v32-ledger-btd-settlement-failure-state-coverage"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-interface-contract-regression-suite.json', ['"artifactId": "v32-interface-contract-regression-suite"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-browser-accessibility-responsive-visual-proof.json', ['"artifactId": "v32-browser-accessibility-responsive-visual-proof"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-testnet-mainnet-readiness-rehearsal.json', ['"artifactId": "v32-testnet-mainnet-readiness-rehearsal"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-promotion-proof-generation-hardening.json', ['"artifactId": "v32-promotion-proof-generation-hardening"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/proof-coverage-matrix.json', ['"artifactId": "v32-proof-coverage-matrix"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/deterministic-replay-report.json', ['"artifactId": "v32-deterministic-replay-report"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/reading-pipeline-proof-coverage.json', ['"artifactId": "v32-reading-pipeline-proof-coverage"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/ledger-btd-settlement-failure-state-coverage.json', ['"artifactId": "v32-ledger-btd-settlement-failure-state-coverage"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/interface-contract-regression-suite.json', ['"artifactId": "v32-interface-contract-regression-suite"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/browser-accessibility-responsive-visual-proof.json', ['"artifactId": "v32-browser-accessibility-responsive-visual-proof"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/testnet-mainnet-readiness-rehearsal.json', ['"artifactId": "v32-testnet-mainnet-readiness-rehearsal"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/promotion-proof-generation-hardening.json', ['"artifactId": "v32-promotion-proof-generation-hardening"', '"version": "V32"']);
   const readinessArtifact = assertJsonArtifact(failures, root, ARTIFACT, ['v32-promotion-readiness-report', '"version": "V32"']);
 
   if (readinessArtifact) {
@@ -331,8 +331,8 @@ function main() {
     }
   }
 
-  if (fileExists(root, 'BITCODE_SPEC_V32_PROVEN.md')) {
-    const proven = read(root, 'BITCODE_SPEC_V32_PROVEN.md');
+  if (fileExists(root, '.specifications/BITCODE_SPEC_V32_PROVEN.md')) {
+    const proven = read(root, '.specifications/BITCODE_SPEC_V32_PROVEN.md');
     assertCheck(failures, proven.includes('Bitcode Spec V32') || proven.includes('V32'), 'BITCODE_SPEC_V32_PROVEN.md must render V32 proof content.');
   }
 

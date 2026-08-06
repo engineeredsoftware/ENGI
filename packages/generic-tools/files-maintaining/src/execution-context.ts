@@ -1,7 +1,7 @@
 import type { Execution } from '@bitcode/execution-generics';
 
-// Small shared execution context for gate checks. Keep this isolated from the
-// file-editing tool exports so route bundles can read gate state without
+// Shared AsyncLocalStorage-style execution context for file tools.
+// Isolated from tool exports so route bundles can bind an Execution without
 // eagerly constructing prompt-backed tool instances at build time.
 class ExecutionContextStore {
   private contexts = new Map<string, Execution>();

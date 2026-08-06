@@ -77,11 +77,11 @@ kubernetesDescribeNodeTool: Node inspection with resource allocation details
 ### Cluster Connection
 ```typescript
 interface KubernetesConfig {
-  kubeconfig?: string;          // Path to kubeconfig file
-  context?: string;             // Kubernetes context name
-  namespace?: string;           // Default namespace for operations
-  timeout: number;              // Request timeout in milliseconds
-  retries: number;              // Number of retry attempts
+ kubeconfig?: string; // Path to kubeconfig file
+ context?: string; // Kubernetes context name
+ namespace?: string; // Default namespace for operations
+ timeout: number; // Request timeout in milliseconds
+ retries: number; // Number of retry attempts
 }
 ```
 

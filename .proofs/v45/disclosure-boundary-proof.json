@@ -1,0 +1,460 @@
+{
+  "artifactId": "v45-disclosure-boundary-proof",
+  "schemaId": "bitcode.v45.proofFamilyArtifact.v1",
+  "version": "V45",
+  "currentTarget": "V44",
+  "generatedAt": "2026-05-31T00:00:00.000Z",
+  "proofSourceCommit": "draft-v45-gate16-proof-source-snapshot",
+  "sourceSafetyVerdict": "source-safe-v45-proof-family-generated-metadata",
+  "proofFamilyId": "disclosure-boundary",
+  "proofFamily": "Disclosure-boundary",
+  "artifactPath": ".proofs/v45/disclosure-boundary-proof.json",
+  "status": "pass",
+  "proofFamilyInventory": {
+    "proofFamilyId": "disclosure-boundary",
+    "proofFamily": "Disclosure-boundary",
+    "proofArtifactPath": ".proofs/v45/disclosure-boundary-proof.json",
+    "memberIds": [
+      "/deposit",
+      "/read",
+      "/packs",
+      "API/MCP",
+      "ChatGPT App",
+      "Bitcode Chat",
+      "public docs",
+      "landing page"
+    ],
+    "theoremIds": [
+      "source-safe before entitlement",
+      "non-final labels",
+      "boundary equivalence across interfaces"
+    ],
+    "replayStepIds": [
+      "preview",
+      "quote",
+      "observation",
+      "finality",
+      "rights",
+      "delivery"
+    ],
+    "witnessArtifactPaths": [
+      ".proofs/v43/read-route-five-step-ux.json",
+      ".proofs/v43/deposit-route-options.json",
+      ".proofs/v43/packs-activity-master-detail.json"
+    ]
+  },
+  "memberInventory": [
+    {
+      "memberId": "/deposit",
+      "closureCriteria": "/deposit must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "/read",
+      "closureCriteria": "/read must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "/packs",
+      "closureCriteria": "/packs must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "API/MCP",
+      "closureCriteria": "API/MCP must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "ChatGPT App",
+      "closureCriteria": "ChatGPT App must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "Bitcode Chat",
+      "closureCriteria": "Bitcode Chat must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "public docs",
+      "closureCriteria": "public docs must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "landing page",
+      "closureCriteria": "landing page must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    }
+  ],
+  "theoremInventory": [
+    {
+      "theoremId": "source-safe before entitlement",
+      "memberBindings": [
+        "/deposit",
+        "/read",
+        "/packs",
+        "API/MCP",
+        "ChatGPT App",
+        "Bitcode Chat",
+        "public docs",
+        "landing page"
+      ],
+      "replayStepBindings": [
+        "preview",
+        "finality"
+      ],
+      "closureReading": "The Disclosure-boundary theorem \"source-safe before entitlement\" binds source-safe evidence, typed state, and replayable proof roots."
+    },
+    {
+      "theoremId": "non-final labels",
+      "memberBindings": [
+        "/deposit",
+        "/read",
+        "/packs",
+        "API/MCP",
+        "ChatGPT App",
+        "Bitcode Chat",
+        "public docs",
+        "landing page"
+      ],
+      "replayStepBindings": [
+        "quote",
+        "rights"
+      ],
+      "closureReading": "The Disclosure-boundary theorem \"non-final labels\" binds source-safe evidence, typed state, and replayable proof roots."
+    },
+    {
+      "theoremId": "boundary equivalence across interfaces",
+      "memberBindings": [
+        "/deposit",
+        "/read",
+        "/packs",
+        "API/MCP",
+        "ChatGPT App",
+        "Bitcode Chat",
+        "public docs",
+        "landing page"
+      ],
+      "replayStepBindings": [
+        "observation",
+        "delivery"
+      ],
+      "closureReading": "The Disclosure-boundary theorem \"boundary equivalence across interfaces\" binds source-safe evidence, typed state, and replayable proof roots."
+    }
+  ],
+  "replayStepInventory": [
+    {
+      "replayStepId": "preview",
+      "theoremBindings": [
+        "source-safe before entitlement"
+      ],
+      "witnessBindings": [
+        ".proofs/v43/read-route-five-step-ux.json",
+        ".proofs/v43/deposit-route-options.json",
+        ".proofs/v43/packs-activity-master-detail.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "quote",
+      "theoremBindings": [
+        "non-final labels"
+      ],
+      "witnessBindings": [
+        ".proofs/v43/read-route-five-step-ux.json",
+        ".proofs/v43/deposit-route-options.json",
+        ".proofs/v43/packs-activity-master-detail.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "observation",
+      "theoremBindings": [
+        "boundary equivalence across interfaces"
+      ],
+      "witnessBindings": [
+        ".proofs/v43/read-route-five-step-ux.json",
+        ".proofs/v43/deposit-route-options.json",
+        ".proofs/v43/packs-activity-master-detail.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "finality",
+      "theoremBindings": [
+        "source-safe before entitlement"
+      ],
+      "witnessBindings": [
+        ".proofs/v43/read-route-five-step-ux.json",
+        ".proofs/v43/deposit-route-options.json",
+        ".proofs/v43/packs-activity-master-detail.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "rights",
+      "theoremBindings": [
+        "non-final labels"
+      ],
+      "witnessBindings": [
+        ".proofs/v43/read-route-five-step-ux.json",
+        ".proofs/v43/deposit-route-options.json",
+        ".proofs/v43/packs-activity-master-detail.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "delivery",
+      "theoremBindings": [
+        "boundary equivalence across interfaces"
+      ],
+      "witnessBindings": [
+        ".proofs/v43/read-route-five-step-ux.json",
+        ".proofs/v43/deposit-route-options.json",
+        ".proofs/v43/packs-activity-master-detail.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    }
+  ],
+  "witnessArtifactInventory": [
+    {
+      "relativePath": ".proofs/v43/read-route-five-step-ux.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:9201b93d9a7660600414619333281b58d8f467bafbdd2865720e4d2c1af0ecc7",
+      "byteLength": 12152,
+      "sourceSafe": true,
+      "artifactId": "v43-read-route-five-step-ux",
+      "sourceSafetyVerdict": "source-safe-read-route-five-step-metadata"
+    },
+    {
+      "relativePath": ".proofs/v43/deposit-route-options.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:a56511336831517dcc4ad478d9392a1318ff6c53b87f11206ff379c718429b5a",
+      "byteLength": 13187,
+      "sourceSafe": true,
+      "artifactId": "v43-deposit-route-options",
+      "sourceSafetyVerdict": "source-safe-deposit-route-option-metadata"
+    },
+    {
+      "relativePath": ".proofs/v43/packs-activity-master-detail.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:622db05cd196330c8bd468f1db55869fc2c0a4e8fda81160a866748f41ecbc45",
+      "byteLength": 11717,
+      "sourceSafe": true,
+      "artifactId": "v43-packs-activity-master-detail",
+      "sourceSafetyVerdict": "source-safe-packs-activity-master-detail-metadata"
+    }
+  ],
+  "generatedArtifactInventory": [
+    ".proofs/v45/inference-synthesis-proof.json",
+    ".proofs/v45/prompt-completeness-proof.json",
+    ".proofs/v45/static-code-analysis-proof.json",
+    ".proofs/v45/verification-decisions-proof.json",
+    ".proofs/v45/selection-materialization-proof.json",
+    ".proofs/v45/authorization-sensitive-flow-proof.json",
+    ".proofs/v45/settlement-source-to-shares-proof.json",
+    ".proofs/v45/disclosure-boundary-proof.json",
+    ".proofs/v45/proof-contract-proof.json",
+    ".proofs/v45/spec-family-report.json",
+    ".proofs/v45/canonical-input-report.json",
+    "BITCODE_SPEC_V45_PROVEN.md"
+  ],
+  "scenarioRunCoverageMatrix": [
+    {
+      "scenarioId": "v45-disclosure-boundary-source-safe-replay",
+      "family": "Disclosure-boundary",
+      "memberCount": 8,
+      "theoremCount": 3,
+      "replayStepCount": 6,
+      "expectedVerdict": "pass"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "relativePath": "packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts",
+      "present": true,
+      "digest": "sha256:1fde9c12eddfffc5c04f82fbe98d53f92cbebfeb9dcb3b277b0eb6073ccd85fb",
+      "byteLength": 18415,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "INTERFACE_DISCLOSURE_BOUNDARY_SURFACES",
+          "present": true
+        },
+        {
+          "token": "INTERFACE_DISCLOSURE_BOUNDARY_STAGES",
+          "present": true
+        },
+        {
+          "token": "sourceBearingAssetPackVisibleToReader",
+          "present": true
+        },
+        {
+          "token": "unpaidAssetPackSourceVisible: false",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "apps/uapi/app/read/read-route-model.ts",
+      "present": true,
+      "digest": "sha256:670e1abd63cccea6365a491f5692b89671abbe260f7ca92c88f90c9260280101",
+      "byteLength": 19997,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "buildReadRouteSession",
+          "present": true
+        },
+        {
+          "token": "sourceSafe",
+          "present": true
+        },
+        {
+          "token": "preview",
+          "present": true
+        },
+        {
+          "token": "settlement",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "apps/uapi/app/deposit/deposit-route-model.ts",
+      "present": true,
+      "digest": "sha256:6485e388dd745c79907f992c6425b6ae8d3e2aff92bf73e8f1a6324d7d6462ff",
+      "byteLength": 18200,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "buildDepositRouteSession",
+          "present": true
+        },
+        {
+          "token": "sourceSafe",
+          "present": true
+        },
+        {
+          "token": "AssetPack",
+          "present": true
+        },
+        {
+          "token": "Depository",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "present": true,
+      "digest": "sha256:88d0334af8bc699e071ca2a19d4018965e8b4f5745bb1d4806c860aff3bc4e71",
+      "byteLength": 37397,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "normalizePackActivityRecord",
+          "present": true
+        },
+        {
+          "token": "sourceSafeMetadataOnly",
+          "present": true
+        },
+        {
+          "token": "[withheld:source-safe]",
+          "present": true
+        },
+        {
+          "token": "proof",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "inputRoots": {
+    "specRoot": "sha256:8e96ad08b51d33e74fadfb0d81d226487c0b717e168f0f955793b5fae971b550",
+    "sourceEvidenceRoot": "sha256:31377168824a23619d494ca85ae4752cb15ff81b550ef7415d5f787a04756ccc",
+    "witnessArtifactRoot": "sha256:b70e47bae0fdb50cf3686f81dbee16d8aab7a858669cca8fc598a05581bb3966"
+  },
+  "artifactRoots": {
+    "proofFamilyInventoryRoot": "sha256:37814e40a0caa0332f9232e553dd2539751424dbacdf100301a4ee00a339ed97",
+    "replayBindingRoot": "sha256:b1f60221b69bbe45e4bd9aa344d71db7a10f5448663b0b2fffe6658434c6eece"
+  },
+  "artifactRoot": "v45-disclosure-boundary-proof:7e226c02bcdff5ddbf0f035f",
+  "minimumArtifactReplayBindingSet": [
+    "interface root",
+    "actor root",
+    "state root",
+    "disclosure root"
+  ],
+  "proofObjectFields": [
+    "actor",
+    "boundary",
+    "visible fields",
+    "redactions"
+  ],
+  "generatedArtifactAndTestBindings": [
+    "packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts",
+    "apps/uapi/tests/readPageClient.test.tsx",
+    "apps/uapi/tests/depositPageClient.test.tsx",
+    "apps/uapi/tests/packsPageClient.test.tsx",
+    "scripts/specifying/test/v45-proof-family-artifacts.test.js"
+  ],
+  "failClosedConditions": [
+    "overexposure",
+    "finality confusion",
+    "source leak",
+    "missing entitlement"
+  ],
+  "sourceSafety": {
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceSerialized": false,
+    "rawPromptSerialized": false,
+    "rawInterpolatedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "walletPrivateMaterialSerialized": false,
+    "credentialsSerialized": false,
+    "privateSettlementPayloadSerialized": false,
+    "unpaidAssetPackSourceSerialized": false,
+    "forbiddenSerializedPayloadClasses": [
+      "protected-source",
+      "unpaid-assetpack-source",
+      "raw-prompt",
+      "raw-provider-response",
+      "wallet-private-material",
+      "credentials",
+      "private-settlement-payload"
+    ]
+  },
+  "coverage": {
+    "sourceEvidenceComplete": true,
+    "witnessArtifactsComplete": true,
+    "memberCount": 8,
+    "theoremCount": 3,
+    "replayStepCount": 6,
+    "witnessArtifactCount": 3,
+    "generatedArtifactBindingCount": 5,
+    "failClosedConditionCount": 4,
+    "protectedSourceSerialized": false,
+    "rawPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "walletPrivateMaterialSerialized": false,
+    "credentialsSerialized": false,
+    "privateSettlementPayloadSerialized": false,
+    "unpaidAssetPackSourceSerialized": false
+  },
+  "repairInstructions": [
+    "Regenerate .proofs/v45/disclosure-boundary-proof.json with pnpm run generate:v45-proof-families.",
+    "Repair missing source evidence, witness artifacts, tests, or workflow bindings before claiming V45 proof-family closure."
+  ],
+  "passed": true,
+  "failures": [],
+  "warnings": [],
+  "validationCommand": "pnpm run check:v45-gate16"
+}

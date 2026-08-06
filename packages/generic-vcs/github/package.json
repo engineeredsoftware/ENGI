@@ -1,0 +1,30 @@
+{
+  "name": "@bitcode/generic-vcs-github",
+  "version": "1.0.0",
+  "description": "GitHub VCS provider implementation of vcs-generics",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  },
+  "dependencies": {
+    "@bitcode/logger": "workspace:*",
+    "@octokit/auth-app": "^6.0.0",
+    "@octokit/rest": "^20.0.0",
+    "@octokit/webhooks-methods": "^4.0.0",
+    "@bitcode/vcs-generics": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.0.0",
+    "typescript": "^5.0.0",
+    "ts-jest": "^29.1.1"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

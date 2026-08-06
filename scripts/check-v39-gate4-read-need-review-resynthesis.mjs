@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v39-read-need-review-resynthesis.json';
+const ARTIFACT_PATH = '.proofs/v39/read-need-review-resynthesis.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -87,7 +87,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -106,26 +106,26 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts',
-    'uapi/app/api/read-review/route.ts',
-    'uapi/tests/api/readReviewRoute.test.ts',
-    'uapi/tests/api/readReviewProtocolParity.test.ts',
-    'packages/protocol/src/canonical/v39-read-need-review-resynthesis.js',
-    'packages/protocol/test/v39-read-need-review-resynthesis.test.js',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need-review-resynthesis.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need-review-resynthesis.test.ts',
+    'apps/uapi/app/api/read-review/route.ts',
+    'apps/uapi/tests/api/readReviewRoute.test.ts',
+    'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
+    'scripts/specifying/src/canonical/v39-read-need-review-resynthesis.js',
+    'scripts/specifying/test/v39-read-need-review-resynthesis.test.js',
     'scripts/generate-v39-read-need-review-resynthesis.mjs',
     'scripts/check-v39-gate4-read-need-review-resynthesis.mjs',
-    'BITCODE_SPEC_V39.md',
-    'BITCODE_SPEC_V39_DELTA.md',
-    'BITCODE_SPEC_V39_NOTES.md',
-    'BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -148,7 +148,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-read-need-review-resynthesis.test.js',
+        'scripts/specifying/test/v39-read-need-review-resynthesis.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 ReadNeed review/resynthesis protocol test failed: ${error.stderr || error.message}`);
@@ -159,7 +159,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -181,7 +181,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -225,9 +225,9 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 4 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V39.md');
-  const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const packageReadme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const packageReadme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('v39-read-need-review-resynthesis'), 'V39 spec must name the Gate 4 artifact.');
   assertCheck(failures, parity.includes('Gate 4 Parity'), 'V39 parity matrix must include Gate 4 parity.');
   assertCheck(failures, packageReadme.includes('ReadNeed review'), 'AssetPack package README must document ReadNeed review runtime.');

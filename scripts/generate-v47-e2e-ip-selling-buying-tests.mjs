@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_E2E_IP_EXCHANGE_TESTS_ARTIFACT_PATH,
   buildV47E2eIpSellingBuyingTests,
-} from '../packages/protocol/src/canonical/v47-e2e-ip-selling-buying-tests.js';
+} from '../scripts/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

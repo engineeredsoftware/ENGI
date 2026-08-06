@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 
 const checks = [
   {
-    file: 'BITCODE_SPEC_V28.md',
+    file: '.specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 9: Commercial Depositing And Depository Evidence',
       'source-bound depository evidence',
@@ -15,7 +15,7 @@ const checks = [
     ],
   },
   {
-    file: 'packages/protocol/src/bitcode-demo.js',
+    file: 'scripts/specifying/src/bitcode-demo.js',
     needles: [
       'buildDepositoryEvidence',
       'depositorySearchDocumentRoot',
@@ -26,7 +26,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/TerminalDepositComposer.tsx',
+    file: 'apps/uapi/app/ (removed cockpit tree) TerminalDepositComposer.tsx',
     needles: [
       'depositProofRoot',
       'depositMeasurementRoot',
@@ -36,7 +36,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/terminal-deposit-read-workbench.ts',
+    file: 'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
     needles: [
       'Source proof roots',
       'Search document roots',
@@ -45,7 +45,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+    file: 'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     needles: [
       'depositProofRoot',
       'depositMeasurementRoot',

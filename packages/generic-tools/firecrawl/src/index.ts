@@ -46,7 +46,7 @@ export type {
   FirecrawlSearchResponse,
   FirecrawlMapResponse,
   FirecrawlBatchResponse
-} from '@bitcode/firecrawl';
+} from '@bitcode/web-scrapers-firecrawl';
 
 /**
  * Bitcode adapter status

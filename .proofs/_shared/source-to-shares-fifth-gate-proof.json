@@ -1,0 +1,235 @@
+{
+  "reportId": "v26-source-to-shares-fifth-gate-proof",
+  "version": "V26",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "gate": "gate-5",
+  "focus": "source-to-shares",
+  "passed": true,
+  "closureClaim": false,
+  "proceduralGateClosure": false,
+  "makeSharesContract": "Measured Reads are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.",
+  "useSharesContract": "Present-fit-for-settlement-review surfaces quantized source-to-shares fit qualities and carries them into settlement AssetPack receipts.",
+  "productionParityContract": "protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review, route-level reread, and settlement contract.",
+  "openReason": "This proof advances the fifth-gate source-to-shares baseline without itself claiming fourth-gate procedural closure or full fifth-gate closure.",
+  "checks": [
+    {
+      "checkId": "source-to-shares-protocol-review-artifacts",
+      "label": "Low-level protocol SPEC-IMPL emits reviewable Reads before fit search and carries source-to-shares artifacts into settlement receipts",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/src/canonical/read-measurement.js",
+        "protocol-demonstration/src/canonical/settlement.js",
+        "protocol-demonstration/src/canonical/run-artifacts.js",
+        "protocol-demonstration/src/bitcode-demo.js",
+        "protocol-demonstration/test/v26-read-review-source-to-shares.test.js"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "commercial-read-review-route-parity",
+      "label": "Commercial production SPEC-IMPL preserves the protocol Read-review admission boundary and blocks fit search until accept",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/app/api/make-bitcode-branch/route.ts",
+        "apps/uapi/app/application/ApplicationReadScenarioPanel.tsx",
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/tests/api/readReviewProtocolParity.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "commercial-state-route-reread-parity",
+      "label": "Commercial production SPEC-IMPL rereads accepted Read review, source-to-shares artifacts, settlement preview, and quantized fit-quality evidence through the app-owned state route after branch materialization",
+      "passed": true,
+      "detail": "3 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/api/state/route.ts",
+        "apps/uapi/app/api/make-bitcode-branch/route.ts",
+        "apps/uapi/tests/api/readReviewProtocolParity.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "commercial-state-route-reread-contract",
+      "label": "Commercial route reread proof checks the exact state-route assertions for accepted Read review, quantized source-to-shares continuity, private-file redaction, and settlement-proof carry-through",
+      "passed": true,
+      "detail": "6 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "apps/uapi/app/api/state/route.ts",
+          "evidence": "getBitcodeAppContext().getState(principal)",
+          "description": "state route delegates principal-scoped reread to the protocol-backed app context"
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "evidence": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "description": "commercial parity test owns an explicit source-to-shares state-reread scenario"
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "evidence": "http://localhost/api/state?principal=buyer",
+          "description": "reread uses the buyer projection instead of inspecting only a branch response"
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "evidence": "statePayload.latestRun.sourceToSharesArtifact.quantizedFitQualities.fitQualityHash",
+          "description": "reread asserts quantized source-to-shares fit-quality hash continuity"
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "evidence": "statePayload.latestRun.branchArtifacts.files).toBeUndefined()",
+          "description": "reread proves private raw branch files are not exposed through the buyer state projection"
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "evidence": "statePayload.latestRun.settlementSourceToSharesProof.memberVerdicts",
+          "description": "reread asserts settlement-source-to-shares proof carry-through"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    },
+    {
+      "checkId": "commercial-activity-ledger-write-reread",
+      "label": "Commercial production SPEC-IMPL records deposit, read, and closure writes into execution history and rereads them through the same Bitcode activity ledger",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/api/executions/history/route.ts",
+        "packages/api/src/routes/executions.ts",
+        "apps/uapi/app/application/application-activity-history.ts",
+        "apps/uapi/tests/applicationActivityHistory.test.ts",
+        "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "commercial-activity-ledger-write-reread-contract",
+      "label": "Commercial activity-ledger write proof checks completed Bitcode activity recording, normalized execution-history storage, and immediate reread ordering through the same route family",
+      "passed": true,
+      "detail": "4 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "apps/uapi/app/application/application-activity-history.ts",
+          "evidence": "status: draft.status || 'completed'",
+          "description": "Terminal activity recordings default to completed Bitcode ledger writes"
+        },
+        {
+          "file": "packages/api/src/routes/executions.ts",
+          "evidence": "completed_at: completedAt",
+          "description": "execution-history inserts persist terminal activity completion timestamps for reread"
+        },
+        {
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "evidence": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
+          "description": "commercial parity test proves deposit/read/closure writes reread through the same execution-history ledger"
+        },
+        {
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "evidence": "expect(historyPayload.map((row: any) => row.summary)).toEqual([",
+          "description": "commercial parity test asserts newest-first reread ordering from the execution-history route"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    },
+    {
+      "checkId": "terminal-source-to-shares-settlement-read",
+      "label": "Bitcode Terminal reads Read review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/application/ApplicationClosureNativeSections.tsx",
+        "apps/uapi/app/application/application-closure-state.ts",
+        "apps/uapi/app/application/application-transaction-detail-snapshot.ts",
+        "apps/uapi/app/application/application-activity-history.ts",
+        "apps/uapi/tests/applicationClosureState.test.ts",
+        "apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "terminal-source-to-shares-settlement-contract",
+      "label": "Bitcode Terminal read proof checks the native closure and selected-detail assertions for Read review, present-fit settlement review, quantized fit-quality rows, and persisted source-to-shares detail carry-through",
+      "passed": true,
+      "detail": "10 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "apps/uapi/app/application/ApplicationClosureNativeSections.tsx",
+          "evidence": "Read closure as one sequence from reviewable Read admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity.",
+          "description": "native Terminal closure card teaches the complete review-to-settlement sequence"
+        },
+        {
+          "file": "apps/uapi/app/application/application-closure-state.ts",
+          "evidence": "{ label: 'Fit search admitted', value: readReview.fitSearchAdmitted === true ? 'yes' : 'no' }",
+          "description": "closure-state normalization exposes fit-search admission as Terminal read state"
+        },
+        {
+          "file": "apps/uapi/app/application/application-closure-state.ts",
+          "evidence": "{ label: 'Objective contract', value: stringValue(settlement.quantizedObjectiveContractId) }",
+          "description": "closure-state normalization preserves the quantized objective contract row"
+        },
+        {
+          "file": "apps/uapi/app/application/application-closure-state.ts",
+          "evidence": "{ label: 'Source-to-shares ref', value: stringValue(settlement.sourceToSharesRef) }",
+          "description": "closure-state normalization preserves the source-to-shares reference row"
+        },
+        {
+          "file": "apps/uapi/app/application/application-closure-state.ts",
+          "evidence": "{ label: 'Fit-quality hash', value: stringValue(settlement.fitQualityHash) }",
+          "description": "closure-state normalization preserves the fit-quality hash row"
+        },
+        {
+          "file": "apps/uapi/tests/applicationClosureState.test.ts",
+          "evidence": "expect(closure?.settlement.rows.find((entry) => entry.label === 'Objective contract')?.value).toBe(",
+          "description": "native closure-state test asserts objective-contract visibility"
+        },
+        {
+          "file": "apps/uapi/tests/applicationClosureState.test.ts",
+          "evidence": "expect(closure?.settlement.fitQualities?.[0]?.detail).toContain('source-to-shares-weighted-objective')",
+          "description": "native closure-state test asserts source-to-shares fit-quality detail"
+        },
+        {
+          "file": "apps/uapi/app/application/application-transaction-detail-snapshot.ts",
+          "evidence": "fitQualities: coerceFitQualities(value.fitQualities)",
+          "description": "selected-detail snapshot preserves persisted fit-quality rows"
+        },
+        {
+          "file": "apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts",
+          "evidence": "{ label: 'Present-fit review', value: 'present-fit-for-settlement-review' }",
+          "description": "selected-detail snapshot test asserts present-fit settlement review persistence"
+        },
+        {
+          "file": "apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts",
+          "evidence": "detail: '10000 bp · source-to-shares-weighted-objective'",
+          "description": "selected-detail snapshot test asserts source-to-shares fit-quality persistence"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    },
+    {
+      "checkId": "asset-pack-finish-delivering-semantics",
+      "label": "Pipeline output semantics distinguish stable AssetPacks and written assets from delivered Shippables, with Finish as the broad final phase",
+      "passed": true,
+      "detail": "8 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/V26_SHIPPABLE_REFORM.md",
+        "protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md",
+        "protocol-demonstration/test/v26-shippable-reform.test.js",
+        "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
+        "packages/pipelines-generics/src/phases/sdivf-factory.ts",
+        "packages/pipelines-generics/src/phases/phase-factory.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/validation-agents.ts"
+      ],
+      "missingFiles": []
+    }
+  ]
+}

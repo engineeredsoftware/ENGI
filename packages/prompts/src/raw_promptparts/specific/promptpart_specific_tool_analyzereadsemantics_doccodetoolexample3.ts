@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZEREADSEMANTICS_DOCCODETOOLEXAMPLE3: PromptPart =
-  "Example 3 - Ambiguous asset-pack request: analyzeReadSemantics({ expressedRead: \"Make the dashboard production ready\", repositoryContext: { productSurface: \"Bitcode Terminal\" }, outputGranularity: \"trace\" }) -> returns ambiguity markers, candidate written assets, required clarification, and proof-facing criteria before implementation begins." as PromptPart;
+  "Example 3 - Ambiguous asset-pack request: analyzeReadSemantics({ expressedRead: \"Make the dashboard production ready\", repositoryContext: { productSurface: \"Bitcode\" }, outputGranularity: \"trace\" }) -> returns ambiguity markers, candidate written assets, required clarification, and proof-facing criteria before implementation begins." as PromptPart;

@@ -35,7 +35,7 @@ The Figma Processor Agent provides comprehensive design analysis through Figma A
 ## Technical Implementation
 
 ### Dependencies
-- `@bitcode/figma-tools` - Figma API tool integration
+- `@bitcode/generic-tools-mcps-figma` - Figma API tool integration
 - `@bitcode/agent-generics` - Base agent framework with PTRR methodology
 - `zod` - Schema validation for structured outputs
 - Environment variable: `FIGMA_ACCESS_TOKEN` for API authentication
@@ -59,11 +59,11 @@ The agent processes Figma design references through comprehensive extraction:
 ```typescript
 // Figma URL processing
 const designAnalysis = await FIGMA_PROCESSOR_AGENT.processFigma.execute({
-  attachments: [{
-    type: 'url',
-    content: 'https://figma.com/file/ABC123/Design-System?node-id=12%3A34',
-    name: 'Dashboard Design'
-  }]
+ attachments: [{
+ type: 'url',
+ content: 'https://figma.com/file/ABC123/Design-System?node-id=12%3A34',
+ name: 'Dashboard Design'
+ }]
 });
 ```
 
@@ -72,23 +72,23 @@ const designAnalysis = await FIGMA_PROCESSOR_AGENT.processFigma.execute({
 ### Artboard Analysis Result
 ```typescript
 {
-  consolidatedDesignContent: {
-    artboards: Array<{
-      id: string,
-      name: string,
-      pageName: string,
-      dimensions: {
-        width: number,
-        height: number
-      },
-      imageAvailable: boolean
-    }>,
-    designSpecs: string[],
-    implementationGuidance: string[]
-  },
-  keyFindings: string[],
-  designSystemNotes: string,
-  visualRequirements: string[]
+ consolidatedDesignContent: {
+ artboards: Array<{
+ id: string,
+ name: string,
+ pageName: string,
+ dimensions: {
+ width: number,
+ height: number
+ },
+ imageAvailable: boolean
+ }>,
+ designSpecs: string[],
+ implementationGuidance: string[]
+ },
+ keyFindings: string[],
+ designSystemNotes: string,
+ visualRequirements: string[]
 }
 ```
 

@@ -1,15 +1,19 @@
 /**
- * Step Factories - PTRR pattern implementation with EXACTLY 7 substeps
- * 
- * CRITICAL ARCHITECTURE:
- * Each PTRR Step runs EXACTLY the same sequence:
- * 3 FailsafeMetaSubSteps (parents) each running 3 GenerationSubMetaSubSteps (children) + Tools
- * 
- * The 7-substep sequence:
- * 1. PrepareConciseContext (CONTEXT SIGNAL/NOISE) → Reason→Judge→StructuredOutput
- * 2. ChunkThenSum (BIG INPUT) → Reason→Judge→StructuredOutput
- * 3. StitchUntilComplete (large output handling) → Reason→Judge→StructuredOutput
- * 4. Tool execution (AFTER all failsafes, conditional on reasoning + judgment output)
+ * PTRR step factories — Plan / Try / Retry / Refine.
+ *
+ * Composed by @bitcode/generic-agents-ptrr (PTRRAgent base).
+ * Canonical agent step order: Plan → Try → Retry → Refine.
+ *
+ * Hierarchy within each step:
+ *   FailsafeGeneration ×3 (PCC → ChunkThenSum → Stitch)
+ *     → each runs ThinkingsGeneration (Reason → Judge → StructuredOutput)
+ *   + tools postprocess after failsafes on Try/Retry only
+ *     (Plan: strategy only, empty tool surface by default;
+ *      Try/Retry: own useTools + postprocess; Refine: no tools)
+ *
+ * Failsafe and Thinkings units are Generations.
+ * Factories: `@bitcode/agent-generics/generations`.
+ * Step tool allowlists: `applyStepToolSurface` on StepExecution.tools.
  */
 
 import {
@@ -24,10 +28,8 @@ import {
 } from '@bitcode/execution-generics';
 import { Executor } from '@bitcode/execution-generics';
 import { log } from '@bitcode/logger';
-import { AgentStep, UsedTool } from '../types';
-
-// StepExecutor is just an Executor - no special type needed
-type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+import type { AgentStep, UsedTool } from '../types';
+import { AgentVariationStep } from '../types';
 import {
   factoryPrepareConciseContext,
   factoryChunkThenSum,
@@ -37,11 +39,59 @@ import {
   factoryStructuredOutput,
   factoryToolsExecution,
   factoryValidation
-} from '../substeps/factories';
-import { AgentVariationStep } from '../types';
+} from '../generations/llm-bound-factories';
 import { z } from 'zod';
 import { logStepTrace, logStepStart, logStepError } from '../diagnostics/instrumentation';
 import { createFailsafeGenerationSequence } from './failsafe-sequence';
+import { PlanStepOutputSchema } from './step-schemas';
+import { applyStepToolSurface } from '../execution';
+import { sanitizeRefineStepOutput } from './step-schemas';
+import { applyComposedCallSiteNodePrompt } from '@bitcode/execution-generics';
+import { Prompt } from '@bitcode/prompts/prompt';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_GENERIC_PTRR_STEP_PLAN_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_step_plan_name_corestatement';
+import { PROMPTPART_GENERIC_PTRR_STEP_TRY_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_step_try_name_corestatement';
+import { PROMPTPART_GENERIC_PTRR_STEP_RETRY_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_step_retry_name_corestatement';
+import { PROMPTPART_GENERIC_PTRR_STEP_REFINE_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_step_refine_name_corestatement';
+
+// StepExecutor is just an Executor - no special type needed
+type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+
+const PTRR_STEP_NAME: Record<string, PromptPart> = {
+  plan: PROMPTPART_GENERIC_PTRR_STEP_PLAN_NAME_CORESTATEMENT,
+  try: PROMPTPART_GENERIC_PTRR_STEP_TRY_NAME_CORESTATEMENT,
+  retry: PROMPTPART_GENERIC_PTRR_STEP_RETRY_NAME_CORESTATEMENT,
+  refine: PROMPTPART_GENERIC_PTRR_STEP_REFINE_NAME_CORESTATEMENT,
+};
+
+/** Attach step purpose as call_site:step block (one node → one wire block). */
+function attachStepCallSitePrompt(stepExec: any, stepName: string, promptCarrier: any): void {
+  if (!stepExec?.prompt || !promptCarrier) return;
+  const part = formatStepPromptCarrier(promptCarrier);
+  // Correct path under specific_execution (setSpecificExecution prefixes once).
+  try {
+    stepExec.prompt.setSpecificExecution('step:purpose', part);
+  } catch {
+    /* ignore */
+  }
+  const composed = new Prompt();
+  // Purpose from product/base step Prompt (raw_promptparts) or its format.
+  if (part != null && typeof part !== 'string') {
+    composed.set('purpose', part as PromptPart);
+  } else if (promptCarrier && typeof promptCarrier.format === 'function') {
+    try {
+      const { createPromptPartFromPrompt } = require('@bitcode/prompts/parts/PromptPart');
+      composed.set('purpose', createPromptPartFromPrompt(promptCarrier));
+    } catch {
+      /* ignore */
+    }
+  }
+  const namePart =
+    PTRR_STEP_NAME[String(stepName).toLowerCase()] ??
+    PROMPTPART_GENERIC_PTRR_STEP_PLAN_NAME_CORESTATEMENT;
+  composed.set('name', namePart);
+  applyComposedCallSiteNodePrompt(stepExec.prompt, composed, `step:${stepName}`);
+}
 
 function formatStepPromptCarrier(prompt: any): any {
   if (!prompt) return prompt;
@@ -119,11 +169,15 @@ function publishAgentStepWorkUpdate(
 
 /**
  * Plan Step Factory - analyzes the Read and creates an execution plan.
- * 
+ *
  * Uses failsafe parent architecture:
  * 1. PrepareConciseContext (parent) -> runs Reason-Judge-StructuredOutput (children)
  * 2. ChunkThenSum (parent) -> handles any chunking needed
  * 3. StitchUntilComplete (parent) -> ensures complete output
+ *
+ * `outputSchema` is the PLAN STEP's schema — the plan shape the step is
+ * prompted to produce (canonically `PlanStepOutputSchema`), NOT the agent's
+ * full output schema. Step outputs validate against step schemas.
  */
 export function factoryPlanStep<TInput, TOutput>(
   outputSchema: z.ZodType<TOutput>,
@@ -133,19 +187,12 @@ export function factoryPlanStep<TInput, TOutput>(
     chunkThreshold?: number;
   }
 ): AgentStep<TInput, TOutput> {
+  // Plan: strategy only (no tools postprocess). Default step tool surface is [].
   const core = createFailsafeGenerationSequence<TInput, TOutput>({
     outputSchema,
-    enableParallelChunks: true
+    // CS default: sequential slices + prior completions (not parallel).
+    enableParallelChunks: false,
   });
-  // Tools execution is a Step postprocess (not a failsafe)
-  const withTools: Executor<any, any> = sequential(
-    core as Executor<any, any>,
-    conditional(
-      (input: any) => input?.output?.useTools?.length > 0,
-      require('../substeps/factories').factoryToolsExecution() as Executor<any, any>,
-      (input) => Promise.resolve(input)
-    ) as Executor<any, any>
-  );
 
   const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {
     // Create a step execution node and attach step-level prompt if provided
@@ -161,24 +208,23 @@ export function factoryPlanStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'plan'); } catch {}
     if (config?.prompt) {
-      const part = formatStepPromptCarrier(config.prompt);
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', part);
+      attachStepCallSitePrompt(stepExec, 'plan', config.prompt);
     }
     try {
-      // Record usable tools at step start
+      // Plan default: no usable tools (strategy sans tool docs / useTools).
+      applyStepToolSurface(stepExec, config?.tools ?? []);
       try {
         const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
         stepExec.store('tools', 'usable', usable);
       } catch {}
-      const out = await withTools(input, stepExec);
-      // Record selected and used tools
+      const out = await (core as Executor<any, any>)(input, stepExec);
       try { stepExec.store('tools', 'use', (out as any)?.output?.useTools || []); } catch {}
-      try { stepExec.store('tools', 'used', (out as any)?.usedTools || []); } catch {}
+      try { stepExec.store('tools', 'used', []); } catch {}
       try {
         publishAgentStepWorkUpdate(
           stepExec,
           'Plan',
-          ((out as any)?.usedTools || []) as UsedTool[],
+          [] as UsedTool[],
           started
         );
       } catch {}
@@ -224,13 +270,17 @@ export function factoryTryStep<TInput, TOutput>(
 ): AgentStep<TInput, TOutput> {
   const core = createFailsafeGenerationSequence<TInput, TOutput>({
     outputSchema,
-    enableParallelChunks: options?.enableParallelChunks ?? true
+    enableParallelChunks: options?.enableParallelChunks === true,
   });
   const withTools: Executor<any, any> = sequential(
     core as Executor<any, any>,
     conditional(
-      (input: any) => input?.output?.useTools?.length > 0,
-      require('../substeps/factories').factoryToolsExecution() as Executor<any, any>,
+      (input: any) =>
+        (input?.output?.useTools?.length > 0) ||
+        (input?.reasoning?.useTools?.length > 0) ||
+        (input?.output?.toolPlan?.length > 0) ||
+        (input?.reasoning?.toolPlan?.length > 0),
+      require('../generations/llm-bound-factories').factoryToolsExecution() as Executor<any, any>,
       (input) => Promise.resolve(input)
     ) as Executor<any, any>
   );
@@ -247,17 +297,24 @@ export function factoryTryStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'try'); } catch {}
     if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
+      attachStepCallSitePrompt(stepExec, 'try', options.prompt);
     }
     try {
-      // Record usable tools
+      // Try: agent catalog tools by default (own useTools + postprocess).
+      applyStepToolSurface(stepExec, options?.tools);
       try {
         const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
         stepExec.store('tools', 'usable', usable);
       } catch {}
       const out = await withTools(input, stepExec);
-      // Record selected and used tools
-      try { stepExec.store('tools', 'use', (out as any)?.output?.useTools || []); } catch {}
+      // Record selected and used tools (SO preferred; reason fallback)
+      try {
+        stepExec.store(
+          'tools',
+          'use',
+          (out as any)?.output?.useTools || (out as any)?.reasoning?.useTools || [],
+        );
+      } catch {}
       try { stepExec.store('tools', 'used', (out as any)?.usedTools || []); } catch {}
       try {
         publishAgentStepWorkUpdate(
@@ -287,96 +344,14 @@ export function factoryTryStep<TInput, TOutput>(
   }) as AgentStep<TInput, TOutput>;
 }
 
-// ==================== REFINE STEP ====================
-
-/**
- * Refine Step Factory - Improves upon previous attempt
- * 
- * Uses failsafe parent architecture focused on improvement:
- * 1. PrepareConciseContext -> includes previous attempt + judgment
- * 2. ChunkThenSum -> processes improvements
- * 3. StitchUntilComplete -> ensures refined output is complete
- */
-export function factoryRefineStep<TInput, TOutput>(
-  outputSchema: z.ZodType<TOutput>,
-  options?: {
-    prompt?: any;
-    tools?: any[];
-    maxAttempts?: number;
-  }
-): AgentStep<TInput, TOutput> {
-  const core = createFailsafeGenerationSequence<TInput, TOutput>({
-    outputSchema,
-    enableParallelChunks: true
-  });
-  const withTools: Executor<any, any> = sequential(
-    core as Executor<any, any>,
-    conditional(
-      (input: any) => input?.output?.useTools?.length > 0,
-      require('../substeps/factories').factoryToolsExecution() as Executor<any, any>,
-      (input) => Promise.resolve(input)
-    ) as Executor<any, any>
-  );
-  
-  const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {
-    const stepExec = new (require('../execution').StepExecution)('refine', execution);
-    try { stepExec.store('step', 'name', 'refine'); } catch {}
-    // Store agent step start so the stream adapter infers 'agent-start'
-    try {
-      const phase = (stepExec as any).findUp?.('phase', 'current');
-      const agentName = (stepExec as any).findUp?.('agent', 'name');
-      if (agentName) stepExec.store(`agent:${agentName}`, 'start', { phase, agent: agentName, step: 'Refine' } as any);
-    } catch {}
-    const started = Date.now();
-    try { logStepStart(stepExec, 'refine'); } catch {}
-    if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
-    }
-    try {
-      // Record usable tools
-      try {
-        const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
-        stepExec.store('tools', 'usable', usable);
-      } catch {}
-      const out = await withTools(input, stepExec);
-      // Record selected and used tools
-      try { stepExec.store('tools', 'use', (out as any)?.output?.useTools || []); } catch {}
-      try { stepExec.store('tools', 'used', (out as any)?.usedTools || []); } catch {}
-      try {
-        publishAgentStepWorkUpdate(
-          stepExec,
-          'Refine',
-          ((out as any)?.usedTools || []) as UsedTool[],
-          started
-        );
-      } catch {}
-      try { logStepTrace(stepExec, 'refine'); } catch {}
-      // Store agent step complete so the stream adapter infers 'agent-complete'
-      try {
-        const phase = (stepExec as any).findUp?.('phase', 'current');
-        const agentName = (stepExec as any).findUp?.('agent', 'name');
-        if (agentName) stepExec.store(`agent:${agentName}`, 'complete', { phase, agent: agentName, step: 'Refine' } as any);
-      } catch {}
-      return out;
-    } catch (err) {
-      try { logStepError(stepExec, 'refine', err, Date.now() - started); } catch {}
-      throw err;
-    }
-  };
-
-  return Object.assign(wrapped, {
-    type: AgentVariationStep.REFINE,
-    description: 'Improve upon previous attempt'
-  }) as AgentStep<TInput, TOutput>;
-}
-
 // ==================== RETRY STEP ====================
 
 /**
- * Retry Step Factory - Complete retry with fresh approach
- * 
- * Uses failsafe parent architecture with retry wrapper:
- * Each retry attempt runs the full failsafe sequence
+ * Retry Step Factory — re-attempt the Try after failures / usedTools evidence.
+ *
+ * Runs after Try and before Refine. Uses failsafe parent architecture with an
+ * optional inner retry wrapper; tools postprocess when useTools is selected
+ * (same as Try — accounting for prior step errors via results interpolation).
  */
 export function factoryRetryStep<TInput, TOutput>(
   outputSchema: z.ZodType<TOutput>,
@@ -390,7 +365,7 @@ export function factoryRetryStep<TInput, TOutput>(
   // The core retry logic using failsafe architecture
   const retryCore = createFailsafeGenerationSequence<TInput, TOutput>({
     outputSchema,
-    enableParallelChunks: true
+    enableParallelChunks: false,
   });
   
   // Wrap in retry combinator
@@ -417,22 +392,37 @@ export function factoryRetryStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'retry'); } catch {}
     if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
+      attachStepCallSitePrompt(stepExec, 'retry', options.prompt);
     }
     try {
-      // Record usable tools
+      applyStepToolSurface(stepExec, options?.tools);
       try {
         const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
         stepExec.store('tools', 'usable', usable);
       } catch {}
       // Run retry attempts on the core generation. After the final attempt, run tools once.
       let out = await executorWithRetry(input, stepExec);
-      if ((out as any)?.output?.useTools?.length > 0) {
-        const toolsExec = require('../substeps/factories').factoryToolsExecution();
+      const hasUseTools =
+        ((out as any)?.output?.useTools?.length > 0) ||
+        ((out as any)?.reasoning?.useTools?.length > 0) ||
+        ((out as any)?.output?.toolPlan?.length > 0) ||
+        ((out as any)?.reasoning?.toolPlan?.length > 0);
+      if (hasUseTools) {
+        const toolsExec = require('../generations/llm-bound-factories').factoryToolsExecution();
         out = await toolsExec(out, stepExec);
       }
-      // Record selected and used tools
-      try { stepExec.store('tools', 'use', (out as any)?.output?.useTools || []); } catch {}
+      // Record selected and used tools (SO preferred; reason fallback for store)
+      try {
+        stepExec.store(
+          'tools',
+          'use',
+          (out as any)?.output?.toolPlan ||
+            (out as any)?.output?.useTools ||
+            (out as any)?.reasoning?.toolPlan ||
+            (out as any)?.reasoning?.useTools ||
+            [],
+        );
+      } catch {}
       try { stepExec.store('tools', 'used', (out as any)?.usedTools || []); } catch {}
       try {
         publishAgentStepWorkUpdate(
@@ -458,14 +448,107 @@ export function factoryRetryStep<TInput, TOutput>(
 
   return Object.assign(wrapped, {
     type: AgentVariationStep.RETRY,
-    description: 'Complete retry with fresh approach'
+    description: 'Re-attempt Try accounting for prior errors and usedTools'
+  }) as AgentStep<TInput, TOutput>;
+}
+
+// ==================== REFINE STEP ====================
+
+/**
+ * Refine Step Factory — final agent return (last PTRR step).
+ *
+ * Accumulates Plan / Try / Retry results into the agent's typed output.
+ * No tools postprocess — synthesis only (same schema as agent output).
+ */
+export function factoryRefineStep<TInput, TOutput>(
+  outputSchema: z.ZodType<TOutput>,
+  options?: {
+    prompt?: any;
+    tools?: any[];
+    maxAttempts?: number;
+  }
+): AgentStep<TInput, TOutput> {
+  const core = createFailsafeGenerationSequence<TInput, TOutput>({
+    outputSchema,
+    enableParallelChunks: false,
+  });
+
+  const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {
+    const stepExec = new (require('../execution').StepExecution)('refine', execution);
+    try { stepExec.store('step', 'name', 'refine'); } catch {}
+    // Store agent step start so the stream adapter infers 'agent-start'
+    try {
+      const phase = (stepExec as any).findUp?.('phase', 'current');
+      const agentName = (stepExec as any).findUp?.('agent', 'name');
+      if (agentName) stepExec.store(`agent:${agentName}`, 'start', { phase, agent: agentName, step: 'Refine' } as any);
+    } catch {}
+    const started = Date.now();
+    try { logStepStart(stepExec, 'refine'); } catch {}
+    if (options?.prompt) {
+      attachStepCallSitePrompt(stepExec, 'refine', options.prompt);
+    }
+    try {
+      // Refine: empty tool surface by default (final agent return only).
+      applyStepToolSurface(stepExec, options?.tools ?? []);
+      try {
+        const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
+        stepExec.store('tools', 'usable', usable);
+      } catch {}
+      let out = await (core as Executor<any, any>)(input, stepExec);
+      // Refine never runs tools postprocess — strip useTools if the model emitted it.
+      if (out && typeof out === 'object') {
+        const sanitizedOutput = sanitizeRefineStepOutput((out as any).output);
+        const reasoning = (out as any).reasoning;
+        let sanitizedReasoning = reasoning;
+        if (reasoning && typeof reasoning === 'object' && Array.isArray(reasoning.useTools)) {
+          const { useTools: _drop, ...rest } = reasoning;
+          sanitizedReasoning = rest;
+        }
+        out = {
+          ...out,
+          output: sanitizedOutput,
+          ...(sanitizedReasoning !== undefined ? { reasoning: sanitizedReasoning } : {}),
+        };
+      }
+      try { stepExec.store('tools', 'use', []); } catch {}
+      try { stepExec.store('tools', 'used', []); } catch {}
+      try {
+        publishAgentStepWorkUpdate(
+          stepExec,
+          'Refine',
+          [] as UsedTool[],
+          started
+        );
+      } catch {}
+      try { logStepTrace(stepExec, 'refine'); } catch {}
+      // Store agent step complete so the stream adapter infers 'agent-complete'
+      try {
+        const phase = (stepExec as any).findUp?.('phase', 'current');
+        const agentName = (stepExec as any).findUp?.('agent', 'name');
+        if (agentName) stepExec.store(`agent:${agentName}`, 'complete', { phase, agent: agentName, step: 'Refine' } as any);
+      } catch {}
+      return out;
+    } catch (err) {
+      try { logStepError(stepExec, 'refine', err, Date.now() - started); } catch {}
+      throw err;
+    }
+  };
+
+  return Object.assign(wrapped, {
+    type: AgentVariationStep.REFINE,
+    description: 'Synthesize final agent return from Plan/Try/Retry results'
   }) as AgentStep<TInput, TOutput>;
 }
 
 // ==================== STEP FACTORY ====================
 
 /**
- * Create a PTRR step based on type
+ * Create a PTRR step based on type.
+ *
+ * Step outputs validate against STEP schemas: `outputSchema` here is the
+ * agent's output schema and applies to Try/Retry/Refine; the Plan step
+ * validates against the canonical `PlanStepOutputSchema` (override via
+ * `options.outputSchema`).
  */
 export function factoryStep<TInput, TOutput>(
   type: AgentVariationStep,
@@ -474,17 +557,17 @@ export function factoryStep<TInput, TOutput>(
 ): StepExecutor<TInput, TOutput> {
   switch (type) {
     case AgentVariationStep.PLAN:
-      return factoryPlanStep(outputSchema);
-      
+      return factoryPlanStep(options?.outputSchema ?? PlanStepOutputSchema, options) as any;
+
     case AgentVariationStep.TRY:
       return factoryTryStep(outputSchema, options);
-      
-    case AgentVariationStep.REFINE:
-      return factoryRefineStep(outputSchema);
-      
+
     case AgentVariationStep.RETRY:
       return factoryRetryStep(outputSchema, options);
-      
+
+    case AgentVariationStep.REFINE:
+      return factoryRefineStep(outputSchema, options);
+
     default:
       throw new Error(`Unknown step type: ${type}`);
   }
@@ -493,7 +576,7 @@ export function factoryStep<TInput, TOutput>(
 // ==================== ACTION FACTORY ====================
 
 /**
- * PTRR Action Factory - Full PTRR cycle as a single executor
+ * PTRR Action Factory — full Plan → Try → Retry → Refine cycle as one executor.
  */
 export function factoryPTRRAction<TInput, TOutput>(
   config: {
@@ -504,16 +587,28 @@ export function factoryPTRRAction<TInput, TOutput>(
   }
 ): AgentStep<TInput, TOutput> {
   const steps: StepExecutor<any, any>[] = [
-    // Always start with Plan
-    factoryPlanStep(config.outputSchema),
-    
+    // Always start with Plan — validated against the PLAN STEP schema (the
+    // plan shape), not the agent's output schema.
+    factoryPlanStep(PlanStepOutputSchema),
+
     // Try to execute
     factoryTryStep(config.outputSchema, {
       chunkThreshold: config.chunkThreshold
     })
   ];
-  
-  // Add refinements
+
+  // Retry re-attempts Try when prior attempt was not approved
+  if (config.enableRetry) {
+    steps.push(
+      conditional(
+        (input) => !input.judgment?.approved,
+        factoryRetryStep(config.outputSchema),
+        (input) => Promise.resolve(input)
+      )
+    );
+  }
+
+  // Refine last: final agent-typed return
   if (config.maxRefinements && config.maxRefinements > 0) {
     for (let i = 0; i < config.maxRefinements; i++) {
       steps.push(
@@ -524,24 +619,16 @@ export function factoryPTRRAction<TInput, TOutput>(
         )
       );
     }
+  } else {
+    // Always end with Refine so the action's last output is agent-typed.
+    steps.push(factoryRefineStep(config.outputSchema));
   }
-  
-  // Add retry as fallback
-  if (config.enableRetry) {
-    steps.push(
-      conditional(
-        (input) => !input.judgment?.approved,
-        factoryRetryStep(config.outputSchema),
-        (input) => Promise.resolve(input)
-      )
-    );
-  }
-  
+
   return Object.assign(
     sequential(...steps) as StepExecutor<TInput, TOutput>,
     {
       type: AgentVariationStep.TRY,
-      description: 'Execute the full PTRR action sequence'
+      description: 'Execute the full PTRR action sequence (Plan→Try→Retry→Refine)'
     }
   ) as AgentStep<TInput, TOutput>;
 }

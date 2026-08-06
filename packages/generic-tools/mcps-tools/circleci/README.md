@@ -52,40 +52,40 @@ Industrial Model Context Protocol (MCP) integration for CircleCI continuous inte
 ### Architecture Pattern
 ```typescript
 import {
-  circleciGetLatestPipelineStatusTool,
-  circleciRerunWorkflowTool,
-  circleciGetBuildFailureLogsTool,
-  circleciFindFlakyTestsTool,
-  circleciAddEnvVarTool
+ circleciGetLatestPipelineStatusTool,
+ circleciRerunWorkflowTool,
+ circleciGetBuildFailureLogsTool,
+ circleciFindFlakyTestsTool,
+ circleciAddEnvVarTool
 } from '@bitcode/generic-tools-mcps-circleci';
 
 // Pipeline monitoring
 const pipelineStatus = await circleciGetLatestPipelineStatusTool({
-  projectSlug: 'gh/company/main-app',
-  branch: 'main',
-  apiToken: process.env.CIRCLECI_TOKEN
+ projectSlug: 'gh/company/main-app',
+ branch: 'main',
+ apiToken: process.env.CIRCLECI_TOKEN
 });
 
 // Failure analysis
 const failureLogs = await circleciGetBuildFailureLogsTool({
-  projectSlug: 'gh/company/main-app',
-  buildNumber: 1234,
-  apiToken: process.env.CIRCLECI_TOKEN
+ projectSlug: 'gh/company/main-app',
+ buildNumber: 1234,
+ apiToken: process.env.CIRCLECI_TOKEN
 });
 
 // Quality analysis
 const flakyTests = await circleciFindFlakyTestsTool({
-  projectSlug: 'gh/company/main-app',
-  timeRange: '30d',
-  threshold: 0.8,
-  apiToken: process.env.CIRCLECI_TOKEN
+ projectSlug: 'gh/company/main-app',
+ timeRange: '30d',
+ threshold: 0.8,
+ apiToken: process.env.CIRCLECI_TOKEN
 });
 
 // Workflow automation
 const rerunResult = await circleciRerunWorkflowTool({
-  workflowId: 'workflow-uuid-123',
-  fromFailed: true,
-  apiToken: process.env.CIRCLECI_TOKEN
+ workflowId: 'workflow-uuid-123',
+ fromFailed: true,
+ apiToken: process.env.CIRCLECI_TOKEN
 });
 ```
 

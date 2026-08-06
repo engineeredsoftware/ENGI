@@ -5,7 +5,11 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@bitcode/kubernetes": "workspace:*",
-    "@bitcode/tools-generics": "workspace:*"
+    "@bitcode/tools-generics": "workspace:*",
+    "@bitcode/containerizations-kubernetes": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

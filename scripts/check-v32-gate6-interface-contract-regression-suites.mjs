@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v32-interface-contract-regression-suite.json';
+const ARTIFACT = '.proofs/v32/interface-contract-regression-suite.json';
 
 const REQUIRED_SURFACES = [
   'terminal',
@@ -107,7 +107,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V31', `BITCODE_SPEC.txt must remain V31 during V32 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -129,15 +129,15 @@ function main() {
     'packages/btd/__tests__/v32-interface-contract-regression.test.ts',
     'packages/btd/__tests__/interface-integration.test.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'uapi/app/terminal/terminal-interface-integration-regression.ts',
-    'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'BITCODE_SPEC_V32.md',
-    'BITCODE_SPEC_V32_DELTA.md',
-    'BITCODE_SPEC_V32_NOTES.md',
-    'BITCODE_SPEC_V32_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/ (removed cockpit tree) terminal-interface-integration-regression.ts',
+    'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+    'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    '.specifications/BITCODE_SPEC_V32.md',
+    '.specifications/BITCODE_SPEC_V32_DELTA.md',
+    '.specifications/BITCODE_SPEC_V32_NOTES.md',
+    '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     'scripts/v32-proof-coverage-matrix.mjs',
@@ -193,11 +193,11 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V32.md');
-  const delta = read(root, 'BITCODE_SPEC_V32_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V32_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V32_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V32.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V32_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V32_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const matrix = read(root, 'scripts/v32-proof-coverage-matrix.mjs');

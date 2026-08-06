@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v33-chatgpt-app-action-contracts.json';
+const ARTIFACT_PATH = '.proofs/v33/chatgpt-app-action-contracts.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const secretMarkers = Object.freeze([
@@ -80,13 +80,13 @@ const actionContracts = Object.freeze([
 const sourceFiles = Object.freeze([
   'packages/btd/src/chatgpt-app-action-contract.ts',
   'packages/btd/src/index.ts',
-  'packages/chatgptapp/src/tools.ts',
+  'apps/chatgpt/src/tools.ts',
 ]);
 
 const testFiles = Object.freeze([
   'packages/btd/__tests__/chatgpt-app-action-contract.test.ts',
-  'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
-  'packages/chatgptapp/src/__tests__/tools.test.ts',
+  'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
+  'apps/chatgpt/src/__tests__/tools.test.ts',
   'scripts/check-v33-gate4-chatgpt-app-action-contracts.mjs',
 ]);
 
@@ -198,7 +198,7 @@ export function buildV33ChatGptAppActionContractsArtifact() {
       'SCHEMA_VALIDATION_FAILED',
       'READ_LICENSE_REQUIRED',
     ]),
-    scanTokens('packages/chatgptapp/src/tools.ts', [
+    scanTokens('apps/chatgpt/src/tools.ts', [
       'buildBtdChatGptAppActionContractRegistry',
       'renderBtdChatGptAppSourceSafeResponse',
       'getChatGptReadingActionTools',
@@ -211,7 +211,7 @@ export function buildV33ChatGptAppActionContractsArtifact() {
       'renders source-safe accepted responses with proof-root projection',
       'renders readable denied responses with repair actions',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts', [
       'registers every package-owned Reading action contract as a ChatGPT App tool',
       'requires schema-valid arguments before executing package-owned actions',
       'renders denied states with readable repair actions for ChatGPT App responses',

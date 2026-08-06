@@ -1,0 +1,318 @@
+{
+  "reportId": "v26-runs-pipelines-totality-proof",
+  "version": "V26",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "routeWitnesses": [
+    "/executions",
+    "/executions/[runId]"
+  ],
+  "apiWitnesses": [
+    "/api/executions",
+    "/api/executions/history",
+    "/api/executions/history/[runId]",
+    "/api/vcs",
+    "/api/auxillaries/template-preferences",
+    "/api/templates/shippables"
+  ],
+  "requiredFiles": [
+    "apps/uapi/app/executions/page.tsx",
+    "apps/uapi/app/executions/[runId]/page.tsx",
+    "apps/uapi/app/executions/README.md",
+    "apps/uapi/app/executions/components/ExecutionsPage.tsx",
+    "apps/uapi/app/executions/components/ExecutionsPageClient.tsx",
+    "apps/uapi/app/executions/components/ExecutionsDetailsView.tsx",
+    "apps/uapi/app/api/executions/route.ts",
+    "apps/uapi/app/api/executions/history/route.ts",
+    "apps/uapi/app/api/executions/history/[runId]/route.ts",
+    "apps/uapi/app/api/executions/_shared.ts",
+    "apps/uapi/app/api/vcs/route.ts",
+    "apps/uapi/app/api/auxillaries/template-preferences/route.ts",
+    "apps/uapi/app/api/templates/shippables/route.ts",
+    "packages/api/src/routes/shippables.ts",
+    "packages/api/src/pipelines/branch.ts",
+    "packages/execution-generics/src/Execution.ts",
+    "packages/execution-generics/src/execution-registry.ts",
+    "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts",
+    "packages/pipelines-generics/src/execution/PipelineExecution.ts",
+    "packages/pipelines-generics/src/execution/PipelineExecutor.ts",
+    "packages/pipelines-generics/src/execution/route-pipeline-execution.ts",
+    "packages/asset-packs-pipelines/domain/src/run.ts",
+    "apps/uapi/tests/api/shippableTemplatesRoute.test.ts",
+    "apps/uapi/tests/api/vcsCompatibilityRoute.test.ts",
+    "apps/uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts",
+    "apps/uapi/tests/api/deliverableTemplatesRoute.test.ts",
+    "apps/uapi/tests/api/executionsHistoryRoute.test.ts",
+    "apps/uapi/tests/api/executionsHistoryRunRoute.test.ts",
+    "apps/uapi/tests/bitcodeExecutionStreamPanel.test.tsx",
+    "apps/uapi/tests/usePipelineExecution.test.tsx"
+  ],
+  "checks": [
+    {
+      "checkId": "executions-route-and-detail-owners",
+      "label": "Direct executions route and retained detail owners",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/executions/page.tsx",
+        "apps/uapi/app/executions/[runId]/page.tsx",
+        "apps/uapi/app/executions/README.md",
+        "apps/uapi/app/executions/components/ExecutionsPage.tsx",
+        "apps/uapi/app/executions/components/ExecutionsPageClient.tsx",
+        "apps/uapi/app/executions/components/ExecutionsDetailsView.tsx"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "executions-api-and-history-carriers",
+      "label": "Active executions API route and history carriers",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/api/executions/route.ts",
+        "apps/uapi/app/api/executions/history/route.ts",
+        "apps/uapi/app/api/executions/history/[runId]/route.ts",
+        "apps/uapi/app/api/executions/_shared.ts",
+        "packages/api/src/routes/shippables.ts",
+        "packages/api/src/pipelines/branch.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "executions-retained-compatibility-carriers",
+      "label": "Retained executions compatibility APIs, canonical auxillary APIs, and proof carriers",
+      "passed": true,
+      "detail": "19 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/api/vcs/route.ts",
+        "apps/uapi/app/api/auxillaries/template-preferences/route.ts",
+        "apps/uapi/app/api/auxillaries/profile/route.ts",
+        "apps/uapi/app/api/auxillaries/connections/github/route.ts",
+        "apps/uapi/app/api/auxillaries/btd/route.ts",
+        "apps/uapi/app/api/auxillaries/usage/route.ts",
+        "apps/uapi/app/api/auxillaries/transactions/route.ts",
+        "apps/uapi/app/api/auxillaries/api-keys/route.ts",
+        "apps/uapi/app/api/templates/shippables/route.ts",
+        "apps/uapi/app/api/templates/shippables/route.ts",
+        "apps/uapi/tests/api/vcsCompatibilityRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsProfileRoute.test.ts",
+        "apps/uapi/tests/api/orbitalUsageRoute.test.ts",
+        "apps/uapi/tests/api/auxillariesTransactionsRoute.test.ts",
+        "apps/uapi/tests/api/shippableTemplatesRoute.test.ts",
+        "apps/uapi/tests/apiKeysRoutes.test.ts",
+        "apps/uapi/tests/userConnectionsGithubRoute.test.ts",
+        "apps/uapi/tests/api/userBtdRoute.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "runs-pipelines-retained-package-basis",
+      "label": "Retained execution, pipeline, and proof carriers",
+      "passed": true,
+      "detail": "12 required files present",
+      "requiredFiles": [
+        "packages/execution-generics/src/Execution.ts",
+        "packages/execution-generics/src/execution-registry.ts",
+        "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts",
+        "packages/pipelines-generics/src/execution/PipelineExecution.ts",
+        "packages/pipelines-generics/src/execution/PipelineExecutor.ts",
+        "packages/pipelines-generics/src/execution/route-pipeline-execution.ts",
+        "packages/asset-packs-pipelines/domain/src/run.ts",
+        "apps/uapi/tests/api/shippableTemplatesRoute.test.ts",
+        "apps/uapi/tests/api/executionsHistoryRoute.test.ts",
+        "apps/uapi/tests/api/executionsHistoryRunRoute.test.ts",
+        "apps/uapi/tests/bitcodeExecutionStreamPanel.test.tsx",
+        "apps/uapi/tests/usePipelineExecution.test.tsx"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "executions-activity-and-notification-carriers",
+      "label": "Shared activity, execution, and notification carriers stay explicit under Bitcode",
+      "passed": true,
+      "detail": "25 required files present",
+      "requiredFiles": [
+        "apps/uapi/components/base/bitcode/activity/bitcode-activity-model.ts",
+        "apps/uapi/app/application/application-run-activity.ts",
+        "apps/uapi/app/application/ApplicationTransactionActivitySurface.tsx",
+        "apps/uapi/app/api/activity/route.ts",
+        "apps/uapi/app/api/auxillaries/notifications/_shared.ts",
+        "apps/uapi/app/api/auxillaries/notifications/route.ts",
+        "apps/uapi/app/api/auxillaries/notifications/[notificationId]/route.ts",
+        "apps/uapi/app/api/auxillaries/profile/route.ts",
+        "apps/uapi/app/api/auxillaries/connections/github/route.ts",
+        "apps/uapi/app/api/auxillaries/btd/route.ts",
+        "apps/uapi/app/api/auxillaries/usage/route.ts",
+        "apps/uapi/app/api/auxillaries/transactions/route.ts",
+        "apps/uapi/app/api/auxillaries/api-keys/route.ts",
+        "apps/uapi/tests/bitcodeActivityModel.test.ts",
+        "apps/uapi/tests/applicationTransactionActivity.test.ts",
+        "apps/uapi/tests/api/activityRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsNotificationsRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsProfileRoute.test.ts",
+        "apps/uapi/tests/api/orbitalUsageRoute.test.ts",
+        "apps/uapi/tests/api/auxillariesTransactionsRoute.test.ts",
+        "apps/uapi/tests/userConnectionsGithubRoute.test.ts",
+        "apps/uapi/tests/api/userBtdRoute.test.ts",
+        "apps/uapi/tests/apiKeysRoutes.test.ts",
+        "apps/uapi/tests/mcpSmoke.test.ts",
+        "apps/uapi/tests/notificationsWidget.test.tsx"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "mcp-write-admission-and-third-party-ingress-contract",
+      "label": "Bitcode MCP write admission and third-party ingress are source-checked as Exchange-facing interface contracts rather than package-presence witnesses",
+      "passed": true,
+      "detail": "9 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/types/index.ts",
+          "evidence": "| 'third_party_mcp'",
+          "description": "MCP type surface admits third-party MCP as ingress context, not as a parallel product output"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/pipeline-execution/adapter.ts",
+          "evidence": "export function buildPipelineInputContext",
+          "description": "pipeline adapter exposes explicit input-context normalization for interface ingress"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+          "evidence": "permission: 'pipelines.create'",
+          "description": "pipeline tool emits an explicit write-admission permission receipt"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+          "evidence": "const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface)",
+          "description": "pipeline write admission is evaluated before BTD estimation and queueing"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+          "evidence": "writeAdmission,",
+          "description": "accepted write admission is returned and queued in metadata"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "evidence": "normalizes third-party MCP repository and attachment ingress as input context only",
+          "description": "unit proof covers third-party MCP ingress as input context"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "evidence": "expect(inputContext).not.toHaveProperty('assetPacks')",
+          "description": "unit proof rejects treating third-party ingress as asset-pack output"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "evidence": "repositoryAnchor: 'github:bitcode-labs/application@main'",
+          "description": "unit proof binds accepted MCP writes to a concrete repository anchor"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "evidence": "metadata: expect.objectContaining({",
+          "description": "unit proof verifies write-admission metadata is queued with the pipeline job"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    },
+    {
+      "checkId": "mcp-asset-pack-prompt-canon",
+      "label": "Bitcode MCP prompt and tool surfaces teach asset-pack pipeline semantics while retaining compatibility URI and subtype names",
+      "passed": true,
+      "detail": "4 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/prompts/workflow-prompts.ts",
+          "evidence": "Please execute the Bitcode asset-pack pipeline",
+          "description": "workflow prompts teach the active asset-pack pipeline meaning"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/prompts/development-prompts.ts",
+          "evidence": "Bitcode's asset-pack pipeline with the following comprehensive source-to-shares approach",
+          "description": "development prompts teach source-to-shares asset-pack execution"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+          "evidence": "Create and execute a Bitcode asset-pack pipeline",
+          "description": "pipeline tool description exposes canonical asset-pack semantics"
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts",
+          "evidence": "MCP prompt asset-pack canon",
+          "description": "package-local test renders prompts and proves they teach AssetPack canon"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    },
+    {
+      "checkId": "webhook-asset-pack-ingress-contract",
+      "label": "GitHub webhook automation is source-checked as asset-pack pipeline ingress rather than Exchange ownership or non-Bitcode output canon",
+      "passed": true,
+      "detail": "6 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "apps/uapi/app/api/webhook/route.ts",
+          "evidence": "WEBHOOK_ASSET_PACK_PIPELINE_TRACK_EVENT = 'Trigger Asset-Pack Pipeline'",
+          "description": "webhook analytics event names the active asset-pack pipeline meaning"
+        },
+        {
+          "file": "apps/uapi/app/api/webhook/route.ts",
+          "evidence": "outputMeaning: 'asset_packs'",
+          "description": "webhook success receipts classify output as asset packs"
+        },
+        {
+          "file": "apps/uapi/app/api/webhook/route.ts",
+          "evidence": "exchangeStateRole: 'ingress_only_automation_boundary'",
+          "description": "webhook receipt keeps GitHub automation as ingress-only rather than Exchange state ownership"
+        },
+        {
+          "file": "apps/uapi/app/api/webhook/route.ts",
+          "evidence": "triggerCommand: 'bitcode-asset-pack-trigger'",
+          "description": "asset-pack trigger command uses current Bitcode ingress naming"
+        },
+        {
+          "file": "apps/uapi/tests/webhookRoute.test.ts",
+          "evidence": "expectedAssetPackPipelineTrack",
+          "description": "route test centralizes expected asset-pack ingress receipt shape"
+        },
+        {
+          "file": "apps/uapi/tests/webhookRoute.test.ts",
+          "evidence": "supports bitcode-pr label for asset-pack pipeline",
+          "description": "route test proves GitHub label ingress now teaches asset-pack pipeline semantics"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    },
+    {
+      "checkId": "uapi-client-asset-pack-execution-hook",
+      "label": "Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Read input names",
+      "passed": true,
+      "detail": "3 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "apps/uapi/hooks/useExecutionState.ts",
+          "evidence": "Triggers the Bitcode asset-pack pipeline",
+          "description": "TypeScript hook comment describes active client execution as asset-pack pipeline behavior"
+        },
+        {
+          "file": "apps/uapi/hooks/useExecutionState.ts",
+          "evidence": "definitionOfRead",
+          "description": "TypeScript hook submits the canonical Definition of Read request shape"
+        },
+        {
+          "file": "apps/uapi/hooks/useExecutionState.ts",
+          "evidence": "Submitting Bitcode asset-pack pipeline",
+          "description": "TypeScript debug path teaches Bitcode asset-pack submission"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    }
+  ]
+}

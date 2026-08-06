@@ -1,0 +1,404 @@
+{
+  "artifactId": "v47-packs-auxillaries-commercial-dashboard",
+  "schemaId": "bitcode.v47.packsAuxillariesCommercialDashboard.v1",
+  "version": "V47",
+  "currentTarget": "V46",
+  "artifactPath": ".proofs/v47/packs-auxillaries-commercial-dashboard.json",
+  "sourceSafetyVerdict": "source-safe-packs-auxillaries-commercial-dashboard",
+  "activityTypeIds": [
+    "read-need-fit-preview",
+    "depository-assetpack",
+    "settled-assetpack",
+    "settlement",
+    "compensation",
+    "delivery",
+    "repair"
+  ],
+  "stateFacetIds": [
+    "settlementState",
+    "rightsState",
+    "compensationState",
+    "deliveryState",
+    "repairState"
+  ],
+  "detailSectionIds": [
+    "overview",
+    "measurements",
+    "state-readback",
+    "repair-surface",
+    "accounting",
+    "governance",
+    "proof-roots"
+  ],
+  "auxillariesPaneIds": [
+    "profile",
+    "externals",
+    "interfaces",
+    "wallet"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_assetpack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload",
+    "mainnet_value_bearing_payment_secret"
+  ],
+  "completionRows": [
+    {
+      "rowId": "pack-activity-master-detail",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "route": "/packs",
+      "contract": "PackActivity renders as a searchable master table with a row-owned source-safe detail surface covering overview, measurements, state readback, accounting, governance, and proof roots.",
+      "requiredFields": [
+        "PackActivityDetailProjection",
+        "Pack activity economic operation table",
+        "Source-safe detail"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-packs-auxillaries-dashboard-row:3e3ffbf0ab4e793770b07e95"
+    },
+    {
+      "rowId": "search-filters-saved-views",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "route": "/packs",
+      "contract": "Pack activity is searchable and filterable by type, scope, repository, and settlement, compensation, delivery, and repair facets, with saved market-intelligence filters writing route-owned query params.",
+      "requiredFields": [
+        "Search pack activity",
+        "savedFilters",
+        "repairState"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-packs-auxillaries-dashboard-row:3828382802b69d9f2577b202"
+    },
+    {
+      "rowId": "histories-readback",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "route": "/packs",
+      "contract": "Deposit, Read, settlement, rights, compensation, delivery, and repair histories project from source-safe activity records into typed PackActivity rows and summary facets.",
+      "requiredFields": [
+        "read-need-fit-preview",
+        "settled-assetpack",
+        "rightsState"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-packs-auxillaries-dashboard-row:a8475e0055304edc2f3eef90"
+    },
+    {
+      "rowId": "settlement-rights-delivery-state-tracking",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "route": "/packs",
+      "contract": "The detail state readback tracks settlement, BTD rights, compensation, delivery, and repair states with rights derived only from finality-consistent commodity-state evidence.",
+      "requiredFields": [
+        "State readback",
+        "BTD rights not recorded",
+        "btd-rights-transferred"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-packs-auxillaries-dashboard-row:f87ef6d6f11d7524c55b022e"
+    },
+    {
+      "rowId": "repair-surface",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "route": "/packs",
+      "contract": "Repair-required activity exposes a fail-closed repair surface listing commodity-state blockers; state advances only through proof-backed readback.",
+      "requiredFields": [
+        "Repair surface",
+        "repairRequired",
+        "blockers"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-packs-auxillaries-dashboard-row:b52bdb87f6658f2af16d356a"
+    },
+    {
+      "rowId": "auxillaries-identity-teams-wallets-histories",
+      "owner": "apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts",
+      "route": "/auxillaries",
+      "contract": "Auxillaries panes cover identity profile, external source connections, interfaces, wallet authority with BTD history readback, and organization team and treasury settings.",
+      "requiredFields": [
+        "Profile",
+        "Externals",
+        "Interfaces",
+        "Wallet",
+        "Team Settings"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-packs-auxillaries-dashboard-row:de5a102698b315f9e1fda264"
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v47-launch-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-records-gate6-packs-auxillaries-dashboard",
+      "sourcePath": "BITCODE_SPEC_V47.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate6-packs-auxillaries-dashboard",
+      "sourcePath": "BITCODE_SPEC_V47_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-record-gate6-packs-auxillaries-dashboard",
+      "sourcePath": "BITCODE_SPEC_V47_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate6-packs-auxillaries-dashboard",
+      "sourcePath": "BITCODE_SPEC_V47_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate6-closure",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "packs-client-renders-master-detail",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "packs-client-tracks-settlement-rights-delivery-repair",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-model-projects-rights-and-histories",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "packs-activity-api-serves-filtered-readback",
+      "sourcePath": "apps/uapi/app/api/packs/activity/route.ts",
+      "passed": true
+    },
+    {
+      "id": "auxillaries-panes-cover-identity-wallet-externals-interfaces",
+      "sourcePath": "apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts",
+      "passed": true
+    },
+    {
+      "id": "auxillaries-cover-teams-treasury-histories",
+      "sourcePath": "apps/uapi/app/auxillaries/components/organization/OrganizationSettings.tsx",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-model-test-covers-rights-tracking",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "packs-client-test-covers-repair-surface",
+      "sourcePath": "apps/uapi/tests/packsPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "auxillaries-tests-exist",
+      "sourcePath": "apps/uapi/tests/auxillariesWalletPane.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate6",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate6",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate6-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-checker-test-exist",
+      "sourcePath": "scripts/generate-v47-packs-auxillaries-commercial-dashboard.mjs",
+      "passed": true
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V47.md:476ca5a5d0b07b31694f0b68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:6314e03df5bf7c598e5b7802",
+    "packsPage": "apps/uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "packsActivityApi": "apps/uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
+    "auxillariesPage": "apps/uapi/app/auxillaries/page.tsx:e2ae8743fd61c3cdf231514b",
+    "auxillariesPaneMeta": "apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts:6ca5ecca402b14b0b17ebdd2",
+    "auxillariesOnboardingContract": "apps/uapi/app/auxillaries/auxillary-onboarding-contract.ts:ace24943a77d37f327018599",
+    "auxillariesOrganizationSettings": "apps/uapi/app/auxillaries/components/organization/OrganizationSettings.tsx:1648dfd3e1aa4839295d999b",
+    "auxillariesTreasury": "apps/uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx:a08e06c3300cae7d2692085b",
+    "auxillariesWalletPane": "apps/uapi/app/auxillaries/components/AuxillariesWalletPane.tsx:4d3eac9e2a5e5d9ae5b1d556",
+    "auxillariesExternalsPane": "apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx:e8c9f1bbb5f3ee2a14da056f",
+    "packActivityModelTest": "apps/uapi/tests/packActivityModel.test.ts:145d430461dc7830c2a23487",
+    "packsClientTest": "apps/uapi/tests/packsPageClient.test.tsx:65fdbfca8be6f0b11ed59576",
+    "auxillariesWalletPaneTest": "apps/uapi/tests/auxillariesWalletPane.test.tsx:6eb2466152a6eede16e95863",
+    "auxillariesWorkspaceTest": "apps/uapi/tests/auxillariesWorkspacePanels.test.tsx:8feac0b9ea0b109749402d65",
+    "packageJson": "package.json:4d9f041eb01a920860a26f75",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-packs-auxillaries-commercial-dashboard.js:ed13671bff6c12bc8e929b82",
+    "protocolTest": "scripts/specifying/test/v47-packs-auxillaries-commercial-dashboard.test.js:51c1c6c89b1002dc637161dc",
+    "generator": "scripts/generate-v47-packs-auxillaries-commercial-dashboard.mjs:c743ce9b2e298da9add2e2cb",
+    "checker": "scripts/check-v47-gate6-packs-auxillaries-commercial-dashboard.mjs:84e5efc2b954e1295bcdf3d8",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
+  },
+  "artifactRoot": "v47-packs-auxillaries-commercial-dashboard:592076dd0d00b8b3ca10582f",
+  "coverage": {
+    "requiredPredicateCount": 19,
+    "passedPredicateCount": 19,
+    "failedPredicateIds": [],
+    "masterDetailComplete": true,
+    "searchAndFiltersComplete": true,
+    "historiesReadbackComplete": true,
+    "rightsStateTrackingComplete": true,
+    "repairSurfaceComplete": true,
+    "auxillariesLaunchReadinessComplete": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetEnabled": false
+  },
+  "passed": true
+}

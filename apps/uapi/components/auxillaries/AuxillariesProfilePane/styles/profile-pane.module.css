@@ -1,0 +1,31 @@
+:global { .team-management-container { display: flex; flex-direction: column; gap: 10px; width: 100%; position: relative; transition: all 0.3s ease; } }
+:global { .input-container { position: relative; width: 100%; overflow: hidden; border-radius: 0; transition: all 0.3s ease; } }
+:global { .input-container.enterprise { background: rgba(15, 25, 40, 0.7); border-radius: 0; border: 1px solid rgba(103, 254, 183, 0.25); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); } }
+/* Orbital Users prefixed aliases */
+:global { .orbitals-users-team-management-container { display: flex; flex-direction: column; gap: 10px; width: 100%; position: relative; transition: all 0.3s ease; } }
+:global { .orbitals-users-input-container { position: relative; width: 100%; overflow: hidden; border-radius: 0; transition: all 0.3s ease; } }
+:global { .orbitals-users-input-container.enterprise { background: rgba(15, 25, 40, 0.7); border-radius: 0; border: 1px solid rgba(103, 254, 183, 0.25); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); } }
+@media (max-width: 640px) {
+  :global {
+    .input-row-responsive { flex-direction: column !important; }
+    .input-row-responsive > button { width: 100% !important; margin-top: 8px !important; }
+    .orbitals-users-input-row-responsive { flex-direction: column !important; }
+    .orbitals-users-input-row-responsive > button { width: 100% !important; margin-top: 8px !important; }
+  }
+}
+:global { .orbital-description, .orbital-pane-description, .orbital-profile-description { margin-top: 4px; color: rgba(200, 200, 200, 0.85); font-size: 0.95rem; } }
+:global { .data-share-actions { margin-top: 12px; } }
+:global { .data-share-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; } }
+:global { .data-share-item { display: grid; grid-template-columns: 1fr auto auto; align-items: center; } }
+:global { .data-share-controls { display: flex; align-items: center; gap: 8px; } }
+:global { .repo-name { font-size: 0.95rem; color: #fff; overflow-wrap: anywhere; } }
+:global { .re-scan-button { background: transparent; border: none; color: rgba(103, 254, 183, 0.9); cursor: pointer; font-size: 1.1rem; } }
+/* Orbital Users prefixed aliases */
+:global { .orbitals-users-orbital-description, .orbitals-users-pane-description, .orbitals-users-profile-description { margin-top: 4px; color: rgba(200, 200, 200, 0.85); font-size: 0.95rem; } }
+:global { .orbitals-users-data-share-actions { margin-top: 12px; } }
+:global { .orbitals-users-data-share-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; } }
+:global { .orbitals-users-data-share-item { display: grid; grid-template-columns: 1fr auto auto; align-items: center; } }
+:global { .orbitals-users-data-share-controls { display: flex; align-items: center; gap: 8px; } }
+:global { .orbitals-users-repo-name { font-size: 0.95rem; color: #fff; overflow-wrap: anywhere; } }
+:global { .orbitals-users-re-scan-button { background: transparent; border: none; color: rgba(103, 254, 183, 0.9); cursor: pointer; font-size: 1.1rem; } }
+/* moved to orbital */

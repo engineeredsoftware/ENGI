@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_LANDING_PUBLIC_LAUNCH_MESSAGING_ARTIFACT_PATH,
   buildV47LandingPublicLaunchMessaging,
-} from '../packages/protocol/src/canonical/v47-landing-public-launch-messaging.js';
+} from '../scripts/specifying/src/canonical/v47-landing-public-launch-messaging.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -87,22 +87,22 @@ function main() {
 
   for (const relativePath of [
     V47_LANDING_PUBLIC_LAUNCH_MESSAGING_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v47-landing-public-launch-messaging.js',
-    'packages/protocol/test/v47-landing-public-launch-messaging.test.js',
+    'scripts/specifying/src/canonical/v47-landing-public-launch-messaging.js',
+    'scripts/specifying/test/v47-landing-public-launch-messaging.test.js',
     'scripts/generate-v47-landing-public-launch-messaging.mjs',
     'scripts/check-v47-gate8-landing-public-launch-messaging.mjs',
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
-    'uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
-    'uapi/app/(root)/components/MarketingLandingPage.tsx',
-    'uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx',
-    'uapi/app/docs/bitcode-docs-content.ts',
-    'uapi/tests/marketingLandingPage.test.tsx',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/components/bitcode/layout/bitcode-public-copy.ts',
+    'apps/uapi/app/(root)/components/MarketingLandingPage.tsx',
+    'apps/uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
+    'apps/uapi/tests/marketingLandingPage.test.tsx',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -154,7 +154,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -162,7 +162,7 @@ function main() {
         'test/v47-landing-public-launch-messaging.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol test/v47-landing-public-launch-messaging.test.js must pass.');
+      failures.push('scripts/specifying test/v47-landing-public-launch-messaging.test.js must pass.');
     }
   }
 
@@ -170,7 +170,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

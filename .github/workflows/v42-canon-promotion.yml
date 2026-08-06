@@ -56,7 +56,7 @@ jobs:
 
       - name: Validate V42 promotion readiness
         run: |
-          POINTER="$(cat BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V41" ]; then
             node scripts/check-bitcode-spec-family.mjs --version V42 --mode draft --current-target V41
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V41 --draft-target V42
@@ -80,15 +80,15 @@ jobs:
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
           fi
-          pnpm --filter @bitcode/protocol typecheck
-          pnpm --filter @bitcode/protocol test
+          pnpm --filter @bitcode/specifying typecheck
+          pnpm --filter @bitcode/specifying test
           pnpm --filter @bitcode/btd typecheck
           pnpm --filter @bitcode/btd test
-          npm --prefix protocol-demonstration test
-          npm --prefix protocol-demonstration run test:v28-mvp-qa
-          pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/specifying-package-boundary.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v42-ai-reading-demonstration.test.js
+          pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
           git diff --check
 
@@ -101,16 +101,16 @@ jobs:
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if [ "$(cat BITCODE_SPEC.txt)" = "V42" ]; then
+          if [ "$(cat .specifications/BITCODE_SPEC.txt)" = "V42" ]; then
             echo "BITCODE_SPEC.txt already points to V42."
             exit 0
           fi
           PROOF_SOURCE_COMMIT="$(git rev-parse HEAD)"
           node scripts/prepare-bitcode-spec-family-promotion.mjs --version V42 --commit "$PROOF_SOURCE_COMMIT"
           node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V42 --next-draft V43
-          printf "V42\n" > BITCODE_SPEC.txt
-          node scripts/generate-bitcode-proven.mjs --version V42 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output BITCODE_SPEC_V42_PROVEN.md --allow-dirty
-          node scripts/generate-bitcode-proven.mjs --version V42 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output BITCODE_SPEC_V42_PROVEN.md --check --allow-dirty
+          printf "V42\n" > .specifications/BITCODE_SPEC.txt
+          node scripts/generate-bitcode-proven.mjs --version V42 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output .specifications/BITCODE_SPEC_V42_PROVEN.md --allow-dirty
+          node scripts/generate-bitcode-proven.mjs --version V42 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output .specifications/BITCODE_SPEC_V42_PROVEN.md --check --allow-dirty
           node scripts/check-bitcode-canonical-inputs.mjs --current-target V42
           node scripts/check-bitcode-spec-family.mjs --version V42 --mode promoted --current-target V42
           node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V42 --draft-target V43
@@ -118,17 +118,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
-            BITCODE_SPEC.txt \
-            BITCODE_SPEC_V42.md \
-            BITCODE_SPEC_V42_DELTA.md \
-            BITCODE_SPEC_V42_NOTES.md \
-            BITCODE_SPEC_V42_PARITY_MATRIX.md \
-            BITCODE_SPEC_V42_PROVEN.md \
-            protocol-demonstration/src/canon-posture.js \
-            protocol-demonstration/README.md \
-            packages/protocol/src/canon-posture.js \
-            packages/protocol/data/state.json \
-            packages/protocol/README.md \
-            .bitcode
+            .specifications/BITCODE_SPEC.txt \
+            .specifications/BITCODE_SPEC_V42.md \
+            .specifications/BITCODE_SPEC_V42_DELTA.md \
+            .specifications/BITCODE_SPEC_V42_NOTES.md \
+            .specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md \
+            .specifications/BITCODE_SPEC_V42_PROVEN.md \
+            scripts/specifying/src/canon-posture.js \
+            scripts/specifying/data/state.json \
+            scripts/specifying/README.md \
+            .proofs
           git commit -m "Promote Bitcode canon to V42"
           git push origin "HEAD:$HEAD_BRANCH"

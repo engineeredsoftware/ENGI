@@ -16,7 +16,6 @@ done < <(
   rg -l "deliverable_runs" "$repo_root" \
     --glob '*.ts' \
     --glob '*.tsx' \
-    --glob '!_legacy/**' \
     --glob '!node_modules/**' || true
 )
 

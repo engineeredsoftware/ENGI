@@ -3,7 +3,8 @@
  * 
  * AgentPrompt is intentionally minimal: it contains only what applies
  * to every LLM call within the agent. Progressive specificity is achieved
- * through the Bitcode Registry-backed prompt hierarchy: Agent -> Step -> SubStep.
+ * through the Bitcode Registry-backed prompt hierarchy:
+ * Agent → Step → FailsafeGeneration → ThinkingsGeneration.
  * 
  * Tools are NOT part of prompts - they're declared at agent level and
  * their doc-code-tool prompts are automatically included when available.
@@ -28,7 +29,7 @@ export interface AgentPromptConfig {
  * 
  * This class is intentionally minimal. Agent prompts should contain
  * ONLY information relevant to EVERY LLM call within the agent.
- * More specific context is added through step and substep prompts.
+ * More specific context is added through step and generation prompts.
  */
 export class AgentPrompt extends Prompt {
   constructor(config: AgentPromptConfig) {

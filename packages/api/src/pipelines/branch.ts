@@ -43,7 +43,7 @@ export async function branchAssetPackRun(
     user_id: userId,
     status: 'pending' as const,
     type: source.type ||  'agentic-execution:asset-pack',
-    guide: source.guide || 'Develop',
+    guide: source.guide || 'SDIVF',
     config: source.config || {},
     input: source.input ||  {},
     output: source.output || {},

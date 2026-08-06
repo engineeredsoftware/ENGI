@@ -41,7 +41,7 @@ export async function streamFileChangesAfterStep(
   if (stats.files.length > 0) {
     try {
       // Dynamic import to avoid circular dependency
-      const { writeFileTreeChanges } = await import('@bitcode/streams');
+      const { writeFileTreeChanges } = await import('@bitcode/api/streams');
 
       // Get data stream from execution
       const dataStream = execution.get('execution', 'dataStream');

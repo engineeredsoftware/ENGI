@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -86,13 +86,13 @@ function main() {
     'packages/btd/__tests__/telemetry.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'uapi/app/api/btd/protocol-telemetry/route.ts',
+    'apps/uapi/app/api/btd/protocol-telemetry/route.ts',
     'packages/btd/README.md',
-    'uapi/app/terminal/README.md',
-    'BITCODE_SPEC_V30.md',
-    'BITCODE_SPEC_V30_DELTA.md',
-    'BITCODE_SPEC_V30_NOTES.md',
-    'BITCODE_SPEC_V30_PARITY_MATRIX.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    '.specifications/BITCODE_SPEC_V30.md',
+    '.specifications/BITCODE_SPEC_V30_DELTA.md',
+    '.specifications/BITCODE_SPEC_V30_NOTES.md',
+    '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V30 Gate 8 file: ${relativePath}`);
   }
@@ -103,13 +103,13 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/telemetry.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const uapiRoute = read(root, 'uapi/app/api/btd/protocol-telemetry/route.ts');
+  const uapiRoute = read(root, 'apps/uapi/app/api/btd/protocol-telemetry/route.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const spec = read(root, 'BITCODE_SPEC_V30.md');
-  const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V30_PARITY_MATRIX.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V30.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V30_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V30_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -181,7 +181,7 @@ function main() {
     failures,
     terminalReadme.includes('Protocol telemetry proof hooks') &&
       terminalReadme.includes('/btd/protocol-telemetry'),
-    'Terminal README must document Protocol telemetry proof-hook consumption.',
+    'product README must document Protocol telemetry proof-hook consumption.',
   );
   assertCheck(
     failures,

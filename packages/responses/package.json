@@ -1,9 +1,0 @@
-{
-  "name": "@bitcode/responses",
-  "version": "1.0.0",
-  "description": "HTTP response utilities for Bitcode",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
-  "private": true,
-  "dependencies": {}
-}

@@ -1,0 +1,24 @@
+{
+  "name": "@bitcode/external-telemetry-sentry",
+  "version": "0.1.0",
+  "description": "Sentry telemetry integration (packages/external-telemetry/sentry)",
+  "main": "src/sentry.ts",
+  "types": "src/sentry.ts",
+  "exports": {
+    ".": {
+      "edge-light": "./src/sentry-edge-stub.ts",
+      "worker": "./src/sentry-edge-stub.ts",
+      "browser": "./src/sentry-edge-stub.ts",
+      "require": "./src/sentry.ts",
+      "default": "./src/sentry.ts"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "license": "SEE LICENSE IN root",
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  }
+}

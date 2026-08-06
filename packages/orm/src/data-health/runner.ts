@@ -88,7 +88,7 @@ export function loadDataHealthEnvFiles(cwd: string = process.cwd()): void {
   const repoRoot = path.resolve(__dirname, '../../../..');
   const candidates = [
     path.join(repoRoot, '.env.local'),
-    path.join(repoRoot, 'uapi/.env.local'),
+    path.join(repoRoot, 'apps/uapi/.env.local'),
     path.join(cwd, '.env.local'),
   ];
 

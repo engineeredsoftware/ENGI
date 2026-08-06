@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_DEPOSITOR_WEBSITE_COMPLETION_ARTIFACT_PATH,
   buildV47DepositorWebsiteCompletion,
-} from '../packages/protocol/src/canonical/v47-depositor-website-completion.js';
+} from '../scripts/specifying/src/canonical/v47-depositor-website-completion.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -87,26 +87,26 @@ function main() {
 
   for (const relativePath of [
     V47_DEPOSITOR_WEBSITE_COMPLETION_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v47-depositor-website-completion.js',
-    'packages/protocol/test/v47-depositor-website-completion.test.js',
+    'scripts/specifying/src/canonical/v47-depositor-website-completion.js',
+    'scripts/specifying/test/v47-depositor-website-completion.test.js',
     'scripts/generate-v47-depositor-website-completion.mjs',
     'scripts/check-v47-gate4-depositor-website-completion.mjs',
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/tests/depositPageClient.test.tsx',
-    'uapi/tests/depositRouteModel.test.ts',
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts',
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts',
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts',
-    'packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts',
-    'packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/tests/depositRouteModel.test.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-options.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-policy.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-admission.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/depositor-earning-supply-intelligence.ts',
+    'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -151,7 +151,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -159,7 +159,7 @@ function main() {
         'test/v47-depositor-website-completion.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol test/v47-depositor-website-completion.test.js must pass.');
+      failures.push('scripts/specifying test/v47-depositor-website-completion.test.js must pass.');
     }
   }
 
@@ -167,7 +167,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH,
   buildV47FeatureExcessAlignmentAudit,
-} from '../packages/protocol/src/canonical/v47-feature-excess-alignment-audit.js';
+} from '../scripts/specifying/src/canonical/v47-feature-excess-alignment-audit.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +66,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -81,27 +81,27 @@ function main() {
 
   for (const relativePath of [
     V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v47-feature-excess-alignment-audit.js',
-    'packages/protocol/test/v47-feature-excess-alignment-audit.test.js',
+    'scripts/specifying/src/canonical/v47-feature-excess-alignment-audit.js',
+    'scripts/specifying/test/v47-feature-excess-alignment-audit.test.js',
     'scripts/generate-v47-feature-excess-alignment-audit.mjs',
     'scripts/check-v47-gate2-feature-excess-alignment-audit.mjs',
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
-    'uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
-    'uapi/components/base/bitcode/layout/nav.tsx',
-    'uapi/config/features.ts',
-    'uapi/app/hero-client.tsx',
-    'uapi/app/(root)/components/MarketingPricingSection.tsx',
-    'uapi/app/btd/[assetPackId]/page.tsx',
-    'uapi/app/exchange/page.tsx',
-    'uapi/app/exchange/README.md',
-    'uapi/app/terminal/page.tsx',
-    'uapi/app/conversations/page.tsx',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/components/bitcode/layout/bitcode-public-copy.ts',
+    'apps/uapi/components/bitcode/layout/nav.tsx',
+    'apps/uapi/config/features.ts',
+    'apps/uapi/app/hero-client.tsx',
+    'apps/uapi/app/(root)/components/MarketingPricingSection.tsx',
+    'apps/uapi/app/btd/[assetPackId]/page.tsx',
+    'apps/uapi/app/exchange/page.tsx',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/ (removed cockpit tree) page.tsx',
+    'apps/uapi/app/conversations/page.tsx',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -145,7 +145,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/packsPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/packsPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi packsPageClient.test.tsx, readPageClient.test.tsx, and depositPageClient.test.tsx must pass.');
     }

@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_RETRY_DETAILS: PromptPart =
-  'Apply alternative refs, provider-specific adjustments, or reduced scope; ensure final status and metadata are recorded' as PromptPart;
+  'Re-attempt the Try using prior Try errors and usedTools: adjust ref/shallow/provider params and re-select asset-pack-clone-vcs-repository-tool; return the same agent-shaped clone result' as PromptPart;

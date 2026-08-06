@@ -1,0 +1,1520 @@
+{
+  "artifactId": "v41-readfitsfinding-prompt-hardening",
+  "schemaId": "bitcode.v41.readFitsFindingPromptHardening.v1",
+  "version": "V41",
+  "currentTarget": "V40",
+  "generatedAt": "2026-05-26T00:00:00.000Z",
+  "artifactPath": ".proofs/v41/readfitsfinding-prompt-hardening.json",
+  "sourceSafetyVerdict": "source-safe-readfitsfinding-prompt-hardening-metadata",
+  "artifactRoot": "v41-readfitsfinding-prompt-hardening:0584cc9e2385dfe150b0b96a",
+  "passed": true,
+  "failures": [],
+  "metricIds": [
+    "accepted_need_gate_integrity",
+    "query_synthesis_search_breadth",
+    "embedding_vector_ranking_policy",
+    "many_candidate_fit_selection",
+    "selected_fit_provenance_traceability",
+    "assetpack_context_source_safety",
+    "preview_quote_disclosure_boundary",
+    "settlement_delivery_rights_boundary",
+    "readfits_telemetry_redaction"
+  ],
+  "disclosureTiers": [
+    "prompt_identity_source_safe",
+    "promptpart_identity_source_safe",
+    "source_hash_source_safe",
+    "predicate_verdict_source_safe",
+    "parser_target_id_source_safe",
+    "query_ranking_root_source_safe",
+    "raw_prompt_text_private",
+    "raw_interpolated_prompt_private",
+    "raw_provider_response_private",
+    "protected_source_private",
+    "unpaid_assetpack_source_private",
+    "wallet_private_material_private",
+    "settlement_private_payload_private"
+  ],
+  "rows": [
+    {
+      "hardeningId": "readfits-assetpack-promptpart-rewrite-boundary",
+      "label": "ReadFitsFinding AssetPack PromptParts preserve many-fit source-safe synthesis boundaries",
+      "sourceRoots": [
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_identity_definition.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_requirements_context.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrplan_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrtry_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrrefine_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrretry_purpose.ts"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis",
+        "AssetPackSynthesis"
+      ],
+      "promptSurfaceIds": [
+        "AssetPackSynthesizeArtifacts.identity",
+        "AssetPackSynthesizeArtifacts.requirements",
+        "AssetPackSynthesizeArtifacts.ptrr.plan",
+        "AssetPackSynthesizeArtifacts.ptrr.try",
+        "AssetPackSynthesizeArtifacts.ptrr.refine",
+        "AssetPackSynthesizeArtifacts.ptrr.retry"
+      ],
+      "parserTargetIds": [
+        "AssetPackSynthesisOutput",
+        "AssetPackSynthesisArtifacts"
+      ],
+      "metricIds": [
+        "accepted_need_gate_integrity",
+        "many_candidate_fit_selection",
+        "assetpack_context_source_safety",
+        "settlement_delivery_rights_boundary"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.assetpack-synthesis-preview"
+      ],
+      "requiredPredicateIds": [
+        "promptparts.versioned-to-v41",
+        "promptparts.accepted-read-need",
+        "promptparts.qualifying-depository-fit-deposits",
+        "promptparts.selected-fit-provenance-root",
+        "promptparts.many-candidate-search-provenance",
+        "promptparts.source-safe-preview-before-settlement",
+        "promptparts.no-unpaid-source",
+        "promptparts.no-btc-btd-overclaim",
+        "promptparts.blocked-readiness-on-insufficient-search-evidence"
+      ],
+      "rowRoot": "v41-readfitsfinding-prompt-hardening-row:921dd2e92cb31c3f3b00cf83",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "sourceSafetyClass": "source_safe_readfitsfinding_prompt_hardening_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "query_ranking_root_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "sourceFiles": [
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_identity_definition.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_requirements_context.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrplan_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrtry_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrrefine_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrretry_purpose.ts"
+      ],
+      "sourceHashes": [
+        {
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_identity_definition.ts",
+          "sourceHash": "2fd41d8b2f56b7d1aefc1918"
+        },
+        {
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_requirements_context.ts",
+          "sourceHash": "4bbe106fb7dc4ab63f4477f5"
+        },
+        {
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrplan_purpose.ts",
+          "sourceHash": "aa97b7578ec5877c815ffa1d"
+        },
+        {
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrtry_purpose.ts",
+          "sourceHash": "f0b82ebb5e7391e4a0c836fb"
+        },
+        {
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrrefine_purpose.ts",
+          "sourceHash": "196af7f4ee6d2db2309a5700"
+        },
+        {
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrretry_purpose.ts",
+          "sourceHash": "12f2b597c18b03b6e0930c5c"
+        }
+      ],
+      "sourceRootsPresent": true,
+      "predicateResults": [
+        {
+          "id": "promptparts.versioned-to-v41",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        },
+        {
+          "id": "promptparts.accepted-read-need",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        },
+        {
+          "id": "promptparts.qualifying-depository-fit-deposits",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        },
+        {
+          "id": "promptparts.selected-fit-provenance-root",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        },
+        {
+          "id": "promptparts.many-candidate-search-provenance",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        },
+        {
+          "id": "promptparts.source-safe-preview-before-settlement",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        },
+        {
+          "id": "promptparts.no-unpaid-source",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        },
+        {
+          "id": "promptparts.no-btc-btd-overclaim",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        },
+        {
+          "id": "promptparts.blocked-readiness-on-insufficient-search-evidence",
+          "rowId": "readfits-assetpack-promptpart-rewrite-boundary",
+          "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+          "passed": true
+        }
+      ],
+      "failedPredicateIds": [],
+      "predicateScore": 1,
+      "hardeningScore": 1,
+      "passed": true
+    },
+    {
+      "hardeningId": "readfits-bounded-inference-prompt-context",
+      "label": "ReadFitsFinding always-real inference prompt contract carries accepted Need, search roots, and source-safe boundaries",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis",
+        "PTRR",
+        "FailsafeGenerationSequence"
+      ],
+      "promptSurfaceIds": [
+        "ReadFitsFindingSynthesis.prompt.setup-plan",
+        "ReadFitsFindingSynthesis.prompt.read-comprehension",
+        "ReadFitsFindingSynthesis.prompt.asset-pack-synthesis",
+        "ReadFitsFindingSynthesis.prompt.fit-quality-validation"
+      ],
+      "parserTargetIds": [
+        "PlanSchema",
+        "BoundedReadComprehensionSchema",
+        "AssetPackSynthesisOutput"
+      ],
+      "metricIds": [
+        "accepted_need_gate_integrity",
+        "query_synthesis_search_breadth",
+        "selected_fit_provenance_traceability",
+        "assetpack_context_source_safety"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates",
+        "fixture.read-fits.assetpack-synthesis-preview",
+        "fixture.reading.schema-bound-return-types"
+      ],
+      "requiredPredicateIds": [
+        "bounded.setup-plan-template-id",
+        "bounded.setup-plan-accepted-need",
+        "bounded.setup-plan-search-objectives",
+        "bounded.read-comprehension-source-constraints",
+        "bounded.read-comprehension-many-candidate-search",
+        "bounded.assetpack-source-safe-boundary",
+        "bounded.assetpack-selected-fit-provenance-root",
+        "bounded.assetpack-no-unpaid-source",
+        "bounded.contract-interpolation-keys-expanded",
+        "bounded.contract-fit-quality-selected-provenance",
+        "bounded.ptrr-failsafe-thricified-composition-present"
+      ],
+      "rowRoot": "v41-readfitsfinding-prompt-hardening-row:b1f537d4c84586d660de182c",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "sourceSafetyClass": "source_safe_readfitsfinding_prompt_hardening_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "query_ranking_root_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "sourceFiles": [
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
+      ],
+      "sourceHashes": [
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+          "sourceHash": "c10ce62aeee327689683d323"
+        },
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+          "sourceHash": "c13740504e7ad4f3b6bd3bce"
+        },
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+          "sourceHash": "e4ca2a51636c21a9bf4c911d"
+        },
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "sourceHash": "4a688c72b552579ba1373a74"
+        },
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "sourceHash": "1319dd4223292e03b795ab87"
+        }
+      ],
+      "sourceRootsPresent": true,
+      "predicateResults": [
+        {
+          "id": "bounded.setup-plan-template-id",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.setup-plan-accepted-need",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.setup-plan-search-objectives",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.read-comprehension-source-constraints",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.read-comprehension-many-candidate-search",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.assetpack-source-safe-boundary",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.assetpack-selected-fit-provenance-root",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.assetpack-no-unpaid-source",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.contract-interpolation-keys-expanded",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.contract-fit-quality-selected-provenance",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        },
+        {
+          "id": "bounded.ptrr-failsafe-thricified-composition-present",
+          "rowId": "readfits-bounded-inference-prompt-context",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "passed": true
+        }
+      ],
+      "failedPredicateIds": [],
+      "predicateScore": 1,
+      "hardeningScore": 1,
+      "passed": true
+    },
+    {
+      "hardeningId": "readfits-depository-search-query-ranking",
+      "label": "Depository search query synthesis, embeddings, ranking, and selected-fit provenance remain many-candidate",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis",
+        "DepositorySearch"
+      ],
+      "promptSurfaceIds": [
+        "ReadFitsFindingSynthesis.discovery.finding-fits",
+        "ReadFitsFindingSynthesis.tool.lexical-depository-search",
+        "ReadFitsFindingSynthesis.tool.vector-depository-search"
+      ],
+      "parserTargetIds": [
+        "DepositorySearchRead",
+        "DepositorySearchResult",
+        "DepositorySearchQueryPlan"
+      ],
+      "metricIds": [
+        "query_synthesis_search_breadth",
+        "embedding_vector_ranking_policy",
+        "many_candidate_fit_selection",
+        "selected_fit_provenance_traceability"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates"
+      ],
+      "requiredPredicateIds": [
+        "search.derived-from-accepted-need",
+        "search.all-channel-ids-present",
+        "search.embedding-policy-bound",
+        "search.provider-matches-supported",
+        "search.max-selected-candidates-gt-one",
+        "search.selects-all-above-threshold",
+        "search.selected-fit-provenance-root",
+        "search.query-root-and-ranking-root",
+        "search.source-safe-search-receipt",
+        "search.tool-telemetry-lexical-and-vector",
+        "test.many-qualifying-fit-deposits",
+        "test.embedding-vector-policy"
+      ],
+      "rowRoot": "v41-readfitsfinding-prompt-hardening-row:447da658667fbb9bf431d678",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "sourceSafetyClass": "source_safe_readfitsfinding_prompt_hardening_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "query_ranking_root_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "sourceFiles": [
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
+      ],
+      "sourceHashes": [
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "sourceHash": "8c79c6f9c479ba664206175d"
+        },
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+          "sourceHash": "f67631d6826e305b99ac1c36"
+        }
+      ],
+      "sourceRootsPresent": true,
+      "predicateResults": [
+        {
+          "id": "search.derived-from-accepted-need",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.all-channel-ids-present",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.embedding-policy-bound",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.provider-matches-supported",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.max-selected-candidates-gt-one",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.selects-all-above-threshold",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.selected-fit-provenance-root",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.query-root-and-ranking-root",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.source-safe-search-receipt",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "search.tool-telemetry-lexical-and-vector",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "passed": true
+        },
+        {
+          "id": "test.many-qualifying-fit-deposits",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+          "passed": true
+        },
+        {
+          "id": "test.embedding-vector-policy",
+          "rowId": "readfits-depository-search-query-ranking",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+          "passed": true
+        }
+      ],
+      "failedPredicateIds": [],
+      "predicateScore": 1,
+      "hardeningScore": 1,
+      "passed": true
+    },
+    {
+      "hardeningId": "readfits-runtime-replay-telemetry",
+      "label": "ReadFitsFinding runtime persists source-safe search, replay, repair, and telemetry receipts",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis",
+        "Telemetry"
+      ],
+      "promptSurfaceIds": [
+        "ReadFitsFindingSynthesis.runtime",
+        "ReadFitsFindingSynthesis.telemetry"
+      ],
+      "parserTargetIds": [
+        "ReadFitsFindingRuntime",
+        "ReadFitsFindingTelemetryReceipt",
+        "ReadFitsFindingReplayReceipt"
+      ],
+      "metricIds": [
+        "selected_fit_provenance_traceability",
+        "many_candidate_fit_selection",
+        "readfits_telemetry_redaction"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates"
+      ],
+      "requiredPredicateIds": [
+        "runtime.source-safe-class",
+        "runtime.query-plan-storage",
+        "runtime.search-channel-storage",
+        "runtime.candidate-ranking-storage",
+        "runtime.selected-fit-provenance-storage",
+        "runtime.fit-result-storage",
+        "runtime.replay-mode",
+        "runtime.telemetry-root",
+        "runtime.source-safe-selected-fit-evidence",
+        "runtime.no-source-leak-test"
+      ],
+      "rowRoot": "v41-readfitsfinding-prompt-hardening-row:9d15fe0efd8c675a953cbd80",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "sourceSafetyClass": "source_safe_readfitsfinding_prompt_hardening_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "query_ranking_root_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "sourceFiles": [
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts"
+      ],
+      "sourceHashes": [
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "sourceHash": "6b91862fe0c4c802b9a19e15"
+        },
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+          "sourceHash": "58db4f0377fdbd4440e6de7a"
+        }
+      ],
+      "sourceRootsPresent": true,
+      "predicateResults": [
+        {
+          "id": "runtime.source-safe-class",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.query-plan-storage",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.search-channel-storage",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.candidate-ranking-storage",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.selected-fit-provenance-storage",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.fit-result-storage",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.replay-mode",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.telemetry-root",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.source-safe-selected-fit-evidence",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "passed": true
+        },
+        {
+          "id": "runtime.no-source-leak-test",
+          "rowId": "readfits-runtime-replay-telemetry",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+          "passed": true
+        }
+      ],
+      "failedPredicateIds": [],
+      "predicateScore": 1,
+      "hardeningScore": 1,
+      "passed": true
+    },
+    {
+      "hardeningId": "readfits-lexical-tool-doc-prompt",
+      "label": "Depository search tool prompt describes many-fit source-safe search and output boundaries",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis",
+        "ToolDefinition"
+      ],
+      "promptSurfaceIds": [
+        "AssetPackLexicalDepositorySearchTool.docCodePrompt"
+      ],
+      "parserTargetIds": [
+        "DepositorySearchResult",
+        "DepositoryFitResultEvidence"
+      ],
+      "metricIds": [
+        "query_synthesis_search_breadth",
+        "readfits_telemetry_redaction"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.tool-definition.doc-code-contract"
+      ],
+      "requiredPredicateIds": [
+        "tool.names-readfitsfindingsynthesis",
+        "tool.accepted-read-need-input",
+        "tool.many-qualifying-fit-deposit-output",
+        "tool.query-ranking-provenance-roots",
+        "tool.embedding-policy-output",
+        "tool.no-protected-source-output",
+        "tool.no-unpaid-assetpack-source-output"
+      ],
+      "rowRoot": "v41-readfitsfinding-prompt-hardening-row:5b66620e2adfaf46ae5af439",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "sourceSafetyClass": "source_safe_readfitsfinding_prompt_hardening_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "query_ranking_root_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "sourceFiles": [
+        "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts"
+      ],
+      "sourceHashes": [
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourceHash": "7b572ae320692396fd368fad"
+        }
+      ],
+      "sourceRootsPresent": true,
+      "predicateResults": [
+        {
+          "id": "tool.names-readfitsfindingsynthesis",
+          "rowId": "readfits-lexical-tool-doc-prompt",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "passed": true
+        },
+        {
+          "id": "tool.accepted-read-need-input",
+          "rowId": "readfits-lexical-tool-doc-prompt",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "passed": true
+        },
+        {
+          "id": "tool.many-qualifying-fit-deposit-output",
+          "rowId": "readfits-lexical-tool-doc-prompt",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "passed": true
+        },
+        {
+          "id": "tool.query-ranking-provenance-roots",
+          "rowId": "readfits-lexical-tool-doc-prompt",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "passed": true
+        },
+        {
+          "id": "tool.embedding-policy-output",
+          "rowId": "readfits-lexical-tool-doc-prompt",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "passed": true
+        },
+        {
+          "id": "tool.no-protected-source-output",
+          "rowId": "readfits-lexical-tool-doc-prompt",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "passed": true
+        },
+        {
+          "id": "tool.no-unpaid-assetpack-source-output",
+          "rowId": "readfits-lexical-tool-doc-prompt",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "passed": true
+        }
+      ],
+      "failedPredicateIds": [],
+      "predicateScore": 1,
+      "hardeningScore": 1,
+      "passed": true
+    },
+    {
+      "hardeningId": "readfits-preview-quote-disclosure-boundary",
+      "label": "AssetPack preview exposes measurements, quote, and provenance while withholding source",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis",
+        "AssetPackPreview"
+      ],
+      "promptSurfaceIds": [
+        "AssetPackSourceSafePreview",
+        "AssetPackPreviewQuoteReceipt"
+      ],
+      "parserTargetIds": [
+        "AssetPackPreviewBoundary",
+        "AssetPackSourceSafePreview",
+        "ShareToFeeQuote"
+      ],
+      "metricIds": [
+        "preview_quote_disclosure_boundary",
+        "selected_fit_provenance_traceability",
+        "settlement_delivery_rights_boundary"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.assetpack-synthesis-preview"
+      ],
+      "requiredPredicateIds": [
+        "preview.source-safe-class",
+        "preview.fit-measurement-preview-record",
+        "preview.selected-fit-provenance-record",
+        "preview.deterministic-btc-quote",
+        "preview.settlement-required-before-unlock",
+        "preview.delivery-withheld-until-settlement",
+        "preview.forbidden-before-settlement",
+        "preview.no-unpaid-source",
+        "preview.no-wallet-private-material"
+      ],
+      "rowRoot": "v41-readfitsfinding-prompt-hardening-row:cde3b52aceb1c72e287db579",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "sourceSafetyClass": "source_safe_readfitsfinding_prompt_hardening_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "query_ranking_root_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "sourceFiles": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
+      ],
+      "sourceHashes": [
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "sourceHash": "1319dd4223292e03b795ab87"
+        }
+      ],
+      "sourceRootsPresent": true,
+      "predicateResults": [
+        {
+          "id": "preview.source-safe-class",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "preview.fit-measurement-preview-record",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "preview.selected-fit-provenance-record",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "preview.deterministic-btc-quote",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "preview.settlement-required-before-unlock",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "preview.delivery-withheld-until-settlement",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "preview.forbidden-before-settlement",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "preview.no-unpaid-source",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        },
+        {
+          "id": "preview.no-wallet-private-material",
+          "rowId": "readfits-preview-quote-disclosure-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "passed": true
+        }
+      ],
+      "failedPredicateIds": [],
+      "predicateScore": 1,
+      "hardeningScore": 1,
+      "passed": true
+    },
+    {
+      "hardeningId": "readfits-settlement-delivery-rights-boundary",
+      "label": "Settlement, BTD rights, contributor compensation, ledger sync, and delivery unlock stay post-payment",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis",
+        "Settlement",
+        "BTD"
+      ],
+      "promptSurfaceIds": [
+        "AssetPackSettlementRightsDeliveryBoundary"
+      ],
+      "parserTargetIds": [
+        "AssetPackSettlementRightsDeliveryBoundary",
+        "AssetPackSettlementUnlock"
+      ],
+      "metricIds": [
+        "settlement_delivery_rights_boundary",
+        "preview_quote_disclosure_boundary"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.assetpack-synthesis-preview"
+      ],
+      "requiredPredicateIds": [
+        "settlement.reader-pays-depositor",
+        "settlement.payment-observation",
+        "settlement.finality-receipt",
+        "settlement.source-to-shares-compensation",
+        "settlement.btd-rights-transfer",
+        "settlement.delivery-unlock",
+        "settlement.ledger-database-storage-reconciliation",
+        "settlement.protected-source-serialized-false",
+        "settlement.source-bearing-visible-boolean"
+      ],
+      "rowRoot": "v41-readfitsfinding-prompt-hardening-row:7cf6150aea1ae7b73a477c31",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "sourceSafetyClass": "source_safe_readfitsfinding_prompt_hardening_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "query_ranking_root_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "sourceFiles": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts"
+      ],
+      "sourceHashes": [
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "sourceHash": "3d2b0984fc9e2c3c108d6eb0"
+        }
+      ],
+      "sourceRootsPresent": true,
+      "predicateResults": [
+        {
+          "id": "settlement.reader-pays-depositor",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        },
+        {
+          "id": "settlement.payment-observation",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        },
+        {
+          "id": "settlement.finality-receipt",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        },
+        {
+          "id": "settlement.source-to-shares-compensation",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        },
+        {
+          "id": "settlement.btd-rights-transfer",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        },
+        {
+          "id": "settlement.delivery-unlock",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        },
+        {
+          "id": "settlement.ledger-database-storage-reconciliation",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        },
+        {
+          "id": "settlement.protected-source-serialized-false",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        },
+        {
+          "id": "settlement.source-bearing-visible-boolean",
+          "rowId": "readfits-settlement-delivery-rights-boundary",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "passed": true
+        }
+      ],
+      "failedPredicateIds": [],
+      "predicateScore": 1,
+      "hardeningScore": 1,
+      "passed": true
+    },
+    {
+      "hardeningId": "readfits-source-safe-tests-and-docs",
+      "label": "Gate 6 checks bind tests, docs, package exports, workflows, and current roadmap posture",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+        "BITCODE_SPEC_V41.md",
+        "BITCODE_SPEC_V41_DELTA.md",
+        "BITCODE_SPEC_V41_NOTES.md",
+        "BITCODE_SPEC_V41_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        "README.md",
+        "scripts/specifying/README.md",
+        "package.json",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis",
+        "V41Gate6"
+      ],
+      "promptSurfaceIds": [
+        "V41ReadFitsFindingPromptHardening"
+      ],
+      "parserTargetIds": [
+        "V41ReadFitsFindingPromptHardening"
+      ],
+      "metricIds": [
+        "accepted_need_gate_integrity",
+        "query_synthesis_search_breadth",
+        "assetpack_context_source_safety",
+        "readfits_telemetry_redaction"
+      ],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates",
+        "fixture.read-fits.assetpack-synthesis-preview"
+      ],
+      "requiredPredicateIds": [
+        "docs.current-gate-6",
+        "docs.next-gate-7",
+        "docs.gate6-closure-anchor",
+        "parity.finding-fits-implemented",
+        "package.scripts-exposed",
+        "workflow.gate6-check-wired",
+        "tests.depository-search",
+        "tests.readfits-runtime",
+        "tests.assetpack-synthesis"
+      ],
+      "rowRoot": "v41-readfitsfinding-prompt-hardening-row:334665470e5c663699e8424e",
+      "pipelineId": "ReadFitsFindingSynthesis",
+      "sourceSafetyClass": "source_safe_readfitsfinding_prompt_hardening_metadata",
+      "sourceSafeMetadataOnly": true,
+      "disclosureTiers": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "source_hash_source_safe",
+        "predicate_verdict_source_safe",
+        "parser_target_id_source_safe",
+        "query_ranking_root_source_safe",
+        "raw_prompt_text_private",
+        "raw_interpolated_prompt_private",
+        "raw_provider_response_private",
+        "protected_source_private",
+        "unpaid_assetpack_source_private",
+        "wallet_private_material_private",
+        "settlement_private_payload_private"
+      ],
+      "rawPromptTextSerialized": false,
+      "rawInterpolatedPromptSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-interpolated-prompts",
+        "raw-provider-responses",
+        "private-context",
+        "unpaid-assetpack-source"
+      ],
+      "sourceFiles": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+        "BITCODE_SPEC_V41.md",
+        "BITCODE_SPEC_V41_DELTA.md",
+        "BITCODE_SPEC_V41_NOTES.md",
+        "BITCODE_SPEC_V41_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        "README.md",
+        "scripts/specifying/README.md",
+        "package.json",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "sourceHashes": [
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+          "sourceHash": "f67631d6826e305b99ac1c36"
+        },
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+          "sourceHash": "58db4f0377fdbd4440e6de7a"
+        },
+        {
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+          "sourceHash": "e2e172cbbb050fa57eb16c0d"
+        },
+        {
+          "sourcePath": "BITCODE_SPEC_V41.md",
+          "sourceHash": "9174742d79d0b0045bb0eebf"
+        },
+        {
+          "sourcePath": "BITCODE_SPEC_V41_DELTA.md",
+          "sourceHash": "a368d8732b02b4f943017df9"
+        },
+        {
+          "sourcePath": "BITCODE_SPEC_V41_NOTES.md",
+          "sourceHash": "38e4d70e19dff8c367acf279"
+        },
+        {
+          "sourcePath": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
+          "sourceHash": "5f49852cfb6323d19db8be1c"
+        },
+        {
+          "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+          "sourceHash": "2400ea79d304ff28b7fd8e7a"
+        },
+        {
+          "sourcePath": "README.md",
+          "sourceHash": "14085be712ec8e13c811c62a"
+        },
+        {
+          "sourcePath": "scripts/specifying/README.md",
+          "sourceHash": "1a81b9507325d3a5da87f627"
+        },
+        {
+          "sourcePath": "package.json",
+          "sourceHash": "4d9f041eb01a920860a26f75"
+        },
+        {
+          "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+          "sourceHash": "379d7561d515468f9237bf02"
+        },
+        {
+          "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+          "sourceHash": "ab37403273c35c918071e3cd"
+        }
+      ],
+      "sourceRootsPresent": true,
+      "predicateResults": [
+        {
+          "id": "docs.current-gate-6",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+          "passed": true
+        },
+        {
+          "id": "docs.next-gate-7",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+          "passed": true
+        },
+        {
+          "id": "docs.gate6-closure-anchor",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+          "passed": true
+        },
+        {
+          "id": "parity.finding-fits-implemented",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
+          "passed": true
+        },
+        {
+          "id": "package.scripts-exposed",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": "package.json",
+          "passed": true
+        },
+        {
+          "id": "workflow.gate6-check-wired",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+          "passed": true
+        },
+        {
+          "id": "tests.depository-search",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+          "passed": true
+        },
+        {
+          "id": "tests.readfits-runtime",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+          "passed": true
+        },
+        {
+          "id": "tests.assetpack-synthesis",
+          "rowId": "readfits-source-safe-tests-and-docs",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+          "passed": true
+        }
+      ],
+      "failedPredicateIds": [],
+      "predicateScore": 1,
+      "hardeningScore": 1,
+      "passed": true
+    }
+  ],
+  "dependencyRoots": {
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
+    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
+    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388"
+  },
+  "coverage": {
+    "rowCount": 8,
+    "sourceRootCount": 28,
+    "sourceRootPresentCount": 28,
+    "promptFamilyIds": [
+      "AssetPackPreview",
+      "AssetPackSynthesis",
+      "BTD",
+      "DepositorySearch",
+      "FailsafeGenerationSequence",
+      "PTRR",
+      "ReadFitsFindingSynthesis",
+      "Settlement",
+      "Telemetry",
+      "ToolDefinition",
+      "V41Gate6"
+    ],
+    "promptSurfaceIds": [
+      "AssetPackLexicalDepositorySearchTool.docCodePrompt",
+      "AssetPackPreviewQuoteReceipt",
+      "AssetPackSettlementRightsDeliveryBoundary",
+      "AssetPackSourceSafePreview",
+      "AssetPackSynthesizeArtifacts.identity",
+      "AssetPackSynthesizeArtifacts.ptrr.plan",
+      "AssetPackSynthesizeArtifacts.ptrr.refine",
+      "AssetPackSynthesizeArtifacts.ptrr.retry",
+      "AssetPackSynthesizeArtifacts.ptrr.try",
+      "AssetPackSynthesizeArtifacts.requirements",
+      "ReadFitsFindingSynthesis.discovery.finding-fits",
+      "ReadFitsFindingSynthesis.prompt.asset-pack-synthesis",
+      "ReadFitsFindingSynthesis.prompt.fit-quality-validation",
+      "ReadFitsFindingSynthesis.prompt.read-comprehension",
+      "ReadFitsFindingSynthesis.prompt.setup-plan",
+      "ReadFitsFindingSynthesis.runtime",
+      "ReadFitsFindingSynthesis.telemetry",
+      "ReadFitsFindingSynthesis.tool.lexical-depository-search",
+      "ReadFitsFindingSynthesis.tool.vector-depository-search",
+      "V41ReadFitsFindingPromptHardening"
+    ],
+    "promptSurfaceCount": 20,
+    "parserTargetIds": [
+      "AssetPackPreviewBoundary",
+      "AssetPackSettlementRightsDeliveryBoundary",
+      "AssetPackSettlementUnlock",
+      "AssetPackSourceSafePreview",
+      "AssetPackSynthesisArtifacts",
+      "AssetPackSynthesisOutput",
+      "BoundedReadComprehensionSchema",
+      "DepositoryFitResultEvidence",
+      "DepositorySearchQueryPlan",
+      "DepositorySearchRead",
+      "DepositorySearchResult",
+      "PlanSchema",
+      "ReadFitsFindingReplayReceipt",
+      "ReadFitsFindingRuntime",
+      "ReadFitsFindingTelemetryReceipt",
+      "ShareToFeeQuote",
+      "V41ReadFitsFindingPromptHardening"
+    ],
+    "parserTargetCount": 17,
+    "benchmarkFixtureIds": [
+      "fixture.read-fits.assetpack-synthesis-preview",
+      "fixture.read-fits.find-many-candidates",
+      "fixture.reading.schema-bound-return-types",
+      "fixture.tool-definition.doc-code-contract"
+    ],
+    "benchmarkFixtureCount": 4,
+    "requiredPredicateCount": 76,
+    "passedPredicateCount": 76,
+    "failedPredicateIds": [],
+    "failingRowIds": [],
+    "hardeningScoreMinimum": 1,
+    "readFitsInventoryPromptPartRowCount": 490,
+    "readFitsInventoryPromptRowCount": 52,
+    "gate4ReadFitsBaselineRowCount": 7,
+    "gate5ReadNeedHardeningRowCount": 7
+  },
+  "sourceSafety": {
+    "sourceSafeMetadataOnly": true,
+    "rawPromptTextSerialized": false,
+    "rawInterpolatedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "protectedSourceVisible": false,
+    "privateContextSerialized": false,
+    "credentialsSerialized": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "forbiddenPayloadClasses": [
+      "secret-values",
+      "provider-tokens",
+      "wallet-private-material",
+      "settlement-private-payloads",
+      "protected-source-payloads",
+      "raw-protected-prompts",
+      "raw-prompt-text",
+      "raw-interpolated-prompts",
+      "raw-provider-responses",
+      "private-context",
+      "unpaid-assetpack-source"
+    ]
+  }
+}

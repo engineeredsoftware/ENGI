@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json';
+const ARTIFACT_PATH = '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json';
 const GENERATED_AT = '2026-05-23T00:00:00.000Z';
 
 const requiredJobIds = Object.freeze([
@@ -162,7 +162,7 @@ const jobRows = Object.freeze([
     jobId: 'generated_proof_job',
     label: 'generated proof job',
     jobClass: 'generated_proof_job',
-    ownerPackage: 'packages/protocol',
+    ownerPackage: 'scripts/specifying',
     requiredHostIds: ['proof_services', 'repair_jobs'],
     supportedLaneIds: nonValueLanes,
     observerId: 'observer.generated_proof.freshness',
@@ -179,7 +179,7 @@ const jobRows = Object.freeze([
     unsafeDriftPosture: 'blocks_projection_until_repaired',
     unlockBlockingPolicy: 'promotion and deployment admission stay blocked when proof artifacts are stale',
     auditEventName: 'runtime_observer.generated_proof_job',
-    proofRootBasis: ['BITCODE_SPEC_V34.md', 'v34-canonical-input-report', 'v34-spec-family-report'],
+    proofRootBasis: ['.specifications/BITCODE_SPEC_V34.md', 'v34-canonical-input-report', 'v34-spec-family-report'],
   },
   {
     jobId: 'queue_consumer',
@@ -292,10 +292,10 @@ function buildArtifact() {
     ]),
   ];
   const docsEvidence = [
-    buildTokenEvidence('BITCODE_SPEC_V34.md', ['RuntimeObserverRepairJob', ARTIFACT_PATH]),
-    buildTokenEvidence('BITCODE_SPEC_V34_DELTA.md', ['RuntimeObserverRepairJob', ARTIFACT_PATH]),
-    buildTokenEvidence('BITCODE_SPEC_V34_PARITY_MATRIX.md', ['RuntimeObserverRepairJob', ARTIFACT_PATH]),
-    buildTokenEvidence('SPECIFICATIONS_ROADMAP.md', ['V34 Gate 7 closure anchor']),
+    buildTokenEvidence('.specifications/BITCODE_SPEC_V34.md', ['RuntimeObserverRepairJob', ARTIFACT_PATH]),
+    buildTokenEvidence('.specifications/BITCODE_SPEC_V34_DELTA.md', ['RuntimeObserverRepairJob', ARTIFACT_PATH]),
+    buildTokenEvidence('.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md', ['RuntimeObserverRepairJob', ARTIFACT_PATH]),
+    buildTokenEvidence('.specifications/SPECIFICATIONS_ROADMAP.md', ['V34 Gate 7 closure anchor']),
   ];
   const workflowEvidence = [
     buildTokenEvidence('.github/workflows/bitcode-gate-quality.yml', [

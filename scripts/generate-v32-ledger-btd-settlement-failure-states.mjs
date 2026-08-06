@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json';
+const ARTIFACT_PATH = '.proofs/v32/ledger-btd-settlement-failure-state-coverage.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -38,9 +38,9 @@ const testFiles = Object.freeze([
   'packages/btd/__tests__/source-to-shares.test.ts',
   'packages/btd/__tests__/api-boundaries.test.ts',
   'packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts',
-  'uapi/tests/terminalJournalReconciliation.test.ts',
-  'uapi/tests/terminalWalletBtcOperation.test.ts',
-  'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
+  'apps/uapi/tests/terminalJournalReconciliation.test.ts',
+  'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
+  'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
 ]);
 
 const btcOperationPhases = Object.freeze([
@@ -189,7 +189,7 @@ function buildSurfaceCoverage() {
     {
       surfaceId: 'ledger',
       stateClasses: ['success', 'blocked', 'repair'],
-      proofSubjects: ['BTC fee finality', 'BTD ownership transfer', 'terminal journal root', 'ledger projection root'],
+      proofSubjects: ['BTC fee finality', 'BTD ownership transfer', 'BTD journal root', 'ledger projection root'],
       failClosedBoundary: 'rights transfer requires confirmed BTC fee finality before ownership/read rights move',
     },
     {
@@ -297,7 +297,7 @@ export function buildV32LedgerBtdSettlementFailureStateCoverage() {
       states: [...sourceToSharesStates],
       invariants: ['noOverpayment', 'noUnderpayment', 'allocationConserved', 'settlementAdmissible'],
       allocationMethod: 'largest_remainder',
-      proofArtifactPath: '.bitcode/v30-settlement-source-to-shares-proof.json',
+      proofArtifactPath: '.proofs/v30/settlement-source-to-shares-proof.json',
       v32ClosureArtifactPath: ARTIFACT_PATH,
     },
     reconciliationCoverage: {

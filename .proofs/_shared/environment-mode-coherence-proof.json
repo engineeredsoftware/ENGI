@@ -1,0 +1,45 @@
+{
+  "reportId": "v26-environment-mode-coherence-proof",
+  "version": "V26",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "supportedModes": [
+    "mock",
+    "development",
+    "staging",
+    "production"
+  ],
+  "checks": [
+    {
+      "checkId": "environment-runtime-resolution",
+      "label": "Protocol runtime and external-realization resolution remain explicit",
+      "passed": true,
+      "detail": "3 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/src/canonical/v24-external-realization.js",
+        "protocol-demonstration/server.js",
+        "apps/uapi/app/api/external-realization/route.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "environment-application-controls-and-tests",
+      "label": "Application environment controls and route-local proof carriers remain explicit",
+      "passed": true,
+      "detail": "7 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/application/application-external-runtime.ts",
+        "apps/uapi/app/application/ApplicationExternalInterfacingPanel.tsx",
+        "apps/uapi/app/application/ApplicationFloatingDebugWidget.tsx",
+        "apps/uapi/tests/api/externalRealizationRoute.test.ts",
+        "apps/uapi/tests/applicationExternalRuntime.test.ts",
+        "apps/uapi/tests/applicationExternalInterfacingPanel.test.tsx",
+        "apps/uapi/tests/applicationFloatingDebugWidget.test.tsx"
+      ],
+      "missingFiles": []
+    }
+  ]
+}

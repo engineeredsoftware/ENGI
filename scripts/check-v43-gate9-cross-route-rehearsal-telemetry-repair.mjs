@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v43-cross-route-rehearsal-telemetry-repair.json';
+const ARTIFACT_PATH = '.proofs/v43/cross-route-rehearsal-telemetry-repair.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -103,18 +103,18 @@ function parseJson(output, failures, label) {
 
 function runFocusedTests(root, failures, args) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v43-cross-route-rehearsal-telemetry-repair.test.js']],
+    ['node', ['--test', '--test-force-exit', 'scripts/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js']],
   ];
 
   if (!args.skipPackageTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/deposit-asset-pack-option-admission.test.ts', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/deposit-asset-pack-option-admission.test.ts', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
     );
   }
 
   if (!args.skipUapiTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/depositPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/packsPageClient.test.tsx', 'tests/packActivityModel.test.ts', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/depositPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/packsPageClient.test.tsx', 'tests/packActivityModel.test.ts', '--runInBand']],
     );
   }
 
@@ -137,7 +137,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -159,20 +159,20 @@ function main() {
     'scripts/rehearse-v43-cross-route-product-flow.mjs',
     'scripts/generate-v43-cross-route-rehearsal-telemetry-repair.mjs',
     'scripts/check-v43-gate9-cross-route-rehearsal-telemetry-repair.mjs',
-    'packages/protocol/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js',
-    'packages/protocol/test/v43-cross-route-rehearsal-telemetry-repair.test.js',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/api/packs/activity/route.ts',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
-    'BITCODE_SPEC_V43.md',
-    'BITCODE_SPEC_V43_DELTA.md',
-    'BITCODE_SPEC_V43_NOTES.md',
-    'BITCODE_SPEC_V43_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'scripts/specifying/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js',
+    'scripts/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/api/packs/activity/route.ts',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    '.specifications/BITCODE_SPEC_V43.md',
+    '.specifications/BITCODE_SPEC_V43_DELTA.md',
+    '.specifications/BITCODE_SPEC_V43_NOTES.md',
+    '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

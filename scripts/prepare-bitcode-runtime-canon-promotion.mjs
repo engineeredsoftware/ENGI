@@ -52,10 +52,7 @@ function projectLabel(version) {
 }
 
 function promotedProvenPath(version) {
-  const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 26
-    ? `BITCODE_SPEC_${version}_PROVEN.md`
-    : `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
+  return `BITCODE_SPEC_${version}_PROVEN.md`;
 }
 
 /**
@@ -107,7 +104,7 @@ function rewriteReadme(content, version, nextDraft) {
     `\`BITCODE_SPEC.txt -> ${version}\`.`
   );
   rewritten = rewritten.replace(
-    /^- current generated appendix: `(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)`$/m,
+    /^- current generated appendix: `BITCODE_SPEC_V\d+_PROVEN\.md`$/m,
     `- current generated appendix: \`${promotedProvenPath(version)}\``
   );
   rewritten = rewritten.replace(
@@ -115,11 +112,11 @@ function rewriteReadme(content, version, nextDraft) {
     `resolves to \`${version}\`; ${nextDraft} is the next draft target after this promotion.`
   );
   rewritten = rewritten.replace(
-    /`BITCODE_SPEC\.txt -> V\d+`\.\s+This\s+demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
+    /`BITCODE_SPEC\.txt -> V\d+`\.\s+This\s+demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
     `\`BITCODE_SPEC.txt -> ${version}\`. This demo is governed by the active ${version} canonical\nspec and \`${promotedProvenPath(version)}\` as the current generated appendix.`
   );
   rewritten = rewritten.replace(
-    /This\s+demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
+    /This\s+demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
     `This demo is governed by the active ${version} canonical\nspec and \`${promotedProvenPath(version)}\` as the current generated appendix.`
   );
   rewritten = rewritten.replace(
@@ -156,7 +153,7 @@ function rewritePackageReadme(content, version, nextDraft) {
     `must remain aligned to \`${version}\` active, \`${nextDraft}\` draft after promotion.`
   ).replace(
     /V\d+ Gate 10 will promote this package posture by rewriting those same runtime\s+carriers to `V\d+` active, `V\d+` draft and regenerating the V\d+ generated\s+appendix plus `\.bitcode\/v\d+-\*` promotion artifacts\./m,
-    `${version} Gate 10 promoted this package posture by rewriting those same runtime\ncarriers to \`${version}\` active, \`${nextDraft}\` draft and regenerating the ${version} generated\nappendix plus \`.bitcode/${version.toLowerCase()}-*\` promotion artifacts.`
+    `${version} Gate 10 promoted this package posture by rewriting those same runtime\ncarriers to \`${version}\` active, \`${nextDraft}\` draft and regenerating the ${version} generated\nappendix plus \`.proofs/${version.toLowerCase()}-*\` promotion artifacts.`
   );
 }
 
@@ -211,34 +208,107 @@ async function main() {
   const nextDraft = args.nextDraft || deriveNextDraft(version);
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
 
+  // Living carriers (post-protocol-demonstration): specifying package.
+  const specifyingCanonPosturePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'src', 'canon-posture.js');
+  const specifyingReadmePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'README.md');
+  const specifyingDataStatePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'data', 'state.json');
+  // Optional legacy / alternate carriers (may be absent).
   const demonstrationCanonPosturePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'src', 'canon-posture.js');
   const demonstrationReadmePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'README.md');
   const packageCanonPosturePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'src', 'canon-posture.js');
   const packageReadmePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'README.md');
   const packageDataStatePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'data', 'state.json');
 
-  const [demonstrationCanonPostureContent, demonstrationReadmeContent] = await Promise.all([
-    fs.readFile(demonstrationCanonPosturePath, 'utf8'),
-    fs.readFile(demonstrationReadmePath, 'utf8')
-  ]);
-  const [packageCanonPostureContent, packageReadmeContent, packageDataStateContent] = await Promise.all([
+  const [
+    specifyingCanonPostureContent,
+    specifyingReadmeContent,
+    specifyingDataStateContent,
+    demonstrationCanonPostureContent,
+    demonstrationReadmeContent,
+    packageCanonPostureContent,
+    packageReadmeContent,
+    packageDataStateContent,
+  ] = await Promise.all([
+    fs.readFile(specifyingCanonPosturePath, 'utf8'),
+    readOptionalFile(specifyingReadmePath),
+    readOptionalFile(specifyingDataStatePath),
+    readOptionalFile(demonstrationCanonPosturePath),
+    readOptionalFile(demonstrationReadmePath),
     readOptionalFile(packageCanonPosturePath),
     readOptionalFile(packageReadmePath),
-    readOptionalFile(packageDataStatePath)
+    readOptionalFile(packageDataStatePath),
   ]);
 
+  /** @type {Promise<void>[]} */
   const writes = [
-    fs.writeFile(demonstrationCanonPosturePath, rewriteCanonPostureSource(demonstrationCanonPostureContent, version, nextDraft), 'utf8'),
-    fs.writeFile(demonstrationReadmePath, rewriteReadme(demonstrationReadmeContent, version, nextDraft), 'utf8')
+    fs.writeFile(
+      specifyingCanonPosturePath,
+      rewriteCanonPostureSource(specifyingCanonPostureContent, version, nextDraft),
+      'utf8',
+    ),
   ];
+  if (specifyingReadmeContent !== null) {
+    writes.push(
+      fs.writeFile(
+        specifyingReadmePath,
+        rewritePackageReadme(specifyingReadmeContent, version, nextDraft),
+        'utf8',
+      ),
+    );
+  }
+  if (specifyingDataStateContent !== null) {
+    writes.push(
+      fs.writeFile(
+        specifyingDataStatePath,
+        rewriteRuntimeDataState(specifyingDataStateContent, version, nextDraft),
+        'utf8',
+      ),
+    );
+  }
+  if (demonstrationCanonPostureContent !== null) {
+    writes.push(
+      fs.writeFile(
+        demonstrationCanonPosturePath,
+        rewriteCanonPostureSource(demonstrationCanonPostureContent, version, nextDraft),
+        'utf8',
+      ),
+    );
+  }
+  if (demonstrationReadmeContent !== null) {
+    writes.push(
+      fs.writeFile(
+        demonstrationReadmePath,
+        rewriteReadme(demonstrationReadmeContent, version, nextDraft),
+        'utf8',
+      ),
+    );
+  }
   if (packageCanonPostureContent !== null) {
-    writes.push(fs.writeFile(packageCanonPosturePath, rewriteCanonPostureSource(packageCanonPostureContent, version, nextDraft), 'utf8'));
+    writes.push(
+      fs.writeFile(
+        packageCanonPosturePath,
+        rewriteCanonPostureSource(packageCanonPostureContent, version, nextDraft),
+        'utf8',
+      ),
+    );
   }
   if (packageReadmeContent !== null) {
-    writes.push(fs.writeFile(packageReadmePath, rewritePackageReadme(packageReadmeContent, version, nextDraft), 'utf8'));
+    writes.push(
+      fs.writeFile(
+        packageReadmePath,
+        rewritePackageReadme(packageReadmeContent, version, nextDraft),
+        'utf8',
+      ),
+    );
   }
   if (packageDataStateContent !== null) {
-    writes.push(fs.writeFile(packageDataStatePath, rewriteRuntimeDataState(packageDataStateContent, version, nextDraft), 'utf8'));
+    writes.push(
+      fs.writeFile(
+        packageDataStatePath,
+        rewriteRuntimeDataState(packageDataStateContent, version, nextDraft),
+        'utf8',
+      ),
+    );
   }
   await Promise.all(writes);
 

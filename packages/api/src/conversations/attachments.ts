@@ -4,7 +4,7 @@
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
-import { AttachmentReference, AttachmentCategory } from '@bitcode/attachments-generics';
+import { AttachmentReference, AttachmentCategory } from '@bitcode/attachment-generics';
 import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 
@@ -182,16 +182,16 @@ export async function createConversationAttachment(options: any): Promise<any> {
 
 function mapAttachmentTypeCarrier(type: string): AttachmentCategory {
   const mapping: Record<string, AttachmentCategory> = {
-    'asset-pack': 'integration',
-    'shippable': 'integration',
-    'evidence_document': 'integration',
-    'connection': 'integration',
+    'asset-pack': 'external',
+    'settle_delivery': 'external',
+    'evidence_document': 'external',
+    'connection': 'external',
     'file': 'file',
     'image': 'file',
-    'url': 'url',
-    'issue': 'vcs',
-    'pr': 'vcs',
-    'commit': 'vcs'
+    'external': 'external',
+    'issue': 'external',
+    'pr': 'external',
+    'commit': 'external'
   };
   
   return mapping[type] || 'file';

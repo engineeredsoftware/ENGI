@@ -1,0 +1,449 @@
+/**
+ * Deposit option review, selection toggle, and batch admission handlers.
+ *
+ * Each confirmed deposit writes one ledger row per option with that option's
+ * absolute measurements — never the full session admission report.
+ */
+"use client";
+
+import { useCallback, type Dispatch, type SetStateAction } from "react";
+import { trackProductEvent } from "@/lib/product-analytics";
+import { bitcodeQaTelemetry } from "@bitcode/auth/qa-telemetry";
+import {
+  buildDepositRouteSession,
+  writeDepositRouteStage,
+  type DepositRouteSession,
+} from "@/components/deposits/models/deposit-route-model";
+import { buildDepositOptionAdmissionActivityDraft } from "@/components/deposits/models/deposit-admission-activity";
+import type { DepositOptionReviewDecisionState } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
+import type { ProductActivityRecordDraft } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
+
+export function useDepositOptionActions(input: {
+  depositRouteInput: Parameters<typeof buildDepositRouteSession>[0];
+  optionReviewDecisions: Record<string, DepositOptionReviewDecisionState>;
+  setOptionReviewDecisions: Dispatch<
+    SetStateAction<Record<string, DepositOptionReviewDecisionState>>
+  >;
+  setOptionsRequested: (value: boolean) => void;
+  selectedPackIds: string[];
+  setSelectedPackIds: Dispatch<SetStateAction<string[]>>;
+  confirmingBatchDeposit: boolean;
+  setConfirmingBatchDeposit: (value: boolean) => void;
+  userId: string | null | undefined;
+  preferredSignerAddress: string | null;
+  readCurrentSearchParams: () => URLSearchParams;
+  replaceDepositSearchParams: (params: URLSearchParams) => void;
+  handleRecordActivity: (
+    draft: ProductActivityRecordDraft,
+  ) => Promise<unknown>;
+  setRunsLoadError: (error: string | null) => void;
+}) {
+  const {
+    depositRouteInput,
+    optionReviewDecisions,
+    setOptionReviewDecisions,
+    setOptionsRequested,
+    selectedPackIds,
+    setSelectedPackIds,
+    confirmingBatchDeposit,
+    setConfirmingBatchDeposit,
+    userId,
+    preferredSignerAddress,
+    readCurrentSearchParams,
+    replaceDepositSearchParams,
+    handleRecordActivity,
+    setRunsLoadError,
+  } = input;
+
+  const findOption = useCallback(
+    (optionId: string) =>
+      depositRouteInput?.precomputedOptionSynthesis?.options?.find(
+        (entry) => entry.optionId === optionId,
+      ) ?? null,
+    [depositRouteInput],
+  );
+
+  const handleOptionReviewDecision = useCallback(
+    async (optionId: string, decision: DepositOptionReviewDecisionState) => {
+      if (optionReviewDecisions[optionId] === "approved-for-admission") {
+        return;
+      }
+      const nextDecisions = {
+        ...optionReviewDecisions,
+        [optionId]: decision,
+      };
+      setOptionsRequested(true);
+      setOptionReviewDecisions(nextDecisions);
+
+      const nextDecisionRecords = Object.entries(nextDecisions).map(
+        ([entryOptionId, entryDecision]) => ({
+          optionId: entryOptionId,
+          decision: entryDecision,
+          reviewerId: userId || preferredSignerAddress || null,
+        }),
+      );
+      const nextSession = buildDepositRouteSession({
+        ...depositRouteInput,
+        optionsRequested: true,
+        hasReviewedOption: true,
+        optionReviewDecisions: nextDecisionRecords,
+      });
+      const receipt = nextSession.admission.receipts.find(
+        (entry) => entry.optionId === optionId,
+      );
+      const admitted = receipt?.admission.state === "admitted-to-depository";
+      trackProductEvent({
+        name: "deposit_option_review",
+        data: { decision, admitted },
+      });
+      replaceDepositSearchParams(
+        writeDepositRouteStage(
+          readCurrentSearchParams(),
+          admitted ? "read-depository-state" : "review-options",
+        ),
+      );
+
+      if (!receipt) return;
+
+      try {
+        if (admitted) {
+          const option = findOption(optionId);
+          await handleRecordActivity(
+            buildDepositOptionAdmissionActivityDraft({
+              receipt,
+              option,
+              synthesisRunId: depositRouteInput?.transactionId || null,
+            }),
+          );
+          // Background: static search document + absolute facets + optional embed.
+          try {
+            // depository_search_documents.asset_id is UUID — prefer activity/execution id.
+            const assetId =
+              receipt.packsActivitySync?.activityId ||
+              receipt.admission?.depositoryAssetPackId ||
+              optionId;
+            const coveredSourcePaths =
+              option?.contents?.provenantSourcePaths ||
+              option?.sourceBinding?.sourcePathRoots ||
+              [];
+            // Measurements may be nested { absolutes, materialIdentity } or flat.
+            // Server expands volumes to full commercial catalogue + embeds commercial NL.
+            const rawMeasurements = option?.measurements as
+              | unknown[]
+              | { absolutes?: unknown[]; materialIdentity?: unknown }
+              | undefined;
+            const measurements = Array.isArray(rawMeasurements)
+              ? rawMeasurements
+              : Array.isArray((rawMeasurements as { absolutes?: unknown[] })?.absolutes)
+                ? ((rawMeasurements as { absolutes: unknown[] }).absolutes as unknown[])
+                : [];
+            const materialIdentity =
+              rawMeasurements &&
+              typeof rawMeasurements === 'object' &&
+              !Array.isArray(rawMeasurements) &&
+              (rawMeasurements as { materialIdentity?: unknown }).materialIdentity &&
+              typeof (rawMeasurements as { materialIdentity?: unknown }).materialIdentity ===
+                'object'
+                ? ((rawMeasurements as { materialIdentity: Record<string, unknown> })
+                    .materialIdentity)
+                : (option as { materialIdentity?: Record<string, unknown> })?.materialIdentity ||
+                  null;
+            const absoluteKinds = measurements
+              .map((m) =>
+                String(
+                  (m as { measurementKind?: string; kind?: string; id?: string })
+                    .measurementKind ||
+                    (m as { kind?: string }).kind ||
+                    (m as { id?: string }).id ||
+                    '',
+                ).trim(),
+              )
+              .filter(Boolean);
+            const absoluteVolumes: Record<string, number> = {};
+            for (const m of measurements) {
+              const kind = String(
+                (m as { measurementKind?: string; kind?: string; id?: string })
+                  .measurementKind ||
+                  (m as { kind?: string }).kind ||
+                  (m as { id?: string }).id ||
+                  '',
+              ).trim();
+              if (!kind) continue;
+              const vol = Number((m as { volume?: number }).volume);
+              if (Number.isFinite(vol)) absoluteVolumes[kind] = vol;
+            }
+            // Sparse fixtures for semantic/lexical measurement language.
+            const absoluteFixtures = measurements
+              .map((m) => {
+                const row = m as {
+                  measurementKind?: string;
+                  kind?: string;
+                  id?: string;
+                  label?: string;
+                  descriptor?: string;
+                  description?: string;
+                  volume?: number;
+                  status?: string;
+                  category?: string;
+                };
+                const kind = String(
+                  row.measurementKind || row.kind || row.id || '',
+                ).trim();
+                if (!kind) return null;
+                const volume = Number(row.volume);
+                const status = String(row.status || '').trim().toLowerCase();
+                const descriptor = String(
+                  row.descriptor || row.description || '',
+                ).trim();
+                const isFill =
+                  status === 'expanded-fill' ||
+                  status === 'fill' ||
+                  status === 'insufficient';
+                if (isFill && !(volume > 0) && !descriptor) return null;
+                if (!(volume > 0) && !descriptor && !row.label) return null;
+                return {
+                  measurementKind: kind,
+                  label: row.label ? String(row.label).trim() : undefined,
+                  descriptor: descriptor
+                    ? descriptor.slice(0, 240)
+                    : undefined,
+                  volume: Number.isFinite(volume) ? volume : 0,
+                  status: status || undefined,
+                  category: row.category
+                    ? String(row.category).trim()
+                    : undefined,
+                };
+              })
+              .filter(Boolean);
+            const commercialTitle =
+              typeof (option as { commercialTitle?: string })?.commercialTitle ===
+              'string'
+                ? String((option as { commercialTitle: string }).commercialTitle).trim()
+                : null;
+            const commercialDescription =
+              typeof (option as { commercialDescription?: string })
+                ?.commercialDescription === 'string'
+                ? String(
+                    (option as { commercialDescription: string })
+                      .commercialDescription,
+                  ).trim()
+                : null;
+            void fetch('/api/depository/index', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                assetId,
+                title: receipt.title || option?.title || null,
+                summary: option?.summary || null,
+                commercialTitle: commercialTitle || null,
+                commercialDescription: commercialDescription || null,
+                kind: option?.kind || null,
+                repositoryFullName:
+                  depositRouteInput?.repositoryFullName || null,
+                lifecycle: 'admitted-to-depository',
+                topics: [],
+                coveredSourcePaths,
+                absoluteKinds,
+                absoluteVolumes,
+                absoluteFixtures,
+                materialIdentity,
+              }),
+            }).catch(() => {
+              /* index is best-effort; admission already succeeded */
+            });
+          } catch {
+            /* optional */
+          }
+        } else {
+          await handleRecordActivity({
+            type: "pipeline:deposit-option-review",
+            status: "completed",
+            summary:
+              decision === "rejected-by-depositor"
+                ? `Archived ${receipt.title} (re-depositable; measurements staled by time trigger resynthesis).`
+                : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
+            selectAfterRecord: false,
+            output: {
+              assetPackTitle: receipt.title,
+              optionId,
+              admissionState: receipt.admission.state,
+              admissionBlockers: receipt.admission.blockers,
+            },
+            context: {
+              source: "deposit-option-review-admission",
+              workbench: "deposit-option-review",
+              optionId,
+              reviewDecision: decision,
+              admissionState: receipt.admission.state,
+              synthesisRunId: depositRouteInput?.transactionId || null,
+            },
+          });
+        }
+      } catch (error) {
+        setRunsLoadError(
+          error instanceof Error
+            ? error.message
+            : "Unable to record deposit option review.",
+        );
+      }
+    },
+    [
+      depositRouteInput,
+      findOption,
+      handleRecordActivity,
+      optionReviewDecisions,
+      preferredSignerAddress,
+      readCurrentSearchParams,
+      replaceDepositSearchParams,
+      setOptionReviewDecisions,
+      setOptionsRequested,
+      setRunsLoadError,
+      userId,
+    ],
+  );
+
+  const handleToggleSelect = useCallback(
+    (optionId: string) => {
+      setConfirmingBatchDeposit(false);
+      setSelectedPackIds((current) =>
+        current.includes(optionId)
+          ? current.filter((id) => id !== optionId)
+          : [...current, optionId],
+      );
+    },
+    [setConfirmingBatchDeposit, setSelectedPackIds],
+  );
+
+  const handleDepositSelected = useCallback(async () => {
+    const idsToDeposit = selectedPackIds.filter(
+      (id) => optionReviewDecisions[id] !== "approved-for-admission",
+    );
+    if (idsToDeposit.length === 0) return;
+    if (!confirmingBatchDeposit) {
+      setConfirmingBatchDeposit(true);
+      return;
+    }
+    setConfirmingBatchDeposit(false);
+
+    // Preview session with all selected marked approved — then only persist
+    // decisions that actually admit (or archive-style non-admit).
+    const previewDecisions = { ...optionReviewDecisions };
+    for (const id of idsToDeposit) {
+      previewDecisions[id] = "approved-for-admission";
+    }
+    const previewRecords = Object.entries(previewDecisions).map(
+      ([optionId, decision]) => ({
+        optionId,
+        decision,
+        reviewerId: userId || preferredSignerAddress || null,
+      }),
+    );
+    const nextSession: DepositRouteSession = buildDepositRouteSession({
+      ...depositRouteInput,
+      optionsRequested: true,
+      hasReviewedOption: true,
+      optionReviewDecisions: previewRecords,
+    });
+    const admittedReceipts = nextSession.admission.receipts.filter(
+      (entry) =>
+        idsToDeposit.includes(entry.optionId) &&
+        entry.admission.state === "admitted-to-depository",
+    );
+    const blockedReceipts = nextSession.admission.receipts.filter(
+      (entry) =>
+        idsToDeposit.includes(entry.optionId) &&
+        entry.admission.state !== "admitted-to-depository",
+    );
+
+    // Only flip React state to admitted for packs that actually admitted.
+    const nextDecisions = { ...optionReviewDecisions };
+    for (const receipt of admittedReceipts) {
+      nextDecisions[receipt.optionId] = "approved-for-admission";
+    }
+    setOptionsRequested(true);
+    setOptionReviewDecisions(nextDecisions);
+    setSelectedPackIds((current) =>
+      current.filter((id) => !admittedReceipts.some((r) => r.optionId === id)),
+    );
+
+    trackProductEvent({
+      name: "deposit_admission",
+      data: {
+        selectedCount: idsToDeposit.length,
+        admittedCount: admittedReceipts.length,
+      },
+    });
+    bitcodeQaTelemetry("info", "deposit-qa", "admission", {
+      selectedCount: idsToDeposit.length,
+      admittedCount: admittedReceipts.length,
+      blockedCount: blockedReceipts.length,
+      batchAdmitNtoN: admittedReceipts.length === idsToDeposit.length,
+      admittedOptionIds: admittedReceipts.map((r) => r.optionId),
+      blockedOptionIds: blockedReceipts.map((r) => r.optionId),
+      synthesisRunId: depositRouteInput?.transactionId || null,
+    });
+    replaceDepositSearchParams(
+      writeDepositRouteStage(
+        readCurrentSearchParams(),
+        admittedReceipts.length ? "read-depository-state" : "review-options",
+      ),
+    );
+
+    if (blockedReceipts.length > 0) {
+      const titles = blockedReceipts.map((r) => r.title).join("; ");
+      const blockers = blockedReceipts
+        .flatMap((r) => r.admission.blockers)
+        .slice(0, 6)
+        .join(", ");
+      setRunsLoadError(
+        admittedReceipts.length
+          ? `Admitted ${admittedReceipts.length} of ${idsToDeposit.length}. Blocked: ${titles}${blockers ? ` (${blockers})` : ""}.`
+          : `No AssetPacks admitted. Blocked: ${titles}${blockers ? ` (${blockers})` : ""}.`,
+      );
+    }
+
+    if (admittedReceipts.length === 0) return;
+
+    // One ledger row per admitted option — /exchange network scope keys on
+    // context.source=deposit-option-review-admission + admitted-to-depository.
+    try {
+      for (const receipt of admittedReceipts) {
+        await handleRecordActivity(
+          buildDepositOptionAdmissionActivityDraft({
+            receipt,
+            option: findOption(receipt.optionId),
+            synthesisRunId: depositRouteInput?.transactionId || null,
+          }),
+        );
+      }
+    } catch (error) {
+      setRunsLoadError(
+        error instanceof Error
+          ? error.message
+          : "Unable to record deposit admission.",
+      );
+    }
+  }, [
+    confirmingBatchDeposit,
+    depositRouteInput,
+    findOption,
+    handleRecordActivity,
+    optionReviewDecisions,
+    preferredSignerAddress,
+    readCurrentSearchParams,
+    replaceDepositSearchParams,
+    selectedPackIds,
+    setConfirmingBatchDeposit,
+    setOptionReviewDecisions,
+    setOptionsRequested,
+    setRunsLoadError,
+    setSelectedPackIds,
+    userId,
+  ]);
+
+  return {
+    handleOptionReviewDecision,
+    handleToggleSelect,
+    handleDepositSelected,
+  };
+}

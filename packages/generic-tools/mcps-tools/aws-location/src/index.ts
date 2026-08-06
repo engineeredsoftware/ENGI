@@ -1,20 +1,23 @@
 /**
  * AWS Location MCP Tools - Modern Tool Class Architecture
- * 
- * AWS Location Service integration tools using the Tool class pattern.
+ *
+ * Stubs inlined (no @bitcode/aws package — removed; artifact S3 is
+ * @bitcode/generic-artifacts-aws-provider).
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import {
-  awsLocationGeospatialQueryTool as _awsLocationGeospatialQuery,
-} from '@bitcode/aws';
-
-// Import DocCodeToolPrompt
 import { AWS_LOCATION_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/AWSLocationMCPDocCodeToolPrompt';
+
+async function _awsLocationGeospatialQuery(params: {
+  query: string;
+  [key: string]: unknown;
+}): Promise<{ results: unknown[] }> {
+  return { results: [] };
+}
 
 /**
  * AWS Location Geospatial Query Tool for location-based services
- * 
+ *
  * @doc-code-tool
  * @prompt AWS_LOCATION_MCP_DOC_CODE_TOOL_PROMPT
  */
@@ -22,11 +25,6 @@ class AwsLocationGeospatialQueryTool extends Tool<typeof _awsLocationGeospatialQ
   use = _awsLocationGeospatialQuery;
 }
 
-// Export singleton instances - proper non-barrel exports
 export const awsLocationGeospatialQueryTool = new AwsLocationGeospatialQueryTool();
-
-// Export DocCodeToolPrompt instance
 export { AWS_LOCATION_MCP_DOC_CODE_TOOL_PROMPT };
-
-// Export classes for type safety and extensibility
 export { AwsLocationGeospatialQueryTool };

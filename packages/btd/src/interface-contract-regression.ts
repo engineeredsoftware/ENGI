@@ -28,7 +28,7 @@ export type BtdInterfaceContractBoundaryKind =
   | 'api_route'
   | 'mcp_tool'
   | 'chatgpt_tool'
-  | 'terminal_ui'
+  | 'product_ui'
   | 'auxillaries_ui'
   | 'deferred_interface_hook';
 
@@ -127,16 +127,16 @@ export const BTD_INTERFACE_CONTRACT_REGRESSION_DEFERRED_SURFACES = [
 export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContractRegressionFixtureInput[] {
   return [
     {
-      surface: 'terminal',
+      surface: 'product',
       status: 'active_contract',
-      boundaryKind: 'terminal_ui',
-      contractOwner: 'uapi/app/terminal',
-      fixturePath: 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+      boundaryKind: 'product_ui',
+      contractOwner: 'apps/uapi/components/bitcode/pipeline',
+      fixturePath: 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
       authBoundary: 'authenticated_route',
       policyDenial: 'terminal-detail-denies-protected-source-before-paid-unlock',
       sourceSafetyClass: 'protected-source-locked',
       objectFamilies: ['btd_registry', 'read_access', 'terminal_journal', 'protocol_telemetry'],
-      sharedPrimitiveIds: ['TerminalTransactionReadModel', 'BtdReadAccessDecision'],
+      sharedPrimitiveIds: ['ProductTransactionReadModel', 'BtdReadAccessDecision'],
       assertions: DEFAULT_ASSERTIONS,
     },
     {
@@ -156,8 +156,8 @@ export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContr
       surface: 'mcp',
       status: 'active_contract',
       boundaryKind: 'mcp_tool',
-      contractOwner: 'packages/executions-mcp/src/mcp-server',
-      fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      contractOwner: 'apps/mcp',
+      fixturePath: 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       authBoundary: 'pipeline_permission',
       policyDenial: 'mcp-pipeline-write-denies-missing-pipelines-create',
       sourceSafetyClass: 'source-safe-internal',
@@ -170,7 +170,7 @@ export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContr
       status: 'active_contract',
       boundaryKind: 'chatgpt_tool',
       contractOwner: 'packages/chatgptapp',
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      fixturePath: 'apps/chatgpt/src/__tests__/tools.test.ts',
       authBoundary: 'confirmed_connected_write',
       policyDenial: 'chatgpt-app-write-denies-missing-confirmation-read-access-or-authority',
       sourceSafetyClass: 'source-safe-internal',
@@ -182,8 +182,8 @@ export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContr
       surface: 'auxillaries_hook',
       status: 'active_contract',
       boundaryKind: 'auxillaries_ui',
-      contractOwner: 'uapi/app/auxillaries',
-      fixturePath: 'uapi/tests/auxillariesContent.access.test.tsx',
+      contractOwner: 'apps/uapi/app/auxillaries',
+      fixturePath: 'apps/uapi/tests/auxillariesContent.access.test.tsx',
       authBoundary: 'support_plane_policy',
       policyDenial: 'auxillaries-support-plane-denies-protected-actions-without-interface-admission',
       sourceSafetyClass: 'source-safe-internal',
@@ -195,8 +195,8 @@ export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContr
       surface: 'exchange_hook',
       status: 'deferred_blocked',
       boundaryKind: 'deferred_interface_hook',
-      contractOwner: 'uapi/app/exchange',
-      fixturePath: 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+      contractOwner: 'apps/uapi/app/exchange',
+      fixturePath: 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
       authBoundary: 'deferred_not_admitted',
       policyDenial: 'exchange-hook-remains-blocked-until-exchange-product-depth-gate',
       sourceSafetyClass: 'deferred-blocker',
@@ -209,8 +209,8 @@ export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContr
       surface: 'conversations_hook',
       status: 'deferred_blocked',
       boundaryKind: 'deferred_interface_hook',
-      contractOwner: 'uapi/app/conversations',
-      fixturePath: 'uapi/tests/api/conversationsRouteRead.test.ts',
+      contractOwner: 'apps/uapi/app/conversations',
+      fixturePath: 'apps/uapi/tests/api/conversationsRouteRead.test.ts',
       authBoundary: 'deferred_not_admitted',
       policyDenial: 'conversations-hook-remains-blocked-until-conversations-product-depth-gate',
       sourceSafetyClass: 'deferred-blocker',
@@ -427,7 +427,7 @@ function assertBoundaryKind(boundaryKind: string): BtdInterfaceContractBoundaryK
     'api_route',
     'mcp_tool',
     'chatgpt_tool',
-    'terminal_ui',
+    'product_ui',
     'auxillaries_ui',
     'deferred_interface_hook',
   ];

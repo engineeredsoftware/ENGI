@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v42-reading-shortest-path-state-machine.json';
+const ARTIFACT_PATH = '.proofs/v42/reading-shortest-path-state-machine.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -85,7 +85,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -104,32 +104,32 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'uapi/app/terminal/TerminalPageClient.tsx',
-    'uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-deposit-read-workbench.ts',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-    'uapi/app/conversations/conversation-terminal-handoff.ts',
-    'uapi/app/terminal/terminal-transaction-query.ts',
-    'uapi/app/terminal/terminal-activity-history.ts',
-    'uapi/tests/terminalEnterpriseReadingUxState.test.ts',
-    'uapi/tests/terminalDepositReadWorkbench.test.ts',
-    'uapi/tests/conversationTerminalHandoff.test.tsx',
-    'uapi/tests/terminalTransactionQuery.test.ts',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'packages/protocol/src/canonical/v42-reading-shortest-path-state-machine.js',
-    'packages/protocol/test/v42-reading-shortest-path-state-machine.test.js',
+    'apps/uapi/app/ (removed cockpit tree) TerminalPageClient.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-enterprise-reading-ux-state.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
+    'apps/uapi/app/conversations/conversation-product-handoff.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-activity-history.ts',
+    'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts',
+    'apps/uapi/tests/terminalDepositReadWorkbench.test.ts',
+    'apps/uapi/tests/conversationTerminalHandoff.test.tsx',
+    'apps/uapi/tests/terminalTransactionQuery.test.ts',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'scripts/specifying/src/canonical/v42-reading-shortest-path-state-machine.js',
+    'scripts/specifying/test/v42-reading-shortest-path-state-machine.test.js',
     'scripts/generate-v42-reading-shortest-path-state-machine.mjs',
     'scripts/check-v42-gate3-reading-shortest-path-state-machine.mjs',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'uapi/app/terminal/README.md',
-    'packages/protocol/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -152,7 +152,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v42-reading-shortest-path-state-machine.test.js',
+        'scripts/specifying/test/v42-reading-shortest-path-state-machine.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 Reading shortest path state machine protocol test failed: ${error.stderr || error.message}`);
@@ -163,7 +163,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -221,12 +221,12 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 3 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V42.md');
-  const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V42.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   assertCheck(failures, spec.includes('V42 Gate 3') && spec.includes('reading shortest path state machine'), 'V42 spec must expand Gate 3 state machine.');
   assertCheck(failures, parity.includes('Reading state machine') && parity.includes('implemented'), 'V42 parity matrix must mark Reading state machine implemented.');
-  assertCheck(failures, terminalReadme.includes('V42 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingRouteState'), 'Terminal README must document Gate 3 route state.');
+  assertCheck(failures, terminalReadme.includes('V42 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingRouteState'), 'product README must document Gate 3 route state.');
 
   if (failures.length > 0) {
     process.stderr.write(`V42 Gate 3 Reading shortest path state machine check failed:\n- ${failures.join('\n- ')}\n`);

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-testnet-rollout-readiness-guide.json';
+const ARTIFACT_PATH = '.proofs/v35/testnet-rollout-readiness-guide.json';
 
 const REQUIRED_GUIDE_IDS = [
   'contributor_onboarding',
@@ -106,7 +106,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -125,21 +125,21 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/testnet-rollout-readiness-guide.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v35-testnet-rollout-readiness-guide.test.js',
+    'scripts/specifying/src/canonical/testnet-rollout-readiness-guide.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-testnet-rollout-readiness-guide.test.js',
     'scripts/generate-v35-testnet-rollout-readiness-guide.mjs',
     'scripts/check-v35-gate7-developer-operator-testnet-rollout-guides.mjs',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'BITCODE_SPEC_V35.md',
-    'BITCODE_SPEC_V35_DELTA.md',
-    'BITCODE_SPEC_V35_NOTES.md',
-    'BITCODE_SPEC_V35_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'scripts/specifying/src/canonical/v21-specifying.js',
+    '.specifications/BITCODE_SPEC_V35.md',
+    '.specifications/BITCODE_SPEC_V35_DELTA.md',
+    '.specifications/BITCODE_SPEC_V35_NOTES.md',
+    '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/docs/bitcode-docs-content.ts',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -160,7 +160,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -225,10 +225,10 @@ function main() {
     );
   }
 
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
   assertCheck(failures, protocolIndex.includes('buildTestnetRolloutReadinessGuide'), 'Protocol index must export buildTestnetRolloutReadinessGuide.');
 
-  const packageTypes = read(root, 'packages/protocol/src/index.d.ts');
+  const packageTypes = read(root, 'scripts/specifying/src/index.d.ts');
   assertCheck(failures, packageTypes.includes('buildTestnetRolloutReadinessGuide'), 'Protocol type surface must export buildTestnetRolloutReadinessGuide.');
 
   const packageJson = read(root, 'package.json');
@@ -239,14 +239,14 @@ function main() {
   assertCheck(failures, workflow.includes('check-v35-gate7-developer-operator-testnet-rollout-guides.mjs'), 'Gate workflow must run V35 Gate 7 checker when present.');
   assertCheck(failures, workflow.includes('test/v35-testnet-rollout-readiness-guide.test.js'), 'Gate workflow must run V35 rollout guide package test.');
 
-  const spec = read(root, 'BITCODE_SPEC_V35.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V35.md');
   assertCheck(failures, spec.includes('V35 TestnetRolloutReadinessGuide canon'), 'V35 spec must include TestnetRolloutReadinessGuide canon section.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH), 'V35 spec must name testnet rollout readiness artifact.');
 
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   assertCheck(failures, roadmap.includes('V35 Gate 7 closure anchor'), 'Roadmap must include V35 Gate 7 closure anchor.');
 
-  const publicDocs = read(root, 'uapi/app/docs/bitcode-docs-content.ts');
+  const publicDocs = read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts');
   assertCheck(failures, publicDocs.includes('testnet rollout readiness'), 'Public docs must mention testnet rollout readiness source-safe posture.');
 
   if (failures.length > 0) {

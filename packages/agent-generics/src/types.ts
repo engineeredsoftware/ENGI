@@ -5,7 +5,16 @@
  * Agents organize Actions, Actions sequence Steps, Steps sequence GenerationSteps.
  */
 
-export type { PreparedContext } from '@bitcode/context';
+export type { PreparedContext } from '@bitcode/generic-generations-failsafes';
+import {
+  FailsafeGeneration,
+  ThinkingsGeneration,
+} from '@bitcode/generation-generics';
+export {
+  FailsafeGeneration,
+  ThinkingsGeneration,
+  type Generation,
+} from '@bitcode/generation-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import { Tool } from '@bitcode/tools-generics';
@@ -13,77 +22,57 @@ import { Tool } from '@bitcode/tools-generics';
 // ==================== PTRR ENUMS ====================
 
 /**
- * Agent Variation Steps - The four fundamental steps
- * Plan-Try-Refine-Retry: The methodology for intelligent execution
+ * Agent Variation Steps — the four fundamental steps in execution order:
+ * Plan → Try → Retry → Refine.
  */
 export enum AgentVariationStep {
-  PLAN = 'plan',      // Focus: (NO TOOLS) Plan the optimal 'Try'
-  TRY = 'try',        // Focus: Attempt primary agent's objective
-  RETRY = 'retry',    // Focus: Re-attempt given obvious 'Try' failures
-  REFINE = 'refine'   // Focus: (NO TOOLS) Synthesize steps' ultimate objective results
+  PLAN = 'plan',      // Focus: (NO TOOLS) Plan the optimal 'Try' (incl. tool use)
+  TRY = 'try',        // Focus: Attempt primary agent's objective (tools postprocess)
+  RETRY = 'retry',    // Focus: Re-attempt Try given prior Try errors / usedTools
+  REFINE = 'refine'   // Focus: (NO TOOLS) Final agent return — same type as agent
 }
 
 /**
- * FailsafeMetaSubStep - Parent executions handling EXACTLY three concerns:
- * 1. CONTEXT SIGNAL/NOISE - PrepareConciseContext filters and prepares
- * 2. BIG INPUT - ChunkThenSum handles input that exceeds token limits
- * 3. CONVERSATIONSUTPUT - StitchUntilComplete handles output that exceeds token limits
- * 
- * CRITICAL: Each runs the EXACT SAME generation sequence as children
+ * PTRR step generation architecture — EXACTLY 7 generation units per step:
+ * 3 FailsafeGenerations × Thinkings (3) composition + 1 tools postprocess.
+ *
+ * Hierarchy within a step:
+ *   FailsafeGeneration (PCC → ChunkThenSum → Stitch)
+ *     → each runs ThinkingsGeneration (Reason → Judge → StructuredOutput)
+ *   + tools_execution after failsafes
  */
-export enum FailsafeMetaSubStep {
-  PREPARE_CONCISE_CONTEXT = 'prepare_concise_context',  // CONTEXT SIGNAL/NOISE handling
-  CHUNK_THEN_SUM = 'chunk_then_sum',                    // BIG INPUT handling  
-  STITCH_UNTIL_COMPLETE = 'stitch_until_complete'       // CONVERSATIONSUTPUT handling
-}
-
-/**
- * GenerationSubMetaSubStep - The EXACT sequence run by EVERY failsafe
- * ALWAYS runs: Reason → Judge → StructuredOutput (sequential, no conditionals)
- * 
- * This is the intelligence production sequence: think, judge the thinking, format results
- */
-export enum GenerationSubMetaSubStep {
-  REASON = 'reason',                    // Step 1: Apply reasoning and logic (first thinking step)
-  JUDGE = 'judge',                      // Step 2: Judge the quality of the reasoning (second thinking step)
-  STRUCTURED_OUTPUT = 'structured_output' // Step 3: Format reasoning+judgment into typed output (no thinking, just formatting)
-}
-
-/**
- * The complete PTRR substep architecture - EXACTLY 7 substeps per step
- * 3 FailsafeMetaSubSteps + 3 GenerationSubMetaSubSteps + 1 Tool execution
- */
-export interface PTRRSubStepArchitecture {
-  failsafeMetaSubSteps: [
-    FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT,
-    FailsafeMetaSubStep.CHUNK_THEN_SUM,
-    FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE
+export interface PTRRStepGenerationArchitecture {
+  failsafeGenerations: [
+    FailsafeGeneration.PREPARE_CONCISE_CONTEXT,
+    FailsafeGeneration.CHUNK_THEN_SUM,
+    FailsafeGeneration.STITCH_UNTIL_COMPLETE
   ];
-  generationSubMetaSubSteps: [
+  thinkingsGenerations: [
     // CRITICAL ORDER: Reason → Judge → StructuredOutput
-    GenerationSubMetaSubStep.REASON,
-    GenerationSubMetaSubStep.JUDGE,
-    GenerationSubMetaSubStep.STRUCTURED_OUTPUT
+    ThinkingsGeneration.REASON,
+    ThinkingsGeneration.JUDGE,
+    ThinkingsGeneration.STRUCTURED_OUTPUT
   ];
   toolExecution: 'tools_execution';
   total: 7; // Type-level assertion
 }
 
+
 /**
  * Failsafe execution context - what each failsafe handles
  */
 export interface FailsafeContext {
-  [FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT]: {
+  [FailsafeGeneration.PREPARE_CONCISE_CONTEXT]: {
     purpose: 'CONTEXT SIGNAL/NOISE';
-    input: 'Raw execution context from pipeline root';
-    output: 'PreparedContext[] - single or chunked';
+    input: 'Keys-only tree of the FULL root execution state (values never included)';
+    output: 'Selected keys + the read-in selected context values';
   };
-  [FailsafeMetaSubStep.CHUNK_THEN_SUM]: {
+  [FailsafeGeneration.CHUNK_THEN_SUM]: {
     purpose: 'BIG INPUT';
-    input: 'PreparedContext[] from previous step';
-    output: 'Processed result (chunked parallel or single)';
+    input: 'Task input + PCC-selected context values';
+    output: 'Task result (one pass, or per-chunk passes + one summing pass)';
   };
-  [FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE]: {
+  [FailsafeGeneration.STITCH_UNTIL_COMPLETE]: {
     purpose: 'CONVERSATIONSUTPUT';
     input: 'Potentially truncated output';
     output: 'Complete validated output matching schema';
@@ -96,10 +85,10 @@ export interface FailsafeContext {
  * Agent - Executor that sequences PTRR steps
  * 
  * Agents are Executors that implement intelligence through
- * the PTRR (Plan-Try-Refine-Retry) pattern with 7 substeps.
+ * the PTRR (Plan-Try-Retry-Refine) pattern with Failsafe×Thinkings generations.
  * No more variations - agents are selected from registries dynamically.
  * 
- * Execution hierarchy: Agent → Step → SubStep
+ * Execution hierarchy: Agent → Step → FailsafeGeneration → ThinkingsGeneration
  */
 export interface Agent<TInput = any, TOutput = any> extends Executor<TInput, TOutput> {
   readonly name: string;
@@ -155,7 +144,11 @@ export interface Chunk {
 
 export interface Reasoning {
   analysis: string;
-  steps: string[];
+  /**
+   * Ordered reasoning points within a Reason generation (not PTRR Steps).
+   * Never name this `steps` — that term is reserved for ExecutionAgentPTRRStep.
+   */
+  reasoningItems: string[];
   conclusion: string;
   confidence: number;
   useTools?: UseTool[];
@@ -169,20 +162,55 @@ export interface Judgment {
   approved: boolean;
 }
 
-// TODO: should this be in tools-generics?
+/**
+ * Planned tool invocation selected by Thinkings structured output.
+ * Canonical LLM JSON shape (also accepted by factoryToolsExecution):
+ *   { "name": string, "input": object, "reason"?: string }
+ *
+ * `name` keys `AgentToolsRegistry.getTool(name)`. Optional `tool` field may
+ * carry a Tool instance in typed in-process callers; execution still looks up by name.
+ */
 export interface UseTool {
-  tool: Tool;  // Reference to actual tool
-  name: string; // Tool name for lookup
+  name: string;
   input: any;
-  reason: string;
+  reason?: string;
+  /** Optional in-process Tool handle; registry lookup uses `name`. */
+  tool?: Tool;
 }
-export type UseTools = UseTool[]
+export type UseTools = UseTool[];
 
-// TODO: should this be in tools-generics?
+/**
+ * One wave of tool execution inside Try/Retry postprocess.
+ * - sequential: run tools one after another (later can see earlier usedTools)
+ * - parallel: run tools concurrently on the same prior usedTools snapshot
+ * Prefer one of sequential|parallel per wave; if both present, sequential runs
+ * first then parallel on the updated usedTools bag.
+ */
+export interface ToolWave {
+  sequential?: UseTool[];
+  parallel?: UseTool[];
+  /** Optional label for telemetry (e.g. static-analysis, material-identity). */
+  label?: string;
+}
+
+/**
+ * Sequenced multi-wave tool plan for aggressive Try/Retry tool orchestration.
+ * Flat `useTools[]` remains the default (one sequential wave).
+ * When `toolPlan` is present and non-empty it takes precedence over flat useTools.
+ */
+export type ToolPlan = ToolWave[];
+
+/**
+ * Result of one tools_execution postprocess call (telemetry + results interpolation).
+ * Written to step store as `tools.used` / `tools.result` and carried as `usedTools`
+ * on the step output for Refine/Retry prompt interpolation (`auto:tools_results`).
+ */
 export interface UsedTool {
   tool: string;
   input?: any;
   output?: any;
   error?: string;
+  /** Wave index when executed via toolPlan (0-based). */
+  waveIndex?: number;
 }
-export type UsedTools = UsedTool[]
+export type UsedTools = UsedTool[];

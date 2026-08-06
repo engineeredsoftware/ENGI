@@ -1,5 +1,5 @@
 {
-  "name": "@bitcode/mcps-tools-notion",
+  "name": "@bitcode/generic-tools-mcps-notion",
   "version": "1.0.0",
   "description": "MCP tools for Notion integration",
   "main": "dist/index.js",
@@ -10,10 +10,11 @@
     "dev": "tsc --watch",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx",
-    "type-check": "tsc --noEmit"
+    "type-check": "pnpm run typecheck",
+    "typecheck": "node ../../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit"
   },
   "dependencies": {
-    "@bitcode/notion": "workspace:*"
+    "@bitcode/externals-notion": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

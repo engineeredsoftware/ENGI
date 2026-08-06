@@ -10,7 +10,7 @@ import {
   V45_SOURCE_SAFE_E2E_REHEARSAL_LANE_IDS,
   V45_SOURCE_SAFE_E2E_REHEARSAL_SCHEMA_ID,
   buildV45SourceSafeEndToEndRehearsal,
-} from '../packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -128,7 +128,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 Gate 17 work. Observed ${pointer || 'empty'}.`);
 
@@ -143,17 +143,17 @@ function main() {
 
   for (const relativePath of [
     V45_SOURCE_SAFE_E2E_REHEARSAL_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js',
-    'packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js',
+    'scripts/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js',
+    'scripts/specifying/test/v45-source-safe-e2e-rehearsal.test.js',
     'scripts/generate-v45-source-safe-e2e-rehearsal.mjs',
     'scripts/check-v45-gate17-source-safe-e2e-rehearsal.mjs',
     'scripts/rehearse-v45-source-safe-e2e.mjs',
-    'BITCODE_SPEC_V45.md',
-    'BITCODE_SPEC_V45_DELTA.md',
-    'BITCODE_SPEC_V45_NOTES.md',
-    'BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_DELTA.md',
+    '.specifications/BITCODE_SPEC_V45_NOTES.md',
+    '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -241,12 +241,12 @@ function main() {
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const spec = read(root, 'BITCODE_SPEC_V45.md');
-  const delta = read(root, 'BITCODE_SPEC_V45_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V45_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V45.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V45_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V45_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
   const rootReadme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
 
   for (const phrase of [
     'generate:v45-source-safe-e2e-rehearsal',
@@ -312,7 +312,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -320,7 +320,7 @@ function main() {
         'test/v45-source-safe-e2e-rehearsal.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js must pass.');
+      failures.push('scripts/specifying/test/v45-source-safe-e2e-rehearsal.test.js must pass.');
     }
   }
 

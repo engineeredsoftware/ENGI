@@ -23,7 +23,6 @@ done < <(
   rg -l "@bitcode/prompts/raw_promptparts/(generic|specific)" "$repo_root/packages" \
     --glob '*.ts' \
     --glob '*.tsx' \
-    --glob '!_legacy/**' \
     --glob '!node_modules/**' || true
 )
 

@@ -5,13 +5,15 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
     "ai": "^3.4.33",
     "zod": "^3.20.2",
     "@bitcode/tools-generics": "workspace:*",
-    "@bitcode/git": "workspace:*",
+    "@bitcode/generic-vcs-git": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/files": "workspace:*"
   },

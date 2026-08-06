@@ -1,5 +1,5 @@
 -- Saved query name: v28_qa_terminal_03_btd_ledger_after_terminal
--- Purpose: run after Terminal Read/Deposit/Fit/branch actions to check whether
+-- Purpose: run after product Read/Deposit/Fit/branch actions to check whether
 -- BTD measuremint, range, BTC fee, journal, anchor, and reconciliation
 -- projections stayed internally consistent.
 

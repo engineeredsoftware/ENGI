@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_READ_ROUTE_FIVE_STEP_UX_ARTIFACT_PATH,
   buildV43ReadRouteFiveStepUx,
-} from '../packages/protocol/src/canonical/v43-read-route-five-step-ux.js';
+} from '../scripts/specifying/src/canonical/v43-read-route-five-step-ux.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +66,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V42', `BITCODE_SPEC.txt must remain V42 during V43 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -81,30 +81,30 @@ function main() {
 
   for (const relativePath of [
     V43_READ_ROUTE_FIVE_STEP_UX_ARTIFACT_PATH,
-    'uapi/app/read/read-route-model.ts',
-    'uapi/app/read/page.tsx',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/terminal/terminal-routes.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
-    'uapi/components/base/bitcode/layout/nav.tsx',
-    'uapi/components/base/bitcode/layout/workspace-surface.ts',
-    'uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
-    'uapi/components/base/bitcode/layout/bitcode-public-explainers.ts',
-    'uapi/components/base/bitcode/layout/footer.tsx',
-    'uapi/tests/readRouteModel.test.ts',
-    'uapi/tests/readPageClient.test.tsx',
-    'packages/protocol/src/canonical/v43-read-route-five-step-ux.js',
-    'packages/protocol/test/v43-read-route-five-step-ux.test.js',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/app/read/page.tsx',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-routes.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-enterprise-reading-ux-state.ts',
+    'apps/uapi/components/bitcode/layout/nav.tsx',
+    'apps/uapi/components/bitcode/layout/workspace-surface.ts',
+    'apps/uapi/components/bitcode/layout/bitcode-public-copy.ts',
+    'apps/uapi/components/bitcode/layout/bitcode-public-explainers.ts',
+    'apps/uapi/components/bitcode/layout/footer.tsx',
+    'apps/uapi/tests/readRouteModel.test.ts',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'scripts/specifying/src/canonical/v43-read-route-five-step-ux.js',
+    'scripts/specifying/test/v43-read-route-five-step-ux.test.js',
     'scripts/generate-v43-read-route-five-step-ux.mjs',
     'scripts/check-v43-gate4-read-route-five-step-ux.mjs',
-    'BITCODE_SPEC_V43.md',
-    'BITCODE_SPEC_V43_DELTA.md',
-    'BITCODE_SPEC_V43_NOTES.md',
-    'BITCODE_SPEC_V43_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V43.md',
+    '.specifications/BITCODE_SPEC_V43_DELTA.md',
+    '.specifications/BITCODE_SPEC_V43_NOTES.md',
+    '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -146,7 +146,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'readRouteModel.test.ts', 'readPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'readRouteModel.test.ts', 'readPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi readRouteModel.test.ts and readPageClient.test.tsx must pass.');
     }

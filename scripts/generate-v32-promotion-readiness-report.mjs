@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v32-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v32/promotion-readiness-report.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -76,7 +76,7 @@ export function buildV32PromotionReadinessReport() {
     scanTokens('scripts/check-v32-gate10-promotion-readiness.mjs', [
       'V32 Gate 10 promotion readiness',
       '--promotion-mode',
-      '.bitcode/v32-promotion-readiness-report.json',
+      '.proofs/v32/promotion-readiness-report.json',
     ]),
     scanTokens('scripts/promote-bitcode-canon.mjs', [
       "if (version === 'V32')",
@@ -87,8 +87,8 @@ export function buildV32PromotionReadinessReport() {
     scanTokens('scripts/prepare-bitcode-spec-family-promotion.mjs', [
       "if (version === 'V32')",
       'V32 canonical system specification for provation/testing',
-      'BITCODE_SPEC_V32_PROVEN.md',
-      '.bitcode/v32-promotion-readiness-report.json',
+      '.specifications/BITCODE_SPEC_V32_PROVEN.md',
+      '.proofs/v32/promotion-readiness-report.json',
     ]),
     scanTokens('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
       '--next-draft',
@@ -98,7 +98,7 @@ export function buildV32PromotionReadinessReport() {
     scanTokens('.github/workflows/v32-canon-promotion.yml', [
       "head.ref == 'version/v32'",
       'npm run promote:canon -- --version V32',
-      'BITCODE_SPEC_V32_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V32_PROVEN.md',
       'Promote V32 canon files',
     ]),
     scanTokens('.github/workflows/bitcode-gate-quality.yml', [
@@ -109,13 +109,13 @@ export function buildV32PromotionReadinessReport() {
       'elif [ "$POINTER" = "V32" ]',
       '--active-canon V32 --draft-target V33',
     ]),
-    scanTokens('packages/protocol/src/canonical/proven-generator.js', [
+    scanTokens('scripts/specifying/src/canonical/proven-generator.js', [
       'buildV32ProvenPackage',
       'buildV32PromotionReadinessReport',
-      '.bitcode/v32-promotion-readiness-report.json',
+      '.proofs/v32/promotion-readiness-report.json',
     ]),
-    scanTokens('packages/protocol/src/canonical/v21-specifying.js', [
-      '.bitcode/v32-promotion-readiness-report.json',
+    scanTokens('scripts/specifying/src/canonical/v21-specifying.js', [
+      '.proofs/v32/promotion-readiness-report.json',
     ]),
     scanTokens('package.json', [
       'generate:v32-promotion-readiness',
@@ -124,40 +124,40 @@ export function buildV32PromotionReadinessReport() {
     ]),
   ];
   const documentationEvidence = [
-    scanTokens('BITCODE_SPEC_V32.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V32.md', [
       'V32 local and staging promotion readiness canon',
-      '.bitcode/v32-promotion-readiness-report.json',
+      '.proofs/v32/promotion-readiness-report.json',
       'V32 active / V33 draft',
     ]),
-    scanTokens('BITCODE_SPEC_V32_DELTA.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V32_DELTA.md', [
       'Gate 10: V32 Promotion Readiness',
-      '.bitcode/v32-promotion-readiness-report.json',
+      '.proofs/v32/promotion-readiness-report.json',
       'promotion scripts support V32',
     ]),
-    scanTokens('BITCODE_SPEC_V32_NOTES.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V32_NOTES.md', [
       'Gate 10: V32 Promotion Readiness',
-      '.bitcode/v32-promotion-readiness-report.json',
+      '.proofs/v32/promotion-readiness-report.json',
       'active V32 / draft V33',
     ]),
-    scanTokens('BITCODE_SPEC_V32_PARITY_MATRIX.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md', [
       '## Gate 10 Parity',
-      '.bitcode/v32-promotion-readiness-report.json',
+      '.proofs/v32/promotion-readiness-report.json',
       'closed',
     ]),
-    scanTokens('BITCODE_V32_QA.md', [
+    scanTokens('.qa/BITCODE_V32_QA.md', [
       'Bitcode V32 QA Ledger',
       'Gate 10 Promotion Readiness QA',
       'source-safe',
     ]),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', [
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', [
       'Current working gate: V32 Gate 10 Promotion Readiness',
-      'BITCODE_SPEC_V32_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V32_PROVEN.md',
     ]),
     scanTokens('README.md', [
       'check:v32-gate10',
       'v32-canon-promotion.yml',
     ]),
-    scanTokens('packages/protocol/README.md', [
+    scanTokens('scripts/specifying/README.md', [
       'V32 Gate 10',
       'V32` active, `V33` draft',
     ]),
@@ -210,9 +210,9 @@ export function buildV32PromotionReadinessReport() {
       versionPromotionPullRequestTitlePrefix: 'V32 Canonical Promotion',
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'BITCODE_SPEC_V32_PROVEN.md',
+      provenAppendixPath: '.specifications/BITCODE_SPEC_V32_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v32-',
+      generatedArtifactPrefix: '.proofs/v32/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

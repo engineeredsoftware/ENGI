@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v39-depository-supply-indexing.json';
+const ARTIFACT_PATH = '.proofs/v39/depository-supply-indexing.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -85,7 +85,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -104,22 +104,22 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/depository-supply-index.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts',
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipelines/asset-pack/src/embedding-config.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/src/canonical/v39-depository-supply-indexing.js',
-    'packages/protocol/test/v39-depository-supply-indexing.test.js',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-supply-index.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-supply-index.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/embedding-config.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/src/canonical/v39-depository-supply-indexing.js',
+    'scripts/specifying/test/v39-depository-supply-indexing.test.js',
     'scripts/generate-v39-depository-supply-indexing.mjs',
     'scripts/check-v39-gate2-depository-supply-indexing.mjs',
-    'BITCODE_SPEC_V39.md',
-    'BITCODE_SPEC_V39_DELTA.md',
-    'BITCODE_SPEC_V39_NOTES.md',
-    'BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -142,7 +142,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-depository-supply-indexing.test.js',
+        'scripts/specifying/test/v39-depository-supply-indexing.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 Depository supply indexing protocol test failed: ${error.stderr || error.message}`);
@@ -153,7 +153,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -198,9 +198,9 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 2 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V39.md');
-  const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('DepositorySupplyIndex'), 'V39 spec must name DepositorySupplyIndex.');
   assertCheck(failures, spec.includes('source-safe search documents'), 'V39 spec must describe source-safe search documents.');
   assertCheck(failures, parity.includes('Gate 2 Parity'), 'V39 parity matrix must include Gate 2 parity.');

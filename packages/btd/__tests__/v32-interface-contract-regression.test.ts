@@ -7,7 +7,7 @@ import {
 } from '../src/interface-contract-regression';
 
 describe('V32 interface contract regression suites', () => {
-  it('covers API, MCP, ChatGPT App, Terminal, Auxillaries, and deferred interface hooks with shared source-safe fixtures', () => {
+  it('covers API, MCP, ChatGPT App, product, Auxillaries, and deferred interface hooks with shared source-safe fixtures', () => {
     const proof = buildBtdInterfaceContractRegressionProof();
 
     expect(proof.kind).toBe('btd.interface_contract_regression_proof');
@@ -23,10 +23,10 @@ describe('V32 interface contract regression suites', () => {
       'conversations_hook',
       'exchange_hook',
       'mcp',
-      'terminal',
+      'product',
     ]);
     expect(proof.fixtures.map((fixture) => fixture.surface)).toEqual([
-      'terminal',
+      'product',
       'api',
       'mcp',
       'chatgpt_app',

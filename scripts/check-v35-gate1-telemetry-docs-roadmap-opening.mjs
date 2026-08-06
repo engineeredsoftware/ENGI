@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -85,45 +85,45 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V35.md',
-    'BITCODE_SPEC_V35_DELTA.md',
-    'BITCODE_SPEC_V35_NOTES.md',
-    'BITCODE_SPEC_V35_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V35.md',
+    '.specifications/BITCODE_SPEC_V35_DELTA.md',
+    '.specifications/BITCODE_SPEC_V35_NOTES.md',
+    '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
     'BITCODE_SPECIFYING.md',
-    'BITCODE_SPEC_TEMPLATEGUIDE.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_TEMPLATEGUIDE.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/pull_request_template.md',
     'README.md',
     'AGENTS.md',
     'package.json',
-    'packages/protocol/README.md',
-    'protocol-demonstration/README.md',
-    'packages/protocol/src/canon-posture.js',
-    'protocol-demonstration/src/canon-posture.js',
-    'packages/protocol/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
   ];
 
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing required V35 Gate 1 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V35.md');
-  const delta = read(root, 'BITCODE_SPEC_V35_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V35_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V35_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V35.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V35_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V35_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const prTemplate = read(root, '.github/pull_request_template.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const demoReadme = read(root, 'protocol-demonstration/README.md');
-  const packagePosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const demoPosture = read(root, 'protocol-demonstration/src/canon-posture.js');
-  const postureState = read(root, 'packages/protocol/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const demoReadme = read(root, 'scripts/specifying/README.md');
+  const packagePosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const demoPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const postureState = read(root, 'scripts/specifying/data/state.json');
 
   for (const [label, content] of [
     ['V35 SPEC', spec],
@@ -239,7 +239,7 @@ function main() {
     assertCheck(failures, content.includes("DRAFT_TARGET_VERSION = 'V35'") || content.includes('"draftTargetVersion": "V35"'), `${label} must declare V35 draft target.`);
   }
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();

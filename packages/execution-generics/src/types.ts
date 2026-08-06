@@ -1,18 +1,14 @@
 /**
  * EXECUTION GENERICS TYPE DEFINITIONS
- * 
- * Core types for the execution primitive system
+ *
+ * Storage types for the Execution primitive.
+ * Executor type primitive: @bitcode/executor-generics (re-exported for product assembly).
  */
 
-import { Execution } from './Execution';
+// ==================== EXECUTOR TYPE (composition re-export) ====================
 
-// ==================== EXECUTOR TYPE ====================
-
-/**
- * The fundamental building block - just an async function
- */
-export type Executor<TInput = any, TOutput = any> = 
-  (input: TInput, execution: Execution) => Promise<TOutput>;
+/** Prefer `@bitcode/executor-generics` for new code. */
+export type { Executor } from '@bitcode/executor-generics';
 
 // ==================== STORAGE TYPES ====================
 

@@ -1,0 +1,1949 @@
+{
+  "artifactId": "v37-conversation-session-route-history",
+  "schemaId": "bitcode.v37.conversationSessionRouteHistory.v1",
+  "version": "V37",
+  "currentTarget": "V36",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-conversation-session-route-history-metadata",
+  "disclosureBoundary": {
+    "conversationRoutesMayExpose": [
+      "conversation_identity",
+      "source_safe_summary",
+      "route_contract_metadata",
+      "account_policy_metadata",
+      "source_context_refs",
+      "stream_state",
+      "history_refs",
+      "proof_roots",
+      "event_ids",
+      "persistence_boundary"
+    ],
+    "conversationRoutesMustNotExpose": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "unpaid_assetpack_source",
+      "settlement_private_payloads",
+      "global_ledger_authority_claim"
+    ]
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredSessionFieldIds": [
+      "route_local_session_id",
+      "user_account_posture",
+      "source_context_ref",
+      "policy_decision",
+      "stream_state",
+      "history_refs",
+      "proof_roots",
+      "event_ids",
+      "redaction_posture",
+      "persistence_boundary"
+    ],
+    "requiredHistoryOperationIds": [
+      "create",
+      "restore",
+      "branch",
+      "retry",
+      "redact",
+      "stream"
+    ],
+    "observedHistoryOperationIds": [
+      "create",
+      "restore",
+      "stream",
+      "retry",
+      "branch",
+      "redact"
+    ],
+    "missingHistoryOperationIds": [],
+    "requiredRouteIds": [
+      "api.conversations.collection",
+      "api.conversations.session",
+      "api.conversations.collection_stream",
+      "api.conversations.session_stream",
+      "api.conversations.branch",
+      "api.conversations.shared_contracts"
+    ],
+    "observedRouteIds": [
+      "api.conversations.collection",
+      "api.conversations.session",
+      "api.conversations.collection_stream",
+      "api.conversations.session_stream",
+      "api.conversations.branch",
+      "api.conversations.shared_contracts"
+    ],
+    "missingRouteIds": [],
+    "routeContractCount": 6,
+    "allRouteContractsCovered": true,
+    "allHistoryOperationsCovered": true,
+    "createSupported": true,
+    "restoreSupported": true,
+    "branchSupported": true,
+    "retrySupported": true,
+    "redactionSupported": true,
+    "streamSupported": true,
+    "proofRootsCovered": true,
+    "eventIdsCovered": true,
+    "routeLocalHistoryCovered": true,
+    "routeContractsCovered": true,
+    "persistenceBoundariesCovered": true,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "globalLedgerAuthorityClaimed": false
+  },
+  "requiredSessionFieldIds": [
+    "route_local_session_id",
+    "user_account_posture",
+    "source_context_ref",
+    "policy_decision",
+    "stream_state",
+    "history_refs",
+    "proof_roots",
+    "event_ids",
+    "redaction_posture",
+    "persistence_boundary"
+  ],
+  "requiredHistoryOperationIds": [
+    "create",
+    "restore",
+    "branch",
+    "retry",
+    "redact",
+    "stream"
+  ],
+  "requiredRouteIds": [
+    "api.conversations.collection",
+    "api.conversations.session",
+    "api.conversations.collection_stream",
+    "api.conversations.session_stream",
+    "api.conversations.branch",
+    "api.conversations.shared_contracts"
+  ],
+  "rows": [
+    {
+      "contractId": "conversation.session.create",
+      "routeId": "api.conversations.collection",
+      "operationId": "create",
+      "label": "Create route-local conversation session",
+      "routeContract": {
+        "contractId": "api.conversations.collection",
+        "path": "/api/conversations",
+        "method": "POST",
+        "sourceRoot": "apps/uapi/app/api/conversations/route.ts",
+        "runtime": "nodejs",
+        "sourceSafetyClass": "source_safe_route_contract_metadata"
+      },
+      "sourceSafeSummary": "Creates a route-local ConversationSession projection with account posture, policy result, and proof-rooted history references.",
+      "routeLocalIdentity": {
+        "sessionIdRef": "conversation-session:created-route-local",
+        "identityScope": "route_local_not_global_ledger_truth",
+        "routeLocalHistoryRef": "conversation-history:create"
+      },
+      "userAccountPosture": "authenticated_or_mock_review_user_only",
+      "sourceContext": {
+        "sourceContextRef": "conversation-source-context:initial-user-message-and-safe-selectors",
+        "disclosureClass": "source_safe_prompt_summary_and_selector_metadata_only"
+      },
+      "policyDecision": {
+        "decision": "admit_source_safe_conversation_session",
+        "denialReason": null,
+        "retryAllowed": true
+      },
+      "streamState": "not_started",
+      "historyRefs": [
+        "conversation-history:create"
+      ],
+      "persistenceBoundary": {
+        "storageScope": "conversations_and_messages_projection",
+        "routeLocalHistory": true,
+        "globalLedgerTruth": false,
+        "terminalAuthorityRequiredForLedgerWork": true
+      },
+      "proofRootFields": [
+        "sessionRoot",
+        "accountRoot",
+        "policyRoot",
+        "historyRoot",
+        "telemetryRoot"
+      ],
+      "eventIds": [
+        "conversation.session.created",
+        "conversation.history.created"
+      ],
+      "detailPayload": {
+        "collapsedHeaderFields": [
+          "contractId",
+          "routeId",
+          "operationId",
+          "sourceSafeSummary"
+        ],
+        "expandedDetailSections": [
+          {
+            "sectionId": "route_local_identity",
+            "value": "Session identity is local to the route and not a ledger object.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "account_posture",
+            "value": "Authenticated account or explicit mock-review posture is required.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "source_context",
+            "value": "Initial source context is limited to source-safe summaries and selector metadata.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "policy_decision",
+            "value": "Policy admits or denies the session before history is persisted.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "stream_state",
+            "value": "Create does not imply an active model stream.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "history_refs",
+            "value": "Create history references are replayable without protected source.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "proof_roots",
+            "value": "Session, account, policy, history, and telemetry roots are required.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "persistence_boundary",
+            "value": "Conversation storage is a projection, not global ledger truth.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "redaction_posture",
+            "value": "Protected prompts, source payloads, secrets, and unpaid AssetPack source are forbidden.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          }
+        ]
+      },
+      "sessionFieldIds": [
+        "route_local_session_id",
+        "user_account_posture",
+        "source_context_ref",
+        "policy_decision",
+        "stream_state",
+        "history_refs",
+        "proof_roots",
+        "event_ids",
+        "redaction_posture",
+        "persistence_boundary"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_session_metadata",
+      "sourceSafetyPosture": "route_history_never_exposes_protected_source_or_unpaid_assetpack_content",
+      "redactionPosture": {
+        "postureId": "conversation_session_route_history_redaction_v1",
+        "allowedPayloadClasses": [
+          "conversation_identity",
+          "source_safe_summary",
+          "route_contract_metadata",
+          "account_policy_metadata",
+          "source_context_refs",
+          "stream_state",
+          "history_refs",
+          "proof_roots",
+          "event_ids",
+          "persistence_boundary"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "conversation.session.create.route-history-row-present",
+          "command": "pnpm run check:v37-gate2",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conversation_id",
+            "missing_user_account_posture",
+            "missing_policy_decision",
+            "missing_route_local_history_ref",
+            "missing_proof_root",
+            "missing_event_id",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/route.ts",
+          "present": true
+        }
+      ],
+      "proofRoots": {
+        "sessionRoot": "conversation-proof:03a7cdcfa843d4db01245ac7",
+        "accountRoot": "conversation-proof:12c29145b01eb9115d17123a",
+        "policyRoot": "conversation-proof:cd4516ee09ac2d68cfa0b46d",
+        "historyRoot": "conversation-proof:13dc04a38c0b57c47c795ec6",
+        "telemetryRoot": "conversation-proof:0e66edd2047488bac96a82e2"
+      },
+      "rowRoot": "conversation-session-row:9e80e8dc80d4ac9f3deba587",
+      "detailRoot": "conversation-session-detail:4f9501816046dfc27ea8e06b"
+    },
+    {
+      "contractId": "conversation.session.restore",
+      "routeId": "api.conversations.session",
+      "operationId": "restore",
+      "label": "Restore route-local conversation history",
+      "routeContract": {
+        "contractId": "api.conversations.session",
+        "path": "/api/conversations/[conversationId]",
+        "method": "GET",
+        "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/route.ts",
+        "runtime": "nodejs",
+        "sourceSafetyClass": "source_safe_route_contract_metadata"
+      },
+      "sourceSafeSummary": "Restores a ConversationSession and message history projection for the owning account without upgrading it into ledger truth.",
+      "routeLocalIdentity": {
+        "sessionIdRef": "conversation-session:restored-route-local",
+        "identityScope": "route_local_not_global_ledger_truth",
+        "routeLocalHistoryRef": "conversation-history:restore"
+      },
+      "userAccountPosture": "authenticated_owner_required",
+      "sourceContext": {
+        "sourceContextRef": "conversation-source-context:stored-source-safe-message-history",
+        "disclosureClass": "source_safe_message_and_attachment_metadata"
+      },
+      "policyDecision": {
+        "decision": "admit_owner_history_restore",
+        "denialReason": "unauthorized_or_missing_conversation_denies_restore",
+        "retryAllowed": true
+      },
+      "streamState": "restored_not_streaming",
+      "historyRefs": [
+        "conversation-history:restore",
+        "conversation-history:messages",
+        "conversation-history:attachments"
+      ],
+      "persistenceBoundary": {
+        "storageScope": "conversation_messages_and_attachment_projection",
+        "routeLocalHistory": true,
+        "globalLedgerTruth": false,
+        "terminalAuthorityRequiredForLedgerWork": true
+      },
+      "proofRootFields": [
+        "sessionRoot",
+        "ownerRoot",
+        "historyRoot",
+        "attachmentRoot",
+        "telemetryRoot"
+      ],
+      "eventIds": [
+        "conversation.session.restored",
+        "conversation.history.restored"
+      ],
+      "detailPayload": {
+        "collapsedHeaderFields": [
+          "contractId",
+          "routeId",
+          "operationId",
+          "sourceSafeSummary"
+        ],
+        "expandedDetailSections": [
+          {
+            "sectionId": "route_local_identity",
+            "value": "Restore resolves one conversation id inside the route.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "account_posture",
+            "value": "Only the owning account may restore persisted conversation history.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "source_context",
+            "value": "Restored context remains source-safe message and attachment metadata.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "policy_decision",
+            "value": "Missing or unauthorized sessions fail closed.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "stream_state",
+            "value": "Restore does not replay live model output.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "history_refs",
+            "value": "History refs preserve message and attachment continuity.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "proof_roots",
+            "value": "Owner, history, attachment, session, and telemetry roots are required.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "persistence_boundary",
+            "value": "Restored history cannot override ledger or Terminal state.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "redaction_posture",
+            "value": "Protected payload classes remain blocked during restore.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          }
+        ]
+      },
+      "sessionFieldIds": [
+        "route_local_session_id",
+        "user_account_posture",
+        "source_context_ref",
+        "policy_decision",
+        "stream_state",
+        "history_refs",
+        "proof_roots",
+        "event_ids",
+        "redaction_posture",
+        "persistence_boundary"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_session_metadata",
+      "sourceSafetyPosture": "route_history_never_exposes_protected_source_or_unpaid_assetpack_content",
+      "redactionPosture": {
+        "postureId": "conversation_session_route_history_redaction_v1",
+        "allowedPayloadClasses": [
+          "conversation_identity",
+          "source_safe_summary",
+          "route_contract_metadata",
+          "account_policy_metadata",
+          "source_context_refs",
+          "stream_state",
+          "history_refs",
+          "proof_roots",
+          "event_ids",
+          "persistence_boundary"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "conversation.session.restore.route-history-row-present",
+          "command": "pnpm run check:v37-gate2",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conversation_id",
+            "missing_user_account_posture",
+            "missing_policy_decision",
+            "missing_route_local_history_ref",
+            "missing_proof_root",
+            "missing_event_id",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/route.ts",
+          "present": true
+        }
+      ],
+      "proofRoots": {
+        "sessionRoot": "conversation-proof:9a33f92acd329b1987ef5653",
+        "ownerRoot": "conversation-proof:a9359f4def896297c0b60193",
+        "historyRoot": "conversation-proof:da1cba3ae078ece9bc10e5b9",
+        "attachmentRoot": "conversation-proof:8ea5adcb2c5d6f74dc5dd2fa",
+        "telemetryRoot": "conversation-proof:8f0438cce72ae188ca176acd"
+      },
+      "rowRoot": "conversation-session-row:c86088d4133c56c253d2348b",
+      "detailRoot": "conversation-session-detail:040e7c3436a758a1e3f764c2"
+    },
+    {
+      "contractId": "conversation.session.stream.create",
+      "routeId": "api.conversations.collection_stream",
+      "operationId": "stream",
+      "label": "Create session and stream assistant response",
+      "routeContract": {
+        "contractId": "api.conversations.collection_stream",
+        "path": "/api/conversations/stream",
+        "method": "POST",
+        "sourceRoot": "apps/uapi/app/api/conversations/stream/route.ts",
+        "runtime": "nodejs",
+        "sourceSafetyClass": "source_safe_route_contract_metadata"
+      },
+      "sourceSafeSummary": "Creates a ConversationSession from a user write and streams source-safe assistant deltas plus optional execution references.",
+      "routeLocalIdentity": {
+        "sessionIdRef": "conversation-session:stream-created-route-local",
+        "identityScope": "route_local_not_global_ledger_truth",
+        "routeLocalHistoryRef": "conversation-history:stream-create"
+      },
+      "userAccountPosture": "authenticated_writer_required",
+      "sourceContext": {
+        "sourceContextRef": "conversation-source-context:rich-input-summary",
+        "disclosureClass": "source_safe_rich_input_summary"
+      },
+      "policyDecision": {
+        "decision": "admit_source_safe_stream_create",
+        "denialReason": "empty_content_or_unauthorized_writer_denies_stream",
+        "retryAllowed": true
+      },
+      "streamState": "streaming",
+      "historyRefs": [
+        "conversation-history:stream-create",
+        "conversation-history:assistant-message"
+      ],
+      "persistenceBoundary": {
+        "storageScope": "conversation_messages_projection_with_execution_reference",
+        "routeLocalHistory": true,
+        "globalLedgerTruth": false,
+        "terminalAuthorityRequiredForLedgerWork": true
+      },
+      "proofRootFields": [
+        "sessionRoot",
+        "richInputRoot",
+        "streamRoot",
+        "messageRoot",
+        "telemetryRoot"
+      ],
+      "eventIds": [
+        "conversation.stream.created",
+        "conversation.message.completed"
+      ],
+      "detailPayload": {
+        "collapsedHeaderFields": [
+          "contractId",
+          "routeId",
+          "operationId",
+          "sourceSafeSummary"
+        ],
+        "expandedDetailSections": [
+          {
+            "sectionId": "route_local_identity",
+            "value": "A stream-created session remains scoped to the conversation route.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "account_posture",
+            "value": "Authenticated writer identity is required.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "source_context",
+            "value": "Rich inputs are summarized through source-safe token counts and refs.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "policy_decision",
+            "value": "Empty content and unauthorized writers fail closed.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "stream_state",
+            "value": "Stream rows may expose deltas, event ids, and execution refs only.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "history_refs",
+            "value": "Assistant completion is persisted as route-local message history.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "proof_roots",
+            "value": "Rich input, stream, message, session, and telemetry roots are required.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "persistence_boundary",
+            "value": "Execution references do not make Conversations the execution authority.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "redaction_posture",
+            "value": "Raw protected prompts and unpaid AssetPack source remain forbidden.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          }
+        ]
+      },
+      "sessionFieldIds": [
+        "route_local_session_id",
+        "user_account_posture",
+        "source_context_ref",
+        "policy_decision",
+        "stream_state",
+        "history_refs",
+        "proof_roots",
+        "event_ids",
+        "redaction_posture",
+        "persistence_boundary"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_session_metadata",
+      "sourceSafetyPosture": "route_history_never_exposes_protected_source_or_unpaid_assetpack_content",
+      "redactionPosture": {
+        "postureId": "conversation_session_route_history_redaction_v1",
+        "allowedPayloadClasses": [
+          "conversation_identity",
+          "source_safe_summary",
+          "route_contract_metadata",
+          "account_policy_metadata",
+          "source_context_refs",
+          "stream_state",
+          "history_refs",
+          "proof_roots",
+          "event_ids",
+          "persistence_boundary"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "conversation.session.stream.create.route-history-row-present",
+          "command": "pnpm run check:v37-gate2",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conversation_id",
+            "missing_user_account_posture",
+            "missing_policy_decision",
+            "missing_route_local_history_ref",
+            "missing_proof_root",
+            "missing_event_id",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/stream/route.ts",
+          "present": true
+        }
+      ],
+      "proofRoots": {
+        "sessionRoot": "conversation-proof:5b1ff370f45a0d67eb86790e",
+        "richInputRoot": "conversation-proof:8a8bbcc54ec34eed6606e568",
+        "streamRoot": "conversation-proof:7a0dc2f346ae10872a79456e",
+        "messageRoot": "conversation-proof:25d25c00905506fbfe564fce",
+        "telemetryRoot": "conversation-proof:179dc0c501677edd58903cd2"
+      },
+      "rowRoot": "conversation-session-row:cbb1a06cbdbb950adfff158d",
+      "detailRoot": "conversation-session-detail:4c5e5c61dbeb430a6139c547"
+    },
+    {
+      "contractId": "conversation.session.stream.retry",
+      "routeId": "api.conversations.session_stream",
+      "operationId": "retry",
+      "label": "Retry stream inside an existing session",
+      "routeContract": {
+        "contractId": "api.conversations.session_stream",
+        "path": "/api/conversations/[conversationId]/stream",
+        "method": "POST",
+        "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
+        "runtime": "nodejs",
+        "sourceSafetyClass": "source_safe_route_contract_metadata"
+      },
+      "sourceSafeSummary": "Retries or continues a stream within an existing ConversationSession while preserving prior history roots and policy state.",
+      "routeLocalIdentity": {
+        "sessionIdRef": "conversation-session:retry-route-local",
+        "identityScope": "route_local_not_global_ledger_truth",
+        "routeLocalHistoryRef": "conversation-history:retry"
+      },
+      "userAccountPosture": "authenticated_owner_writer_required",
+      "sourceContext": {
+        "sourceContextRef": "conversation-source-context:existing-history-plus-new-safe-write",
+        "disclosureClass": "source_safe_history_summary_and_new_write_summary"
+      },
+      "policyDecision": {
+        "decision": "admit_source_safe_retry",
+        "denialReason": "missing_session_empty_content_or_unauthorized_writer_denies_retry",
+        "retryAllowed": true
+      },
+      "streamState": "retry_streaming",
+      "historyRefs": [
+        "conversation-history:restore",
+        "conversation-history:retry",
+        "conversation-history:assistant-message"
+      ],
+      "persistenceBoundary": {
+        "storageScope": "conversation_messages_projection_with_retry_lineage",
+        "routeLocalHistory": true,
+        "globalLedgerTruth": false,
+        "terminalAuthorityRequiredForLedgerWork": true
+      },
+      "proofRootFields": [
+        "sessionRoot",
+        "retryRoot",
+        "priorHistoryRoot",
+        "streamRoot",
+        "telemetryRoot"
+      ],
+      "eventIds": [
+        "conversation.stream.retry.requested",
+        "conversation.stream.retry.completed"
+      ],
+      "detailPayload": {
+        "collapsedHeaderFields": [
+          "contractId",
+          "routeId",
+          "operationId",
+          "sourceSafeSummary"
+        ],
+        "expandedDetailSections": [
+          {
+            "sectionId": "route_local_identity",
+            "value": "Retry lineage stays under the same conversation id.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "account_posture",
+            "value": "Only the owner writer can retry against existing history.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "source_context",
+            "value": "Retry context references prior safe history and the new write summary.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "policy_decision",
+            "value": "Missing session, empty content, or unauthorized writer fails closed.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "stream_state",
+            "value": "Retry stream state is distinct from first stream creation.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "history_refs",
+            "value": "Retry references previous restore and new assistant completion refs.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "proof_roots",
+            "value": "Retry, prior-history, stream, session, and telemetry roots are required.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "persistence_boundary",
+            "value": "Retry cannot mutate ledger, settlement, or Exchange state directly.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "redaction_posture",
+            "value": "Protected history is summarized or blocked before retry.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          }
+        ]
+      },
+      "sessionFieldIds": [
+        "route_local_session_id",
+        "user_account_posture",
+        "source_context_ref",
+        "policy_decision",
+        "stream_state",
+        "history_refs",
+        "proof_roots",
+        "event_ids",
+        "redaction_posture",
+        "persistence_boundary"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_session_metadata",
+      "sourceSafetyPosture": "route_history_never_exposes_protected_source_or_unpaid_assetpack_content",
+      "redactionPosture": {
+        "postureId": "conversation_session_route_history_redaction_v1",
+        "allowedPayloadClasses": [
+          "conversation_identity",
+          "source_safe_summary",
+          "route_contract_metadata",
+          "account_policy_metadata",
+          "source_context_refs",
+          "stream_state",
+          "history_refs",
+          "proof_roots",
+          "event_ids",
+          "persistence_boundary"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "conversation.session.stream.retry.route-history-row-present",
+          "command": "pnpm run check:v37-gate2",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conversation_id",
+            "missing_user_account_posture",
+            "missing_policy_decision",
+            "missing_route_local_history_ref",
+            "missing_proof_root",
+            "missing_event_id",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
+          "present": true
+        }
+      ],
+      "proofRoots": {
+        "sessionRoot": "conversation-proof:4fc87203a33d32695b8f34fb",
+        "retryRoot": "conversation-proof:3f7d38248c5a9788b7a9b321",
+        "priorHistoryRoot": "conversation-proof:5d0b49e031a4f547676af8de",
+        "streamRoot": "conversation-proof:74aa16aedb7708821411174e",
+        "telemetryRoot": "conversation-proof:b6193bcfa30011014a7ee81d"
+      },
+      "rowRoot": "conversation-session-row:2885b103eb5daa24ee783603",
+      "detailRoot": "conversation-session-detail:b06a1728dec8a45a489b75cb"
+    },
+    {
+      "contractId": "conversation.session.branch",
+      "routeId": "api.conversations.branch",
+      "operationId": "branch",
+      "label": "Branch route-local conversation history",
+      "routeContract": {
+        "contractId": "api.conversations.branch",
+        "path": "/api/conversations/branch",
+        "method": "POST",
+        "sourceRoot": "apps/uapi/app/api/conversations/branch/route.ts",
+        "runtime": "nodejs",
+        "sourceSafetyClass": "source_safe_route_contract_metadata"
+      },
+      "sourceSafeSummary": "Branches a ConversationSession into a new route-local session and copies source-safe message and attachment continuity evidence.",
+      "routeLocalIdentity": {
+        "sessionIdRef": "conversation-session:branched-route-local",
+        "identityScope": "route_local_not_global_ledger_truth",
+        "routeLocalHistoryRef": "conversation-history:branch"
+      },
+      "userAccountPosture": "authenticated_owner_required",
+      "sourceContext": {
+        "sourceContextRef": "conversation-source-context:branched-message-and-attachment-continuity",
+        "disclosureClass": "source_safe_continuity_metadata"
+      },
+      "policyDecision": {
+        "decision": "admit_owner_history_branch",
+        "denialReason": "missing_source_conversation_or_unauthorized_owner_denies_branch",
+        "retryAllowed": true
+      },
+      "streamState": "branched_not_streaming",
+      "historyRefs": [
+        "conversation-history:branch",
+        "conversation-history:copied-messages",
+        "conversation-history:copied-attachments"
+      ],
+      "persistenceBoundary": {
+        "storageScope": "branched_conversation_projection",
+        "routeLocalHistory": true,
+        "globalLedgerTruth": false,
+        "terminalAuthorityRequiredForLedgerWork": true
+      },
+      "proofRootFields": [
+        "sourceSessionRoot",
+        "branchedSessionRoot",
+        "messageCopyRoot",
+        "attachmentCopyRoot",
+        "telemetryRoot"
+      ],
+      "eventIds": [
+        "conversation.branch.created",
+        "conversation.history.branch.copied"
+      ],
+      "detailPayload": {
+        "collapsedHeaderFields": [
+          "contractId",
+          "routeId",
+          "operationId",
+          "sourceSafeSummary"
+        ],
+        "expandedDetailSections": [
+          {
+            "sectionId": "route_local_identity",
+            "value": "Branch creates a new session id with parent linkage.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "account_posture",
+            "value": "Only the owner may branch source conversation history.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "source_context",
+            "value": "Branch continuity is message and attachment metadata only.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "policy_decision",
+            "value": "Missing source or unauthorized owner fails closed.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "stream_state",
+            "value": "Branching does not imply streaming.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "history_refs",
+            "value": "Copied message and attachment refs preserve branch lineage.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "proof_roots",
+            "value": "Source, branch, copy, attachment, and telemetry roots are required.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "persistence_boundary",
+            "value": "A branch is a route-local projection, not a ledger fork.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "redaction_posture",
+            "value": "Branch copies only allowed source-safe payload classes.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          }
+        ]
+      },
+      "sessionFieldIds": [
+        "route_local_session_id",
+        "user_account_posture",
+        "source_context_ref",
+        "policy_decision",
+        "stream_state",
+        "history_refs",
+        "proof_roots",
+        "event_ids",
+        "redaction_posture",
+        "persistence_boundary"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_session_metadata",
+      "sourceSafetyPosture": "route_history_never_exposes_protected_source_or_unpaid_assetpack_content",
+      "redactionPosture": {
+        "postureId": "conversation_session_route_history_redaction_v1",
+        "allowedPayloadClasses": [
+          "conversation_identity",
+          "source_safe_summary",
+          "route_contract_metadata",
+          "account_policy_metadata",
+          "source_context_refs",
+          "stream_state",
+          "history_refs",
+          "proof_roots",
+          "event_ids",
+          "persistence_boundary"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "conversation.session.branch.route-history-row-present",
+          "command": "pnpm run check:v37-gate2",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conversation_id",
+            "missing_user_account_posture",
+            "missing_policy_decision",
+            "missing_route_local_history_ref",
+            "missing_proof_root",
+            "missing_event_id",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/branch/route.ts",
+          "present": true
+        }
+      ],
+      "proofRoots": {
+        "sourceSessionRoot": "conversation-proof:de4f2795333b9e831fac4aa2",
+        "branchedSessionRoot": "conversation-proof:c2827ceea7d146146dfff528",
+        "messageCopyRoot": "conversation-proof:da3555c4be2ef47115c08270",
+        "attachmentCopyRoot": "conversation-proof:884473b43e6a804786af8c69",
+        "telemetryRoot": "conversation-proof:062221d57240f433542ea0ec"
+      },
+      "rowRoot": "conversation-session-row:9e2326290a9fe5b89635b4bd",
+      "detailRoot": "conversation-session-detail:d1979905a38436cd6c7c365c"
+    },
+    {
+      "contractId": "conversation.session.redaction.checkpoint",
+      "routeId": "api.conversations.shared_contracts",
+      "operationId": "redact",
+      "label": "Apply shared route-local redaction checkpoint",
+      "routeContract": {
+        "contractId": "api.conversations.shared_contracts",
+        "path": "/api/conversations/* shared contracts",
+        "method": "INTERNAL",
+        "sourceRoot": "apps/uapi/app/api/conversations/_shared.ts",
+        "runtime": "nodejs",
+        "sourceSafetyClass": "source_safe_route_contract_metadata"
+      },
+      "sourceSafeSummary": "Defines the shared redaction checkpoint for route-local mock and live conversation history envelopes.",
+      "routeLocalIdentity": {
+        "sessionIdRef": "conversation-session:redaction-checkpoint-route-local",
+        "identityScope": "route_local_not_global_ledger_truth",
+        "routeLocalHistoryRef": "conversation-history:redaction-checkpoint"
+      },
+      "userAccountPosture": "route_handler_policy_checkpoint",
+      "sourceContext": {
+        "sourceContextRef": "conversation-source-context:redacted-safe-envelope",
+        "disclosureClass": "source_safe_envelope_metadata"
+      },
+      "policyDecision": {
+        "decision": "block_forbidden_payload_classes",
+        "denialReason": "protected_source_secret_or_unpaid_assetpack_source_denies_serialization",
+        "retryAllowed": false
+      },
+      "streamState": "redaction_checkpoint",
+      "historyRefs": [
+        "conversation-history:redaction-checkpoint"
+      ],
+      "persistenceBoundary": {
+        "storageScope": "route_handler_serialization_checkpoint",
+        "routeLocalHistory": true,
+        "globalLedgerTruth": false,
+        "terminalAuthorityRequiredForLedgerWork": true
+      },
+      "proofRootFields": [
+        "redactionRoot",
+        "disclosureRoot",
+        "historyRoot",
+        "serializationRoot",
+        "telemetryRoot"
+      ],
+      "eventIds": [
+        "conversation.redaction.checked",
+        "conversation.disclosure.blocked"
+      ],
+      "detailPayload": {
+        "collapsedHeaderFields": [
+          "contractId",
+          "routeId",
+          "operationId",
+          "sourceSafeSummary"
+        ],
+        "expandedDetailSections": [
+          {
+            "sectionId": "route_local_identity",
+            "value": "Redaction binds route-local envelopes before serialization.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "account_posture",
+            "value": "The route handler applies a policy checkpoint before output.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "source_context",
+            "value": "Only redacted envelope metadata may cross the route boundary.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "policy_decision",
+            "value": "Forbidden payload classes fail closed and are not retried automatically.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "stream_state",
+            "value": "The checkpoint covers both mock and live stream envelopes.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "history_refs",
+            "value": "Redaction checkpoints are replayable through source-safe history refs.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "proof_roots",
+            "value": "Redaction, disclosure, history, serialization, and telemetry roots are required.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "persistence_boundary",
+            "value": "Serialization never promotes conversation state into ledger authority.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          },
+          {
+            "sectionId": "redaction_posture",
+            "value": "Protected source, secrets, private wallet material, and unpaid AssetPack source are forbidden.",
+            "sourceSafetyClass": "source_safe_conversation_metadata"
+          }
+        ]
+      },
+      "sessionFieldIds": [
+        "route_local_session_id",
+        "user_account_posture",
+        "source_context_ref",
+        "policy_decision",
+        "stream_state",
+        "history_refs",
+        "proof_roots",
+        "event_ids",
+        "redaction_posture",
+        "persistence_boundary"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_session_metadata",
+      "sourceSafetyPosture": "route_history_never_exposes_protected_source_or_unpaid_assetpack_content",
+      "redactionPosture": {
+        "postureId": "conversation_session_route_history_redaction_v1",
+        "allowedPayloadClasses": [
+          "conversation_identity",
+          "source_safe_summary",
+          "route_contract_metadata",
+          "account_policy_metadata",
+          "source_context_refs",
+          "stream_state",
+          "history_refs",
+          "proof_roots",
+          "event_ids",
+          "persistence_boundary"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "global_ledger_authority_claim"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "conversation.session.redaction.checkpoint.route-history-row-present",
+          "command": "pnpm run check:v37-gate2",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conversation_id",
+            "missing_user_account_posture",
+            "missing_policy_decision",
+            "missing_route_local_history_ref",
+            "missing_proof_root",
+            "missing_event_id",
+            "protected_source_visible",
+            "unpaid_assetpack_source_visible",
+            "global_ledger_authority_claimed"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/_shared.ts",
+          "present": true
+        }
+      ],
+      "proofRoots": {
+        "redactionRoot": "conversation-proof:b3e52b8ff300daf024cc32a3",
+        "disclosureRoot": "conversation-proof:6653697e59fde810eeb4cf24",
+        "historyRoot": "conversation-proof:8660aa91bdc1a6ad3abd47fe",
+        "serializationRoot": "conversation-proof:86e88e7e2dde6ebfe4111808",
+        "telemetryRoot": "conversation-proof:c13ac4c5ac3dfb90444eb84d"
+      },
+      "rowRoot": "conversation-session-row:343c5dcb7d33e43231eeb7a2",
+      "detailRoot": "conversation-session-detail:66b990499f534f82bcbc312d"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "contractId": "conversation.session.create",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/route.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "contractId": "conversation.session.restore",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/route.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "contractId": "conversation.session.stream.create",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/stream/route.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "contractId": "conversation.session.stream.retry",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "contractId": "conversation.session.branch",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/branch/route.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "contractId": "conversation.session.redaction.checkpoint",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-session-route-history.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/conversations.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/conversations/_shared.ts",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "conversation-session-route-history:4c4a4823a335aebe766ed449"
+}

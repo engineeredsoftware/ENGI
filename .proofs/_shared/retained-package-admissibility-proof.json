@@ -1,0 +1,2452 @@
+{
+  "reportId": "v26-retained-package-admissibility-proof",
+  "version": "V26",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "admittedPackageCount": 8,
+  "requiredFields": [
+    "packageName",
+    "primaryRole",
+    "rationale",
+    "role",
+    "writeBoundary",
+    "proofObligation",
+    "requiredFiles"
+  ],
+  "admissibleRoles": [
+    "direct-product",
+    "commercial-infrastructure",
+    "ingress-or-support",
+    "compatibility",
+    "reference-only"
+  ],
+  "roleCounts": {
+    "commercial-infrastructure": 5,
+    "ingress-or-support": 2,
+    "reference-only": 1
+  },
+  "packages": [
+    {
+      "packageName": "@bitcode/supabase",
+      "primaryRole": "commercial-infrastructure",
+      "rationale": "typed browser/admin/SSR Supabase clients remain the retained persistence entrypoint for Bitcode routes and APIs",
+      "role": "Supabase client and SSR session boundary",
+      "writeBoundary": "database access is admitted only through app/API-owned Bitcode readiness, auth, profile, repository, and activity semantics",
+      "proofObligation": "persistence/schema totality and route/API storage witnesses must keep Supabase as infrastructure rather than product logic",
+      "requiredFiles": [
+        "packages/supabase/src/index.ts",
+        "packages/supabase/src/client.ts",
+        "packages/supabase/src/ssr/client.ts",
+        "packages/supabase/src/ssr/server.ts",
+        "packages/supabase/src/ssr/middleware.ts"
+      ],
+      "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/orm",
+      "primaryRole": "commercial-infrastructure",
+      "rationale": "typed model/query ownership and generated database types remain the retained schema contract layer",
+      "role": "typed Bitcode model/query and profile-contract boundary",
+      "writeBoundary": "ORM helpers may read/write rows only as schema infrastructure; experimental field-intelligence query ownership is cut from the active package",
+      "proofObligation": "retained ORM admission is tied to generated database types, active models, profile readiness, AssetPack evidence vector support, and no active field-intelligence corridor",
+      "requiredFiles": [
+        "packages/orm/src/client.ts",
+        "packages/orm/src/models/index.ts",
+        "packages/orm/src/models/bitcode-execution-storage.ts",
+        "packages/orm/src/profile-contract.ts",
+        "packages/orm/src/types/database.generated.ts",
+        "packages/orm/src/types/database.ts",
+        "packages/orm/src/types/generated/asset_pack_pipeline.generated.ts",
+        "packages/orm/scripts/generate-db-types.ts"
+      ],
+      "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/prompts",
+      "primaryRole": "commercial-infrastructure",
+      "rationale": "prompt abstraction remains the retained owner for prompt text and prompt execution contracts",
+      "role": "PromptPart, Prompt, PromptExecution, formatter, and raw promptpart substrate",
+      "writeBoundary": "prompts shape inference but do not own settlement, repository writes, or Exchange state mutations",
+      "proofObligation": "prompt-system and prompt-space proofs must keep prompt carriers public-boundary, source-visible, and free of active field-intelligence prompt residue",
+      "requiredFiles": [
+        "packages/prompts/README.md",
+        "packages/prompts/src/index.ts",
+        "packages/prompts/src/prompt.ts",
+        "packages/prompts/src/execution/PromptExecution.ts"
+      ],
+      "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/conversations",
+      "primaryRole": "commercial-infrastructure",
+      "rationale": "conversation agent and prompt abstractions remain admitted while fullscreen conversations converge inward",
+      "role": "conversation prompt and agent substrate for Bitcode rich-input writes",
+      "writeBoundary": "conversation primitives may carry rich input and execution intent, but app/API routes own persistence, readiness, and Exchange state admission",
+      "proofObligation": "conversation continuity and inference implementation records must keep conversations first-class without making them a parallel product",
+      "requiredFiles": [
+        "packages/conversations/README.md",
+        "packages/conversations/src/index.ts",
+        "packages/conversations/src/agent/ConversationAgent.ts",
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
+      ],
+      "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/execution-generics",
+      "primaryRole": "commercial-infrastructure",
+      "rationale": "retained execution abstractions remain admitted while runs and pipelines converge onto Bitcode semantics",
+      "role": "retained runs-and-pipelines abstractions",
+      "writeBoundary": "execution orchestration only; settle-write meaning is owned by Bitcode routes and Git/GH-facing carriers",
+      "proofObligation": "runs/pipelines, prompt-space, and inference-record proofs must keep execution primitives separated from non-Bitcode orchestration ownership",
+      "requiredFiles": [
+        "packages/execution-generics/README.md",
+        "packages/execution-generics/src/index.ts",
+        "packages/execution-generics/src/Execution.ts",
+        "packages/execution-generics/src/execution-registry.ts",
+        "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts"
+      ],
+      "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/externals-jira-tools",
+      "primaryRole": "ingress-or-support",
+      "rationale": "retained Jira MCP tools remain admitted only as reader-first need-ingestion and read-measurement carriers during fourth-gate convergence",
+      "role": "Jira read-first external work-tracker ingestion port",
+      "writeBoundary": "default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate",
+      "proofObligation": "retained-package admissibility and system-reform proof must keep Jira outside Bitcode Exchange state ownership",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/jira/package.json",
+        "packages/generic-tools/mcps-tools/jira/src/index.ts"
+      ],
+      "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-jira",
+      "primaryRole": "reference-only",
+      "rationale": "retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode read context instead of generic project-management automation",
+      "role": "Jira prompt-owned ingestion agent",
+      "writeBoundary": "reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path",
+      "proofObligation": "prompt and reform proofs must keep this agent as need-ingestion reference material until explicitly promoted",
+      "requiredFiles": [
+        "packages/generic-agents/jira-processor/package.json",
+        "packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts",
+        "packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jira_processor_system_identity.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jira_processor_system_role.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jira_processor_system_instructions.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jiraprocessor_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jiraprocessor_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jiraprocessor_executionpattern_detailcontent.ts"
+      ],
+      "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-github",
+      "primaryRole": "ingress-or-support",
+      "rationale": "retained GitHub MCP tooling remains admitted as the initial Git/GH-centric settle-write and repository-read boundary for reopened fourth-gate and later fifth-gate Bitcode work",
+      "role": "Git/GH-centric initial settle-write port",
+      "writeBoundary": "Git/GH branch and PR settlement is admitted in fourth-gate; multi-surface settle writes to other systems remain later-gate work",
+      "proofObligation": "retained-package and inference-record proofs must keep GitHub as an admitted connected-interface delivery mechanism rather than the only Bitcode settlement model",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/github/package.json",
+        "packages/generic-tools/mcps-tools/github/src/GitHubMCPTool.ts",
+        "packages/generic-tools/mcps-tools/github/src/prompts/GitHubMCPDocCodeToolPrompt.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_githubmcp_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_githubmcp_doccodetoolcapabilities.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_githubmcp_doccodetooloutput.ts"
+      ],
+      "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
+      "passed": true
+    }
+  ],
+  "packageCensusCount": 126,
+  "packageCensusCoveragePassed": true,
+  "packageCensusRoleCounts": {
+    "commercial-infrastructure": 45,
+    "direct-product": 5,
+    "ingress-or-support": 56,
+    "reference-only": 17,
+    "compatibility": 3
+  },
+  "unclassifiedPackageCount": 0,
+  "unclassifiedPackagePaths": [],
+  "packageCensus": [
+    {
+      "packageName": "@bitcode/agent-generics",
+      "packagePath": "packages/agent-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/agent-generics/package.json",
+        "packages/agent-generics/src/index.ts",
+        "packages/agent-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/api",
+      "packagePath": "packages/api/package.json",
+      "primaryRole": "direct-product",
+      "classificationBasis": "direct-product-name",
+      "rationale": "package participates directly in the Exchange, Terminal, MCP, API, or BTD product experience",
+      "role": "product-facing Bitcode package surface",
+      "writeBoundary": "product writes must pass through Bitcode-owned application/API/MCP admission, activity, and settlement semantics",
+      "proofObligation": "product packages must stay bound to application composition, source-to-shares, runs/pipelines, and interface parity proofs",
+      "requiredFiles": [
+        "packages/api/package.json",
+        "packages/api/src/index.ts",
+        "packages/api/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/artifacts",
+      "packagePath": "packages/artifacts/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/artifacts/package.json",
+        "packages/artifacts/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/attachments-generics",
+      "packagePath": "packages/attachments-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/attachments-generics/package.json",
+        "packages/attachments-generics/src/index.ts",
+        "packages/attachments-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/aurora-postgres",
+      "packagePath": "packages/aurora-postgres/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/aurora-postgres/package.json",
+        "packages/aurora-postgres/src/index.ts",
+        "packages/aurora-postgres/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/auth",
+      "packagePath": "packages/auth/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/auth/package.json",
+        "packages/auth/src/index.ts",
+        "packages/auth/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/aws",
+      "packagePath": "packages/aws/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/aws/package.json",
+        "packages/aws/src/index.ts",
+        "packages/aws/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-vcs-bitbucket",
+      "packagePath": "packages/generic-vcs/bitbucket/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-vcs/bitbucket/package.json",
+        "packages/generic-vcs/bitbucket/src/index.ts",
+        "packages/generic-vcs/bitbucket/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/browser-storage",
+      "packagePath": "packages/browser-storage/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/browser-storage/package.json",
+        "packages/browser-storage/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/btd",
+      "packagePath": "packages/btd/package.json",
+      "primaryRole": "direct-product",
+      "classificationBasis": "direct-product-name",
+      "rationale": "package participates directly in the Exchange, Terminal, MCP, API, or BTD product experience",
+      "role": "product-facing Bitcode package surface",
+      "writeBoundary": "product writes must pass through Bitcode-owned application/API/MCP admission, activity, and settlement semantics",
+      "proofObligation": "product packages must stay bound to application composition, source-to-shares, runs/pipelines, and interface parity proofs",
+      "requiredFiles": [
+        "packages/btd/package.json",
+        "packages/btd/src/index.ts",
+        "packages/btd/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/external-apps-chatgpt",
+      "packagePath": "apps/chatgpt/package.json",
+      "primaryRole": "direct-product",
+      "classificationBasis": "direct-product-name",
+      "rationale": "package participates directly in the Exchange, Terminal, MCP, API, or BTD product experience",
+      "role": "product-facing Bitcode package surface",
+      "writeBoundary": "product writes must pass through Bitcode-owned application/API/MCP admission, activity, and settlement semantics",
+      "proofObligation": "product packages must stay bound to application composition, source-to-shares, runs/pipelines, and interface parity proofs",
+      "requiredFiles": [
+        "apps/chatgpt/package.json",
+        "apps/chatgpt/src/index.ts",
+        "apps/chatgpt/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/ci-circle",
+      "packagePath": "packages/ci/circle/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/ci/circle/package.json",
+        "packages/ci/circle/src/index.ts",
+        "packages/ci/circle/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/cloudflare",
+      "packagePath": "packages/cloudflare/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/cloudflare/package.json",
+        "packages/cloudflare/src/index.ts",
+        "packages/cloudflare/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/context-generics",
+      "packagePath": "packages/context-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/context-generics/package.json",
+        "packages/context-generics/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/conversations",
+      "packagePath": "packages/conversations/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/conversations/package.json",
+        "packages/conversations/src/index.ts",
+        "packages/conversations/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/digest",
+      "packagePath": "packages/digest/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/digest/package.json",
+        "packages/digest/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-doc-comments-doc-code",
+      "packagePath": "packages/generic-doc-comments/doc-code/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/generic-doc-comments/doc-code/package.json",
+        "packages/generic-doc-comments/doc-code/src/index.ts",
+        "packages/generic-doc-comments/doc-code/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/doc-comment-generics",
+      "packagePath": "packages/doc-comment-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/doc-comment-generics/package.json",
+        "packages/doc-comment-generics/src/index.ts",
+        "packages/doc-comment-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/containerizations-docker",
+      "packagePath": "packages/containerizations/docker/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/containerizations/docker/package.json",
+        "packages/containerizations/docker/src/index.ts",
+        "packages/containerizations/docker/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/file-editing",
+      "packagePath": "packages/file-editing/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/file-editing/package.json",
+        "packages/file-editing/src/index.ts",
+        "packages/file-editing/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/email",
+      "packagePath": "packages/email/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/email/package.json",
+        "packages/email/src/index.ts",
+        "packages/email/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/errors",
+      "packagePath": "packages/errors/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/errors/package.json",
+        "packages/errors/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "eslint-plugin-bitcode",
+      "packagePath": "packages/eslint-plugin-bitcode/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/eslint-plugin-bitcode/package.json",
+        "packages/eslint-plugin-bitcode/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/execution-generics",
+      "packagePath": "packages/execution-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/execution-generics/package.json",
+        "packages/execution-generics/src/index.ts",
+        "packages/execution-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/mcp-generics",
+      "packagePath": "packages/mcp-generics/package.json",
+      "primaryRole": "direct-product",
+      "classificationBasis": "direct-product-name",
+      "rationale": "package participates directly in the Exchange, Terminal, MCP, API, or BTD product experience",
+      "role": "product-facing Bitcode package surface",
+      "writeBoundary": "product writes must pass through Bitcode-owned application/API/MCP admission, activity, and settlement semantics",
+      "proofObligation": "product packages must stay bound to application composition, source-to-shares, runs/pipelines, and interface parity proofs",
+      "requiredFiles": [
+        "packages/mcp-generics/package.json",
+        "packages/mcp-generics/src/index.ts",
+        "packages/mcp-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-mcps-bitcode",
+      "packagePath": "packages/mcp-generics/src/mcp-server/package.json",
+      "primaryRole": "direct-product",
+      "classificationBasis": "direct-product-name",
+      "rationale": "package participates directly in the Exchange, Terminal, MCP, API, or BTD product experience",
+      "role": "product-facing Bitcode package surface",
+      "writeBoundary": "product writes must pass through Bitcode-owned application/API/MCP admission, activity, and settlement semantics",
+      "proofObligation": "product packages must stay bound to application composition, source-to-shares, runs/pipelines, and interface parity proofs",
+      "requiredFiles": [
+        "packages/mcp-generics/src/mcp-server/package.json",
+        "packages/mcp-generics/src/mcp-server/src/index.ts",
+        "packages/mcp-generics/src/mcp-server/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/externals-figma",
+      "packagePath": "packages/externals/figma/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/externals/figma/package.json",
+        "packages/externals/figma/src/index.ts",
+        "packages/externals/figma/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/files",
+      "packagePath": "packages/files/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/files/package.json",
+        "packages/files/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/firebase",
+      "packagePath": "packages/firebase/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/firebase/package.json",
+        "packages/firebase/src/index.ts",
+        "packages/firebase/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/web-scrapers-firecrawl",
+      "packagePath": "packages/web-scrapers/firecrawl/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/web-scrapers/firecrawl/package.json",
+        "packages/web-scrapers/firecrawl/src/index.ts",
+        "packages/web-scrapers/firecrawl/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-audio-processor",
+      "packagePath": "packages/generic-agents/audio-processor/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/audio-processor/package.json",
+        "packages/generic-agents/audio-processor/src/index.ts",
+        "packages/generic-agents/audio-processor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agent-code-editor",
+      "packagePath": "packages/generic-agents/code-editor/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/code-editor/package.json",
+        "packages/generic-agents/code-editor/src/index.ts",
+        "packages/generic-agents/code-editor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-rag-snippets",
+      "packagePath": "packages/generic-agents/code-searcher/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/code-searcher/package.json",
+        "packages/generic-agents/code-searcher/src/index.ts",
+        "packages/generic-agents/code-searcher/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-danger-wall",
+      "packagePath": "packages/generic-agents/danger-wall/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-agents/danger-wall/package.json",
+        "packages/generic-agents/danger-wall/src/index.ts",
+        "packages/generic-agents/danger-wall/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-digesting",
+      "packagePath": "packages/generic-agents/digester/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/digester/package.json",
+        "packages/generic-agents/digester/src/index.ts",
+        "packages/generic-agents/digester/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-document-processor",
+      "packagePath": "packages/generic-agents/document-processor/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/document-processor/package.json",
+        "packages/generic-agents/document-processor/src/index.ts",
+        "packages/generic-agents/document-processor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-figma",
+      "packagePath": "packages/generic-agents/figma-processor/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/figma-processor/package.json",
+        "packages/generic-agents/figma-processor/src/index.ts",
+        "packages/generic-agents/figma-processor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-file-pick",
+      "packagePath": "packages/generic-agents/file-pick/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/file-pick/package.json",
+        "packages/generic-agents/file-pick/src/index.ts",
+        "packages/generic-agents/file-pick/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-image-processor",
+      "packagePath": "packages/generic-agents/image-processor/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/image-processor/package.json",
+        "packages/generic-agents/image-processor/src/index.ts",
+        "packages/generic-agents/image-processor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-jira",
+      "packagePath": "packages/generic-agents/jira-processor/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/jira-processor/package.json",
+        "packages/generic-agents/jira-processor/src/index.ts",
+        "packages/generic-agents/jira-processor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-language",
+      "packagePath": "packages/generic-agents/language/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/language/package.json",
+        "packages/generic-agents/language/src/index.ts",
+        "packages/generic-agents/language/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-initialize-mcps",
+      "packagePath": "packages/generic-agents/mcps-initializer/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/mcps-initializer/package.json",
+        "packages/generic-agents/mcps-initializer/src/index.ts",
+        "packages/generic-agents/mcps-initializer/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-read-comprehension",
+      "packagePath": "packages/generic-agents/read-comprehension/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-agents/read-comprehension/package.json",
+        "packages/generic-agents/read-comprehension/src/index.ts",
+        "packages/generic-agents/read-comprehension/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-ready-to-short-circuit",
+      "packagePath": "packages/generic-agents/ready-to-short-circuit/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/ready-to-short-circuit/package.json",
+        "packages/generic-agents/ready-to-short-circuit/src/index.ts",
+        "packages/generic-agents/ready-to-short-circuit/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-tech-types-identifier",
+      "packagePath": "packages/generic-agents/tech-types-identifier/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/tech-types-identifier/package.json",
+        "packages/generic-agents/tech-types-identifier/src/index.ts",
+        "packages/generic-agents/tech-types-identifier/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-text-search",
+      "packagePath": "packages/generic-agents/text-searcher/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/text-searcher/package.json",
+        "packages/generic-agents/text-searcher/src/index.ts",
+        "packages/generic-agents/text-searcher/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-vcs",
+      "packagePath": "packages/generic-agents/vcs/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/vcs/package.json",
+        "packages/generic-agents/vcs/src/index.ts",
+        "packages/generic-agents/vcs/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-video-processor",
+      "packagePath": "packages/generic-agents/video-processor/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-agents/video-processor/package.json",
+        "packages/generic-agents/video-processor/src/index.ts",
+        "packages/generic-agents/video-processor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-web-research",
+      "packagePath": "packages/generic-agents/web-researcher/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-agents/web-researcher/package.json",
+        "packages/generic-agents/web-researcher/src/index.ts",
+        "packages/generic-agents/web-researcher/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-web-search",
+      "packagePath": "packages/generic-agents/web-search/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-agents/web-search/package.json",
+        "packages/generic-agents/web-search/src/index.ts",
+        "packages/generic-agents/web-search/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-doc-comments-doc-developing",
+      "packagePath": "packages/generic-doc-comment-plugins/doc-developing/package.json",
+      "primaryRole": "reference-only",
+      "classificationBasis": "reference-only-directory",
+      "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
+      "role": "reference-only retained package corridor",
+      "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
+      "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
+      "requiredFiles": [
+        "packages/generic-doc-comment-plugins/doc-developing/package.json",
+        "packages/generic-doc-comment-plugins/doc-developing/src/index.ts",
+        "packages/generic-doc-comment-plugins/doc-developing/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-llms",
+      "packagePath": "packages/generic-llms/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/generic-llms/package.json",
+        "packages/generic-llms/src/index.ts",
+        "packages/generic-llms/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-code-refactor",
+      "packagePath": "packages/generic-tools/code-refactor/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/code-refactor/package.json",
+        "packages/generic-tools/code-refactor/src/index.ts",
+        "packages/generic-tools/code-refactor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-editing",
+      "packagePath": "packages/generic-tools/files-maintaining/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/files-maintaining/package.json",
+        "packages/generic-tools/files-maintaining/src/index.ts",
+        "packages/generic-tools/files-maintaining/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-firecrawl",
+      "packagePath": "packages/generic-tools/firecrawl/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/firecrawl/package.json",
+        "packages/generic-tools/firecrawl/src/index.ts",
+        "packages/generic-tools/firecrawl/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-git",
+      "packagePath": "packages/generic-tools/git-interactor/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/git-interactor/package.json",
+        "packages/generic-tools/git-interactor/src/index.ts",
+        "packages/generic-tools/git-interactor/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-lsp-query",
+      "packagePath": "packages/generic-tools/lsp-query/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/lsp-query/package.json",
+        "packages/generic-tools/lsp-query/src/index.ts",
+        "packages/generic-tools/lsp-query/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-aurora-postgres",
+      "packagePath": "packages/generic-tools/mcps-tools/aurora-postgres/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/aurora-postgres/package.json",
+        "packages/generic-tools/mcps-tools/aurora-postgres/src/index.ts",
+        "packages/generic-tools/mcps-tools/aurora-postgres/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-aws-location",
+      "packagePath": "packages/generic-tools/mcps-tools/aws-location/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/aws-location/package.json",
+        "packages/generic-tools/mcps-tools/aws-location/src/index.ts",
+        "packages/generic-tools/mcps-tools/aws-location/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-aws-terraform",
+      "packagePath": "packages/generic-tools/mcps-tools/aws-terraform/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/aws-terraform/package.json",
+        "packages/generic-tools/mcps-tools/aws-terraform/src/index.ts",
+        "packages/generic-tools/mcps-tools/aws-terraform/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-aws",
+      "packagePath": "packages/generic-tools/mcps-tools/aws/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/aws/package.json",
+        "packages/generic-tools/mcps-tools/aws/src/index.ts",
+        "packages/generic-tools/mcps-tools/aws/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-bitbucket",
+      "packagePath": "packages/generic-tools/mcps-tools/bitbucket/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/bitbucket/package.json",
+        "packages/generic-tools/mcps-tools/bitbucket/src/index.ts",
+        "packages/generic-tools/mcps-tools/bitbucket/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-circleci",
+      "packagePath": "packages/generic-tools/mcps-tools/circleci/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/circleci/package.json",
+        "packages/generic-tools/mcps-tools/circleci/src/index.ts",
+        "packages/generic-tools/mcps-tools/circleci/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-cloudflare",
+      "packagePath": "packages/generic-tools/mcps-tools/cloudflare/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/cloudflare/package.json",
+        "packages/generic-tools/mcps-tools/cloudflare/src/index.ts",
+        "packages/generic-tools/mcps-tools/cloudflare/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-docker",
+      "packagePath": "packages/generic-tools/mcps-tools/docker/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/docker/package.json",
+        "packages/generic-tools/mcps-tools/docker/src/index.ts",
+        "packages/generic-tools/mcps-tools/docker/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/externals-figma-tools",
+      "packagePath": "packages/generic-tools/mcps-tools/figma/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/figma/package.json",
+        "packages/generic-tools/mcps-tools/figma/src/index.ts",
+        "packages/generic-tools/mcps-tools/figma/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-firebase",
+      "packagePath": "packages/generic-tools/mcps-tools/firebase/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/firebase/package.json",
+        "packages/generic-tools/mcps-tools/firebase/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-git-repo-research",
+      "packagePath": "packages/generic-tools/mcps-tools/git-repo-research/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/git-repo-research/package.json",
+        "packages/generic-tools/mcps-tools/git-repo-research/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-github",
+      "packagePath": "packages/generic-tools/mcps-tools/github/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/github/package.json",
+        "packages/generic-tools/mcps-tools/github/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-gitlab",
+      "packagePath": "packages/generic-tools/mcps-tools/gitlab/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/gitlab/package.json",
+        "packages/generic-tools/mcps-tools/gitlab/src/index.ts",
+        "packages/generic-tools/mcps-tools/gitlab/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/externals-jira-tools",
+      "packagePath": "packages/generic-tools/mcps-tools/jira/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/jira/package.json",
+        "packages/generic-tools/mcps-tools/jira/src/index.ts",
+        "packages/generic-tools/mcps-tools/jira/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-kubernetes",
+      "packagePath": "packages/generic-tools/mcps-tools/kubernetes/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/kubernetes/package.json",
+        "packages/generic-tools/mcps-tools/kubernetes/src/index.ts",
+        "packages/generic-tools/mcps-tools/kubernetes/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-mysql",
+      "packagePath": "packages/generic-tools/mcps-tools/mysql/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/mysql/package.json",
+        "packages/generic-tools/mcps-tools/mysql/src/index.ts",
+        "packages/generic-tools/mcps-tools/mysql/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/mcp-genericss-tools-notion",
+      "packagePath": "packages/generic-tools/mcps-tools/notion/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/notion/package.json",
+        "packages/generic-tools/mcps-tools/notion/src/index.ts",
+        "packages/generic-tools/mcps-tools/notion/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-postgresql",
+      "packagePath": "packages/generic-tools/mcps-tools/postgresql/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/postgresql/package.json",
+        "packages/generic-tools/mcps-tools/postgresql/src/index.ts",
+        "packages/generic-tools/mcps-tools/postgresql/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-supabase",
+      "packagePath": "packages/generic-tools/mcps-tools/supabase/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/supabase/package.json",
+        "packages/generic-tools/mcps-tools/supabase/src/index.ts",
+        "packages/generic-tools/mcps-tools/supabase/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-vercel",
+      "packagePath": "packages/generic-tools/mcps-tools/vercel/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/vercel/package.json",
+        "packages/generic-tools/mcps-tools/vercel/src/index.ts",
+        "packages/generic-tools/mcps-tools/vercel/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-multimodal-processing",
+      "packagePath": "packages/generic-tools/multimodal-processing/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/multimodal-processing/package.json",
+        "packages/generic-tools/multimodal-processing/src/index.ts",
+        "packages/generic-tools/multimodal-processing/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-read-comprehension",
+      "packagePath": "packages/generic-tools/read-comprehension/package.json",
+      "primaryRole": "compatibility",
+      "classificationBasis": "compatibility-name",
+      "rationale": "package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
+      "role": "compatibility corridor retained during Bitcode reform",
+      "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
+      "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
+      "requiredFiles": [
+        "packages/generic-tools/read-comprehension/package.json",
+        "packages/generic-tools/read-comprehension/src/index.ts",
+        "packages/generic-tools/read-comprehension/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-repository-setup",
+      "packagePath": "packages/generic-tools/repository-setup/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/repository-setup/package.json",
+        "packages/generic-tools/repository-setup/src/index.ts",
+        "packages/generic-tools/repository-setup/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-simple-system-text-search",
+      "packagePath": "packages/generic-tools/simple-system-text-search/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/simple-system-text-search/package.json",
+        "packages/generic-tools/simple-system-text-search/src/index.ts",
+        "packages/generic-tools/simple-system-text-search/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/vcs-generics-tools",
+      "packagePath": "packages/generic-tools/vcs/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/vcs/package.json",
+        "packages/generic-tools/vcs/src/index.ts",
+        "packages/generic-tools/vcs/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-web-search",
+      "packagePath": "packages/generic-tools/web-search/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-tools/web-search/package.json",
+        "packages/generic-tools/web-search/src/index.ts",
+        "packages/generic-tools/web-search/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-vcs-git",
+      "packagePath": "packages/generic-vcs/git/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/generic-vcs/git/package.json",
+        "packages/generic-vcs/git/src/index.ts",
+        "packages/generic-vcs/git/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-vcs-github",
+      "packagePath": "packages/generic-vcs/github/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/generic-vcs/github/package.json",
+        "packages/generic-vcs/github/src/index.ts",
+        "packages/generic-vcs/github/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-vcs-gitlab",
+      "packagePath": "packages/generic-vcs/gitlab/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-vcs/gitlab/package.json",
+        "packages/generic-vcs/gitlab/src/index.ts",
+        "packages/generic-vcs/gitlab/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/external-telemetry-google",
+      "packagePath": "packages/external-telemetry/google/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/external-telemetry/google/package.json",
+        "packages/external-telemetry/google/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/externals-jira",
+      "packagePath": "packages/externals/jira/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/externals/jira/package.json",
+        "packages/externals/jira/src/index.ts",
+        "packages/externals/jira/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/containerizations-kubernetes",
+      "packagePath": "packages/containerizations/kubernetes/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/containerizations/kubernetes/package.json",
+        "packages/containerizations/kubernetes/src/index.ts",
+        "packages/containerizations/kubernetes/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/llm-generics",
+      "packagePath": "packages/llm-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/llm-generics/package.json",
+        "packages/llm-generics/src/index.ts",
+        "packages/llm-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/logger",
+      "packagePath": "packages/logger/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/logger/package.json",
+        "packages/logger/src/index.ts",
+        "packages/logger/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/lsp",
+      "packagePath": "packages/lsp/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/lsp/package.json",
+        "packages/lsp/src/index.ts",
+        "packages/lsp/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/middleware",
+      "packagePath": "packages/middleware/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/middleware/package.json",
+        "packages/middleware/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-llms-models",
+      "packagePath": "packages/generic-llms/models/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/generic-llms/models/package.json",
+        "packages/generic-llms/models/src/index.ts",
+        "packages/generic-llms/models/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/multimodal-utils",
+      "packagePath": "packages/multimodal-utils/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/multimodal-utils/package.json",
+        "packages/multimodal-utils/src/index.ts",
+        "packages/multimodal-utils/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/mysql",
+      "packagePath": "packages/mysql/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/mysql/package.json",
+        "packages/mysql/src/index.ts",
+        "packages/mysql/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/networking",
+      "packagePath": "packages/networking/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/networking/package.json",
+        "packages/networking/src/index.ts",
+        "packages/networking/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/notifications",
+      "packagePath": "packages/notifications/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/notifications/package.json",
+        "packages/notifications/src/index.ts",
+        "packages/notifications/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/externals-notion",
+      "packagePath": "packages/externals/notion/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/externals/notion/package.json",
+        "packages/externals/notion/src/index.ts",
+        "packages/externals/notion/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/obfuscation",
+      "packagePath": "packages/obfuscate-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/obfuscate-generics/package.json",
+        "packages/obfuscate-generics/src/index.ts",
+        "packages/obfuscate-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/objects-arrays-objects",
+      "packagePath": "packages/objects-arrays/objects/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/objects-arrays/objects/package.json",
+        "packages/objects-arrays/objects/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/observability",
+      "packagePath": "packages/observability/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/observability/package.json",
+        "packages/observability/src/index.ts",
+        "packages/observability/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/orm",
+      "packagePath": "packages/orm/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/orm/package.json",
+        "packages/orm/src/index.ts",
+        "packages/orm/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/parsing",
+      "packagePath": "packages/parsing/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/parsing/package.json",
+        "packages/parsing/src/index.ts",
+        "packages/parsing/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/pipelines-generics",
+      "packagePath": "packages/pipelines-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/pipelines-generics/package.json",
+        "packages/pipelines-generics/src/index.ts",
+        "packages/pipelines-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/asset-packs-pipelines-domain",
+      "packagePath": "packages/asset-packs-pipelines/domain/package.json",
+      "primaryRole": "compatibility",
+      "classificationBasis": "compatibility-name",
+      "rationale": "package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
+      "role": "compatibility corridor retained during Bitcode reform",
+      "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
+      "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
+      "requiredFiles": [
+        "packages/asset-packs-pipelines/domain/package.json",
+        "packages/asset-packs-pipelines/domain/src/index.ts",
+        "packages/asset-packs-pipelines/domain/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/postgresql",
+      "packagePath": "packages/postgresql/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/postgresql/package.json",
+        "packages/postgresql/src/index.ts",
+        "packages/postgresql/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/procurement",
+      "packagePath": "packages/procurement/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/procurement/package.json",
+        "packages/procurement/src/index.ts",
+        "packages/procurement/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/prompts",
+      "packagePath": "packages/prompts/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/prompts/package.json",
+        "packages/prompts/src/index.ts",
+        "packages/prompts/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/file-refactoring",
+      "packagePath": "packages/file-refactoring/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/file-refactoring/package.json",
+        "packages/file-refactoring/src/index.ts",
+        "packages/file-refactoring/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/registry",
+      "packagePath": "packages/registry/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/registry/package.json",
+        "packages/registry/src/index.ts",
+        "packages/registry/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/api/responses",
+      "packagePath": "packages/api/src/responses/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/api/src/responses/package.json",
+        "packages/api/src/responses/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/security",
+      "packagePath": "packages/security/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/security/package.json",
+        "packages/security/src/index.ts",
+        "packages/security/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/external-telemetry-sentry",
+      "packagePath": "packages/external-telemetry/sentry/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/external-telemetry/sentry/package.json",
+        "packages/external-telemetry/sentry/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/api/streams",
+      "packagePath": "packages/api/src/streams/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/api/src/streams/package.json",
+        "packages/api/src/streams/src/index.ts",
+        "packages/api/src/streams/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/styling",
+      "packagePath": "packages/styling/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/styling/package.json",
+        "packages/styling/src/index.ts",
+        "packages/styling/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/supabase",
+      "packagePath": "packages/supabase/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/supabase/package.json",
+        "packages/supabase/src/index.ts",
+        "packages/supabase/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/host-commands-grep",
+      "packagePath": "packages/host-commands/grep/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/host-commands/grep/package.json",
+        "packages/host-commands/grep/src/index.ts",
+        "packages/host-commands/grep/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-measurements-tech-types",
+      "packagePath": "packages/generic-measurements/tech-types/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/generic-measurements/tech-types/package.json",
+        "packages/generic-measurements/tech-types/src/index.ts",
+        "packages/generic-measurements/tech-types/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/templates-generics",
+      "packagePath": "packages/templates-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/templates-generics/package.json",
+        "packages/templates-generics/src/index.ts"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/test-intelligence",
+      "packagePath": "packages/testing/src/test-drymockfakestub/package.json",
+      "primaryRole": "compatibility",
+      "classificationBasis": "compatibility-name",
+      "rationale": "package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
+      "role": "compatibility corridor retained during Bitcode reform",
+      "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
+      "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
+      "requiredFiles": [
+        "packages/testing/src/test-drymockfakestub/package.json",
+        "packages/testing/src/test-drymockfakestub/src/index.ts",
+        "packages/testing/src/test-drymockfakestub/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/time",
+      "packagePath": "packages/time/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/time/package.json",
+        "packages/time/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/tools-generics",
+      "packagePath": "packages/tools-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/tools-generics/package.json",
+        "packages/tools-generics/src/index.ts",
+        "packages/tools-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/vcs-generics",
+      "packagePath": "packages/vcs-generics/package.json",
+      "primaryRole": "commercial-infrastructure",
+      "classificationBasis": "commercial-infrastructure-name",
+      "rationale": "package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure",
+      "role": "commercial Bitcode infrastructure package",
+      "writeBoundary": "infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic",
+      "proofObligation": "infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams",
+      "requiredFiles": [
+        "packages/vcs-generics/package.json",
+        "packages/vcs-generics/src/index.ts",
+        "packages/vcs-generics/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/externals-vercel",
+      "packagePath": "packages/externals/vercel/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/externals/vercel/package.json",
+        "packages/externals/vercel/src/index.ts",
+        "packages/externals/vercel/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/web-search",
+      "packagePath": "packages/web-search/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/web-search/package.json",
+        "packages/web-search/src/index.ts",
+        "packages/web-search/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    }
+  ]
+}

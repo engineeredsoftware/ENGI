@@ -9,7 +9,7 @@ import { buildV33ChatGptAppActionContractsArtifact } from './generate-v33-chatgp
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-chatgpt-app-action-contracts.json';
+const ARTIFACT = '.proofs/v33/chatgpt-app-action-contracts.json';
 
 const REQUIRED_ACTION_IDS = [
   'bitcode_request_read',
@@ -127,7 +127,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -148,19 +148,19 @@ function main() {
     ARTIFACT,
     'packages/btd/src/chatgpt-app-action-contract.ts',
     'packages/btd/__tests__/chatgpt-app-action-contract.test.ts',
-    'packages/chatgptapp/src/tools.ts',
-    'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
+    'apps/chatgpt/src/tools.ts',
+    'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
     'scripts/generate-v33-chatgpt-app-action-contracts.mjs',
     'scripts/check-v33-gate4-chatgpt-app-action-contracts.mjs',
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -228,18 +228,18 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V33.md');
-  const delta = read(root, 'BITCODE_SPEC_V33_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V33_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V33.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const btdSource = read(root, 'packages/btd/src/chatgpt-app-action-contract.ts');
-  const chatgptSource = read(root, 'packages/chatgptapp/src/tools.ts');
+  const chatgptSource = read(root, 'apps/chatgpt/src/tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/chatgpt-app-action-contract.test.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V33 docs must mention ${ARTIFACT}.`);

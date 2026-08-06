@@ -1,0 +1,45 @@
+{
+  "reportId": "v30-protocol-telemetry-proof-hooks",
+  "version": "V30",
+  "proofSourceCommit": "c5b238b9958430c4611ef396ac8cea248c1aecf4",
+  "generatedAt": "2026-05-21T22:17:44-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "passed": true,
+  "sourceSafe": true,
+  "checkedFileCount": 12,
+  "checkedFiles": [
+    "packages/btd/src/telemetry.ts",
+    "packages/btd/src/api-boundaries.ts",
+    "packages/btd/__tests__/telemetry.test.ts",
+    "packages/api/src/routes/btd-crypto.ts",
+    "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+    "apps/uapi/app/api/btd/protocol-telemetry/route.ts",
+    "packages/btd/README.md",
+    "apps/uapi/app/terminal/README.md",
+    "BITCODE_SPEC_V30.md",
+    "BITCODE_SPEC_V30_DELTA.md",
+    "BITCODE_SPEC_V30_NOTES.md",
+    "BITCODE_SPEC_V30_PARITY_MATRIX.md"
+  ],
+  "requiredTelemetryFamilies": [
+    "btd_receipt",
+    "btc_fee_state",
+    "ledger_projection",
+    "source_to_shares_proof",
+    "bridge_readiness_posture"
+  ],
+  "proofHookCoverage": [
+    "theorem ids",
+    "replay step ids",
+    "witness artifact paths",
+    "generated artifact paths",
+    "evidence roots",
+    "telemetry roots"
+  ],
+  "compatibleWith": [
+    "V32",
+    "V35"
+  ],
+  "failures": []
+}

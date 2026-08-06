@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V42_LOCAL_STAGING_MVP_REHEARSAL_ARTIFACT_PATH,
   buildV42LocalStagingMvpRehearsal,
-} from '../packages/protocol/src/canonical/v42-local-staging-mvp-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v42-local-staging-mvp-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

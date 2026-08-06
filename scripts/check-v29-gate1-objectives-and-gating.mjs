@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -85,12 +85,12 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V29.md',
-    'BITCODE_SPEC_V29_DELTA.md',
-    'BITCODE_SPEC_V29_NOTES.md',
-    'BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V29.md',
+    '.specifications/BITCODE_SPEC_V29_DELTA.md',
+    '.specifications/BITCODE_SPEC_V29_NOTES.md',
+    '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'BITCODE_SPECIFYING.md',
-    'BITCODE_SPEC_TEMPLATEGUIDE.md',
+    '.specifications/BITCODE_SPEC_TEMPLATEGUIDE.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'README.md',
@@ -101,16 +101,16 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing required V29 Gate 1 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V29.md');
-  const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const readme = read(root, 'README.md');
   const agents = read(root, 'AGENTS.md');
-  const posture = read(root, 'protocol-demonstration/src/canon-posture.js');
+  const posture = read(root, 'scripts/specifying/src/canon-posture.js');
 
   assertCheck(failures, spec.includes('Current canonical/latest target: `V28`'), 'V29 SPEC must declare V28 as current canonical/latest target.');
   assertCheck(failures, delta.includes('Current canonical/latest target: `V28`'), 'V29 DELTA must declare V28 as current canonical/latest target.');
@@ -121,14 +121,14 @@ function main() {
 
   for (const gate of [
     'Gate 1: V29 Objectives And Gating',
-    'Gate 2: Terminal Transaction Read Models And Navigation',
+    'Gate 2: product Transaction Read Models And Navigation',
     'Gate 3: Wallet Signer Session And BTC Fee Operations',
     'Gate 4: Reading Transaction Recovery And Pipeline Observability',
     'Gate 5: AssetPack Disclosure Rights And Preview Depth',
     'Gate 6: Settlement Reconciliation And Repair',
     'Gate 7: Organization Permissions And Interface Authority',
     'Gate 8: Demonstration-Origin Commercial Formalization',
-    'Gate 9: Terminal UX Quality And Browser Proof',
+    'Gate 9: product UX Quality And Browser Proof',
     'Gate 10: Local And Staging Promotion Readiness'
   ]) {
     assertCheck(failures, hasSection(delta, gate) || notes.includes(gate), `V29 gate plan is missing ${gate}.`);
@@ -152,7 +152,7 @@ function main() {
   assertCheck(failures, agents.includes('version/v29') || agents.includes('such as `version/v28`'), 'AGENTS.md must document version base branch usage.');
   assertCheck(failures, /gate branches must be prefixed with the gate number/i.test(agents), 'AGENTS.md must retain gate-number branch discipline.');
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8'
   }).trim();

@@ -2,25 +2,29 @@
 node_modules
 __pycache__
 app/app/__pychache__
-uapi/tmp
+apps/uapi/tmp
 
 # Local environment files
+.v26.env
 .env
 .env.*
 !.env.example
 !**/.env.example
+# Example templates carry placeholders only — always committable.
+!.env.*.example
+!**/.env.*.example
 
 # Playwright test artifacts
 **/playwright-report/**
-uapi/playwright-report/
+apps/uapi/playwright-report/
 **/test-results/**
-uapi/test-results/**
+apps/uapi/test-results/**
 
 # Auto-generated inventory docs
 internal-docs/agents-auto.md
 # Coverage output
 coverage/
-uapi/coverage/
+apps/uapi/coverage/
 # Jest snapshot directories
 **/__snapshots__/
 **/.next/**
@@ -46,29 +50,31 @@ admin/lib/**/*.js
 admin/middleware.js
 
 # UAPI app
-uapi/__tests__/**/*.js
-uapi/tests/**/*.js
-uapi/app/**/*.js
-uapi/components/**/*.js
-uapi/lib/**/*.js
-uapi/middleware/**/*.js
-uapi/middleware.js
+apps/uapi/__tests__/**/*.js
+apps/uapi/tests/**/*.js
+# Keep hand-authored Jest mocks tracked (not compiled output).
+!apps/uapi/tests/mocks/**
+apps/uapi/app/**/*.js
+apps/uapi/components/**/*.js
+apps/uapi/lib/**/*.js
+apps/uapi/middleware/**/*.js
+apps/uapi/middleware.js
 
 # UI registry example JS (generated)
-uapi/components/ui/apps/**/example/**/*.js
-uapi/components/ui/apps/www/registry/**/example/**/*.js
+apps/uapi/components/ui/apps/**/example/**/*.js
+apps/uapi/components/ui/apps/www/registry/**/example/**/*.js
 
 # Shadcn test fixtures and internal JS helpers
-uapi/components/ui/packages/shadcn/test/**/*.js
-uapi/components/ui/packages/shadcn/src/utils/**/*.js
+apps/uapi/components/ui/packages/shadcn/test/**/*.js
+apps/uapi/components/ui/packages/shadcn/src/utils/**/*.js
 
 
 # Extra ignore for JS build artifacts across workspaces
-uapi/playwright.config.js
-uapi/prompts/**/*.js
-uapi/scripts/**/*.js
-uapi/specifics/**/*.js
-uapi/stories/**/*.js
+apps/uapi/playwright.config.js
+apps/uapi/prompts/**/*.js
+apps/uapi/scripts/**/*.js
+apps/uapi/specifics/**/*.js
+apps/uapi/stories/**/*.js
 admin/tailwind.config.js
 packages/**/tests/**/*.js
 packages/**/test/**/*.js
@@ -85,10 +91,20 @@ packages/doc-comment/examples/*.js
 packages/web-search/examples/**/*.js
 packages/digest/**/*.js
 scripts/*.js
-uapi/tailwind.config.js
+apps/uapi/tailwind.config.js
 
 # Miscellaneous
 .tmp/
 .vercel
 .env*.local
-.bitcode/pipeline-harness-runs/
+.proofs/pipeline-harness-runs/
+scripts/.env.staging-testnet
+.aider**
+.env*
+
+# Local fundraising materials (not product source)
+.fundraising/
+
+# Runtime pipeline-host working directories (sandbox/local)
+.proofs/pipeline-host/
+.proofs/pipeline-host-runs/

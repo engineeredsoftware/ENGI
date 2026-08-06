@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ARTIFACT_PATH,
   buildV46LocalInterfaceComprehensionRehearsal,
-} from '../packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +66,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V45', `BITCODE_SPEC.txt must remain V45 during V46 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -81,23 +81,23 @@ function main() {
 
   for (const relativePath of [
     V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js',
-    'packages/protocol/test/v46-local-interface-comprehension-rehearsal.test.js',
+    'scripts/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js',
+    'scripts/specifying/test/v46-local-interface-comprehension-rehearsal.test.js',
     'scripts/generate-v46-local-interface-comprehension-rehearsal.mjs',
     'scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs',
-    'BITCODE_SPEC_V46.md',
-    'BITCODE_SPEC_V46_DELTA.md',
-    'BITCODE_SPEC_V46_NOTES.md',
-    'BITCODE_SPEC_V46_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/deposit/DepositPageClient.tsx',
+    '.specifications/BITCODE_SPEC_V46.md',
+    '.specifications/BITCODE_SPEC_V46_DELTA.md',
+    '.specifications/BITCODE_SPEC_V46_NOTES.md',
+    '.specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
     'packages/btd/src/api-schema-compatibility-matrix.ts',
     'packages/btd/src/mcp-tool-contract.ts',
     'packages/btd/src/chatgpt-app-action-contract.ts',
-    'uapi/app/conversations/conversation-terminal-handoff.ts',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+    'apps/uapi/app/conversations/conversation-product-handoff.ts',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -158,7 +158,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -166,7 +166,7 @@ function main() {
         'test/v46-local-interface-comprehension-rehearsal.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v46-local-interface-comprehension-rehearsal.test.js must pass.');
+      failures.push('scripts/specifying/test/v46-local-interface-comprehension-rehearsal.test.js must pass.');
     }
   }
 

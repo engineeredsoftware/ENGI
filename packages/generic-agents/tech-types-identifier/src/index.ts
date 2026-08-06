@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -276,7 +276,8 @@ export const techTypesIdentifierStepPrompts = {
  * Comprehensive tech identification agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveTechIdentification = factoryAgentWithPTRR<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveTechIdentification: any = factoryPTRRAgent<
   z.infer<typeof TechTypesIdentifierInputSchema>,
   z.infer<typeof TechTypesIdentifierRetrySchema>
 >({
@@ -318,7 +319,7 @@ const comprehensiveTechIdentification = factoryAgentWithPTRR<
  * Quick tech identification agent
  * Single-step execution for simple identification tasks
  */
-const quickTechIdentification = factoryAgentWithSingleStep<
+const quickTechIdentification: any = factoryAgentWithSingleStep<
   z.infer<typeof TechTypesIdentifierInputSchema>,
   z.infer<typeof TechTypesIdentifierRetrySchema>
 >({
@@ -423,10 +424,10 @@ export {
  * When techTypesIdentifierAgent is called:
  * 1. selectVariation picks comprehensive or quick
  * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
+ *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thinkings)
+ *    - factoryTryGeneration(schema) creates Try generation (failsafed thinkings)
+ *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thinkings)
+ *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thinkings)
  * 3. Each executor automatically:
  *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
  *    - Each parent runs Reason→Judge→StructuredOutput

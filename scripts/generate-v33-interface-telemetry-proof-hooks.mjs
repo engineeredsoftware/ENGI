@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v33-interface-telemetry-proof-hooks.json';
+const ARTIFACT_PATH = '.proofs/v33/interface-telemetry-proof-hooks.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const requiredInterfaceIds = Object.freeze([
@@ -37,10 +37,10 @@ const hookRows = Object.freeze([
     executionId: 'execution-terminal-reading-preview',
     rootId: 'terminal-preview',
     replayCommand:
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
     theoremIds: ['interface-denial-readable', 'interface-preview-not-source'],
     replayStepIds: ['terminal-preview-blocked-readback', 'terminal-read-model'],
-    witnessArtifactPaths: ['uapi/tests/terminalOrganizationAuthority.test.ts'],
+    witnessArtifactPaths: ['apps/uapi/tests/terminalOrganizationAuthority.test.ts'],
     denialReason: 'assetpack-source-locked-until-settlement',
     repairPosture: 'settle-btc-fee-before-full-assetpack-delivery',
   }),
@@ -67,11 +67,11 @@ const hookRows = Object.freeze([
     executionId: 'execution-mcp-reading-pipeline',
     rootId: 'mcp-reading-pipeline',
     replayCommand:
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     theoremIds: ['interface-execution-rooted', 'interface-proof-replayable'],
     replayStepIds: ['mcp-auth-context', 'mcp-pipeline-queue-readback'],
     witnessArtifactPaths: [
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     ],
     successSummary: 'mcp-reading-pipeline-queued-with-source-safe-roots',
     repairPosture: 'replay-mcp-pipeline-ingress-before-investigating-downstream-hosts',
@@ -87,7 +87,7 @@ const hookRows = Object.freeze([
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
     theoremIds: ['interface-confirmation-required', 'interface-preview-not-source'],
     replayStepIds: ['chatgpt-assetpack-delivery-blocked', 'chatgpt-confirmation-check'],
-    witnessArtifactPaths: ['packages/chatgptapp/src/__tests__/tools.test.ts'],
+    witnessArtifactPaths: ['apps/chatgpt/src/__tests__/tools.test.ts'],
     denialReason: 'reader-confirmation-or-paid-rights-missing',
     repairPosture: 'confirm-action-and-settle-before-full-delivery',
   }),
@@ -253,31 +253,31 @@ export function buildV33InterfaceTelemetryProofHooksArtifact() {
   const testEvidence = [
     scanTokens('packages/btd/__tests__/interface-telemetry-proof-hook.test.ts', [
       'publishes source-safe hooks for every required interface and posture',
-      'records execution and replay roots for Terminal, API, MCP, ChatGPT App, and package consumers',
+      'records execution and replay roots for product, API, MCP, ChatGPT App, and package consumers',
       'rejects secrets, prompt bodies, and protected payloads',
     ]),
     scanTokens('packages/api/src/routes/__tests__/btd-crypto.test.ts', [
       'shares the package-owned InterfaceTelemetryProofHook for public API readback replay',
       'interface.telemetry.public-api-reading',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceTelemetryProofHook for MCP pipeline replay',
       'interface.telemetry.mcp-reading-tool',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned InterfaceTelemetryProofHook for ChatGPT App delivery blockers',
       'interface.telemetry.chatgpt-reading-action',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned InterfaceTelemetryProofHook for Terminal handoff replay',
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
+      'shares the package-owned InterfaceTelemetryProofHook for product handoff replay',
       'interface.telemetry.terminal-reading-handoff',
     ]),
   ];
   const docsEvidence = [
-    scanTokens('BITCODE_SPEC_V33.md', ['InterfaceTelemetryProofHook', 'Gate 8']),
-    scanTokens('BITCODE_SPEC_V33_DELTA.md', ['Interface Telemetry And Proof Replay Hooks']),
-    scanTokens('BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface telemetry proof hooks']),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', ['V33 Gate 8 Interface Telemetry And Proof Replay Hooks']),
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', ['InterfaceTelemetryProofHook', 'Gate 8']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_DELTA.md', ['Interface Telemetry And Proof Replay Hooks']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface telemetry proof hooks']),
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 8 Interface Telemetry And Proof Replay Hooks']),
   ];
   const observedInterfaceIds = Array.from(new Set(hookRows.map((row) => row.interfaceId))).sort();
   const observedPostures = Array.from(new Set(hookRows.map((row) => row.posture))).sort();

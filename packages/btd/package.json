@@ -6,6 +6,7 @@
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./erc1155": "./src/erc1155/index.ts",
     "./api-schema-compatibility-matrix": "./src/api-schema-compatibility-matrix.ts",
     "./chatgpt-app-action-contract": "./src/chatgpt-app-action-contract.ts",
     "./receipts": "./src/receipts.ts",
@@ -25,14 +26,17 @@
     "./rollback-upgrade-repair-playbook": "./src/rollback-upgrade-repair-playbook.ts",
     "./runtime-observer-repair-job": "./src/runtime-observer-repair-job.ts",
     "./secret-rotation-plan": "./src/secret-rotation-plan.ts",
+    "./journal": "./src/journal.ts",
+    "./operational-health": "./src/operational-health.ts",
     "./terminal-operational-health": "./src/terminal-operational-health.ts"
   },
   "scripts": {
     "test": "jest --config jest.config.cjs --runInBand",
-    "typecheck": "tsc --noEmit --pretty false"
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
-    "@bitcode/models": "workspace:*",
+    "@bitcode/generic-llms-models": "workspace:*",
     "@bitcode/supabase": "workspace:*"
   },
   "devDependencies": {

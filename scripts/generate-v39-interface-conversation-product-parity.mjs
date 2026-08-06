@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ARTIFACT_PATH,
   buildV39InterfaceConversationProductParity,
-} from '../packages/protocol/src/canonical/v39-interface-conversation-product-parity.js';
+} from '../scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

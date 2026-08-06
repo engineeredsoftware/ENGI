@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v34-promotion-readiness-report.json';
+const ARTIFACT = '.proofs/v34/promotion-readiness-report.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -22,15 +22,15 @@ const SECRET_MARKERS = [
 ];
 
 const V34_GATE_ARTIFACTS = [
-  '.bitcode/v34-deployment-host-capability-catalog.json',
-  '.bitcode/v34-environment-lane-contracts.json',
-  '.bitcode/v34-distributed-execution-runtime-receipts.json',
-  '.bitcode/v34-deployment-storage-posture.json',
-  '.bitcode/v34-secret-rotation-boundary-operations.json',
-  '.bitcode/v34-migration-cicd-approval-gates.json',
-  '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
-  '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
-  '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
+  '.proofs/v34/deployment-host-capability-catalog.json',
+  '.proofs/v34/environment-lane-contracts.json',
+  '.proofs/v34/distributed-execution-runtime-receipts.json',
+  '.proofs/v34/deployment-storage-posture.json',
+  '.proofs/v34/secret-rotation-boundary-operations.json',
+  '.proofs/v34/migration-cicd-approval-gates.json',
+  '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
+  '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
+  '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
 ];
 
 function read(root, relativePath) {
@@ -120,7 +120,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -140,10 +140,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V34.md',
-    'BITCODE_SPEC_V34_DELTA.md',
-    'BITCODE_SPEC_V34_NOTES.md',
-    'BITCODE_SPEC_V34_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V34.md',
+    '.specifications/BITCODE_SPEC_V34_DELTA.md',
+    '.specifications/BITCODE_SPEC_V34_NOTES.md',
+    '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
     ARTIFACT,
     'scripts/generate-v34-promotion-readiness-report.mjs',
     'scripts/check-v34-gate10-promotion-readiness.mjs',
@@ -154,17 +154,17 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v34-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/test/v34-promotion-readiness.test.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/test/v34-promotion-readiness.test.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'packages/btd/src/deployment-promotion-readiness-report.ts',
     'packages/btd/__tests__/deployment-promotion-readiness-report.test.ts',
     'package.json',
     'README.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     ...V34_GATE_ARTIFACTS,
   ];
 
@@ -180,10 +180,10 @@ function main() {
     }
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V34.md');
-  const delta = read(root, 'BITCODE_SPEC_V34_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V34_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V34_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V34.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V34_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V34_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -191,13 +191,13 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const v21Specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
-  const packageCanonPosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const packageState = read(root, 'packages/protocol/data/state.json');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const v21Specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
+  const packageCanonPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const packageState = read(root, 'scripts/specifying/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V34 promotion readiness canon'), 'V34 SPEC must define promotion readiness canon.');
   assertCheck(failures, spec.includes(ARTIFACT) && spec.includes('V34 active / V35 draft'), 'V34 SPEC must include Gate 10 artifact and post-promotion posture.');
@@ -243,8 +243,8 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v34'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V34') &&
-      promotionWorkflow.includes('BITCODE_SPEC_V34_PROVEN.md') &&
-      promotionWorkflow.includes('.bitcode') &&
+      promotionWorkflow.includes('.specifications/BITCODE_SPEC_V34_PROVEN.md') &&
+      promotionWorkflow.includes('.proofs') &&
       promotionWorkflow.includes('Promote V34 canon files'),
     'V34 promotion workflow must validate version/v34 and commit V34 promotion artifacts.',
   );
@@ -278,8 +278,8 @@ function main() {
     failures,
     prepareSpecScript.includes("if (version === 'V34')") &&
       prepareSpecScript.includes('V34 canonical system specification for deployment depth') &&
-      prepareSpecScript.includes('BITCODE_SPEC_V34_PROVEN.md') &&
-      prepareSpecScript.includes('.bitcode/v34-promotion-readiness-report.json') &&
+      prepareSpecScript.includes('.specifications/BITCODE_SPEC_V34_PROVEN.md') &&
+      prepareSpecScript.includes('.proofs/v34/promotion-readiness-report.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V34 hand-authored status truth and promoted parity judgments.',
   );
@@ -326,15 +326,15 @@ function main() {
     'README must document the Gate 10 command and V34 promotion workflow.',
   );
 
-  assertJsonArtifact(failures, root, '.bitcode/v34-deployment-host-capability-catalog.json', ['"artifactId": "v34-deployment-host-capability-catalog"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-environment-lane-contracts.json', ['"artifactId": "v34-environment-lane-contracts"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-distributed-execution-runtime-receipts.json', ['"artifactId": "v34-distributed-execution-runtime-receipts"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-deployment-storage-posture.json', ['"artifactId": "v34-deployment-storage-posture"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-secret-rotation-boundary-operations.json', ['"artifactId": "v34-secret-rotation-boundary-operations"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-migration-cicd-approval-gates.json', ['"artifactId": "v34-migration-cicd-approval-gates"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json', ['"artifactId": "v34-runtime-observers-broadcasters-repair-jobs"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json', ['"artifactId": "v34-rollback-upgrade-data-repair-playbooks"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json', ['"artifactId": "v34-local-staging-testnet-deployment-rehearsal"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/deployment-host-capability-catalog.json', ['"artifactId": "v34-deployment-host-capability-catalog"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/environment-lane-contracts.json', ['"artifactId": "v34-environment-lane-contracts"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/distributed-execution-runtime-receipts.json', ['"artifactId": "v34-distributed-execution-runtime-receipts"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/deployment-storage-posture.json', ['"artifactId": "v34-deployment-storage-posture"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/secret-rotation-boundary-operations.json', ['"artifactId": "v34-secret-rotation-boundary-operations"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/migration-cicd-approval-gates.json', ['"artifactId": "v34-migration-cicd-approval-gates"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json', ['"artifactId": "v34-runtime-observers-broadcasters-repair-jobs"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/rollback-upgrade-data-repair-playbooks.json', ['"artifactId": "v34-rollback-upgrade-data-repair-playbooks"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/local-staging-testnet-deployment-rehearsal.json', ['"artifactId": "v34-local-staging-testnet-deployment-rehearsal"', '"version": "V34"']);
   const readinessArtifact = assertJsonArtifact(failures, root, ARTIFACT, ['v34-promotion-readiness-report', '"version": "V34"']);
 
   if (readinessArtifact) {
@@ -361,8 +361,8 @@ function main() {
     }
   }
 
-  if (fileExists(root, 'BITCODE_SPEC_V34_PROVEN.md')) {
-    const proven = read(root, 'BITCODE_SPEC_V34_PROVEN.md');
+  if (fileExists(root, '.specifications/BITCODE_SPEC_V34_PROVEN.md')) {
+    const proven = read(root, '.specifications/BITCODE_SPEC_V34_PROVEN.md');
     assertCheck(failures, proven.includes('Bitcode Spec V34') || proven.includes('V34'), 'BITCODE_SPEC_V34_PROVEN.md must render V34 proof content.');
   }
 

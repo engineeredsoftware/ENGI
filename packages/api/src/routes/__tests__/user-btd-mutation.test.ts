@@ -20,7 +20,7 @@ jest.mock('@bitcode/logger', () => ({
   log: jest.fn(),
 }));
 
-jest.mock('@bitcode/responses', () => ({
+jest.mock('@bitcode/api/responses', () => ({
   createJsonResponse: (data: unknown, status = 200) =>
     new Response(JSON.stringify(data), {
       status,
@@ -41,7 +41,7 @@ jest.mock('@bitcode/responses', () => ({
     }),
 }));
 
-jest.mock('@bitcode/google-analytics', () => ({
+jest.mock('@bitcode/external-telemetry-google', () => ({
   sendServerEvent: (...args: unknown[]) => mockSendServerEvent(...args),
 }));
 
@@ -121,7 +121,7 @@ describe('user BTD mutation route', () => {
 
     expect(response.status).toBe(410);
     expect(body.error).toContain('non-fungible asset-pack share/read-right');
-    expect(body.acquisitionPaths.terminalReadMinting).toContain('/terminal');
+    expect(body.acquisitionPaths.terminalReadMinting).toContain('/reads');
     expect(mockSendServerEvent).toHaveBeenCalledWith('generic_btd_mutation_rejected', {
       admin_id: 'admin-1',
       reason: 'btd_is_non_fungible_asset_pack_share_read_right',

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_PACKS_AUXILLARIES_DASHBOARD_ARTIFACT_PATH,
   buildV47PacksAuxillariesCommercialDashboard,
-} from '../packages/protocol/src/canonical/v47-packs-auxillaries-commercial-dashboard.js';
+} from '../scripts/specifying/src/canonical/v47-packs-auxillaries-commercial-dashboard.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

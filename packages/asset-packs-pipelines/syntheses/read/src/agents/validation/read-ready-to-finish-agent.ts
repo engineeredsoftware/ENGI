@@ -1,0 +1,246 @@
+/**
+ * Read Validation ready-to-finish — product shell (STAB-4).
+ *
+ * Uses Need-first domain validation prompts (not deposit identity).
+ * A) Prior phases
+ * B) Pack quality: patch + measurements.absolutes + measurements.needinesses (*-fit)
+ * C) Need guidance honored (topics present; no empty needinesses)
+ *
+ * Never imports the deposit product package.
+ */
+
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
+import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
+import {
+  DepositValidationOutputSchema,
+  type DepositValidationResult,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/validation/asset-packs-validation-schema';
+import { createReadValidationPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/validation/asset-packs-validation-prompts-read';
+import {
+  asPathList,
+  mergeDepositValidationVerdict,
+  smokeCheckAssetPacks,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/validation/asset-packs-validation-checks';
+import { hasRequiredAbsolutes, resolvePackAbsolutes, resolvePackNeedinesses } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements';
+import { assertNeedinessKindSuffix } from '../../read-neediness-measurements';
+import { resolveSourceCheckoutCatalog } from '@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog';
+import { projectInventoryForPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
+import { ensureDepositCheckoutSourceFiles } from '@bitcode/asset-packs-pipelines-syntheses-domain/ensure-checkout-source-files';
+
+const prompt = createReadValidationPrompt();
+
+const ReadReadyToFinishCore = factoryPTRRAgent<any, DepositValidationResult>({
+  name: 'ReadReadyToFinishAssetPacksSynthesisReadPipeline',
+  description:
+    'Read Validation gate: prior-phase sanity, pack quality (patch+absolutes+*-fit needinesses), Need compliance.',
+  outputSchema: DepositValidationOutputSchema,
+  tools: [],
+  prompt,
+  stepPrompts: {
+    plan: () => prompt,
+    try: () => prompt,
+    refine: () => prompt,
+    retry: () => prompt,
+  },
+  plan: { chunkThreshold: 2000 },
+  try: { chunkThreshold: 4000 },
+  refine: { maxAttempts: 2 },
+  retry: { maxAttempts: 1 },
+});
+
+function findValue(execution: any, namespace: string, key: string): any {
+  const local = execution?.get?.(namespace, key);
+  if (local !== undefined) return local;
+  return execution?.findUp?.(namespace, key);
+}
+
+function phaseSanityIssues(execution: any): string[] {
+  const issues: string[] = [];
+  if (!findValue(execution, 'repository', 'workspacePath')) {
+    issues.push('Setup: missing repository.workspacePath (Host checkout).');
+  }
+  const admission = findValue(execution, 'setup', 'admission');
+  if (admission && admission.safe === false) {
+    issues.push(`Setup: danger wall not admitted (${admission.reason || 'unknown'}).`);
+  }
+  if (!findValue(execution, 'discovery', 'codebaseComprehension')) {
+    issues.push('Discovery: missing codebaseComprehension.');
+  }
+  if (!findValue(execution, 'discovery', 'depositorySearch')) {
+    issues.push('Discovery: missing depositorySearch guidance.');
+  }
+  const options =
+    findValue(execution, 'implementation', 'options') ||
+    findValue(execution, 'implementation', 'assetPacks');
+  if (!Array.isArray(options) || options.length === 0) {
+    issues.push('Implementation: no AssetPack options synthesized.');
+  }
+  return issues;
+}
+
+function needinessIssues(packs: any[]): string[] {
+  const issues: string[] = [];
+  for (const pack of packs) {
+    if (!hasRequiredAbsolutes(pack)) {
+      issues.push(
+        `Pack "${pack?.title || '?'}" missing required measurements.absolutes (magnitude+volume).`,
+      );
+    }
+    const needinesses = resolvePackNeedinesses(pack);
+    if (needinesses.length === 0) {
+      issues.push(
+        `Pack "${pack?.title || '?'}" missing measurements.needinesses (*-fit readings required on read).`,
+      );
+    } else {
+      for (const row of needinesses) {
+        if (!assertNeedinessKindSuffix(String(row.measurementKind || ''))) {
+          issues.push(
+            `Pack "${pack?.title || '?'}" neediness "${row.measurementKind}" must end with -fit.`,
+          );
+        }
+      }
+    }
+    if (!pack?.patch?.fileChanges?.length) {
+      issues.push(`Pack "${pack?.title || '?'}" missing patch.fileChanges.`);
+    }
+  }
+  return issues;
+}
+
+export default async function runReadReadyToFinishAgent(input: any, execution: any) {
+  const packs = Array.isArray(
+    input?.assetPacks ??
+      findValue(execution, 'implementation', 'options') ??
+      findValue(execution, 'implementation', 'assetPacks'),
+  )
+    ? (input?.assetPacks ??
+        findValue(execution, 'implementation', 'options') ??
+        findValue(execution, 'implementation', 'assetPacks'))
+    : [];
+
+  const priorIssues = phaseSanityIssues(execution);
+  const catalog = await ensureDepositCheckoutSourceFiles(
+    execution,
+    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
+  );
+  const catalogForPrompt = projectInventoryForPrompt(catalog);
+
+  const needComprehension =
+    findValue(execution, 'setup', 'needComprehension') ??
+    findValue(execution, 'setup', 'inputComprehension') ??
+    findValue(execution, 'read', 'needComprehension');
+  const needText =
+    findValue(execution, 'read', 'need') ??
+    findValue(execution, 'implementation', 'need') ??
+    input?.need ??
+    (typeof needComprehension?.summary === 'string' ? needComprehension.summary : null);
+  const depositoryHits =
+    findValue(execution, 'implementation', 'depositoryHits') ??
+    findValue(execution, 'discovery', 'depositoryHits') ??
+    null;
+  const relevantPaths =
+    findValue(execution, 'read', 'relevantPaths') ??
+    findValue(execution, 'deposit', 'permissibleSources') ??
+    input?.relevantPaths ??
+    [];
+  const irrelevantPaths =
+    findValue(execution, 'read', 'irrelevantPaths') ??
+    findValue(execution, 'deposit', 'impermissibleSources') ??
+    input?.irrelevantPaths ??
+    [];
+
+  const raw = await ReadReadyToFinishCore(
+    {
+      ...input,
+      productLens: 'read',
+      assetPacks: packs,
+      sourceCheckoutCatalog: catalogForPrompt,
+      priorPhaseIssues: priorIssues,
+      need: needText,
+      needComprehension: needComprehension
+        ? {
+            summary: needComprehension.summary,
+            needTopics: needComprehension.needTopics,
+            acceptanceCriteria: needComprehension.acceptanceCriteria,
+            dynamicNeedinesses: needComprehension.dynamicNeedinesses,
+          }
+        : null,
+      discovery: {
+        depositoryHits: Array.isArray(depositoryHits) ? depositoryHits : [],
+      },
+      relevantPaths: asPathList(relevantPaths),
+      irrelevantPaths: asPathList(irrelevantPaths),
+      permissibleSources: asPathList(relevantPaths),
+      impermissibleSources: asPathList(irrelevantPaths),
+    },
+    execution,
+  );
+  const agentOutput = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
+  const smokeIssues = smokeCheckAssetPacks(packs, [], []);
+  const nIssues = needinessIssues(packs);
+
+  const merged = mergeDepositValidationVerdict(agentOutput, [
+    ...smokeIssues,
+    ...priorIssues,
+    ...nIssues,
+  ]);
+
+  const recommendation =
+    merged.issues.length > 0 || priorIssues.length > 0 || nIssues.length > 0
+      ? merged.recommendation === 'complete'
+        ? 'iterate'
+        : merged.recommendation
+      : merged.recommendation;
+
+  const readyToFinish =
+    recommendation === 'complete' && merged.issues.length === 0;
+  const result = {
+    ...merged,
+    recommendation,
+    readyToFinish,
+    finalApproval: readyToFinish,
+    ready: readyToFinish,
+    passed: readyToFinish,
+  };
+
+  const readinessSummary = readyToFinish
+    ? 'Read synthesis ready to finish (options for settle selection).'
+    : `Read synthesis not ready: ${result.issues.slice(0, 5).join('; ')}`;
+
+  storeCrossPhaseArtifact(execution, 'validation/implementation', 'issues', result.issues);
+  storeCrossPhaseArtifact(execution, 'validation', 'readQuality', result);
+  storeCrossPhaseArtifact(execution, 'validation', 'readyToFinish', {
+    schema: 'bitcode.read.validation.ready-to-finish',
+    recommendation: readyToFinish ? 'finish' : 'revise',
+    finalApproval: readyToFinish,
+    ready: readyToFinish,
+    passed: readyToFinish,
+    readyToFinish,
+    summary: readinessSummary,
+    message: readinessSummary,
+    issues: result.issues,
+    phase: 'validation',
+    agent: 'ready-to-finish-asset-packs-synthesis-read-pipeline',
+    step: 'decide',
+    failsafe: 'deterministic-gate',
+    generation: 'structure',
+    formalPhaseDecision: true,
+  });
+  storeCrossPhaseArtifact(execution, 'validation', 'phaseDecision', {
+    schema: 'bitcode.pipeline.phase-decision',
+    formalPhaseDecision: true,
+    phase: 'validation',
+    agent: 'ready-to-finish-asset-packs-synthesis-read-pipeline',
+    step: 'decide',
+    failsafe: 'deterministic-gate',
+    generation: 'structure',
+    summary: readinessSummary,
+    message: readinessSummary,
+    finalApproval: readyToFinish,
+    recommendation: readyToFinish ? 'finish' : 'revise',
+  });
+  storeCrossPhaseArtifact(execution, 'implementation', 'options', packs);
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', packs);
+
+  return { ...(input || {}), ...result, options: packs, absolutesSample: resolvePackAbsolutes(packs[0]) };
+}

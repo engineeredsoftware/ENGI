@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v42-readfitsfinding-preview-quote.json';
+const ARTIFACT_PATH = '.proofs/v42/readfitsfinding-preview-quote.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -73,7 +73,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v42-gate5-readfitsfinding-preview-quote.mjs [--skip-branch-check] [--skip-package-tests] [--skip-uapi-tests] [--repo-root <path>]',
       '',
-      'Checks V42 Gate 5 ReadFitsFinding preview and quote closure: many-candidate search, selected-fit provenance, source-safe AssetPack preview, deterministic quote, no pre-settlement source exposure, Terminal readback, tests, docs, workflows, and proof artifact.',
+      'Checks V42 Gate 5 ReadFitsFinding preview and quote closure: many-candidate search, selected-fit provenance, source-safe AssetPack preview, deterministic quote, no pre-settlement source exposure, product readback, tests, docs, workflows, and proof artifact.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -107,32 +107,32 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts',
-    'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-    'uapi/tests/api/pipelineHarnessRoute.test.ts',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'packages/protocol/src/canonical/v42-readfitsfinding-preview-quote.js',
-    'packages/protocol/test/v42-readfitsfinding-preview-quote.test.js',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-search.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-fits-finding-runtime.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-preview-boundary.test.ts',
+    'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
+    'apps/uapi/tests/api/pipelineHostRoute.test.ts',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'scripts/specifying/src/canonical/v42-readfitsfinding-preview-quote.js',
+    'scripts/specifying/test/v42-readfitsfinding-preview-quote.test.js',
     'scripts/generate-v42-readfitsfinding-preview-quote.mjs',
     'scripts/check-v42-gate5-readfitsfinding-preview-quote.mjs',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'uapi/app/terminal/README.md',
-    'packages/pipelines/asset-pack/README.md',
-    'packages/protocol/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -155,7 +155,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v42-readfitsfinding-preview-quote.test.js',
+        'scripts/specifying/test/v42-readfitsfinding-preview-quote.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 ReadFitsFinding preview/quote protocol test failed: ${error.stderr || error.message}`);
@@ -166,7 +166,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -188,11 +188,11 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
-        'tests/api/pipelineHarnessRoute.test.ts',
+        'tests/api/pipelineHostRoute.test.ts',
         'tests/terminalPipelineHarnessClient.test.ts',
         'tests/terminalDepositReadWorkbench.test.ts',
         '--runInBand',
@@ -236,7 +236,7 @@ function main() {
     assertCheck(failures, artifact.coverage.deterministicQuoteRequired === true, 'Gate 5 must require deterministic quote.');
     assertCheck(failures, artifact.coverage.noProtectedSourceBeforeSettlement === true, 'Gate 5 must block protected source before settlement.');
     assertCheck(failures, artifact.coverage.settlementInstructionsRequired === true, 'Gate 5 must require settlement instructions.');
-    assertCheck(failures, artifact.coverage.terminalPreviewQuoteReadbackCovered === true, 'Gate 5 must cover Terminal preview/quote readback.');
+    assertCheck(failures, artifact.coverage.productPreviewQuoteReadbackCovered === true, 'Gate 5 must cover product preview/quote readback.');
     assertCheck(failures, artifact.coverage.sourceSafeMetadataOnly === true, 'Gate 5 must remain source-safe metadata only.');
     assertCheck(failures, artifact.coverage.protectedSourceVisible === false, 'Gate 5 artifact must not expose protected source.');
     assertCheck(failures, artifact.coverage.rawProtectedPromptVisible === false, 'Gate 5 artifact must not expose protected prompts.');
@@ -249,12 +249,12 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 5 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V42.md');
-  const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V42.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   assertCheck(failures, spec.includes('V42 Gate 5') && spec.includes('v42-readfitsfinding-preview-quote'), 'V42 spec must expand Gate 5 ReadFitsFinding preview/quote closure.');
   assertCheck(failures, parity.includes('Finding Fits preview and quote') && parity.includes('implemented'), 'V42 parity matrix must mark Finding Fits preview and quote implemented.');
-  assertCheck(failures, terminalReadme.includes('V42 Gate 5') && terminalReadme.includes('Finding Fits preview'), 'Terminal README must document Gate 5 preview/quote readback.');
+  assertCheck(failures, terminalReadme.includes('V42 Gate 5') && terminalReadme.includes('Finding Fits preview'), 'product README must document Gate 5 preview/quote readback.');
 
   if (failures.length > 0) {
     process.stderr.write(`V42 Gate 5 ReadFitsFinding preview/quote check failed:\n- ${failures.join('\n- ')}\n`);

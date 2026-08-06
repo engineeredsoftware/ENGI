@@ -1,0 +1,225 @@
+{
+  "reportId": "v33-promotion-readiness-report",
+  "artifactId": "v33-promotion-readiness-report",
+  "schemaId": "bitcode.v33.promotionReadiness.v1",
+  "version": "V33",
+  "currentTarget": "V33",
+  "proofSourceCommit": "6c3cc76c4a41bdbaf02c78334b3cd9c6fa3554b6",
+  "generatedAt": "2026-05-22T17:06:47-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "passed": true,
+  "sourceSafe": true,
+  "prePromotionPosture": "V32 active / V33 draft",
+  "postPromotionPosture": "V33 active / V34 draft",
+  "branchProtection": {
+    "directMainPushAdmitted": false,
+    "promotionPrRequired": true,
+    "versionBranch": "version/v33",
+    "versionPromotionPullRequestTitlePrefix": "V33 Canonical Promotion"
+  },
+  "generatedArtifactPolicy": {
+    "provenAppendixPath": "BITCODE_SPEC_V33_PROVEN.md",
+    "provenAppendixRequiredBeforePromotion": false,
+    "generatedArtifactPrefix": ".proofs/v33/",
+    "secretValuesSerialized": false,
+    "protectedSourceSerialized": false
+  },
+  "sourceEvidence": [
+    {
+      "relativePath": "scripts/check-v33-gate10-promotion-readiness.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V33 Gate 10 promotion readiness",
+          "present": true
+        },
+        {
+          "token": "--promotion-mode",
+          "present": true
+        },
+        {
+          "token": ".proofs/v33/promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/generate-v33-promotion-readiness-report.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "buildV33PromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": "source-safe-interface-promotion-readiness-metadata",
+          "present": true
+        },
+        {
+          "token": "v33-promotion-readiness-report",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "if (version === 'V33')",
+          "present": true
+        },
+        {
+          "token": "const v33Gate10Command",
+          "present": true
+        },
+        {
+          "token": "buildDerivedV33CommitMessageBody",
+          "present": true
+        },
+        {
+          "token": "scripts/check-v33-gate10-promotion-readiness.mjs",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "if (version === 'V33')",
+          "present": true
+        },
+        {
+          "token": "V33 canonical system specification for commercial interface depth",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V33_PROVEN.md",
+          "present": true
+        },
+        {
+          "token": ".proofs/v33/promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/v33-canon-promotion.yml",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "head.ref == 'version/v33'",
+          "present": true
+        },
+        {
+          "token": "npm run promote:canon -- --version V33",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V33_PROVEN.md",
+          "present": true
+        },
+        {
+          "token": "Promote V33 canon files",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "check-v33-gate10-promotion-readiness.mjs",
+          "present": true
+        },
+        {
+          "token": "elif [ \"$POINTER\" = \"V33\" ]",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-canon-quality.yml",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "elif [ \"$POINTER\" = \"V33\" ]",
+          "present": true
+        },
+        {
+          "token": "--active-canon V33 --draft-target V34",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V33.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V33 promotion readiness canon",
+          "present": true
+        },
+        {
+          "token": ".proofs/v33/promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "V33 active / V34 draft",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V33_PARITY_MATRIX.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "## Gate 10 Parity",
+          "present": true
+        },
+        {
+          "token": ".proofs/v33/promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "closed",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "package.json",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "generate:v33-promotion-readiness",
+          "present": true
+        },
+        {
+          "token": "check:v33-gate10",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/README.md",
+      "present": true,
+      "requiredTokens": [
+        {
+          "token": "V33 Gate 10",
+          "present": true
+        },
+        {
+          "token": "V33` active, `V34` draft",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

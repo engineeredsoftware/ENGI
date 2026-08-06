@@ -1,24 +1,23 @@
-module.exports = {
-  preset: 'ts-jest/presets/js-with-ts',
-  testEnvironment: 'node',
-  testMatch: ['**/__tests__/**/*.test.(ts|tsx)'],
-  roots: ['<rootDir>'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+const path = require('path');
+const { createJestConfig } = require('../../tests/jest.base.cjs');
+
+// Core vs edges: see .docs/AGENTS.md and CONTRIBUTING §8.0.
+// testMatch: core and edges globs only; both always required green.
+module.exports = createJestConfig(__dirname, {
+  testMatch: [
+    '**/__tests__/core/**/*.core.test.(ts|tsx)',
+    '**/__tests__/edges/**/*.edges.test.(ts|tsx)',
+  ],
   moduleNameMapper: {
-    '^@bitcode/pipelines-generics$': '<rootDir>/../pipelines-generics/src/index.ts',
-    '^@bitcode/pipelines-generics/(.*)$': '<rootDir>/../pipelines-generics/src/$1',
-    '^@bitcode/logger$': '<rootDir>/../logger/src/index.ts',
-    '^@bitcode/parsing$': '<rootDir>/../parsing/src/parsing.ts',
-    '^@bitcode/streams$': '<rootDir>/../streams/src/index.ts',
-    '^@bitcode/supabase$': '<rootDir>/../supabase/src/index.ts',
-    '^@bitcode/artifacts$': '<rootDir>/../artifacts/src/artifacts.ts',
-    '^@bitcode/([^/]+)$': '<rootDir>/../$1/src/index.ts',
-    '^@bitcode/([^/]+)/(.*)$': '<rootDir>/../$1/src/$2',
+    '^@bitcode/logger$': path.join(__dirname, '../logger/src/logger.ts'),
+    // Deep subpaths not covered by package root map
+    '^@bitcode/pipelines-generics/(.*)$': path.join(__dirname, '../pipelines-generics/src/$1'),
+    '^@bitcode/generic-agents-ptrr/(.*)$': path.join(__dirname, '../generic-agents/PTRR/src/$1'),
+    '^@bitcode/agent-generics/agents/factories$': path.join(__dirname, 'src/agents/factories.ts'),
+    '^@bitcode/agent-generics/types$': path.join(__dirname, 'src/types.ts'),
+    '^@bitcode/api/streams$': path.join(__dirname, '../api/src/streams/index.ts'),
+    '^@bitcode/generic-artifacts-compose$': path.join(__dirname, '../generic-artifacts/compose/src/index.ts'),
+    '^@bitcode/parsing$': path.join(__dirname, '../parsing/src/parsing.ts'),
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/../../tsconfig.json',
-      diagnostics: false,
-    },
-  },
-};
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts', '!src/**/__tests__/**'],
+});

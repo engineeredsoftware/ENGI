@@ -1,0 +1,1336 @@
+{
+  "artifactId": "v35-telemetry-taxonomy-catalog",
+  "schemaId": "bitcode.v35.telemetryTaxonomyCatalog.v1",
+  "version": "V35",
+  "currentTarget": "V34",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-telemetry-taxonomy-metadata",
+  "redactionBoundary": {
+    "allowedTelemetryPayloadClasses": [
+      "event_ids",
+      "correlation_ids",
+      "proof_roots",
+      "counts",
+      "state_enums",
+      "policy_ids",
+      "dashboard_panel_ids",
+      "runbook_ids"
+    ],
+    "forbiddenTelemetryPayloadClasses": [
+      "secret_values",
+      "service_key_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "protected_source_payloads",
+      "unpaid_assetpack_source"
+    ]
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredEventFamilies": [
+      "pipeline",
+      "execution",
+      "ptrr_agent",
+      "thricified_generation",
+      "tool",
+      "ledger",
+      "wallet",
+      "storage",
+      "interface",
+      "deployment",
+      "observer",
+      "repair",
+      "docs_qa",
+      "promotion"
+    ],
+    "observedEventFamilies": [
+      "pipeline",
+      "execution",
+      "ptrr_agent",
+      "thricified_generation",
+      "tool",
+      "ledger",
+      "wallet",
+      "storage",
+      "interface",
+      "deployment",
+      "observer",
+      "repair",
+      "docs_qa",
+      "promotion"
+    ],
+    "missingEventFamilies": [],
+    "eventFamilyCount": 14,
+    "totalEventIdCount": 56,
+    "allRequiredFamiliesCovered": true,
+    "pipelineRepresented": true,
+    "executionRepresented": true,
+    "ptrrAgentRepresented": true,
+    "thricifiedGenerationRepresented": true,
+    "toolRepresented": true,
+    "ledgerRepresented": true,
+    "walletRepresented": true,
+    "storageRepresented": true,
+    "interfaceRepresented": true,
+    "deploymentRepresented": true,
+    "observerRepresented": true,
+    "repairRepresented": true,
+    "docsQaRepresented": true,
+    "promotionRepresented": true,
+    "missingSourceRoots": [],
+    "rowsMissingRunbook": [],
+    "rowsMissingDashboardPanel": [],
+    "rowsMissingProofRoot": [],
+    "rowsMissingRedactionPosture": [],
+    "rowsMissingCorrelationIds": [],
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false
+  },
+  "requiredEventFamilies": [
+    "pipeline",
+    "execution",
+    "ptrr_agent",
+    "thricified_generation",
+    "tool",
+    "ledger",
+    "wallet",
+    "storage",
+    "interface",
+    "deployment",
+    "observer",
+    "repair",
+    "docs_qa",
+    "promotion"
+  ],
+  "rows": [
+    {
+      "eventFamily": "pipeline",
+      "eventIds": [
+        "pipeline.created",
+        "pipeline.phase.started",
+        "pipeline.phase.completed",
+        "pipeline.failed"
+      ],
+      "sourceSurface": "packages/pipelines/asset-pack",
+      "lifecycleStage": "pipeline_lifecycle",
+      "severity": "info",
+      "sourceSafetyClass": "source_safe_runtime_metadata",
+      "redactionPosture": "roots_context_keys_and_counts_only",
+      "correlationIds": [
+        "executionId",
+        "pipelineRunId",
+        "transactionId",
+        "readNeedId"
+      ],
+      "proofRootFields": [
+        "pipelineRoot",
+        "phaseRoot",
+        "telemetryRoot"
+      ],
+      "storageTarget": "execution_event_store",
+      "dashboardPanel": "dashboard.pipeline.health",
+      "alertThreshold": "failed_or_missing_completion_warning",
+      "runbookLink": "runbook.pipeline.execution-repair",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:52418f41e09ad981ac3cefb2"
+    },
+    {
+      "eventFamily": "execution",
+      "eventIds": [
+        "execution.admitted",
+        "execution.started",
+        "execution.completed",
+        "execution.failed"
+      ],
+      "sourceSurface": "packages/execution-generics",
+      "lifecycleStage": "execution_lifecycle",
+      "severity": "info",
+      "sourceSafetyClass": "source_safe_runtime_metadata",
+      "redactionPosture": "input_output_roots_and_summary_only",
+      "correlationIds": [
+        "executionId",
+        "requestId",
+        "runId",
+        "traceId"
+      ],
+      "proofRootFields": [
+        "executionRoot",
+        "requestRoot",
+        "responseRoot"
+      ],
+      "storageTarget": "execution_event_store",
+      "dashboardPanel": "dashboard.execution.status",
+      "alertThreshold": "failed_or_orphaned_execution_warning",
+      "runbookLink": "runbook.execution.orphan-repair",
+      "sourceRoots": [
+        "scripts/specifying/src/telemetry.js",
+        "apps/uapi/app/api/executions/route.ts",
+        "apps/uapi/app/api/executions/stream/route.ts"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/executions/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/executions/stream/route.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:1c6555adeec2c8dc21e6dd83"
+    },
+    {
+      "eventFamily": "ptrr_agent",
+      "eventIds": [
+        "ptrr_agent.plan.started",
+        "ptrr_agent.try.completed",
+        "ptrr_agent.refine.completed",
+        "ptrr_agent.retry.completed"
+      ],
+      "sourceSurface": "packages/agent-generics",
+      "lifecycleStage": "agent_step_lifecycle",
+      "severity": "info",
+      "sourceSafetyClass": "source_safe_inference_metadata",
+      "redactionPosture": "prompt_template_root_context_keys_and_typed_output_root",
+      "correlationIds": [
+        "executionId",
+        "agentId",
+        "ptrrStepId",
+        "pipelineRunId"
+      ],
+      "proofRootFields": [
+        "agentRoot",
+        "stepRoot",
+        "typedOutputRoot"
+      ],
+      "storageTarget": "execution_event_store",
+      "dashboardPanel": "dashboard.inference.ptrr-agents",
+      "alertThreshold": "typed_output_parse_failure_warning",
+      "runbookLink": "runbook.inference.ptrr-agent-debug",
+      "sourceRoots": [
+        "packages/agent-generics/README.md",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
+        ".docs/BITCODE_AGENTIC_EXECUTION.md"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/agent-generics/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:a084741f1cec3b68d78c9a83"
+    },
+    {
+      "eventFamily": "thricified_generation",
+      "eventIds": [
+        "thricified_generation.reason.completed",
+        "thricified_generation.judge.completed",
+        "thricified_generation.typed_output.completed",
+        "thricified_generation.failed"
+      ],
+      "sourceSurface": "packages/llm-generics",
+      "lifecycleStage": "generation_substep_lifecycle",
+      "severity": "info",
+      "sourceSafetyClass": "source_safe_inference_metadata",
+      "redactionPosture": "prompt_roots_context_keys_raw_response_root_and_parsed_type_only",
+      "correlationIds": [
+        "executionId",
+        "agentId",
+        "ptrrStepId",
+        "subStepId",
+        "generationId"
+      ],
+      "proofRootFields": [
+        "promptTemplateRoot",
+        "interpolatedContextRoot",
+        "rawResponseRoot",
+        "parsedTypeRoot"
+      ],
+      "storageTarget": "execution_event_store",
+      "dashboardPanel": "dashboard.inference.thricified-generations",
+      "alertThreshold": "judge_or_type_parse_failure_warning",
+      "runbookLink": "runbook.inference.generation-redaction",
+      "sourceRoots": [
+        "packages/llm-generics/README.md",
+        "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+        ".docs/BITCODE_PROMPT_TRACE.md"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/llm-generics/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_PROMPT_TRACE.md",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:efee1d6ba8675a809ece9434"
+    },
+    {
+      "eventFamily": "tool",
+      "eventIds": [
+        "tool.call.started",
+        "tool.call.completed",
+        "tool.call.failed",
+        "tool.policy.denied"
+      ],
+      "sourceSurface": "packages/tools-generics",
+      "lifecycleStage": "tool_call_lifecycle",
+      "severity": "info",
+      "sourceSafetyClass": "source_safe_tool_metadata",
+      "redactionPosture": "tool_name_roots_exit_code_and_policy_only",
+      "correlationIds": [
+        "executionId",
+        "toolCallId",
+        "agentId",
+        "requestId"
+      ],
+      "proofRootFields": [
+        "toolInputRoot",
+        "toolOutputRoot",
+        "policyRoot"
+      ],
+      "storageTarget": "execution_event_store",
+      "dashboardPanel": "dashboard.tools.calls",
+      "alertThreshold": "policy_denial_or_repeated_failure_warning",
+      "runbookLink": "runbook.tools.policy-denial",
+      "sourceRoots": [
+        "packages/tools-generics/README.md",
+        "packages/generic-tools/web-search/README.md",
+        "packages/generic-tools/simple-system-text-search/README.md"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/tools-generics/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/generic-tools/web-search/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/generic-tools/simple-system-text-search/README.md",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:228a1697c0c6c4584179f407"
+    },
+    {
+      "eventFamily": "ledger",
+      "eventIds": [
+        "ledger.receipt.emitted",
+        "ledger.finality.observed",
+        "ledger.projection.drift",
+        "ledger.repaired"
+      ],
+      "sourceSurface": "packages/btd",
+      "lifecycleStage": "ledger_lifecycle",
+      "severity": "warning",
+      "sourceSafetyClass": "source_safe_ledger_metadata",
+      "redactionPosture": "receipt_roots_transaction_refs_and_state_only",
+      "correlationIds": [
+        "ledgerReceiptId",
+        "transactionId",
+        "assetPackId",
+        "readId"
+      ],
+      "proofRootFields": [
+        "ledgerRoot",
+        "receiptRoot",
+        "finalityRoot"
+      ],
+      "storageTarget": "ledger_journal_and_database_projection",
+      "dashboardPanel": "dashboard.ledger.finality",
+      "alertThreshold": "projection_drift_critical",
+      "runbookLink": "runbook.ledger.reconciliation-repair",
+      "sourceRoots": [
+        "packages/btd/src/telemetry.ts",
+        "packages/btd/src/reconciliation.ts",
+        "packages/api/src/routes/btd-crypto.ts"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/btd/src/telemetry.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/reconciliation.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/btd-crypto.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:ab964629790fa1e0adf2adb0"
+    },
+    {
+      "eventFamily": "wallet",
+      "eventIds": [
+        "wallet.connection.started",
+        "wallet.signing.requested",
+        "wallet.signing.failed",
+        "wallet.policy.denied"
+      ],
+      "sourceSurface": "packages/btd",
+      "lifecycleStage": "wallet_operation_lifecycle",
+      "severity": "warning",
+      "sourceSafetyClass": "source_safe_wallet_metadata",
+      "redactionPosture": "wallet_id_network_policy_and_error_class_only",
+      "correlationIds": [
+        "walletId",
+        "organizationId",
+        "transactionId",
+        "requestId"
+      ],
+      "proofRootFields": [
+        "walletCapabilityRoot",
+        "policyRoot",
+        "denialRoot"
+      ],
+      "storageTarget": "wallet_event_store",
+      "dashboardPanel": "dashboard.wallet.operations",
+      "alertThreshold": "signing_failure_warning",
+      "runbookLink": "runbook.wallet.signing-failure",
+      "sourceRoots": [
+        "packages/btd/src/terminal-operational-health.ts",
+        "apps/uapi/app/api/wallet/authenticate/route.ts",
+        "apps/uapi/tests/terminalWalletBtcOperation.test.ts"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/btd/src/terminal-operational-health.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/wallet/authenticate/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:302cfc6c90b266511404b41f"
+    },
+    {
+      "eventFamily": "storage",
+      "eventIds": [
+        "storage.write.admitted",
+        "storage.write.completed",
+        "storage.read.denied",
+        "storage.repair.completed"
+      ],
+      "sourceSurface": "packages/pipeline-hosts",
+      "lifecycleStage": "storage_lifecycle",
+      "severity": "warning",
+      "sourceSafetyClass": "source_safe_storage_metadata",
+      "redactionPosture": "object_key_roots_retention_policy_and_access_state_only",
+      "correlationIds": [
+        "objectId",
+        "assetPackId",
+        "executionId",
+        "storageRoot"
+      ],
+      "proofRootFields": [
+        "objectStorageRoot",
+        "retentionRoot",
+        "accessPolicyRoot"
+      ],
+      "storageTarget": "object_storage_manifest",
+      "dashboardPanel": "dashboard.storage.posture",
+      "alertThreshold": "source_lock_or_retention_drift_critical",
+      "runbookLink": "runbook.storage.object-repair",
+      "sourceRoots": [
+        "packages/btd/src/deployment-storage-posture.ts",
+        "packages/pipeline-hosts/README.md",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/btd/src/deployment-storage-posture.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/pipeline-hosts/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:bff3a2c3a6ee20f2998e20b9"
+    },
+    {
+      "eventFamily": "interface",
+      "eventIds": [
+        "interface.request.received",
+        "interface.response.rendered",
+        "interface.auth.denied",
+        "interface.payload.redacted"
+      ],
+      "sourceSurface": "uapi_and_interface_packages",
+      "lifecycleStage": "interface_lifecycle",
+      "severity": "info",
+      "sourceSafetyClass": "source_safe_interface_metadata",
+      "redactionPosture": "route_contract_roots_status_and_policy_only",
+      "correlationIds": [
+        "requestId",
+        "transactionId",
+        "interfaceId",
+        "principalId"
+      ],
+      "proofRootFields": [
+        "requestRoot",
+        "responseRoot",
+        "interfaceProofRoot"
+      ],
+      "storageTarget": "interface_event_store",
+      "dashboardPanel": "dashboard.interfaces.requests",
+      "alertThreshold": "auth_denial_spike_warning",
+      "runbookLink": "runbook.interfaces.auth-denial",
+      "sourceRoots": [
+        "packages/api/src/routes/auxillaries-contract.ts",
+        "packages/btd/src/interface-telemetry-proof-hook.ts",
+        "apps/uapi/app/api/read-review/route.ts"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/api/src/routes/auxillaries-contract.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/interface-telemetry-proof-hook.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:2e7abccca38c2659e4dd7192"
+    },
+    {
+      "eventFamily": "deployment",
+      "eventIds": [
+        "deployment.lane.checked",
+        "deployment.secret.available",
+        "deployment.migration.approved",
+        "deployment.rehearsal.completed"
+      ],
+      "sourceSurface": "deployment_workflows",
+      "lifecycleStage": "deployment_lifecycle",
+      "severity": "info",
+      "sourceSafetyClass": "source_safe_deployment_metadata",
+      "redactionPosture": "lane_ids_capability_ids_and_secret_family_status_only",
+      "correlationIds": [
+        "deploymentId",
+        "laneId",
+        "hostId",
+        "workflowRunId"
+      ],
+      "proofRootFields": [
+        "deploymentRoot",
+        "laneRoot",
+        "capabilityRoot"
+      ],
+      "storageTarget": "deployment_artifact_store",
+      "dashboardPanel": "dashboard.deployment.lanes",
+      "alertThreshold": "missing_secret_or_failed_rehearsal_warning",
+      "runbookLink": "runbook.deployment.lane-repair",
+      "sourceRoots": [
+        ".github/workflows/bitcode-gate-quality.yml",
+        "packages/btd/src/migration-approval-gate.ts",
+        ".proofs/v34/local-staging-testnet-deployment-rehearsal.json"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/migration-approval-gate.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/local-staging-testnet-deployment-rehearsal.json",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:bf70a3282ee4c8ad1fa779c6"
+    },
+    {
+      "eventFamily": "observer",
+      "eventIds": [
+        "observer.poll.started",
+        "observer.poll.completed",
+        "observer.finality.lagged",
+        "observer.failed"
+      ],
+      "sourceSurface": "packages/btd",
+      "lifecycleStage": "observer_lifecycle",
+      "severity": "warning",
+      "sourceSafetyClass": "source_safe_observer_metadata",
+      "redactionPosture": "observed_root_state_and_lag_class_only",
+      "correlationIds": [
+        "observerJobId",
+        "ledgerReceiptId",
+        "transactionId",
+        "laneId"
+      ],
+      "proofRootFields": [
+        "observerRoot",
+        "finalityRoot",
+        "repairRoot"
+      ],
+      "storageTarget": "observer_event_store",
+      "dashboardPanel": "dashboard.observers.finality",
+      "alertThreshold": "finality_lag_warning",
+      "runbookLink": "runbook.observer.finality-lag",
+      "sourceRoots": [
+        "packages/btd/src/runtime-observer-repair-job.ts",
+        ".proofs/v34/runtime-observers-broadcasters-repair-jobs.json",
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/btd/src/runtime-observer-repair-job.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/runtime-observers-broadcasters-repair-jobs.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/terminalJournalReconciliation.test.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:47d616453bb271d12b278d60"
+    },
+    {
+      "eventFamily": "repair",
+      "eventIds": [
+        "repair.detected",
+        "repair.command.started",
+        "repair.command.completed",
+        "repair.failed"
+      ],
+      "sourceSurface": "packages/btd",
+      "lifecycleStage": "repair_lifecycle",
+      "severity": "warning",
+      "sourceSafetyClass": "source_safe_repair_metadata",
+      "redactionPosture": "repair_command_id_roots_outcome_and_actor_role_only",
+      "correlationIds": [
+        "repairJobId",
+        "incidentId",
+        "operatorId",
+        "laneId"
+      ],
+      "proofRootFields": [
+        "repairRoot",
+        "beforeStateRoot",
+        "afterStateRoot"
+      ],
+      "storageTarget": "repair_event_store",
+      "dashboardPanel": "dashboard.repairs.outcomes",
+      "alertThreshold": "repair_failed_critical",
+      "runbookLink": "runbook.repair.failed",
+      "sourceRoots": [
+        "packages/btd/src/rollback-upgrade-repair-playbook.ts",
+        ".proofs/v34/rollback-upgrade-data-repair-playbooks.json",
+        ".docs/DEPLOYMENT.md"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/btd/src/rollback-upgrade-repair-playbook.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/rollback-upgrade-data-repair-playbooks.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:818d5eba976e0828f15c820a"
+    },
+    {
+      "eventFamily": "docs_qa",
+      "eventIds": [
+        "docs_qa.catalog.checked",
+        "docs_qa.drift.detected",
+        "docs_qa.alignment.failed",
+        "docs_qa.alignment.repaired"
+      ],
+      "sourceSurface": "scripts/specifying",
+      "lifecycleStage": "documentation_quality_lifecycle",
+      "severity": "warning",
+      "sourceSafetyClass": "source_safe_docs_qa_metadata",
+      "redactionPosture": "file_paths_tokens_roots_and_failure_codes_only",
+      "correlationIds": [
+        "docsQaRunId",
+        "surfaceId",
+        "artifactId",
+        "workflowRunId"
+      ],
+      "proofRootFields": [
+        "docsQaRoot",
+        "surfaceRoot",
+        "artifactRoot"
+      ],
+      "storageTarget": "docs_qa_artifact_store",
+      "dashboardPanel": "dashboard.docs.qa",
+      "alertThreshold": "alignment_failure_warning",
+      "runbookLink": "runbook.docs.qa-repair",
+      "sourceRoots": [
+        "scripts/specifying/src/canonical/documentation-surface-catalog.js",
+        "scripts/check-v35-gate2-documentation-surface-catalog.mjs",
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v35-gate2-documentation-surface-catalog.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:0076ba6d1d6d2806899b65bf"
+    },
+    {
+      "eventFamily": "promotion",
+      "eventIds": [
+        "promotion.check.started",
+        "promotion.check.completed",
+        "promotion.blocked",
+        "promotion.pointer.updated"
+      ],
+      "sourceSurface": "promotion_workflows",
+      "lifecycleStage": "promotion_lifecycle",
+      "severity": "critical",
+      "sourceSafetyClass": "source_safe_promotion_metadata",
+      "redactionPosture": "commit_refs_artifact_roots_and_gate_status_only",
+      "correlationIds": [
+        "promotionRunId",
+        "workflowRunId",
+        "canonicalCommit",
+        "version"
+      ],
+      "proofRootFields": [
+        "promotionRoot",
+        "provenRoot",
+        "canonicalInputRoot"
+      ],
+      "storageTarget": "promotion_artifact_store",
+      "dashboardPanel": "dashboard.promotion.readiness",
+      "alertThreshold": "blocked_or_pointer_drift_critical",
+      "runbookLink": "runbook.promotion.blocked",
+      "sourceRoots": [
+        "scripts/check-v34-gate10-promotion-readiness.mjs",
+        "scripts/promote-bitcode-canon.mjs",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "forbiddenPayload": [
+        "secret_values",
+        "service_key_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "scripts/check-v34-gate10-promotion-readiness.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/promote-bitcode-canon.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-taxonomy-catalog",
+        "failClosedOn": [
+          "missing_event_family",
+          "missing_redaction_posture",
+          "missing_proof_root",
+          "missing_source_root",
+          "source_unsafe_payload"
+        ]
+      },
+      "taxonomyRoot": "telemetry-taxonomy-row:45a1bb6f967b667faed72b98"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "eventFamily": "pipeline",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "execution",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/executions/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/executions/stream/route.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "ptrr_agent",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/agent-generics/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "thricified_generation",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/llm-generics/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_PROMPT_TRACE.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "tool",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/tools-generics/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/generic-tools/web-search/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/generic-tools/simple-system-text-search/README.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "ledger",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/btd/src/telemetry.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/reconciliation.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/btd-crypto.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "wallet",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/btd/src/terminal-operational-health.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/wallet/authenticate/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "storage",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/btd/src/deployment-storage-posture.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/pipeline-hosts/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "interface",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/api/src/routes/auxillaries-contract.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/interface-telemetry-proof-hook.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "deployment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/migration-approval-gate.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/local-staging-testnet-deployment-rehearsal.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "observer",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/btd/src/runtime-observer-repair-job.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/runtime-observers-broadcasters-repair-jobs.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/terminalJournalReconciliation.test.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "repair",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/btd/src/rollback-upgrade-repair-playbook.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/rollback-upgrade-data-repair-playbooks.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "docs_qa",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v35-gate2-documentation-surface-catalog.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "eventFamily": "promotion",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "scripts/check-v34-gate10-promotion-readiness.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/promote-bitcode-canon.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "telemetry-taxonomy-catalog:39e4b53d0c25aa4fdfd7e038"
+}

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v32-interface-contract-regression-suite.json';
+const ARTIFACT_PATH = '.proofs/v32/interface-contract-regression-suite.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -61,33 +61,33 @@ const sourceFiles = Object.freeze([
   'packages/btd/src/interface-contract-regression.ts',
   'packages/btd/src/interface-integration-contract.ts',
   'packages/btd/src/interface-integration.ts',
-  'uapi/app/terminal/terminal-interface-integration-regression.ts',
-  'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
-  'packages/chatgptapp/src/interface-integration.ts',
+  'apps/uapi/app/ (removed cockpit tree) terminal-interface-integration-regression.ts',
+  'apps/mcp/src/interface-integration.ts',
+  'apps/chatgpt/src/interface-integration.ts',
 ]);
 
 const testFiles = Object.freeze([
   'packages/btd/__tests__/v32-interface-contract-regression.test.ts',
   'packages/btd/__tests__/interface-integration.test.ts',
-  'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+  'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
   'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-  'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-  'packages/chatgptapp/src/__tests__/tools.test.ts',
-  'uapi/tests/auxillariesContent.access.test.tsx',
-  'uapi/tests/api/conversationsRouteRead.test.ts',
+  'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+  'apps/chatgpt/src/__tests__/tools.test.ts',
+  'apps/uapi/tests/auxillariesContent.access.test.tsx',
+  'apps/uapi/tests/api/conversationsRouteRead.test.ts',
 ]);
 
 const fixtureRows = Object.freeze([
   {
     surface: 'terminal',
     status: 'active_contract',
-    boundaryKind: 'terminal_ui',
-    fixturePath: 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+    boundaryKind: 'product_ui',
+    fixturePath: 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
     authBoundary: 'authenticated_route',
     policyDenial: 'terminal-detail-denies-protected-source-before-paid-unlock',
     sourceSafetyClass: 'protected-source-locked',
     objectFamilies: ['btd_registry', 'read_access', 'terminal_journal', 'protocol_telemetry'],
-    sharedFixtureBasis: ['TerminalTransactionReadModel', 'BtdReadAccessDecision'],
+    sharedFixtureBasis: ['ProductTransactionReadModel', 'BtdReadAccessDecision'],
     assertions: requiredAssertions,
   },
   {
@@ -106,7 +106,7 @@ const fixtureRows = Object.freeze([
     surface: 'mcp',
     status: 'active_contract',
     boundaryKind: 'mcp_tool',
-    fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    fixturePath: 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     authBoundary: 'pipeline_permission',
     policyDenial: 'mcp-pipeline-write-denies-missing-pipelines-create',
     sourceSafetyClass: 'source-safe-internal',
@@ -118,7 +118,7 @@ const fixtureRows = Object.freeze([
     surface: 'chatgpt_app',
     status: 'active_contract',
     boundaryKind: 'chatgpt_tool',
-    fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+    fixturePath: 'apps/chatgpt/src/__tests__/tools.test.ts',
     authBoundary: 'confirmed_connected_write',
     policyDenial: 'chatgpt-app-write-denies-missing-confirmation-read-access-or-authority',
     sourceSafetyClass: 'source-safe-internal',
@@ -130,7 +130,7 @@ const fixtureRows = Object.freeze([
     surface: 'auxillaries_hook',
     status: 'active_contract',
     boundaryKind: 'auxillaries_ui',
-    fixturePath: 'uapi/tests/auxillariesContent.access.test.tsx',
+    fixturePath: 'apps/uapi/tests/auxillariesContent.access.test.tsx',
     authBoundary: 'support_plane_policy',
     policyDenial: 'auxillaries-support-plane-denies-protected-actions-without-interface-admission',
     sourceSafetyClass: 'source-safe-internal',
@@ -142,7 +142,7 @@ const fixtureRows = Object.freeze([
     surface: 'exchange_hook',
     status: 'deferred_blocked',
     boundaryKind: 'deferred_interface_hook',
-    fixturePath: 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+    fixturePath: 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
     authBoundary: 'deferred_not_admitted',
     policyDenial: 'exchange-hook-remains-blocked-until-exchange-product-depth-gate',
     sourceSafetyClass: 'deferred-blocker',
@@ -155,7 +155,7 @@ const fixtureRows = Object.freeze([
     surface: 'conversations_hook',
     status: 'deferred_blocked',
     boundaryKind: 'deferred_interface_hook',
-    fixturePath: 'uapi/tests/api/conversationsRouteRead.test.ts',
+    fixturePath: 'apps/uapi/tests/api/conversationsRouteRead.test.ts',
     authBoundary: 'deferred_not_admitted',
     policyDenial: 'conversations-hook-remains-blocked-until-conversations-product-depth-gate',
     sourceSafetyClass: 'deferred-blocker',
@@ -220,15 +220,15 @@ export function buildV32InterfaceContractRegressionSuite() {
       'BTD_INTERFACE_INTEGRATION_REQUIRED_SURFACES',
       'conversations_hook',
     ]),
-    scanTokens('uapi/app/terminal/terminal-interface-integration-regression.ts', [
+    scanTokens('apps/uapi/app/ (removed cockpit tree) terminal-interface-integration-regression.ts', [
       'conversations-interface-hook',
       'exchange-interface-hook',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'pipelines.create permission',
       'writeAdmission',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'requiresConfirmation',
       'readAccess',
       'organizationAuthority',
@@ -244,7 +244,7 @@ export function buildV32InterfaceContractRegressionSuite() {
       'returns JSON-safe interface integration regression proof from the route boundary',
       'conversations_hook',
     ]),
-    scanTokens('uapi/tests/terminalInterfaceIntegrationRegression.test.ts', [
+    scanTokens('apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts', [
       'conversations_hook',
       'source-safe low-detail proof',
     ]),

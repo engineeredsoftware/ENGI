@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-mcp-api-tool-contracts.json';
+const ARTIFACT = '.proofs/v33/mcp-api-tool-contracts.json';
 
 const REQUIRED_TOOL_IDS = ['bitcode://pipelines/asset-pack/create'];
 const REQUIRED_DENIED_STATES = [
@@ -100,7 +100,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -121,19 +121,19 @@ function main() {
     ARTIFACT,
     'packages/btd/src/mcp-tool-contract.ts',
     'packages/btd/__tests__/mcp-tool-contract.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'apps/mcp/src/tools/pipeline-tools.ts',
+    'apps/mcp/src/__tests__/unit/mcp-tool-contract.test.ts',
+    'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     'scripts/generate-v33-mcp-api-tool-contracts.mjs',
     'scripts/check-v33-gate3-mcp-api-tool-contracts.mjs',
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -193,18 +193,18 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V33.md');
-  const delta = read(root, 'BITCODE_SPEC_V33_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V33_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V33.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const btdSource = read(root, 'packages/btd/src/mcp-tool-contract.ts');
-  const mcpSource = read(root, 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts');
+  const mcpSource = read(root, 'apps/mcp/src/tools/pipeline-tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/mcp-tool-contract.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/mcp-tool-contract.test.ts');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V33 docs must mention ${ARTIFACT}.`);

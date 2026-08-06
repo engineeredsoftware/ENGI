@@ -64,7 +64,7 @@ function gitTrackedFiles(root, pathspecs) {
 function findStandaloneDemonstrationImports(root) {
   const importPattern =
     /(?:from\s+|import\s*\(|require\s*\()\s*['"][^'"]*(?:@bitcode\/protocol-demonstration|protocol-demonstration\/src)/u;
-  return gitTrackedFiles(root, ['packages', 'uapi/app', 'uapi/components', 'uapi/lib'])
+  return gitTrackedFiles(root, ['packages', 'apps/uapi/app', 'apps/uapi/components', 'apps/uapi/lib'])
     .filter((filePath) => /\.(?:mjs|cjs|js|jsx|ts|tsx)$/u.test(filePath))
     .filter((filePath) => !filePath.includes('__tests__') && !filePath.includes('/test/'))
     .filter((filePath) => importPattern.test(read(root, filePath)));
@@ -79,7 +79,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -103,13 +103,13 @@ function main() {
     'packages/api/README.md',
     'packages/orm/README.md',
     'packages/btd/README.md',
-    'uapi/app/auxillaries/README.md',
-    'uapi/app/auxillaries/auxillary-onboarding-contract.ts',
-    'BITCODE_SPEC_V31.md',
-    'BITCODE_SPEC_V31_DELTA.md',
-    'BITCODE_SPEC_V31_NOTES.md',
-    'BITCODE_SPEC_V31_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/auxillaries/README.md',
+    'apps/uapi/app/auxillaries/auxillary-onboarding-contract.ts',
+    '.specifications/BITCODE_SPEC_V31.md',
+    '.specifications/BITCODE_SPEC_V31_DELTA.md',
+    '.specifications/BITCODE_SPEC_V31_NOTES.md',
+    '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V31 Gate 2 file: ${relativePath}`);
   }
@@ -120,13 +120,13 @@ function main() {
   const apiReadme = read(root, 'packages/api/README.md');
   const ormReadme = read(root, 'packages/orm/README.md');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const auxReadme = read(root, 'uapi/app/auxillaries/README.md');
-  const bridge = read(root, 'uapi/app/auxillaries/auxillary-onboarding-contract.ts');
-  const spec = read(root, 'BITCODE_SPEC_V31.md');
-  const delta = read(root, 'BITCODE_SPEC_V31_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V31_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V31_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
+  const bridge = read(root, 'apps/uapi/app/auxillaries/auxillary-onboarding-contract.ts');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V31.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V31_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V31_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

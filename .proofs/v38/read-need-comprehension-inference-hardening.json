@@ -1,0 +1,382 @@
+{
+  "artifactId": "v38-read-need-comprehension-inference-hardening",
+  "schemaId": "bitcode.v38.readNeedComprehensionInferenceHardening.v1",
+  "version": "V38",
+  "currentTarget": "V37",
+  "sourceSafetyVerdict": "source-safe-read-need-comprehension-inference-hardening-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v38-read-need-comprehension-hardening:8a511d23d56bc6f1dc216802",
+  "passed": true,
+  "rows": [
+    {
+      "rowId": "phase:request-normalize",
+      "phaseId": "ReadNeedComprehensionSynthesis.request",
+      "agentId": "ReadNeedComprehensionSynthesis.request.normalize",
+      "purpose": "Normalize the enterprise Read Request and source revision without searching deposits.",
+      "returnTypes": [
+        "ReadNeedSourceInput"
+      ],
+      "receiptFields": [
+        "phaseIds",
+        "agentIds",
+        "ptrrStepIds",
+        "roots"
+      ],
+      "telemetryIds": [
+        "ReadNeedComprehensionSynthesis.telemetry.prompt-input",
+        "ReadNeedComprehensionSynthesis.telemetry.source-revision",
+        "ReadNeedComprehensionSynthesis.telemetry.target-artifact-kinds"
+      ],
+      "rowRoot": "v38-read-need-hardening-row:4f1c2193e64a161519cf5aec",
+      "sourceSafetyClass": "source_safe_read_need_comprehension_inference_metadata",
+      "protectedSourceVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ]
+    },
+    {
+      "rowId": "phase:comprehend-need",
+      "phaseId": "ReadNeedComprehensionSynthesis.comprehend",
+      "agentId": "ReadNeedComprehensionSynthesis.comprehend.need-synthesizer",
+      "purpose": "Run the Need synthesizer through PTRR/Failsafe/Thricified inference and return only reviewable Need fields.",
+      "returnTypes": [
+        "ReadNeed"
+      ],
+      "receiptFields": [
+        "promptTemplateIds",
+        "interpolationContextKeys",
+        "outputSchemaIds",
+        "telemetryEventIds",
+        "roots"
+      ],
+      "telemetryIds": [
+        "ReadNeedComprehensionSynthesis.telemetry.prompt-template",
+        "ReadNeedComprehensionSynthesis.telemetry.interpolated-prompt",
+        "ReadNeedComprehensionSynthesis.telemetry.raw-model-response",
+        "ReadNeedComprehensionSynthesis.telemetry.parsed-typed-output",
+        "ReadNeedComprehensionSynthesis.telemetry.schema-name"
+      ],
+      "rowRoot": "v38-read-need-hardening-row:f4ad988b8f3f2ae9a68c5c2f",
+      "sourceSafetyClass": "source_safe_read_need_comprehension_inference_metadata",
+      "protectedSourceVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ]
+    },
+    {
+      "rowId": "phase:measure-need",
+      "phaseId": "ReadNeedComprehensionSynthesis.measure",
+      "agentId": "ReadNeedComprehensionSynthesis.measure.need-measurement",
+      "purpose": "Derive deterministic Need measurement vector and Share-to-Fee input values.",
+      "returnTypes": [
+        "ReadNeedPricingMeasurementInputs"
+      ],
+      "receiptFields": [
+        "outputSchemaIds",
+        "roots"
+      ],
+      "telemetryIds": [
+        "ReadNeedComprehensionSynthesis.telemetry.measurement-vector",
+        "ReadNeedComprehensionSynthesis.telemetry.weighted-requested-volume",
+        "ReadNeedComprehensionSynthesis.telemetry.measurement-root"
+      ],
+      "rowRoot": "v38-read-need-hardening-row:455fb53152725a2073ed91d4",
+      "sourceSafetyClass": "source_safe_read_need_comprehension_inference_metadata",
+      "protectedSourceVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ]
+    },
+    {
+      "rowId": "phase:review-need",
+      "phaseId": "ReadNeedComprehensionSynthesis.review",
+      "agentId": "ReadNeedComprehensionSynthesis.review.operator-review",
+      "purpose": "Record acceptance or resynthesis feedback before ReadFitsFindingSynthesis is admitted.",
+      "returnTypes": [
+        "AcceptedReadNeed",
+        "ResynthesisRequestedReadNeed"
+      ],
+      "receiptFields": [
+        "reviewBoundary",
+        "roots"
+      ],
+      "telemetryIds": [
+        "ReadNeedComprehensionSynthesis.telemetry.review-state",
+        "ReadNeedComprehensionSynthesis.telemetry.accepted-at",
+        "ReadNeedComprehensionSynthesis.telemetry.acceptance-root",
+        "ReadNeedComprehensionSynthesis.telemetry.feedback-history"
+      ],
+      "rowRoot": "v38-read-need-hardening-row:3470ef235d23236a7dba07a5",
+      "sourceSafetyClass": "source_safe_read_need_comprehension_inference_metadata",
+      "protectedSourceVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ]
+    },
+    {
+      "rowId": "receipt:source-safe-inference-receipt",
+      "phaseId": "ReadNeedComprehensionSynthesis.receipt",
+      "agentId": "ReadNeedComprehensionSynthesis.receipt.source-safe",
+      "purpose": "Bind the produced Need to 4 phases, 4 PTRR agents, 16 PTRR steps, 48 Failsafe sequences, and 48 ThricifiedGeneration chains without exposing private payloads.",
+      "returnTypes": [
+        "ReadNeedComprehensionSynthesisInferenceReceipt"
+      ],
+      "receiptFields": [
+        "phaseIds",
+        "agentIds",
+        "ptrrStepIds",
+        "failsafeSequenceIds",
+        "thricifiedGenerationIds",
+        "promptTemplateIds",
+        "interpolationContextKeys",
+        "outputSchemaIds",
+        "telemetryEventIds",
+        "sourceSafety",
+        "reviewBoundary",
+        "roots"
+      ],
+      "telemetryIds": [
+        "read-need-comprehension.inferenceReceipt",
+        "read-need-comprehension.receiptRoot"
+      ],
+      "rowRoot": "v38-read-need-hardening-row:102e145dbf4dbc50a01ab554",
+      "sourceSafetyClass": "source_safe_read_need_comprehension_inference_metadata",
+      "protectedSourceVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ]
+    }
+  ],
+  "requiredPhaseIds": [
+    "ReadNeedComprehensionSynthesis.request",
+    "ReadNeedComprehensionSynthesis.comprehend",
+    "ReadNeedComprehensionSynthesis.measure",
+    "ReadNeedComprehensionSynthesis.review"
+  ],
+  "requiredReturnTypes": [
+    "ReadNeedSourceInput",
+    "ReadNeed",
+    "ReadNeedPricingMeasurementInputs",
+    "AcceptedReadNeed",
+    "ResynthesisRequestedReadNeed"
+  ],
+  "requiredReceiptFields": [
+    "phaseIds",
+    "agentIds",
+    "ptrrStepIds",
+    "failsafeSequenceIds",
+    "thricifiedGenerationIds",
+    "promptTemplateIds",
+    "interpolationContextKeys",
+    "outputSchemaIds",
+    "telemetryEventIds",
+    "sourceSafety",
+    "reviewBoundary",
+    "roots"
+  ],
+  "predicateResults": [
+    {
+      "id": "contract.names-read-need-pipeline",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "contract.has-four-phases",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "contract.has-four-ptrr-steps",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "contract.has-three-failsafe-stages",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "contract.has-thricified-generation-contract",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.imports-contract-trace",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.defines-receipt-type",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.builds-receipt",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.attaches-receipt-to-output",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.stores-receipt-in-execution",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.requires-accepted-need-for-fits",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.supports-resynthesis-feedback",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.blocks-source-disclosure",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "read-need.blocks-credentials",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "bounded-inference-records-failsafe-stack",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "bounded-inference-records-thricified-stages",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "bounded-inference-records-prompt-output",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "route-uses-inference-synthesis",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
+      "passed": true
+    },
+    {
+      "id": "terminal-supports-resynthesis-feedback",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-receipt-counts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-real-inference-receipt",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
+      "passed": true
+    },
+    {
+      "id": "contract-tests-cover-read-need-counts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "phaseCount": 4,
+    "ptrrAgentCount": 4,
+    "ptrrStepCount": 16,
+    "failsafeSequenceCount": 48,
+    "thricifiedGenerationCount": 48,
+    "providerCallSlotCount": 144,
+    "rowCount": 5,
+    "requiredPredicateCount": 22,
+    "passedPredicateCount": 22,
+    "failedPredicateIds": [],
+    "gate2InventoryRoot": "v38-inference-surface-inventory:3f50930549dee560db576a9a",
+    "gate3StackRoot": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130",
+    "gate4PromptBenchmarkRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
+    "gate5DisclosureRoot": "v38-inference-telemetry-disclosure-report:6b52c044d55df62ac1b0db97",
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "acceptedNeedRequiredForFindingFits": true,
+    "resynthesisWithFeedbackCovered": true,
+    "routeUsesInferenceSynthesis": true,
+    "terminalSupportsResynthesis": true,
+    "legacySourceRoots": false
+  },
+  "sourceRoots": {
+    "readingContract": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+    "readNeed": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+    "readNeedTests": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
+    "readingContractTests": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
+    "readReviewRoute": "apps/uapi/app/api/read-review/route.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+    "gate2Inventory": "scripts/specifying/src/canonical/inference-surface-inventory.js",
+    "gate3Stack": "scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
+    "gate4Benchmark": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
+    "gate5Disclosure": "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js"
+  }
+}

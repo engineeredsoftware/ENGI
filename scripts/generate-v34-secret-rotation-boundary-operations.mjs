@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v34-secret-rotation-boundary-operations.json';
+const ARTIFACT_PATH = '.proofs/v34/secret-rotation-boundary-operations.json';
 const GENERATED_AT = '2026-05-23T00:00:00.000Z';
 
 const requiredFamilyIds = Object.freeze([
@@ -90,7 +90,7 @@ const familyRows = Object.freeze([
     label: 'Vercel deployment authentication family',
     credentialClass: 'deployment_platform_token',
     storageOwner: 'vercel_project_environment',
-    ownerPackage: 'uapi',
+    ownerPackage: 'apps/uapi',
     requiredHostIds: ['website', 'api', 'pipeline_workers'],
     supportedLaneIds: nonValueLanes,
     rotationCadence: 'on_provider_expiry',
@@ -170,7 +170,7 @@ const familyRows = Object.freeze([
     label: 'webhook signing family',
     credentialClass: 'webhook_signature_secret',
     storageOwner: 'interface_connector_secret_store',
-    ownerPackage: 'uapi',
+    ownerPackage: 'apps/uapi',
     requiredHostIds: ['api', 'runtime_observers'],
     supportedLaneIds: nonValueLanes,
     rotationCadence: 'every_60_days',
@@ -190,7 +190,7 @@ const familyRows = Object.freeze([
     label: 'MCP server auth family',
     credentialClass: 'mcp_transport_auth_secret',
     storageOwner: 'interface_connector_secret_store',
-    ownerPackage: 'packages/executions-mcp',
+    ownerPackage: 'apps/mcp',
     requiredHostIds: ['mcp_api', 'api'],
     supportedLaneIds: nonValueLanes,
     rotationCadence: 'every_60_days',
@@ -219,7 +219,7 @@ const familyRows = Object.freeze([
     ciMaskingPosture: 'masked connector values',
     leakResponsePath: 'revoke connector secret, disable app actions, refresh policy, re-run action contract tests',
     leakSeverity: 'interface_boundary_blocking',
-    blastRadiusNote: 'ChatGPT App actions pause while API and Terminal routes remain available',
+    blastRadiusNote: 'ChatGPT App actions pause while API and product routes remain available',
     runtimeAvailabilityCheck: 'action admission reports connector posture and denial reason only',
     auditEventName: 'secret_rotation.chatgpt_app_auth',
     serializedValuePolicy: 'connector posture and action verdict only',

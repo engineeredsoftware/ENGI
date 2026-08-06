@@ -1,0 +1,2114 @@
+/* Route-scoped Bitcode Auxillaries UI. The retired orbital styles remain loaded
+   for the reusable ring/modal experience, but this layer owns active Auxillaries routes. */
+.auxillaries-bitcode-surface {
+  --aux-bc-ink: rgba(248, 250, 252, 0.96);
+  --aux-bc-muted: rgba(226, 232, 240, 0.72);
+  --aux-bc-line: rgba(255, 255, 255, 0.1);
+  --aux-bc-green: rgba(101, 254, 183, 0.9);
+  --aux-bc-panel: rgba(5, 11, 21, 0.9);
+  /*
+   * Glass tokens — left selector is source of truth for orbital visibility.
+   * Right column must not stack denser fills (shell + section + bg-black/18 tiles).
+   */
+  --aux-bc-shell-border: rgba(101, 254, 183, 0.12);
+  /*
+   * Shell alpha kept low so orbitals read through BOTH columns.
+   * Hardcoded on .auxillaries-column-shell so left/right cannot diverge.
+   */
+  --aux-bc-shell-bg:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 15, 28, 0.30), rgba(3, 8, 17, 0.28));
+  --aux-bc-shell-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  --aux-bc-card-bg: rgba(255, 255, 255, 0.035);
+  --aux-bc-card-border: rgba(255, 255, 255, 0.08);
+  --aux-bc-card-hover-bg: rgba(101, 254, 183, 0.07);
+  /* Nested tiles under a section: nearly clear so only one glass layer densifies. */
+  --aux-bc-card-nested-bg: rgba(255, 255, 255, 0.02);
+  /* Active selector card wash (green) — template for tinted sections. */
+  --aux-bc-card-current-bg:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.16), transparent 42%),
+    linear-gradient(180deg, rgba(101, 254, 183, 0.12), rgba(101, 254, 183, 0.05));
+  /*
+   * Wallet / GitHub = selector-card opacity + hue wash (same alpha band as left cards).
+   */
+  --aux-bc-wallet-section-bg:
+    radial-gradient(circle at top left, rgba(251, 146, 60, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(251, 146, 60, 0.09), rgba(251, 146, 60, 0.035));
+  --aux-bc-wallet-section-border: rgba(251, 146, 60, 0.36);
+  --aux-bc-github-section-bg:
+    radial-gradient(circle at top left, rgba(167, 139, 250, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(167, 139, 250, 0.09), rgba(167, 139, 250, 0.035));
+  --aux-bc-github-section-border: rgba(167, 139, 250, 0.36);
+  --aux-bc-github-card-bg:
+    radial-gradient(circle at top left, rgba(167, 139, 250, 0.12), transparent 48%),
+    linear-gradient(180deg, rgba(167, 139, 250, 0.08), rgba(167, 139, 250, 0.03));
+  --aux-bc-github-card-border: rgba(167, 139, 250, 0.32);
+  --aux-bc-github-soft-bg:
+    radial-gradient(circle at top left, rgba(167, 139, 250, 0.08), transparent 50%),
+    linear-gradient(180deg, rgba(167, 139, 250, 0.05), rgba(167, 139, 250, 0.02));
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: min(60rem, calc(100vh - 12rem)) !important;
+  overflow: visible !important;
+  contain: layout style !important;
+  border-radius: 0;
+  /*
+   * Deepest layer must be fully opaque — 0.98 alpha let homepage copy
+   * bleed through the overlay. Match open-portal field (not flat black).
+   */
+  background-color: #04101a;
+  background-image:
+    radial-gradient(circle at 14% 0%, rgba(101, 254, 183, 0.14), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(56, 189, 248, 0.1), transparent 22%),
+    linear-gradient(180deg, #040a13, #02060d);
+}
+
+.auxillaries-bitcode-route-surface {
+  padding: clamp(0.75rem, 1.5vw, 1.15rem);
+}
+
+.auxillaries-bitcode-surface.orbital-system-overlay {
+  --aux-bc-overlay-pad: clamp(1rem, 2vw, 2rem);
+  position: absolute !important;
+  /* Fill the portal shell (portal is fixed inset:0). */
+  inset: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  /* Equal inset including bottom — slight air under the auxiliary edge. */
+  padding: var(--aux-bc-overlay-pad);
+  overflow: hidden !important;
+  outline: none !important;
+  /*
+   * Same field as the open portal root — continuous with first-open loading
+   * shell so chunk mount never flashes a different (pitch black) floor.
+   * Fully opaque so landing particles stay under Auxillaries.
+   */
+  background-color: #04101a !important;
+  background-image:
+    radial-gradient(circle at 14% 0%, rgba(101, 254, 183, 0.14), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(56, 189, 248, 0.1), transparent 22%),
+    linear-gradient(180deg, #040a13, #02060d) !important;
+  /* Blur is unnecessary once the base is opaque; avoid see-through compositing. */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  isolation: isolate;
+  z-index: 1;
+}
+
+/* Login / non-workspace chrome: left-aligned surface header strip. */
+.auxillaries-bitcode-surface.orbital-system-overlay .orbital-header-buttons {
+  position: fixed !important;
+  inset: var(--aux-bc-overlay-pad) auto auto var(--aux-bc-overlay-pad) !important;
+  z-index: 120 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.65rem !important;
+  transform: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  left: var(--aux-bc-overlay-pad) !important;
+  right: auto !important;
+}
+
+.auxillaries-bitcode-surface.orbital-system-overlay .auxillaries-bitcode-shell {
+  width: min(100%, 92rem);
+  height: calc(100dvh - (2 * var(--aux-bc-overlay-pad)));
+  min-height: 0 !important;
+  max-height: none;
+  margin: auto;
+}
+
+/* Interactive ring navigation stays off for the Bitcode workspace shell;
+   decorative full-bleed menu solar system stays on as ambient backdrop. */
+.auxillaries-bitcode-surface .orbital-rings-container,
+.auxillaries-bitcode-surface .clickable-ring,
+.auxillaries-bitcode-surface .auxillaries-label,
+.auxillaries-bitcode-surface .orbital-pane-tabs {
+  display: none !important;
+}
+
+/*
+ * Menu solar system (AuxillariesSolarIcon variant=backdrop) as edge-aware field.
+ * ~20px from each edge of the Auxillaries surface; shape is free to go elliptical
+ * (wide screens) while planets/star stay circular via counter-scale in the glyph.
+ */
+.orbital-system .auxillaries-solar-backdrop-host,
+.auxillaries-bitcode-surface .auxillaries-solar-backdrop-host {
+  position: absolute !important;
+  inset: 20px !important;
+  z-index: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+  isolation: isolate;
+  contain: layout style;
+  /* Promote once; avoid permanent will-change (memory tax after settle). */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Ensure the solar glyph fills the edge-inset host (not the menu 1.85rem box). */
+.orbital-system .auxillaries-solar-backdrop-host [data-testid='auxillaries-solar-icon'],
+.auxillaries-bitcode-surface .auxillaries-solar-backdrop-host [data-testid='auxillaries-solar-icon'] {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  display: block !important;
+}
+
+/*
+ * Solar field reveal with the rest of the surface (opacity only, no filter/scale).
+ * Slightly slower than the portal open so the field eases in under chrome.
+ * Host-only so continuous orbit/flare animations are never replaced.
+ */
+@keyframes auxillaries-solar-field-enter {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.orbital-system .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter,
+.auxillaries-bitcode-surface .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter {
+  visibility: visible;
+  animation: auxillaries-solar-field-enter 1040ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity;
+}
+
+/* After enter: drop will-change so the live field doesn’t keep a permanent layer tax. */
+.orbital-system .auxillaries-solar-backdrop-host[data-solar-phase='live'],
+.auxillaries-bitcode-surface .auxillaries-solar-backdrop-host[data-solar-phase='live'] {
+  opacity: 1;
+  visibility: visible;
+  will-change: auto;
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital-system .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter,
+  .auxillaries-bitcode-surface .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter,
+  .orbital-system .auxillaries-solar-backdrop-host[data-solar-phase='live'],
+  .auxillaries-bitcode-surface .auxillaries-solar-backdrop-host[data-solar-phase='live'] {
+    animation: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    will-change: auto;
+  }
+}
+
+/* Keep solar motion even when surface defers other animations. */
+.orbital-system.animations-disabled .auxillaries-solar-backdrop-host [data-testid='auxillaries-solar-icon'],
+.orbital-system.animations-disabled .auxillaries-solar-backdrop-host [data-testid='auxillaries-solar-icon'] * {
+  animation-play-state: running !important;
+}
+
+/*
+ * Keep-alive dormant: only pause the solar field (not entrance/one-shot CSS).
+ * Pausing * re-triggers fill-mode cascades when the portal reopens.
+ */
+.auxillaries-portal-dormant .auxillaries-solar-backdrop-host,
+.auxillaries-portal-dormant .auxillaries-solar-backdrop-host * {
+  animation-play-state: paused !important;
+}
+
+.auxillaries-bitcode-route-surface .orbital-header-buttons {
+  display: none !important;
+}
+
+.auxillaries-bitcode-surface .content-vis {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  content-visibility: visible !important;
+  contain-intrinsic-size: auto !important;
+}
+
+.auxillaries-bitcode-shell {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(17rem, 22rem) minmax(0, 1fr) !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  align-items: stretch !important;
+  gap: clamp(0.65rem, 1.2vw, 0.9rem) clamp(1rem, 1.8vw, 1.4rem) !important;
+  min-height: min(58rem, calc(100vh - 14rem)) !important;
+  height: 100%;
+  padding-top: 0 !important;
+  overflow: hidden !important;
+}
+
+/*
+ * Full-width chrome row above both columns: Close/Disconnect left,
+ * avatar + wallet right (same positions as page nav chrome).
+ * No fill/shadow on the row — only the individual icon tiles paint chrome.
+ * A solid bar here read as a black strip over the solar field.
+ */
+.auxillaries-chrome-row {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2.5rem;
+  width: 100%;
+  pointer-events: auto;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.auxillaries-left-chrome-actions {
+  position: relative !important;
+  inset: auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  min-width: 0;
+  /* Hug the tiles — do not stretch a full-width strip across the shell. */
+  flex: 0 0 auto;
+  pointer-events: auto;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.auxillaries-right-chrome-actions {
+  position: relative !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  min-height: 2.5rem;
+  flex: 0 0 auto;
+  pointer-events: auto;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.auxillaries-left-chrome-actions .orbital-close-button,
+.auxillaries-left-chrome-actions .auxillaries-close-button,
+.auxillaries-left-chrome-actions .orbital-signout-button,
+.auxillaries-left-chrome-actions .auxillaries-signout-button,
+.auxillaries-left-chrome-actions .orbital-toggle-button,
+.auxillaries-left-chrome-actions .auxillaries-toggle-button {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+  /* Glass tiles — solid near-black fills read as one continuous bar. */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .auxillaries-left-chrome-actions .orbital-close-button,
+.auxillaries-bitcode-surface .auxillaries-left-chrome-actions .auxillaries-close-button {
+  background: rgba(5, 10, 20, 0.42) !important;
+}
+
+.auxillaries-bitcode-surface .auxillaries-left-chrome-actions .auxillaries-authorize-github-button,
+.auxillaries-bitcode-surface .auxillaries-left-chrome-actions .orbital-toggle-button.auxillaries-authorize-github-button {
+  background: rgba(74, 4, 78, 0.38) !important;
+}
+
+.auxillaries-bitcode-surface .auxillaries-left-chrome-actions .orbital-signout-button,
+.auxillaries-bitcode-surface .auxillaries-left-chrome-actions .auxillaries-signout-button {
+  background: rgba(39, 9, 15, 0.4) !important;
+}
+
+.auxillaries-bitcode-surface .auxillaries-left-chrome-actions .auxillaries-connect-button {
+  background: rgba(2, 44, 34, 0.4) !important;
+}
+
+.auxillaries-left-chrome-actions .orbital-signout-button,
+.auxillaries-left-chrome-actions .auxillaries-signout-button,
+.auxillaries-left-chrome-actions .orbital-toggle-button,
+.auxillaries-left-chrome-actions .auxillaries-toggle-button,
+.auxillaries-left-chrome-actions .auxillaries-connect-button {
+  width: auto !important;
+  min-width: 2.5rem;
+}
+
+/* Desktop/tablet: labeled chrome. Phone: icon-only (GitHub / Disconnect / Connect). */
+.auxillaries-bitcode-surface .auxillaries-action-icon {
+  display: none;
+}
+
+.auxillaries-bitcode-surface .auxillaries-action-label {
+  display: inline;
+}
+
+@media (max-width: 479px) {
+  .auxillaries-bitcode-surface .auxillaries-action-icon {
+    display: block;
+  }
+
+  .auxillaries-bitcode-surface .auxillaries-action-label {
+    display: none;
+  }
+
+  .auxillaries-left-chrome-actions .orbital-signout-button,
+  .auxillaries-left-chrome-actions .auxillaries-signout-button,
+  .auxillaries-left-chrome-actions .orbital-toggle-button,
+  .auxillaries-left-chrome-actions .auxillaries-toggle-button,
+  .auxillaries-left-chrome-actions .auxillaries-connect-button,
+  .auxillaries-left-chrome-actions .auxillaries-authorize-github-button {
+    width: 2.5rem !important;
+    min-width: 2.5rem !important;
+    max-width: 2.5rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@media (min-width: 480px) {
+  .auxillaries-left-chrome-actions .orbital-signout-button,
+  .auxillaries-left-chrome-actions .auxillaries-signout-button,
+  .auxillaries-left-chrome-actions .orbital-toggle-button,
+  .auxillaries-left-chrome-actions .auxillaries-toggle-button,
+  .auxillaries-left-chrome-actions .auxillaries-connect-button {
+    min-width: 9.5rem;
+  }
+
+  .auxillaries-left-chrome-actions .auxillaries-authorize-github-button {
+    min-width: 11.5rem;
+  }
+}
+
+/*
+ * Connect / toggle chrome — glass tiles (not near-opaque black fills).
+ * Solid 0.88 fills + box-shadow pooled into a continuous black bar behind
+ * the icon cluster over the solar field.
+ */
+.auxillaries-bitcode-surface .auxillaries-connect-button,
+.auxillaries-bitcode-surface .auxillaries-toggle-button,
+.auxillaries-bitcode-surface .orbital-toggle-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .auxillaries-connect-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .auxillaries-toggle-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .orbital-toggle-button {
+  border-radius: 0 !important;
+  background: rgba(2, 44, 34, 0.4) !important;
+  border: 1px solid rgba(101, 254, 183, 0.35) !important;
+  color: rgba(236, 253, 245, 0.98) !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* GitHub authorize keeps fuchsia wash (not emerald toggle default). */
+.auxillaries-bitcode-surface .auxillaries-authorize-github-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .auxillaries-authorize-github-button {
+  background: rgba(74, 4, 78, 0.4) !important;
+  border-color: rgba(232, 121, 249, 0.4) !important;
+  color: rgba(250, 232, 255, 0.98) !important;
+}
+
+/* Disconnect keeps rose wash. */
+.auxillaries-bitcode-surface .auxillaries-signout-button,
+.auxillaries-bitcode-surface .orbital-signout-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .auxillaries-signout-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .orbital-signout-button {
+  background: rgba(39, 9, 15, 0.4) !important;
+  border-color: rgba(248, 113, 113, 0.35) !important;
+  color: rgba(254, 226, 226, 0.96) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Close keeps neutral glass. */
+.auxillaries-bitcode-surface .orbital-close-button,
+.auxillaries-bitcode-surface .auxillaries-close-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .orbital-close-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .auxillaries-close-button {
+  background: rgba(5, 10, 20, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.auxillaries-bitcode-surface .auxillaries-connect-button:hover,
+.auxillaries-bitcode-surface .auxillaries-toggle-button:hover:not(.auxillaries-authorize-github-button),
+.auxillaries-bitcode-surface .orbital-toggle-button:hover:not(.auxillaries-authorize-github-button),
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .auxillaries-connect-button:hover,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .auxillaries-toggle-button:hover:not(.auxillaries-authorize-github-button),
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .orbital-toggle-button:hover:not(.auxillaries-authorize-github-button) {
+  background: rgba(6, 78, 59, 0.55) !important;
+  border-color: rgba(167, 243, 208, 0.5) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.auxillaries-bitcode-surface .auxillaries-authorize-github-button:hover,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .auxillaries-authorize-github-button:hover {
+  background: rgba(88, 28, 135, 0.55) !important;
+  border-color: rgba(232, 121, 249, 0.55) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.auxillaries-bitcode-surface .auxillaries-signout-button:hover,
+.auxillaries-bitcode-surface .orbital-signout-button:hover,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .auxillaries-signout-button:hover,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface
+  .orbital-signout-button:hover {
+  background: rgba(69, 10, 10, 0.55) !important;
+  border-color: rgba(252, 165, 165, 0.5) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.auxillaries-bitcode-selector {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  min-height: 0;
+}
+
+.auxillaries-bitcode-selector-with-chrome {
+  grid-row: 2;
+}
+
+.auxillaries-bitcode-pane {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  min-height: 0;
+}
+
+.auxillaries-bitcode-pane-with-chrome {
+  /*
+   * Align content top with the selector list (row 2), not the Close/Disconnect
+   * chrome row above the left column.
+   */
+  grid-row: 2 / -1;
+}
+
+.auxillaries-skip-link {
+  position: absolute;
+  left: clamp(0.75rem, 1.3vw, 1rem);
+  top: clamp(0.75rem, 1.3vw, 1rem);
+  z-index: 6;
+  max-width: calc(100% - 1.5rem);
+  transform: translateY(-160%);
+  border: 1px solid rgba(101, 254, 183, 0.42);
+  border-radius: 0;
+  background: rgba(4, 10, 19, 0.96);
+  color: rgba(220, 252, 231, 0.98);
+  padding: 0.58rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.1;
+  text-decoration: none;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease;
+}
+
+.auxillaries-skip-link:focus,
+.auxillaries-skip-link:focus-visible {
+  transform: translateY(0);
+  border-color: rgba(167, 243, 208, 0.8);
+  outline: 2px solid rgba(167, 243, 208, 0.82);
+  outline-offset: 3px;
+}
+
+.auxillaries-bitcode-surface .orbital-auth-container {
+  position: relative !important;
+  inset: auto !important;
+  box-sizing: border-box !important;
+  width: min(100%, 92rem) !important;
+  max-width: min(100%, 92rem) !important;
+  height: calc(100dvh - (2 * var(--aux-bc-overlay-pad, 2rem))) !important;
+  max-height: calc(100dvh - (2 * var(--aux-bc-overlay-pad, 2rem))) !important;
+  min-height: 0 !important;
+  margin: auto !important;
+  overflow: auto !important;
+  overscroll-behavior: contain !important;
+  scrollbar-gutter: stable !important;
+  border-radius: 0;
+  /* Same shell glass as left selector / right pane. */
+  border: 1px solid var(--aux-bc-shell-border) !important;
+  background: var(--aux-bc-shell-bg) !important;
+  box-shadow: var(--aux-bc-shell-shadow) !important;
+}
+
+/*
+ * COLUMN SHELL — left nav and right content MUST share this exact fill.
+ * Beats orbital.css `.orbital-workspace-nav` (0.84) and `.orbital-content-container` (0.98).
+ */
+.auxillaries-bitcode-surface .auxillaries-column-shell,
+.auxillaries-bitcode-surface.orbital-system-application .orbital-workspace-nav.auxillaries-column-shell,
+.auxillaries-bitcode-surface.orbital-system-application .orbital-workspace-stage .orbital-content-container.auxillaries-column-shell,
+.auxillaries-bitcode-surface.orbital-system-route .orbital-workspace-nav.auxillaries-column-shell,
+.auxillaries-bitcode-surface.orbital-system-route .orbital-workspace-stage .orbital-content-container.auxillaries-column-shell,
+.auxillaries-bitcode-surface .orbital-workspace-nav.auxillaries-bitcode-selector,
+.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container) {
+  border: 1px solid var(--aux-bc-shell-border) !important;
+  border-radius: 0 !important;
+  /* Explicit identical stack — left nav and right content must match byte-for-byte. */
+  background:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 15, 28, 0.30), rgba(3, 8, 17, 0.28)) !important;
+  background-color: transparent !important;
+  background-image:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 15, 28, 0.30), rgba(3, 8, 17, 0.28)) !important;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+  /* Blur frosts the solar field and makes the right pane look denser than the left. */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/*
+ * Right content only: kill the green right border so it does not sit against the
+ * green scrollbar (reads as double bar beside Mainnet readiness). Left selector
+ * keeps a full four-side border.
+ */
+.auxillaries-bitcode-surface .orbital-workspace-stage .orbital-content-container.auxillaries-column-shell,
+.auxillaries-bitcode-surface .orbital-content-container.auxillaries-column-shell:not(.orbital-auth-container) {
+  border-right-color: transparent !important;
+}
+
+/* Stage wrapper must never add a second fill or scroll under the content shell. */
+.auxillaries-bitcode-surface .orbital-workspace-stage.auxillaries-bitcode-pane,
+.auxillaries-bitcode-surface .auxillaries-active-pane-region {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.auxillaries-bitcode-selector {
+  /*
+   * Single inset token: shell edge → cards (top/right/bottom/left) and
+   * card-to-card gap all share the same rhythm.
+   */
+  --aux-selector-inset: 0.5rem;
+  display: flex !important;
+  box-sizing: border-box !important;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0 !important;
+  /* Visible overflow so 1px card borders are not clipped at the panel edge. */
+  overflow-x: visible;
+  overflow-y: hidden;
+  /* Equal shell padding on all sides (was larger y than x). */
+  padding: var(--aux-selector-inset) !important;
+}
+
+.auxillaries-bitcode-kicker {
+  color: rgba(167, 243, 208, 0.86) !important;
+}
+
+.auxillaries-bitcode-title {
+  color: var(--aux-bc-ink) !important;
+  font-size: clamp(1.02rem, 1.2vw, 1.2rem) !important;
+  line-height: 1.35 !important;
+}
+
+.auxillaries-bitcode-description {
+  color: var(--aux-bc-muted) !important;
+  font-size: 0.92rem !important;
+  line-height: 1.65 !important;
+}
+
+.auxillaries-bitcode-selector-list {
+  display: grid !important;
+  box-sizing: border-box !important;
+  /* Four pane cards share the rail height equally. */
+  grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
+  align-content: stretch !important;
+  /* Card-to-card gap = shell inset (equal air everywhere). */
+  gap: var(--aux-selector-inset, 0.5rem) !important;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  /*
+   * Scroll only when the list truly overflows (small viewports). Do not use
+   * scrollbar-gutter:stable — that reserves a track and flickers in while
+   * entrance transforms temporarily extend scrollHeight, even when the settled
+   * 4-card rail fits without scrolling.
+   */
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* No list padding — shell owns the only edge inset (avoids double x/y stack). */
+  padding: 0 !important;
+  scrollbar-gutter: auto;
+  /* Prefer no chrome unless the rail actually overflows. Match page thumb. */
+  scrollbar-width: thin;
+  scrollbar-color: #91fbbc transparent;
+}
+
+.auxillaries-bitcode-selector-list::-webkit-scrollbar {
+  width: 6px;
+}
+.auxillaries-bitcode-selector-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.auxillaries-bitcode-selector-list::-webkit-scrollbar-thumb {
+  background: #91fbbc;
+  border-radius: 0;
+}
+
+.auxillaries-bitcode-selector-list > [role='listitem'] {
+  display: flex !important;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  height: 100%;
+  /* No extra L/R pad — would make x-margin larger than shell y-inset. */
+  padding: 0 !important;
+  box-sizing: border-box;
+  /* Entrance y-translate must not inflate scrollHeight / flash a scrollbar. */
+  overflow: clip;
+}
+
+.auxillaries-bitcode-selector-card {
+  box-sizing: border-box !important;
+  position: relative !important;
+  display: flex !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0;
+  min-height: 0;
+  height: 100% !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  /* Center title / copy / pills as a block inside the stretched card. */
+  justify-content: center !important;
+  align-items: center !important;
+  /* Tighter internal y-stack (topline / label / copy). */
+  gap: 0.35rem !important;
+  border-radius: 0;
+  border: 1px solid var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-bg) !important;
+  color: var(--aux-bc-ink) !important;
+  /* Equal inset on all sides so corner chrome and content share one rhythm. */
+  padding: 0.55rem !important;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  /* Prefer a single paint border; avoid inset rings that read as cut side edges. */
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-selector-card:not(:disabled):hover,
+.auxillaries-bitcode-surface :is(.orbital-workspace-panel):not(:disabled):hover {
+  /* Avoid lift transform — parent clip was shaving left/right borders. */
+  transform: none !important;
+  border-color: rgba(101, 254, 183, 0.22) !important;
+  background: rgba(101, 254, 183, 0.07) !important;
+}
+
+.auxillaries-bitcode-surface :is(
+  .orbital-workspace-panel,
+  .orbital-workspace-panel-current
+) {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-selector-card:focus-visible,
+.auxillaries-active-pane-region:focus-visible,
+.auxillaries-bitcode-pane:focus-visible {
+  outline: 2px solid rgba(167, 243, 208, 0.82);
+  outline-offset: 2px;
+}
+
+.auxillaries-bitcode-selector-card-current {
+  border-color: rgba(101, 254, 183, 0.72) !important;
+  background: var(--aux-bc-card-current-bg) !important;
+  /* Strong selected ring — readable on phone where the corner dot alone is easy to miss. */
+  box-shadow:
+    0 0 0 1px rgba(101, 254, 183, 0.45),
+    0 0 22px rgba(101, 254, 183, 0.18) !important;
+}
+
+.auxillaries-bitcode-selector-card-current .auxillaries-bitcode-selector-card-label {
+  color: rgba(236, 253, 245, 0.98) !important;
+  text-shadow: 0 0 18px rgba(101, 254, 183, 0.35);
+}
+
+.auxillaries-bitcode-selector-card-locked {
+  opacity: 0.58 !important;
+}
+
+.auxillaries-bitcode-selector-card-layer,
+.auxillaries-bitcode-selector-card-state {
+  white-space: nowrap;
+}
+
+.auxillaries-bitcode-selector-card-topline {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0 !important;
+  min-height: 0 !important;
+  width: auto;
+  /* Equal top/right inset (matches card padding) — was 0.55 / 0.65 and read as off. */
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  left: auto;
+  pointer-events: none;
+}
+
+.auxillaries-bitcode-selector-card-layer {
+  display: none !important;
+}
+
+.auxillaries-bitcode-selector-card-state {
+  display: inline-flex !important;
+  /* Fixed size for non-active states so corner inset stays optically equal. */
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: 0 0 auto;
+  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(148, 163, 184, 0.46);
+  box-shadow: none;
+}
+
+.auxillaries-bitcode-selector-card-state-ready {
+  border-color: rgba(167, 243, 208, 0.28);
+  background: rgba(167, 243, 208, 0.72);
+  box-shadow: none;
+}
+
+.auxillaries-bitcode-selector-card-state-active {
+  /* Corner status square only — no “Selected” text chip (border wash carries selection). */
+  width: 0.55rem;
+  height: 0.55rem;
+  border-color: rgba(101, 254, 183, 0.9);
+  background: rgba(101, 254, 183, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(101, 254, 183, 0.35),
+    0 0 12px rgba(101, 254, 183, 0.55);
+}
+
+.auxillaries-bitcode-selector-card-state-locked {
+  border-color: rgba(148, 163, 184, 0.18);
+  background: rgba(148, 163, 184, 0.28);
+  box-shadow: none;
+}
+
+.auxillaries-bitcode-selector-card-label {
+  color: var(--aux-bc-ink) !important;
+  font-size: 0.98rem !important;
+  text-align: center !important;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.auxillaries-bitcode-selector-card-copy {
+  color: var(--aux-bc-muted) !important;
+  font-size: 0.84rem !important;
+  line-height: 1.4 !important;
+  text-align: center !important;
+  width: 100%;
+  margin: 0 !important;
+  max-width: 22rem;
+}
+
+/* One-word feature pills: square chips that height the card and eat dead space. */
+.auxillaries-bitcode-selector-card-pills {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  gap: 0.3rem !important;
+  list-style: none !important;
+  /* Keep space above the divider; increase divider → pills to match (was tighter below). */
+  margin: 0.35rem 0 0 !important;
+  padding: 0.55rem 0 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auxillaries-bitcode-selector-card-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  /* Compact square-ish chips (slightly shorter than the first pass). */
+  min-width: 2.35rem;
+  min-height: 1.85rem;
+  padding: 0.22rem 0.32rem !important;
+  border-radius: 0 !important;
+  border: 1px solid rgba(101, 254, 183, 0.22) !important;
+  background: rgba(101, 254, 183, 0.06) !important;
+  color: rgba(220, 252, 231, 0.92) !important;
+  font-size: 0.58rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.05 !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+  white-space: nowrap;
+}
+
+.auxillaries-bitcode-selector-card-current .auxillaries-bitcode-selector-card-pill {
+  border-color: rgba(101, 254, 183, 0.42) !important;
+  background: rgba(101, 254, 183, 0.12) !important;
+  color: rgba(236, 253, 245, 0.98) !important;
+}
+
+.auxillaries-bitcode-selector-card-locked .auxillaries-bitcode-selector-card-pill {
+  border-color: rgba(148, 163, 184, 0.16) !important;
+  background: rgba(148, 163, 184, 0.06) !important;
+  color: rgba(203, 213, 225, 0.72) !important;
+}
+
+/*
+ * Pane switch: shell lifts in (framer); inner sections cascade once.
+ *
+ * Only stagger *section* containers (space-y-* / step-form children) — not
+ * orbital-step-content > * itself. Animating both a parent form and its
+ * children (Profile's step-form + step-form > *) looked like a double entrance.
+ *
+ * After INNER_ENTER_MS the host flips to auxillaries-pane-enter-settled so late
+ * dynamic/profile-data mounts cannot restart auxillaries-inner-rise.
+ */
+@keyframes auxillaries-inner-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Stagger targets — one level only (section rows, not nested parent+child). */
+.auxillaries-pane-enter .space-y-5 > *,
+.auxillaries-pane-enter .space-y-4 > *,
+.auxillaries-pane-enter .space-y-6 > *,
+.auxillaries-pane-enter .space-y-3 > *,
+.auxillaries-pane-enter .step-form > * {
+  animation: auxillaries-inner-rise 0.28s cubic-bezier(0.16, 1, 0.3, 1) 1 both;
+  backface-visibility: hidden;
+}
+
+/* Direct orbital children that are not stagger wrappers (e.g. bare headers). */
+.auxillaries-pane-enter .orbital-step-content > :not(.space-y-5):not(.space-y-4):not(.space-y-6):not(.space-y-3):not(.step-form) {
+  animation: auxillaries-inner-rise 0.28s cubic-bezier(0.16, 1, 0.3, 1) 1 both;
+  animation-delay: 0.02s;
+  backface-visibility: hidden;
+}
+
+/* Dynamic-import pulse loaders must not consume the entrance cascade. */
+.auxillaries-pane-enter .auxillaries-pane-enter-skip,
+.auxillaries-pane-enter .auxillaries-pane-enter-skip * {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/*
+ * Attention hosts set CSS `animation` for spotlight. They sit inside entrance
+ * wrappers (wallet/externals) — if they ever are direct stagger targets while
+ * attention is active, skip rise so attention owns the animation property.
+ */
+.auxillaries-pane-enter .space-y-5 > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .space-y-5 > .repository-connection-section.github-connect-attention-section,
+.auxillaries-pane-enter .space-y-4 > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .space-y-4 > .repository-connection-section.github-connect-attention-section,
+.auxillaries-pane-enter .space-y-6 > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .space-y-6 > .repository-connection-section.github-connect-attention-section,
+.auxillaries-pane-enter .space-y-3 > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .space-y-3 > .repository-connection-section.github-connect-attention-section,
+.auxillaries-pane-enter .step-form > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .step-form > .repository-connection-section.github-connect-attention-section {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+.auxillaries-pane-enter .space-y-5 > *:nth-child(1),
+.auxillaries-pane-enter .space-y-4 > *:nth-child(1),
+.auxillaries-pane-enter .space-y-6 > *:nth-child(1),
+.auxillaries-pane-enter .space-y-3 > *:nth-child(1),
+.auxillaries-pane-enter .step-form > *:nth-child(1) {
+  animation-delay: 0.02s;
+}
+
+.auxillaries-pane-enter .space-y-5 > *:nth-child(2),
+.auxillaries-pane-enter .space-y-4 > *:nth-child(2),
+.auxillaries-pane-enter .space-y-6 > *:nth-child(2),
+.auxillaries-pane-enter .space-y-3 > *:nth-child(2),
+.auxillaries-pane-enter .step-form > *:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.auxillaries-pane-enter .space-y-5 > *:nth-child(3),
+.auxillaries-pane-enter .space-y-4 > *:nth-child(3),
+.auxillaries-pane-enter .space-y-6 > *:nth-child(3),
+.auxillaries-pane-enter .space-y-3 > *:nth-child(3),
+.auxillaries-pane-enter .step-form > *:nth-child(3) {
+  animation-delay: 0.08s;
+}
+
+.auxillaries-pane-enter .space-y-5 > *:nth-child(4),
+.auxillaries-pane-enter .space-y-4 > *:nth-child(4),
+.auxillaries-pane-enter .space-y-6 > *:nth-child(4),
+.auxillaries-pane-enter .space-y-3 > *:nth-child(4),
+.auxillaries-pane-enter .step-form > *:nth-child(4) {
+  animation-delay: 0.11s;
+}
+
+.auxillaries-pane-enter .space-y-5 > *:nth-child(5),
+.auxillaries-pane-enter .space-y-4 > *:nth-child(5),
+.auxillaries-pane-enter .space-y-6 > *:nth-child(5),
+.auxillaries-pane-enter .space-y-3 > *:nth-child(5),
+.auxillaries-pane-enter .step-form > *:nth-child(5) {
+  animation-delay: 0.14s;
+}
+
+.auxillaries-pane-enter .space-y-5 > *:nth-child(n + 6),
+.auxillaries-pane-enter .space-y-4 > *:nth-child(n + 6),
+.auxillaries-pane-enter .space-y-6 > *:nth-child(n + 6),
+.auxillaries-pane-enter .space-y-3 > *:nth-child(n + 6),
+.auxillaries-pane-enter .step-form > *:nth-child(n + 6) {
+  animation-delay: 0.17s;
+}
+
+/*
+ * Post-cascade lock: Profile (and any pane) may still mount/replace sections
+ * after data load. Settled host forces final styles so rise cannot re-fire.
+ */
+.auxillaries-pane-enter-settled .space-y-5 > *,
+.auxillaries-pane-enter-settled .space-y-4 > *,
+.auxillaries-pane-enter-settled .space-y-6 > *,
+.auxillaries-pane-enter-settled .space-y-3 > *,
+.auxillaries-pane-enter-settled .step-form > *,
+.auxillaries-pane-enter-settled .orbital-step-content > :not(.space-y-5):not(.space-y-4):not(.space-y-6):not(.space-y-3):not(.step-form) {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auxillaries-pane-enter .space-y-5 > *,
+  .auxillaries-pane-enter .space-y-4 > *,
+  .auxillaries-pane-enter .space-y-6 > *,
+  .auxillaries-pane-enter .space-y-3 > *,
+  .auxillaries-pane-enter .step-form > *,
+  .auxillaries-pane-enter .orbital-step-content > :not(.space-y-5):not(.space-y-4):not(.space-y-6):not(.space-y-3):not(.step-form) {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+.auxillaries-bitcode-pane {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0 !important;
+  min-width: 0;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  align-self: stretch;
+  /*
+   * Stage is a pure frame — never a scrollport.
+   * Sole scroller: child .orbital-content-container (audit lives inside it).
+   */
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  scrollbar-gutter: auto !important;
+  padding-right: 0;
+}
+
+/* Explicit glass card token (selector cards + neutral right-pane cards). */
+.auxillaries-bitcode-surface .auxillaries-glass-card {
+  border-color: var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-bg) !important;
+  box-shadow: none !important;
+}
+
+/* Nested tiles inside a section — lighter than a full card so stacks match left. */
+.auxillaries-bitcode-surface .auxillaries-glass-nested {
+  border-color: var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-nested-bg) !important;
+  box-shadow: none !important;
+}
+
+/* GitHub section/card keep purple tint glass even if also marked neutral glass. */
+.auxillaries-bitcode-surface .github-connection-card.auxillaries-glass-card {
+  border-color: var(--aux-bc-github-card-border) !important;
+  background: var(--aux-bc-github-card-bg) !important;
+}
+
+.auxillaries-bitcode-surface .repository-connection-section.auxillaries-glass-card {
+  border-color: var(--aux-bc-github-section-border) !important;
+  background: var(--aux-bc-github-section-bg) !important;
+}
+
+.auxillaries-active-pane-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: clamp(0.85rem, 1.4vw, 1.2rem);
+  border: 1px solid rgba(101, 254, 183, 0.12);
+  border-radius: 0;
+  background: var(--aux-bc-card-bg);
+  padding: clamp(0.9rem, 1.35vw, 1.15rem);
+}
+
+.auxillaries-active-pane-summary-copy {
+  min-width: 0;
+}
+
+.auxillaries-active-pane-kicker {
+  margin: 0 0 0.35rem;
+  color: rgba(167, 243, 208, 0.82);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.auxillaries-active-pane-title {
+  margin: 0;
+  color: var(--aux-bc-ink);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.auxillaries-active-pane-description {
+  margin: 0.45rem 0 0;
+  color: var(--aux-bc-muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.auxillaries-active-pane-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  min-width: min(18rem, 100%);
+}
+
+.auxillaries-active-pane-chip {
+  display: inline-flex;
+  min-height: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(226, 232, 240, 0.84);
+  padding: 0.35rem 0.62rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.auxillaries-active-pane-chip[data-state='ready'] {
+  border-color: rgba(101, 254, 183, 0.24);
+  color: rgba(220, 252, 231, 0.96);
+}
+
+.auxillaries-active-pane-chip[data-state='loading'] {
+  border-color: rgba(147, 197, 253, 0.22);
+  color: rgba(219, 234, 254, 0.92);
+}
+
+.auxillaries-active-pane-chip[data-state='blocked'] {
+  border-color: rgba(251, 191, 36, 0.24);
+  color: rgba(254, 243, 199, 0.92);
+}
+
+.auxillaries-active-pane-loading {
+  display: flex;
+  min-height: 11rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--aux-bc-line);
+  border-radius: 0;
+  color: var(--aux-bc-muted);
+  font-size: 0.9rem;
+}
+
+.auxillaries-audit-detail {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--aux-bc-muted);
+  overflow: hidden;
+}
+
+.auxillaries-audit-detail > summary {
+  cursor: pointer;
+  color: var(--aux-bc-ink);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.2;
+  list-style-position: inside;
+  padding: 0.85rem 1rem;
+}
+
+.auxillaries-audit-detail > summary:focus-visible {
+  outline: 2px solid rgba(167, 243, 208, 0.82);
+  outline-offset: -4px;
+}
+
+.auxillaries-audit-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0 1rem 1rem;
+}
+
+.auxillaries-audit-detail-grid > div {
+  min-width: 0;
+}
+
+.auxillaries-audit-detail-grid dt {
+  margin: 0 0 0.25rem;
+  color: rgba(167, 243, 208, 0.76);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.auxillaries-audit-detail-grid dd {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.82);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * Right pane layout only — fill/border/shadow come from the shared shell rule
+ * with .auxillaries-bitcode-selector above (left = source of truth).
+ *
+ * Sole vertical scroller in the right column. height:auto + flex fill so we
+ * never stack pane+content scrollports when audit or Mainnet readiness grows.
+ */
+.auxillaries-bitcode-pane > .orbital-content-container,
+.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container),
+.orbital-system-application.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container),
+.orbital-system-route.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container) {
+  position: relative !important;
+  inset: auto !important;
+  flex: 1 1 0 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: none !important;
+  /* Flex child — do NOT use height:100% (fights siblings / creates dual bars). */
+  height: auto !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  overflow-x: hidden !important;
+  /* auto — not forced scroll + stable gutter (that left an empty right strip). */
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: auto !important;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: clamp(1.4rem, 2vw, 2.1rem) !important;
+  border-right-color: transparent !important;
+}
+
+/*
+ * No nested scrollports inside the active pane — parent owns scrolling.
+ * Explicitly includes Mainnet readiness (right column of Externals grid).
+ */
+.auxillaries-bitcode-surface .orbital-content-container .max-h-72,
+.auxillaries-bitcode-surface .orbital-content-container .max-h-56,
+.auxillaries-bitcode-surface .orbital-content-container [class*='overflow-y-auto'],
+.auxillaries-bitcode-surface .orbital-content-container [class*='overflow-auto'],
+.auxillaries-bitcode-surface .orbital-content-container .mainnet-readiness-column,
+.auxillaries-bitcode-surface .orbital-content-container .mainnet-readiness-section,
+.auxillaries-bitcode-surface .orbital-content-container [data-testid='mainnet-readiness-section'] {
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  scrollbar-gutter: auto !important;
+}
+
+/* Kill scrollbars on any descendant of the content shell (except the shell itself). */
+.auxillaries-bitcode-surface .orbital-content-container *:not(html):not(body) {
+  scrollbar-width: none;
+}
+.auxillaries-bitcode-surface .orbital-content-container *::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+/*
+ * Pane scrollbar = page scrollbar brightness (globals: #91fbbc).
+ * Prior 0.4 alpha emerald read dim next to the product page thumb.
+ */
+.auxillaries-bitcode-surface .orbital-content-container::-webkit-scrollbar {
+  width: 10px;
+  display: block !important;
+  background: transparent !important;
+}
+.auxillaries-bitcode-surface .orbital-content-container::-webkit-scrollbar-track {
+  background: transparent !important;
+  border: none;
+}
+.auxillaries-bitcode-surface .orbital-content-container::-webkit-scrollbar-thumb {
+  background: #91fbbc !important;
+  border-radius: 0;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.auxillaries-bitcode-surface .orbital-content-container::-webkit-scrollbar-thumb:hover {
+  background: #a8fdd0 !important;
+}
+.auxillaries-bitcode-surface .orbital-content-container {
+  scrollbar-width: thin;
+  scrollbar-color: #91fbbc transparent !important;
+}
+
+/* Animated body inside the stable scroll shell — never its own scrollport. */
+.auxillaries-bitcode-surface .orbital-content-container > .auxillaries-pane-body {
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible !important;
+}
+
+/*
+ * Shared system prompt (Interfaces) — kill rounded orbital form shells so the
+ * field stays square glass like the rest of the auxillaries rail.
+ */
+.auxillaries-bitcode-surface .interfaces-step .system-prompt-section,
+.auxillaries-bitcode-surface .interfaces-step .system-prompt-section.primary-section {
+  border-radius: 0 !important;
+  background: var(--aux-bc-card-nested-bg) !important;
+  border-color: var(--aux-bc-card-border) !important;
+  box-shadow: none !important;
+  animation: none !important;
+  padding: 1rem !important;
+  gap: 0.75rem !important;
+  margin-bottom: 0 !important;
+}
+
+.auxillaries-bitcode-surface .interfaces-step .system-prompt-section .form-textarea,
+.auxillaries-bitcode-surface .interfaces-step .system-prompt-section textarea {
+  border-radius: 0 !important;
+}
+
+/*
+ * Audit mounts only after pane enter settle (see AuxillariesContent auditReady).
+ * Tight gap under body — do not use margin-top:auto (that left a large empty
+ * band above the accordion when the pane filled the column).
+ */
+.auxillaries-bitcode-surface .orbital-content-container > .auxillaries-audit-detail {
+  margin-top: clamp(0.85rem, 1.4vw, 1.15rem);
+  flex-shrink: 0;
+}
+
+/*
+ * Right-pane surfaces → left selector card glass.
+ * Profile/etc. use Tailwind bg-black/18–24 which stack denser than the left;
+ * force them to card / nested tokens so orbital rings match left visibility.
+ */
+.auxillaries-bitcode-surface .orbital-content-container :is(
+  .auxillaries-glass-card,
+  .orbital-section:not(.wallet-required-section):not(.repository-connection-section),
+  .orbitals-users-input-container,
+  .onboarding-info,
+  .github-connection-summary,
+  .account-creation-section,
+  .bg-card,
+  [class*='bg-black'],
+  [class*='bg-white'],
+  [class*='bg-slate'],
+  [class*='bg-emerald'],
+  [class*='bg-sky'],
+  [class*='bg-violet'],
+  [class*='bg-cyan'],
+  [class*='bg-amber'],
+  [class*='bg-orange']
+):not(button):not([role='button']):not(.github-install-button):not(.wallet-section-secondary-button):not(.wallet-connect-provider-button):not(a):not(.github-connection-card):not(.repository-connection-section):not(.wallet-required-section):not(.github-vcs-panel [role='tablist']):not(.github-vcs-panel [role='alert']) {
+  border-color: var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-bg) !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  background: var(--aux-bc-card-bg) !important;
+  box-shadow: none !important;
+}
+
+/* Nested tiles inside a glass section: even lighter so shell+section≈left card. */
+.auxillaries-bitcode-surface .orbital-content-container :is(
+  section,
+  .orbital-section,
+  .auxillaries-glass-card,
+  [data-testid='auxillaries-profile-readiness'],
+  [data-testid='auxillaries-organization-authority']
+) :is(
+  [class*='bg-black'],
+  [class*='bg-white'],
+  [class*='bg-slate']
+):not(button):not([role='button']):not(a) {
+  background: var(--aux-bc-card-nested-bg) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/*
+ * Wallet / GitHub sections — same opacity as left selector cards, hue only.
+ * (Previous dark 0.5 alpha fills made the right column denser than the left.)
+ */
+.auxillaries-bitcode-surface .orbital-content-container .wallet-required-section {
+  --wallet-section-rest-border: var(--aux-bc-wallet-section-border);
+  --wallet-section-rest-shadow: none;
+  --wallet-section-rest-bg: var(--aux-bc-wallet-section-bg);
+  border-color: var(--aux-bc-wallet-section-border) !important;
+  background: var(--aux-bc-wallet-section-bg) !important;
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .orbital-content-container .repository-connection-section {
+  --github-section-rest-border: var(--aux-bc-github-section-border);
+  --github-section-rest-shadow: none;
+  --github-section-rest-bg: var(--aux-bc-github-section-bg);
+  border-color: var(--aux-bc-github-section-border) !important;
+  background: var(--aux-bc-github-section-bg) !important;
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .orbital-content-container .github-connection-card {
+  border-color: var(--aux-bc-github-card-border) !important;
+  background: var(--aux-bc-github-card-bg) !important;
+  box-shadow: none !important;
+  color: rgba(245, 243, 255, 0.96) !important;
+}
+
+/* Nested chrome: light tint like selector pills, not opaque wells. */
+.auxillaries-bitcode-surface .orbital-content-container .github-vcs-panel [role='tablist'] {
+  border-color: rgba(167, 139, 250, 0.28) !important;
+  background: rgba(167, 139, 250, 0.08) !important;
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .orbital-content-container .github-vcs-panel [role='alert'] {
+  border-color: rgba(167, 139, 250, 0.24) !important;
+  background: rgba(167, 139, 250, 0.07) !important;
+  box-shadow: none !important;
+  color: rgba(245, 243, 255, 0.94) !important;
+}
+
+.auxillaries-bitcode-surface .orbital-content-container .github-vcs-panel [data-state='active'] {
+  background: rgba(167, 139, 250, 0.14) !important;
+  color: rgba(245, 243, 255, 0.96) !important;
+}
+
+.auxillaries-bitcode-surface .orbital-step-content {
+  position: relative !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.auxillaries-bitcode-surface .profile-step .step-form {
+  gap: clamp(0.85rem, 1.2vw, 1.1rem) !important;
+}
+
+.auxillaries-bitcode-surface .profile-step .bio-avatar-row {
+  align-items: center !important;
+  gap: clamp(1.25rem, 2vw, 1.75rem) !important;
+  margin: clamp(1rem, 1.6vw, 1.35rem) 0 !important;
+}
+
+.auxillaries-bitcode-surface .profile-step .orbital-section,
+.auxillaries-bitcode-surface .profile-step .mt-8,
+.auxillaries-bitcode-surface .profile-step .mt-12 {
+  margin-top: clamp(1.15rem, 1.7vw, 1.55rem) !important;
+}
+
+.auxillaries-bitcode-surface .profile-step .mt-6 {
+  margin-top: clamp(0.9rem, 1.4vw, 1.25rem) !important;
+}
+
+.auxillaries-bitcode-surface .orbital-header {
+  margin-bottom: 1.15rem !important;
+}
+
+.auxillaries-bitcode-surface .step-title,
+.auxillaries-bitcode-surface .first-time-user .step-title {
+  color: var(--aux-bc-ink) !important;
+  text-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .step-description {
+  color: var(--aux-bc-muted) !important;
+}
+
+.auxillaries-bitcode-surface .onboarding-info,
+/* Exclude wallet-required-section: it owns border/glow for Connect attention. */
+.auxillaries-bitcode-surface .orbital-section:not(.wallet-required-section),
+.auxillaries-bitcode-surface .orbitals-users-input-container {
+  border-color: var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-bg) !important;
+  box-shadow: none !important;
+}
+
+/*
+ * Stacked Auxillaries (tablet + phone): sticky title-only pane tabs + scrollable
+ * selected pane. Full cards (copy + feature pills) remain desktop-left-rail only.
+ */
+@media (max-width: 1023px) {
+  .auxillaries-bitcode-shell {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto minmax(0, 1fr) !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .auxillaries-chrome-row {
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 12;
+  }
+
+  .auxillaries-bitcode-selector,
+  .auxillaries-bitcode-selector-with-chrome {
+    grid-column: 1;
+    grid-row: 2;
+    position: relative;
+    z-index: 11;
+    max-height: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    /* Compact tab strip — not a full card rail. Shell rows stay fixed;
+       only the active pane region below scrolls. */
+    --aux-selector-inset: 0.35rem;
+    padding: 0.35rem !important;
+  }
+
+  .auxillaries-bitcode-pane,
+  .auxillaries-bitcode-pane-with-chrome {
+    grid-column: 1;
+    grid-row: 3;
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .auxillaries-bitcode-selector-list {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    grid-template-columns: none !important;
+    grid-template-rows: none !important;
+    gap: 0.35rem !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+
+  .auxillaries-bitcode-selector-list > [role='listitem'] {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .auxillaries-bitcode-selector-card {
+    height: auto !important;
+    min-height: 2.5rem !important;
+    padding: 0.55rem 0.4rem !important;
+    gap: 0 !important;
+    justify-content: center !important;
+  }
+
+  /* Title-only tabs: drop subtitle, feature chips, and corner status square. */
+  .auxillaries-bitcode-selector-card-copy,
+  .auxillaries-bitcode-selector-card-pills,
+  .auxillaries-bitcode-selector-card-topline {
+    display: none !important;
+  }
+
+  .auxillaries-bitcode-selector-card-label {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    line-height: 1.15 !important;
+    text-transform: none;
+  }
+
+  .auxillaries-bitcode-selector-card-current {
+    box-shadow:
+      0 0 0 1px rgba(101, 254, 183, 0.5),
+      0 0 16px rgba(101, 254, 183, 0.18) !important;
+  }
+
+  /* Selected pane: only this region scrolls. */
+  .auxillaries-bitcode-surface .orbital-workspace-stage.auxillaries-bitcode-pane,
+  .auxillaries-bitcode-surface .auxillaries-active-pane-region {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .auxillaries-bitcode-pane > .orbital-content-container,
+  .auxillaries-bitcode-surface
+    .orbital-workspace-stage
+    .orbital-content-container.auxillaries-column-shell {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .auxillaries-active-pane-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .auxillaries-active-pane-chips {
+    justify-content: flex-start;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .auxillaries-bitcode-route-surface {
+    padding: 0.5rem;
+  }
+
+  .auxillaries-bitcode-pane > .orbital-content-container,
+  .auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container) {
+    padding: 0.9rem !important;
+  }
+
+  .auxillaries-bitcode-selector-card {
+    min-height: 2.35rem !important;
+    padding: 0.45rem 0.3rem !important;
+  }
+
+  .auxillaries-bitcode-selector-card-label {
+    font-size: 0.66rem !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .auxillaries-audit-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .auxillaries-active-pane-chip {
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auxillaries-bitcode-surface *,
+  .auxillaries-bitcode-surface *::before,
+  .auxillaries-bitcode-surface *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Square Auxillaries chrome.
+ * orbital.css still ships rounded workspace/auth/button shells; force square
+ * under the active Bitcode Auxillaries surface. Decorative rings/particles
+ * (border-radius: 50%) are excluded.
+ * --------------------------------------------------------------------------- */
+.auxillaries-bitcode-surface,
+.auxillaries-bitcode-surface.orbital-system-application,
+.orbital-system-application.auxillaries-bitcode-surface,
+.orbital-system-route.auxillaries-bitcode-surface {
+  border-radius: 0 !important;
+}
+
+.auxillaries-bitcode-surface :is(
+  .orbital-content-container,
+  .orbital-auth-container,
+  .orbital-auth-form,
+  .orbital-auth-intro-card,
+  .orbital-auth-support-card,
+  .orbital-workspace-nav,
+  .orbital-workspace-panel,
+  .orbital-workspace-stage,
+  .orbital-pane-tabs,
+  .orbital-pane-tab,
+  .orbital-pane-tab-index,
+  .orbital-pane-tab-status,
+  .orbital-section,
+  .onboarding-info,
+  .orbitals-users-input-container,
+  .input-container,
+  .auxillaries-action-button,
+  .auxillaries-signout-button,
+  .orbital-signout-button,
+  .orbital-close-button,
+  .orbital-toggle-button,
+  .auxillaries-close-button,
+  .auxillaries-toggle-button,
+  .auxillaries-bitcode-selector,
+  .auxillaries-bitcode-selector-card,
+  .auxillaries-bitcode-selector-card-state,
+  .auxillaries-active-pane-summary,
+  .auxillaries-active-pane-chip,
+  .auxillaries-active-pane-loading,
+  .auxillaries-audit-detail,
+  .auxillaries-skip-link,
+  .login-form-surface-contained,
+  .form-input,
+  button,
+  input,
+  textarea,
+  select
+) {
+  border-radius: 0 !important;
+}
+
+/* Keep true decorative orbs circular inside Auxillaries. */
+.auxillaries-bitcode-surface :is(
+  .orbital-ring,
+  .orbital-ring::before,
+  .orbital-ring::after,
+  .quantum-particle,
+  .orbiting-particle,
+  .login-planet
+) {
+  border-radius: 50% !important;
+}
+
+/*
+ * Chrome Connect attention cue (orange, synced for section + buttons).
+ *
+ * Section: border + glow + subtle bitcoin-orange wash — no scale.
+ * Buttons: strong orange pulse (with light scale).
+ *
+ * Flicker guard: attention class carries only `animation` (no static highlight
+ * after the run). Keyframe 0%/100% equal rest styles via --wallet-section-*.
+ * Class is removed after 2.1s to match the animation duration.
+ */
+.auxillaries-bitcode-surface .wallet-required-section,
+.wallet-required-section {
+  --wallet-section-rest-border: var(--aux-bc-wallet-section-border, rgba(251, 146, 60, 0.38));
+  --wallet-section-rest-shadow: none;
+  --wallet-section-rest-bg: var(--aux-bc-wallet-section-bg);
+  position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--wallet-section-rest-border);
+  box-shadow: var(--wallet-section-rest-shadow);
+  background: var(--wallet-section-rest-bg);
+  /* No transition on border/shadow — transitions re-flash after animation ends. */
+  transition: none;
+}
+
+.wallet-required-section--pending {
+  --wallet-section-rest-border: rgba(251, 146, 60, 0.42);
+}
+
+.wallet-required-section--connected {
+  /* Stay in bitcoin-orange family when connected (not emerald). */
+  --wallet-section-rest-border: rgba(251, 146, 60, 0.55);
+}
+
+/*
+ * Section 1. Required wallet — full orange theme for nested chrome.
+ * Beat:
+ *  - .form-input green border + blue-grey fill (orbital.css)
+ *  - .orbitals-users-input-container.enterprise emerald border (profile CSS modules)
+ *  - .auxillaries-bitcode-surface .orbitals-users-input-container neutral !important
+ * Specificity must include .auxillaries-bitcode-surface + !important.
+ */
+.auxillaries-bitcode-surface .wallet-required-section .orbitals-users-input-container,
+.auxillaries-bitcode-surface .wallet-required-section .orbitals-users-input-container.enterprise,
+.wallet-required-section .orbitals-users-input-container,
+.wallet-required-section .orbitals-users-input-container.enterprise {
+  /* Nested well: still lighter than old 0.88 walls so orbitals show through. */
+  background: rgba(251, 146, 60, 0.08) !important;
+  border: 1px solid rgba(251, 146, 60, 0.32) !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: hidden;
+}
+
+.auxillaries-bitcode-surface .wallet-required-section .form-input,
+.wallet-required-section .form-input {
+  background: rgba(251, 146, 60, 0.06) !important;
+  border: 1px solid rgba(251, 146, 60, 0.34) !important;
+  border-radius: 0 !important;
+  color: rgba(255, 247, 237, 0.94) !important;
+  caret-color: rgba(251, 146, 60, 0.95);
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .wallet-required-section .form-input::placeholder,
+.wallet-required-section .form-input::placeholder {
+  color: rgba(253, 186, 116, 0.48) !important;
+}
+
+.auxillaries-bitcode-surface .wallet-required-section .form-input:focus,
+.wallet-required-section .form-input:focus {
+  background: rgba(251, 146, 60, 0.1) !important;
+  border-color: rgba(253, 186, 116, 0.72) !important;
+  outline: none !important;
+  box-shadow:
+    0 0 0 1px rgba(251, 146, 60, 0.28),
+    0 0 12px rgba(251, 146, 60, 0.14) !important;
+}
+
+.auxillaries-bitcode-surface .wallet-required-section .input-focus-indicator,
+.wallet-required-section .input-focus-indicator {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(251, 146, 60, 0.85),
+    rgba(254, 215, 170, 0.95),
+    rgba(251, 146, 60, 0.85),
+    transparent
+  ) !important;
+  box-shadow: 0 0 12px rgba(251, 146, 60, 0.4) !important;
+}
+
+.auxillaries-bitcode-surface .wallet-required-section .form-input:focus ~ .input-focus-indicator,
+.wallet-required-section .form-input:focus ~ .input-focus-indicator {
+  width: 100% !important;
+  opacity: 1 !important;
+}
+
+.wallet-required-section .wallet-section-secondary-button {
+  border-color: rgba(251, 146, 60, 0.28);
+  background: rgba(251, 146, 60, 0.08);
+  color: rgba(255, 237, 213, 0.88);
+}
+
+.wallet-required-section .wallet-section-secondary-button:hover:not(:disabled) {
+  border-color: rgba(251, 146, 60, 0.48);
+  background: rgba(251, 146, 60, 0.14);
+  color: rgba(255, 247, 237, 0.96);
+}
+
+.wallet-required-section .wallet-section-meta-panel {
+  border-color: rgba(251, 146, 60, 0.22);
+  background: rgba(251, 146, 60, 0.06);
+}
+
+.wallet-required-section .wallet-section-state-panel {
+  border-color: rgba(251, 146, 60, 0.26);
+  background: rgba(251, 146, 60, 0.07);
+}
+
+.wallet-required-section .wallet-section-state-kicker {
+  color: rgba(253, 186, 116, 0.72);
+}
+
+/*
+ * Shared timeline for section + buttons so border, bg, glow, and scale all
+ * rise and settle together (no trailing bg after size/border go quiet).
+ *   0%       rest
+ *   12–40%   peak hold
+ *   48%      shared soft decay (every property)
+ *   58–100%  rest hold (every property already reset)
+ */
+@keyframes wallet-section-attention {
+  0%,
+  58%,
+  100% {
+    border-color: var(--wallet-section-rest-border);
+    box-shadow: var(--wallet-section-rest-shadow);
+    background: var(--wallet-section-rest-bg);
+  }
+  12%,
+  40% {
+    /* Peak: brighter orange wash (stay translucent like selector glass). */
+    border-color: rgba(254, 215, 170, 0.9);
+    background:
+      radial-gradient(circle at top left, rgba(251, 146, 60, 0.28), transparent 42%),
+      linear-gradient(180deg, rgba(251, 146, 60, 0.2), rgba(251, 146, 60, 0.1));
+    box-shadow:
+      0 0 0 2px rgba(251, 146, 60, 0.55),
+      0 0 28px rgba(251, 146, 60, 0.35);
+  }
+  48% {
+    border-color: rgba(253, 186, 116, 0.65);
+    background:
+      radial-gradient(circle at top left, rgba(251, 146, 60, 0.2), transparent 42%),
+      linear-gradient(180deg, rgba(251, 146, 60, 0.14), rgba(251, 146, 60, 0.06));
+    box-shadow:
+      0 0 0 1px rgba(251, 146, 60, 0.4),
+      0 0 16px rgba(251, 146, 60, 0.22);
+  }
+}
+
+/*
+ * Connect provider buttons: permanent orange border (always distinct from
+ * Rescan). Attention only animates scale + outer glow — not border-color or
+ * background — so nothing trails after the run settles.
+ */
+.wallet-required-section .wallet-connect-provider-button {
+  border: 1px solid rgba(251, 146, 60, 0.55) !important;
+  background: rgba(251, 146, 60, 0.14);
+  color: rgba(255, 247, 237, 0.96);
+  box-shadow: none;
+}
+
+.wallet-required-section .wallet-connect-provider-button:hover:not(:disabled) {
+  border-color: rgba(253, 186, 116, 0.78) !important;
+  background: rgba(251, 146, 60, 0.2);
+}
+
+@keyframes wallet-connect-button-attention {
+  0%,
+  58%,
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: none;
+  }
+  12%,
+  40% {
+    transform: translateY(-1px) scale(1.045);
+    box-shadow:
+      0 0 0 2px rgba(251, 146, 60, 0.55),
+      0 0 28px rgba(251, 146, 60, 0.65),
+      0 12px 28px rgba(0, 0, 0, 0.28);
+  }
+  48% {
+    transform: translateY(0) scale(1.015);
+    box-shadow:
+      0 0 0 1px rgba(251, 146, 60, 0.35),
+      0 0 14px rgba(251, 146, 60, 0.32);
+  }
+}
+
+/* Only animation — no static highlight props (those caused end flicker). */
+.auxillaries-bitcode-surface .wallet-required-section.wallet-connect-attention-section,
+.wallet-required-section.wallet-connect-attention-section {
+  /* ease-in-out keeps the settle even; rest is fully restored by 58%. */
+  animation: wallet-section-attention 2.1s ease-in-out 1 both;
+}
+
+.wallet-connect-attention-button {
+  animation: wallet-connect-button-attention 2.1s ease-in-out 1 both;
+  will-change: transform, box-shadow;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wallet-connect-attention-section,
+  .wallet-connect-attention-button {
+    animation: none;
+  }
+
+  .auxillaries-bitcode-surface .wallet-required-section.wallet-connect-attention-section,
+  .wallet-required-section.wallet-connect-attention-section {
+    border-color: rgba(254, 215, 170, 0.9);
+    background: linear-gradient(
+      145deg,
+      rgba(92, 42, 10, 0.94),
+      rgba(28, 18, 12, 0.9)
+    );
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.2),
+      0 0 0 2px rgba(251, 146, 60, 0.65),
+      0 0 28px rgba(251, 146, 60, 0.4);
+  }
+
+  .wallet-connect-attention-button {
+    box-shadow:
+      0 0 0 2px rgba(251, 146, 60, 0.55),
+      0 0 20px rgba(251, 146, 60, 0.4);
+  }
+}
+
+/*
+ * Externals Repository Connection — deposit-purple twin of wallet bitcoin-orange.
+ * After wallet Connect without GitHub, Auxillaries cues this card + Install button.
+ */
+.auxillaries-bitcode-surface .repository-connection-section,
+.repository-connection-section {
+  --github-section-rest-border: var(--aux-bc-github-section-border, rgba(167, 139, 250, 0.38));
+  --github-section-rest-shadow: none;
+  --github-section-rest-bg: var(--aux-bc-github-section-bg);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--github-section-rest-border);
+  box-shadow: var(--github-section-rest-shadow);
+  background: var(--github-section-rest-bg);
+  transition: none;
+}
+
+@keyframes github-section-attention {
+  0%,
+  58%,
+  100% {
+    border-color: var(--github-section-rest-border);
+    box-shadow: var(--github-section-rest-shadow);
+    background: var(--github-section-rest-bg);
+  }
+  12%,
+  40% {
+    /* Glow via border/shadow only — keep glass fill (no opaque violet wall). */
+    border-color: rgba(221, 214, 254, 0.85);
+    background: var(--github-section-rest-bg);
+    box-shadow:
+      0 0 0 2px rgba(167, 139, 250, 0.55),
+      0 0 28px rgba(139, 92, 246, 0.35);
+  }
+  48% {
+    border-color: rgba(196, 181, 253, 0.65);
+    background: var(--github-section-rest-bg);
+    box-shadow:
+      0 0 0 1px rgba(167, 139, 250, 0.4),
+      0 0 16px rgba(139, 92, 246, 0.22);
+  }
+}
+
+@keyframes github-connect-button-attention {
+  0%,
+  58%,
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: none;
+  }
+  12%,
+  40% {
+    transform: translateY(-1px) scale(1.045);
+    box-shadow:
+      0 0 0 2px rgba(167, 139, 250, 0.55),
+      0 0 28px rgba(139, 92, 246, 0.65),
+      0 12px 28px rgba(0, 0, 0, 0.28);
+  }
+  48% {
+    transform: translateY(0) scale(1.015);
+    box-shadow:
+      0 0 0 1px rgba(167, 139, 250, 0.35),
+      0 0 14px rgba(139, 92, 246, 0.32);
+  }
+}
+
+.auxillaries-bitcode-surface .repository-connection-section.github-connect-attention-section,
+.repository-connection-section.github-connect-attention-section {
+  animation: github-section-attention 2.1s ease-in-out 1 both;
+}
+
+.github-install-button {
+  border: 1px solid rgba(167, 139, 250, 0.55) !important;
+  background: rgba(139, 92, 246, 0.16) !important;
+  color: rgba(245, 243, 255, 0.96) !important;
+}
+
+.github-install-button:hover:not(:disabled) {
+  border-color: rgba(196, 181, 253, 0.78) !important;
+  background: rgba(139, 92, 246, 0.24) !important;
+}
+
+.github-connect-attention-button {
+  animation: github-connect-button-attention 2.1s ease-in-out 1 both;
+  will-change: transform, box-shadow;
+}
+
+.auxillaries-bitcode-surface .github-connection-card,
+.github-connection-card {
+  border-color: rgba(167, 139, 250, 0.32) !important;
+  background: rgba(36, 22, 62, 0.55) !important;
+}
+
+.auxillaries-bitcode-surface .github-vcs-panel,
+.github-vcs-panel {
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .github-connect-attention-section,
+  .github-connect-attention-button {
+    animation: none;
+  }
+
+  .repository-connection-section.github-connect-attention-section {
+    border-color: rgba(221, 214, 254, 0.9);
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.2),
+      0 0 0 2px rgba(167, 139, 250, 0.65),
+      0 0 28px rgba(139, 92, 246, 0.4);
+  }
+
+  .github-connect-attention-button {
+    box-shadow:
+      0 0 0 2px rgba(167, 139, 250, 0.55),
+      0 0 20px rgba(139, 92, 246, 0.4);
+  }
+}

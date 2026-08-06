@@ -1,0 +1,421 @@
+{
+  "artifactId": "v44-btd-btc-compensation-statements",
+  "schemaId": "bitcode.v44.btdBtcCompensationStatements.v1",
+  "version": "V44",
+  "currentTarget": "V43",
+  "sourceSafetyVerdict": "source-safe-btd-btc-compensation-statement-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v44-btd-btc-compensation-statements:5a16b2f13aace71782c8b627",
+  "passed": true,
+  "objectIds": [
+    "BtdBtcCompensationStatements",
+    "BtdRangeAccountingStatement",
+    "BtcSettlementAccountingStatement",
+    "ContributorCompensationStatement",
+    "DepositorEarningSummary",
+    "TreasuryRouteStatement",
+    "BtdBtcReconciliationStatement",
+    "BtdBtcRepairStatement",
+    "PackEconomicStatement"
+  ],
+  "accountingStateIds": [
+    "settlement-accounted",
+    "pending-btc-finality",
+    "repair-required",
+    "withheld-before-settlement"
+  ],
+  "btdRangeStateIds": [
+    "transferred-to-reader",
+    "allocated-pending-rights",
+    "withheld-before-settlement"
+  ],
+  "btcSettlementStateIds": [
+    "final-settlement-observed",
+    "observed-payment-pending-finality",
+    "repair-required"
+  ],
+  "contributorCompensationStateIds": [
+    "allocated",
+    "pending-settlement-finality",
+    "repair-required"
+  ],
+  "valueLabelIds": [
+    "observed-payment",
+    "final-settlement",
+    "contributor-allocation",
+    "delivery",
+    "repair-state"
+  ],
+  "forbiddenPayloadIds": [
+    "protected-source-payloads",
+    "raw-source-text",
+    "unpaid-assetpack-source",
+    "raw-prompts",
+    "interpolated-prompts",
+    "raw-provider-responses",
+    "credentials",
+    "wallet-private-material",
+    "private-settlement-payloads",
+    "value-bearing-mainnet-admission"
+  ],
+  "rows": [
+    {
+      "rowId": "btd-range-accounting",
+      "owner": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "contract": "BTD range accounting distinguishes transferred-to-reader, allocated-pending-rights, and withheld-before-settlement state.",
+      "requiredFields": [
+        "BtdRangeAccountingStatement",
+        "rangeState",
+        "rightsTransferRoot",
+        "readReceiptRoot"
+      ],
+      "rowRoot": "v44-btd-btc-compensation-row:011e3ecdb07b1424fa0e59df",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "btc-settlement-observation",
+      "owner": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "contract": "BTC settlement accounting separates observed payment, final settlement, finality, txid, custody, and repair state.",
+      "requiredFields": [
+        "BtcSettlementAccountingStatement",
+        "expectedSats",
+        "observedDebitSats",
+        "serverCustody: false"
+      ],
+      "rowRoot": "v44-btd-btc-compensation-row:0ff5931422a009e3518a6f22",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "source-to-shares-contributor-statements",
+      "owner": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "contract": "Contributor compensation statements derive allocated sats, share bps, range slices, and proof roots from source-to-shares allocations.",
+      "requiredFields": [
+        "ContributorCompensationStatement",
+        "contributor-allocation",
+        "allocatedSats",
+        "sourceToSharesRoot"
+      ],
+      "rowRoot": "v44-btd-btc-compensation-row:5d52fce695912c99117db2fb",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "depositor-earning-summaries",
+      "owner": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "contract": "Depositor earning summaries group contributor statements by depositor wallet without serializing wallet private material.",
+      "requiredFields": [
+        "DepositorEarningSummary",
+        "depositorWalletId",
+        "allocatedSats",
+        "summaryRoot"
+      ],
+      "rowRoot": "v44-btd-btc-compensation-row:7aa68d5dc0da56fb6c7283dc",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "treasury-routes",
+      "owner": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "contract": "Treasury routes describe reader-to-contributor BTC flows, server custody false, and route state without private settlement payloads.",
+      "requiredFields": [
+        "TreasuryRouteStatement",
+        "reader-to-contributor-source-to-shares",
+        "serverCustody: false"
+      ],
+      "rowRoot": "v44-btd-btc-compensation-row:1e9c586b9c059dd3e5017ae8",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "reconciliation-and-repair",
+      "owner": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "contract": "Accounting statements preserve ledger/database/object-storage reconciliation and repair blockers as source-safe readback.",
+      "requiredFields": [
+        "BtdBtcReconciliationStatement",
+        "BtdBtcRepairStatement",
+        "ledgerDatabaseObjectStorageAligned"
+      ],
+      "rowRoot": "v44-btd-btc-compensation-row:05095f7a768311aa101e8059",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "packs-accounting-readback",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "contract": "/packs renders BTD/BTC accounting state, BTD range, BTC settlement, treasury route, contributor counts, allocation, and accounting root.",
+      "requiredFields": [
+        "Accounting",
+        "BTD/BTC state",
+        "Accounting root",
+        "allocatedContributorSats"
+      ],
+      "rowRoot": "v44-btd-btc-compensation-row:596db42d920bee16f6905558",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "btd-source-to-shares-primitives",
+      "owner": "packages/btd/src/source-to-shares.ts",
+      "contract": "Source-to-shares remains the deterministic largest-remainder basis for contributor allocation and settlement conservation.",
+      "requiredFields": [
+        "source-to-shares-largest-remainder",
+        "settlementAllocations",
+        "settlementConservation"
+      ],
+      "rowRoot": "v44-btd-btc-compensation-row:27ad23554b98ffa07a12f9d4",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "spec": "BITCODE_SPEC_V44.md:398a20b55d38df2ebced0591",
+    "delta": "BITCODE_SPEC_V44_DELTA.md:eb779597425caf299574a313",
+    "notes": "BITCODE_SPEC_V44_NOTES.md:bedf9abebdc5d8ac538222b1",
+    "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:533bbfe052c5c8469c31c1af",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
+    "readme": "README.md:d28ec731634e03953d8adfe6",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
+    "packageJson": "package.json:b79014968c556bc1b43ab341",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
+    "economicModel": "scripts/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
+    "settlementBoundary": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+    "accountingStatements": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts:a239683c231a0127c4777a3f",
+    "accountingStatementsTest": "packages/asset-packs-pipelines/domain/src/__tests__/btd-btc-compensation-statements.test.ts:80c9df62424d8b0df0d155aa",
+    "sourceToShares": "packages/btd/src/source-to-shares.ts:6e2e84251b29ba2477766708",
+    "btdSettlement": "packages/btd/src/settlement.ts:871ea57357f464d8fbb0c6af",
+    "btdReceipts": "packages/btd/src/receipts.ts:663e799baf0715924cb67c14",
+    "btdReconciliation": "packages/btd/src/reconciliation.ts:d4bc6c129196572ae673c05b",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "packActivityModelTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "packsClientTest": "apps/uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
+    "assetPackPackageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
+    "assetPackPackageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
+    "packageIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageSource": "scripts/specifying/src/canonical/v44-btd-btc-compensation-statements.js:34fa202a55bfa28b73652d1c",
+    "packageTest": "scripts/specifying/test/v44-btd-btc-compensation-statements.test.js:8c8bff4a58a07f01c94b1d90",
+    "generator": "scripts/generate-v44-btd-btc-compensation-statements.mjs:603d3af279f716d625f891c9",
+    "checker": "scripts/check-v44-gate6-btd-btc-compensation-statements.mjs:754e88d1e8a1aec3645aafb1"
+  },
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v44-draft-or-promoted",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate6",
+      "sourcePath": "BITCODE_SPEC_V44.md",
+      "passed": true
+    },
+    {
+      "id": "spec-names-gate6-artifact",
+      "sourcePath": "BITCODE_SPEC_V44.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate6",
+      "sourcePath": "BITCODE_SPEC_V44_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate6",
+      "sourcePath": "BITCODE_SPEC_V44_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate6",
+      "sourcePath": "BITCODE_SPEC_V44_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate6",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readme-records-gate6",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "protocol-readme-records-gate6",
+      "sourcePath": "scripts/specifying/README.md",
+      "passed": true
+    },
+    {
+      "id": "economic-model-prerequisite-present",
+      "sourcePath": "scripts/specifying/src/canonical/v44-economic-domain-model.js",
+      "passed": true
+    },
+    {
+      "id": "settlement-boundary-prerequisite-present",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "accounting-builder-defined",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "passed": true
+    },
+    {
+      "id": "accounting-state-ids-defined",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "passed": true
+    },
+    {
+      "id": "btd-range-state-ids-defined",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "passed": true
+    },
+    {
+      "id": "btc-state-ids-defined",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "passed": true
+    },
+    {
+      "id": "contributor-state-ids-defined",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "passed": true
+    },
+    {
+      "id": "accounting-forbids-source-leakage",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-package-exports-accounting",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-manifest-exports-accounting",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
+      "passed": true
+    },
+    {
+      "id": "accounting-test-covers-builder",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/btd-btc-compensation-statements.test.ts",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-model-projects-accounting",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "packs-client-renders-accounting",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-test-covers-accounting",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "packs-client-test-covers-accounting",
+      "sourcePath": "apps/uapi/tests/packsPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "source-to-shares-prerequisite-present",
+      "sourcePath": "packages/btd/src/source-to-shares.ts",
+      "passed": true
+    },
+    {
+      "id": "btd-settlement-prerequisite-present",
+      "sourcePath": "packages/btd/src/settlement.ts",
+      "passed": true
+    },
+    {
+      "id": "btd-receipts-prerequisite-present",
+      "sourcePath": "packages/btd/src/receipts.ts",
+      "passed": true
+    },
+    {
+      "id": "btd-reconciliation-prerequisite-present",
+      "sourcePath": "packages/btd/src/reconciliation.ts",
+      "passed": true
+    },
+    {
+      "id": "package-test-covers-gate6",
+      "sourcePath": "scripts/specifying/test/v44-btd-btc-compensation-statements.test.js",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate6",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-types-export-gate6",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate6",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate6",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate6",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v44-btd-btc-compensation-statements.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v44-gate6-btd-btc-compensation-statements.mjs",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "btdBtcCompensationStatementsImplemented": true,
+    "btdRangeStateImplemented": true,
+    "btcSettlementObservationImplemented": true,
+    "sourceToSharesContributorStatementsImplemented": true,
+    "depositorEarningSummariesImplemented": true,
+    "treasuryRoutesImplemented": true,
+    "reconciliationStatementImplemented": true,
+    "repairStatementImplemented": true,
+    "packsAccountingReadbackImplemented": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "sourceSnippetVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetAdmitted": false,
+    "requiredPredicateCount": 36,
+    "passedPredicateCount": 36,
+    "failedPredicateIds": []
+  }
+}

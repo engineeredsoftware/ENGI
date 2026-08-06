@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V41_READING_PROMPT_BENCHMARK_BASELINES_ARTIFACT_PATH,
   buildV41ReadingPromptBenchmarkBaselines,
-} from '../packages/protocol/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

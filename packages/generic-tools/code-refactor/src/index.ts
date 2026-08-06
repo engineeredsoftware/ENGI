@@ -18,7 +18,7 @@ import {
   type OrganizeImportsParams,
   type InlineVariableParams,
   type MoveSymbolParams,
-} from '@bitcode/refactoring';
+} from '@bitcode/file-refactoring';
 import {
   RENAME_SYMBOL_DOC_CODE_TOOL_PROMPT,
   EXTRACT_METHOD_DOC_CODE_TOOL_PROMPT,

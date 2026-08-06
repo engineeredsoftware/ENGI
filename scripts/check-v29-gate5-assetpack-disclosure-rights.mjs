@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -80,24 +80,24 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V29.md',
-    'BITCODE_SPEC_V29_DELTA.md',
-    'BITCODE_SPEC_V29_NOTES.md',
-    'BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V29.md',
+    '.specifications/BITCODE_SPEC_V29_DELTA.md',
+    '.specifications/BITCODE_SPEC_V29_NOTES.md',
+    '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate5-assetpack-disclosure-rights.mjs',
-    'packages/pipelines/asset-pack/src/asset-pack-disclosure.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts',
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-disclosure.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/postprocess.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'packages/btd/src/access.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/__tests__/btd.test.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
     'AGENTS.md',
     'README.md',
     '.github/pull_request_template.md',
@@ -109,20 +109,20 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 5 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V29.md');
-  const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const disclosure = read(root, 'packages/pipelines/asset-pack/src/asset-pack-disclosure.ts');
-  const disclosureTest = read(root, 'packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts');
-  const postprocess = read(root, 'packages/pipelines/asset-pack/src/postprocess.ts');
-  const postprocessTest = read(root, 'packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts');
-  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
-  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const disclosure = read(root, 'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts');
+  const disclosureTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-disclosure.test.ts');
+  const postprocess = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts');
+  const postprocessTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/postprocess.test.ts');
+  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
+  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btd.test.ts');
-  const terminal = read(root, 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx');
-  const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-harness-client.ts');
-  const terminalClientTest = read(root, 'uapi/tests/terminalPipelineHarnessClient.test.ts');
+  const terminal = read(root, 'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx');
+  const terminalClient = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts');
+  const terminalClientTest = read(root, 'apps/uapi/tests/terminalPipelineHarnessClient.test.ts');
   const agents = read(root, 'AGENTS.md');
   const readme = read(root, 'README.md');
   const prTemplate = read(root, '.github/pull_request_template.md');
@@ -198,7 +198,7 @@ function main() {
       terminalClient.includes('leakage') &&
       terminalClientTest.includes('assetPackDisclosureReview') &&
       terminalClientTest.includes('leakage none'),
-    'Terminal surfaces must render and summarize AssetPack disclosure review evidence.',
+    'product surfaces must render and summarize AssetPack disclosure review evidence.',
   );
   assertCheck(
     failures,

@@ -6,7 +6,7 @@ Production-ready Vercel platform integration tool implementing Model Context Pro
 
 ## Supported helpers (fixtures)
 
-This package wraps the following async helpers from `@bitcode/vercel` in the `Tool` primitive so they can be surfaced over MCP:
+This package wraps the following async helpers from `@bitcode/externals-vercel` in the `Tool` primitive so they can be surfaced over MCP:
 
 - `vercelGetDeploymentTool`
 - `vercelGetDeploymentEventsTool`
@@ -93,14 +93,14 @@ vercelGetDeploymentEventsTool: Real-time deployment event streaming and analysis
 ### Platform Connection
 ```typescript
 interface VercelConfig {
-  token: string;                // Vercel API access token
-  teamId?: string;              // Optional team/organization ID
-  timeout: number;              // Request timeout in milliseconds
-  retries: number;              // Number of retry attempts
-  rateLimit: {
-    requests: number;           // Requests per window
-    window: number;             // Rate limit window in seconds
-  };
+ token: string; // Vercel API access token
+ teamId?: string; // Optional team/organization ID
+ timeout: number; // Request timeout in milliseconds
+ retries: number; // Number of retry attempts
+ rateLimit: {
+ requests: number; // Requests per window
+ window: number; // Rate limit window in seconds
+ };
 }
 ```
 

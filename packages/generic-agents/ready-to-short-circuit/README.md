@@ -39,11 +39,11 @@ Low Confidence → CONTINUE (conservative default)
 ### Final Decision Schema
 ```typescript
 {
-  finalDecision: 'SHORT_CIRCUIT' | 'CONTINUE',
-  justification: string,
-  riskMitigation: string,
-  userExplanation: string,
-  success: boolean
+ finalDecision: 'SHORT_CIRCUIT' | 'CONTINUE',
+ justification: string,
+ riskMitigation: string,
+ userExplanation: string,
+ success: boolean
 }
 ```
 

@@ -1,0 +1,56 @@
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+
+import WalletPane from '@/components/auxillaries/AuxillariesWalletPane/AuxillariesWalletPane';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
+import { useUserData } from '@/hooks/useUserData';
+
+jest.mock('@/components/bitcode/auth/AuthProvider/AuthProvider', () => ({
+  useAuth: jest.fn(),
+}));
+
+jest.mock('@/hooks/useUserData', () => ({
+  useUserData: jest.fn(),
+}));
+
+jest.mock('@bitcode/orm', () => ({
+  readBitcodeWalletBindingFromProfile: jest.fn(() => null),
+}));
+
+const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
+const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
+
+describe('WalletPane SSR Onboarding View', () => {
+  beforeEach(() => {
+    mockUseAuth.mockReturnValue({
+      user: null,
+      loading: false,
+    } as any);
+
+    mockUseUserData.mockReturnValue({
+      data: null,
+      hasGitHubConnection: false,
+      btdBalance: 0,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: false,
+      onboardedSteps: [],
+    } as any);
+  });
+
+  it('renders the unauthenticated Wallet auxillary posture', () => {
+    const html = renderToString(
+      <WalletPane
+        onSave={() => {}}
+        loading={false}
+        onCompletionStatusChange={() => {}}
+      />,
+    );
+
+    expect(html).toContain('Wallet Auxillary');
+    // Multi-rail identity: Ethereum is the primary connect surface (BTC remains transitional).
+    expect(html).toContain('Connect Ethereum wallet');
+    expect(html).toContain('Sepolia');
+  });
+});

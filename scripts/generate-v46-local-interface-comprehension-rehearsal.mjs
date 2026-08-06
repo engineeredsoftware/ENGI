@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ARTIFACT_PATH,
   buildV46LocalInterfaceComprehensionRehearsal,
-} from '../packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

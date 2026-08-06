@@ -6,17 +6,17 @@
 
 import { log } from '@bitcode/logger';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { ShippableTemplate, ShippableTemplateType } from './types';
+import type { DeliveryTemplate, DeliveryTemplateType } from './types';
 
 // Export all types
 export * from './types';
 export type {
-  ShippableTemplate,
+  DeliveryTemplate,
   EvidenceDocumentTemplate,
   UserTemplatePreferences,
-  ShippableTemplateType,
+  DeliveryTemplateType,
   EvidenceDocumentTemplateType,
-  CreateShippableTemplatePayload,
+  CreateDeliveryTemplatePayload,
   CreateEvidenceDocumentTemplatePayload,
   TemplatesResponse,
   TemplatePreferencesResponse
@@ -28,21 +28,21 @@ export type {
 export class TemplatesService {
   constructor(private supabase: SupabaseClient) {}
 
-  private toShippableTemplate(row: Record<string, any>): ShippableTemplate | null {
+  private toDeliveryTemplate(row: Record<string, any>): DeliveryTemplate | null {
     const storageType = row.shippable_type ?? row.deliverable_type;
     if (storageType !== 'pullRequests') return null;
     const { deliverable_type: _storageType, ...template } = row;
     return {
       ...template,
       shippable_type: 'pullRequests',
-    } as ShippableTemplate;
+    } as DeliveryTemplate;
   }
 
   /**
-   * Get Shippable templates for the current user.
+   * Get Delivery templates for the current user.
    * Physical table/column names are retained Exchange storage identifiers.
    */
-  async getShippableTemplates(userId: string, type?: ShippableTemplateType) {
+  async getDeliveryTemplates(userId: string, type?: DeliveryTemplateType) {
     try {
       let query = this.supabase
         .from('deliverable_templates')
@@ -62,15 +62,15 @@ export class TemplatesService {
       const { data, error } = await query;
       
       if (error) {
-        log('[TemplatesService] Error fetching Shippable templates', 'error', { error });
+        log('[TemplatesService] Error fetching Delivery templates', 'error', { error });
         throw error;
       }
 
       return ((data || []) as Record<string, any>[])
-        .map((row) => this.toShippableTemplate(row))
-        .filter((template): template is ShippableTemplate => Boolean(template));
+        .map((row) => this.toDeliveryTemplate(row))
+        .filter((template): template is DeliveryTemplate => Boolean(template));
     } catch (error) {
-      log('[TemplatesService] Failed to get Shippable templates', 'error', { error });
+      log('[TemplatesService] Failed to get Delivery templates', 'error', { error });
       throw error;
     }
   }
@@ -115,19 +115,19 @@ export class TemplatesService {
   }
 
   /**
-   * Create Shippable templates.
+   * Create Delivery templates.
    * Physical table/column names are retained Exchange storage identifiers.
    */
-  async createShippableTemplates(
+  async createDeliveryTemplates(
     userId: string,
     name: string,
-    types: ShippableTemplateType[],
+    types: DeliveryTemplateType[],
     templateText: string
   ) {
     try {
       const invalidType = types.find((type) => type !== 'pullRequests');
       if (invalidType) {
-        throw new Error(`Unsupported V26 Shippable template type: ${invalidType}`);
+        throw new Error(`Unsupported delivery template type: ${invalidType}`);
       }
 
       const rows = types.map((type) => ({
@@ -144,15 +144,15 @@ export class TemplatesService {
         .select();
 
       if (error) {
-        log('[TemplatesService] Error creating Shippable templates', 'error', { error });
+        log('[TemplatesService] Error creating Delivery templates', 'error', { error });
         throw error;
       }
 
       return ((data || []) as Record<string, any>[])
-        .map((row) => this.toShippableTemplate(row))
-        .filter((template): template is ShippableTemplate => Boolean(template));
+        .map((row) => this.toDeliveryTemplate(row))
+        .filter((template): template is DeliveryTemplate => Boolean(template));
     } catch (error) {
-      log('[TemplatesService] Failed to create Shippable templates', 'error', { error });
+      log('[TemplatesService] Failed to create Delivery templates', 'error', { error });
       throw error;
     }
   }

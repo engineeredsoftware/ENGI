@@ -1,0 +1,19 @@
+{
+  "name": "@bitcode/web-scrapers-firecrawl",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Firecrawl web scrape/crawl/search client (packages/web-scrapers/firecrawl)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@bitcode/logger": "workspace:*",
+    "@mendable/firecrawl-js": "^1.0.0"
+  },
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  }
+}

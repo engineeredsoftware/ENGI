@@ -1,0 +1,414 @@
+{
+  "artifactId": "v45-verification-decisions-proof",
+  "schemaId": "bitcode.v45.proofFamilyArtifact.v1",
+  "version": "V45",
+  "currentTarget": "V44",
+  "generatedAt": "2026-05-31T00:00:00.000Z",
+  "proofSourceCommit": "draft-v45-gate16-proof-source-snapshot",
+  "sourceSafetyVerdict": "source-safe-v45-proof-family-generated-metadata",
+  "proofFamilyId": "verification-decisions",
+  "proofFamily": "Verification-decisions",
+  "artifactPath": ".proofs/v45/verification-decisions-proof.json",
+  "status": "pass",
+  "proofFamilyInventory": {
+    "proofFamilyId": "verification-decisions",
+    "proofFamily": "Verification-decisions",
+    "proofArtifactPath": ".proofs/v45/verification-decisions-proof.json",
+    "memberIds": [
+      "Need review",
+      "Fit thresholding",
+      "quote acceptance",
+      "payment finality",
+      "rights transfer",
+      "delivery"
+    ],
+    "theoremIds": [
+      "explicit decision root",
+      "actor authority",
+      "no collapsed states"
+    ],
+    "replayStepIds": [
+      "approve Need",
+      "select Fits",
+      "accept quote",
+      "confirm finality"
+    ],
+    "witnessArtifactPaths": [
+      ".proofs/v42/readneed-review-resynthesis-product-closure.json",
+      ".proofs/v42/readfitsfinding-preview-quote.json",
+      ".proofs/v44/organization-policy-wallet-authority.json"
+    ]
+  },
+  "memberInventory": [
+    {
+      "memberId": "Need review",
+      "closureCriteria": "Need review must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "Fit thresholding",
+      "closureCriteria": "Fit thresholding must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "quote acceptance",
+      "closureCriteria": "quote acceptance must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "payment finality",
+      "closureCriteria": "payment finality must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "rights transfer",
+      "closureCriteria": "rights transfer must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "delivery",
+      "closureCriteria": "delivery must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    }
+  ],
+  "theoremInventory": [
+    {
+      "theoremId": "explicit decision root",
+      "memberBindings": [
+        "Need review",
+        "Fit thresholding",
+        "quote acceptance",
+        "payment finality",
+        "rights transfer",
+        "delivery"
+      ],
+      "replayStepBindings": [
+        "approve Need",
+        "confirm finality"
+      ],
+      "closureReading": "The Verification-decisions theorem \"explicit decision root\" binds source-safe evidence, typed state, and replayable proof roots."
+    },
+    {
+      "theoremId": "actor authority",
+      "memberBindings": [
+        "Need review",
+        "Fit thresholding",
+        "quote acceptance",
+        "payment finality",
+        "rights transfer",
+        "delivery"
+      ],
+      "replayStepBindings": [
+        "select Fits"
+      ],
+      "closureReading": "The Verification-decisions theorem \"actor authority\" binds source-safe evidence, typed state, and replayable proof roots."
+    },
+    {
+      "theoremId": "no collapsed states",
+      "memberBindings": [
+        "Need review",
+        "Fit thresholding",
+        "quote acceptance",
+        "payment finality",
+        "rights transfer",
+        "delivery"
+      ],
+      "replayStepBindings": [
+        "accept quote"
+      ],
+      "closureReading": "The Verification-decisions theorem \"no collapsed states\" binds source-safe evidence, typed state, and replayable proof roots."
+    }
+  ],
+  "replayStepInventory": [
+    {
+      "replayStepId": "approve Need",
+      "theoremBindings": [
+        "explicit decision root"
+      ],
+      "witnessBindings": [
+        ".proofs/v42/readneed-review-resynthesis-product-closure.json",
+        ".proofs/v42/readfitsfinding-preview-quote.json",
+        ".proofs/v44/organization-policy-wallet-authority.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "select Fits",
+      "theoremBindings": [
+        "actor authority"
+      ],
+      "witnessBindings": [
+        ".proofs/v42/readneed-review-resynthesis-product-closure.json",
+        ".proofs/v42/readfitsfinding-preview-quote.json",
+        ".proofs/v44/organization-policy-wallet-authority.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "accept quote",
+      "theoremBindings": [
+        "no collapsed states"
+      ],
+      "witnessBindings": [
+        ".proofs/v42/readneed-review-resynthesis-product-closure.json",
+        ".proofs/v42/readfitsfinding-preview-quote.json",
+        ".proofs/v44/organization-policy-wallet-authority.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "confirm finality",
+      "theoremBindings": [
+        "explicit decision root"
+      ],
+      "witnessBindings": [
+        ".proofs/v42/readneed-review-resynthesis-product-closure.json",
+        ".proofs/v42/readfitsfinding-preview-quote.json",
+        ".proofs/v44/organization-policy-wallet-authority.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    }
+  ],
+  "witnessArtifactInventory": [
+    {
+      "relativePath": ".proofs/v42/readneed-review-resynthesis-product-closure.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:cac716231b2760c686a0f826157fad8aecf5c24f74b8c9dde18b1d8b3e86e44e",
+      "byteLength": 24945,
+      "sourceSafe": true,
+      "artifactId": "v42-readneed-review-resynthesis-product-closure",
+      "sourceSafetyVerdict": "source-safe-readneed-review-resynthesis-product-closure-metadata"
+    },
+    {
+      "relativePath": ".proofs/v42/readfitsfinding-preview-quote.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:fcd5e8576c4185cdc57566f096c3e05dc42689a8a509a9071704de1d03ee894a",
+      "byteLength": 26476,
+      "sourceSafe": true,
+      "artifactId": "v42-readfitsfinding-preview-quote",
+      "sourceSafetyVerdict": "source-safe-readfitsfinding-preview-quote-metadata"
+    },
+    {
+      "relativePath": ".proofs/v44/organization-policy-wallet-authority.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:609d522a7e04a99c6b62c7d839b7052d7b668cd0a15439ae3496939a00d00bd6",
+      "byteLength": 16126,
+      "sourceSafe": true,
+      "artifactId": "v44-organization-policy-wallet-authority",
+      "sourceSafetyVerdict": "source-safe-organization-policy-wallet-authority-metadata"
+    }
+  ],
+  "generatedArtifactInventory": [
+    ".proofs/v45/inference-synthesis-proof.json",
+    ".proofs/v45/prompt-completeness-proof.json",
+    ".proofs/v45/static-code-analysis-proof.json",
+    ".proofs/v45/verification-decisions-proof.json",
+    ".proofs/v45/selection-materialization-proof.json",
+    ".proofs/v45/authorization-sensitive-flow-proof.json",
+    ".proofs/v45/settlement-source-to-shares-proof.json",
+    ".proofs/v45/disclosure-boundary-proof.json",
+    ".proofs/v45/proof-contract-proof.json",
+    ".proofs/v45/spec-family-report.json",
+    ".proofs/v45/canonical-input-report.json",
+    "BITCODE_SPEC_V45_PROVEN.md"
+  ],
+  "scenarioRunCoverageMatrix": [
+    {
+      "scenarioId": "v45-verification-decisions-source-safe-replay",
+      "family": "Verification-decisions",
+      "memberCount": 6,
+      "theoremCount": 3,
+      "replayStepCount": 4,
+      "expectedVerdict": "pass"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "relativePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+      "present": true,
+      "digest": "sha256:347bd88040c9456420e03c0e023958c48de2f302c2f2fb079679d45695293345",
+      "byteLength": 14498,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "ReadNeedReviewResynthesisRuntime",
+          "present": true
+        },
+        {
+          "token": "findingFitsAdmission",
+          "present": true
+        },
+        {
+          "token": "telemetryReceipts",
+          "present": true
+        },
+        {
+          "token": "rejected_need_posture",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+      "present": true,
+      "digest": "sha256:1319dd4223292e03b795ab8777654944d85b52b18748b442e1ac5b9f2a1eaaef",
+      "byteLength": 22337,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "AssetPackPreviewBoundary",
+          "present": true
+        },
+        {
+          "token": "quoteRoot",
+          "present": true
+        },
+        {
+          "token": "selectedFitProvenanceRoot",
+          "present": true
+        },
+        {
+          "token": "sourceSafePreview",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "present": true,
+      "digest": "sha256:3d2b0984fc9e2c3c108d6eb09bd5a7afc6dd00fa778cf7e16af8c662f6caccae",
+      "byteLength": 47753,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "quoteAcceptanceState",
+          "present": true
+        },
+        {
+          "token": "settlement_finalized",
+          "present": true
+        },
+        {
+          "token": "rightsTransferState",
+          "present": true
+        },
+        {
+          "token": "sourceUnlockAdmissible",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
+      "present": true,
+      "digest": "sha256:ed6fa07bc3f69caaca59824933d1a7deab4bf0c7ccc57be7ef399511ce4587c3",
+      "byteLength": 21366,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "OrganizationPolicyWalletAuthority",
+          "present": true
+        },
+        {
+          "token": "authorityRoot",
+          "present": true
+        },
+        {
+          "token": "wallet",
+          "present": true
+        },
+        {
+          "token": "policy",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "inputRoots": {
+    "specRoot": "sha256:902358ad1c30bb59e4095fc2178b44b2a3e5e53dddd95883c9760603c44f03f3",
+    "sourceEvidenceRoot": "sha256:8a8908a9c7571cecf45497712879ea81f4da7468fe54017a2844ff0393d3ed9c",
+    "witnessArtifactRoot": "sha256:ad0a3a370725d000a12dfbf07ac6a7f40e42f9100b0f0db93b6042f1290c3a4d"
+  },
+  "artifactRoots": {
+    "proofFamilyInventoryRoot": "sha256:afe2d7bf8fac9f78dbea5456a50351cb0584e48478d8357ffce8d1d6afac2e9d",
+    "replayBindingRoot": "sha256:d555ee036b8cb81e93b5b3d9ca218f8c68485cee1f4b10c7e46c4c50cb458e1f"
+  },
+  "artifactRoot": "v45-verification-decisions-proof:45ae9cfa4cac7fa66cefbc2d",
+  "minimumArtifactReplayBindingSet": [
+    "decision root",
+    "actor root",
+    "policy root",
+    "readback root"
+  ],
+  "proofObjectFields": [
+    "decision id",
+    "actor",
+    "state",
+    "result",
+    "blocker"
+  ],
+  "generatedArtifactAndTestBindings": [
+    "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+    "scripts/specifying/test/v45-proof-family-artifacts.test.js"
+  ],
+  "failClosedConditions": [
+    "unauthorized actor",
+    "stale decision",
+    "missing root",
+    "evidence conflict"
+  ],
+  "sourceSafety": {
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceSerialized": false,
+    "rawPromptSerialized": false,
+    "rawInterpolatedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "walletPrivateMaterialSerialized": false,
+    "credentialsSerialized": false,
+    "privateSettlementPayloadSerialized": false,
+    "unpaidAssetPackSourceSerialized": false,
+    "forbiddenSerializedPayloadClasses": [
+      "protected-source",
+      "unpaid-assetpack-source",
+      "raw-prompt",
+      "raw-provider-response",
+      "wallet-private-material",
+      "credentials",
+      "private-settlement-payload"
+    ]
+  },
+  "coverage": {
+    "sourceEvidenceComplete": true,
+    "witnessArtifactsComplete": true,
+    "memberCount": 6,
+    "theoremCount": 3,
+    "replayStepCount": 4,
+    "witnessArtifactCount": 3,
+    "generatedArtifactBindingCount": 4,
+    "failClosedConditionCount": 4,
+    "protectedSourceSerialized": false,
+    "rawPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "walletPrivateMaterialSerialized": false,
+    "credentialsSerialized": false,
+    "privateSettlementPayloadSerialized": false,
+    "unpaidAssetPackSourceSerialized": false
+  },
+  "repairInstructions": [
+    "Regenerate .proofs/v45/verification-decisions-proof.json with pnpm run generate:v45-proof-families.",
+    "Repair missing source evidence, witness artifacts, tests, or workflow bindings before claiming V45 proof-family closure."
+  ],
+  "passed": true,
+  "failures": [],
+  "warnings": [],
+  "validationCommand": "pnpm run check:v45-gate16"
+}

@@ -1,0 +1,607 @@
+{
+  "artifactId": "v39-operational-telemetry-repair-readback",
+  "schemaId": "bitcode.v39.operationalTelemetryRepairReadback.v1",
+  "version": "V39",
+  "currentTarget": "V38",
+  "sourceSafetyVerdict": "source-safe-operational-telemetry-repair-readback",
+  "eventKindIds": [
+    "phase",
+    "ptrr-agent",
+    "ptrr-step",
+    "failsafe",
+    "thricified-generation",
+    "tool",
+    "storage",
+    "ledger",
+    "wallet",
+    "delivery",
+    "ui",
+    "repair"
+  ],
+  "rowIds": [
+    "pipeline:phase-agent-step-stream",
+    "inference:failsafe-thricified-readback",
+    "tool:depository-search-execution",
+    "storage:source-safe-projections",
+    "settlement:ledger-wallet-delivery-events",
+    "ui:terminal-stage-readback",
+    "repair:runbook-hooks",
+    "source-safety:metadata-only-disclosure",
+    "interface:rich-log-rendering",
+    "proof:tests-artifact-workflow"
+  ],
+  "rows": [
+    {
+      "rowId": "pipeline:phase-agent-step-stream",
+      "purpose": "Stream Reading phase, PTRR agent, and PTRR step events with source-safe execution state for operator readback.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts"
+      ],
+      "emittedTypes": [
+        "ReadingOperationalTelemetryEvent",
+        "ReadingOperationalExecutionState"
+      ],
+      "requiredEvidence": [
+        "phase",
+        "ptrr-agent",
+        "ptrr-step",
+        "eventId",
+        "proofRoot"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:f3846459658425bdf8320f23",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "inference:failsafe-thricified-readback",
+      "purpose": "Expose Failsafe and ThricifiedGeneration identity, prompt template ids, output schemas, and disclosure posture without raw prompt or provider payload leakage.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts"
+      ],
+      "emittedTypes": [
+        "ReadingOperationalTelemetryEvent",
+        "ReadingPipelineThricifiedGenerationContract"
+      ],
+      "requiredEvidence": [
+        "failsafe",
+        "thricified-generation",
+        "prompt_template_id_only",
+        "parsed_result_shape_and_proof_roots_only"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:692bd64dbfebbbc92b8b4333",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "tool:depository-search-execution",
+      "purpose": "Stream source-safe ToolExecution readback for depository search, vector recall, ranking, proof, and measurement tools.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx"
+      ],
+      "emittedTypes": [
+        "ReadingOperationalTelemetryEvent",
+        "ReadingPipelineToolContract"
+      ],
+      "requiredEvidence": [
+        "tool",
+        "toolId",
+        "bitcode.depository.vector-search"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:3876177da0d57388606aeaf5",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "storage:source-safe-projections",
+      "purpose": "Persist operator readback, event streams, repair hooks, telemetry roots, and underlying pipeline storage projections.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts"
+      ],
+      "emittedTypes": [
+        "ReadingOperationalTelemetryStorageRecord"
+      ],
+      "requiredEvidence": [
+        "reading/operational",
+        "streamEvents",
+        "operatorReadback",
+        "telemetryRoot"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:aa008b7f1341b79e459359dc",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "settlement:ledger-wallet-delivery-events",
+      "purpose": "Represent BTC wallet observation, ledger/database/storage reconciliation, and source-bearing delivery unlock state as source-safe events.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts"
+      ],
+      "emittedTypes": [
+        "ReadingOperationalTelemetryEvent"
+      ],
+      "requiredEvidence": [
+        "wallet",
+        "ledger",
+        "delivery",
+        "AssetPackSettlementRightsDeliveryBoundary"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:c16f2bd8e530d37ed33e93e9",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "ui:terminal-stage-readback",
+      "purpose": "Project the five-stage Terminal Reading flow into operator-readable UI telemetry.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "BITCODE_SPEC_V39.md"
+      ],
+      "emittedTypes": [
+        "ReadingOperationalOperatorReadback"
+      ],
+      "requiredEvidence": [
+        "requestRead",
+        "reviewSynthesizedNeed",
+        "requestFindingFits",
+        "reviewAssetPackPreview",
+        "buyAssetPackSettle"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:d06b289ceca0144eca49f3ee",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "repair:runbook-hooks",
+      "purpose": "Attach repair runbook hooks for rich log inspection, Need resynthesis, depository search repair, BTC finality observation, projection repair, and delivery recovery.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts"
+      ],
+      "emittedTypes": [
+        "ReadingOperationalRepairRunbookHook"
+      ],
+      "requiredEvidence": [
+        "open-rich-execution-log",
+        "inspect-source-safe-metadata",
+        "observe-btc-payment-finality"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:12c15763f2d4d4213d580b81",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "source-safety:metadata-only-disclosure",
+      "purpose": "Keep operational readback source-safe: metadata and proof roots only, with protected source, raw prompts, raw responses, wallet private material, and credentials absent.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+        "apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx"
+      ],
+      "emittedTypes": [
+        "ReadingOperationalTelemetrySourceSafety"
+      ],
+      "requiredEvidence": [
+        "protectedSourceVisible: false",
+        "rawProviderResponseVisible: false",
+        "credentialsSerialized: false"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:be801c44ec51565951f107a3",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "interface:rich-log-rendering",
+      "purpose": "Render direct Reading operational telemetry payloads in the shared rich execution log and header with expandable metadata.",
+      "sourceRoots": [
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+        "apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx"
+      ],
+      "emittedTypes": [
+        "PipelineExecutionLog",
+        "PipelineExecutionLogHeader"
+      ],
+      "requiredEvidence": [
+        "reading-telemetry",
+        "operator-readback",
+        "Execution State:",
+        "source_safe_reading_operational_telemetry_repair_readback_metadata"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:171339db004457c6a6dbde70",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    },
+    {
+      "rowId": "proof:tests-artifact-workflow",
+      "purpose": "Bind Gate 8 closure to package tests, UI tests, protocol artifact tests, generated artifact, docs, exports, and workflow wiring.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+        "apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "emittedTypes": [
+        "V39OperationalTelemetryRepairReadback"
+      ],
+      "requiredEvidence": [
+        "check-v39-gate8-operational-telemetry-repair-readback.mjs",
+        "v39-operational-telemetry-repair-readback"
+      ],
+      "rowRoot": "v39-operational-telemetry-repair-readback-row:b09ae61cf4664f8a3914be8e",
+      "sourceSafetyClass": "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawInterpolatedPromptVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "credentialsSerialized": false,
+      "forbiddenPayloadClasses": [
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-interpolated-prompts",
+        "unpaid-assetpack-source",
+        "wallet-private-material",
+        "settlement-private-payloads",
+        "secret-values"
+      ]
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "readback-defines-event-kinds",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+      "passed": true
+    },
+    {
+      "id": "readback-defines-core-types",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+      "passed": true
+    },
+    {
+      "id": "readback-streams-pipeline-contract",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+      "passed": true
+    },
+    {
+      "id": "readback-source-safety",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+      "passed": true
+    },
+    {
+      "id": "readback-persists-operational-records",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+      "passed": true
+    },
+    {
+      "id": "postprocess-emits-readback",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+      "passed": true
+    },
+    {
+      "id": "pipeline-preprocess-emits-readback",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
+      "passed": true
+    },
+    {
+      "id": "package-exports-readback",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
+      "passed": true
+    },
+    {
+      "id": "reading-contract-has-failsafe-and-thricified",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-event-kinds-source-safety",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-repair-finality",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+      "passed": true
+    },
+    {
+      "id": "tests-cover-persistence",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+      "passed": true
+    },
+    {
+      "id": "log-supports-reading-telemetry",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "passed": true
+    },
+    {
+      "id": "header-supports-proof-posture",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+      "passed": true
+    },
+    {
+      "id": "ui-tests-cover-reading-telemetry",
+      "sourcePath": "apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "header-tests-cover-reading-telemetry",
+      "sourcePath": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "spec-gate8-expanded",
+      "sourcePath": "BITCODE_SPEC_V39.md",
+      "passed": true
+    },
+    {
+      "id": "delta-gate8-expanded",
+      "sourcePath": "BITCODE_SPEC_V39_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-gate8-expanded",
+      "sourcePath": "BITCODE_SPEC_V39_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-gate8-expanded",
+      "sourcePath": "BITCODE_SPEC_V39_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-advanced-to-gate8",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-document-gate8",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate8-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "rowCount": 10,
+    "sourceSafetyVerdict": "source-safe-operational-telemetry-repair-readback",
+    "runtimeType": "ReadingOperationalTelemetryRepairReadback",
+    "operatorReadbackType": "ReadingOperationalOperatorReadback",
+    "eventType": "ReadingOperationalTelemetryEvent",
+    "storageRecordType": "ReadingOperationalTelemetryStorageRecord",
+    "repairRunbookType": "ReadingOperationalRepairRunbookHook",
+    "eventKindIds": [
+      "phase",
+      "ptrr-agent",
+      "ptrr-step",
+      "failsafe",
+      "thricified-generation",
+      "tool",
+      "storage",
+      "ledger",
+      "wallet",
+      "delivery",
+      "ui",
+      "repair"
+    ],
+    "requiredDisclosurePostures": [
+      "source_safe_reading_operational_telemetry_repair_readback_metadata",
+      "prompt_template_id_only",
+      "parsed_result_shape_and_proof_roots_only"
+    ],
+    "requiredRunbookHooks": [
+      "open-rich-execution-log",
+      "inspect-source-safe-metadata",
+      "retry-read-need-resynthesis",
+      "repair-depository-search-readback",
+      "observe-btc-payment-finality",
+      "repair-ledger-database-storage-projection",
+      "recover-pull-request-delivery"
+    ],
+    "sourceSafeMetadataOnly": true,
+    "protectedSourcePayloadSerialized": false,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "rawInterpolatedPromptVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "credentialsSerialized": false,
+    "streamEventKindsCovered": true,
+    "repairFinalityCovered": true,
+    "persistenceCovered": true,
+    "richLogCovered": true,
+    "failedPredicateIds": []
+  },
+  "passed": true,
+  "artifactRoot": "v39-operational-telemetry-repair-readback:bc8e2495bbe81b73a2cdb8dc"
+}

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-writing-workspace.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-writing-workspace.json';
 
 const REQUIRED_MODE_IDS = [
   'read_request',
@@ -112,7 +112,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -131,26 +131,26 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-writing-workspace.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-writing-workspace.test.js',
+    'scripts/specifying/src/canonical/conversation-writing-workspace.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-writing-workspace.test.js',
     'scripts/generate-v37-conversation-writing-workspace.mjs',
     'scripts/check-v37-gate4-conversation-writing-workspace.mjs',
-    'uapi/app/conversations/conversation-writing-workspace.ts',
-    'uapi/app/conversations/components/ConversationWritingWorkspace.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/conversationWritingWorkspace.test.tsx',
-    'uapi/jest.config.cjs',
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/conversations/conversation-writing-workspace.ts',
+    'apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/conversationWritingWorkspace.test.tsx',
+    'apps/uapi/jest.config.cjs',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/conversations/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -170,7 +170,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-writing-workspace.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-writing-workspace.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation writing workspace package test failed: ${error.stderr || error.message}`);
     }
@@ -178,7 +178,7 @@ function main() {
 
   if (failures.length === 0 && shouldRunUapiTests()) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/conversationWritingWorkspace.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'tests/conversationWritingWorkspace.test.tsx', '--runInBand']);
     } catch (error) {
       failures.push(`V37 Conversation writing workspace UI tests failed: ${error.stderr || error.message}`);
     }
@@ -219,7 +219,7 @@ function main() {
     assertCheck(failures, artifact.coverage.readRequestCovered === true, 'Conversation writing workspace must cover Read Request drafting.');
     assertCheck(failures, artifact.coverage.needFeedbackCovered === true, 'Conversation writing workspace must cover Need feedback drafting.');
     assertCheck(failures, artifact.coverage.assetpackReviewNoteCovered === true, 'Conversation writing workspace must cover AssetPack review notes.');
-    assertCheck(failures, artifact.coverage.terminalHandoffSummaryCovered === true, 'Conversation writing workspace must cover Terminal handoff summaries.');
+    assertCheck(failures, artifact.coverage.terminalHandoffSummaryCovered === true, 'Conversation writing workspace must cover product handoff summaries.');
     assertCheck(failures, artifact.coverage.saveRestoreSummarizeHandoffCovered === true, 'Conversation writing workspace must cover save/restore/summarize/handoff.');
     assertCheck(failures, artifact.coverage.localDraftKeysCovered === true, 'Conversation writing workspace must cover route-local draft keys.');
     assertCheck(failures, artifact.coverage.accessibilityCovered === true, 'Conversation writing workspace must cover keyboard and fullscreen accessibility.');
@@ -237,13 +237,13 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V37.md');
-  const delta = read(root, 'BITCODE_SPEC_V37_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V37_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
-  const uapiReadme = read(root, 'uapi/app/conversations/README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V37.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V37_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V37_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
+  const uapiReadme = read(root, 'apps/uapi/app/conversations/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

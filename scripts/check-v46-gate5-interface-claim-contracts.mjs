@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH,
   buildV46InterfaceClaimContracts,
-} from '../packages/protocol/src/canonical/v46-interface-claim-contracts.js';
+} from '../scripts/specifying/src/canonical/v46-interface-claim-contracts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +66,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V45', `BITCODE_SPEC.txt must remain V45 during V46 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -81,21 +81,21 @@ function main() {
 
   for (const relativePath of [
     V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v46-interface-claim-contracts.js',
-    'packages/protocol/test/v46-interface-claim-contracts.test.js',
+    'scripts/specifying/src/canonical/v46-interface-claim-contracts.js',
+    'scripts/specifying/test/v46-interface-claim-contracts.test.js',
     'scripts/generate-v46-interface-claim-contracts.mjs',
     'scripts/check-v46-gate5-interface-claim-contracts.mjs',
-    'BITCODE_SPEC_V46.md',
-    'BITCODE_SPEC_V46_DELTA.md',
-    'BITCODE_SPEC_V46_NOTES.md',
-    'BITCODE_SPEC_V46_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V46.md',
+    '.specifications/BITCODE_SPEC_V46_DELTA.md',
+    '.specifications/BITCODE_SPEC_V46_NOTES.md',
+    '.specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'packages/btd/src/api-schema-compatibility-matrix.ts',
     'packages/btd/src/mcp-tool-contract.ts',
     'packages/btd/src/chatgpt-app-action-contract.ts',
-    'packages/chatgptapp/src/tools.ts',
+    'apps/chatgpt/src/tools.ts',
     'packages/api/src/routes/conversations.ts',
-    'uapi/tests/api/conversationReadingInterfaceParity.test.ts',
+    'apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -156,7 +156,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -164,7 +164,7 @@ function main() {
         'test/v46-interface-claim-contracts.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v46-interface-claim-contracts.test.js must pass.');
+      failures.push('scripts/specifying/test/v46-interface-claim-contracts.test.js must pass.');
     }
   }
 

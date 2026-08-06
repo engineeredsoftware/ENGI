@@ -6,7 +6,7 @@
  * of pipeline execution progress.
  */
 
-import { Streamer } from '@bitcode/streams';
+import { Streamer } from '@bitcode/api/streams';
 import { ExecutionStorageDestination } from './StorageDestination';
 
 /**
@@ -24,6 +24,9 @@ export enum ExecutionStreamEventType {
   COMPLETION = 'completion',
   STATUS = 'status',
   WORK_UPDATE = 'work-update',
+  // In-band failsafe repair work (e.g. the stitch loop recording the
+  // validation error it is about to repair) — NOT a terminal failure.
+  REPAIR = 'repair',
 }
 
 /**
@@ -35,6 +38,32 @@ export interface ExecutionStreamConfig {
   runId?: string;
   userId?: string;
 }
+
+// Content-bearing stores that must never enter the stream payload with
+// verbatim bodies (deposit inventory.sources, pipeline:input, llm prompts,
+// tool args/results, PCC selectedContext). Mirrored from the pipelines-generics
+// sourceSafeStreamEvent allowlist so redaction happens BEFORE emit — full-repo
+// inventories (~hundreds of MB) previously crashed with "Invalid string length"
+// when JSON.stringify'd for telemetry.
+const SOURCE_SAFE_LLM_METADATA_KEYS = new Set([
+  'startTime',
+  'endTime',
+  'duration',
+  'usage',
+  'status',
+  'provider',
+  'model',
+  'configKey',
+  'stopReason',
+  'error',
+]);
+const SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE: Record<string, Set<string>> = {
+  pipeline: new Set(['input']),
+  deposit: new Set(['inventory']),
+  tool: new Set(['input', 'result']),
+  tools: new Set(['invocation', 'result']),
+  context: new Set(['selectedContext', 'full']),
+};
 
 /**
  * Adapter for streaming execution events
@@ -60,6 +89,72 @@ export class ExecutionStreamAdapter {
   }
 
   /**
+   * Estimate serialized character weight without building a giant string.
+   * Used so huge inventory stores report contentChars without JSON.stringify.
+   */
+  private static estimateSerializedChars(value: unknown, budget = 50_000_000): number {
+    let total = 0;
+    const visit = (node: unknown, keyHint = ''): void => {
+      if (total >= budget) return;
+      if (node == null) {
+        total += 4;
+        return;
+      }
+      const t = typeof node;
+      if (t === 'string') {
+        total += (node as string).length + 2;
+        return;
+      }
+      if (t === 'number' || t === 'boolean') {
+        total += String(node).length;
+        return;
+      }
+      if (Array.isArray(node)) {
+        // inventory.sources: sum content lengths without deep-walking every file blob.
+        if (keyHint === 'sources' && node.length > 0 && node[0] && typeof node[0] === 'object') {
+          total += 2;
+          for (const item of node) {
+            if (!item || typeof item !== 'object') continue;
+            const file = item as { path?: unknown; content?: unknown };
+            total +=
+              20 +
+              (typeof file.path === 'string' ? file.path.length : 0) +
+              (typeof file.content === 'string' ? file.content.length : 0);
+            if (total >= budget) return;
+          }
+          return;
+        }
+        total += 2;
+        for (let i = 0; i < node.length; i += 1) {
+          visit(node[i], keyHint);
+          total += 1;
+          if (total >= budget) return;
+        }
+        return;
+      }
+      if (t === 'object') {
+        total += 2;
+        for (const [k, v] of Object.entries(node as Record<string, unknown>)) {
+          total += k.length + 3;
+          visit(v, k);
+          if (total >= budget) return;
+        }
+      }
+    };
+    try {
+      visit(value);
+    } catch {
+      return total > 0 ? total : 0;
+    }
+    return total;
+  }
+
+  private static isContentBearingStore(namespace: string, key: string): boolean {
+    if (namespace === 'llm' && !SOURCE_SAFE_LLM_METADATA_KEYS.has(key)) return true;
+    return SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE[namespace]?.has(key) === true;
+  }
+
+  /**
    * Hook called when execution stores data
    * Emits appropriate stream events based on the storage namespace and key
    */
@@ -78,46 +173,93 @@ export class ExecutionStreamAdapter {
     const eventType = this.inferEventType(namespace, key, value);
     if (!eventType) return;
 
-    // Best-effort metadata enrichment for UI (attach step stores when present)
+    const contentBearing = this.isContentBearingStore(namespace, key);
+
+    // Best-effort metadata enrichment for UI (attach step stores when present).
+    // Skip for content-bearing stores — never mirror raw inventory/prompt bodies
+    // into metadata.stores (sourceSafeStreamEvent strips this channel too).
     const metadata: Record<string, any> = {};
-    try {
-      const stores: any = {};
-      if (value && typeof value === 'object') {
-        if (Array.isArray((value as any).usableTools)) {
-          stores.tools = stores.tools || {};
-          stores.tools.usable = (value as any).usableTools;
-        }
-        if (Array.isArray((value as any).useTools)) {
-          stores.tools = stores.tools || {};
-          stores.tools.use = (value as any).useTools;
-        }
-        if (Array.isArray((value as any).usedTools)) {
-          stores.tools = stores.tools || {};
-          stores.tools.used = (value as any).usedTools;
-        }
-        // Attach single tool invocation/result events as arrays if applicable
-        if (namespace === 'tools' && key === 'invocation') {
-          stores.toolEvents = stores.toolEvents || {};
-          stores.toolEvents.invocation = [this.sanitizeData(value)];
-        }
-        if (namespace === 'tools' && key === 'result') {
-          stores.toolEvents = stores.toolEvents || {};
-          stores.toolEvents.result = [this.sanitizeData(value)];
-        }
-        // Attach generation output snapshots keyed by failsafe/generation
-        if (namespace === 'llm') {
-          const es = this.extractExecutionState(value);
-          const fs = es.failsafe;
-          const gn = es.generation;
-          if (fs && gn) {
-            stores.generations = stores.generations || {};
-            stores.generations[fs] = stores.generations[fs] || {};
-            (stores.generations[fs] as any)[gn] = { llm: key === 'output' ? { output: this.sanitizeData(value) } : { input: this.sanitizeData(value) } };
+    if (!contentBearing) {
+      try {
+        const stores: any = {};
+        if (value && typeof value === 'object') {
+          if (Array.isArray((value as any).usableTools)) {
+            stores.tools = stores.tools || {};
+            stores.tools.usable = (value as any).usableTools;
+          }
+          if (Array.isArray((value as any).useTools)) {
+            stores.tools = stores.tools || {};
+            stores.tools.use = (value as any).useTools;
+          }
+          if (Array.isArray((value as any).usedTools)) {
+            stores.tools = stores.tools || {};
+            stores.tools.used = (value as any).usedTools;
+          }
+          // Attach single tool invocation/result events as arrays if applicable
+          if (namespace === 'tools' && key === 'invocation') {
+            stores.toolEvents = stores.toolEvents || {};
+            stores.toolEvents.invocation = [this.sanitizeData(value)];
+          }
+          if (namespace === 'tools' && key === 'result') {
+            stores.toolEvents = stores.toolEvents || {};
+            stores.toolEvents.result = [this.sanitizeData(value)];
+          }
+          // Attach generation output snapshots keyed by failsafe/generation
+          if (namespace === 'llm') {
+            const es = this.extractExecutionState(value);
+            const fs = es.failsafe;
+            const gn = es.generation;
+            if (fs && gn) {
+              stores.generations = stores.generations || {};
+              stores.generations[fs] = stores.generations[fs] || {};
+              (stores.generations[fs] as any)[gn] = {
+                llm:
+                  key === 'output'
+                    ? { output: this.sanitizeData(value) }
+                    : { input: this.sanitizeData(value) },
+              };
+            }
           }
         }
-      }
-      if (Object.keys(stores).length > 0) metadata.stores = stores;
-    } catch {}
+        if (Object.keys(stores).length > 0) metadata.stores = stores;
+      } catch {}
+    }
+
+    // Content-bearing stores: emit a source-safe stub only. Never put
+    // inventory.sources / pipeline input / llm bodies on the stream (they stay
+    // in the in-memory Execution store for agents/measurement).
+    // Tool invocation/result stubs keep tool name + outcome (+ shape-only
+    // input/output when already redacted) so structured deliverable rows and
+    // sourceSafeStreamEvent can still attribute the call without leaking
+    // verbatim args/results.
+    const toolStub = this.extractToolMetadataStub(namespace, value, nodeInfo);
+    const streamData = contentBearing
+      ? {
+          contentWithheld: true,
+          sourceSafetyClass: 'source_safe',
+          stage: key,
+          namespace,
+          contentChars: this.estimateSerializedChars(value),
+          ...this.extractExecutionState(value),
+          ...toolStub,
+        }
+      : (() => {
+          const sanitized = this.sanitizeData(value);
+          // Surface tool name on non-content stores (tool/name string) for UI titles.
+          if (toolStub.tool && (typeof sanitized !== 'object' || sanitized === null)) {
+            return { tool: toolStub.tool, value: sanitized };
+          }
+          if (
+            toolStub.tool &&
+            sanitized &&
+            typeof sanitized === 'object' &&
+            !Array.isArray(sanitized) &&
+            !(sanitized as Record<string, unknown>).tool
+          ) {
+            return { ...(sanitized as Record<string, unknown>), tool: toolStub.tool };
+          }
+          return sanitized;
+        })();
 
     // Build stream message
     const message = {
@@ -130,8 +272,10 @@ export class ExecutionStreamAdapter {
       key,
       timestamp: new Date().toISOString(),
       executionState: this.extractExecutionState(value),
-      message: this.extractMessage(value),
-      data: this.sanitizeData(value),
+      message: contentBearing
+        ? '[content withheld — source-safe]'
+        : this.extractMessage(value),
+      data: streamData,
       metadata,
     };
 
@@ -166,10 +310,13 @@ export class ExecutionStreamAdapter {
       if (key === 'complete') return ExecutionStreamEventType.AGENT_COMPLETE;
     }
 
-    // Tool usage: prefer 'result' as primary event; treat 'invocation' as status
-    if (namespace === 'tools') {
-      if (key === 'result') return ExecutionStreamEventType.TOOL_USE;
-      if (key === 'invocation') return ExecutionStreamEventType.STATUS;
+    // Tool usage: prefer 'result' as primary event; treat 'invocation'/'name' as status.
+    // Pipeline tools store under namespace `tool` (singular); agent path uses `tools`.
+    if (namespace === 'tools' || namespace === 'tool') {
+      if (key === 'result' || key === 'error') return ExecutionStreamEventType.TOOL_USE;
+      if (key === 'invocation' || key === 'name' || key === 'input') {
+        return ExecutionStreamEventType.STATUS;
+      }
       return ExecutionStreamEventType.STATUS;
     }
 
@@ -189,13 +336,29 @@ export class ExecutionStreamAdapter {
       return ExecutionStreamEventType.THINKING;
     }
 
+    // Failsafe repair context: the stitch loop stores the schema-validation
+    // error it is ABOUT TO REPAIR ('validation'/'error') before running its
+    // bounded repair generations. That is in-band failsafe work, not a
+    // terminal failure — typing it 'error' made stream consumers treat an
+    // actively-repairing run as failed (tail closed, run marked failed) while
+    // the pipeline kept working.
+    if (namespace === 'validation' && key === 'error') {
+      return ExecutionStreamEventType.REPAIR;
+    }
+
     // Errors
     if (namespace === 'error' || key === 'error') {
       return ExecutionStreamEventType.ERROR;
     }
 
-    // Completion
-    if (namespace === 'final' || key === 'completion') {
+    // Terminal completion is ONLY the product dispatcher's emitEvent(..., 'completion')
+    // (typed directly, not via this inferrer). Do NOT map key === 'completion':
+    // SDIVF Finish agents store cross-phase artifacts as finish/completion *during*
+    // the run — long before the route finalizes depositOptionSynthesis. Mapping
+    // that store to stream type 'completion' closed the client tail and hydrated
+    // options too early → false "Synthesized options were not found" (95bf1a4b).
+    // Namespace `final` remains the only store-path terminal signal.
+    if (namespace === 'final') {
       return ExecutionStreamEventType.COMPLETION;
     }
 
@@ -216,6 +379,69 @@ export class ExecutionStreamAdapter {
       failsafe: value.failsafe || value.currentFailsafe,
       generation: value.generation || value.currentGeneration,
     };
+  }
+
+  /**
+   * Tool metadata that may ride on a content-withheld stream stub.
+   * Prefer already shape-redacted input/output; otherwise omit payloads.
+   */
+  /** Prefer `tool:ToolName` segment on the execution path / node id. */
+  private static toolNameFromNodeInfo(nodeInfo?: {
+    nodeId?: string;
+    path?: string[];
+  }): string {
+    const segments = [
+      ...(Array.isArray(nodeInfo?.path) ? nodeInfo!.path! : []),
+      typeof nodeInfo?.nodeId === 'string' ? nodeInfo.nodeId : '',
+    ];
+    for (let i = segments.length - 1; i >= 0; i -= 1) {
+      const segment = String(segments[i] || '');
+      const leaf = segment.includes('/')
+        ? segment.split('/').filter(Boolean).pop() || segment
+        : segment;
+      if (leaf.startsWith('tool:') && leaf.length > 5) return leaf.slice(5);
+    }
+    return '';
+  }
+
+  private static extractToolMetadataStub(
+    namespace: string,
+    value: any,
+    nodeInfo?: { nodeId?: string; path?: string[] },
+  ): Record<string, unknown> {
+    if (namespace !== 'tools' && namespace !== 'tool') return {};
+
+    const isShapeOnly = (payload: unknown): payload is Record<string, unknown> => {
+      if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return false;
+      const record = payload as Record<string, unknown>;
+      const keys = Object.keys(record);
+      return (
+        keys.length > 0 &&
+        keys.every((k) => k === 'type' || k === 'keys' || k === 'length' || k === 'itemCount')
+      );
+    };
+
+    const stub: Record<string, unknown> = {};
+    const fromNode = this.toolNameFromNodeInfo(nodeInfo);
+    if (typeof value === 'string' && value.trim() && (namespace === 'tool' || namespace === 'tools')) {
+      // `tool`/`name` stores are plain strings of the constructor name.
+      if (!stub.tool) stub.tool = value.trim();
+    }
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      if (typeof value.tool === 'string') stub.tool = value.tool;
+      if (typeof value.ok === 'boolean') stub.ok = value.ok;
+      if (isShapeOnly(value.input)) stub.input = value.input;
+      if (isShapeOnly(value.output)) stub.output = value.output;
+      if (value.error != null && typeof value.error !== 'object') {
+        stub.error = String(value.error);
+      } else if (value.error && typeof value.error === 'object') {
+        const err = value.error as Record<string, unknown>;
+        stub.error =
+          typeof err.message === 'string' ? { message: err.message } : { message: 'tool error' };
+      }
+    }
+    if (!stub.tool && fromNode) stub.tool = fromNode;
+    return stub;
   }
 
   /**

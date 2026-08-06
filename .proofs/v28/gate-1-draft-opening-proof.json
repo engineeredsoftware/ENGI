@@ -1,0 +1,108 @@
+{
+  "proofId": "v28-gate-1-draft-opening-proof",
+  "version": "V28",
+  "generatedAt": "2026-05-06T00:00:00.000Z",
+  "state": "draft-target-opened",
+  "activeCanonicalPointer": "V27",
+  "draftTargetVersion": "V28",
+  "gate": {
+    "number": 1,
+    "name": "Draft Opening And Promotion Review",
+    "status": "closed-for-draft-opening"
+  },
+  "sourceReads": [
+    "BITCODE_SPEC.txt",
+    "BITCODE_SPEC_V27.md",
+    "BITCODE_SPEC_V27_DELTA.md",
+    "BITCODE_SPEC_V27_NOTES.md",
+    "BITCODE_SPEC_V27_PARITY_MATRIX.md",
+    "BITCODE_SPEC_V27_PROVEN.md",
+    "BITCODE_SPEC_V28_NOTES.md",
+    "protocol-demonstration/src/canon-posture.js",
+    "packages/btd/src",
+    "packages/api/src/routes/btd-crypto.ts",
+    "apps/uapi/app/api/btd",
+    "apps/uapi/app/application",
+    "apps/uapi/app/exchange",
+    "apps/uapi/app/btd/[assetPackId]",
+    ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+    ".docs/BITCODE_FRONTEND_ARCHITECTURE.md",
+    ".docs/BITCODE_AUXILLARIES_READINESS.md",
+    ".docs/BITCODE_EXCHANGE_DATABASE.md"
+  ],
+  "closedCriteria": [
+    "BITCODE_SPEC.txt points to V27 during V28 draft opening.",
+    "protocol-demonstration/src/canon-posture.js declares V27 active canon and V28 draft target.",
+    "protocol-demonstration/data/state.json and HOST_CAPABILITIES.json report V27 active canon and V28 draft target.",
+    "packages/api/src/routes/btd-crypto.ts registry snapshot posture reports V27 active canon and V28 draft target.",
+    "BITCODE_SPEC_V28.md, BITCODE_SPEC_V28_DELTA.md, BITCODE_SPEC_V28_NOTES.md, and BITCODE_SPEC_V28_PARITY_MATRIX.md exist.",
+    "UAPI route scan shows no versioned implementation route family.",
+    "No BITCODE_SPEC_V28_PROVEN.md is claimed during draft opening."
+  ],
+  "scopeRefinement": {
+    "refinedAt": "2026-05-06T00:00:00.000Z",
+    "reason": "Auxillaries QA screenshots showed active commercial routes still mixing old orbital-era shell styles with the newer contained tabs-left approach.",
+    "v28Posture": "commercial-application-MVP-first",
+    "v28Includes": [
+      "commercial application route QA",
+      "Auxillaries active-shell cleanup",
+      "Exchange MVP hardening",
+      "Terminal readiness preparation over V27 crypto primitives"
+    ],
+    "laterVersionDirection": [
+      "V29 deeper Terminal workflows",
+      "V30 deeper Exchange",
+      "V31 deeper Auxillaries",
+      "V32 deeper provation and testing",
+      "V33 deeper Interfaces",
+      "V34 deeper Deployment",
+      "V35 deeper telemetry and documenting"
+    ]
+  },
+  "validation": [
+    {
+      "command": "node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27",
+      "status": "passed"
+    },
+    {
+      "command": "node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28",
+      "status": "passed"
+    },
+    {
+      "command": "pnpm -C packages/api build",
+      "status": "passed"
+    },
+    {
+      "command": "node --test protocol-demonstration/test/canon-posture.test.js protocol-demonstration/test/api.test.js",
+      "status": "passed",
+      "tests": 44
+    },
+    {
+      "command": "jq empty .proofs/v27/*.json .proofs/v28/*.json .proofs/_shared/environment-mode-coherence-proof.json .proofs/v27/promotion-deep-review.json",
+      "status": "passed"
+    },
+    {
+      "command": "find apps/uapi/app/api -path '*v[0-9]*' -print | sort",
+      "status": "passed",
+      "result": "empty"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed"
+    },
+    {
+      "command": "Playwright browser fallback over /, /exchange, and /btd/demo-range-alpha",
+      "status": "passed",
+      "result": "HTTP 200, non-empty body, no framework overlay, no console errors"
+    }
+  ],
+  "nextGates": [
+    "Gate 2: Commercial Application MVP QA Baseline",
+    "Gate 3: Terminal Wallet, BTC Fee, And Read-Fit-Measuremint Workflow",
+    "Gate 4: Terminal AssetPack Range Detail",
+    "Gate 5: Terminal Journal Diff And Reconciliation",
+    "Gate 6: Terminal Organization And Access Policy",
+    "Gate 7: Terminal Operations And Testnet Readiness",
+    "Gate 8: V28 Promotion Proof"
+  ]
+}

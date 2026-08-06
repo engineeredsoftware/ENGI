@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v36-exchange-ux-proof.json';
+const ARTIFACT_PATH = '.proofs/v36/exchange-ux-proof.json';
 const REQUIRED_CAPABILITY_IDS = [
   'market_wide_master_detail',
   'market_filters',
@@ -23,7 +23,7 @@ const REQUIRED_CAPABILITY_IDS = [
 ];
 const REQUIRED_DOC_PHRASES = [
   'market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state',
-  'Terminal can hand off to Exchange without losing transaction context',
+  'product can hand off to Exchange without losing transaction context',
   'collapsed UI gives readable status and expanded UI exposes source-safe detail',
   'Exchange telemetry dashboards remain source-safe and proof-rooted',
 ];
@@ -103,7 +103,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -122,27 +122,27 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/exchange-ux-proof.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v36-exchange-ux-proof.test.js',
+    'scripts/specifying/src/canonical/exchange-ux-proof.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v36-exchange-ux-proof.test.js',
     'scripts/generate-v36-exchange-ux-proof.mjs',
     'scripts/check-v36-gate8-exchange-ux-proof.mjs',
-    'uapi/app/exchange/ExchangePageClient.tsx',
-    'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-    'uapi/app/terminal/TerminalTransactionDetailHero.tsx',
-    'uapi/app/terminal/terminal-routes.ts',
-    'uapi/tests/exchangePageClient.test.tsx',
-    'uapi/tests/exchangeTerminalHandoff.test.ts',
-    'uapi/jest.config.cjs',
-    'BITCODE_SPEC_V36.md',
-    'BITCODE_SPEC_V36_DELTA.md',
-    'BITCODE_SPEC_V36_NOTES.md',
-    'BITCODE_SPEC_V36_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/app/exchange/ExchangePageClient.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionWorkspace.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailHero.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-routes.ts',
+    'apps/uapi/tests/exchangePageClient.test.tsx',
+    'apps/uapi/tests/exchangeTerminalHandoff.test.ts',
+    'apps/uapi/jest.config.cjs',
+    '.specifications/BITCODE_SPEC_V36.md',
+    '.specifications/BITCODE_SPEC_V36_DELTA.md',
+    '.specifications/BITCODE_SPEC_V36_NOTES.md',
+    '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/exchange/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/exchange/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -162,7 +162,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v36-exchange-ux-proof.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v36-exchange-ux-proof.test.js']);
     } catch (error) {
       failures.push(`V36 Exchange UX proof package test failed: ${error.stderr || error.message}`);
     }
@@ -193,7 +193,7 @@ function main() {
     assertCheck(failures, artifact.coverage.pricingQuoteCovered === true, 'Exchange pricing quote review must be covered.');
     assertCheck(failures, artifact.coverage.settlementStateCovered === true, 'Exchange settlement state must be covered.');
     assertCheck(failures, artifact.coverage.repairStateCovered === true, 'Exchange repair state must be covered.');
-    assertCheck(failures, artifact.coverage.terminalHandoffCovered === true, 'Terminal handoff must be covered.');
+    assertCheck(failures, artifact.coverage.terminalHandoffCovered === true, 'product handoff must be covered.');
     assertCheck(failures, artifact.coverage.collapsedStatusExpandedDetailCovered === true, 'Collapsed status and expanded detail must be covered.');
     assertCheck(failures, artifact.coverage.telemetryDashboardBindingCovered === true, 'Telemetry dashboard binding must be covered.');
     assertCheck(failures, artifact.coverage.routeContextPreserved === true, 'Route context must be preserved.');
@@ -213,28 +213,28 @@ function main() {
   }
 
   const docs = [
-    read(root, 'BITCODE_SPEC_V36.md'),
-    read(root, 'BITCODE_SPEC_V36_DELTA.md'),
-    read(root, 'BITCODE_SPEC_V36_NOTES.md'),
-    read(root, 'BITCODE_SPEC_V36_PARITY_MATRIX.md'),
+    read(root, '.specifications/BITCODE_SPEC_V36.md'),
+    read(root, '.specifications/BITCODE_SPEC_V36_DELTA.md'),
+    read(root, '.specifications/BITCODE_SPEC_V36_NOTES.md'),
+    read(root, '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md'),
   ];
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const exchangeReadme = read(root, 'uapi/app/exchange/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const exchangeReadme = read(root, 'apps/uapi/app/exchange/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const source = read(root, 'packages/protocol/src/canonical/exchange-ux-proof.js');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
-  const packageTest = read(root, 'packages/protocol/test/v36-exchange-ux-proof.test.js');
-  const exchangePage = read(root, 'uapi/app/exchange/ExchangePageClient.tsx');
-  const terminalRoutes = read(root, 'uapi/app/terminal/terminal-routes.ts');
-  const detailHero = read(root, 'uapi/app/terminal/TerminalTransactionDetailHero.tsx');
-  const handoffTest = read(root, 'uapi/tests/exchangeTerminalHandoff.test.ts');
-  const exchangePageTest = read(root, 'uapi/tests/exchangePageClient.test.tsx');
-  const uapiJestConfig = read(root, 'uapi/jest.config.cjs');
+  const source = read(root, 'scripts/specifying/src/canonical/exchange-ux-proof.js');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
+  const packageTest = read(root, 'scripts/specifying/test/v36-exchange-ux-proof.test.js');
+  const exchangePage = read(root, 'apps/uapi/app/exchange/ExchangePageClient.tsx');
+  const terminalRoutes = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-routes.ts');
+  const detailHero = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailHero.tsx');
+  const handoffTest = read(root, 'apps/uapi/tests/exchangeTerminalHandoff.test.ts');
+  const exchangePageTest = read(root, 'apps/uapi/tests/exchangePageClient.test.tsx');
+  const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
 
   for (const doc of docs) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V36 docs must mention ${ARTIFACT_PATH}.`);
@@ -253,7 +253,7 @@ function main() {
     }
   }
 
-  assertCheck(failures, docs[3].includes('| Exchange UX and Terminal integration | Gate 8 |') && docs[3].includes('| closed |'), 'V36 parity must close the Gate 8 matrix row.');
+  assertCheck(failures, docs[3].includes('| Exchange UX and product integration | Gate 8 |') && docs[3].includes('| closed |'), 'V36 parity must close the Gate 8 matrix row.');
   assertCheck(failures, docs[3].includes('## Gate 8 Parity') && docs[3].includes('closed'), 'V36 parity must mark Gate 8 closed.');
   assertCheck(
     failures,
@@ -262,15 +262,15 @@ function main() {
   );
   assertCheck(failures, roadmap.includes('V36 Gate 8 closure anchor'), 'Roadmap must include V36 Gate 8 closure anchor.');
   assertCheck(failures, source.includes('EXCHANGE_UX_PROOF_SOURCE_SAFETY_VERDICT'), 'Exchange UX source must export source-safety verdict.');
-  assertCheck(failures, source.includes('terminal_context_handoff'), 'Exchange UX source must cover Terminal handoff.');
+  assertCheck(failures, source.includes('terminal_context_handoff'), 'Exchange UX source must cover product handoff.');
   assertCheck(failures, index.includes("from './canonical/exchange-ux-proof.js'"), 'Protocol index must export Exchange UX source.');
   assertCheck(failures, typeDefs.includes('EXCHANGE_UX_PROOF_ARTIFACT_PATH'), 'Protocol type definitions must export Exchange UX artifact path.');
   assertCheck(failures, typeDefs.includes('buildExchangeUxProof'), 'Protocol type definitions must export Exchange UX builder.');
   assertCheck(failures, packageTest.includes('buildExchangeUxProof'), 'Gate 8 package test must exercise Exchange UX builder.');
   assertCheck(failures, exchangePage.includes('Read market activity, select an order, and inspect Exchange state'), 'Exchange route must expose the Gate 8 heading.');
   assertCheck(failures, exchangePage.includes('market filters') && exchangePage.includes('proof-rooted state'), 'Exchange hero must expose filters and proof-rooted state.');
-  assertCheck(failures, terminalRoutes.includes('EXCHANGE_ROUTE') && terminalRoutes.includes('buildExchangeHref'), 'Terminal routes must build Exchange handoff hrefs.');
-  assertCheck(failures, detailHero.includes('Open in Exchange') && detailHero.includes('Return to Terminal'), 'Detail hero must expose Exchange and Terminal handoff links.');
+  assertCheck(failures, terminalRoutes.includes('EXCHANGE_ROUTE') && terminalRoutes.includes('buildExchangeHref'), 'product routes must build Exchange handoff hrefs.');
+  assertCheck(failures, detailHero.includes('Open in Exchange') && detailHero.includes('Return to product'), 'Detail hero must expose Exchange and product handoff links.');
   assertCheck(failures, handoffTest.includes('buildExchangeHref') && handoffTest.includes('transactionDetail=proofs'), 'Handoff test must prove route context preservation.');
   assertCheck(failures, exchangePageTest.includes('market filters') && exchangePageTest.includes('proof-rooted state'), 'Exchange page test must cover Gate 8 header fields.');
   assertCheck(failures, uapiJestConfig.includes('exchangeTerminalHandoff.test.ts'), 'UAPI Jest config must include the Exchange handoff test.');

@@ -1,0 +1,772 @@
+{
+  "artifactId": "v46-interface-claim-contracts",
+  "schemaId": "bitcode.v46.interfaceClaimContracts.v1",
+  "version": "V46",
+  "currentTarget": "V45",
+  "sourceSafetyVerdict": "source-safe-interface-claim-contracts",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v46-interface-claim-contracts:e336eab9588d13d70bf55365",
+  "sourceRoots": {
+    "BITCODE_SPEC.txt": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "BITCODE_SPEC_V46.md": "BITCODE_SPEC_V46.md:48121ff59f812f15a1b3b1f7",
+    "BITCODE_SPEC_V46_DELTA.md": "BITCODE_SPEC_V46_DELTA.md:a16a16db40d4eeae612a0657",
+    "BITCODE_SPEC_V46_NOTES.md": "BITCODE_SPEC_V46_NOTES.md:cca70aca3566132e7026351c",
+    "BITCODE_SPEC_V46_PARITY_MATRIX.md": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
+    "SPECIFICATIONS_ROADMAP.md": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
+    "README.md": "README.md:d28ec731634e03953d8adfe6",
+    "scripts/specifying/README.md": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
+    "package.json": "package.json:b79014968c556bc1b43ab341",
+    "scripts/specifying/src/index.js": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "scripts/specifying/src/index.d.ts": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "scripts/specifying/src/canonical/v46-interface-claim-contracts.js": "scripts/specifying/src/canonical/v46-interface-claim-contracts.js:a7354af8be68328240207032",
+    "scripts/specifying/test/v46-interface-claim-contracts.test.js": "scripts/specifying/test/v46-interface-claim-contracts.test.js:f1dcb481edcbadee07f42127",
+    "scripts/generate-v46-interface-claim-contracts.mjs": "scripts/generate-v46-interface-claim-contracts.mjs:c6faeaf341acbb26e4e51179",
+    "scripts/check-v46-gate5-interface-claim-contracts.mjs": "scripts/check-v46-gate5-interface-claim-contracts.mjs:b6be899067bc320750689824",
+    ".github/workflows/bitcode-gate-quality.yml": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
+    ".github/workflows/bitcode-canon-quality.yml": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
+    "packages/btd/src/api-schema-compatibility-matrix.ts": "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
+    "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts": "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts:32fa0cfd7301dc44808b3eac",
+    "packages/btd/src/mcp-tool-contract.ts": "packages/btd/src/mcp-tool-contract.ts:ed7ff68bb55bd47afc9c538b",
+    "packages/btd/__tests__/mcp-tool-contract.test.ts": "packages/btd/__tests__/mcp-tool-contract.test.ts:27ef7ecf25bdbcb8420466d8",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts:e7774381dacf20d639cba3bf",
+    "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md": "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea",
+    "packages/btd/src/chatgpt-app-action-contract.ts": "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
+    "packages/btd/__tests__/chatgpt-app-action-contract.test.ts": "packages/btd/__tests__/chatgpt-app-action-contract.test.ts:0106718de811ad1250860b07",
+    "apps/chatgpt/src/tools.ts": "apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
+    "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c",
+    "packages/api/src/routes/conversations.ts": "packages/api/src/routes/conversations.ts:5e58470bbe10ab4eb0e1f54a",
+    "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
+    "apps/uapi/tests/conversationTerminalHandoff.test.tsx": "apps/uapi/tests/conversationTerminalHandoff.test.tsx:f86ac4ab726148a1a0fdcdc5",
+    "apps/uapi/tests/conversationStreamPipelineLog.test.tsx": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx:73e3ba9c6f058ffe4418b3e4",
+    "apps/uapi/app/conversations/conversation-session-route-history.ts": "apps/uapi/app/conversations/conversation-session-route-history.ts:d3d12ff13b464135f08599fc",
+    "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js": "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
+  },
+  "surfaceIds": [
+    "public_api",
+    "mcp_api",
+    "chatgpt_app",
+    "bitcode_chat",
+    "package_consumer"
+  ],
+  "capabilityIds": [
+    "source-safe-schema-compatibility",
+    "tool-registry-contract",
+    "action-registry-contract",
+    "terminal-delegated-handoff",
+    "proof-root-projection",
+    "denied-state-repair",
+    "no-parallel-state-authority",
+    "source-safe-response-rendering",
+    "protected-source-lock",
+    "versionless-interface-paths"
+  ],
+  "interfaceRows": [
+    {
+      "surfaceId": "public_api",
+      "surfaceLabel": "API",
+      "surfaceRole": "versionless machine interface for schema-compatible source-safe requests, responses, and proof roots",
+      "sourcePaths": [
+        "packages/btd/src/api-schema-compatibility-matrix.ts",
+        "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts"
+      ],
+      "claimIds": [
+        "operator-evidence-is-source-safe-readback",
+        "preview-is-source-safe-measurement",
+        "quote-is-source-safe-offer",
+        "finality-authorizes-rights-and-delivery",
+        "repair-fails-closed",
+        "telemetry-is-observability-only"
+      ],
+      "claimCategoryIds": [
+        "product-guidance",
+        "operator-evidence",
+        "preview-claim",
+        "quote-claim",
+        "rights-claim",
+        "repair-claim",
+        "telemetry-observability"
+      ],
+      "authorityIds": [
+        "canonical-specification",
+        "generated-proof",
+        "database-projection",
+        "interface-guidance-only"
+      ],
+      "capabilityIds": [
+        "source-safe-schema-compatibility",
+        "proof-root-projection",
+        "denied-state-repair",
+        "no-parallel-state-authority",
+        "protected-source-lock",
+        "versionless-interface-paths"
+      ],
+      "requiredCopyTokens": [
+        "BTD_API_SCHEMA_COMPATIBILITY_CONSUMER_SURFACES",
+        "'public_api'",
+        "versionlessPathDiscipline: 'enforced'",
+        "protectedSourceSerialized: false",
+        "missing consumer surfaces",
+        "missing example postures"
+      ],
+      "readbackRoots": [
+        "matrixRoot",
+        "requestExampleRoot",
+        "responseExampleRoot"
+      ],
+      "deniedStateRoots": [
+        "breaking_change_denied",
+        "blocked_until_rights",
+        "stale_rejected",
+        "deferred_not_admitted"
+      ],
+      "operatorReading": "API contracts expose source-safe schema compatibility and proof-root examples; they do not become ledger or delivery authority.",
+      "noParallelStateAuthority": true,
+      "stateAdvanceRequiresProof": true,
+      "interfaceGuidanceOnly": true,
+      "sourceSafeMetadataOnly": true,
+      "proofRootProjectionRequired": true,
+      "deniedStateRepairRequired": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "sourceSafeFieldIds": [
+        "objectId",
+        "claimId",
+        "claimCategoryId",
+        "authorityId",
+        "surfaceId",
+        "stateId",
+        "measurementRoot",
+        "proofRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "storageRoot",
+        "walletReceiptRoot",
+        "repositoryReceiptRoot",
+        "telemetryRoot",
+        "repairCaseId"
+      ],
+      "privatePayloadIdsNeverSerialized": [
+        "protected-source-payloads",
+        "unpaid-assetpack-source",
+        "source-snippets",
+        "raw-prompts",
+        "interpolated-prompts",
+        "raw-provider-responses",
+        "credentials",
+        "wallet-private-material",
+        "private-settlement-payloads",
+        "private-read-context",
+        "value-bearing-mainnet-admission"
+      ],
+      "rowRoot": "v46-interface-claim-contract-row:04de9055c46a7d20a0848fc4",
+      "sourceRoots": [
+        "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
+        "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts:32fa0cfd7301dc44808b3eac"
+      ],
+      "sourceFilesPresent": true,
+      "requiredCopyPresent": true
+    },
+    {
+      "surfaceId": "mcp_api",
+      "surfaceLabel": "MCP",
+      "surfaceRole": "tool-call interface for source-safe AssetPack pipeline ingress under API-key, permission, provider-binding, and schema policy",
+      "sourcePaths": [
+        "packages/btd/src/mcp-tool-contract.ts",
+        "packages/btd/__tests__/mcp-tool-contract.test.ts",
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+        "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md"
+      ],
+      "claimIds": [
+        "assetpack-is-commodity",
+        "operator-evidence-is-source-safe-readback",
+        "preview-is-source-safe-measurement",
+        "finality-authorizes-rights-and-delivery",
+        "repair-fails-closed",
+        "telemetry-is-observability-only"
+      ],
+      "claimCategoryIds": [
+        "protocol-law",
+        "product-guidance",
+        "operator-evidence",
+        "preview-claim",
+        "rights-claim",
+        "repair-claim",
+        "telemetry-observability"
+      ],
+      "authorityIds": [
+        "canonical-specification",
+        "generated-proof",
+        "telemetry-observability-only",
+        "interface-guidance-only"
+      ],
+      "capabilityIds": [
+        "tool-registry-contract",
+        "source-safe-schema-compatibility",
+        "proof-root-projection",
+        "denied-state-repair",
+        "no-parallel-state-authority",
+        "protected-source-lock"
+      ],
+      "requiredCopyTokens": [
+        "bitcode://pipelines/asset-pack/create",
+        "interface.authorization.pipeline-permission",
+        "pipelines.create",
+        "protected-source-locked",
+        "writeAdmission",
+        "PROVIDER_BINDING_REQUIRED",
+        "ReadingInterfaceProductParity",
+        "mcp_api"
+      ],
+      "readbackRoots": [
+        "contractRoot",
+        "requestRoot",
+        "responseRoot",
+        "writeAdmission"
+      ],
+      "deniedStateRoots": [
+        "MISSING_API_KEY",
+        "INSUFFICIENT_PERMISSIONS",
+        "PROVIDER_BINDING_REQUIRED",
+        "SCHEMA_VALIDATION_FAILED",
+        "RATE_LIMITED",
+        "UNKNOWN_TOOL"
+      ],
+      "operatorReading": "MCP may queue source-safe pipeline work through a package-owned tool contract, but settlement, rights, and delivery remain proof-gated.",
+      "noParallelStateAuthority": true,
+      "stateAdvanceRequiresProof": true,
+      "interfaceGuidanceOnly": true,
+      "sourceSafeMetadataOnly": true,
+      "proofRootProjectionRequired": true,
+      "deniedStateRepairRequired": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "sourceSafeFieldIds": [
+        "objectId",
+        "claimId",
+        "claimCategoryId",
+        "authorityId",
+        "surfaceId",
+        "stateId",
+        "measurementRoot",
+        "proofRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "storageRoot",
+        "walletReceiptRoot",
+        "repositoryReceiptRoot",
+        "telemetryRoot",
+        "repairCaseId"
+      ],
+      "privatePayloadIdsNeverSerialized": [
+        "protected-source-payloads",
+        "unpaid-assetpack-source",
+        "source-snippets",
+        "raw-prompts",
+        "interpolated-prompts",
+        "raw-provider-responses",
+        "credentials",
+        "wallet-private-material",
+        "private-settlement-payloads",
+        "private-read-context",
+        "value-bearing-mainnet-admission"
+      ],
+      "rowRoot": "v46-interface-claim-contract-row:32c52a8dc5fa33bf06748736",
+      "sourceRoots": [
+        "packages/btd/src/mcp-tool-contract.ts:ed7ff68bb55bd47afc9c538b",
+        "packages/btd/__tests__/mcp-tool-contract.test.ts:27ef7ecf25bdbcb8420466d8",
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts:e7774381dacf20d639cba3bf",
+        "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea"
+      ],
+      "sourceFilesPresent": true,
+      "requiredCopyPresent": true
+    },
+    {
+      "surfaceId": "chatgpt_app",
+      "surfaceLabel": "ChatGPT App",
+      "surfaceRole": "conversational action surface for the Reading sequence with source-safe renderers, denied-state repairs, and explicit write admission",
+      "sourcePaths": [
+        "packages/btd/src/chatgpt-app-action-contract.ts",
+        "packages/btd/__tests__/chatgpt-app-action-contract.test.ts",
+        "apps/chatgpt/src/tools.ts",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
+      ],
+      "claimIds": [
+        "btd-is-weighted-scalar-volume-and-settled-rights",
+        "preview-is-source-safe-measurement",
+        "quote-is-source-safe-offer",
+        "payment-observation-is-not-finality",
+        "finality-authorizes-rights-and-delivery",
+        "delivery-is-entitled-source-unlock",
+        "repair-fails-closed"
+      ],
+      "claimCategoryIds": [
+        "protocol-law",
+        "product-guidance",
+        "preview-claim",
+        "quote-claim",
+        "settlement-claim",
+        "rights-claim",
+        "delivery-claim",
+        "repair-claim"
+      ],
+      "authorityIds": [
+        "canonical-specification",
+        "generated-proof",
+        "wallet-provider-receipt",
+        "repository-delivery-receipt",
+        "interface-guidance-only"
+      ],
+      "capabilityIds": [
+        "action-registry-contract",
+        "source-safe-response-rendering",
+        "proof-root-projection",
+        "denied-state-repair",
+        "no-parallel-state-authority",
+        "protected-source-lock"
+      ],
+      "requiredCopyTokens": [
+        "BTD_CHATGPT_APP_ACTION_CONTRACT_IDS",
+        "bitcode_request_read",
+        "bitcode_deliver_asset_pack",
+        "chatgpt.sourceSafeRenderer",
+        "writeAdmission",
+        "Settlement finality is required",
+        "Bitcode ChatGPT App write admission requires confirmed: true",
+        "settle before delivery"
+      ],
+      "readbackRoots": [
+        "contractRoot",
+        "requestRoot",
+        "responseRoot",
+        "sourceSafeRendererId",
+        "writeAdmission"
+      ],
+      "deniedStateRoots": [
+        "READ_NEED_REQUIRED",
+        "FINDING_FITS_REQUIRED",
+        "SETTLEMENT_REQUIRED",
+        "READ_LICENSE_REQUIRED",
+        "CONFIRMATION_REQUIRED"
+      ],
+      "operatorReading": "ChatGPT App actions guide the Reading sequence and render source-safe proof roots; they cannot expose locked AssetPack contents before settlement and rights transfer.",
+      "noParallelStateAuthority": true,
+      "stateAdvanceRequiresProof": true,
+      "interfaceGuidanceOnly": true,
+      "sourceSafeMetadataOnly": true,
+      "proofRootProjectionRequired": true,
+      "deniedStateRepairRequired": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "sourceSafeFieldIds": [
+        "objectId",
+        "claimId",
+        "claimCategoryId",
+        "authorityId",
+        "surfaceId",
+        "stateId",
+        "measurementRoot",
+        "proofRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "storageRoot",
+        "walletReceiptRoot",
+        "repositoryReceiptRoot",
+        "telemetryRoot",
+        "repairCaseId"
+      ],
+      "privatePayloadIdsNeverSerialized": [
+        "protected-source-payloads",
+        "unpaid-assetpack-source",
+        "source-snippets",
+        "raw-prompts",
+        "interpolated-prompts",
+        "raw-provider-responses",
+        "credentials",
+        "wallet-private-material",
+        "private-settlement-payloads",
+        "private-read-context",
+        "value-bearing-mainnet-admission"
+      ],
+      "rowRoot": "v46-interface-claim-contract-row:ff52e9d39e6d0f14909df759",
+      "sourceRoots": [
+        "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
+        "packages/btd/__tests__/chatgpt-app-action-contract.test.ts:0106718de811ad1250860b07",
+        "apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c"
+      ],
+      "sourceFilesPresent": true,
+      "requiredCopyPresent": true
+    },
+    {
+      "surfaceId": "bitcode_chat",
+      "surfaceLabel": "Bitcode Chat",
+      "surfaceRole": "website conversation overlay for workflow assistance, stream readback, and Terminal-delegated Reading handoff",
+      "sourcePaths": [
+        "packages/api/src/routes/conversations.ts",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "apps/uapi/app/conversations/conversation-session-route-history.ts"
+      ],
+      "claimIds": [
+        "operator-evidence-is-source-safe-readback",
+        "preview-is-source-safe-measurement",
+        "finality-authorizes-rights-and-delivery",
+        "delivery-is-entitled-source-unlock",
+        "repair-fails-closed",
+        "telemetry-is-observability-only"
+      ],
+      "claimCategoryIds": [
+        "product-guidance",
+        "operator-evidence",
+        "preview-claim",
+        "settlement-claim",
+        "rights-claim",
+        "delivery-claim",
+        "repair-claim",
+        "telemetry-observability"
+      ],
+      "authorityIds": [
+        "canonical-specification",
+        "generated-proof",
+        "telemetry-observability-only",
+        "interface-guidance-only"
+      ],
+      "capabilityIds": [
+        "terminal-delegated-handoff",
+        "source-safe-response-rendering",
+        "proof-root-projection",
+        "denied-state-repair",
+        "no-parallel-state-authority",
+        "protected-source-lock"
+      ],
+      "requiredCopyTokens": [
+        "Conversation Reading interface parity",
+        "terminal-delegated-handoff",
+        "conversation.terminal-reading-handoff",
+        "source_bearing_delivery_locked_until_settlement_and_rights",
+        "Conversation stream proof roots anchored",
+        "source_safe_conversation_stream_event_metadata",
+        "source_safe_conversation_session_metadata",
+        "Conversation write failed closed."
+      ],
+      "readbackRoots": [
+        "proofRoot",
+        "conversationStreamEvent",
+        "persistencePrivacyProofRoot",
+        "terminalRoute"
+      ],
+      "deniedStateRoots": [
+        "acceptedNeedGate",
+        "deliveryBoundary",
+        "Conversation write failed closed"
+      ],
+      "operatorReading": "Bitcode Chat is a source-safe conversation and handoff surface; Terminal/product routes and proof-backed receipts remain state authority.",
+      "noParallelStateAuthority": true,
+      "stateAdvanceRequiresProof": true,
+      "interfaceGuidanceOnly": true,
+      "sourceSafeMetadataOnly": true,
+      "proofRootProjectionRequired": true,
+      "deniedStateRepairRequired": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "sourceSafeFieldIds": [
+        "objectId",
+        "claimId",
+        "claimCategoryId",
+        "authorityId",
+        "surfaceId",
+        "stateId",
+        "measurementRoot",
+        "proofRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "storageRoot",
+        "walletReceiptRoot",
+        "repositoryReceiptRoot",
+        "telemetryRoot",
+        "repairCaseId"
+      ],
+      "privatePayloadIdsNeverSerialized": [
+        "protected-source-payloads",
+        "unpaid-assetpack-source",
+        "source-snippets",
+        "raw-prompts",
+        "interpolated-prompts",
+        "raw-provider-responses",
+        "credentials",
+        "wallet-private-material",
+        "private-settlement-payloads",
+        "private-read-context",
+        "value-bearing-mainnet-admission"
+      ],
+      "rowRoot": "v46-interface-claim-contract-row:45b3bb631d111fb108ebd15d",
+      "sourceRoots": [
+        "packages/api/src/routes/conversations.ts:5e58470bbe10ab4eb0e1f54a",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx:f86ac4ab726148a1a0fdcdc5",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx:73e3ba9c6f058ffe4418b3e4",
+        "apps/uapi/app/conversations/conversation-session-route-history.ts:d3d12ff13b464135f08599fc"
+      ],
+      "sourceFilesPresent": true,
+      "requiredCopyPresent": true
+    },
+    {
+      "surfaceId": "package_consumer",
+      "surfaceLabel": "Package Consumer",
+      "surfaceRole": "package-level contract readback for consumers that need stable source-safe semantics without operational authority",
+      "sourcePaths": [
+        "packages/btd/src/api-schema-compatibility-matrix.ts",
+        "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts",
+        "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js"
+      ],
+      "claimIds": [
+        "assetpack-is-commodity",
+        "btd-is-weighted-scalar-volume-and-settled-rights",
+        "operator-evidence-is-source-safe-readback",
+        "repair-fails-closed",
+        "telemetry-is-observability-only"
+      ],
+      "claimCategoryIds": [
+        "protocol-law",
+        "operator-evidence",
+        "product-guidance",
+        "repair-claim",
+        "telemetry-observability"
+      ],
+      "authorityIds": [
+        "canonical-specification",
+        "generated-proof",
+        "interface-guidance-only"
+      ],
+      "capabilityIds": [
+        "source-safe-schema-compatibility",
+        "proof-root-projection",
+        "denied-state-repair",
+        "no-parallel-state-authority",
+        "protected-source-lock",
+        "versionless-interface-paths"
+      ],
+      "requiredCopyTokens": [
+        "'package_consumer'",
+        "package-consumer-exchange-hook-deferred",
+        "deferred_not_admitted",
+        "packageConsumersReadContractsOnly",
+        "parallelAuthorityCreated: false",
+        "sameAuthorityAsTerminal: true"
+      ],
+      "readbackRoots": [
+        "matrixRoot",
+        "rowRoot",
+        "registryRoot"
+      ],
+      "deniedStateRoots": [
+        "deferred_not_admitted",
+        "packageConsumersReadContractsOnly"
+      ],
+      "operatorReading": "Package consumers can inspect source-safe contracts and compatibility posture, but they cannot bypass website, API, settlement, rights, or delivery authority.",
+      "noParallelStateAuthority": true,
+      "stateAdvanceRequiresProof": true,
+      "interfaceGuidanceOnly": true,
+      "sourceSafeMetadataOnly": true,
+      "proofRootProjectionRequired": true,
+      "deniedStateRepairRequired": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "sourceSafeFieldIds": [
+        "objectId",
+        "claimId",
+        "claimCategoryId",
+        "authorityId",
+        "surfaceId",
+        "stateId",
+        "measurementRoot",
+        "proofRoot",
+        "ledgerRoot",
+        "databaseProjectionRoot",
+        "storageRoot",
+        "walletReceiptRoot",
+        "repositoryReceiptRoot",
+        "telemetryRoot",
+        "repairCaseId"
+      ],
+      "privatePayloadIdsNeverSerialized": [
+        "protected-source-payloads",
+        "unpaid-assetpack-source",
+        "source-snippets",
+        "raw-prompts",
+        "interpolated-prompts",
+        "raw-provider-responses",
+        "credentials",
+        "wallet-private-material",
+        "private-settlement-payloads",
+        "private-read-context",
+        "value-bearing-mainnet-admission"
+      ],
+      "rowRoot": "v46-interface-claim-contract-row:56c8d385b5a71e1de7a0b186",
+      "sourceRoots": [
+        "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
+        "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts:32fa0cfd7301dc44808b3eac",
+        "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
+      ],
+      "sourceFilesPresent": true,
+      "requiredCopyPresent": true
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "active-pointer-supports-v46-draft-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate5-law",
+      "sourcePath": "BITCODE_SPEC_V46.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate5",
+      "sourcePath": "BITCODE_SPEC_V46_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate5",
+      "sourcePath": "BITCODE_SPEC_V46_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate5",
+      "sourcePath": "BITCODE_SPEC_V46_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate5-closure",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-document-gate5",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "package-source-defines-surfaces",
+      "sourcePath": "scripts/specifying/src/canonical/v46-interface-claim-contracts.js",
+      "passed": true
+    },
+    {
+      "id": "package-source-defines-capabilities",
+      "sourcePath": "scripts/specifying/src/canonical/v46-interface-claim-contracts.js",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate5",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-test-covers-gate5",
+      "sourcePath": "scripts/specifying/test/v46-interface-claim-contracts.test.js",
+      "passed": true
+    },
+    {
+      "id": "generator-and-checker-exist",
+      "sourcePath": "scripts/generate-v46-interface-claim-contracts.mjs",
+      "passed": true
+    },
+    {
+      "id": "package-json-scripts",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate5",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "btd-api-schema-binds-surfaces",
+      "sourcePath": "packages/btd/src/api-schema-compatibility-matrix.ts",
+      "passed": true
+    },
+    {
+      "id": "mcp-contract-binds-tool",
+      "sourcePath": "packages/btd/src/mcp-tool-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "chatgpt-contract-binds-actions",
+      "sourcePath": "packages/btd/src/chatgpt-app-action-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "conversation-binds-terminal-handoff",
+      "sourcePath": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "predicateCount": 18,
+    "failedPredicateIds": [],
+    "allSurfacesCovered": true,
+    "allClaimIdsKnown": true,
+    "allCategoryIdsKnown": true,
+    "allAuthorityIdsKnown": true,
+    "requiredCapabilitiesCovered": true,
+    "sourceFilesPresent": true,
+    "rowsMissingSourceFiles": [],
+    "rowsMissingRequiredCopy": [],
+    "allRowsRequireProofRootProjection": true,
+    "allRowsRequireDeniedStateRepair": true,
+    "noParallelStateAuthority": true,
+    "stateAdvanceRequiresProof": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetAdmitted": false,
+    "forbiddenPhraseHits": [],
+    "secretMarkerHits": []
+  },
+  "passed": true
+}

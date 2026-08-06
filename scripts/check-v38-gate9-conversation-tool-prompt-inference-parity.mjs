@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-conversation-tool-prompt-inference-parity.json';
+const ARTIFACT_PATH = '.proofs/v38/conversation-tool-prompt-inference-parity.json';
 
 const REQUIRED_ROW_IDS = [
   'conversation:ptrr-variations',
@@ -110,7 +110,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -129,33 +129,33 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-inference-surface-inventory.json',
-    '.bitcode/v38-prompt-benchmark-report.json',
-    '.bitcode/v38-disclosure-boundary-report.json',
-    'packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js',
-    'packages/protocol/test/v38-conversation-tool-prompt-inference-parity.test.js',
+    '.proofs/v38/inference-surface-inventory.json',
+    '.proofs/v38/prompt-benchmark-report.json',
+    '.proofs/v38/disclosure-boundary-report.json',
+    'scripts/specifying/src/canonical/conversation-tool-prompt-inference-parity.js',
+    'scripts/specifying/test/v38-conversation-tool-prompt-inference-parity.test.js',
     'scripts/generate-v38-conversation-tool-prompt-inference-parity.mjs',
     'scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs',
-    'packages/conversations-generics/src/agent/ConversationAgent.ts',
+    'packages/conversations/src/agent/ConversationAgent.ts',
     'packages/api/src/conversations/stream-events.ts',
     'packages/api/src/conversations/telemetry.ts',
     'packages/api/src/conversations/__tests__/stream-events.test.ts',
     'packages/api/src/conversations/__tests__/telemetry.test.ts',
-    'uapi/tests/conversationStreamPipelineLog.test.tsx',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+    'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
     'packages/tools-generics/src/execution/ToolPromptRegistry.ts',
-    'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
-    'packages/chatgptapp/src/tools.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
+    'apps/chatgpt/src/tools.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    '.specifications/BITCODE_SPEC_V38.md',
+    '.specifications/BITCODE_SPEC_V38_DELTA.md',
+    '.specifications/BITCODE_SPEC_V38_NOTES.md',
+    '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -180,7 +180,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v38-conversation-tool-prompt-inference-parity.test.js',
+        'scripts/specifying/test/v38-conversation-tool-prompt-inference-parity.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 Conversation/tool prompt parity protocol test failed: ${error.stderr || error.message}`);
@@ -204,7 +204,7 @@ function main() {
       ]);
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -269,18 +269,18 @@ function main() {
     assertCheck(failures, artifact.coverage.legacySourceRoots === false, 'Gate 9 artifact must not point at _legacy roots.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38ConversationToolPromptInferenceParity'), 'V38 spec must name the Gate 9 report.');
   assertCheck(failures, delta.includes('source-safe-conversation-tool-prompt-inference-parity-metadata'), 'V38 delta must include Gate 9 source-safety verdict.');

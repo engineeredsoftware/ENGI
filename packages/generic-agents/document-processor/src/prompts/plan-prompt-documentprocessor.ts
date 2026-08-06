@@ -1,7 +1,8 @@
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_purpose_corestatement';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_capabilities_list';
+import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PLAN_PHASE_HEADER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_plan_phase_header';
+import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PLAN_STRATEGY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_plan_strategy_detailcontent';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
@@ -35,10 +36,10 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  */
 
 export const DOCUMENT_PROCESSOR_PLAN_PROMPT = new Prompt()
-  .set('phase', createPromptPart('PLAN: Document Processing Strategy'))
+  .set('phase', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PLAN_PHASE_HEADER)
   .set('purpose', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PURPOSE_CORESTATEMENT)
   .set('capabilities', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_CAPABILITIES_LIST)
-  .set('strategy', createPromptPart('Analyze document structure and format, determine processing methodology, establish content extraction priorities, and define output formats for comprehensive document analysis.'))
+  .set('strategy', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PLAN_STRATEGY_DETAILCONTENT)
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:reason', PROMPTPART_GENERIC_AGENT_GENERATION_REASON)

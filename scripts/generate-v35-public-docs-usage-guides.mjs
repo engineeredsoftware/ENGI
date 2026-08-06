@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   PUBLIC_DOCS_USAGE_GUIDE_CATALOG_ARTIFACT_PATH,
   buildPublicDocsUsageGuideCatalog,
-} from '../packages/protocol/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

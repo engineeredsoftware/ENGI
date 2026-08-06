@@ -1,0 +1,108 @@
+/**
+ * Commercial MVP conversations + docs experiences for V48.
+ * Product routes are /reads, /exchange, /deposits — docs still teach product map
+ * language for historical operator orientation, but CTAs land on /exchange or /reads.
+ */
+import { expect, test } from '@playwright/test';
+
+import {
+  expectCommercialRouteReady,
+  installCommercialMvpApiMocks,
+  installCommercialBrowserErrorTrap,
+  openCommercialRoute,
+} from './commercial-mvp.helpers';
+
+test.describe('commercial MVP conversations and docs experiences', () => {
+  test.beforeEach(async ({ page }) => {
+    await installCommercialMvpApiMocks(page);
+  });
+
+  test('Conversations route opens fullscreen writing mode and submits a message', async ({
+    page,
+  }, testInfo) => {
+    const trap = installCommercialBrowserErrorTrap(page, testInfo);
+
+    await openCommercialRoute(
+      page,
+      '/conversations',
+      /Keep the Bitcode write path as a first-class product interface mode/i,
+    );
+
+    await expect(page.getByRole('button', { name: /Add split pane/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Toggle pipeline log location/i })).toBeVisible();
+    const exitFullscreen = page.locator('button[aria-label="Exit fullscreen"]');
+    await expect(exitFullscreen).toBeVisible();
+
+    await page.getByRole('button', { name: /Add split pane/i }).click();
+    await expect(page.locator('textarea.rich-text-input')).toHaveCount(2);
+
+    const input = page.locator('textarea.rich-text-input').last();
+    await expect(input).toBeVisible();
+    await input.fill('Summarize the selected Read and keep the result Packs-readable.');
+    await input.press('Enter');
+
+    await expect(page.getByText(/Summarize the selected Read/i).first()).toBeVisible();
+    await expect(page.getByText(/Bitcode mock mode received/i).first()).toBeVisible();
+    await expect(page.getByText('2 messages').first()).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Close split' })).toHaveCount(2);
+
+    // Exit fullscreen returns to a product surface (packs).
+    await exitFullscreen.click();
+    await expect(page).toHaveURL(/\/(packs|conversations|reads|deposits)/);
+
+    await trap.assertClean();
+  });
+
+  test('Docs home teaches user order and routes into the action manual', async ({
+    page,
+  }, testInfo) => {
+    const trap = installCommercialBrowserErrorTrap(page, testInfo);
+
+    await openCommercialRoute(page, '/docs', /Learn Bitcode from AssetPacks to proof/i);
+
+    await expect(page.getByText(/Start with AssetPacks/i)).toBeVisible();
+    await expect(
+      page.getByText(
+        'Then learn /deposits, /reads, and /exchange before opening value-bearing controls.',
+      ),
+    ).toBeVisible();
+    await expect(page.getByText(/Action manual/i)).toBeVisible();
+
+    await page.getByRole('link', { name: /Action manual/i }).click();
+    await expect(page).toHaveURL(/\/docs\/product-actions$/);
+    await expectCommercialRouteReady(page, /Actions: what writes and what should read back/i);
+    await expect(
+      page.getByText(/Every bounded write should have an expected read result/i),
+    ).toBeVisible();
+
+    await trap.assertClean();
+  });
+
+  test('Docs article links keep public learning tied to commercial surfaces', async ({
+    page,
+  }, testInfo) => {
+    const trap = installCommercialBrowserErrorTrap(page, testInfo);
+
+    await openCommercialRoute(
+      page,
+      '/docs/exchange',
+      /Understand Exchange activity and \/exchange compatibility/i,
+    );
+
+    await expect(page.getByText(/\/exchange remains a compatibility redirect/i)).toBeVisible();
+    await page.getByRole('link', { name: /Orient inside the Bitcode/i }).click();
+    await expect(page).toHaveURL(/\/docs\/product-workspace$/);
+    await expectCommercialRouteReady(page, /Orient inside the Bitcode/i);
+
+    await page.getByRole('link', { name: /Read action guide/i }).click();
+    await expect(page).toHaveURL(/\/docs\/product-actions$/);
+    await expectCommercialRouteReady(page, /Actions: what writes and what should read back/i);
+
+    // Primary CTA on action manual is Use Read (product surface).
+    await page.getByRole('link', { name: /^Use Read$/ }).click();
+    await expect(page).toHaveURL(/\/reads/);
+    await expectCommercialRouteReady(page, /Reading/i);
+
+    await trap.assertClean();
+  });
+});

@@ -47,7 +47,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v31-gate6-organization-team-role-policy-authority.mjs [--skip-branch-check] [--repo-root <path>]',
       '',
-      'Checks V31 Gate 6 organization/team/role/policy authority closure, shared Auxillaries/Terminal projection, tests, docs, and workflow coverage.',
+      'Checks V31 Gate 6 organization/team/role/policy authority closure, shared Auxillaries/product projection, tests, docs, and workflow coverage.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -84,20 +84,20 @@ function main() {
     'packages/btd/__tests__/btd.test.ts',
     'packages/api/src/routes/auxillaries-contract.ts',
     'packages/api/src/routes/__tests__/auxillaries-contract.test.ts',
-    'uapi/hooks/useUserData.ts',
-    'uapi/hooks/useUserData.js',
-    'uapi/app/auxillaries/components/AuxillariesSurface.tsx',
-    'uapi/app/auxillaries/components/AuxillariesProfilePane.tsx',
-    'uapi/app/terminal/terminal-organization-authority.ts',
-    'uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx',
-    'uapi/tests/profileStep.test.tsx',
-    'uapi/tests/terminalOrganizationAuthority.test.ts',
-    'uapi/tests/terminalTransactionDetailCards.test.tsx',
-    'BITCODE_SPEC_V31.md',
-    'BITCODE_SPEC_V31_DELTA.md',
-    'BITCODE_SPEC_V31_NOTES.md',
-    'BITCODE_SPEC_V31_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/hooks/useUserData.ts',
+    'apps/uapi/hooks/useUserData.js',
+    'apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx',
+    'apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-organization-authority.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionOrganizationAuthorityCard.tsx',
+    'apps/uapi/tests/profileStep.test.tsx',
+    'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+    'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
+    '.specifications/BITCODE_SPEC_V31.md',
+    '.specifications/BITCODE_SPEC_V31_DELTA.md',
+    '.specifications/BITCODE_SPEC_V31_NOTES.md',
+    '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V31 Gate 6 file: ${relativePath}`);
   }
@@ -106,24 +106,24 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/btd.test.ts');
   const contract = read(root, 'packages/api/src/routes/auxillaries-contract.ts');
   const contractTest = read(root, 'packages/api/src/routes/__tests__/auxillaries-contract.test.ts');
-  const useUserData = read(root, 'uapi/hooks/useUserData.ts');
-  const useUserDataJs = read(root, 'uapi/hooks/useUserData.js');
-  const auxSurface = read(root, 'uapi/app/auxillaries/components/AuxillariesSurface.tsx');
-  const profilePane = read(root, 'uapi/app/auxillaries/components/AuxillariesProfilePane.tsx');
-  const terminalProjection = read(root, 'uapi/app/terminal/terminal-organization-authority.ts');
-  const terminalCard = read(root, 'uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx');
-  const profileTest = read(root, 'uapi/tests/profileStep.test.tsx');
-  const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
-  const detailCardTest = read(root, 'uapi/tests/terminalTransactionDetailCards.test.tsx');
-  const spec = read(root, 'BITCODE_SPEC_V31.md');
-  const delta = read(root, 'BITCODE_SPEC_V31_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V31_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V31_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const useUserData = read(root, 'apps/uapi/hooks/useUserData.ts');
+  const useUserDataJs = read(root, 'apps/uapi/hooks/useUserData.js');
+  const auxSurface = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx');
+  const profilePane = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx');
+  const terminalProjection = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-organization-authority.ts');
+  const terminalCard = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionOrganizationAuthorityCard.tsx');
+  const profileTest = read(root, 'apps/uapi/tests/profileStep.test.tsx');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
+  const detailCardTest = read(root, 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V31.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V31_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V31_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const apiReadme = read(root, 'packages/api/README.md');
-  const auxReadme = read(root, 'uapi/app/auxillaries/README.md');
+  const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -205,7 +205,7 @@ function main() {
     assertCheck(
       failures,
       terminalProjection.includes(terminalPhrase) || terminalCard.includes(terminalPhrase),
-      `Terminal organization authority projection must handle ${terminalPhrase}.`,
+      `product organization authority projection must handle ${terminalPhrase}.`,
     );
   }
 
@@ -249,7 +249,7 @@ function main() {
         auxReadme.includes(docPhrase) ||
         btdReadme.includes(docPhrase) ||
         terminalReadme.includes(docPhrase),
-      `V31 Gate 6 docs/spec must describe ${docPhrase}.`,
+      `V31 Gate 6 .docs/spec must describe ${docPhrase}.`,
     );
   }
 
@@ -264,7 +264,7 @@ function main() {
   assertCheck(failures, !/\|\s*Protected actions fail closed unless all authority inputs admit them\s*\|[^|]*\|\s*pending\s*\|/u.test(parity), 'Gate 6 fail-closed parity must not remain pending.');
   assertCheck(failures, packageJson.includes('"check:v31-gate6"'), 'package.json must expose check:v31-gate6.');
   assertCheck(failures, workflow.includes('check-v31-gate6-organization-team-role-policy-authority.mjs'), 'Gate workflow must run the V31 Gate 6 checker.');
-  assertCheck(failures, workflow.includes('terminalOrganizationAuthority.test.ts'), 'Gate workflow must run Terminal organization authority tests.');
+  assertCheck(failures, workflow.includes('terminalOrganizationAuthority.test.ts'), 'Gate workflow must run product organization authority tests.');
   assertCheck(failures, workflow.includes('profileStep.test.tsx'), 'Gate workflow must run Profile pane tests.');
 
   if (failures.length) {

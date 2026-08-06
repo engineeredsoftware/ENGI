@@ -2,7 +2,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -461,7 +461,8 @@ export const readyToShortCircuitStepPrompts = {
  * Main agent using comprehensive short-circuit analysis with full PTRR cycle
  * Controls pipeline termination decisions
  */
-const readyToShortCircuit = factoryAgentWithPTRR<ShortCircuitInput, ReadyToShortCircuitAgentRetryStepOutput>({
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const readyToShortCircuit: any = factoryPTRRAgent<ShortCircuitInput, ReadyToShortCircuitAgentRetryStepOutput>({
   name: 'ready-to-short-circuit',
   description: 'Full context analysis with verification and refinement for pipeline control',
   prompt: readyToShortCircuitPrompt,
@@ -482,7 +483,7 @@ const readyToShortCircuit = factoryAgentWithPTRR<ShortCircuitInput, ReadyToShort
  * Quick Ready To Short Circuit Agent - Simple version prefixed with "quick"
  * Fast decision making for simple scenarios
  */
-const quickReadyToShortCircuit = factoryAgentWithSingleStep<ShortCircuitInput, ReadyToShortCircuitAgentRetryStepOutput>({
+const quickReadyToShortCircuit: any = factoryAgentWithSingleStep<ShortCircuitInput, ReadyToShortCircuitAgentRetryStepOutput>({
   name: 'quick-ready-to-short-circuit',
   description: 'Fast decision making for simple pipeline control scenarios',
   execute: async (input, execution) => {

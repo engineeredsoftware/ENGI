@@ -1,5 +1,5 @@
 -- Saved query name: v28_qa_terminal_05_wallet_signer_gate
--- Purpose: run before "Submit deposit to Bitcode" when the Terminal Deposit
+-- Purpose: run before "Submit deposit to Bitcode" when the product Deposit
 -- button reports wallet signing/settlement readiness. V28 staging accepts a
 -- provider-backed pending Bitcoin message signature as live signer readiness,
 -- while unsigned provider-session posture remains blocked.

@@ -1,0 +1,2158 @@
+{
+  "artifactId": "v37-conversation-persistence-privacy-redaction",
+  "schemaId": "bitcode.v37.conversationPersistencePrivacyRedaction.v1",
+  "version": "V37",
+  "currentTarget": "V36",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-conversation-persistence-privacy-redaction-metadata",
+  "disclosureBoundary": {
+    "persistenceMayExpose": [
+      "conversation_id",
+      "message_id",
+      "actor_id",
+      "visibility_tier",
+      "source_safe_content",
+      "source_context_refs",
+      "redaction_posture",
+      "retention_posture",
+      "proof_roots",
+      "event_ids"
+    ],
+    "persistenceMustNotExpose": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "unpaid_assetpack_source",
+      "settlement_private_payloads",
+      "private_payment_credentials",
+      "operator_private_notes",
+      "ledger_write_authority",
+      "wallet_signing_authority"
+    ]
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredOperationIds": [
+      "persist_message",
+      "restore_history",
+      "export_history",
+      "delete_history",
+      "retain_history",
+      "replay_history",
+      "incident_repair"
+    ],
+    "observedOperationIds": [
+      "persist_message",
+      "restore_history",
+      "export_history",
+      "delete_history",
+      "retain_history",
+      "replay_history",
+      "incident_repair"
+    ],
+    "missingOperationIds": [],
+    "requiredVisibilityTierIds": [
+      "public",
+      "user_visible",
+      "organization_visible",
+      "buyer_visible",
+      "reviewer_visible",
+      "operator_only"
+    ],
+    "observedVisibilityTierIds": [
+      "public",
+      "user_visible",
+      "organization_visible",
+      "buyer_visible",
+      "reviewer_visible",
+      "operator_only"
+    ],
+    "missingVisibilityTierIds": [],
+    "requiredRetentionPostures": [
+      "route_local_ephemeral",
+      "durable_user_visible",
+      "durable_organization_visible",
+      "buyer_rights_visible",
+      "reviewer_limited_visible",
+      "operator_audit_only",
+      "deletion_tombstone"
+    ],
+    "observedRetentionPostures": [
+      "route_local_ephemeral",
+      "durable_user_visible",
+      "durable_organization_visible",
+      "buyer_rights_visible",
+      "reviewer_limited_visible",
+      "operator_audit_only",
+      "deletion_tombstone"
+    ],
+    "missingRetentionPostures": [],
+    "requiredFieldIds": [
+      "conversation_id",
+      "message_id",
+      "actor_id",
+      "visibility_tier",
+      "source_context_refs",
+      "redaction_posture",
+      "retention_posture",
+      "export_posture",
+      "delete_posture",
+      "replay_posture",
+      "incident_repair_posture",
+      "proof_roots",
+      "event_ids"
+    ],
+    "observedFieldIds": [
+      "conversation_id",
+      "message_id",
+      "actor_id",
+      "visibility_tier",
+      "source_context_refs",
+      "redaction_posture",
+      "retention_posture",
+      "export_posture",
+      "delete_posture",
+      "replay_posture",
+      "incident_repair_posture",
+      "proof_roots",
+      "event_ids"
+    ],
+    "missingFieldIds": [],
+    "operationCount": 7,
+    "allOperationsCovered": true,
+    "allVisibilityTiersCovered": true,
+    "allRetentionPosturesCovered": true,
+    "allFieldsCovered": true,
+    "persistMessageCovered": true,
+    "restoreHistoryCovered": true,
+    "exportHistoryCovered": true,
+    "deleteHistoryCovered": true,
+    "retainHistoryCovered": true,
+    "replayHistoryCovered": true,
+    "incidentRepairCovered": true,
+    "visibilitySeparationCovered": true,
+    "proofRootsCovered": true,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "credentialsSerialized": false,
+    "protectedPromptVisible": false,
+    "protectedModelResponseVisible": false,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "protectedBodiesPersisted": false
+  },
+  "requiredOperationIds": [
+    "persist_message",
+    "restore_history",
+    "export_history",
+    "delete_history",
+    "retain_history",
+    "replay_history",
+    "incident_repair"
+  ],
+  "requiredVisibilityTierIds": [
+    "public",
+    "user_visible",
+    "organization_visible",
+    "buyer_visible",
+    "reviewer_visible",
+    "operator_only"
+  ],
+  "requiredRetentionPostures": [
+    "route_local_ephemeral",
+    "durable_user_visible",
+    "durable_organization_visible",
+    "buyer_rights_visible",
+    "reviewer_limited_visible",
+    "operator_audit_only",
+    "deletion_tombstone"
+  ],
+  "requiredFieldIds": [
+    "conversation_id",
+    "message_id",
+    "actor_id",
+    "visibility_tier",
+    "source_context_refs",
+    "redaction_posture",
+    "retention_posture",
+    "export_posture",
+    "delete_posture",
+    "replay_posture",
+    "incident_repair_posture",
+    "proof_roots",
+    "event_ids"
+  ],
+  "forbiddenPayloadClasses": [
+    "secret_values",
+    "provider_tokens",
+    "wallet_private_material",
+    "protected_source_payloads",
+    "raw_protected_prompts",
+    "raw_model_responses_with_protected_source",
+    "unpaid_assetpack_source",
+    "settlement_private_payloads",
+    "private_payment_credentials",
+    "operator_private_notes",
+    "ledger_write_authority",
+    "wallet_signing_authority"
+  ],
+  "rows": [
+    {
+      "operationId": "persist_message",
+      "label": "Persist conversation message safely",
+      "defaultVisibilityTier": "user_visible",
+      "retentionPosture": "durable_user_visible",
+      "sourceSafeSummary": "Message content and rich-input metadata are redacted before durable storage; source-bearing context is retained only as references and proof roots.",
+      "mayExpose": [
+        "conversation_id",
+        "message_id",
+        "role",
+        "source_safe_content",
+        "source_context_refs",
+        "proof_roots",
+        "event_ids"
+      ],
+      "blockedPayloads": [
+        "raw_protected_prompts",
+        "provider_tokens",
+        "protected_source_payloads"
+      ],
+      "requiredPostures": [
+        "redaction_posture",
+        "retention_posture",
+        "proof_roots"
+      ],
+      "eventIds": [
+        "conversation.persistence.message.redacted",
+        "conversation.persistence.message.persisted"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_id",
+        "actor_id",
+        "visibility_tier",
+        "source_context_refs",
+        "redaction_posture",
+        "retention_posture",
+        "export_posture",
+        "delete_posture",
+        "replay_posture",
+        "incident_repair_posture",
+        "proof_roots",
+        "event_ids"
+      ],
+      "visibilityTierIds": [
+        "public",
+        "user_visible",
+        "organization_visible",
+        "buyer_visible",
+        "reviewer_visible",
+        "operator_only"
+      ],
+      "retentionPostures": [
+        "route_local_ephemeral",
+        "durable_user_visible",
+        "durable_organization_visible",
+        "buyer_rights_visible",
+        "reviewer_limited_visible",
+        "operator_audit_only",
+        "deletion_tombstone"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_persistence_privacy_redaction_metadata",
+      "storagePolicy": {
+        "routeLocalProjection": true,
+        "globalLedgerTruth": false,
+        "mayPersistProtectedPromptBodies": false,
+        "mayPersistProtectedModelResponseBodies": false,
+        "mayPersistWalletPrivateMaterial": false,
+        "mayPersistUnpaidAssetPackSource": false,
+        "mayPersistSourceBearingContextOnlyAsRefs": true,
+        "mustSeparateVisibilityTiers": true,
+        "mustAttachProofRoots": true
+      },
+      "disclosurePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "message_id",
+          "role",
+          "source_safe_content",
+          "source_context_refs",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "private_payment_credentials",
+          "operator_private_notes",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "raw_protected_prompts",
+          "provider_tokens",
+          "protected_source_payloads"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "persist_message.conversation-persistence-privacy-row-present",
+          "command": "pnpm run check:v37-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_visibility_tier",
+            "missing_retention_posture",
+            "protected_prompt_visible",
+            "protected_model_response_visible",
+            "source_body_visible",
+            "wallet_private_material_visible",
+            "unpaid_assetpack_source_visible"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "conversationIdRoot": "conversation-persistence-privacy-proof:d0778493db127e507f408293",
+        "messageIdRoot": "conversation-persistence-privacy-proof:9936dea3a022eb84a7901ae0",
+        "actorIdRoot": "conversation-persistence-privacy-proof:92e391e4465df0276b3b9137",
+        "visibilityTierRoot": "conversation-persistence-privacy-proof:f5f5e1ffea27f2b89cbb235c",
+        "sourceContextRefsRoot": "conversation-persistence-privacy-proof:1f5bbd38c6c0da935b92e54f",
+        "redactionPostureRoot": "conversation-persistence-privacy-proof:194392b6a156313099d3dedf",
+        "retentionPostureRoot": "conversation-persistence-privacy-proof:55a44abb9f08a3f0b56f0aa5",
+        "exportPostureRoot": "conversation-persistence-privacy-proof:bbd81d2288be48b12d07ee95",
+        "deletePostureRoot": "conversation-persistence-privacy-proof:5d319679daa5a5126444ee81",
+        "replayPostureRoot": "conversation-persistence-privacy-proof:de956a6a19180a4abd9cc72b",
+        "incidentRepairPostureRoot": "conversation-persistence-privacy-proof:97ea4d904043a7f203734452",
+        "proofRootsRoot": "conversation-persistence-privacy-proof:48265caa13b9c5d07c947b21",
+        "eventIdsRoot": "conversation-persistence-privacy-proof:cd7037b22c20c2735fde8e7d"
+      },
+      "rowRoot": "conversation-persistence-privacy-row:9673224fab600672eac16f77",
+      "detailRoot": "conversation-persistence-privacy-detail:fcc363189187c6627e223323"
+    },
+    {
+      "operationId": "restore_history",
+      "label": "Restore route-local conversation history",
+      "defaultVisibilityTier": "user_visible",
+      "retentionPosture": "durable_user_visible",
+      "sourceSafeSummary": "Restore reads durable route-local history while preserving visibility tier filters and redaction checkpoints.",
+      "mayExpose": [
+        "conversation_id",
+        "message_ids",
+        "source_safe_content",
+        "visibility_tier",
+        "history_refs",
+        "proof_roots",
+        "event_ids"
+      ],
+      "blockedPayloads": [
+        "operator_private_notes",
+        "settlement_private_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "requiredPostures": [
+        "redaction_posture",
+        "replay_posture",
+        "retention_posture"
+      ],
+      "eventIds": [
+        "conversation.persistence.history.restored",
+        "conversation.persistence.history.redaction_checked"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_id",
+        "actor_id",
+        "visibility_tier",
+        "source_context_refs",
+        "redaction_posture",
+        "retention_posture",
+        "export_posture",
+        "delete_posture",
+        "replay_posture",
+        "incident_repair_posture",
+        "proof_roots",
+        "event_ids"
+      ],
+      "visibilityTierIds": [
+        "public",
+        "user_visible",
+        "organization_visible",
+        "buyer_visible",
+        "reviewer_visible",
+        "operator_only"
+      ],
+      "retentionPostures": [
+        "route_local_ephemeral",
+        "durable_user_visible",
+        "durable_organization_visible",
+        "buyer_rights_visible",
+        "reviewer_limited_visible",
+        "operator_audit_only",
+        "deletion_tombstone"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_persistence_privacy_redaction_metadata",
+      "storagePolicy": {
+        "routeLocalProjection": true,
+        "globalLedgerTruth": false,
+        "mayPersistProtectedPromptBodies": false,
+        "mayPersistProtectedModelResponseBodies": false,
+        "mayPersistWalletPrivateMaterial": false,
+        "mayPersistUnpaidAssetPackSource": false,
+        "mayPersistSourceBearingContextOnlyAsRefs": true,
+        "mustSeparateVisibilityTiers": true,
+        "mustAttachProofRoots": true
+      },
+      "disclosurePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "message_ids",
+          "source_safe_content",
+          "visibility_tier",
+          "history_refs",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "private_payment_credentials",
+          "operator_private_notes",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "operator_private_notes",
+          "settlement_private_payloads",
+          "unpaid_assetpack_source"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "restore_history.conversation-persistence-privacy-row-present",
+          "command": "pnpm run check:v37-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_visibility_tier",
+            "missing_retention_posture",
+            "protected_prompt_visible",
+            "protected_model_response_visible",
+            "source_body_visible",
+            "wallet_private_material_visible",
+            "unpaid_assetpack_source_visible"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "conversationIdRoot": "conversation-persistence-privacy-proof:f5577a76be83cc9ede9fcdd4",
+        "messageIdRoot": "conversation-persistence-privacy-proof:382bb502c29f79d0468d1a38",
+        "actorIdRoot": "conversation-persistence-privacy-proof:6b260a6f88ab538c44757750",
+        "visibilityTierRoot": "conversation-persistence-privacy-proof:5f92f36066634a9e426c64ac",
+        "sourceContextRefsRoot": "conversation-persistence-privacy-proof:51fc78f02a18655c534b23e2",
+        "redactionPostureRoot": "conversation-persistence-privacy-proof:213fd3aa8dbaa5a2decd7f30",
+        "retentionPostureRoot": "conversation-persistence-privacy-proof:964a53cd85ece4264a3b8a9e",
+        "exportPostureRoot": "conversation-persistence-privacy-proof:1be9578db802175dcb372f64",
+        "deletePostureRoot": "conversation-persistence-privacy-proof:e5669ffc1e4a25c43e9c14bc",
+        "replayPostureRoot": "conversation-persistence-privacy-proof:f4d2456530523d53aaf6d8b6",
+        "incidentRepairPostureRoot": "conversation-persistence-privacy-proof:4ebf64c3e28222ec9ba12573",
+        "proofRootsRoot": "conversation-persistence-privacy-proof:af99262ee026a170269ab58d",
+        "eventIdsRoot": "conversation-persistence-privacy-proof:f6111421d9233c3e81e58c99"
+      },
+      "rowRoot": "conversation-persistence-privacy-row:790fb6337d88935db816ff62",
+      "detailRoot": "conversation-persistence-privacy-detail:061bbe013bbf7c0649863928"
+    },
+    {
+      "operationId": "export_history",
+      "label": "Export source-safe conversation history",
+      "defaultVisibilityTier": "user_visible",
+      "retentionPosture": "durable_user_visible",
+      "sourceSafeSummary": "Exports include only the requesting principal visible tiers and omit protected prompts, protected model responses, source bodies, and private material.",
+      "mayExpose": [
+        "conversation_id",
+        "message_ids",
+        "source_safe_content",
+        "export_manifest_root",
+        "visibility_tier",
+        "proof_roots",
+        "event_ids"
+      ],
+      "blockedPayloads": [
+        "protected_source_payloads",
+        "raw_model_responses_with_protected_source",
+        "wallet_private_material"
+      ],
+      "requiredPostures": [
+        "export_posture",
+        "redaction_posture",
+        "proof_roots"
+      ],
+      "eventIds": [
+        "conversation.persistence.export.prepared",
+        "conversation.persistence.export.redacted"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_id",
+        "actor_id",
+        "visibility_tier",
+        "source_context_refs",
+        "redaction_posture",
+        "retention_posture",
+        "export_posture",
+        "delete_posture",
+        "replay_posture",
+        "incident_repair_posture",
+        "proof_roots",
+        "event_ids"
+      ],
+      "visibilityTierIds": [
+        "public",
+        "user_visible",
+        "organization_visible",
+        "buyer_visible",
+        "reviewer_visible",
+        "operator_only"
+      ],
+      "retentionPostures": [
+        "route_local_ephemeral",
+        "durable_user_visible",
+        "durable_organization_visible",
+        "buyer_rights_visible",
+        "reviewer_limited_visible",
+        "operator_audit_only",
+        "deletion_tombstone"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_persistence_privacy_redaction_metadata",
+      "storagePolicy": {
+        "routeLocalProjection": true,
+        "globalLedgerTruth": false,
+        "mayPersistProtectedPromptBodies": false,
+        "mayPersistProtectedModelResponseBodies": false,
+        "mayPersistWalletPrivateMaterial": false,
+        "mayPersistUnpaidAssetPackSource": false,
+        "mayPersistSourceBearingContextOnlyAsRefs": true,
+        "mustSeparateVisibilityTiers": true,
+        "mustAttachProofRoots": true
+      },
+      "disclosurePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "message_ids",
+          "source_safe_content",
+          "export_manifest_root",
+          "visibility_tier",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "private_payment_credentials",
+          "operator_private_notes",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "protected_source_payloads",
+          "raw_model_responses_with_protected_source",
+          "wallet_private_material"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "export_history.conversation-persistence-privacy-row-present",
+          "command": "pnpm run check:v37-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_visibility_tier",
+            "missing_retention_posture",
+            "protected_prompt_visible",
+            "protected_model_response_visible",
+            "source_body_visible",
+            "wallet_private_material_visible",
+            "unpaid_assetpack_source_visible"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "conversationIdRoot": "conversation-persistence-privacy-proof:74082455e9493aa90b9b8f28",
+        "messageIdRoot": "conversation-persistence-privacy-proof:a8c28cc759a06a33234c21dd",
+        "actorIdRoot": "conversation-persistence-privacy-proof:b3cfb3624ad2872a7719a05a",
+        "visibilityTierRoot": "conversation-persistence-privacy-proof:ff008fad586bc048e28791f0",
+        "sourceContextRefsRoot": "conversation-persistence-privacy-proof:d7c53d6c9db5dc39cfba2c7c",
+        "redactionPostureRoot": "conversation-persistence-privacy-proof:5115312762b58ea592322935",
+        "retentionPostureRoot": "conversation-persistence-privacy-proof:de78e765456a385cd4c4822c",
+        "exportPostureRoot": "conversation-persistence-privacy-proof:eddc67546df93caee71518b9",
+        "deletePostureRoot": "conversation-persistence-privacy-proof:49e1a3c60b780db11c09430e",
+        "replayPostureRoot": "conversation-persistence-privacy-proof:90f7d4b576f75deac8ce0422",
+        "incidentRepairPostureRoot": "conversation-persistence-privacy-proof:a9c4aa5c7fd908ea5a624c84",
+        "proofRootsRoot": "conversation-persistence-privacy-proof:041703f75a34368282c477a6",
+        "eventIdsRoot": "conversation-persistence-privacy-proof:27e4d8cba22f1ffc54eaa8fc"
+      },
+      "rowRoot": "conversation-persistence-privacy-row:71acbc6af5b7c3b4c957ff41",
+      "detailRoot": "conversation-persistence-privacy-detail:e675d758bd9bf484ece57cb4"
+    },
+    {
+      "operationId": "delete_history",
+      "label": "Delete conversation history with tombstone proof",
+      "defaultVisibilityTier": "operator_only",
+      "retentionPosture": "deletion_tombstone",
+      "sourceSafeSummary": "Deletes user-visible records while retaining only a source-safe tombstone proof for audit and incident repair.",
+      "mayExpose": [
+        "conversation_id",
+        "deletion_tombstone_root",
+        "deleted_message_count",
+        "retention_posture",
+        "proof_roots",
+        "event_ids"
+      ],
+      "blockedPayloads": [
+        "source_safe_content",
+        "protected_source_payloads",
+        "operator_private_notes"
+      ],
+      "requiredPostures": [
+        "delete_posture",
+        "retention_posture",
+        "incident_repair_posture"
+      ],
+      "eventIds": [
+        "conversation.persistence.delete.requested",
+        "conversation.persistence.delete.tombstoned"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_id",
+        "actor_id",
+        "visibility_tier",
+        "source_context_refs",
+        "redaction_posture",
+        "retention_posture",
+        "export_posture",
+        "delete_posture",
+        "replay_posture",
+        "incident_repair_posture",
+        "proof_roots",
+        "event_ids"
+      ],
+      "visibilityTierIds": [
+        "public",
+        "user_visible",
+        "organization_visible",
+        "buyer_visible",
+        "reviewer_visible",
+        "operator_only"
+      ],
+      "retentionPostures": [
+        "route_local_ephemeral",
+        "durable_user_visible",
+        "durable_organization_visible",
+        "buyer_rights_visible",
+        "reviewer_limited_visible",
+        "operator_audit_only",
+        "deletion_tombstone"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_persistence_privacy_redaction_metadata",
+      "storagePolicy": {
+        "routeLocalProjection": true,
+        "globalLedgerTruth": false,
+        "mayPersistProtectedPromptBodies": false,
+        "mayPersistProtectedModelResponseBodies": false,
+        "mayPersistWalletPrivateMaterial": false,
+        "mayPersistUnpaidAssetPackSource": false,
+        "mayPersistSourceBearingContextOnlyAsRefs": true,
+        "mustSeparateVisibilityTiers": true,
+        "mustAttachProofRoots": true
+      },
+      "disclosurePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "deletion_tombstone_root",
+          "deleted_message_count",
+          "retention_posture",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "private_payment_credentials",
+          "operator_private_notes",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "source_safe_content",
+          "protected_source_payloads",
+          "operator_private_notes"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "delete_history.conversation-persistence-privacy-row-present",
+          "command": "pnpm run check:v37-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_visibility_tier",
+            "missing_retention_posture",
+            "protected_prompt_visible",
+            "protected_model_response_visible",
+            "source_body_visible",
+            "wallet_private_material_visible",
+            "unpaid_assetpack_source_visible"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "conversationIdRoot": "conversation-persistence-privacy-proof:21862eba5dad9727ed5a1eb7",
+        "messageIdRoot": "conversation-persistence-privacy-proof:712ce6c547ca6110964149c1",
+        "actorIdRoot": "conversation-persistence-privacy-proof:5b41e66e2e1ce088fac6c54b",
+        "visibilityTierRoot": "conversation-persistence-privacy-proof:fb6e2d10a12e8070c1ad3e6c",
+        "sourceContextRefsRoot": "conversation-persistence-privacy-proof:10b79840eee457f6feb0eed2",
+        "redactionPostureRoot": "conversation-persistence-privacy-proof:95f5e0f7f9443adf945126cc",
+        "retentionPostureRoot": "conversation-persistence-privacy-proof:2367b97fbc277fe802d44931",
+        "exportPostureRoot": "conversation-persistence-privacy-proof:d6119f93e0ca413b0cb56c57",
+        "deletePostureRoot": "conversation-persistence-privacy-proof:e29d9572258da8bd37b24092",
+        "replayPostureRoot": "conversation-persistence-privacy-proof:65623c45f188410922e70fb0",
+        "incidentRepairPostureRoot": "conversation-persistence-privacy-proof:cea3ec52d71679cbb72d4774",
+        "proofRootsRoot": "conversation-persistence-privacy-proof:f19942cd3b5be771c6270dba",
+        "eventIdsRoot": "conversation-persistence-privacy-proof:af36b3733e147055bb449625"
+      },
+      "rowRoot": "conversation-persistence-privacy-row:ce51c0c56303c92ef1b416fd",
+      "detailRoot": "conversation-persistence-privacy-detail:01e679234ab7332c94b30f1c"
+    },
+    {
+      "operationId": "retain_history",
+      "label": "Apply retention posture",
+      "defaultVisibilityTier": "organization_visible",
+      "retentionPosture": "durable_organization_visible",
+      "sourceSafeSummary": "Retention separates personal, organization, buyer, reviewer, and operator audit views without escalating visibility.",
+      "mayExpose": [
+        "conversation_id",
+        "retention_policy_id",
+        "visibility_tier",
+        "retention_expires_at",
+        "proof_roots",
+        "event_ids"
+      ],
+      "blockedPayloads": [
+        "raw_protected_prompts",
+        "private_payment_credentials",
+        "wallet_private_material"
+      ],
+      "requiredPostures": [
+        "retention_posture",
+        "redaction_posture",
+        "proof_roots"
+      ],
+      "eventIds": [
+        "conversation.persistence.retention.applied",
+        "conversation.persistence.retention.expiry_scheduled"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_id",
+        "actor_id",
+        "visibility_tier",
+        "source_context_refs",
+        "redaction_posture",
+        "retention_posture",
+        "export_posture",
+        "delete_posture",
+        "replay_posture",
+        "incident_repair_posture",
+        "proof_roots",
+        "event_ids"
+      ],
+      "visibilityTierIds": [
+        "public",
+        "user_visible",
+        "organization_visible",
+        "buyer_visible",
+        "reviewer_visible",
+        "operator_only"
+      ],
+      "retentionPostures": [
+        "route_local_ephemeral",
+        "durable_user_visible",
+        "durable_organization_visible",
+        "buyer_rights_visible",
+        "reviewer_limited_visible",
+        "operator_audit_only",
+        "deletion_tombstone"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_persistence_privacy_redaction_metadata",
+      "storagePolicy": {
+        "routeLocalProjection": true,
+        "globalLedgerTruth": false,
+        "mayPersistProtectedPromptBodies": false,
+        "mayPersistProtectedModelResponseBodies": false,
+        "mayPersistWalletPrivateMaterial": false,
+        "mayPersistUnpaidAssetPackSource": false,
+        "mayPersistSourceBearingContextOnlyAsRefs": true,
+        "mustSeparateVisibilityTiers": true,
+        "mustAttachProofRoots": true
+      },
+      "disclosurePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "retention_policy_id",
+          "visibility_tier",
+          "retention_expires_at",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "private_payment_credentials",
+          "operator_private_notes",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "raw_protected_prompts",
+          "private_payment_credentials",
+          "wallet_private_material"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "retain_history.conversation-persistence-privacy-row-present",
+          "command": "pnpm run check:v37-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_visibility_tier",
+            "missing_retention_posture",
+            "protected_prompt_visible",
+            "protected_model_response_visible",
+            "source_body_visible",
+            "wallet_private_material_visible",
+            "unpaid_assetpack_source_visible"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "conversationIdRoot": "conversation-persistence-privacy-proof:cf6bab60f2dfb66c2ef1c4de",
+        "messageIdRoot": "conversation-persistence-privacy-proof:fe6116b7e00ce0f24e3f7c70",
+        "actorIdRoot": "conversation-persistence-privacy-proof:22aa3f939dc282cc92d9a6bf",
+        "visibilityTierRoot": "conversation-persistence-privacy-proof:395331accd53f35bc72358b6",
+        "sourceContextRefsRoot": "conversation-persistence-privacy-proof:f005125af7f183742393dc4b",
+        "redactionPostureRoot": "conversation-persistence-privacy-proof:c8fab79da0f56add5c4e1618",
+        "retentionPostureRoot": "conversation-persistence-privacy-proof:0b94f57b15f386f36a6699eb",
+        "exportPostureRoot": "conversation-persistence-privacy-proof:057f3a40803fd8fb1ca90a31",
+        "deletePostureRoot": "conversation-persistence-privacy-proof:756cd7bac12c3dc89fb10c7d",
+        "replayPostureRoot": "conversation-persistence-privacy-proof:577445d54fda5ce758509a49",
+        "incidentRepairPostureRoot": "conversation-persistence-privacy-proof:dab0eaf8e27480bac87c0a17",
+        "proofRootsRoot": "conversation-persistence-privacy-proof:4759174e3ff565e00c709bca",
+        "eventIdsRoot": "conversation-persistence-privacy-proof:710f4e03e8e82045834151b6"
+      },
+      "rowRoot": "conversation-persistence-privacy-row:59b81c7cc6a9d725081d262e",
+      "detailRoot": "conversation-persistence-privacy-detail:5a62e15e8900da0f99597a3e"
+    },
+    {
+      "operationId": "replay_history",
+      "label": "Replay history into a stream safely",
+      "defaultVisibilityTier": "reviewer_visible",
+      "retentionPosture": "reviewer_limited_visible",
+      "sourceSafeSummary": "Replay reconstructs only source-safe prompt/result shapes and route-local proof roots, never raw protected prompt or response bodies.",
+      "mayExpose": [
+        "conversation_id",
+        "message_ids",
+        "prompt_template_ids",
+        "parsed_result_shapes",
+        "replay_root",
+        "proof_roots",
+        "event_ids"
+      ],
+      "blockedPayloads": [
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "protected_source_payloads"
+      ],
+      "requiredPostures": [
+        "replay_posture",
+        "redaction_posture",
+        "proof_roots"
+      ],
+      "eventIds": [
+        "conversation.persistence.replay.prepared",
+        "conversation.persistence.replay.redacted"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_id",
+        "actor_id",
+        "visibility_tier",
+        "source_context_refs",
+        "redaction_posture",
+        "retention_posture",
+        "export_posture",
+        "delete_posture",
+        "replay_posture",
+        "incident_repair_posture",
+        "proof_roots",
+        "event_ids"
+      ],
+      "visibilityTierIds": [
+        "public",
+        "user_visible",
+        "organization_visible",
+        "buyer_visible",
+        "reviewer_visible",
+        "operator_only"
+      ],
+      "retentionPostures": [
+        "route_local_ephemeral",
+        "durable_user_visible",
+        "durable_organization_visible",
+        "buyer_rights_visible",
+        "reviewer_limited_visible",
+        "operator_audit_only",
+        "deletion_tombstone"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_persistence_privacy_redaction_metadata",
+      "storagePolicy": {
+        "routeLocalProjection": true,
+        "globalLedgerTruth": false,
+        "mayPersistProtectedPromptBodies": false,
+        "mayPersistProtectedModelResponseBodies": false,
+        "mayPersistWalletPrivateMaterial": false,
+        "mayPersistUnpaidAssetPackSource": false,
+        "mayPersistSourceBearingContextOnlyAsRefs": true,
+        "mustSeparateVisibilityTiers": true,
+        "mustAttachProofRoots": true
+      },
+      "disclosurePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "message_ids",
+          "prompt_template_ids",
+          "parsed_result_shapes",
+          "replay_root",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "private_payment_credentials",
+          "operator_private_notes",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "protected_source_payloads"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "replay_history.conversation-persistence-privacy-row-present",
+          "command": "pnpm run check:v37-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_visibility_tier",
+            "missing_retention_posture",
+            "protected_prompt_visible",
+            "protected_model_response_visible",
+            "source_body_visible",
+            "wallet_private_material_visible",
+            "unpaid_assetpack_source_visible"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "conversationIdRoot": "conversation-persistence-privacy-proof:9ab534026b887a4ede263014",
+        "messageIdRoot": "conversation-persistence-privacy-proof:f10610eed2cbb269f5cae8d1",
+        "actorIdRoot": "conversation-persistence-privacy-proof:6d667ab6fc3474fdd3936fae",
+        "visibilityTierRoot": "conversation-persistence-privacy-proof:6234140c56c42baf4dd183a4",
+        "sourceContextRefsRoot": "conversation-persistence-privacy-proof:012a495c0ba94411e4b15493",
+        "redactionPostureRoot": "conversation-persistence-privacy-proof:f4e3afba02ebe4b9e3e3d890",
+        "retentionPostureRoot": "conversation-persistence-privacy-proof:bbb3cece9334b513c67d2b63",
+        "exportPostureRoot": "conversation-persistence-privacy-proof:c88c9367df8c3a52fe8e5343",
+        "deletePostureRoot": "conversation-persistence-privacy-proof:37d7ffac91ce6236d1260db4",
+        "replayPostureRoot": "conversation-persistence-privacy-proof:e86ef28316c14bd4a07a7000",
+        "incidentRepairPostureRoot": "conversation-persistence-privacy-proof:0548a053b3dc8d87272d4f0a",
+        "proofRootsRoot": "conversation-persistence-privacy-proof:9b782a10bbb9110601db169a",
+        "eventIdsRoot": "conversation-persistence-privacy-proof:705afe985cb8bc43ed42a666"
+      },
+      "rowRoot": "conversation-persistence-privacy-row:b5d3f4b71fa901fa5b96c68a",
+      "detailRoot": "conversation-persistence-privacy-detail:80088130fec7788d007c5e7b"
+    },
+    {
+      "operationId": "incident_repair",
+      "label": "Repair persistence incident without disclosure escalation",
+      "defaultVisibilityTier": "operator_only",
+      "retentionPosture": "operator_audit_only",
+      "sourceSafeSummary": "Incident repair can inspect proof roots and redaction verdicts but cannot expose protected source, raw prompts, wallet material, or unpaid AssetPack source.",
+      "mayExpose": [
+        "conversation_id",
+        "incident_id",
+        "redaction_verdict",
+        "repair_action_id",
+        "operator_audit_root",
+        "proof_roots",
+        "event_ids"
+      ],
+      "blockedPayloads": [
+        "operator_private_notes",
+        "ledger_write_authority",
+        "wallet_signing_authority"
+      ],
+      "requiredPostures": [
+        "incident_repair_posture",
+        "redaction_posture",
+        "proof_roots"
+      ],
+      "eventIds": [
+        "conversation.persistence.incident.detected",
+        "conversation.persistence.incident.repaired"
+      ],
+      "fieldIds": [
+        "conversation_id",
+        "message_id",
+        "actor_id",
+        "visibility_tier",
+        "source_context_refs",
+        "redaction_posture",
+        "retention_posture",
+        "export_posture",
+        "delete_posture",
+        "replay_posture",
+        "incident_repair_posture",
+        "proof_roots",
+        "event_ids"
+      ],
+      "visibilityTierIds": [
+        "public",
+        "user_visible",
+        "organization_visible",
+        "buyer_visible",
+        "reviewer_visible",
+        "operator_only"
+      ],
+      "retentionPostures": [
+        "route_local_ephemeral",
+        "durable_user_visible",
+        "durable_organization_visible",
+        "buyer_rights_visible",
+        "reviewer_limited_visible",
+        "operator_audit_only",
+        "deletion_tombstone"
+      ],
+      "sourceSafetyClass": "source_safe_conversation_persistence_privacy_redaction_metadata",
+      "storagePolicy": {
+        "routeLocalProjection": true,
+        "globalLedgerTruth": false,
+        "mayPersistProtectedPromptBodies": false,
+        "mayPersistProtectedModelResponseBodies": false,
+        "mayPersistWalletPrivateMaterial": false,
+        "mayPersistUnpaidAssetPackSource": false,
+        "mayPersistSourceBearingContextOnlyAsRefs": true,
+        "mustSeparateVisibilityTiers": true,
+        "mustAttachProofRoots": true
+      },
+      "disclosurePolicy": {
+        "mayExpose": [
+          "conversation_id",
+          "incident_id",
+          "redaction_verdict",
+          "repair_action_id",
+          "operator_audit_root",
+          "proof_roots",
+          "event_ids"
+        ],
+        "mustNotExpose": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "settlement_private_payloads",
+          "private_payment_credentials",
+          "operator_private_notes",
+          "ledger_write_authority",
+          "wallet_signing_authority",
+          "operator_private_notes",
+          "ledger_write_authority",
+          "wallet_signing_authority"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "incident_repair.conversation-persistence-privacy-row-present",
+          "command": "pnpm run check:v37-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_visibility_tier",
+            "missing_retention_posture",
+            "protected_prompt_visible",
+            "protected_model_response_visible",
+            "source_body_visible",
+            "wallet_private_material_visible",
+            "unpaid_assetpack_source_visible"
+          ]
+        }
+      ],
+      "proofRoots": {
+        "conversationIdRoot": "conversation-persistence-privacy-proof:ca49f31ba4645ca837b0acdc",
+        "messageIdRoot": "conversation-persistence-privacy-proof:4c76229a514fd5c1eb5f9bf9",
+        "actorIdRoot": "conversation-persistence-privacy-proof:495ad2db04f60e610c906060",
+        "visibilityTierRoot": "conversation-persistence-privacy-proof:e4e9c6dffc15119e36c9b012",
+        "sourceContextRefsRoot": "conversation-persistence-privacy-proof:f28028c87da7e6f6f42af791",
+        "redactionPostureRoot": "conversation-persistence-privacy-proof:97efedac44c5688ce7eaa6a7",
+        "retentionPostureRoot": "conversation-persistence-privacy-proof:3dd6cdc117ff17579b13f80e",
+        "exportPostureRoot": "conversation-persistence-privacy-proof:088c89dcfe853ed88ba02286",
+        "deletePostureRoot": "conversation-persistence-privacy-proof:4cc38c7903fba722e4fb819b",
+        "replayPostureRoot": "conversation-persistence-privacy-proof:784f4d30beffac8d75fb444d",
+        "incidentRepairPostureRoot": "conversation-persistence-privacy-proof:5aeaad154ef87858c001c820",
+        "proofRootsRoot": "conversation-persistence-privacy-proof:b6830879bd49de065e1ea690",
+        "eventIdsRoot": "conversation-persistence-privacy-proof:76d1c60018155779adf668f1"
+      },
+      "rowRoot": "conversation-persistence-privacy-row:8f61ce42c5a57baa0a39ccbc",
+      "detailRoot": "conversation-persistence-privacy-detail:313e9ffec0aac7c66afe2cb3"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "operationId": "persist_message",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "operationId": "restore_history",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "operationId": "export_history",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "operationId": "delete_history",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "operationId": "retain_history",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "operationId": "replay_history",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "operationId": "incident_repair",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/conversation-persistence-privacy-redaction.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/privacy.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/conversations/__tests__/privacy.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "conversation-persistence-privacy:143efddf6f7c056fe68ad10e"
+}

@@ -1,0 +1,2235 @@
+{
+  "artifactId": "v35-telemetry-documentation-interface-integration",
+  "schemaId": "bitcode.v35.telemetryDocumentationInterfaceIntegration.v1",
+  "version": "V35",
+  "currentTarget": "V34",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-interface-integration-metadata",
+  "disclosureBoundary": {
+    "allowedInterfaceFields": [
+      "eventIds",
+      "proofRoots",
+      "docsLinks",
+      "runbookLinks",
+      "redactionPosture",
+      "sourceSafetyClass",
+      "correlationIds",
+      "stateLabels",
+      "summaryCounts"
+    ],
+    "forbiddenInterfacePayload": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "unpaid_assetpack_source",
+      "buyer_repository_private_data"
+    ],
+    "interfaceRule": "Interface surfaces may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts; they must not expose secrets, provider tokens, wallet private material, protected source, raw protected prompts, buyer repository private data, raw protected model responses, or unpaid AssetPack source."
+  },
+  "rows": [
+    {
+      "integrationId": "terminal",
+      "surfaceKind": "application_surface",
+      "owner": "apps/uapi",
+      "docsLinks": [
+        "/docs/terminal",
+        "/docs/terminal-actions",
+        "/docs/read-results"
+      ],
+      "eventFamilies": [
+        "pipeline",
+        "execution",
+        "ptrr_agent",
+        "thricified_generation",
+        "tool",
+        "ledger",
+        "wallet",
+        "interface"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        "apps/uapi/app/terminal/README.md",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+        "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts"
+      ],
+      "routePayloadSurfaces": [
+        "terminal pipeline log header",
+        "terminal transaction detail",
+        "terminal wallet pane"
+      ],
+      "validationCommands": [
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand"
+      ],
+      "packageOwnedContracts": [
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
+      ],
+      "eventIds": [
+        "execution.admitted",
+        "execution.completed",
+        "execution.failed",
+        "execution.started",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "ledger.finality.observed",
+        "ledger.projection.drift",
+        "ledger.receipt.emitted",
+        "ledger.repaired",
+        "pipeline.created",
+        "pipeline.failed",
+        "pipeline.phase.completed",
+        "pipeline.phase.started",
+        "ptrr_agent.plan.started",
+        "ptrr_agent.refine.completed",
+        "ptrr_agent.retry.completed",
+        "ptrr_agent.try.completed",
+        "thricified_generation.failed",
+        "thricified_generation.judge.completed",
+        "thricified_generation.reason.completed",
+        "thricified_generation.typed_output.completed",
+        "tool.call.completed",
+        "tool.call.failed",
+        "tool.call.started",
+        "tool.policy.denied",
+        "wallet.connection.started",
+        "wallet.policy.denied",
+        "wallet.signing.failed",
+        "wallet.signing.requested"
+      ],
+      "proofRootFields": [
+        "agentRoot",
+        "denialRoot",
+        "executionRoot",
+        "finalityRoot",
+        "interfaceProofRoot",
+        "interpolatedContextRoot",
+        "ledgerRoot",
+        "parsedTypeRoot",
+        "phaseRoot",
+        "pipelineRoot",
+        "policyRoot",
+        "promptTemplateRoot",
+        "rawResponseRoot",
+        "receiptRoot",
+        "requestRoot",
+        "responseRoot",
+        "stepRoot",
+        "telemetryRoot",
+        "toolInputRoot",
+        "toolOutputRoot",
+        "typedOutputRoot",
+        "walletCapabilityRoot"
+      ],
+      "runbookLinks": [
+        "runbook.execution.orphan-repair",
+        "runbook.inference.generation-redaction",
+        "runbook.inference.ptrr-agent-debug",
+        "runbook.interfaces.auth-denial",
+        "runbook.ledger.reconciliation-repair",
+        "runbook.pipeline.execution-repair",
+        "runbook.tools.policy-denial",
+        "runbook.wallet.signing-failure"
+      ],
+      "redactionPosture": [
+        "input_output_roots_and_summary_only",
+        "prompt_roots_context_keys_raw_response_root_and_parsed_type_only",
+        "prompt_template_root_context_keys_and_typed_output_root",
+        "receipt_roots_transaction_refs_and_state_only",
+        "roots_context_keys_and_counts_only",
+        "route_contract_roots_status_and_policy_only",
+        "tool_name_roots_exit_code_and_policy_only",
+        "wallet_id_network_policy_and_error_class_only"
+      ],
+      "correlationIds": [
+        "agentId",
+        "assetPackId",
+        "executionId",
+        "generationId",
+        "interfaceId",
+        "ledgerReceiptId",
+        "organizationId",
+        "pipelineRunId",
+        "principalId",
+        "ptrrStepId",
+        "readId",
+        "readNeedId",
+        "requestId",
+        "runId",
+        "subStepId",
+        "toolCallId",
+        "traceId",
+        "transactionId",
+        "walletId"
+      ],
+      "allowedPayloadFields": [
+        "eventIds",
+        "proofRoots",
+        "docsLinks",
+        "runbookLinks",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "correlationIds",
+        "stateLabels",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "buyer_repository_private_data"
+      ],
+      "sourceSafetyClass": "source-safe-interface-integration-metadata",
+      "payloadRule": "Interface payloads may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts only.",
+      "failClosedResult": "terminal interface integration blocks when docs, telemetry, runbook, redaction, proof-root, or source-safety bindings are incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-documentation-interface-integration",
+        "failClosedOn": [
+          "missing_interface_surface",
+          "missing_docs_link",
+          "missing_event_ids",
+          "missing_proof_roots",
+          "missing_runbook_links",
+          "missing_redaction_posture",
+          "missing_source_root",
+          "source_unsafe_interface_payload"
+        ]
+      },
+      "integrationRoot": "telemetry-docs-interface-row:38d5501c9d2594f24884dce7"
+    },
+    {
+      "integrationId": "auxillaries",
+      "surfaceKind": "application_surface",
+      "owner": "apps/uapi",
+      "docsLinks": [
+        "/docs/auxillaries",
+        "/docs/configuration",
+        "/docs/commercial-interfaces"
+      ],
+      "eventFamilies": [
+        "interface",
+        "deployment",
+        "observer",
+        "repair"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        "apps/uapi/app/auxillaries/README.md",
+        "apps/uapi/tests/auxillariesWorkspacePanels.test.tsx",
+        "apps/uapi/tests/auxillariesContent.access.test.tsx"
+      ],
+      "routePayloadSurfaces": [
+        "auxillaries wallet panel",
+        "auxillaries externals panel",
+        "auxillaries interface settings"
+      ],
+      "validationCommands": [
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/auxillariesWorkspacePanels.test.tsx tests/auxillariesContent.access.test.tsx --runInBand"
+      ],
+      "packageOwnedContracts": [
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
+      ],
+      "eventIds": [
+        "deployment.lane.checked",
+        "deployment.migration.approved",
+        "deployment.rehearsal.completed",
+        "deployment.secret.available",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "observer.failed",
+        "observer.finality.lagged",
+        "observer.poll.completed",
+        "observer.poll.started",
+        "repair.command.completed",
+        "repair.command.started",
+        "repair.detected",
+        "repair.failed"
+      ],
+      "proofRootFields": [
+        "afterStateRoot",
+        "beforeStateRoot",
+        "capabilityRoot",
+        "deploymentRoot",
+        "finalityRoot",
+        "interfaceProofRoot",
+        "laneRoot",
+        "observerRoot",
+        "repairRoot",
+        "requestRoot",
+        "responseRoot"
+      ],
+      "runbookLinks": [
+        "runbook.deployment.lane-repair",
+        "runbook.interfaces.auth-denial",
+        "runbook.observer.finality-lag",
+        "runbook.repair.failed"
+      ],
+      "redactionPosture": [
+        "lane_ids_capability_ids_and_secret_family_status_only",
+        "observed_root_state_and_lag_class_only",
+        "repair_command_id_roots_outcome_and_actor_role_only",
+        "route_contract_roots_status_and_policy_only"
+      ],
+      "correlationIds": [
+        "deploymentId",
+        "hostId",
+        "incidentId",
+        "interfaceId",
+        "laneId",
+        "ledgerReceiptId",
+        "observerJobId",
+        "operatorId",
+        "principalId",
+        "repairJobId",
+        "requestId",
+        "transactionId",
+        "workflowRunId"
+      ],
+      "allowedPayloadFields": [
+        "eventIds",
+        "proofRoots",
+        "docsLinks",
+        "runbookLinks",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "correlationIds",
+        "stateLabels",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "buyer_repository_private_data"
+      ],
+      "sourceSafetyClass": "source-safe-interface-integration-metadata",
+      "payloadRule": "Interface payloads may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts only.",
+      "failClosedResult": "auxillaries interface integration blocks when docs, telemetry, runbook, redaction, proof-root, or source-safety bindings are incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/auxillaries/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/auxillariesWorkspacePanels.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/auxillariesContent.access.test.tsx",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-documentation-interface-integration",
+        "failClosedOn": [
+          "missing_interface_surface",
+          "missing_docs_link",
+          "missing_event_ids",
+          "missing_proof_roots",
+          "missing_runbook_links",
+          "missing_redaction_posture",
+          "missing_source_root",
+          "source_unsafe_interface_payload"
+        ]
+      },
+      "integrationRoot": "telemetry-docs-interface-row:b0f1301cd85627f7b421c29d"
+    },
+    {
+      "integrationId": "api",
+      "surfaceKind": "route_surface",
+      "owner": "packages/api",
+      "docsLinks": [
+        "/docs/commercial-interfaces",
+        "/docs/proofs",
+        "/docs/settlement-btd"
+      ],
+      "eventFamilies": [
+        "execution",
+        "ledger",
+        "wallet",
+        "storage",
+        "interface"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        "packages/api/README.md",
+        ".docs/BITCODE_API.md",
+        "packages/api/src/routes/btd-crypto.ts",
+        "packages/api/src/routes/__tests__/btd-crypto.test.ts"
+      ],
+      "routePayloadSurfaces": [
+        "public api read/write contracts",
+        "btd settlement routes",
+        "source-safe route errors"
+      ],
+      "validationCommands": [
+        "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand"
+      ],
+      "packageOwnedContracts": [
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
+      ],
+      "eventIds": [
+        "execution.admitted",
+        "execution.completed",
+        "execution.failed",
+        "execution.started",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "ledger.finality.observed",
+        "ledger.projection.drift",
+        "ledger.receipt.emitted",
+        "ledger.repaired",
+        "storage.read.denied",
+        "storage.repair.completed",
+        "storage.write.admitted",
+        "storage.write.completed",
+        "wallet.connection.started",
+        "wallet.policy.denied",
+        "wallet.signing.failed",
+        "wallet.signing.requested"
+      ],
+      "proofRootFields": [
+        "accessPolicyRoot",
+        "denialRoot",
+        "executionRoot",
+        "finalityRoot",
+        "interfaceProofRoot",
+        "ledgerRoot",
+        "objectStorageRoot",
+        "policyRoot",
+        "receiptRoot",
+        "requestRoot",
+        "responseRoot",
+        "retentionRoot",
+        "walletCapabilityRoot"
+      ],
+      "runbookLinks": [
+        "runbook.execution.orphan-repair",
+        "runbook.interfaces.auth-denial",
+        "runbook.ledger.reconciliation-repair",
+        "runbook.storage.object-repair",
+        "runbook.wallet.signing-failure"
+      ],
+      "redactionPosture": [
+        "input_output_roots_and_summary_only",
+        "object_key_roots_retention_policy_and_access_state_only",
+        "receipt_roots_transaction_refs_and_state_only",
+        "route_contract_roots_status_and_policy_only",
+        "wallet_id_network_policy_and_error_class_only"
+      ],
+      "correlationIds": [
+        "assetPackId",
+        "executionId",
+        "interfaceId",
+        "ledgerReceiptId",
+        "objectId",
+        "organizationId",
+        "principalId",
+        "readId",
+        "requestId",
+        "runId",
+        "storageRoot",
+        "traceId",
+        "transactionId",
+        "walletId"
+      ],
+      "allowedPayloadFields": [
+        "eventIds",
+        "proofRoots",
+        "docsLinks",
+        "runbookLinks",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "correlationIds",
+        "stateLabels",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "buyer_repository_private_data"
+      ],
+      "sourceSafetyClass": "source-safe-interface-integration-metadata",
+      "payloadRule": "Interface payloads may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts only.",
+      "failClosedResult": "api interface integration blocks when docs, telemetry, runbook, redaction, proof-root, or source-safety bindings are incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_API.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/btd-crypto.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-documentation-interface-integration",
+        "failClosedOn": [
+          "missing_interface_surface",
+          "missing_docs_link",
+          "missing_event_ids",
+          "missing_proof_roots",
+          "missing_runbook_links",
+          "missing_redaction_posture",
+          "missing_source_root",
+          "source_unsafe_interface_payload"
+        ]
+      },
+      "integrationRoot": "telemetry-docs-interface-row:e4d7ef1cff571d33177bcd4e"
+    },
+    {
+      "integrationId": "mcp_api",
+      "surfaceKind": "interface_package",
+      "owner": "packages/executions-mcp",
+      "docsLinks": [
+        "/docs/mcp-api",
+        "/docs/commercial-interfaces"
+      ],
+      "eventFamilies": [
+        "tool",
+        "execution",
+        "interface",
+        "docs_qa"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        "packages/mcp-generics/src/mcp-server/README.md",
+        "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
+        "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts"
+      ],
+      "routePayloadSurfaces": [
+        "mcp tool list",
+        "mcp pipeline ingress",
+        "mcp source-safe result payload"
+      ],
+      "validationCommands": [
+        "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand"
+      ],
+      "packageOwnedContracts": [
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
+      ],
+      "eventIds": [
+        "docs_qa.alignment.failed",
+        "docs_qa.alignment.repaired",
+        "docs_qa.catalog.checked",
+        "docs_qa.drift.detected",
+        "execution.admitted",
+        "execution.completed",
+        "execution.failed",
+        "execution.started",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "tool.call.completed",
+        "tool.call.failed",
+        "tool.call.started",
+        "tool.policy.denied"
+      ],
+      "proofRootFields": [
+        "artifactRoot",
+        "docsQaRoot",
+        "executionRoot",
+        "interfaceProofRoot",
+        "policyRoot",
+        "requestRoot",
+        "responseRoot",
+        "surfaceRoot",
+        "toolInputRoot",
+        "toolOutputRoot"
+      ],
+      "runbookLinks": [
+        "runbook.docs.qa-repair",
+        "runbook.execution.orphan-repair",
+        "runbook.interfaces.auth-denial",
+        "runbook.tools.policy-denial"
+      ],
+      "redactionPosture": [
+        "file_paths_tokens_roots_and_failure_codes_only",
+        "input_output_roots_and_summary_only",
+        "route_contract_roots_status_and_policy_only",
+        "tool_name_roots_exit_code_and_policy_only"
+      ],
+      "correlationIds": [
+        "agentId",
+        "artifactId",
+        "docsQaRunId",
+        "executionId",
+        "interfaceId",
+        "principalId",
+        "requestId",
+        "runId",
+        "surfaceId",
+        "toolCallId",
+        "traceId",
+        "transactionId",
+        "workflowRunId"
+      ],
+      "allowedPayloadFields": [
+        "eventIds",
+        "proofRoots",
+        "docsLinks",
+        "runbookLinks",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "correlationIds",
+        "stateLabels",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "buyer_repository_private_data"
+      ],
+      "sourceSafetyClass": "source-safe-interface-integration-metadata",
+      "payloadRule": "Interface payloads may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts only.",
+      "failClosedResult": "mcp_api interface integration blocks when docs, telemetry, runbook, redaction, proof-root, or source-safety bindings are incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-documentation-interface-integration",
+        "failClosedOn": [
+          "missing_interface_surface",
+          "missing_docs_link",
+          "missing_event_ids",
+          "missing_proof_roots",
+          "missing_runbook_links",
+          "missing_redaction_posture",
+          "missing_source_root",
+          "source_unsafe_interface_payload"
+        ]
+      },
+      "integrationRoot": "telemetry-docs-interface-row:6def77edd0c422d48dcbc596"
+    },
+    {
+      "integrationId": "chatgpt_app",
+      "surfaceKind": "interface_package",
+      "owner": "packages/chatgptapp",
+      "docsLinks": [
+        "/docs/chatgpt-app",
+        "/docs/commercial-interfaces"
+      ],
+      "eventFamilies": [
+        "tool",
+        "execution",
+        "interface",
+        "promotion"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        "apps/chatgpt/README.md",
+        ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+        "apps/chatgpt/src/interface-integration.ts",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
+      ],
+      "routePayloadSurfaces": [
+        "chatgpt app actions",
+        "chatgpt app tool results",
+        "chatgpt app source-safe cards"
+      ],
+      "validationCommands": [
+        "pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand"
+      ],
+      "packageOwnedContracts": [
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
+      ],
+      "eventIds": [
+        "execution.admitted",
+        "execution.completed",
+        "execution.failed",
+        "execution.started",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "promotion.blocked",
+        "promotion.check.completed",
+        "promotion.check.started",
+        "promotion.pointer.updated",
+        "tool.call.completed",
+        "tool.call.failed",
+        "tool.call.started",
+        "tool.policy.denied"
+      ],
+      "proofRootFields": [
+        "canonicalInputRoot",
+        "executionRoot",
+        "interfaceProofRoot",
+        "policyRoot",
+        "promotionRoot",
+        "provenRoot",
+        "requestRoot",
+        "responseRoot",
+        "toolInputRoot",
+        "toolOutputRoot"
+      ],
+      "runbookLinks": [
+        "runbook.execution.orphan-repair",
+        "runbook.interfaces.auth-denial",
+        "runbook.promotion.blocked",
+        "runbook.tools.policy-denial"
+      ],
+      "redactionPosture": [
+        "commit_refs_artifact_roots_and_gate_status_only",
+        "input_output_roots_and_summary_only",
+        "route_contract_roots_status_and_policy_only",
+        "tool_name_roots_exit_code_and_policy_only"
+      ],
+      "correlationIds": [
+        "agentId",
+        "canonicalCommit",
+        "executionId",
+        "interfaceId",
+        "principalId",
+        "promotionRunId",
+        "requestId",
+        "runId",
+        "toolCallId",
+        "traceId",
+        "transactionId",
+        "version",
+        "workflowRunId"
+      ],
+      "allowedPayloadFields": [
+        "eventIds",
+        "proofRoots",
+        "docsLinks",
+        "runbookLinks",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "correlationIds",
+        "stateLabels",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "buyer_repository_private_data"
+      ],
+      "sourceSafetyClass": "source-safe-interface-integration-metadata",
+      "payloadRule": "Interface payloads may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts only.",
+      "failClosedResult": "chatgpt_app interface integration blocks when docs, telemetry, runbook, redaction, proof-root, or source-safety bindings are incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/src/interface-integration.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-documentation-interface-integration",
+        "failClosedOn": [
+          "missing_interface_surface",
+          "missing_docs_link",
+          "missing_event_ids",
+          "missing_proof_roots",
+          "missing_runbook_links",
+          "missing_redaction_posture",
+          "missing_source_root",
+          "source_unsafe_interface_payload"
+        ]
+      },
+      "integrationRoot": "telemetry-docs-interface-row:af73b67afb8cb9a61cd2f2fc"
+    },
+    {
+      "integrationId": "package_readmes",
+      "surfaceKind": "package_docs",
+      "owner": "package-maintainers",
+      "docsLinks": [
+        "/docs/protocol-v26",
+        "/docs/commercial-interfaces",
+        "/docs/proofs"
+      ],
+      "eventFamilies": [
+        "pipeline",
+        "interface",
+        "deployment",
+        "docs_qa"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        "scripts/specifying/README.md",
+        "packages/btd/README.md",
+        "packages/api/README.md",
+        "packages/mcp-generics/src/mcp-server/README.md",
+        "apps/chatgpt/README.md"
+      ],
+      "routePayloadSurfaces": [
+        "package exported helper docs",
+        "package interface payload docs"
+      ],
+      "validationCommands": [
+        "pnpm --filter @bitcode/specifying test",
+        "pnpm run check:v35-gate8"
+      ],
+      "packageOwnedContracts": [
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
+      ],
+      "eventIds": [
+        "deployment.lane.checked",
+        "deployment.migration.approved",
+        "deployment.rehearsal.completed",
+        "deployment.secret.available",
+        "docs_qa.alignment.failed",
+        "docs_qa.alignment.repaired",
+        "docs_qa.catalog.checked",
+        "docs_qa.drift.detected",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "pipeline.created",
+        "pipeline.failed",
+        "pipeline.phase.completed",
+        "pipeline.phase.started"
+      ],
+      "proofRootFields": [
+        "artifactRoot",
+        "capabilityRoot",
+        "deploymentRoot",
+        "docsQaRoot",
+        "interfaceProofRoot",
+        "laneRoot",
+        "phaseRoot",
+        "pipelineRoot",
+        "requestRoot",
+        "responseRoot",
+        "surfaceRoot",
+        "telemetryRoot"
+      ],
+      "runbookLinks": [
+        "runbook.deployment.lane-repair",
+        "runbook.docs.qa-repair",
+        "runbook.interfaces.auth-denial",
+        "runbook.pipeline.execution-repair"
+      ],
+      "redactionPosture": [
+        "file_paths_tokens_roots_and_failure_codes_only",
+        "lane_ids_capability_ids_and_secret_family_status_only",
+        "roots_context_keys_and_counts_only",
+        "route_contract_roots_status_and_policy_only"
+      ],
+      "correlationIds": [
+        "artifactId",
+        "deploymentId",
+        "docsQaRunId",
+        "executionId",
+        "hostId",
+        "interfaceId",
+        "laneId",
+        "pipelineRunId",
+        "principalId",
+        "readNeedId",
+        "requestId",
+        "surfaceId",
+        "transactionId",
+        "workflowRunId"
+      ],
+      "allowedPayloadFields": [
+        "eventIds",
+        "proofRoots",
+        "docsLinks",
+        "runbookLinks",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "correlationIds",
+        "stateLabels",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "buyer_repository_private_data"
+      ],
+      "sourceSafetyClass": "source-safe-interface-integration-metadata",
+      "payloadRule": "Interface payloads may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts only.",
+      "failClosedResult": "package_readmes interface integration blocks when docs, telemetry, runbook, redaction, proof-root, or source-safety bindings are incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-documentation-interface-integration",
+        "failClosedOn": [
+          "missing_interface_surface",
+          "missing_docs_link",
+          "missing_event_ids",
+          "missing_proof_roots",
+          "missing_runbook_links",
+          "missing_redaction_posture",
+          "missing_source_root",
+          "source_unsafe_interface_payload"
+        ]
+      },
+      "integrationRoot": "telemetry-docs-interface-row:9b238347248c8a299e3565ff"
+    },
+    {
+      "integrationId": "internal_docs",
+      "surfaceKind": "internal_docs",
+      "owner": "internal-docs",
+      "docsLinks": [
+        "/docs/proofs",
+        "/docs/configuration",
+        "/docs/commercial-interfaces"
+      ],
+      "eventFamilies": [
+        "deployment",
+        "observer",
+        "repair",
+        "docs_qa",
+        "promotion"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".docs/README.md",
+        ".docs/DEPLOYMENT.md",
+        ".docs/BITCODE_AGENTIC_EXECUTION.md",
+        ".docs/BITCODE_VERIFICATION.md",
+        ".docs/BITCODE_API.md"
+      ],
+      "routePayloadSurfaces": [
+        "internal operator guide",
+        "internal incident guide",
+        "internal proof readback guide"
+      ],
+      "validationCommands": [
+        "pnpm run check:v35-gate6",
+        "pnpm run check:v35-gate8"
+      ],
+      "packageOwnedContracts": [
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
+      ],
+      "eventIds": [
+        "deployment.lane.checked",
+        "deployment.migration.approved",
+        "deployment.rehearsal.completed",
+        "deployment.secret.available",
+        "docs_qa.alignment.failed",
+        "docs_qa.alignment.repaired",
+        "docs_qa.catalog.checked",
+        "docs_qa.drift.detected",
+        "observer.failed",
+        "observer.finality.lagged",
+        "observer.poll.completed",
+        "observer.poll.started",
+        "promotion.blocked",
+        "promotion.check.completed",
+        "promotion.check.started",
+        "promotion.pointer.updated",
+        "repair.command.completed",
+        "repair.command.started",
+        "repair.detected",
+        "repair.failed"
+      ],
+      "proofRootFields": [
+        "afterStateRoot",
+        "artifactRoot",
+        "beforeStateRoot",
+        "canonicalInputRoot",
+        "capabilityRoot",
+        "deploymentRoot",
+        "docsQaRoot",
+        "finalityRoot",
+        "laneRoot",
+        "observerRoot",
+        "promotionRoot",
+        "provenRoot",
+        "repairRoot",
+        "surfaceRoot"
+      ],
+      "runbookLinks": [
+        "runbook.deployment.lane-repair",
+        "runbook.docs.qa-repair",
+        "runbook.observer.finality-lag",
+        "runbook.promotion.blocked",
+        "runbook.repair.failed"
+      ],
+      "redactionPosture": [
+        "commit_refs_artifact_roots_and_gate_status_only",
+        "file_paths_tokens_roots_and_failure_codes_only",
+        "lane_ids_capability_ids_and_secret_family_status_only",
+        "observed_root_state_and_lag_class_only",
+        "repair_command_id_roots_outcome_and_actor_role_only"
+      ],
+      "correlationIds": [
+        "artifactId",
+        "canonicalCommit",
+        "deploymentId",
+        "docsQaRunId",
+        "hostId",
+        "incidentId",
+        "laneId",
+        "ledgerReceiptId",
+        "observerJobId",
+        "operatorId",
+        "promotionRunId",
+        "repairJobId",
+        "surfaceId",
+        "transactionId",
+        "version",
+        "workflowRunId"
+      ],
+      "allowedPayloadFields": [
+        "eventIds",
+        "proofRoots",
+        "docsLinks",
+        "runbookLinks",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "correlationIds",
+        "stateLabels",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "buyer_repository_private_data"
+      ],
+      "sourceSafetyClass": "source-safe-interface-integration-metadata",
+      "payloadRule": "Interface payloads may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts only.",
+      "failClosedResult": "internal_docs interface integration blocks when docs, telemetry, runbook, redaction, proof-root, or source-safety bindings are incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_API.md",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-documentation-interface-integration",
+        "failClosedOn": [
+          "missing_interface_surface",
+          "missing_docs_link",
+          "missing_event_ids",
+          "missing_proof_roots",
+          "missing_runbook_links",
+          "missing_redaction_posture",
+          "missing_source_root",
+          "source_unsafe_interface_payload"
+        ]
+      },
+      "integrationRoot": "telemetry-docs-interface-row:bcf7cd46c6a448a06d8fe5de"
+    },
+    {
+      "integrationId": "public_docs",
+      "surfaceKind": "public_docs",
+      "owner": "apps/uapi",
+      "docsLinks": [
+        "/docs/what-is-bitcode",
+        "/docs/protocol-v26",
+        "/docs/proofs",
+        "/docs/commercial-interfaces"
+      ],
+      "eventFamilies": [
+        "interface",
+        "docs_qa",
+        "promotion"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/page.tsx",
+        "apps/uapi/app/docs/[slug]/page.tsx"
+      ],
+      "routePayloadSurfaces": [
+        "public docs cards",
+        "public docs interface api sections",
+        "public disclosure limit section"
+      ],
+      "validationCommands": [
+        "pnpm --dir apps/uapi exec tsc --noEmit --pretty false",
+        "pnpm run check:v35-gate8"
+      ],
+      "packageOwnedContracts": [
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide"
+      ],
+      "eventIds": [
+        "docs_qa.alignment.failed",
+        "docs_qa.alignment.repaired",
+        "docs_qa.catalog.checked",
+        "docs_qa.drift.detected",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "promotion.blocked",
+        "promotion.check.completed",
+        "promotion.check.started",
+        "promotion.pointer.updated"
+      ],
+      "proofRootFields": [
+        "artifactRoot",
+        "canonicalInputRoot",
+        "docsQaRoot",
+        "interfaceProofRoot",
+        "promotionRoot",
+        "provenRoot",
+        "requestRoot",
+        "responseRoot",
+        "surfaceRoot"
+      ],
+      "runbookLinks": [
+        "runbook.docs.qa-repair",
+        "runbook.interfaces.auth-denial",
+        "runbook.promotion.blocked"
+      ],
+      "redactionPosture": [
+        "commit_refs_artifact_roots_and_gate_status_only",
+        "file_paths_tokens_roots_and_failure_codes_only",
+        "route_contract_roots_status_and_policy_only"
+      ],
+      "correlationIds": [
+        "artifactId",
+        "canonicalCommit",
+        "docsQaRunId",
+        "interfaceId",
+        "principalId",
+        "promotionRunId",
+        "requestId",
+        "surfaceId",
+        "transactionId",
+        "version",
+        "workflowRunId"
+      ],
+      "allowedPayloadFields": [
+        "eventIds",
+        "proofRoots",
+        "docsLinks",
+        "runbookLinks",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "correlationIds",
+        "stateLabels",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "buyer_repository_private_data"
+      ],
+      "sourceSafetyClass": "source-safe-interface-integration-metadata",
+      "payloadRule": "Interface payloads may expose event ids, proof roots, docs links, runbook links, redaction posture, source-safety class, correlation ids, state labels, and summary counts only.",
+      "failClosedResult": "public_docs interface integration blocks when docs, telemetry, runbook, redaction, proof-root, or source-safety bindings are incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-telemetry-documentation-interface-integration",
+        "failClosedOn": [
+          "missing_interface_surface",
+          "missing_docs_link",
+          "missing_event_ids",
+          "missing_proof_roots",
+          "missing_runbook_links",
+          "missing_redaction_posture",
+          "missing_source_root",
+          "source_unsafe_interface_payload"
+        ]
+      },
+      "integrationRoot": "telemetry-docs-interface-row:5d6dc37488f6cc1738f24c04"
+    }
+  ],
+  "coverage": {
+    "requiredIntegrationIds": [
+      "terminal",
+      "auxillaries",
+      "api",
+      "mcp_api",
+      "chatgpt_app",
+      "package_readmes",
+      "internal_docs",
+      "public_docs"
+    ],
+    "observedIntegrationIds": [
+      "terminal",
+      "auxillaries",
+      "api",
+      "mcp_api",
+      "chatgpt_app",
+      "package_readmes",
+      "internal_docs",
+      "public_docs"
+    ],
+    "missingIntegrationIds": [],
+    "integrationCount": 8,
+    "docsLinkCount": 12,
+    "eventFamilyCount": 14,
+    "runbookLinkCount": 14,
+    "observedDocsLinks": [
+      "/docs/auxillaries",
+      "/docs/chatgpt-app",
+      "/docs/commercial-interfaces",
+      "/docs/configuration",
+      "/docs/mcp-api",
+      "/docs/proofs",
+      "/docs/protocol-v26",
+      "/docs/read-results",
+      "/docs/settlement-btd",
+      "/docs/terminal",
+      "/docs/terminal-actions",
+      "/docs/what-is-bitcode"
+    ],
+    "observedEventFamilies": [
+      "deployment",
+      "docs_qa",
+      "execution",
+      "interface",
+      "ledger",
+      "observer",
+      "pipeline",
+      "promotion",
+      "ptrr_agent",
+      "repair",
+      "storage",
+      "thricified_generation",
+      "tool",
+      "wallet"
+    ],
+    "observedRunbookLinks": [
+      "runbook.deployment.lane-repair",
+      "runbook.docs.qa-repair",
+      "runbook.execution.orphan-repair",
+      "runbook.inference.generation-redaction",
+      "runbook.inference.ptrr-agent-debug",
+      "runbook.interfaces.auth-denial",
+      "runbook.ledger.reconciliation-repair",
+      "runbook.observer.finality-lag",
+      "runbook.pipeline.execution-repair",
+      "runbook.promotion.blocked",
+      "runbook.repair.failed",
+      "runbook.storage.object-repair",
+      "runbook.tools.policy-denial",
+      "runbook.wallet.signing-failure"
+    ],
+    "allRequiredInterfacesCovered": true,
+    "terminalCovered": true,
+    "auxillariesCovered": true,
+    "apiCovered": true,
+    "mcpApiCovered": true,
+    "chatGptAppCovered": true,
+    "packageReadmesCovered": true,
+    "internalDocsCovered": true,
+    "publicDocsCovered": true,
+    "missingSourceRoots": [],
+    "rowsMissingDocsLinks": [],
+    "rowsMissingEventIds": [],
+    "rowsMissingProofRoots": [],
+    "rowsMissingRunbooks": [],
+    "rowsMissingRedactionPosture": [],
+    "rowsMissingAllowedPayloadFields": [],
+    "rowsMissingForbiddenPayloadFields": [],
+    "rowsMissingRoutePayloadSurfaces": [],
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false
+  },
+  "sourceEvidence": [
+    {
+      "integrationId": "terminal",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "integrationId": "auxillaries",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/auxillaries/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/auxillariesWorkspacePanels.test.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/tests/auxillariesContent.access.test.tsx",
+          "present": true
+        }
+      ]
+    },
+    {
+      "integrationId": "api",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_API.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/btd-crypto.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "integrationId": "mcp_api",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "integrationId": "chatgpt_app",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/src/interface-integration.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "integrationId": "package_readmes",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "integrationId": "internal_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_API.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "integrationId": "public_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "telemetry-documentation-interface-integration:7bb4916df1a353657b4f5257",
+  "passed": true,
+  "failures": [],
+  "validationCommand": "pnpm run check:v35-gate8"
+}

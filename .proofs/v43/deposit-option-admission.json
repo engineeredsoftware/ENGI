@@ -1,0 +1,350 @@
+{
+  "artifactId": "v43-deposit-option-admission",
+  "schemaId": "bitcode.v43.depositOptionAdmission.v1",
+  "version": "V43",
+  "currentTarget": "V42",
+  "sourceSafetyVerdict": "source-safe-deposit-option-admission-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v43-deposit-option-admission:211f52c6a8d7a1678c2061ad",
+  "passed": true,
+  "objectIds": [
+    "DepositAssetPackOptionAdmissionReport",
+    "DepositOptionAdmissionReceipt",
+    "DepositOptionReviewDecision",
+    "Depository index projection",
+    "object storage projection",
+    "pack activity synchronization",
+    "deposit option admission telemetry"
+  ],
+  "fieldIds": [
+    "reviewDecision",
+    "admission",
+    "depositoryIndexProjection",
+    "storageProjection",
+    "compensationPreview",
+    "packsActivitySync",
+    "telemetry",
+    "visibility"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_assetpack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload"
+  ],
+  "contractRows": [
+    {
+      "rowId": "depositor-review-decisions",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "contract": "DepositOptionReviewDecision records approved, rejected, resynthesis-requested, and pending decisions before any source-safe option can enter the Depository.",
+      "requiredFields": [
+        "approved-for-admission",
+        "rejected-by-depositor",
+        "resynthesis-requested",
+        "pending-depositor-review"
+      ],
+      "rowRoot": "v43-deposit-option-admission-contract:01e2927f15d946408f8deb2a",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "admission-receipts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "contract": "DepositOptionAdmissionReceipt admits only approved, policy-eligible, source-safe options and emits deterministic blockers for pending, rejected, resynthesis, or policy-blocked options.",
+      "requiredFields": [
+        "admitted-to-depository",
+        "not-admitted-policy-blocked",
+        "DepositOptionAdmissionReceipt"
+      ],
+      "rowRoot": "v43-deposit-option-admission-contract:5c71a5d215fd4fc83a129b68",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "depository-index-storage",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "contract": "Admitted deposit AssetPacks project only measurement and metadata search indexes plus object-storage metadata and external source pointer roots.",
+      "requiredFields": [
+        "depositoryIndexProjection",
+        "storageProjection",
+        "measurements-and-metadata-only"
+      ],
+      "rowRoot": "v43-deposit-option-admission-contract:e2eea037c5e42425792853b1",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "compensation-and-packs-sync",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "contract": "Admitted options preserve Gate 6 BTC source-to-shares compensation preview and synchronize to /packs as Depository AssetPack activity without minting BTD.",
+      "requiredFields": [
+        "compensationPreview",
+        "source-to-shares-largest-remainder",
+        "depository-assetpack"
+      ],
+      "rowRoot": "v43-deposit-option-admission-contract:82f4f8247db0fa99525046c4",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "telemetry-source-safety",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "contract": "Admission telemetry emits execution-stream source-safe metadata while protected source, prompts, provider responses, wallet material, and settlement private payloads remain invisible.",
+      "requiredFields": [
+        "deposit-option-admission",
+        "execution-stream",
+        "sourceSafeMetadataOnly"
+      ],
+      "rowRoot": "v43-deposit-option-admission-contract:fb0ba95c7c2e2c2a368b87dc",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "spec": "BITCODE_SPEC_V43.md:28f17417fec136cec3a08645",
+    "delta": "BITCODE_SPEC_V43_DELTA.md:360fe5346443a0bf0d44f8c7",
+    "notes": "BITCODE_SPEC_V43_NOTES.md:8c4b6932fea7cdfe81a8406c",
+    "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:450948415f13c6732f50eb6e",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
+    "readme": "README.md:d28ec731634e03953d8adfe6",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
+    "packageJson": "package.json:b79014968c556bc1b43ab341",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
+    "optionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
+    "policyModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
+    "admissionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
+    "optionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
+    "policyModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts:1af7adccac488298ccd7f048",
+    "admissionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts:9f156ea0d8c603487a7a8152",
+    "routeModel": "apps/uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
+    "client": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "routeModelTest": "apps/uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
+    "pageTest": "apps/uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "packActivityModelTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "uapiJestConfig": "apps/uapi/jest.config.cjs:7384e1c2812fc3479936eef8",
+    "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
+    "packageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
+    "protocolIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "protocolTest": "scripts/specifying/test/v43-deposit-option-admission.test.js:53ae55cfef55536ebc552b65",
+    "generator": "scripts/generate-v43-deposit-option-admission.mjs:b7101699843c09250a84d41f",
+    "checker": "scripts/check-v43-gate7-deposit-option-admission.mjs:6a857acf8b23f5fdb15fb02d"
+  },
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v43-draft-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate7",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "spec-names-admission-report",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate7",
+      "sourcePath": "BITCODE_SPEC_V43_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate7",
+      "sourcePath": "BITCODE_SPEC_V43_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate7",
+      "sourcePath": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate7",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readme-records-gate7",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "protocol-readme-records-gate7",
+      "sourcePath": "scripts/specifying/README.md",
+      "passed": true
+    },
+    {
+      "id": "admission-model-defines-report",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "passed": true
+    },
+    {
+      "id": "admission-model-defines-review-decisions",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "passed": true
+    },
+    {
+      "id": "admission-model-defines-admission-states",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "passed": true
+    },
+    {
+      "id": "admission-model-defines-index-storage",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "passed": true
+    },
+    {
+      "id": "admission-model-defines-packs-sync",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "passed": true
+    },
+    {
+      "id": "admission-model-defines-telemetry",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "passed": true
+    },
+    {
+      "id": "admission-model-forbids-source-leakage",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
+      "passed": true
+    },
+    {
+      "id": "route-model-owns-admission",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-admission",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-recognizes-admission",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-package-exports-admission",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-manifest-exports-admission",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
+      "passed": true
+    },
+    {
+      "id": "uapi-jest-maps-admission",
+      "sourcePath": "apps/uapi/jest.config.cjs",
+      "passed": true
+    },
+    {
+      "id": "admission-test-covers-report",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts",
+      "passed": true
+    },
+    {
+      "id": "route-test-covers-admission",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "page-test-covers-admission",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-test-covers-admission",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "protocol-test-covers-artifact",
+      "sourcePath": "scripts/specifying/test/v43-deposit-option-admission.test.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-package-exports-gate7",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-types-export-gate7",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate7",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate7",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate7",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v43-deposit-option-admission.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v43-gate7-deposit-option-admission.mjs",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "reviewDecisionsImplemented": true,
+    "approvalDecisionImplemented": true,
+    "rejectionDecisionImplemented": true,
+    "resynthesisDecisionImplemented": true,
+    "admissionReceiptsImplemented": true,
+    "approvedPolicyEligibleOptionsAdmittedOnly": true,
+    "depositoryIndexProjectionImplemented": true,
+    "vectorEmbeddingProjectionReadyForAdmittedOptions": true,
+    "storageProjectionImplemented": true,
+    "rawSourceStoredExternally": true,
+    "compensationPreviewContinued": true,
+    "compensationPriceAsset": "BTC",
+    "compensationAllocationMethod": "source-to-shares-largest-remainder",
+    "packsActivitySynchronizationImplemented": true,
+    "packsRoute": "/packs",
+    "packsActivityType": "depository-assetpack",
+    "telemetryImplemented": true,
+    "routeAdmissionReadbackImplemented": true,
+    "btdMintRequiresFutureNeedFitSettlement": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "requiredPredicateCount": 34,
+    "passedPredicateCount": 34,
+    "failedPredicateIds": []
+  }
+}

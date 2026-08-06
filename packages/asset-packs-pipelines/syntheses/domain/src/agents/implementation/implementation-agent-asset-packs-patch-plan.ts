@@ -1,0 +1,485 @@
+/**
+ * Shared Implementation host 1/4 — AssetPacks patch plan.
+ *
+ * Product shells (deposit/read) set `implementation.productLens` and call this
+ * host. Prompts are product-specific (STAB-A1); depository hits are injected
+ * for grounding (STAB-A2). Never import product packages from here.
+ *
+ * Sequence: THIS (plan descriptors) → patchfile → measurements → commercial-nl.
+ * Host authority: catalog membership + exclusion path law; salvage flags.
+ */
+
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
+import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
+import {
+  depositCandidateSetSchema,
+  type DepositSynthesisOptions,
+} from './asset-packs-synthesis-schema';
+import { createDepositSynthesisPrompt } from './asset-packs-synthesis-prompts';
+import { createReadSynthesisPrompt } from './asset-packs-synthesis-prompts-read';
+import {
+  buildCatalogPathSet,
+  collectExclusionPrefixes,
+  isCatalogPathSyntax,
+  isExcludedPath,
+  normalizeRepoPath,
+  pathAllowedInCatalog,
+} from './asset-packs-implementation-path-law';
+import type {
+  DepositPatchPlanPack,
+  DepositPatchPlanPhaseOutput,
+} from './asset-packs-implementation-pack-types';
+import {
+  countSalvagedPacks,
+  toDepositPatchPlanPack,
+} from './asset-packs-implementation-pack-types';
+
+export type { DepositSynthesisOptions } from './asset-packs-synthesis-schema';
+export {
+  DEPOSIT_OPTION_KINDS,
+  depositCandidateSchema,
+  depositCandidateSetSchema,
+  depositPatchSchema,
+} from './asset-packs-synthesis-schema';
+
+const depositPrompt = createDepositSynthesisPrompt();
+const readPrompt = createReadSynthesisPrompt();
+
+export const DepositImplementationAgentAssetPacksPatchPlan = factoryPTRRAgent<
+  any,
+  DepositSynthesisOptions
+>({
+  name: 'DepositImplementationAgentAssetPacksPatchPlan',
+  description:
+    'Implementation patch-plan (deposit): source-safe descriptor + metadata. Absolutes 3/4; commercial NL 4/4.',
+  outputSchema: depositCandidateSetSchema,
+  tools: [],
+  prompt: depositPrompt,
+  stepPrompts: {
+    plan: () => depositPrompt,
+    try: () => depositPrompt,
+    refine: () => depositPrompt,
+    retry: () => depositPrompt,
+  },
+  plan: { chunkThreshold: 2000 },
+  try: { chunkThreshold: 5000 },
+  refine: { maxAttempts: 1 },
+  retry: { maxAttempts: 1 },
+});
+
+/** Read product twin — Need-first prompts; same schema. */
+export const ReadImplementationAgentAssetPacksPatchPlan = factoryPTRRAgent<
+  any,
+  DepositSynthesisOptions
+>({
+  name: 'ReadImplementationAgentAssetPacksPatchPlan',
+  description:
+    'Implementation patch-plan (read): Need-first descriptors grounded in checkout + depository hits.',
+  outputSchema: depositCandidateSetSchema,
+  tools: [],
+  prompt: readPrompt,
+  stepPrompts: {
+    plan: () => readPrompt,
+    try: () => readPrompt,
+    refine: () => readPrompt,
+    retry: () => readPrompt,
+  },
+  plan: { chunkThreshold: 2000 },
+  try: { chunkThreshold: 5000 },
+  refine: { maxAttempts: 1 },
+  retry: { maxAttempts: 1 },
+});
+
+function findValue(execution: any, namespace: string, key: string): any {
+  const local = execution?.get?.(namespace, key);
+  if (local !== undefined) return local;
+  return execution?.findUp?.(namespace, key);
+}
+
+/**
+ * Gate paths then project onto DepositPatchPlanPack (allowlist constructor).
+ * Returns null if unusable after gating.
+ */
+function gateAndProject(
+  opt: any,
+  catalogSet: Set<string>,
+  exclusionPrefixes: string[],
+): DepositPatchPlanPack | null {
+  if (!opt || typeof opt.title !== 'string' || opt.title.length < 8) return null;
+  if (typeof opt.patch?.patchSummary !== 'string' || opt.patch.patchSummary.length === 0) {
+    return null;
+  }
+
+  const allow = (p: unknown): p is string => pathAllowedInCatalog(p, catalogSet, exclusionPrefixes);
+  const covered = Array.isArray(opt.coveredSourcePaths)
+    ? opt.coveredSourcePaths.filter(allow).map(normalizeRepoPath)
+    : [];
+  // Commercial deposit .patch: create|modify only — drop delete ops.
+  const fileChanges = Array.isArray(opt.patch?.fileChanges)
+    ? opt.patch.fileChanges
+        .filter((fc: any) => allow(fc?.path))
+        .map((fc: any) => {
+          const opRaw = String(fc?.op || 'modify').toLowerCase();
+          if (opRaw === 'delete') return null;
+          return {
+            path: normalizeRepoPath(fc.path),
+            op: (opRaw === 'create' ? 'create' : 'modify') as 'create' | 'modify',
+          };
+        })
+        .filter(Boolean)
+    : [];
+
+  if (covered.length === 0 || fileChanges.length === 0) return null;
+
+  return toDepositPatchPlanPack({
+    kind: opt.kind,
+    title: opt.title,
+    summary: opt.summary,
+    coveredSourcePaths: covered,
+    confidence: typeof opt.confidence === 'number' ? opt.confidence : 0.5,
+    patch: { fileChanges, patchSummary: opt.patch.patchSummary },
+    salvaged: opt.salvaged === true ? true : undefined,
+    salvageReason: typeof opt.salvageReason === 'string' ? opt.salvageReason : undefined,
+  });
+}
+
+/** Source-safe projection of ranked depository hits for Implementation grounding (STAB-A2). */
+export function projectDepositoryHitsForImplementation(
+  toolResult: unknown,
+  maxHits = 12,
+): Array<{
+  assetId: string;
+  title: string | null;
+  finalScore: number | null;
+  channel: string | null;
+  matchedTerms: string[];
+}> {
+  const hits = Array.isArray((toolResult as { hits?: unknown })?.hits)
+    ? ((toolResult as { hits: unknown[] }).hits as unknown[])
+    : [];
+  const out: Array<{
+    assetId: string;
+    title: string | null;
+    finalScore: number | null;
+    channel: string | null;
+    matchedTerms: string[];
+  }> = [];
+  for (const h of hits) {
+    if (!h || typeof h !== 'object') continue;
+    const row = h as Record<string, unknown>;
+    const assetId = String(row.assetId || row.asset_id || '').trim();
+    if (!assetId) continue;
+    const matchedTerms = Array.isArray(row.matchedTerms)
+      ? row.matchedTerms.map((t) => String(t ?? '').trim()).filter(Boolean).slice(0, 8)
+      : [];
+    out.push({
+      assetId,
+      title: typeof row.title === 'string' ? row.title : null,
+      finalScore:
+        typeof row.finalScore === 'number' && Number.isFinite(row.finalScore)
+          ? row.finalScore
+          : typeof row.semanticScore === 'number' && Number.isFinite(row.semanticScore)
+            ? row.semanticScore
+            : null,
+      channel: typeof row.channel === 'string' ? row.channel : null,
+      matchedTerms,
+    });
+    if (out.length >= maxHits) break;
+  }
+  return out;
+}
+
+function buildDiscoveryPacket(execution: any, input: any) {
+  const codebaseComprehension = findValue(execution, 'discovery', 'codebaseComprehension');
+  const codebaseAnalysis = findValue(execution, 'discovery', 'codebaseAnalysis');
+  const depositorySearch = findValue(execution, 'discovery', 'depositorySearch');
+  const depositorySearchToolResult =
+    findValue(execution, 'discovery', 'depositorySearchToolResult') ??
+    findValue(execution, 'tools', 'depository-asset-pack-search');
+  const inherentRegurgitation = findValue(execution, 'discovery', 'inherentRegurgitation');
+  const sourceMeasurements = findValue(execution, 'discovery', 'sourceMeasurements') ?? [];
+  const depositoryHits = projectDepositoryHitsForImplementation(depositorySearchToolResult);
+
+  const analysisProjection =
+    codebaseAnalysis && typeof codebaseAnalysis === 'object'
+      ? {
+          schema: (codebaseAnalysis as any).schema,
+          pathCount: (codebaseAnalysis as any).sourceCheckoutCatalog?.pathCount,
+          fileTree: (codebaseAnalysis as any).fileTree
+            ? {
+                rootCount: Array.isArray((codebaseAnalysis as any).fileTree?.roots)
+                  ? (codebaseAnalysis as any).fileTree.roots.length
+                  : undefined,
+                summary: (codebaseAnalysis as any).fileTree?.summary,
+                topLevel: (codebaseAnalysis as any).fileTree?.topLevel,
+              }
+            : undefined,
+          sourceMeasurements: (codebaseAnalysis as any).sourceMeasurements,
+          comprehension: (codebaseAnalysis as any).comprehension,
+          notableFromAnalysis: (codebaseAnalysis as any).comprehension?.notableModules,
+        }
+      : null;
+
+  return {
+    context: execution?.get?.('discovery', 'context') ?? input?.discovery?.context,
+    plan: execution?.get?.('discovery', 'plan') ?? input?.discovery?.plan,
+    codebase: codebaseComprehension,
+    codebaseAnalysis: analysisProjection,
+    depository: depositorySearch,
+    /** Ranked source-safe hits for plan grounding (both products when search ran). */
+    depositoryHits,
+    regurgitation: inherentRegurgitation,
+    sourceMeasurements,
+    anchors: {
+      underservedTopics: asStringArray((depositorySearch as any)?.underservedTopics),
+      likelyReadTopics: asStringArray(
+        (depositorySearch as any)?.likelyReadTopics ??
+          (depositorySearch as any)?.needFitTopics,
+      ),
+      gapTopics: asStringArray((depositorySearch as any)?.gapTopics),
+      depositoryHitTitles: depositoryHits
+        .map((h) => h.title)
+        .filter((t): t is string => typeof t === 'string' && t.length > 0)
+        .slice(0, 12),
+      notableModules: asStringArray(
+        (codebaseComprehension as any)?.notableModules ??
+          (codebaseComprehension as any)?.knowledgeAreas,
+      ),
+      patterns: asStringArray((inherentRegurgitation as any)?.patterns),
+      relevantKnowledge: asStringArray((inherentRegurgitation as any)?.relevantKnowledge),
+    },
+  };
+}
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.map((v) => String(v ?? '').trim()).filter(Boolean).slice(0, 24);
+}
+
+function resolveProductLens(execution: any, input: any): 'deposit' | 'read' {
+  const lens =
+    input?.productLens ??
+    findValue(execution, 'implementation', 'productLens') ??
+    findValue(execution, 'pipeline', 'mode');
+  return lens === 'read' ? 'read' : 'deposit';
+}
+
+function buildSalvagePacks(
+  catalogPaths: string[],
+  exclusionPrefixes: string[],
+): DepositPatchPlanPack[] {
+  const paths = catalogPaths
+    .filter((p) => typeof p === 'string' && p.length > 0)
+    .map(normalizeRepoPath)
+    .filter((p) => isCatalogPathSyntax(p) && !isExcludedPath(p, exclusionPrefixes));
+  const core = paths.filter(
+    (p) =>
+      /^(index|src\/|lib\/|package\.json|readme)/i.test(p) ||
+      p.endsWith('.d.ts') ||
+      p.endsWith('.js') ||
+      p.endsWith('.ts'),
+  );
+  const pick = (core.length > 0 ? core : paths).slice(0, 6);
+  if (pick.length === 0) return [];
+
+  const reason =
+    'host-salvage: model Refine emptied usable patchfile candidates; not presentable for deposit';
+
+  return [
+    toDepositPatchPlanPack({
+      kind: 'capability-slice',
+      title: 'Primary public API and type surface',
+      summary:
+        'Source-safe knowledge slice over repository public entrypoints for deposit continuity when model Refine emptied candidates. Host salvage — not depositor-presentable.',
+      coveredSourcePaths: pick.slice(0, Math.min(4, pick.length)),
+      confidence: 0.35,
+      salvaged: true,
+      salvageReason: reason,
+      patch: {
+        fileChanges: pick.slice(0, Math.min(4, pick.length)).map((path) => ({
+          path,
+          op: 'modify',
+        })),
+        patchSummary:
+          'Host-salvage descriptor of the primary library entry surface (continuity only; not presentable).',
+      },
+    }),
+    toDepositPatchPlanPack({
+      kind: 'proof-operations-slice',
+      title: 'Tests and operational verification slice',
+      summary:
+        'Companion knowledge slice covering verification artifacts. Host salvage after empty Refine — not depositor-presentable.',
+      coveredSourcePaths: pick.slice(0, Math.min(4, pick.length)),
+      confidence: 0.3,
+      salvaged: true,
+      salvageReason: reason,
+      patch: {
+        fileChanges: pick.slice(0, Math.min(3, pick.length)).map((path) => ({
+          path,
+          op: 'modify',
+        })),
+        patchSummary:
+          'Host-salvage map of verification files (continuity only; not presentable).',
+      },
+    }),
+  ];
+}
+
+export default async function runDepositImplementationAgentAssetPacksPatchPlan(
+  input: any,
+  execution: any,
+): Promise<DepositPatchPlanPhaseOutput> {
+  const productLens = resolveProductLens(execution, input);
+  const repository =
+    input?.repository ??
+    findValue(execution, 'deposit', 'repository') ??
+    findValue(execution, 'read', 'repository') ??
+    {};
+  const obfuscations = input?.instructions ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
+  const impermissibleSources =
+    input?.impermissibleSources ??
+    findValue(execution, 'deposit', 'impermissibleSources') ??
+    findValue(execution, 'read', 'irrelevantPaths') ??
+    [];
+  const permissibleSources =
+    input?.permissibleSources ??
+    findValue(execution, 'deposit', 'permissibleSources') ??
+    findValue(execution, 'read', 'relevantPaths') ??
+    [];
+  const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
+  const obfuscationGuidance =
+    input?.obfuscationGuidance ?? findValue(execution, 'setup', 'inputComprehension');
+  const needComprehension =
+    input?.needComprehension ??
+    findValue(execution, 'setup', 'needComprehension') ??
+    findValue(execution, 'read', 'needComprehension');
+  const needText =
+    input?.need ??
+    findValue(execution, 'implementation', 'need') ??
+    findValue(execution, 'read', 'need') ??
+    (typeof needComprehension?.summary === 'string' ? needComprehension.summary : null);
+
+  const { ensureDepositCheckoutSourceFiles } = await import(
+    '../../ensure-checkout-source-files'
+  );
+  const { resolveSourceCheckoutCatalog } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog'
+  );
+  const sourceCheckoutCatalog = await ensureDepositCheckoutSourceFiles(
+    execution,
+    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
+  );
+  const {
+    projectInventoryForPrompt,
+    projectInventoryForSynthesisProvider,
+  } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis'
+  );
+  // Paths-only projection for catalog membership gating (deterministic).
+  const catalogPathsOnly = projectInventoryForPrompt(sourceCheckoutCatalog);
+  // FULL bodies for the plan LLM — real synthesis grounding (not product disclosure).
+  const catalogForSynthesis = projectInventoryForSynthesisProvider(sourceCheckoutCatalog, {
+    preferPaths: Array.isArray(sourceCheckoutCatalog?.paths)
+      ? (sourceCheckoutCatalog!.paths as string[]).slice(0, 80)
+      : [],
+  });
+  const discoveryPacket = buildDiscoveryPacket(execution, input);
+  const catalogSet = buildCatalogPathSet(
+    catalogPathsOnly?.paths ?? sourceCheckoutCatalog?.paths,
+  );
+  const exclusionPrefixes = collectExclusionPrefixes(impermissibleSources, obfuscationGuidance);
+
+  const agentInput = {
+    ...input,
+    productLens,
+    repository,
+    instructions: productLens === 'read' ? needText || obfuscations : obfuscations,
+    need: needText,
+    needComprehension: productLens === 'read' ? needComprehension : undefined,
+    permissibleSources,
+    impermissibleSources,
+    demandContext,
+    // Provider input includes real file bodies for grounded patch planning.
+    sourceCheckoutCatalog: catalogForSynthesis || catalogPathsOnly,
+    inventoryPaths: catalogPathsOnly?.paths ?? sourceCheckoutCatalog?.paths,
+    // Full bodies (synthesis provider projection) — not path-only samples.
+    checkoutSources: catalogForSynthesis?.sources ?? sourceCheckoutCatalog?.sources ?? [],
+    excerpts: catalogPathsOnly?.samples ?? sourceCheckoutCatalog?.samples,
+    obfuscationGuidance: productLens === 'deposit' ? obfuscationGuidance : undefined,
+    sourceMeasurements: discoveryPacket.sourceMeasurements,
+    discovery: discoveryPacket,
+  };
+
+  const planAgent =
+    productLens === 'read'
+      ? ReadImplementationAgentAssetPacksPatchPlan
+      : DepositImplementationAgentAssetPacksPatchPlan;
+
+  let raw: unknown;
+  try {
+    raw = await planAgent(agentInput, execution);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    try {
+      execution?.store?.('implementation', 'patchPlanSynthesisError', msg.slice(0, 900));
+    } catch {
+      /* optional */
+    }
+    raw = { options: [] };
+  }
+  const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
+  const modelOptions = Array.isArray((result as any)?.options) ? (result as any).options : [];
+  const usableOptions = modelOptions
+    .map((opt: any) => gateAndProject(opt, catalogSet, exclusionPrefixes))
+    .filter(Boolean) as DepositPatchPlanPack[];
+
+  let options: DepositPatchPlanPack[];
+  let usedSalvage = false;
+  if (usableOptions.length === 0) {
+    const catalogPaths = Array.isArray(catalogPathsOnly?.paths)
+      ? (catalogPathsOnly.paths as string[])
+      : [];
+    options = buildSalvagePacks(catalogPaths, exclusionPrefixes);
+    usedSalvage = options.length > 0;
+  } else {
+    options = usableOptions;
+  }
+
+  const salvageCount = countSalvagedPacks(options);
+  const modelSucceeded = usableOptions.length > 0 && !usedSalvage;
+  const productLabel = productLens === 'read' ? 'read' : 'deposit';
+  const summary = usedSalvage
+    ? `Host-salvaged ${options.length} ${productLabel} patch plan(s) after empty Refine (salvaged=true; NOT presentable). Patchfile write + measurements deferred.`
+    : `Planned ${options.length} ${productLabel} AssetPack patch descriptor(s) (six fields; formal patchfile artifact write is next agent; depositoryHits=${discoveryPacket.depositoryHits.length}).`;
+
+  const output: DepositPatchPlanPhaseOutput = {
+    success: modelSucceeded,
+    semanticKind: 'asset-pack-patch-plan',
+    options,
+    summary,
+    assetPack: { repository },
+    patchPlanComplete: true,
+    patchfileWritten: false,
+    measured: false,
+    salvaged: salvageCount > 0,
+    salvageCount,
+  };
+
+  storeCrossPhaseArtifact(execution, 'implementation', 'patchedPlans', options);
+  storeCrossPhaseArtifact(execution, 'implementation', 'patchedOptions', options);
+  storeCrossPhaseArtifact(execution, 'implementation', 'options', options);
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', options);
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPack', output.assetPack);
+  storeCrossPhaseArtifact(execution, 'implementation', 'summary', summary);
+  storeCrossPhaseArtifact(execution, 'implementation', 'patchPlanComplete', true);
+  storeCrossPhaseArtifact(execution, 'implementation', 'patchfileWritten', false);
+  storeCrossPhaseArtifact(execution, 'implementation', 'measured', false);
+  storeCrossPhaseArtifact(execution, 'implementation', 'presentable', false);
+  storeCrossPhaseArtifact(execution, 'implementation', 'salvaged', output.salvaged);
+  storeCrossPhaseArtifact(execution, 'implementation', 'salvageCount', salvageCount);
+  storeCrossPhaseArtifact(execution, 'implementation', 'discoveryPacketAnchors', discoveryPacket.anchors);
+  storeCrossPhaseArtifact(execution, 'implementation', 'depositoryHits', discoveryPacket.depositoryHits);
+  storeCrossPhaseArtifact(execution, 'implementation', 'productLens', productLens);
+
+  return output;
+}

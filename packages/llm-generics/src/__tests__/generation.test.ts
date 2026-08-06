@@ -1,5 +1,5 @@
 import { createGeneration } from '../generation';
-import { createThricifiedGeneration } from '../thricified-generation';
+import { createThinkingsGeneration } from '../thinkings-generation';
 import type { LLM, LLMInput, LLMOutput } from '../index';
 
 describe('generation primitives', () => {
@@ -21,7 +21,7 @@ describe('generation primitives', () => {
     expect(result).toEqual({ parsed: true });
   });
 
-  it('createThricifiedGeneration sequences reason, judge, and structured generations', async () => {
+  it('createThinkingsGeneration sequences reason, judge, and structured generations', async () => {
     const reason = jest.fn(async () => 'reasoning');
     const judge = jest.fn(async () => 'judgment');
     const structured = jest.fn(async () => ({ output: 'final' }));
@@ -29,13 +29,13 @@ describe('generation primitives', () => {
     const composeJudgePrompt = jest.fn((base, reasonResult) => ({ ...base, reasonResult }));
     const composeStructuredPrompt = jest.fn((base, reasonResult, judgment) => ({ ...base, reasonResult, judgment }));
 
-    const thricified = createThricifiedGeneration(reason, judge, structured, {
+    const thinkings = createThinkingsGeneration(reason, judge, structured, {
       composeJudgePrompt,
       composeStructuredPrompt,
     });
 
     const basePrompt = { kind: 'analysis' } as any;
-    const result = await thricified(basePrompt);
+    const result = await thinkings(basePrompt);
 
     expect(reason).toHaveBeenCalledWith(basePrompt);
     expect(composeJudgePrompt).toHaveBeenCalledWith(basePrompt, 'reasoning');

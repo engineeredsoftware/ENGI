@@ -1,0 +1,66 @@
+{
+  "proofId": "v27-receipt-replay-proof",
+  "version": "V27",
+  "generatedAt": "2026-05-06T00:00:00.000Z",
+  "activeCanonicalPointer": "V27",
+  "state": "draft-target-receipt-replay-proof-slice",
+  "scope": [
+    "BtdMintReceipt schema validation",
+    "mint receipt replay",
+    "range reconstruction",
+    "allocation conservation replay",
+    "mutation rejection"
+  ],
+  "commercialImplementation": {
+    "receiptSchema": "packages/btd/src/receipts.ts",
+    "allocationSchema": "packages/btd/src/allocation.ts",
+    "replayEngine": "packages/btd/src/replay.ts",
+    "tests": "packages/btd/__tests__/v27-crypto-primitives.test.ts",
+    "reconstructs": [
+      "prior supply checkpoints",
+      "contiguous AssetPack ranges",
+      "conserved contributor allocation receipts",
+      "nextTokenId"
+    ],
+    "mutationFailures": [
+      "missing proof root",
+      "altered range boundary",
+      "altered max supply",
+      "missing access policy hash",
+      "non-conserved allocation"
+    ]
+  },
+  "demonstrationImplementation": {
+    "receiptSchemas": "protocol-demonstration/src/receipt-schemas.js",
+    "replayWitness": "protocol-demonstration/src/v27-crypto-primitives.js",
+    "tests": "protocol-demonstration/test/v27-crypto-primitives.test.js",
+    "assertion": "V27 demonstration mint receipt replay reconstructs supply ranges and allocations"
+  },
+  "validatedCommands": [
+    {
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
+      "status": "passed",
+      "assertions": 44,
+      "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
+    },
+    {
+      "command": "pnpm -C packages/api build",
+      "status": "passed"
+    },
+    {
+      "command": "pnpm -C packages/orm build",
+      "status": "passed"
+    },
+    {
+      "command": "pnpm -C protocol-demonstration test:v27-crypto",
+      "status": "passed",
+      "assertions": 8
+    }
+  ],
+  "nonPromotionAssertions": [
+    "BITCODE_SPEC.txt remained V26 until Gate 16 promotion",
+    "BITCODE_SPEC_V27_PROVEN.md did not exist until Gate 16 promotion",
+    "This proof slice does not claim persisted Exchange receipt writes, database projection replay, ledger finality, generated total proof-family closure, or V27 promotion"
+  ],
+  "activeCanonicalPointerAtGeneration": "V26"
+}

@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -234,7 +234,7 @@ export const filePickStepPrompts = {
  * File Pick Agent (PTRR)
  * Uses full PTRR cycle for thorough file discovery
  */
-const filePick = factoryAgentWithPTRR<
+const filePick: any = factoryPTRRAgent<
   z.infer<typeof FilePickInputSchema>,
   z.infer<typeof FilePickRetrySchema>
 >({
@@ -277,7 +277,7 @@ const filePick = factoryAgentWithPTRR<
  * Quick File Pick Agent
  * Single-step execution for simple file discovery
  */
-const quickFilePick = factoryAgentWithSingleStep<
+const quickFilePick: any = factoryAgentWithSingleStep<
   z.infer<typeof FilePickInputSchema>,
   z.infer<typeof FilePickRetrySchema>
 >({
@@ -344,10 +344,10 @@ export const quickFilePickAgent = quickFilePick;
  * When filePickAgent is called:
  * 1. selectVariation picks comprehensive or quick based on search complexity
  * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
+ *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thinkings)
+ *    - factoryTryGeneration(schema) creates Try generation (failsafed thinkings)
+ *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thinkings)
+ *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thinkings)
  * 3. Each executor automatically:
  *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
  *    - Each parent runs Reason→Judge→StructuredOutput

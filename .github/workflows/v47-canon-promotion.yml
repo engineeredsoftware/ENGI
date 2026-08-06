@@ -72,7 +72,7 @@ jobs:
             echo "::endgroup::"
           }
 
-          POINTER="$(cat BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V46" ]; then
             run_checked node scripts/check-bitcode-spec-family.mjs --version V47 --mode draft --current-target V46
             run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V46 --draft-target V47
@@ -97,15 +97,15 @@ jobs:
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
           fi
-          run_bounded 5m pnpm --filter @bitcode/protocol typecheck
-          run_bounded 15m pnpm --filter @bitcode/protocol test
+          run_bounded 5m pnpm --filter @bitcode/specifying typecheck
+          run_bounded 15m pnpm --filter @bitcode/specifying test
           run_bounded 5m pnpm --filter @bitcode/btd typecheck
           run_bounded 5m pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
-          run_bounded 15m npm --prefix protocol-demonstration test
-          run_bounded 5m npm --prefix protocol-demonstration run test:v28-mvp-qa
-          run_bounded 5m pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          run_bounded 15m pnpm --dir scripts/specifying exec node --test --test-force-exit test/specifying-package-boundary.test.js
+          run_bounded 5m pnpm --dir scripts/specifying exec node --test --test-force-exit test/v42-ai-reading-demonstration.test.js
+          run_bounded 5m pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           run_bounded 5m pnpm --filter @bitcode/pipeline-hosts typecheck
-          run_bounded 5m pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          run_bounded 5m pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
           run_bounded 5m pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
           run_checked git diff --check
 
@@ -118,16 +118,16 @@ jobs:
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if [ "$(cat BITCODE_SPEC.txt)" = "V47" ]; then
+          if [ "$(cat .specifications/BITCODE_SPEC.txt)" = "V47" ]; then
             echo "BITCODE_SPEC.txt already points to V47."
             exit 0
           fi
           PROOF_SOURCE_COMMIT="$(git rev-parse HEAD)"
           node scripts/prepare-bitcode-spec-family-promotion.mjs --version V47 --commit "$PROOF_SOURCE_COMMIT"
           node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V47 --next-draft V48
-          printf "V47\n" > BITCODE_SPEC.txt
-          node scripts/generate-bitcode-proven.mjs --version V47 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output BITCODE_SPEC_V47_PROVEN.md --allow-dirty
-          node scripts/generate-bitcode-proven.mjs --version V47 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output BITCODE_SPEC_V47_PROVEN.md --check --allow-dirty
+          printf "V47\n" > .specifications/BITCODE_SPEC.txt
+          node scripts/generate-bitcode-proven.mjs --version V47 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output .specifications/BITCODE_SPEC_V47_PROVEN.md --allow-dirty
+          node scripts/generate-bitcode-proven.mjs --version V47 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output .specifications/BITCODE_SPEC_V47_PROVEN.md --check --allow-dirty
           node scripts/check-bitcode-canonical-inputs.mjs --current-target V47
           node scripts/check-bitcode-spec-family.mjs --version V47 --mode promoted --current-target V47
           node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V47 --draft-target V48
@@ -135,17 +135,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
-            BITCODE_SPEC.txt \
-            BITCODE_SPEC_V47.md \
-            BITCODE_SPEC_V47_DELTA.md \
-            BITCODE_SPEC_V47_NOTES.md \
-            BITCODE_SPEC_V47_PARITY_MATRIX.md \
-            BITCODE_SPEC_V47_PROVEN.md \
-            protocol-demonstration/src/canon-posture.js \
-            protocol-demonstration/README.md \
-            packages/protocol/src/canon-posture.js \
-            packages/protocol/data/state.json \
-            packages/protocol/README.md \
-            .bitcode
+            .specifications/BITCODE_SPEC.txt \
+            .specifications/BITCODE_SPEC_V47.md \
+            .specifications/BITCODE_SPEC_V47_DELTA.md \
+            .specifications/BITCODE_SPEC_V47_NOTES.md \
+            .specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md \
+            .specifications/BITCODE_SPEC_V47_PROVEN.md \
+            scripts/specifying/src/canon-posture.js \
+            scripts/specifying/data/state.json \
+            scripts/specifying/README.md \
+            .proofs
           git commit -m "Promote Bitcode canon to V47"
           git push origin "HEAD:$HEAD_BRANCH"

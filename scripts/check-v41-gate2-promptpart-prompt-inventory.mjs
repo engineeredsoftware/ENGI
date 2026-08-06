@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-promptpart-prompt-inventory.json';
+const ARTIFACT_PATH = '.proofs/v41/promptpart-prompt-inventory.json';
 
 const REQUIRED_SURFACE_IDS = [
   'raw-promptparts-generic',
@@ -112,7 +112,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -131,26 +131,26 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js',
-    'packages/protocol/test/v41-promptpart-prompt-inventory.test.js',
+    'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
+    'scripts/specifying/test/v41-promptpart-prompt-inventory.test.js',
     'scripts/generate-v41-promptpart-prompt-inventory.mjs',
     'scripts/check-v41-gate2-promptpart-prompt-inventory.mjs',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'BITCODE_SPEC_V41.md',
-    'BITCODE_SPEC_V41_DELTA.md',
-    'BITCODE_SPEC_V41_NOTES.md',
-    'BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'packages/prompts/src/raw_promptparts/generic',
     'packages/prompts/src/raw_promptparts/specific',
-    'packages/pipelines/asset-pack/src/agents',
-    'packages/conversations-generics/src',
+    'packages/asset-packs-pipelines/domain/src/agents',
+    'packages/conversations/src',
     'packages/tools-generics/src',
     'packages/generic-tools',
   ];
@@ -169,7 +169,7 @@ function main() {
 
   if (!args.skipPackageTests && failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v41-promptpart-prompt-inventory.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v41-promptpart-prompt-inventory.test.js']);
     } catch (error) {
       failures.push(`V41 PromptPart/Prompt inventory protocol test failed: ${error.stderr || error.message}`);
     }
@@ -235,7 +235,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-prompt-inventory'), 'package.json must expose generate:v41-prompt-inventory.');
   assertCheck(failures, packageJson.includes('check:v41-gate2'), 'package.json must expose check:v41-gate2.');
 
-  const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, '.specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, '.specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(failures, roadmap.includes('V42'), 'Roadmap must include V42.');
   assertCheck(failures, roadmap.includes('shortest-path Depositing'), 'Roadmap must name shortest-path Depositing.');
   assertCheck(failures, roadmap.includes('shortest-path Reading'), 'Roadmap must name shortest-path Reading.');

@@ -1,0 +1,3101 @@
+{
+  "artifactId": "v36-exchange-dispute-repair-revenue-route",
+  "schemaId": "bitcode.v36.exchangeDisputeRepairRevenueRoute.v1",
+  "version": "V36",
+  "currentTarget": "V35",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-exchange-dispute-repair-revenue-route-metadata",
+  "operationalBoundary": {
+    "exchangeDisputeRepairCaseCovers": "stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch",
+    "exchangeRevenueRouteCovers": "depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof",
+    "repairRunbookBinding": "runbooks and repair commands are source-safe and proof-rooted",
+    "mayExpose": [
+      "dispute_case_identity",
+      "incident_class",
+      "affected_order_identity",
+      "affected_settlement_identity",
+      "projection_roots",
+      "repair_command",
+      "verification_command",
+      "runbook_id",
+      "escalation_path",
+      "revenue_accounts",
+      "btc_amounts",
+      "btd_right_route",
+      "source_to_shares_root",
+      "conservation_proof",
+      "proof_roots",
+      "event_ids"
+    ],
+    "mustNotExpose": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "wallet_seed_phrase",
+      "wallet_private_key",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "unpaid_assetpack_source",
+      "private_payment_credentials",
+      "buyer_private_repository_payload",
+      "object_storage_private_bytes",
+      "raw_disputed_source_bytes"
+    ]
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredIncidentClasses": [
+      "stale_owner",
+      "cancelled_order_replay",
+      "underpayment",
+      "overpayment",
+      "projection_drift",
+      "source_leakage",
+      "delivery_mismatch"
+    ],
+    "observedIncidentClasses": [
+      "stale_owner",
+      "cancelled_order_replay",
+      "underpayment",
+      "overpayment",
+      "projection_drift",
+      "source_leakage",
+      "delivery_mismatch"
+    ],
+    "missingIncidentClasses": [],
+    "requiredRevenueRouteStates": [
+      "exact_settlement_conserved",
+      "overpayment_refund_conserved",
+      "underpayment_blocked_conserved",
+      "projection_repair_conserved"
+    ],
+    "observedRevenueRouteStates": [
+      "exact_settlement_conserved",
+      "overpayment_refund_conserved",
+      "underpayment_blocked_conserved",
+      "projection_repair_conserved"
+    ],
+    "missingRevenueRouteStates": [],
+    "disputeCaseCount": 7,
+    "revenueRouteCount": 4,
+    "allRequiredIncidentClassesCovered": true,
+    "allRequiredRevenueRouteStatesCovered": true,
+    "staleOwnerCovered": true,
+    "cancelledOrderReplayCovered": true,
+    "underpaymentCovered": true,
+    "overpaymentCovered": true,
+    "projectionDriftCovered": true,
+    "sourceLeakageCovered": true,
+    "deliveryMismatchCovered": true,
+    "repairCommandsSourceSafe": true,
+    "verificationCommandsSourceSafe": true,
+    "runbooksProofRootedSourceSafe": true,
+    "escalationPathsCovered": true,
+    "disputeProofRootsCovered": true,
+    "disputeEventIdsCovered": true,
+    "depositorReaderTreasuryFeeRoutesCovered": true,
+    "btcRouteCovered": true,
+    "btdRightRouteCovered": true,
+    "sourceToSharesRouteCovered": true,
+    "conservationProofCovered": true,
+    "revenueProofRootsCovered": true,
+    "revenueEventIdsCovered": true,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "credentialsSerialized": false,
+    "privateWalletMaterialSerialized": false,
+    "privatePaymentCredentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false
+  },
+  "requiredIncidentClasses": [
+    "stale_owner",
+    "cancelled_order_replay",
+    "underpayment",
+    "overpayment",
+    "projection_drift",
+    "source_leakage",
+    "delivery_mismatch"
+  ],
+  "requiredRevenueRouteStates": [
+    "exact_settlement_conserved",
+    "overpayment_refund_conserved",
+    "underpayment_blocked_conserved",
+    "projection_repair_conserved"
+  ],
+  "disputeCaseRequiredFieldIds": [
+    "disputeCaseId",
+    "incidentClass",
+    "disputeReason",
+    "affectedOrder",
+    "affectedSettlement",
+    "affectedProjection",
+    "repairCommand",
+    "verificationCommand",
+    "runbook",
+    "proofRoot",
+    "escalationPath",
+    "eventIds"
+  ],
+  "revenueRouteRequiredFieldIds": [
+    "revenueRouteId",
+    "routeState",
+    "treasuryAccount",
+    "depositorAccount",
+    "readerAccount",
+    "feeAccount",
+    "btcRoute",
+    "btdRightRoute",
+    "sourceToSharesRoute",
+    "conservationProof",
+    "proofRoot",
+    "eventIds"
+  ],
+  "disputeCases": [
+    {
+      "disputeCaseId": "exchange-dispute-repair:stale-owner-alpha",
+      "incidentClass": "stale_owner",
+      "label": "Stale owner detected",
+      "disputeReason": "market order owner projection differs from ledger owner root",
+      "affectedOrderId": "exchange-order:sell:source-safe-alpha",
+      "affectedOrderState": "blocked_stale_owner",
+      "affectedSettlementReceiptId": "exchange-settlement-receipt:finalized-beta",
+      "finalityState": "btc_finality_confirmed",
+      "affectedProjectionKind": "owner_projection",
+      "projectionDriftClass": "ledger_owner_outranks_database_owner_projection",
+      "repairId": "repair:exchange-stale-owner-alpha",
+      "repairAction": "rewrite_owner_projection_from_ledger_truth_and_freeze_listing_until_verified",
+      "repairCommandName": "pnpm run check:v36-gate7 -- --repair-id repair:exchange-stale-owner-alpha",
+      "verificationCommandName": "pnpm run check:v36-gate7",
+      "severity": "high",
+      "approvingRole": "exchange-operations-lead",
+      "customerVisibleStatus": "listing paused while ownership projection is repaired",
+      "escalationPathId": "exchange-escalation:stale-owner",
+      "eventIds": [
+        "exchange.dispute.stale_owner.detected",
+        "exchange.repair.owner_projection.required"
+      ],
+      "failClosedConditions": [
+        "stale_owner_detected",
+        "cancelled_order_replay_detected",
+        "underpayment_detected",
+        "overpayment_detected",
+        "projection_drift_detected",
+        "source_leakage_detected",
+        "delivery_mismatch_detected",
+        "missing_repair_command",
+        "missing_verification_command",
+        "missing_conservation_proof",
+        "ledger_database_projection_drift"
+      ],
+      "canonicalObject": "ExchangeDisputeRepairCase",
+      "affectedOrder": {
+        "orderId": "exchange-order:sell:source-safe-alpha",
+        "orderState": "blocked_stale_owner",
+        "visibility": "order_identity_state_and_root_only_no_source_or_private_wallet_material",
+        "affectedOrderRoot": "exchange-dispute-order:61f875ccf28d2200816167cb"
+      },
+      "affectedSettlement": {
+        "settlementReceiptId": "exchange-settlement-receipt:finalized-beta",
+        "finalityState": "btc_finality_confirmed",
+        "paymentObservationRoot": "exchange-dispute-payment-observation:18f672d31108b4abd5a2592f",
+        "visibility": "settlement_receipt_identity_finality_and_payment_observation_root_only"
+      },
+      "affectedProjection": {
+        "projectionKind": "owner_projection",
+        "projectionDriftClass": "ledger_owner_outranks_database_owner_projection",
+        "ledgerRoot": "exchange-dispute-ledger-root:18f672d31108b4abd5a2592f",
+        "databaseProjectionRoot": "exchange-dispute-database-projection-root:bd30c279053920b15e07c9ea",
+        "objectStorageRoot": "exchange-dispute-object-storage-root:56dff843445614cf9c96646b",
+        "projectionTrust": "ledger_journal_outranks_database_and_object_storage_projection"
+      },
+      "repairCommand": {
+        "repairId": "repair:exchange-stale-owner-alpha",
+        "commandId": "exchange-dispute-repair:stale-owner-alpha:repair-command",
+        "command": "pnpm run check:v36-gate7 -- --repair-id repair:exchange-stale-owner-alpha",
+        "dryRunCommand": "pnpm run check:v36-gate7 -- --repair-id repair:exchange-stale-owner-alpha --dry-run",
+        "repairAction": "rewrite_owner_projection_from_ledger_truth_and_freeze_listing_until_verified",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "operatorApprovalRequired": true,
+        "writesProtectedSource": false
+      },
+      "verificationCommand": {
+        "commandId": "exchange-dispute-repair:stale-owner-alpha:verification-command",
+        "command": "pnpm run check:v36-gate7",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "expectedResult": "repair_case_reconciled_or_fail_closed"
+      },
+      "runbook": {
+        "runbookId": "exchange-dispute-repair:stale-owner-alpha:runbook",
+        "title": "Stale owner detected repair runbook",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "steps": [
+          "freeze affected market transition",
+          "compare ledger root to database and object-storage projection roots",
+          "execute the source-safe repair command with operator approval",
+          "rerun the verification command and journal proof roots"
+        ]
+      },
+      "escalationPath": {
+        "escalationPathId": "exchange-escalation:stale-owner",
+        "severity": "high",
+        "firstResponder": "exchange-operator",
+        "approvingRole": "exchange-operations-lead",
+        "customerVisibleStatus": "listing paused while ownership projection is repaired",
+        "customerDisclosure": "source_safe_status_no_protected_source_no_wallet_private_material"
+      },
+      "affectedStateRoot": "exchange-dispute-affected-state:9c04f09d47bcb62867dab5f0",
+      "proofRootFields": [
+        "disputeCaseRoot",
+        "affectedStateRoot",
+        "repairCommandRoot",
+        "verificationCommandRoot",
+        "runbookRoot",
+        "escalationRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_dispute_repair_metadata",
+      "sourceSafetyPosture": "dispute_repair_roots_commands_runbooks_and_status_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_dispute_repair_redaction_v1",
+        "allowedPayloadClasses": [
+          "dispute_case_identity",
+          "incident_class",
+          "affected_order_identity",
+          "affected_settlement_identity",
+          "affected_projection_roots",
+          "repair_command",
+          "verification_command",
+          "runbook_id",
+          "escalation_path",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-dispute-repair:stale-owner-alpha.dispute-repair-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "stale_owner_detected",
+            "cancelled_order_replay_detected",
+            "underpayment_detected",
+            "overpayment_detected",
+            "projection_drift_detected",
+            "source_leakage_detected",
+            "delivery_mismatch_detected",
+            "missing_repair_command",
+            "missing_verification_command",
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "disputeCaseRoot": "exchange-dispute-repair-case:41b8b8f5b839e8e668c062aa",
+      "proofRoot": "exchange-dispute-repair-case:41b8b8f5b839e8e668c062aa",
+      "proofRoots": {
+        "disputeCaseRoot": "exchange-proof:1352a4bd66743ea81b70f02e",
+        "affectedStateRoot": "exchange-dispute-affected-state:9c04f09d47bcb62867dab5f0",
+        "repairCommandRoot": "exchange-proof:9ad39b4b92f8cd84883cbd84",
+        "verificationCommandRoot": "exchange-proof:8c6f9f73a4c3b3020fb3a2d3",
+        "runbookRoot": "exchange-proof:6e155e28b816798e98fb7d8e",
+        "escalationRoot": "exchange-proof:06cb86f0a6187b5cce6abad7",
+        "redactionRoot": "exchange-proof:be08c1f445eb92ac318a14e5"
+      }
+    },
+    {
+      "disputeCaseId": "exchange-dispute-repair:cancelled-order-replay-beta",
+      "incidentClass": "cancelled_order_replay",
+      "label": "Cancelled order replay blocked",
+      "disputeReason": "cancelled order idempotency key was replayed after cancellation journal finality",
+      "affectedOrderId": "exchange-order:cancel:source-safe-beta",
+      "affectedOrderState": "blocked_cancelled_order_replay",
+      "affectedSettlementReceiptId": "exchange-settlement-receipt:payment-observed-alpha",
+      "finalityState": "pending_confirmations",
+      "affectedProjectionKind": "order_history_projection",
+      "projectionDriftClass": "cancelled_order_replay_attempt",
+      "repairId": "repair:cancelled-order-replay-beta",
+      "repairAction": "preserve_cancelled_journal_state_and_reject_replayed_transition",
+      "repairCommandName": "pnpm run check:v36-gate7 -- --repair-id repair:cancelled-order-replay-beta",
+      "verificationCommandName": "pnpm run check:v36-gate7",
+      "severity": "medium",
+      "approvingRole": "exchange-operator",
+      "customerVisibleStatus": "cancelled order remains closed",
+      "escalationPathId": "exchange-escalation:cancelled-order-replay",
+      "eventIds": [
+        "exchange.dispute.cancelled_order_replay.detected",
+        "exchange.intent.replay.blocked"
+      ],
+      "failClosedConditions": [
+        "cancelled_order_replay_detected",
+        "stale_owner_detected",
+        "underpayment_detected",
+        "overpayment_detected",
+        "projection_drift_detected",
+        "source_leakage_detected",
+        "delivery_mismatch_detected",
+        "missing_repair_command",
+        "missing_verification_command",
+        "missing_conservation_proof",
+        "ledger_database_projection_drift"
+      ],
+      "canonicalObject": "ExchangeDisputeRepairCase",
+      "affectedOrder": {
+        "orderId": "exchange-order:cancel:source-safe-beta",
+        "orderState": "blocked_cancelled_order_replay",
+        "visibility": "order_identity_state_and_root_only_no_source_or_private_wallet_material",
+        "affectedOrderRoot": "exchange-dispute-order:42d8c2f0b0b834627b6c1faa"
+      },
+      "affectedSettlement": {
+        "settlementReceiptId": "exchange-settlement-receipt:payment-observed-alpha",
+        "finalityState": "pending_confirmations",
+        "paymentObservationRoot": "exchange-dispute-payment-observation:c6d973f423fd85bfc009968b",
+        "visibility": "settlement_receipt_identity_finality_and_payment_observation_root_only"
+      },
+      "affectedProjection": {
+        "projectionKind": "order_history_projection",
+        "projectionDriftClass": "cancelled_order_replay_attempt",
+        "ledgerRoot": "exchange-dispute-ledger-root:c6d973f423fd85bfc009968b",
+        "databaseProjectionRoot": "exchange-dispute-database-projection-root:dd7cb155303fb3591d9b86dc",
+        "objectStorageRoot": "exchange-dispute-object-storage-root:324938779c9943a267538270",
+        "projectionTrust": "ledger_journal_outranks_database_and_object_storage_projection"
+      },
+      "repairCommand": {
+        "repairId": "repair:cancelled-order-replay-beta",
+        "commandId": "exchange-dispute-repair:cancelled-order-replay-beta:repair-command",
+        "command": "pnpm run check:v36-gate7 -- --repair-id repair:cancelled-order-replay-beta",
+        "dryRunCommand": "pnpm run check:v36-gate7 -- --repair-id repair:cancelled-order-replay-beta --dry-run",
+        "repairAction": "preserve_cancelled_journal_state_and_reject_replayed_transition",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "operatorApprovalRequired": true,
+        "writesProtectedSource": false
+      },
+      "verificationCommand": {
+        "commandId": "exchange-dispute-repair:cancelled-order-replay-beta:verification-command",
+        "command": "pnpm run check:v36-gate7",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "expectedResult": "repair_case_reconciled_or_fail_closed"
+      },
+      "runbook": {
+        "runbookId": "exchange-dispute-repair:cancelled-order-replay-beta:runbook",
+        "title": "Cancelled order replay blocked repair runbook",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "steps": [
+          "freeze affected market transition",
+          "compare ledger root to database and object-storage projection roots",
+          "execute the source-safe repair command with operator approval",
+          "rerun the verification command and journal proof roots"
+        ]
+      },
+      "escalationPath": {
+        "escalationPathId": "exchange-escalation:cancelled-order-replay",
+        "severity": "medium",
+        "firstResponder": "exchange-operator",
+        "approvingRole": "exchange-operator",
+        "customerVisibleStatus": "cancelled order remains closed",
+        "customerDisclosure": "source_safe_status_no_protected_source_no_wallet_private_material"
+      },
+      "affectedStateRoot": "exchange-dispute-affected-state:22fb1aad9de9c370139a7d4b",
+      "proofRootFields": [
+        "disputeCaseRoot",
+        "affectedStateRoot",
+        "repairCommandRoot",
+        "verificationCommandRoot",
+        "runbookRoot",
+        "escalationRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_dispute_repair_metadata",
+      "sourceSafetyPosture": "dispute_repair_roots_commands_runbooks_and_status_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_dispute_repair_redaction_v1",
+        "allowedPayloadClasses": [
+          "dispute_case_identity",
+          "incident_class",
+          "affected_order_identity",
+          "affected_settlement_identity",
+          "affected_projection_roots",
+          "repair_command",
+          "verification_command",
+          "runbook_id",
+          "escalation_path",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-dispute-repair:cancelled-order-replay-beta.dispute-repair-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "cancelled_order_replay_detected",
+            "stale_owner_detected",
+            "underpayment_detected",
+            "overpayment_detected",
+            "projection_drift_detected",
+            "source_leakage_detected",
+            "delivery_mismatch_detected",
+            "missing_repair_command",
+            "missing_verification_command",
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "disputeCaseRoot": "exchange-dispute-repair-case:a21cc2275b4a5b0bb1361e52",
+      "proofRoot": "exchange-dispute-repair-case:a21cc2275b4a5b0bb1361e52",
+      "proofRoots": {
+        "disputeCaseRoot": "exchange-proof:15405348f1d7f7cb5a52e98b",
+        "affectedStateRoot": "exchange-dispute-affected-state:22fb1aad9de9c370139a7d4b",
+        "repairCommandRoot": "exchange-proof:2591275d809fc80e3489d235",
+        "verificationCommandRoot": "exchange-proof:2f177cc905838f88c92dd031",
+        "runbookRoot": "exchange-proof:7cf0f4d6f1f865fd9849b6b7",
+        "escalationRoot": "exchange-proof:fc55ebc51ed0ebe812a0a50d",
+        "redactionRoot": "exchange-proof:4eee07b3d12792da2baf894d"
+      }
+    },
+    {
+      "disputeCaseId": "exchange-dispute-repair:underpayment-gamma",
+      "incidentClass": "underpayment",
+      "label": "Underpayment settlement blocked",
+      "disputeReason": "observed BTC amount is below deterministic quote amount",
+      "affectedOrderId": "exchange-order:accept:source-safe-gamma",
+      "affectedOrderState": "blocked_underpayment",
+      "affectedSettlementReceiptId": "exchange-settlement-receipt:underpayment-gamma",
+      "finalityState": "payment_observed_below_quote",
+      "affectedProjectionKind": "payment_projection",
+      "projectionDriftClass": "payment_amount_below_quote_root",
+      "repairId": "repair:underpayment-gamma",
+      "repairAction": "keep_delivery_locked_and_route_refund_or_top_up_decision_without_rights_transfer",
+      "repairCommandName": "pnpm run check:v36-gate7 -- --repair-id repair:underpayment-gamma",
+      "verificationCommandName": "pnpm run check:v36-gate7",
+      "severity": "high",
+      "approvingRole": "exchange-settlement-operator",
+      "customerVisibleStatus": "payment below quote; delivery locked",
+      "escalationPathId": "exchange-escalation:underpayment",
+      "eventIds": [
+        "exchange.dispute.underpayment.detected",
+        "exchange.delivery.locked"
+      ],
+      "failClosedConditions": [
+        "underpayment_detected",
+        "stale_owner_detected",
+        "cancelled_order_replay_detected",
+        "overpayment_detected",
+        "projection_drift_detected",
+        "source_leakage_detected",
+        "delivery_mismatch_detected",
+        "missing_repair_command",
+        "missing_verification_command",
+        "missing_conservation_proof",
+        "ledger_database_projection_drift"
+      ],
+      "canonicalObject": "ExchangeDisputeRepairCase",
+      "affectedOrder": {
+        "orderId": "exchange-order:accept:source-safe-gamma",
+        "orderState": "blocked_underpayment",
+        "visibility": "order_identity_state_and_root_only_no_source_or_private_wallet_material",
+        "affectedOrderRoot": "exchange-dispute-order:a52337f2787117e5f0b60afe"
+      },
+      "affectedSettlement": {
+        "settlementReceiptId": "exchange-settlement-receipt:underpayment-gamma",
+        "finalityState": "payment_observed_below_quote",
+        "paymentObservationRoot": "exchange-dispute-payment-observation:baea12af58b1599d53e6be0c",
+        "visibility": "settlement_receipt_identity_finality_and_payment_observation_root_only"
+      },
+      "affectedProjection": {
+        "projectionKind": "payment_projection",
+        "projectionDriftClass": "payment_amount_below_quote_root",
+        "ledgerRoot": "exchange-dispute-ledger-root:baea12af58b1599d53e6be0c",
+        "databaseProjectionRoot": "exchange-dispute-database-projection-root:a2cd41d259a256836cbf5602",
+        "objectStorageRoot": "exchange-dispute-object-storage-root:fa03183863cdc99968107e69",
+        "projectionTrust": "ledger_journal_outranks_database_and_object_storage_projection"
+      },
+      "repairCommand": {
+        "repairId": "repair:underpayment-gamma",
+        "commandId": "exchange-dispute-repair:underpayment-gamma:repair-command",
+        "command": "pnpm run check:v36-gate7 -- --repair-id repair:underpayment-gamma",
+        "dryRunCommand": "pnpm run check:v36-gate7 -- --repair-id repair:underpayment-gamma --dry-run",
+        "repairAction": "keep_delivery_locked_and_route_refund_or_top_up_decision_without_rights_transfer",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "operatorApprovalRequired": true,
+        "writesProtectedSource": false
+      },
+      "verificationCommand": {
+        "commandId": "exchange-dispute-repair:underpayment-gamma:verification-command",
+        "command": "pnpm run check:v36-gate7",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "expectedResult": "repair_case_reconciled_or_fail_closed"
+      },
+      "runbook": {
+        "runbookId": "exchange-dispute-repair:underpayment-gamma:runbook",
+        "title": "Underpayment settlement blocked repair runbook",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "steps": [
+          "freeze affected market transition",
+          "compare ledger root to database and object-storage projection roots",
+          "execute the source-safe repair command with operator approval",
+          "rerun the verification command and journal proof roots"
+        ]
+      },
+      "escalationPath": {
+        "escalationPathId": "exchange-escalation:underpayment",
+        "severity": "high",
+        "firstResponder": "exchange-operator",
+        "approvingRole": "exchange-settlement-operator",
+        "customerVisibleStatus": "payment below quote; delivery locked",
+        "customerDisclosure": "source_safe_status_no_protected_source_no_wallet_private_material"
+      },
+      "affectedStateRoot": "exchange-dispute-affected-state:973f18f9c38f012db0af56b5",
+      "proofRootFields": [
+        "disputeCaseRoot",
+        "affectedStateRoot",
+        "repairCommandRoot",
+        "verificationCommandRoot",
+        "runbookRoot",
+        "escalationRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_dispute_repair_metadata",
+      "sourceSafetyPosture": "dispute_repair_roots_commands_runbooks_and_status_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_dispute_repair_redaction_v1",
+        "allowedPayloadClasses": [
+          "dispute_case_identity",
+          "incident_class",
+          "affected_order_identity",
+          "affected_settlement_identity",
+          "affected_projection_roots",
+          "repair_command",
+          "verification_command",
+          "runbook_id",
+          "escalation_path",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-dispute-repair:underpayment-gamma.dispute-repair-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "underpayment_detected",
+            "stale_owner_detected",
+            "cancelled_order_replay_detected",
+            "overpayment_detected",
+            "projection_drift_detected",
+            "source_leakage_detected",
+            "delivery_mismatch_detected",
+            "missing_repair_command",
+            "missing_verification_command",
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "disputeCaseRoot": "exchange-dispute-repair-case:e6e79362280b7eb4015ca0ff",
+      "proofRoot": "exchange-dispute-repair-case:e6e79362280b7eb4015ca0ff",
+      "proofRoots": {
+        "disputeCaseRoot": "exchange-proof:e0865dcda4ab62c3285cfa88",
+        "affectedStateRoot": "exchange-dispute-affected-state:973f18f9c38f012db0af56b5",
+        "repairCommandRoot": "exchange-proof:6f4d32fbf2fc2ab81f214d52",
+        "verificationCommandRoot": "exchange-proof:d6247506cb14e25bb029262a",
+        "runbookRoot": "exchange-proof:35e8d77b7e00c329c43a2f78",
+        "escalationRoot": "exchange-proof:b1d3a9a0cd7e39ade66e9ace",
+        "redactionRoot": "exchange-proof:70ae95c68f57ab602ee8dd30"
+      }
+    },
+    {
+      "disputeCaseId": "exchange-dispute-repair:overpayment-delta",
+      "incidentClass": "overpayment",
+      "label": "Overpayment refund routed",
+      "disputeReason": "observed BTC amount exceeds deterministic quote amount",
+      "affectedOrderId": "exchange-order:accept:source-safe-delta",
+      "affectedOrderState": "blocked_overpayment_refund_pending",
+      "affectedSettlementReceiptId": "exchange-settlement-receipt:overpayment-delta",
+      "finalityState": "payment_observed_above_quote",
+      "affectedProjectionKind": "payment_projection",
+      "projectionDriftClass": "payment_amount_above_quote_root",
+      "repairId": "repair:overpayment-delta",
+      "repairAction": "separate quote settlement from refundable overage before rights transfer",
+      "repairCommandName": "pnpm run check:v36-gate7 -- --repair-id repair:overpayment-delta",
+      "verificationCommandName": "pnpm run check:v36-gate7",
+      "severity": "medium",
+      "approvingRole": "exchange-settlement-operator",
+      "customerVisibleStatus": "overpayment refund route pending",
+      "escalationPathId": "exchange-escalation:overpayment",
+      "eventIds": [
+        "exchange.dispute.overpayment.detected",
+        "exchange.revenue.refund.pending"
+      ],
+      "failClosedConditions": [
+        "overpayment_detected",
+        "stale_owner_detected",
+        "cancelled_order_replay_detected",
+        "underpayment_detected",
+        "projection_drift_detected",
+        "source_leakage_detected",
+        "delivery_mismatch_detected",
+        "missing_repair_command",
+        "missing_verification_command",
+        "missing_conservation_proof",
+        "ledger_database_projection_drift"
+      ],
+      "canonicalObject": "ExchangeDisputeRepairCase",
+      "affectedOrder": {
+        "orderId": "exchange-order:accept:source-safe-delta",
+        "orderState": "blocked_overpayment_refund_pending",
+        "visibility": "order_identity_state_and_root_only_no_source_or_private_wallet_material",
+        "affectedOrderRoot": "exchange-dispute-order:0b46209980a57e246b24a7c4"
+      },
+      "affectedSettlement": {
+        "settlementReceiptId": "exchange-settlement-receipt:overpayment-delta",
+        "finalityState": "payment_observed_above_quote",
+        "paymentObservationRoot": "exchange-dispute-payment-observation:7772d6f0a1e9ab325a70b80a",
+        "visibility": "settlement_receipt_identity_finality_and_payment_observation_root_only"
+      },
+      "affectedProjection": {
+        "projectionKind": "payment_projection",
+        "projectionDriftClass": "payment_amount_above_quote_root",
+        "ledgerRoot": "exchange-dispute-ledger-root:7772d6f0a1e9ab325a70b80a",
+        "databaseProjectionRoot": "exchange-dispute-database-projection-root:e1570cd8ea1ccc8cd1b60487",
+        "objectStorageRoot": "exchange-dispute-object-storage-root:c5e5cb289a1a091fc050198b",
+        "projectionTrust": "ledger_journal_outranks_database_and_object_storage_projection"
+      },
+      "repairCommand": {
+        "repairId": "repair:overpayment-delta",
+        "commandId": "exchange-dispute-repair:overpayment-delta:repair-command",
+        "command": "pnpm run check:v36-gate7 -- --repair-id repair:overpayment-delta",
+        "dryRunCommand": "pnpm run check:v36-gate7 -- --repair-id repair:overpayment-delta --dry-run",
+        "repairAction": "separate quote settlement from refundable overage before rights transfer",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "operatorApprovalRequired": true,
+        "writesProtectedSource": false
+      },
+      "verificationCommand": {
+        "commandId": "exchange-dispute-repair:overpayment-delta:verification-command",
+        "command": "pnpm run check:v36-gate7",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "expectedResult": "repair_case_reconciled_or_fail_closed"
+      },
+      "runbook": {
+        "runbookId": "exchange-dispute-repair:overpayment-delta:runbook",
+        "title": "Overpayment refund routed repair runbook",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "steps": [
+          "freeze affected market transition",
+          "compare ledger root to database and object-storage projection roots",
+          "execute the source-safe repair command with operator approval",
+          "rerun the verification command and journal proof roots"
+        ]
+      },
+      "escalationPath": {
+        "escalationPathId": "exchange-escalation:overpayment",
+        "severity": "medium",
+        "firstResponder": "exchange-operator",
+        "approvingRole": "exchange-settlement-operator",
+        "customerVisibleStatus": "overpayment refund route pending",
+        "customerDisclosure": "source_safe_status_no_protected_source_no_wallet_private_material"
+      },
+      "affectedStateRoot": "exchange-dispute-affected-state:be7f310e7064481fa0e0a4ae",
+      "proofRootFields": [
+        "disputeCaseRoot",
+        "affectedStateRoot",
+        "repairCommandRoot",
+        "verificationCommandRoot",
+        "runbookRoot",
+        "escalationRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_dispute_repair_metadata",
+      "sourceSafetyPosture": "dispute_repair_roots_commands_runbooks_and_status_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_dispute_repair_redaction_v1",
+        "allowedPayloadClasses": [
+          "dispute_case_identity",
+          "incident_class",
+          "affected_order_identity",
+          "affected_settlement_identity",
+          "affected_projection_roots",
+          "repair_command",
+          "verification_command",
+          "runbook_id",
+          "escalation_path",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-dispute-repair:overpayment-delta.dispute-repair-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "overpayment_detected",
+            "stale_owner_detected",
+            "cancelled_order_replay_detected",
+            "underpayment_detected",
+            "projection_drift_detected",
+            "source_leakage_detected",
+            "delivery_mismatch_detected",
+            "missing_repair_command",
+            "missing_verification_command",
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "disputeCaseRoot": "exchange-dispute-repair-case:75247a3713e33b8cfadf7ce2",
+      "proofRoot": "exchange-dispute-repair-case:75247a3713e33b8cfadf7ce2",
+      "proofRoots": {
+        "disputeCaseRoot": "exchange-proof:7431cfbfd8e2c56f73a12964",
+        "affectedStateRoot": "exchange-dispute-affected-state:be7f310e7064481fa0e0a4ae",
+        "repairCommandRoot": "exchange-proof:5810c7bf06625e624f42fd34",
+        "verificationCommandRoot": "exchange-proof:2b9641d2a445fc579d4b5d00",
+        "runbookRoot": "exchange-proof:24563b937eb50b6ced1d3ecf",
+        "escalationRoot": "exchange-proof:5d178c21ea11643c06af0bf3",
+        "redactionRoot": "exchange-proof:e18436b322387591ff321dba"
+      }
+    },
+    {
+      "disputeCaseId": "exchange-dispute-repair:projection-drift-epsilon",
+      "incidentClass": "projection_drift",
+      "label": "Projection drift repaired",
+      "disputeReason": "database or object-storage projection differs from ledger settlement truth",
+      "affectedOrderId": "exchange-order:settle:source-safe-epsilon",
+      "affectedOrderState": "settled_projection_repair_required",
+      "affectedSettlementReceiptId": "exchange-settlement-receipt:projection-repaired-gamma",
+      "finalityState": "btc_finality_confirmed",
+      "affectedProjectionKind": "database_and_object_storage_projection",
+      "projectionDriftClass": "projection_drift_from_ledger_truth",
+      "repairId": "repair:projection-drift-epsilon",
+      "repairAction": "replay_ledger_receipt_into_database_and_object_storage_projections",
+      "repairCommandName": "pnpm run check:v36-gate7 -- --repair-id repair:projection-drift-epsilon",
+      "verificationCommandName": "pnpm run check:v36-gate7",
+      "severity": "high",
+      "approvingRole": "exchange-operations-lead",
+      "customerVisibleStatus": "projection repair completed from ledger truth",
+      "escalationPathId": "exchange-escalation:projection-drift",
+      "eventIds": [
+        "exchange.dispute.projection_drift.detected",
+        "exchange.repair.projection.completed"
+      ],
+      "failClosedConditions": [
+        "projection_drift_detected",
+        "ledger_database_projection_drift",
+        "stale_owner_detected",
+        "cancelled_order_replay_detected",
+        "underpayment_detected",
+        "overpayment_detected",
+        "source_leakage_detected",
+        "delivery_mismatch_detected",
+        "missing_repair_command",
+        "missing_verification_command",
+        "missing_conservation_proof"
+      ],
+      "canonicalObject": "ExchangeDisputeRepairCase",
+      "affectedOrder": {
+        "orderId": "exchange-order:settle:source-safe-epsilon",
+        "orderState": "settled_projection_repair_required",
+        "visibility": "order_identity_state_and_root_only_no_source_or_private_wallet_material",
+        "affectedOrderRoot": "exchange-dispute-order:a851e698439707693994631d"
+      },
+      "affectedSettlement": {
+        "settlementReceiptId": "exchange-settlement-receipt:projection-repaired-gamma",
+        "finalityState": "btc_finality_confirmed",
+        "paymentObservationRoot": "exchange-dispute-payment-observation:e90b10c5f1862df7b1f7b8e4",
+        "visibility": "settlement_receipt_identity_finality_and_payment_observation_root_only"
+      },
+      "affectedProjection": {
+        "projectionKind": "database_and_object_storage_projection",
+        "projectionDriftClass": "projection_drift_from_ledger_truth",
+        "ledgerRoot": "exchange-dispute-ledger-root:e90b10c5f1862df7b1f7b8e4",
+        "databaseProjectionRoot": "exchange-dispute-database-projection-root:c3fac4f74fd192b92bbb2229",
+        "objectStorageRoot": "exchange-dispute-object-storage-root:da32b8f7d7db04bdac52aa29",
+        "projectionTrust": "ledger_journal_outranks_database_and_object_storage_projection"
+      },
+      "repairCommand": {
+        "repairId": "repair:projection-drift-epsilon",
+        "commandId": "exchange-dispute-repair:projection-drift-epsilon:repair-command",
+        "command": "pnpm run check:v36-gate7 -- --repair-id repair:projection-drift-epsilon",
+        "dryRunCommand": "pnpm run check:v36-gate7 -- --repair-id repair:projection-drift-epsilon --dry-run",
+        "repairAction": "replay_ledger_receipt_into_database_and_object_storage_projections",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "operatorApprovalRequired": true,
+        "writesProtectedSource": false
+      },
+      "verificationCommand": {
+        "commandId": "exchange-dispute-repair:projection-drift-epsilon:verification-command",
+        "command": "pnpm run check:v36-gate7",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "expectedResult": "repair_case_reconciled_or_fail_closed"
+      },
+      "runbook": {
+        "runbookId": "exchange-dispute-repair:projection-drift-epsilon:runbook",
+        "title": "Projection drift repaired repair runbook",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "steps": [
+          "freeze affected market transition",
+          "compare ledger root to database and object-storage projection roots",
+          "execute the source-safe repair command with operator approval",
+          "rerun the verification command and journal proof roots"
+        ]
+      },
+      "escalationPath": {
+        "escalationPathId": "exchange-escalation:projection-drift",
+        "severity": "high",
+        "firstResponder": "exchange-operator",
+        "approvingRole": "exchange-operations-lead",
+        "customerVisibleStatus": "projection repair completed from ledger truth",
+        "customerDisclosure": "source_safe_status_no_protected_source_no_wallet_private_material"
+      },
+      "affectedStateRoot": "exchange-dispute-affected-state:10564400ba1b36bb5c647a09",
+      "proofRootFields": [
+        "disputeCaseRoot",
+        "affectedStateRoot",
+        "repairCommandRoot",
+        "verificationCommandRoot",
+        "runbookRoot",
+        "escalationRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_dispute_repair_metadata",
+      "sourceSafetyPosture": "dispute_repair_roots_commands_runbooks_and_status_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_dispute_repair_redaction_v1",
+        "allowedPayloadClasses": [
+          "dispute_case_identity",
+          "incident_class",
+          "affected_order_identity",
+          "affected_settlement_identity",
+          "affected_projection_roots",
+          "repair_command",
+          "verification_command",
+          "runbook_id",
+          "escalation_path",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-dispute-repair:projection-drift-epsilon.dispute-repair-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "projection_drift_detected",
+            "ledger_database_projection_drift",
+            "stale_owner_detected",
+            "cancelled_order_replay_detected",
+            "underpayment_detected",
+            "overpayment_detected",
+            "source_leakage_detected",
+            "delivery_mismatch_detected",
+            "missing_repair_command",
+            "missing_verification_command",
+            "missing_conservation_proof"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "disputeCaseRoot": "exchange-dispute-repair-case:6496e7c999dcfcff8e9d0887",
+      "proofRoot": "exchange-dispute-repair-case:6496e7c999dcfcff8e9d0887",
+      "proofRoots": {
+        "disputeCaseRoot": "exchange-proof:b1059ad0c688c54b1f554afa",
+        "affectedStateRoot": "exchange-dispute-affected-state:10564400ba1b36bb5c647a09",
+        "repairCommandRoot": "exchange-proof:a8586e06b5486acc4799285a",
+        "verificationCommandRoot": "exchange-proof:23981fc49a88b1012835b266",
+        "runbookRoot": "exchange-proof:d00bf13cbbc8b8c21097294b",
+        "escalationRoot": "exchange-proof:bf00d8918da0ee072238a9af",
+        "redactionRoot": "exchange-proof:d8c72ea0896ee8ffa46eaa59"
+      }
+    },
+    {
+      "disputeCaseId": "exchange-dispute-repair:source-leakage-zeta",
+      "incidentClass": "source_leakage",
+      "label": "Source leakage boundary incident",
+      "disputeReason": "pre-settlement carrier attempted to expose protected or unpaid AssetPack source",
+      "affectedOrderId": "exchange-order:preview:source-safe-zeta",
+      "affectedOrderState": "blocked_source_visibility_attempt",
+      "affectedSettlementReceiptId": "exchange-settlement-receipt:blocked-epsilon",
+      "finalityState": "delivery_blocked_pending_repair",
+      "affectedProjectionKind": "disclosure_projection",
+      "projectionDriftClass": "protected_source_visibility_attempt",
+      "repairId": "repair:source-leakage-zeta",
+      "repairAction": "freeze_disclosure_surface_rotate_projection_and_verify_source_safe_preview_only",
+      "repairCommandName": "pnpm run check:v36-gate7 -- --repair-id repair:source-leakage-zeta",
+      "verificationCommandName": "pnpm run check:v36-gate7",
+      "severity": "critical",
+      "approvingRole": "security-and-exchange-lead",
+      "customerVisibleStatus": "source-safe preview restored; protected source remains locked",
+      "escalationPathId": "exchange-escalation:source-leakage",
+      "eventIds": [
+        "exchange.dispute.source_leakage.detected",
+        "exchange.disclosure.freeze.required"
+      ],
+      "failClosedConditions": [
+        "source_leakage_detected",
+        "stale_owner_detected",
+        "cancelled_order_replay_detected",
+        "underpayment_detected",
+        "overpayment_detected",
+        "projection_drift_detected",
+        "delivery_mismatch_detected",
+        "missing_repair_command",
+        "missing_verification_command",
+        "missing_conservation_proof",
+        "ledger_database_projection_drift"
+      ],
+      "canonicalObject": "ExchangeDisputeRepairCase",
+      "affectedOrder": {
+        "orderId": "exchange-order:preview:source-safe-zeta",
+        "orderState": "blocked_source_visibility_attempt",
+        "visibility": "order_identity_state_and_root_only_no_source_or_private_wallet_material",
+        "affectedOrderRoot": "exchange-dispute-order:9168183833806cd5c46c1685"
+      },
+      "affectedSettlement": {
+        "settlementReceiptId": "exchange-settlement-receipt:blocked-epsilon",
+        "finalityState": "delivery_blocked_pending_repair",
+        "paymentObservationRoot": "exchange-dispute-payment-observation:09ae2ed09f9ea19bdf75912a",
+        "visibility": "settlement_receipt_identity_finality_and_payment_observation_root_only"
+      },
+      "affectedProjection": {
+        "projectionKind": "disclosure_projection",
+        "projectionDriftClass": "protected_source_visibility_attempt",
+        "ledgerRoot": "exchange-dispute-ledger-root:09ae2ed09f9ea19bdf75912a",
+        "databaseProjectionRoot": "exchange-dispute-database-projection-root:4a8806af791b3f17d45e0e5c",
+        "objectStorageRoot": "exchange-dispute-object-storage-root:2c356c91a084bb2791782172",
+        "projectionTrust": "ledger_journal_outranks_database_and_object_storage_projection"
+      },
+      "repairCommand": {
+        "repairId": "repair:source-leakage-zeta",
+        "commandId": "exchange-dispute-repair:source-leakage-zeta:repair-command",
+        "command": "pnpm run check:v36-gate7 -- --repair-id repair:source-leakage-zeta",
+        "dryRunCommand": "pnpm run check:v36-gate7 -- --repair-id repair:source-leakage-zeta --dry-run",
+        "repairAction": "freeze_disclosure_surface_rotate_projection_and_verify_source_safe_preview_only",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "operatorApprovalRequired": true,
+        "writesProtectedSource": false
+      },
+      "verificationCommand": {
+        "commandId": "exchange-dispute-repair:source-leakage-zeta:verification-command",
+        "command": "pnpm run check:v36-gate7",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "expectedResult": "repair_case_reconciled_or_fail_closed"
+      },
+      "runbook": {
+        "runbookId": "exchange-dispute-repair:source-leakage-zeta:runbook",
+        "title": "Source leakage boundary incident repair runbook",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "steps": [
+          "freeze affected market transition",
+          "compare ledger root to database and object-storage projection roots",
+          "execute the source-safe repair command with operator approval",
+          "rerun the verification command and journal proof roots"
+        ]
+      },
+      "escalationPath": {
+        "escalationPathId": "exchange-escalation:source-leakage",
+        "severity": "critical",
+        "firstResponder": "exchange-operator",
+        "approvingRole": "security-and-exchange-lead",
+        "customerVisibleStatus": "source-safe preview restored; protected source remains locked",
+        "customerDisclosure": "source_safe_status_no_protected_source_no_wallet_private_material"
+      },
+      "affectedStateRoot": "exchange-dispute-affected-state:c9900d428ddd7876ff11cf57",
+      "proofRootFields": [
+        "disputeCaseRoot",
+        "affectedStateRoot",
+        "repairCommandRoot",
+        "verificationCommandRoot",
+        "runbookRoot",
+        "escalationRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_dispute_repair_metadata",
+      "sourceSafetyPosture": "dispute_repair_roots_commands_runbooks_and_status_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_dispute_repair_redaction_v1",
+        "allowedPayloadClasses": [
+          "dispute_case_identity",
+          "incident_class",
+          "affected_order_identity",
+          "affected_settlement_identity",
+          "affected_projection_roots",
+          "repair_command",
+          "verification_command",
+          "runbook_id",
+          "escalation_path",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-dispute-repair:source-leakage-zeta.dispute-repair-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "source_leakage_detected",
+            "stale_owner_detected",
+            "cancelled_order_replay_detected",
+            "underpayment_detected",
+            "overpayment_detected",
+            "projection_drift_detected",
+            "delivery_mismatch_detected",
+            "missing_repair_command",
+            "missing_verification_command",
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "disputeCaseRoot": "exchange-dispute-repair-case:c0abd25a2b9f9a14d1f0b480",
+      "proofRoot": "exchange-dispute-repair-case:c0abd25a2b9f9a14d1f0b480",
+      "proofRoots": {
+        "disputeCaseRoot": "exchange-proof:5e77cbd642fbcb39fa28387d",
+        "affectedStateRoot": "exchange-dispute-affected-state:c9900d428ddd7876ff11cf57",
+        "repairCommandRoot": "exchange-proof:ec261dc115e2beae0ae112ca",
+        "verificationCommandRoot": "exchange-proof:f17c06a0885f5609e8fd5b62",
+        "runbookRoot": "exchange-proof:f59f4b116ca75bad3fb5dea5",
+        "escalationRoot": "exchange-proof:88af267b4a8696306bdb46da",
+        "redactionRoot": "exchange-proof:939d2149d925e00963b3c7c3"
+      }
+    },
+    {
+      "disputeCaseId": "exchange-dispute-repair:delivery-mismatch-eta",
+      "incidentClass": "delivery_mismatch",
+      "label": "Delivery mismatch repaired",
+      "disputeReason": "delivered object-storage record does not match settlement and rights-transfer receipt roots",
+      "affectedOrderId": "exchange-order:delivery:source-safe-eta",
+      "affectedOrderState": "settled_delivery_mismatch",
+      "affectedSettlementReceiptId": "exchange-settlement-receipt:object-storage-repaired-delta",
+      "finalityState": "btc_finality_confirmed",
+      "affectedProjectionKind": "delivery_projection",
+      "projectionDriftClass": "delivery_object_storage_root_mismatch",
+      "repairId": "repair:delivery-mismatch-eta",
+      "repairAction": "repair_delivery_pointer_from_settled_object_storage_root_and_reverify_rights_holder",
+      "repairCommandName": "pnpm run check:v36-gate7 -- --repair-id repair:delivery-mismatch-eta",
+      "verificationCommandName": "pnpm run check:v36-gate7",
+      "severity": "high",
+      "approvingRole": "exchange-delivery-operator",
+      "customerVisibleStatus": "delivery pointer repaired after settlement verification",
+      "escalationPathId": "exchange-escalation:delivery-mismatch",
+      "eventIds": [
+        "exchange.dispute.delivery_mismatch.detected",
+        "exchange.delivery.repair.completed"
+      ],
+      "failClosedConditions": [
+        "delivery_mismatch_detected",
+        "stale_owner_detected",
+        "cancelled_order_replay_detected",
+        "underpayment_detected",
+        "overpayment_detected",
+        "projection_drift_detected",
+        "source_leakage_detected",
+        "missing_repair_command",
+        "missing_verification_command",
+        "missing_conservation_proof",
+        "ledger_database_projection_drift"
+      ],
+      "canonicalObject": "ExchangeDisputeRepairCase",
+      "affectedOrder": {
+        "orderId": "exchange-order:delivery:source-safe-eta",
+        "orderState": "settled_delivery_mismatch",
+        "visibility": "order_identity_state_and_root_only_no_source_or_private_wallet_material",
+        "affectedOrderRoot": "exchange-dispute-order:3046360f9186d545bb4afd5c"
+      },
+      "affectedSettlement": {
+        "settlementReceiptId": "exchange-settlement-receipt:object-storage-repaired-delta",
+        "finalityState": "btc_finality_confirmed",
+        "paymentObservationRoot": "exchange-dispute-payment-observation:298be936c98470e58136f913",
+        "visibility": "settlement_receipt_identity_finality_and_payment_observation_root_only"
+      },
+      "affectedProjection": {
+        "projectionKind": "delivery_projection",
+        "projectionDriftClass": "delivery_object_storage_root_mismatch",
+        "ledgerRoot": "exchange-dispute-ledger-root:298be936c98470e58136f913",
+        "databaseProjectionRoot": "exchange-dispute-database-projection-root:5aa9afb5886cf786bc7bf9fe",
+        "objectStorageRoot": "exchange-dispute-object-storage-root:e76cfade58bb2b9c86536fac",
+        "projectionTrust": "ledger_journal_outranks_database_and_object_storage_projection"
+      },
+      "repairCommand": {
+        "repairId": "repair:delivery-mismatch-eta",
+        "commandId": "exchange-dispute-repair:delivery-mismatch-eta:repair-command",
+        "command": "pnpm run check:v36-gate7 -- --repair-id repair:delivery-mismatch-eta",
+        "dryRunCommand": "pnpm run check:v36-gate7 -- --repair-id repair:delivery-mismatch-eta --dry-run",
+        "repairAction": "repair_delivery_pointer_from_settled_object_storage_root_and_reverify_rights_holder",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "operatorApprovalRequired": true,
+        "writesProtectedSource": false
+      },
+      "verificationCommand": {
+        "commandId": "exchange-dispute-repair:delivery-mismatch-eta:verification-command",
+        "command": "pnpm run check:v36-gate7",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "expectedResult": "repair_case_reconciled_or_fail_closed"
+      },
+      "runbook": {
+        "runbookId": "exchange-dispute-repair:delivery-mismatch-eta:runbook",
+        "title": "Delivery mismatch repaired repair runbook",
+        "sourceSafe": true,
+        "proofRooted": true,
+        "steps": [
+          "freeze affected market transition",
+          "compare ledger root to database and object-storage projection roots",
+          "execute the source-safe repair command with operator approval",
+          "rerun the verification command and journal proof roots"
+        ]
+      },
+      "escalationPath": {
+        "escalationPathId": "exchange-escalation:delivery-mismatch",
+        "severity": "high",
+        "firstResponder": "exchange-operator",
+        "approvingRole": "exchange-delivery-operator",
+        "customerVisibleStatus": "delivery pointer repaired after settlement verification",
+        "customerDisclosure": "source_safe_status_no_protected_source_no_wallet_private_material"
+      },
+      "affectedStateRoot": "exchange-dispute-affected-state:b320969b7adadb182f82f1e2",
+      "proofRootFields": [
+        "disputeCaseRoot",
+        "affectedStateRoot",
+        "repairCommandRoot",
+        "verificationCommandRoot",
+        "runbookRoot",
+        "escalationRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_dispute_repair_metadata",
+      "sourceSafetyPosture": "dispute_repair_roots_commands_runbooks_and_status_only_no_source_or_private_wallet_material",
+      "redactionPosture": {
+        "postureId": "exchange_dispute_repair_redaction_v1",
+        "allowedPayloadClasses": [
+          "dispute_case_identity",
+          "incident_class",
+          "affected_order_identity",
+          "affected_settlement_identity",
+          "affected_projection_roots",
+          "repair_command",
+          "verification_command",
+          "runbook_id",
+          "escalation_path",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-dispute-repair:delivery-mismatch-eta.dispute-repair-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "delivery_mismatch_detected",
+            "stale_owner_detected",
+            "cancelled_order_replay_detected",
+            "underpayment_detected",
+            "overpayment_detected",
+            "projection_drift_detected",
+            "source_leakage_detected",
+            "missing_repair_command",
+            "missing_verification_command",
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "disputeCaseRoot": "exchange-dispute-repair-case:5f5389a0a95e6185efa09844",
+      "proofRoot": "exchange-dispute-repair-case:5f5389a0a95e6185efa09844",
+      "proofRoots": {
+        "disputeCaseRoot": "exchange-proof:6609c0809a2364467c697bcc",
+        "affectedStateRoot": "exchange-dispute-affected-state:b320969b7adadb182f82f1e2",
+        "repairCommandRoot": "exchange-proof:9fc6cf295d12afa8e63c4b1c",
+        "verificationCommandRoot": "exchange-proof:e664ebd646a89d3d3f68d9f0",
+        "runbookRoot": "exchange-proof:0326c1204ef65be987829321",
+        "escalationRoot": "exchange-proof:b7eea0f9c1f63a5ba2704dd5",
+        "redactionRoot": "exchange-proof:3c63e158ccd6117c3aa962c5"
+      }
+    }
+  ],
+  "revenueRoutes": [
+    {
+      "revenueRouteId": "exchange-revenue-route:exact-alpha",
+      "routeState": "exact_settlement_conserved",
+      "label": "Exact settlement revenue route",
+      "orderId": "exchange-order:accept:source-safe-alpha",
+      "settlementReceiptId": "exchange-settlement-receipt:finalized-beta",
+      "btdRangeId": "btd-range:1000-1048",
+      "readerPrincipal": "principal:reader-beta",
+      "depositorPrincipal": "principal:depositor-alpha",
+      "totalReaderDebitSatoshis": 631300,
+      "depositorCreditSatoshis": 520000,
+      "treasuryCreditSatoshis": 78900,
+      "feeCreditSatoshis": 32400,
+      "readerRefundSatoshis": 0,
+      "btdRightRouteState": "rights_transferred_after_paid_finality",
+      "sourceToSharesProofRoot": "source-to-shares-proof:exchange-alpha-root",
+      "eventIds": [
+        "exchange.revenue.exact_settlement.routed",
+        "exchange.rights.transferred"
+      ],
+      "canonicalObject": "ExchangeRevenueRoute",
+      "treasuryAccount": {
+        "accountId": "account:bitcode-treasury",
+        "principal": "principal:bitcode-treasury",
+        "amountSatoshis": 78900,
+        "routeVisibility": "account_principal_amount_and_root_only"
+      },
+      "depositorAccount": {
+        "accountId": "principal:depositor-alpha:exchange-revenue",
+        "principal": "principal:depositor-alpha",
+        "amountSatoshis": 520000,
+        "routeVisibility": "account_principal_amount_and_root_only"
+      },
+      "readerAccount": {
+        "accountId": "principal:reader-beta:exchange-payment",
+        "principal": "principal:reader-beta",
+        "debitSatoshis": 631300,
+        "refundSatoshis": 0,
+        "routeVisibility": "account_principal_amount_and_root_only_no_private_payment_credentials"
+      },
+      "feeAccount": {
+        "accountId": "account:exchange-fee",
+        "principal": "principal:bitcode-fee-router",
+        "amountSatoshis": 32400,
+        "routeVisibility": "fee_account_amount_and_root_only"
+      },
+      "btcRoute": {
+        "btcRouteId": "exchange-revenue-route:exact-alpha:btc-route",
+        "debitSatoshis": 631300,
+        "depositorCreditSatoshis": 520000,
+        "treasuryCreditSatoshis": 78900,
+        "feeCreditSatoshis": 32400,
+        "readerRefundSatoshis": 0,
+        "routeCurrency": "BTC",
+        "routeVisibility": "btc_amounts_roots_and_public_principals_only"
+      },
+      "btdRightRoute": {
+        "btdRightRouteId": "exchange-revenue-route:exact-alpha:btd-right-route",
+        "btdRangeId": "btd-range:1000-1048",
+        "fromPrincipal": "principal:depositor-alpha",
+        "toPrincipal": "principal:reader-beta",
+        "rightsTransferReceiptId": "exchange-settlement-receipt:finalized-beta:rights-transfer-receipt",
+        "state": "rights_transferred_after_paid_finality",
+        "routeVisibility": "btd_range_identity_principals_and_receipt_root_only"
+      },
+      "sourceToSharesRoute": {
+        "sourceToSharesRouteId": "exchange-revenue-route:exact-alpha:source-to-shares-route",
+        "sourceToSharesProofRoot": "source-to-shares-proof:exchange-alpha-root",
+        "btdRangeId": "btd-range:1000-1048",
+        "sourceShareConservationBps": 10000,
+        "routeVisibility": "source_to_shares_root_only_no_source_payload"
+      },
+      "conservationProof": {
+        "proofId": "exchange-revenue-route:exact-alpha:conservation-proof",
+        "totalDebitSatoshis": 631300,
+        "totalCreditSatoshis": 631300,
+        "btcDebitsEqualCredits": true,
+        "btdRightsConserved": true,
+        "sourceShareConservationBps": 10000,
+        "conservationEquation": "reader debit = depositor credit + treasury credit + fee credit + reader refund",
+        "proofRoot": "exchange-revenue-conservation-proof:9f781c1901c5146849170a71"
+      },
+      "proofRootFields": [
+        "revenueRouteRoot",
+        "treasuryRouteRoot",
+        "depositorRouteRoot",
+        "readerRouteRoot",
+        "feeRouteRoot",
+        "btcRouteRoot",
+        "btdRightRouteRoot",
+        "sourceToSharesRouteRoot",
+        "conservationProofRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_revenue_route_metadata",
+      "sourceSafetyPosture": "revenue_accounts_amounts_roots_and_right_routes_only_no_private_payment_credentials_or_source",
+      "redactionPosture": {
+        "postureId": "exchange_revenue_route_redaction_v1",
+        "allowedPayloadClasses": [
+          "revenue_route_identity",
+          "public_principal_ids",
+          "btc_amounts",
+          "btd_range_identity",
+          "rights_transfer_receipt_identity",
+          "source_to_shares_root",
+          "conservation_proof",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-revenue-route:exact-alpha.revenue-route-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "revenueRouteRoot": "exchange-revenue-route:43686b9fbab69e59a684f94d",
+      "proofRoot": "exchange-revenue-route:43686b9fbab69e59a684f94d",
+      "proofRoots": {
+        "revenueRouteRoot": "exchange-proof:061ae03f7f3136fb7d98340c",
+        "treasuryRouteRoot": "exchange-proof:799da9183c8f3b3b9fee092c",
+        "depositorRouteRoot": "exchange-proof:6a65707d63f504e800284b2d",
+        "readerRouteRoot": "exchange-proof:709df90116c6bb8da35827aa",
+        "feeRouteRoot": "exchange-proof:3d082c3c96ffa28bd831c93e",
+        "btcRouteRoot": "exchange-proof:7fda5ad672ef0c63ebd3ea92",
+        "btdRightRouteRoot": "exchange-proof:90b4396ddb3b280b66965347",
+        "sourceToSharesRouteRoot": "exchange-proof:91a21e51b8cd847e2dadaac4",
+        "conservationProofRoot": "exchange-revenue-conservation-proof:9f781c1901c5146849170a71",
+        "redactionRoot": "exchange-proof:12e1a52bd23d0737876f1f5d"
+      }
+    },
+    {
+      "revenueRouteId": "exchange-revenue-route:overpayment-beta",
+      "routeState": "overpayment_refund_conserved",
+      "label": "Overpayment refund revenue route",
+      "orderId": "exchange-order:accept:source-safe-delta",
+      "settlementReceiptId": "exchange-settlement-receipt:overpayment-delta",
+      "btdRangeId": "btd-range:1200-1248",
+      "readerPrincipal": "principal:reader-delta",
+      "depositorPrincipal": "principal:depositor-beta",
+      "totalReaderDebitSatoshis": 500000,
+      "depositorCreditSatoshis": 410000,
+      "treasuryCreditSatoshis": 51250,
+      "feeCreditSatoshis": 14000,
+      "readerRefundSatoshis": 24750,
+      "btdRightRouteState": "rights_transfer_waits_for_refund_journal",
+      "sourceToSharesProofRoot": "source-to-shares-proof:exchange-beta-root",
+      "eventIds": [
+        "exchange.revenue.overpayment.refund_routed",
+        "exchange.rights.transfer.pending_refund_journal"
+      ],
+      "canonicalObject": "ExchangeRevenueRoute",
+      "treasuryAccount": {
+        "accountId": "account:bitcode-treasury",
+        "principal": "principal:bitcode-treasury",
+        "amountSatoshis": 51250,
+        "routeVisibility": "account_principal_amount_and_root_only"
+      },
+      "depositorAccount": {
+        "accountId": "principal:depositor-beta:exchange-revenue",
+        "principal": "principal:depositor-beta",
+        "amountSatoshis": 410000,
+        "routeVisibility": "account_principal_amount_and_root_only"
+      },
+      "readerAccount": {
+        "accountId": "principal:reader-delta:exchange-payment",
+        "principal": "principal:reader-delta",
+        "debitSatoshis": 500000,
+        "refundSatoshis": 24750,
+        "routeVisibility": "account_principal_amount_and_root_only_no_private_payment_credentials"
+      },
+      "feeAccount": {
+        "accountId": "account:exchange-fee",
+        "principal": "principal:bitcode-fee-router",
+        "amountSatoshis": 14000,
+        "routeVisibility": "fee_account_amount_and_root_only"
+      },
+      "btcRoute": {
+        "btcRouteId": "exchange-revenue-route:overpayment-beta:btc-route",
+        "debitSatoshis": 500000,
+        "depositorCreditSatoshis": 410000,
+        "treasuryCreditSatoshis": 51250,
+        "feeCreditSatoshis": 14000,
+        "readerRefundSatoshis": 24750,
+        "routeCurrency": "BTC",
+        "routeVisibility": "btc_amounts_roots_and_public_principals_only"
+      },
+      "btdRightRoute": {
+        "btdRightRouteId": "exchange-revenue-route:overpayment-beta:btd-right-route",
+        "btdRangeId": "btd-range:1200-1248",
+        "fromPrincipal": "principal:depositor-beta",
+        "toPrincipal": "principal:reader-delta",
+        "rightsTransferReceiptId": "exchange-settlement-receipt:overpayment-delta:rights-transfer-receipt",
+        "state": "rights_transfer_waits_for_refund_journal",
+        "routeVisibility": "btd_range_identity_principals_and_receipt_root_only"
+      },
+      "sourceToSharesRoute": {
+        "sourceToSharesRouteId": "exchange-revenue-route:overpayment-beta:source-to-shares-route",
+        "sourceToSharesProofRoot": "source-to-shares-proof:exchange-beta-root",
+        "btdRangeId": "btd-range:1200-1248",
+        "sourceShareConservationBps": 10000,
+        "routeVisibility": "source_to_shares_root_only_no_source_payload"
+      },
+      "conservationProof": {
+        "proofId": "exchange-revenue-route:overpayment-beta:conservation-proof",
+        "totalDebitSatoshis": 500000,
+        "totalCreditSatoshis": 500000,
+        "btcDebitsEqualCredits": true,
+        "btdRightsConserved": true,
+        "sourceShareConservationBps": 10000,
+        "conservationEquation": "reader debit = depositor credit + treasury credit + fee credit + reader refund",
+        "proofRoot": "exchange-revenue-conservation-proof:909b0d851b571287bf4555ea"
+      },
+      "proofRootFields": [
+        "revenueRouteRoot",
+        "treasuryRouteRoot",
+        "depositorRouteRoot",
+        "readerRouteRoot",
+        "feeRouteRoot",
+        "btcRouteRoot",
+        "btdRightRouteRoot",
+        "sourceToSharesRouteRoot",
+        "conservationProofRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_revenue_route_metadata",
+      "sourceSafetyPosture": "revenue_accounts_amounts_roots_and_right_routes_only_no_private_payment_credentials_or_source",
+      "redactionPosture": {
+        "postureId": "exchange_revenue_route_redaction_v1",
+        "allowedPayloadClasses": [
+          "revenue_route_identity",
+          "public_principal_ids",
+          "btc_amounts",
+          "btd_range_identity",
+          "rights_transfer_receipt_identity",
+          "source_to_shares_root",
+          "conservation_proof",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-revenue-route:overpayment-beta.revenue-route-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "revenueRouteRoot": "exchange-revenue-route:c7b575c792ae98de2ed2554f",
+      "proofRoot": "exchange-revenue-route:c7b575c792ae98de2ed2554f",
+      "proofRoots": {
+        "revenueRouteRoot": "exchange-proof:5ed2980151e8a920bb1e6508",
+        "treasuryRouteRoot": "exchange-proof:40faa9f915e249db257788e2",
+        "depositorRouteRoot": "exchange-proof:b301d57b5bb9e44a29a1bffb",
+        "readerRouteRoot": "exchange-proof:49d4d19b3a6b2a13245af175",
+        "feeRouteRoot": "exchange-proof:fb327dc661630a9b3ab31c91",
+        "btcRouteRoot": "exchange-proof:a601ad844b4213c8ffeff441",
+        "btdRightRouteRoot": "exchange-proof:43d3a4e6465c3195558845fd",
+        "sourceToSharesRouteRoot": "exchange-proof:067629065b79da35dece6288",
+        "conservationProofRoot": "exchange-revenue-conservation-proof:909b0d851b571287bf4555ea",
+        "redactionRoot": "exchange-proof:acc247404afca5a4f4f87231"
+      }
+    },
+    {
+      "revenueRouteId": "exchange-revenue-route:underpayment-gamma",
+      "routeState": "underpayment_blocked_conserved",
+      "label": "Underpayment blocked revenue route",
+      "orderId": "exchange-order:accept:source-safe-gamma",
+      "settlementReceiptId": "exchange-settlement-receipt:underpayment-gamma",
+      "btdRangeId": "btd-range:2000-2036",
+      "readerPrincipal": "principal:reader-gamma",
+      "depositorPrincipal": "principal:depositor-gamma",
+      "totalReaderDebitSatoshis": 420000,
+      "depositorCreditSatoshis": 0,
+      "treasuryCreditSatoshis": 0,
+      "feeCreditSatoshis": 0,
+      "readerRefundSatoshis": 420000,
+      "btdRightRouteState": "blocked_by_underpayment_no_rights_transfer",
+      "sourceToSharesProofRoot": "source-to-shares-proof:exchange-gamma-root",
+      "eventIds": [
+        "exchange.revenue.underpayment.blocked",
+        "exchange.delivery.locked"
+      ],
+      "canonicalObject": "ExchangeRevenueRoute",
+      "treasuryAccount": {
+        "accountId": "account:bitcode-treasury",
+        "principal": "principal:bitcode-treasury",
+        "amountSatoshis": 0,
+        "routeVisibility": "account_principal_amount_and_root_only"
+      },
+      "depositorAccount": {
+        "accountId": "principal:depositor-gamma:exchange-revenue",
+        "principal": "principal:depositor-gamma",
+        "amountSatoshis": 0,
+        "routeVisibility": "account_principal_amount_and_root_only"
+      },
+      "readerAccount": {
+        "accountId": "principal:reader-gamma:exchange-payment",
+        "principal": "principal:reader-gamma",
+        "debitSatoshis": 420000,
+        "refundSatoshis": 420000,
+        "routeVisibility": "account_principal_amount_and_root_only_no_private_payment_credentials"
+      },
+      "feeAccount": {
+        "accountId": "account:exchange-fee",
+        "principal": "principal:bitcode-fee-router",
+        "amountSatoshis": 0,
+        "routeVisibility": "fee_account_amount_and_root_only"
+      },
+      "btcRoute": {
+        "btcRouteId": "exchange-revenue-route:underpayment-gamma:btc-route",
+        "debitSatoshis": 420000,
+        "depositorCreditSatoshis": 0,
+        "treasuryCreditSatoshis": 0,
+        "feeCreditSatoshis": 0,
+        "readerRefundSatoshis": 420000,
+        "routeCurrency": "BTC",
+        "routeVisibility": "btc_amounts_roots_and_public_principals_only"
+      },
+      "btdRightRoute": {
+        "btdRightRouteId": "exchange-revenue-route:underpayment-gamma:btd-right-route",
+        "btdRangeId": "btd-range:2000-2036",
+        "fromPrincipal": "principal:depositor-gamma",
+        "toPrincipal": "principal:reader-gamma",
+        "rightsTransferReceiptId": "exchange-settlement-receipt:underpayment-gamma:rights-transfer-receipt",
+        "state": "blocked_by_underpayment_no_rights_transfer",
+        "routeVisibility": "btd_range_identity_principals_and_receipt_root_only"
+      },
+      "sourceToSharesRoute": {
+        "sourceToSharesRouteId": "exchange-revenue-route:underpayment-gamma:source-to-shares-route",
+        "sourceToSharesProofRoot": "source-to-shares-proof:exchange-gamma-root",
+        "btdRangeId": "btd-range:2000-2036",
+        "sourceShareConservationBps": 10000,
+        "routeVisibility": "source_to_shares_root_only_no_source_payload"
+      },
+      "conservationProof": {
+        "proofId": "exchange-revenue-route:underpayment-gamma:conservation-proof",
+        "totalDebitSatoshis": 420000,
+        "totalCreditSatoshis": 420000,
+        "btcDebitsEqualCredits": true,
+        "btdRightsConserved": true,
+        "sourceShareConservationBps": 10000,
+        "conservationEquation": "reader debit = depositor credit + treasury credit + fee credit + reader refund",
+        "proofRoot": "exchange-revenue-conservation-proof:3f3f43cd911dd378e349c8a0"
+      },
+      "proofRootFields": [
+        "revenueRouteRoot",
+        "treasuryRouteRoot",
+        "depositorRouteRoot",
+        "readerRouteRoot",
+        "feeRouteRoot",
+        "btcRouteRoot",
+        "btdRightRouteRoot",
+        "sourceToSharesRouteRoot",
+        "conservationProofRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_revenue_route_metadata",
+      "sourceSafetyPosture": "revenue_accounts_amounts_roots_and_right_routes_only_no_private_payment_credentials_or_source",
+      "redactionPosture": {
+        "postureId": "exchange_revenue_route_redaction_v1",
+        "allowedPayloadClasses": [
+          "revenue_route_identity",
+          "public_principal_ids",
+          "btc_amounts",
+          "btd_range_identity",
+          "rights_transfer_receipt_identity",
+          "source_to_shares_root",
+          "conservation_proof",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-revenue-route:underpayment-gamma.revenue-route-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "revenueRouteRoot": "exchange-revenue-route:d6aa5d0974784ab46d972c1c",
+      "proofRoot": "exchange-revenue-route:d6aa5d0974784ab46d972c1c",
+      "proofRoots": {
+        "revenueRouteRoot": "exchange-proof:c47a7c480de4367df9332cba",
+        "treasuryRouteRoot": "exchange-proof:3902996a8d493a284eca361b",
+        "depositorRouteRoot": "exchange-proof:41ffaef4f0727aad9c2af0e0",
+        "readerRouteRoot": "exchange-proof:b120b03861bc181969b824a0",
+        "feeRouteRoot": "exchange-proof:6a884374a73dba6c07e57faa",
+        "btcRouteRoot": "exchange-proof:790f70f10930e796869676c0",
+        "btdRightRouteRoot": "exchange-proof:f5a6fd87b73340008aca5006",
+        "sourceToSharesRouteRoot": "exchange-proof:92e9ea1b63613049abc7946f",
+        "conservationProofRoot": "exchange-revenue-conservation-proof:3f3f43cd911dd378e349c8a0",
+        "redactionRoot": "exchange-proof:4c33378ec824d294b4eea848"
+      }
+    },
+    {
+      "revenueRouteId": "exchange-revenue-route:projection-repair-delta",
+      "routeState": "projection_repair_conserved",
+      "label": "Projection repair revenue route",
+      "orderId": "exchange-order:settle:source-safe-epsilon",
+      "settlementReceiptId": "exchange-settlement-receipt:projection-repaired-gamma",
+      "btdRangeId": "btd-range:2100-2132",
+      "readerPrincipal": "principal:reader-delta",
+      "depositorPrincipal": "principal:depositor-gamma",
+      "totalReaderDebitSatoshis": 475500,
+      "depositorCreditSatoshis": 392000,
+      "treasuryCreditSatoshis": 59500,
+      "feeCreditSatoshis": 24000,
+      "readerRefundSatoshis": 0,
+      "btdRightRouteState": "rights_transfer_conserved_after_projection_repair",
+      "sourceToSharesProofRoot": "source-to-shares-proof:exchange-delta-root",
+      "eventIds": [
+        "exchange.revenue.projection_repair.replayed",
+        "exchange.conservation.proved"
+      ],
+      "canonicalObject": "ExchangeRevenueRoute",
+      "treasuryAccount": {
+        "accountId": "account:bitcode-treasury",
+        "principal": "principal:bitcode-treasury",
+        "amountSatoshis": 59500,
+        "routeVisibility": "account_principal_amount_and_root_only"
+      },
+      "depositorAccount": {
+        "accountId": "principal:depositor-gamma:exchange-revenue",
+        "principal": "principal:depositor-gamma",
+        "amountSatoshis": 392000,
+        "routeVisibility": "account_principal_amount_and_root_only"
+      },
+      "readerAccount": {
+        "accountId": "principal:reader-delta:exchange-payment",
+        "principal": "principal:reader-delta",
+        "debitSatoshis": 475500,
+        "refundSatoshis": 0,
+        "routeVisibility": "account_principal_amount_and_root_only_no_private_payment_credentials"
+      },
+      "feeAccount": {
+        "accountId": "account:exchange-fee",
+        "principal": "principal:bitcode-fee-router",
+        "amountSatoshis": 24000,
+        "routeVisibility": "fee_account_amount_and_root_only"
+      },
+      "btcRoute": {
+        "btcRouteId": "exchange-revenue-route:projection-repair-delta:btc-route",
+        "debitSatoshis": 475500,
+        "depositorCreditSatoshis": 392000,
+        "treasuryCreditSatoshis": 59500,
+        "feeCreditSatoshis": 24000,
+        "readerRefundSatoshis": 0,
+        "routeCurrency": "BTC",
+        "routeVisibility": "btc_amounts_roots_and_public_principals_only"
+      },
+      "btdRightRoute": {
+        "btdRightRouteId": "exchange-revenue-route:projection-repair-delta:btd-right-route",
+        "btdRangeId": "btd-range:2100-2132",
+        "fromPrincipal": "principal:depositor-gamma",
+        "toPrincipal": "principal:reader-delta",
+        "rightsTransferReceiptId": "exchange-settlement-receipt:projection-repaired-gamma:rights-transfer-receipt",
+        "state": "rights_transfer_conserved_after_projection_repair",
+        "routeVisibility": "btd_range_identity_principals_and_receipt_root_only"
+      },
+      "sourceToSharesRoute": {
+        "sourceToSharesRouteId": "exchange-revenue-route:projection-repair-delta:source-to-shares-route",
+        "sourceToSharesProofRoot": "source-to-shares-proof:exchange-delta-root",
+        "btdRangeId": "btd-range:2100-2132",
+        "sourceShareConservationBps": 10000,
+        "routeVisibility": "source_to_shares_root_only_no_source_payload"
+      },
+      "conservationProof": {
+        "proofId": "exchange-revenue-route:projection-repair-delta:conservation-proof",
+        "totalDebitSatoshis": 475500,
+        "totalCreditSatoshis": 475500,
+        "btcDebitsEqualCredits": true,
+        "btdRightsConserved": true,
+        "sourceShareConservationBps": 10000,
+        "conservationEquation": "reader debit = depositor credit + treasury credit + fee credit + reader refund",
+        "proofRoot": "exchange-revenue-conservation-proof:866fb7320c97b4af2cc23059"
+      },
+      "proofRootFields": [
+        "revenueRouteRoot",
+        "treasuryRouteRoot",
+        "depositorRouteRoot",
+        "readerRouteRoot",
+        "feeRouteRoot",
+        "btcRouteRoot",
+        "btdRightRouteRoot",
+        "sourceToSharesRouteRoot",
+        "conservationProofRoot",
+        "redactionRoot"
+      ],
+      "sourceSafetyClass": "source_safe_exchange_revenue_route_metadata",
+      "sourceSafetyPosture": "revenue_accounts_amounts_roots_and_right_routes_only_no_private_payment_credentials_or_source",
+      "redactionPosture": {
+        "postureId": "exchange_revenue_route_redaction_v1",
+        "allowedPayloadClasses": [
+          "revenue_route_identity",
+          "public_principal_ids",
+          "btc_amounts",
+          "btd_range_identity",
+          "rights_transfer_receipt_identity",
+          "source_to_shares_root",
+          "conservation_proof",
+          "proof_roots",
+          "event_ids"
+        ],
+        "forbiddenPayloadClasses": [
+          "secret_values",
+          "provider_tokens",
+          "wallet_private_material",
+          "wallet_seed_phrase",
+          "wallet_private_key",
+          "protected_source_payloads",
+          "raw_protected_prompts",
+          "raw_model_responses_with_protected_source",
+          "unpaid_assetpack_source",
+          "private_payment_credentials",
+          "buyer_private_repository_payload",
+          "object_storage_private_bytes",
+          "raw_disputed_source_bytes"
+        ]
+      },
+      "freshnessChecks": [
+        {
+          "checkId": "exchange-revenue-route:projection-repair-delta.revenue-route-present",
+          "command": "pnpm run check:v36-gate7",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_conservation_proof",
+            "ledger_database_projection_drift"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ],
+      "revenueRouteRoot": "exchange-revenue-route:44fa6b33cef55d90ac8eb481",
+      "proofRoot": "exchange-revenue-route:44fa6b33cef55d90ac8eb481",
+      "proofRoots": {
+        "revenueRouteRoot": "exchange-proof:0ed880ac690127f169a7871b",
+        "treasuryRouteRoot": "exchange-proof:96440f794e8f65b300b991f6",
+        "depositorRouteRoot": "exchange-proof:c986fc8e72021b308c3b2390",
+        "readerRouteRoot": "exchange-proof:a65606a922f76dee6ecd0fca",
+        "feeRouteRoot": "exchange-proof:dcf5f219d02e0569a9265ac1",
+        "btcRouteRoot": "exchange-proof:5a17c6442231db66c215f3af",
+        "btdRightRouteRoot": "exchange-proof:2c1b624b9578f7555866bd57",
+        "sourceToSharesRouteRoot": "exchange-proof:8d25faa9b166c1c33a26a822",
+        "conservationProofRoot": "exchange-revenue-conservation-proof:866fb7320c97b4af2cc23059",
+        "redactionRoot": "exchange-proof:a398abfa2257021424711448"
+      }
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "rowId": "exchange-dispute-repair:stale-owner-alpha",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-dispute-repair:cancelled-order-replay-beta",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-dispute-repair:underpayment-gamma",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-dispute-repair:overpayment-delta",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-dispute-repair:projection-drift-epsilon",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-dispute-repair:source-leakage-zeta",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-dispute-repair:delivery-mismatch-eta",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-revenue-route:exact-alpha",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-revenue-route:overpayment-beta",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-revenue-route:underpayment-gamma",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rowId": "exchange-revenue-route:projection-repair-delta",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V36.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V36_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/src/exchange.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/btd/asset-pack-exchange/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "exchange-dispute-repair-revenue-route:7744c23340f27d82887afbbc"
+}

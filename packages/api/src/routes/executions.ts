@@ -6,12 +6,17 @@
  * shared normalization helpers below rather than the Next.js FS routes.
  */
 
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
+import {
+  isUnpaidReadSynthesisExecution,
+  redactUnpaidReadExecutionOutput,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/unpaid-option-disclosure';
 
 import {
   buildAgenticExecutionSummary,
+  deriveDisplayExecutionStatus,
   normalizeAgenticExecutionStorageType,
   resolveAgenticExecutionQueryTypes,
 } from '../executions/agentic-execution';
@@ -46,7 +51,7 @@ type ExecutionEventRow = {
   phase: string | null;
 };
 
-type TerminalJournalReadback = {
+type JournalReadback = {
   expectedJournalEntryIds: string[];
   entries: JsonRecord[];
   repairs: JsonRecord[];
@@ -177,14 +182,28 @@ function normalizeDeliveryMechanismSurface(surface: Record<string, unknown> | nu
   };
 }
 
+/**
+ * First non-null object among candidates. Used when resolving the buyer-repo
+ * delivery surface from stored execution rows that may still use legacy keys.
+ */
+function pickSettleDeliveryRecord(...candidates: unknown[]) {
+  for (const candidate of candidates) {
+    const record = asRecord(candidate);
+    if (record) return record;
+  }
+  return null;
+}
+
 function buildDeliveryMechanism(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
   const explicitDeliveryMechanism =
-    asRecord(assetPackCompletion?.deliveryMechanism) ||
-    asRecord(assetPackCompletion?.shippables) ||
-    asRecord(output?.deliveryMechanism) ||
-    asRecord(output?.shippables);
+    pickSettleDeliveryRecord(
+      assetPackCompletion?.deliveryMechanism,
+      assetPackCompletion?.settleDelivery,
+      output?.deliveryMechanism,
+      output?.settleDelivery,
+    );
 
   const deliverySurface = normalizeDeliveryMechanismSurface(explicitDeliveryMechanism);
   if (deliverySurface) return deliverySurface;
@@ -193,15 +212,21 @@ function buildDeliveryMechanism(row: ExecutionHistoryRow) {
   return summary ? { summary } : null;
 }
 
-function buildShippables(row: ExecutionHistoryRow) {
+/**
+ * Project settle Simple buyer-repo delivery for history reread.
+ * Pre-production: only settleDelivery (no shippables alias). Returns null when
+ * no PR-bearing surface exists.
+ */
+function buildSettleDelivery(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
-  const explicitShippables =
-    asRecord(assetPackCompletion?.shippables) ||
-    asRecord(output?.shippables);
+  const explicitSettleDelivery = pickSettleDeliveryRecord(
+    assetPackCompletion?.settleDelivery,
+    output?.settleDelivery,
+  );
 
-  const normalizedExplicitShippables = normalizeDeliveryMechanismSurface(explicitShippables);
-  if (hasPullRequestDelivery(normalizedExplicitShippables)) return normalizedExplicitShippables;
+  const normalizedExplicitSettleDelivery = normalizeDeliveryMechanismSurface(explicitSettleDelivery);
+  if (hasPullRequestDelivery(normalizedExplicitSettleDelivery)) return normalizedExplicitSettleDelivery;
 
   const deliveryMechanism = buildDeliveryMechanism(row);
   return hasPullRequestDelivery(deliveryMechanism) ? deliveryMechanism : null;
@@ -355,12 +380,30 @@ function buildRepoSnapshot(row: ExecutionHistoryRow) {
   };
 }
 
+/**
+ * Extract a human-readable failure message from executions.error JSON.
+ * Failed/interrupted rows often have no output.summary — without this the
+ * deposit UI falls through to the generic "Run failed." banner (QA: c7b84ad5).
+ */
+function readErrorMessage(error: unknown): string | null {
+  if (typeof error === 'string' && error.trim()) return error.trim();
+  if (!error || typeof error !== 'object' || Array.isArray(error)) return null;
+  const record = error as JsonRecord;
+  const message = asString(record.message) || asString(record.error) || asString(record.reason);
+  return message;
+}
+
 function buildSummary(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
+  const status = String(row.status || '').toLowerCase();
+  const terminalFailure =
+    status === 'failed' || status === 'interrupted' || status === 'cancelled'
+      ? readErrorMessage(row.error)
+      : null;
 
   return (
     asString(output?.summary) ||
@@ -368,6 +411,7 @@ function buildSummary(row: ExecutionHistoryRow) {
     asString(assetPackSynthesisArtifacts?.summary) ||
     asString(writtenAssets?.summary) ||
     asString(context?.summary) ||
+    terminalFailure ||
     null
   );
 }
@@ -386,7 +430,7 @@ function buildMetadata(row: ExecutionHistoryRow) {
 function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   const assetPackCompletion = readAssetPackCompletion(row);
   const {
-    shippables: _retainedShippables,
+    settleDelivery: _retainedSettleDelivery,
     deliveryMechanism: _retainedDeliveryMechanism,
     writtenAssets: _retainedWrittenAssets,
     assetPackSynthesisArtifacts: _retainedAssetPackSynthesisArtifacts,
@@ -395,7 +439,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   } = assetPackCompletion || {};
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
-  const shippables = buildShippables(row);
+  const settleDelivery = buildSettleDelivery(row);
   const deliveryMechanism = buildDeliveryMechanism(row);
   const read = buildRead(row);
   const writtenAssetType = buildWrittenAssetType(row);
@@ -412,7 +456,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
     !assetPackCompletion &&
     !assetPackSynthesisArtifacts &&
     !writtenAssets &&
-    !shippables &&
+    !settleDelivery &&
     !deliveryMechanism &&
     !read &&
     !writtenAssetType &&
@@ -429,7 +473,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
     ...(summary ? { summary } : {}),
     ...(assetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts } : {}),
     ...(writtenAssets ? { writtenAssets } : {}),
-    ...(shippables ? { shippables } : {}),
+    ...(settleDelivery ? { settleDelivery } : {}),
     ...(deliveryMechanism ? { deliveryMechanism } : {}),
     ...(read ? { read } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
@@ -453,42 +497,107 @@ function buildLedgerSettlement(row: ExecutionHistoryRow) {
 }
 
 export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
-  const agenticExecution = buildAgenticExecutionSummary({
+  const rawOutput = readOutputRecord(row);
+  // V48-Gate5-F01 R1/R5: unpaid READ synthesis only — never settle.
+  // Sibling projections must use redacted output (not raw row.output).
+  const mustRedact = isUnpaidReadSynthesisExecution({
+    context: row.context,
+    output: rawOutput,
     type: row.type,
-    status: row.status,
   });
+  const output = mustRedact
+    ? redactUnpaidReadExecutionOutput(rawOutput) || rawOutput
+    : rawOutput;
+  // Clone row so builders that call readOutputRecord(row) see redacted output.
+  const safeRow: ExecutionHistoryRow = mustRedact
+    ? { ...row, output }
+    : row;
+
+  const agenticExecution = buildAgenticExecutionSummary({
+    type: safeRow.type,
+    status: safeRow.status,
+    context: safeRow.context,
+    output,
+  });
+  // Prefer display status so partial recovery never surfaces as green COMPLETED
+  // when context/output carry hostBudgetExceeded / validationNotReady / partial.
+  const displayStatus = deriveDisplayExecutionStatus(
+    safeRow.status,
+    safeRow.context,
+    output,
+  );
 
   return {
-    id: row.id,
-    created_at: row.created_at || new Date().toISOString(),
-    started_at: row.started_at,
-    completed_at: row.completed_at,
-    status: row.status,
-    type: row.type,
+    id: safeRow.id,
+    created_at: safeRow.created_at || new Date().toISOString(),
+    started_at: safeRow.started_at,
+    completed_at: safeRow.completed_at,
+    status: displayStatus,
+    type: safeRow.type,
     agentic_execution: agenticExecution,
-    guide: buildGuide(row),
-    output: readOutputRecord(row),
-    metadata: buildMetadata(row),
-    context: row.context ?? null,
-    items: asArray(row.items),
-    summary: buildSummary(row),
-    processing_stats: buildProcessingStats(row),
-    repo_snapshot: buildRepoSnapshot(row),
-    asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(row),
-    written_assets: buildWrittenAssets(row),
-    shippables: buildShippables(row),
-    delivery_mechanism: buildDeliveryMechanism(row),
-    read: buildRead(row),
-    written_asset_type: buildWrittenAssetType(row),
-    asset_pack: buildAssetPack(row),
-    asset_pack_completion: buildNormalizedAssetPackCompletion(row),
-    ledger_settlement: buildLedgerSettlement(row),
-    error: row.error ?? null,
+    guide: buildGuide(safeRow),
+    output,
+    metadata: buildMetadata(safeRow),
+    context: safeRow.context ?? null,
+    items: asArray(safeRow.items),
+    summary: buildSummary(safeRow),
+    processing_stats: buildProcessingStats(safeRow),
+    repo_snapshot: buildRepoSnapshot(safeRow),
+    asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(safeRow),
+    written_assets: buildWrittenAssets(safeRow),
+    settle_delivery: buildSettleDelivery(safeRow),
+    delivery_mechanism: buildDeliveryMechanism(safeRow),
+    read: buildRead(safeRow),
+    written_asset_type: buildWrittenAssetType(safeRow),
+    asset_pack: buildAssetPack(safeRow),
+    asset_pack_completion: buildNormalizedAssetPackCompletion(safeRow),
+    ledger_settlement: buildLedgerSettlement(safeRow),
+    error: safeRow.error ?? null,
+    // Wall-clock for run timers on refresh (not derived from truncated event windows).
+    duration_ms: safeRow.duration_ms ?? null,
+    total_tokens: safeRow.total_tokens ?? null,
   };
 }
 
-export function normalizeExecutionEventRow(row: ExecutionEventRow) {
-  const eventPayload = asRecord(row.event_data) || {
+function redactEventDataForUnpaidRead(eventData: unknown): unknown {
+  if (!isObjectish(eventData)) return eventData;
+  const next = { ...(eventData as Record<string, unknown>) };
+  for (const key of [
+    'patch',
+    'fileChanges',
+    'coveredSourcePaths',
+    'fullOptions',
+    'options',
+    'selectionEnvelope',
+    'entitledPatch',
+    'contents',
+    'rawSource',
+  ]) {
+    if (key in next) delete next[key];
+  }
+  // Nested data bags
+  if (isObjectish(next.data)) {
+    next.data = redactEventDataForUnpaidRead(next.data);
+  }
+  if (isObjectish(next.details)) {
+    next.details = redactEventDataForUnpaidRead(next.details);
+  }
+  return next;
+}
+
+function isObjectish(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+export function normalizeExecutionEventRow(
+  row: ExecutionEventRow,
+  opts?: { redactUnpaidRead?: boolean },
+) {
+  let eventData = row.event_data;
+  if (opts?.redactUnpaidRead) {
+    eventData = redactEventDataForUnpaidRead(eventData);
+  }
+  const eventPayload = asRecord(eventData) || {
     type: row.event_type,
     agent: row.agent_name,
     phase: row.phase,
@@ -499,7 +608,7 @@ export function normalizeExecutionEventRow(row: ExecutionEventRow) {
     id: row.id,
     run_id: row.run_id,
     event_type: row.event_type,
-    event_data: row.event_data,
+    event_data: eventData,
     created_at: row.created_at,
     agent_name: row.agent_name,
     phase: row.phase,
@@ -609,7 +718,7 @@ export async function postExecutionHistoryRoute(request: Request) {
 }
 
 export async function getExecutionHistoryRunRoute(
-  _request: Request,
+  request: Request,
   params: { runId?: string | null | undefined },
 ) {
   const userId = await requireExecutionRouteUserId();
@@ -620,6 +729,19 @@ export async function getExecutionHistoryRunRoute(
   const runId = String(params?.runId || '').trim();
   if (!runId) {
     return createJsonResponse({ error: 'Missing runId parameter' }, 400);
+  }
+
+  // `?tail=N` — last N events only (for failure hover previews). Full history
+  // when omitted (paginated past the PostgREST 1000-row default).
+  let tail: number | null = null;
+  try {
+    const raw = new URL(request.url).searchParams.get('tail');
+    if (raw) {
+      const n = Number.parseInt(raw, 10);
+      if (Number.isFinite(n) && n > 0) tail = Math.min(n, 50);
+    }
+  } catch {
+    tail = null;
   }
 
   const { data: run, error: runError } = await supabaseAdmin
@@ -641,30 +763,155 @@ export async function getExecutionHistoryRunRoute(
     return createJsonResponse({ error: 'Execution not found or access denied' }, 404);
   }
 
-  const { data: events, error: eventsError } = await supabaseAdmin
-    .from('execution_events')
-    .select('id, run_id, event_type, event_data, created_at, agent_name, phase')
-    .eq('run_id', runId)
-    .order('created_at', { ascending: true });
+  const events: ExecutionEventRow[] = [];
+  let eventsTruncated = false;
 
-  if (eventsError) {
-    return createJsonResponse(
-      { error: toErrorMessage(eventsError, 'Failed to fetch execution event history') },
-      500,
-    );
+  if (tail !== null) {
+    // Newest-first page, then reverse so clients get chronological order.
+    const { data: page, error: eventsError } = await supabaseAdmin
+      .from('execution_events')
+      .select('id, run_id, event_type, event_data, created_at, agent_name, phase')
+      .eq('run_id', runId)
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: false })
+      .range(0, tail - 1);
+
+    if (eventsError) {
+      return createJsonResponse(
+        { error: toErrorMessage(eventsError, 'Failed to fetch execution event history') },
+        500,
+      );
+    }
+    const batch = Array.isArray(page) ? (page as ExecutionEventRow[]) : [];
+    events.push(...batch.reverse());
+  } else {
+    // PostgREST/Supabase defaults to max 1000 rows. Deposit synthesis runs produce
+    // multi-thousand event streams (QA: refresh dropped the second half of a
+    // ~30m run and halved the clock because only the first 1000 events loaded).
+    // Page through the full event history in order.
+    const EVENT_PAGE_SIZE = 1000;
+    let eventOffset = 0;
+    for (;;) {
+      const { data: page, error: eventsError } = await supabaseAdmin
+        .from('execution_events')
+        .select('id, run_id, event_type, event_data, created_at, agent_name, phase')
+        .eq('run_id', runId)
+        .order('created_at', { ascending: true })
+        .order('id', { ascending: true })
+        .range(eventOffset, eventOffset + EVENT_PAGE_SIZE - 1);
+
+      if (eventsError) {
+        return createJsonResponse(
+          { error: toErrorMessage(eventsError, 'Failed to fetch execution event history') },
+          500,
+        );
+      }
+      const batch = Array.isArray(page) ? (page as ExecutionEventRow[]) : [];
+      events.push(...batch);
+      if (batch.length < EVENT_PAGE_SIZE) break;
+      eventOffset += EVENT_PAGE_SIZE;
+      // Hard ceiling so a runaway table cannot unbounded-read the API process.
+      if (eventOffset >= 50_000) {
+        eventsTruncated = true;
+        break;
+      }
+    }
   }
 
   const normalizedRun = normalizeExecutionHistoryRow(run);
-  const terminalJournal = await fetchTerminalJournalReadback(run.id, normalizedRun);
+  const redactUnpaidReadEvents = isUnpaidReadSynthesisExecution({
+    context: run.context,
+    output: run.output,
+    type: run.type,
+  });
+  // Skip heavy journal join for lightweight tail previews (table hover).
+  const terminalJournal =
+    tail !== null ? null : await fetchJournalReadback(run.id, normalizedRun);
 
   return createJsonResponse({
     run: {
       ...normalizedRun,
-      terminal_journal: terminalJournal,
+      ...(terminalJournal ? { terminal_journal: terminalJournal } : {}),
     },
-    events: (events || []).map(normalizeExecutionEventRow),
-    terminal_journal: terminalJournal,
+    events: events.map((ev) =>
+      normalizeExecutionEventRow(ev, { redactUnpaidRead: redactUnpaidReadEvents }),
+    ),
+    eventCount: events.length,
+    eventsTruncated,
+    tail,
+    ...(terminalJournal ? { terminal_journal: terminalJournal } : {}),
   });
+}
+
+/**
+ * Delete a user-owned activity-anchor execution row (Obfuscations anchors and
+ * similar ledger bookmarks). Pipeline synthesis runs are NOT deletable here —
+ * only rows whose context.source is an explicit anchor source. Events cascade.
+ */
+const DELETABLE_ACTIVITY_ANCHOR_SOURCES = new Set([
+  'deposit-obfuscations-anchor',
+  'read-need-anchor',
+  'repository-context-panel',
+  'terminal-repository-context-panel',
+]);
+
+export async function deleteExecutionHistoryRunRoute(
+  _request: Request,
+  params: { runId?: string | null | undefined },
+) {
+  const userId = await requireExecutionRouteUserId();
+  if (!userId) {
+    return createJsonResponse({ error: 'unauthenticated' }, 401);
+  }
+
+  const runId = String(params?.runId || '').trim();
+  if (!runId) {
+    return createJsonResponse({ error: 'Missing runId parameter' }, 400);
+  }
+
+  const { data: run, error: runError } = await supabaseAdmin
+    .from('executions')
+    .select('id, user_id, context')
+    .eq('id', runId)
+    .maybeSingle();
+
+  if (runError) {
+    return createJsonResponse(
+      { error: toErrorMessage(runError, 'Failed to load execution for delete') },
+      500,
+    );
+  }
+
+  if (!run || run.user_id !== userId) {
+    return createJsonResponse({ error: 'Execution not found or access denied' }, 404);
+  }
+
+  const context = asRecord(run.context);
+  const source = typeof context?.source === 'string' ? context.source : null;
+  if (!source || !DELETABLE_ACTIVITY_ANCHOR_SOURCES.has(source)) {
+    return createJsonResponse(
+      {
+        error:
+          'Only activity anchors (Obfuscations / repository) can be deleted from this endpoint.',
+      },
+      403,
+    );
+  }
+
+  const { error: deleteError } = await supabaseAdmin
+    .from('executions')
+    .delete()
+    .eq('id', runId)
+    .eq('user_id', userId);
+
+  if (deleteError) {
+    return createJsonResponse(
+      { error: toErrorMessage(deleteError, 'Failed to delete activity anchor') },
+      500,
+    );
+  }
+
+  return createJsonResponse({ deleted: true, id: runId });
 }
 
 function readNormalizedLedgerSettlement(run: JsonRecord) {
@@ -758,7 +1005,7 @@ async function readRecentRepairRows(runId: string, factIds: string[], readErrors
     .slice(0, 25);
 }
 
-async function fetchTerminalJournalReadback(runId: string, normalizedRun: JsonRecord): Promise<TerminalJournalReadback> {
+async function fetchJournalReadback(runId: string, normalizedRun: JsonRecord): Promise<JournalReadback> {
   const readErrors: string[] = [];
   const ledgerSettlement = readNormalizedLedgerSettlement(normalizedRun);
   const assetPackId = asString(ledgerSettlement?.assetPackId);

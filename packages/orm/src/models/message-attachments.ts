@@ -15,7 +15,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import {
   MessageAttachment,
   CreateMessageAttachmentInput
-} from '@bitcode/conversations-generics';
+} from '@bitcode/conversations';
 
 type MessageAttachmentRow = Tables<'message_attachments'>;
 

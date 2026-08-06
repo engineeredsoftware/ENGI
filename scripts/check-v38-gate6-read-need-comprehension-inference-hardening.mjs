@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-read-need-comprehension-inference-hardening.json';
+const ARTIFACT_PATH = '.proofs/v38/read-need-comprehension-inference-hardening.json';
 
 const REQUIRED_PHASE_IDS = [
   'ReadNeedComprehensionSynthesis.request',
@@ -112,7 +112,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -131,27 +131,27 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-inference-surface-inventory.json',
-    '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-    '.bitcode/v38-prompt-benchmark-report.json',
-    '.bitcode/v38-disclosure-boundary-report.json',
-    'packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js',
-    'packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js',
+    '.proofs/v38/inference-surface-inventory.json',
+    '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+    '.proofs/v38/prompt-benchmark-report.json',
+    '.proofs/v38/disclosure-boundary-report.json',
+    'scripts/specifying/src/canonical/read-need-comprehension-inference-hardening.js',
+    'scripts/specifying/test/v38-read-need-comprehension-inference-hardening.test.js',
     'scripts/generate-v38-read-need-comprehension-inference-hardening.mjs',
     'scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs',
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/bounded-structured-inference.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
-    'uapi/app/api/read-review/route.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/domain/src/bounded-structured-inference.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need.test.ts',
+    'apps/uapi/app/api/read-review/route.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    '.specifications/BITCODE_SPEC_V38.md',
+    '.specifications/BITCODE_SPEC_V38_DELTA.md',
+    '.specifications/BITCODE_SPEC_V38_NOTES.md',
+    '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -174,7 +174,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js',
+        'scripts/specifying/test/v38-read-need-comprehension-inference-hardening.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 ReadNeedComprehensionSynthesis protocol test failed: ${error.stderr || error.message}`);
@@ -185,7 +185,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -234,22 +234,22 @@ function main() {
     assertCheck(failures, artifact.coverage.acceptedNeedRequiredForFindingFits === true, 'Finding Fits must require accepted Need.');
     assertCheck(failures, artifact.coverage.resynthesisWithFeedbackCovered === true, 'Resynthesis with feedback must be covered.');
     assertCheck(failures, artifact.coverage.routeUsesInferenceSynthesis === true, 'Read-review route must use inference synthesis.');
-    assertCheck(failures, artifact.coverage.terminalSupportsResynthesis === true, 'Terminal must support resynthesis feedback.');
+    assertCheck(failures, artifact.coverage.terminalSupportsResynthesis === true, 'product must support resynthesis feedback.');
     assertCheck(failures, artifact.coverage.legacySourceRoots === false, 'Gate 6 artifact must not point at _legacy roots.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38ReadNeedComprehensionInferenceHardening'), 'V38 spec must name the Gate 6 hardening report.');
   assertCheck(failures, delta.includes('Gate 6: ReadNeedComprehensionSynthesis Inference Hardening'), 'V38 delta must include Gate 6.');

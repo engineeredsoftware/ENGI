@@ -1,0 +1,112 @@
+{
+  "reportId": "v26-application-composition-proof",
+  "version": "V26",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "routeWitnesses": [
+    "/application"
+  ],
+  "checks": [
+    {
+      "checkId": "application-route-and-shell-owners",
+      "label": "Application route, shell bridge, and native surface owners remain explicit",
+      "passed": true,
+      "detail": "9 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/application/page.tsx",
+        "apps/uapi/app/application/ApplicationPageClient.tsx",
+        "apps/uapi/app/application/application-shell-bridge.tsx",
+        "apps/uapi/app/application/ApplicationExperienceFrame.tsx",
+        "apps/uapi/app/application/ApplicationTransactionWorkspace.tsx",
+        "apps/uapi/app/application/ApplicationWorkspaceRail.tsx",
+        "apps/uapi/app/application/ApplicationPreservedShellSurface.tsx",
+        "protocol-demonstration/public/app.js",
+        "protocol-demonstration/src/client-entry.js"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "application-route-state-and-debug-owners",
+      "label": "Route query state, environment controls, and floating debug-widget owners remain explicit",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "apps/uapi/app/application/application-transaction-query.ts",
+        "apps/uapi/app/application/ApplicationExternalInterfacingPanel.tsx",
+        "apps/uapi/app/application/ApplicationFloatingDebugWidget.tsx",
+        "apps/uapi/tests/applicationTransactionQuery.test.ts",
+        "apps/uapi/tests/applicationExternalInterfacingPanel.test.tsx",
+        "apps/uapi/tests/applicationFloatingDebugWidget.test.tsx"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "chatgpt-app-connected-interface-write-admission",
+      "label": "ChatGPT App connected-interface writes fail closed on explicit confirmation and emit Bitcode write-admission receipts",
+      "passed": true,
+      "detail": "11 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "apps/chatgpt/src/tools.ts",
+          "evidence": "function assertConfirmedConnectedInterfaceWrite",
+          "description": "ChatGPT App write tools share a fail-closed confirmation guard"
+        },
+        {
+          "file": "apps/chatgpt/src/tools.ts",
+          "evidence": "Bitcode ChatGPT App write admission requires confirmed: true",
+          "description": "direct tool execution rejects unconfirmed connected-interface writes"
+        },
+        {
+          "file": "apps/chatgpt/src/tools.ts",
+          "evidence": "permission: 'explicit_user_confirmation'",
+          "description": "write receipts expose explicit confirmation as the permission basis"
+        },
+        {
+          "file": "apps/chatgpt/src/tools.ts",
+          "evidence": "exchangeStateRole: 'connected_interface_delivery_mechanism'",
+          "description": "ChatGPT App writes are delivery mechanisms rather than Exchange state owners"
+        },
+        {
+          "file": "apps/chatgpt/src/server.ts",
+          "evidence": "Bitcode is the source-to-shares protocol surfaced through ChatGPT",
+          "description": "server instructions frame ChatGPT App as a Bitcode Terminal companion interface"
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
+          "evidence": "rejects ChatGPT App connected-interface writes without explicit confirmation",
+          "description": "unit proof covers unconfirmed write rejection"
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
+          "evidence": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
+          "description": "unit proof covers schema-level confirmation requirements across GitHub, Vercel, and AWS write carriers"
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
+          "evidence": "write_code_changes_to_vcs creates GitHub repository after explicit write admission",
+          "description": "unit proof covers GitHub write admission through the ChatGPT App VCS tool"
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
+          "evidence": "targetAnchor: 'github:bitcode-yapper'",
+          "description": "unit proof covers target-bound GitHub write admission"
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
+          "evidence": "targetAnchor: 'vercel:team_bitcode/prj_Yapper'",
+          "description": "unit proof covers target-bound Vercel write admission"
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/yapperFlow.test.ts",
+          "evidence": "confirmed: true",
+          "description": "demo-flow proof invokes write tools through explicit confirmation payloads"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    }
+  ]
+}

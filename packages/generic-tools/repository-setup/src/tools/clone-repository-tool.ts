@@ -180,7 +180,7 @@
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import { VCSProvider, VCSOperation } from '@bitcode/vcs';
+import { VCSProvider, VCSOperation } from '@bitcode/vcs-generics';
 import { z } from 'zod';
 
 // Input schema with comprehensive validation

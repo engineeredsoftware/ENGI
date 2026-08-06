@@ -220,7 +220,7 @@ describe('AssetPack economic traceability', () => {
           cryptoTelemetry: true,
         },
       },
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/3808',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/3808',
     });
     expect(unlock).toMatchObject({
       state: 'licensed_read',

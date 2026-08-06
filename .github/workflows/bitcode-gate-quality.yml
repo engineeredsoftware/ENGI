@@ -49,8 +49,11 @@ jobs:
           if [[ "$PR_BASE_REF" == version/* && "$PR_HEAD_REF" =~ ^v([0-9]+)/gate-([0-9]+)- ]]; then
             expected_version="V${BASH_REMATCH[1]}"
             expected_gate="${BASH_REMATCH[2]}"
-            if [[ ! "$PR_TITLE" =~ ^${expected_version}[[:space:]]+Gate[[:space:]]+${expected_gate}:[[:space:]].+ ]]; then
-              echo "Gate pull request titles must begin with: ${expected_version} Gate ${expected_gate}:"
+            # AGENTS / SPECIFYING §2.8: abbreviated (spec-only|impl-only|spec-impl)
+            # only. Expanded forms are illegal in subjects — do not re-accept them.
+            title_re="^${expected_version}[[:space:]]+Gate[[:space:]]+${expected_gate}([[:space:]]\((spec-only|impl-only|spec-impl)\))?:[[:space:]].+"
+            if [[ ! "$PR_TITLE" =~ $title_re ]]; then
+              echo "Gate pull request titles must begin with: ${expected_version} Gate ${expected_gate}: or ${expected_version} Gate ${expected_gate} (spec-only|impl-only|spec-impl):"
               echo "Observed: ${PR_TITLE}"
               exit 1
             fi
@@ -58,7 +61,7 @@ jobs:
 
       - name: Validate draft canon posture
         run: |
-          POINTER="$(cat BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V28" ]; then
             node scripts/check-bitcode-spec-family.mjs --version V28 --mode promoted --current-target V28
             node scripts/check-bitcode-spec-family.mjs --version V29 --mode draft --current-target V28
@@ -126,7 +129,7 @@ jobs:
             node scripts/check-bitcode-spec-family.mjs --version V32 --mode promoted --current-target V32
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V32
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V32 --draft-target V33
-            if [ -f BITCODE_SPEC_V33.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V33.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V33 --mode draft --current-target V32
             fi
             node scripts/check-v32-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
@@ -144,7 +147,7 @@ jobs:
             node scripts/check-bitcode-spec-family.mjs --version V33 --mode promoted --current-target V33
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V33
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V33 --draft-target V34
-            if [ -f BITCODE_SPEC_V34.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V34.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33
             fi
             node scripts/check-v33-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
@@ -162,7 +165,7 @@ jobs:
             node scripts/check-bitcode-spec-family.mjs --version V34 --mode promoted --current-target V34
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V34
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V34 --draft-target V35
-            if [ -f BITCODE_SPEC_V35.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V35.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V35 --mode draft --current-target V34
               node scripts/check-v35-gate1-telemetry-docs-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v35-gate2-documentation-surface-catalog.mjs ]; then
@@ -199,7 +202,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V35
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V35 --draft-target V36
             node scripts/check-v35-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
-            if [ -f BITCODE_SPEC_V36.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V36.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V36 --mode draft --current-target V35
               node scripts/check-v36-gate1-exchange-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v36-gate2-exchange-activity-book-market-master-detail.mjs ]; then
@@ -235,7 +238,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V36
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V36 --draft-target V37
             node scripts/check-v36-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
-            if [ -f BITCODE_SPEC_V37.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V37.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V37 --mode draft --current-target V36
               node scripts/check-v37-gate1-conversations-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs ]; then
@@ -250,8 +253,8 @@ jobs:
               if [ -f scripts/check-v37-gate5-conversation-source-selector.mjs ]; then
                 node scripts/check-v37-gate5-conversation-source-selector.mjs --skip-branch-check
               fi
-              if [ -f scripts/check-v37-gate6-conversation-terminal-handoff.mjs ]; then
-                node scripts/check-v37-gate6-conversation-terminal-handoff.mjs --skip-branch-check
+              if [ -f scripts/check-v37-gate6-conversation-product-handoff.mjs ]; then
+                node scripts/check-v37-gate6-conversation-product-handoff.mjs --skip-branch-check
               fi
               if [ -f scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs ]; then
                 node scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs --skip-branch-check
@@ -271,7 +274,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V37
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38
             node scripts/check-v37-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
-            if [ -f BITCODE_SPEC_V38.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V38.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37
               node scripts/check-v38-gate1-inference-stack-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v38-gate2-inference-surface-inventory.mjs ]; then
@@ -310,7 +313,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V38
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V38 --draft-target V39
             node scripts/check-v38-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V39.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V39.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V39 --mode draft --current-target V38
               node scripts/check-v39-gate1-commercial-reading-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v39-gate2-depository-supply-indexing.mjs ]; then
@@ -349,7 +352,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V39
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40
             node scripts/check-v39-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V40.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V40.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39
               node scripts/check-v40-gate1-testing-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v40-gate2-test-inventory-coverage-matrix.mjs ]; then
@@ -388,7 +391,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V40
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V40 --draft-target V41
             node scripts/check-v40-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V41.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V41.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V41 --mode draft --current-target V40
               node scripts/check-v41-gate1-prompt-program-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v41-gate2-promptpart-prompt-inventory.mjs ]; then
@@ -421,7 +424,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V41
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V41 --draft-target V42
             node scripts/check-v41-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V42.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V42.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V42 --mode draft --current-target V41
               node scripts/check-v42-gate1-mvp-experience-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v42-gate2-depositing-shortest-path.mjs ]; then
@@ -454,7 +457,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V42
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V42 --draft-target V43
             node scripts/check-v42-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V43.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V43.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V43 --mode draft --current-target V42
               node scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs --skip-branch-check
               if [ -f scripts/check-v43-gate2-route-vocabulary-inventory.mjs ]; then
@@ -490,7 +493,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V43
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44
             node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V44.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V44.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
               node scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v44-gate2-economic-domain-model.mjs ]; then
@@ -526,7 +529,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V44
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V44 --draft-target V45
             node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V45.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V45.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V45 --mode draft --current-target V44
               if [ -f scripts/check-v45-gate16-proof-families-generated-artifacts.mjs ]; then
                 node scripts/check-v45-gate16-proof-families-generated-artifacts.mjs --skip-branch-check --skip-package-tests # check:v45-gate16
@@ -543,10 +546,10 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V45
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V45 --draft-target V46
             node scripts/check-v45-gate18-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ ! -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
+            if [ ! -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
               node scripts/check-v45-gate19-promotion-addendum.mjs --skip-branch-check --skip-package-tests
             fi
-            if [ -f BITCODE_SPEC_V46.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V46.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V46 --mode draft --current-target V45
               if [ -f scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs ]; then
                 node scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs --skip-branch-check
@@ -578,7 +581,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V46
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V46 --draft-target V47
             node scripts/check-v46-gate8-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V47.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V47.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V47 --mode draft --current-target V46
               if [ -f scripts/check-v47-gate1-scope-measurement-launch-freeze.mjs ]; then
                 node scripts/check-v47-gate1-scope-measurement-launch-freeze.mjs --skip-branch-check
@@ -619,8 +622,11 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V47
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V47 --draft-target V48
             node scripts/check-v47-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f BITCODE_SPEC_V48.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V48.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V48 --mode draft --current-target V47
+              if [ -f scripts/check-v48-gate4-depositor-website-completion.mjs ]; then
+                node scripts/check-v48-gate4-depositor-website-completion.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -636,15 +642,18 @@ jobs:
         run: |
           pnpm --filter @bitcode/btd typecheck
           pnpm --filter @bitcode/api build
-          pnpm --dir packages/executions-mcp/src/mcp-server run type-check
-          pnpm --dir packages/chatgptapp exec tsc --noEmit --pretty false
-          pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          # MCP primitives stay typecheck-gated; Exchange MCP server behavior is covered by unit tests below.
+          pnpm --filter @bitcode/mcp-generics typecheck
+          # ChatGPT App lives at apps/chatgpt (not packages/chatgptapp).
+          # Typecheck excludes __tests__; action contracts are proven by Jest below.
+          pnpm --dir apps/chatgpt exec tsc --noEmit --pretty false
+          pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
-          pnpm --filter @bitcode/protocol typecheck
+          pnpm --filter @bitcode/specifying typecheck
 
       - name: Test gate packages
         run: |
-          POINTER="$(cat BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V41" ] || [ "$POINTER" = "V42" ] || [ "$POINTER" = "V43" ] || [ "$POINTER" = "V44" ] || [ "$POINTER" = "V45" ]; then
             if [ "$POINTER" = "V41" ]; then
               node scripts/check-v42-gate9-promotion-readiness.mjs --skip-branch-check
@@ -656,31 +665,31 @@ jobs:
               node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
             else
               node scripts/check-v45-gate18-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-              if [ ! -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
+              if [ ! -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
                 node scripts/check-v45-gate19-promotion-addendum.mjs --skip-branch-check --skip-package-tests
               fi
-              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs ]; then
+              if [ -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs ]; then
                 node scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs --skip-branch-check
               fi
-              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate2-protocol-comprehension-object-model.mjs ]; then
+              if [ -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate2-protocol-comprehension-object-model.mjs ]; then
                 node scripts/check-v46-gate2-protocol-comprehension-object-model.mjs --skip-branch-check --skip-package-tests
               fi
-              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate3-public-operator-claim-boundaries.mjs ]; then
+              if [ -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate3-public-operator-claim-boundaries.mjs ]; then
                 node scripts/check-v46-gate3-public-operator-claim-boundaries.mjs --skip-branch-check --skip-package-tests
               fi
-              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate4-product-route-comprehension-readback.mjs ]; then
+              if [ -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate4-product-route-comprehension-readback.mjs ]; then
                 node scripts/check-v46-gate4-product-route-comprehension-readback.mjs --skip-branch-check --skip-package-tests
               fi
-              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate5-interface-claim-contracts.mjs ]; then
+              if [ -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate5-interface-claim-contracts.mjs ]; then
                 node scripts/check-v46-gate5-interface-claim-contracts.mjs --skip-branch-check --skip-package-tests
               fi
-              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate6-proof-readback-operator-explanation.mjs ]; then
+              if [ -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate6-proof-readback-operator-explanation.mjs ]; then
                 node scripts/check-v46-gate6-proof-readback-operator-explanation.mjs --skip-branch-check --skip-package-tests
               fi
-              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs ]; then
+              if [ -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs ]; then
                 node scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs --skip-branch-check --skip-package-tests
               fi
-              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate8-promotion-readiness.mjs ]; then
+              if [ -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate8-promotion-readiness.mjs ]; then
                 node scripts/check-v46-gate8-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
               fi
             fi
@@ -755,9 +764,9 @@ jobs:
                 node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
               fi
             fi
-            pnpm --filter @bitcode/protocol test
+            pnpm --filter @bitcode/specifying test
             pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
-            pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+            pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
             pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
             exit 0
           fi
@@ -787,101 +796,34 @@ jobs:
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/deployment-readiness-rehearsal.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/deployment-promotion-readiness-report.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts --runInBand --forceExit
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-documentation-surface-catalog.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-telemetry-taxonomy-catalog.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-public-docs-usage-guide-catalog.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-operator-runbook-catalog.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-docs-qa-alignment-report.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-testnet-rollout-readiness-guide.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-telemetry-documentation-interface-integration.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-local-staging-telemetry-documentation-rehearsal.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v35-promotion-readiness.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-activity-book.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-intent-order-contracts.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-rights-transfer-review.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-pricing-quote.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-settlement-reconciliation.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-dispute-repair-revenue-route.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-ux-proof.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-exchange-rehearsal.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v36-promotion-readiness.test.js
+          # Living specifying only (active V47 + package boundary). Historical
+          # vN proofs stay on disk unedited and are not required green
+          # (BITCODE_SPECIFYING §4.3 / §13.1).
+          pnpm --filter @bitcode/specifying test
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand --forceExit
-          pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand --forceExit
-          pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand --forceExit
-          pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand --forceExit
+          pnpm --dir apps/chatgpt exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
+          # asset-pack-harness.test.ts removed; host plan + distributed receipt remain.
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-integration-coverage.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts src/__tests__/read-need-review-resynthesis.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-preview-boundary.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-operational-telemetry-repair-readback.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-interface-product-parity.test.ts --runInBand --forceExit
+          # Reading pipeline proofs live under synthesize-reads-asset-packs (not domain).
+          pnpm --filter @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-integration-coverage.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-syntheses-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/postprocess.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs exec jest --config jest.config.cjs --runTestsByPath src/__tests__/read-need.test.ts src/__tests__/read-need-review-resynthesis.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-syntheses-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-preview-boundary.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-operational-telemetry-repair-readback.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-interface-product-parity.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/conversations/__tests__/stream-events.test.ts src/conversations/__tests__/privacy.test.ts src/conversations/__tests__/telemetry.test.ts --runInBand --forceExit
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/conversation-telemetry-proof-hooks.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/conversation-rehearsal.test.js
-          pnpm --dir packages/protocol exec node --test --test-force-exit test/v37-promotion-readiness.test.js
-          if [ -f packages/protocol/test/v38-inference-surface-inventory.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-inference-surface-inventory.test.js
-          fi
-          if [ -f packages/protocol/test/v38-ptrr-failsafe-thricified-stack.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-ptrr-failsafe-thricified-stack.test.js
-          fi
-          if [ -f packages/protocol/test/v38-prompt-benchmark-report.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-prompt-benchmark-report.test.js
-          fi
-          if [ -f packages/protocol/test/v38-inference-telemetry-disclosure-report.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-inference-telemetry-disclosure-report.test.js
-          fi
-          if [ -f packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-read-need-comprehension-inference-hardening.test.js
-          fi
-          if [ -f packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-read-fits-finding-search-embeddings.test.js
-          fi
-          if [ -f packages/protocol/test/v38-assetpack-synthesis-economic-traceability.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-assetpack-synthesis-economic-traceability.test.js
-          fi
-          if [ -f packages/protocol/test/v38-conversation-tool-prompt-inference-parity.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-conversation-tool-prompt-inference-parity.test.js
-          fi
-          if [ -f packages/protocol/test/v38-local-staging-inference-depository-search-rehearsal.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-local-staging-inference-depository-search-rehearsal.test.js
-          fi
-          if [ -f packages/protocol/test/v38-promotion-readiness.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v38-promotion-readiness.test.js
-          fi
-          if [ -f packages/protocol/test/v39-interface-conversation-product-parity.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v39-interface-conversation-product-parity.test.js
-          fi
-          if [ -f packages/protocol/test/v39-local-staging-reading-rehearsal.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v39-local-staging-reading-rehearsal.test.js
-          fi
-          if [ -f packages/protocol/test/v39-promotion-readiness.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v39-promotion-readiness.test.js
-          fi
-          if [ -f packages/protocol/test/v40-conversation-terminal-integration.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-conversation-terminal-integration.test.js
-          fi
-          if [ -f packages/protocol/test/v40-ledger-storage-sync.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-ledger-storage-sync.test.js
-          fi
-          if [ -f packages/protocol/test/v40-local-staging-rehearsal-automation.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-local-staging-rehearsal-automation.test.js
-          fi
-          if [ -f packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-prompt-benchmark-smoke-v41-readiness.test.js
-          fi
-          if [ -f packages/protocol/test/v40-promotion-readiness.test.js ]; then
-            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-promotion-readiness.test.js
-          fi
-          pnpm --filter @bitcode/protocol test
 
-      - name: Test staged Reading route and Terminal harness contracts
+      # Terminal product route is deleted (V48). Keep only present uapi harness
+      # contracts (Conversations / Auxillaries / Reads / browser-proof suites).
+      - name: Test staged Reading route and product harness contracts
         run: |
-          pnpm --dir uapi exec jest --runTestsByPath \
+          pnpm --dir apps/uapi exec jest --runTestsByPath \
             tests/userDataRoute.test.ts \
             tests/auxillariesWalletPane.test.tsx \
             tests/auxillariesContent.access.test.tsx \
@@ -893,8 +835,6 @@ jobs:
             tests/api/conversationSessionRouteHistoryContract.test.ts \
             tests/api/conversationStreamEventContract.test.ts \
             tests/conversationStreamPipelineLog.test.tsx \
-            tests/conversationTerminalIntegrationCoverage.test.tsx \
-            tests/conversationTerminalHandoff.test.tsx \
             tests/api/conversationPersistencePrivacyRedaction.test.ts \
             tests/conversationPersistencePrivacyPanel.test.tsx \
             tests/api/conversationTelemetryProofHooks.test.ts \
@@ -907,52 +847,33 @@ jobs:
             tests/auxillariesExternalsPane.test.tsx \
             tests/profileStep.test.tsx \
             tests/api/readReviewRoute.test.ts \
-            tests/api/readReviewProtocolParity.test.ts \
-            tests/api/pipelineHarnessRoute.test.ts \
-            tests/terminalPipelineHarnessClient.test.ts \
-            tests/terminalEnterpriseReadingUxState.test.ts \
-            tests/terminalDepositReadWorkbench.test.ts \
-            tests/terminalTransactionQuery.test.ts \
-            tests/terminalTransactionReadModel.test.ts \
-            tests/exchangePageClient.test.tsx \
-            tests/exchangeTerminalHandoff.test.ts \
-            tests/terminalProtocolProjection.test.ts \
-            tests/terminalInterfaceIntegrationRegression.test.ts \
-            tests/terminalWalletBtcOperation.test.ts \
-            tests/terminalJournalReconciliation.test.ts \
             tests/bitcodeLedgerStorageSync.test.ts \
-            tests/terminalOrganizationAuthority.test.ts \
             tests/protocolCommercialBoundary.test.ts \
-            tests/terminalTransactionDetailCards.test.tsx \
-            tests/terminalTransactionDetailSnapshot.test.ts \
-            tests/terminalUxBrowserProof.test.tsx \
             tests/bitcodeBrowserProof.test.ts \
             tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts \
             tests/readingOperationalTelemetryPipelineLog.test.tsx \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
 
-      - name: Install Terminal browser proof browser
+      - name: Install browser-proof browser
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi exec playwright install chromium --with-deps
+        run: pnpm --dir apps/uapi exec playwright install chromium --with-deps
 
-      - name: Browser proof Terminal cockpit
+      - name: Browser proof Deposits, Reads, and Auxillaries responsive accessibility
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi run test:e2e:terminal-ux
-
-      - name: Browser proof Terminal and Auxillaries responsive accessibility
-        if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi run test:e2e:v32-browser-proof
+        run: pnpm --dir apps/uapi run test:e2e:accessibility-responsive-proof
 
       - name: Browser proof product surfaces
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi run test:e2e:browser-proof
+        run: pnpm --dir apps/uapi run test:e2e:browser-proof
 
       - name: Test pipeline readback verifier
         run: pnpm test:qa:v28:pipeline-readback
 
-      - name: Test protocol demonstration
-        run: npm --prefix protocol-demonstration run test:v28-mvp-qa
+      - name: Test specifying package boundary
+        run: |
+          pnpm --dir scripts/specifying exec node --test --test-force-exit \
+            test/specifying-package-boundary.test.js
 
       - name: Check diff hygiene
         run: git diff --check

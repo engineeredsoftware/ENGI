@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-assetpack-synthesis-economic-traceability.json';
+const ARTIFACT_PATH = '.proofs/v38/assetpack-synthesis-economic-traceability.json';
 
 const REQUIRED_ROW_IDS = [
   'handoff:selected-fits-to-assetpack-synthesis',
@@ -124,7 +124,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -143,19 +143,19 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-disclosure-boundary-report.json',
-    '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-    '.bitcode/v38-read-fits-finding-search-embeddings.json',
-    'packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js',
-    'packages/protocol/test/v38-assetpack-synthesis-economic-traceability.test.js',
+    '.proofs/v38/disclosure-boundary-report.json',
+    '.proofs/v38/read-need-comprehension-inference-hardening.json',
+    '.proofs/v38/read-fits-finding-search-embeddings.json',
+    'scripts/specifying/src/canonical/assetpack-synthesis-economic-traceability.js',
+    'scripts/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js',
     'scripts/generate-v38-assetpack-synthesis-economic-traceability.mjs',
     'scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs',
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-disclosure.ts',
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'packages/btd/src/receipts.ts',
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/settlement.ts',
@@ -164,15 +164,15 @@ function main() {
     'packages/btd/__tests__/source-to-shares.test.ts',
     'packages/btd/__tests__/reconciliation.test.ts',
     'packages/btd/__tests__/btd.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts',
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/postprocess.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-disclosure.test.ts',
+    '.specifications/BITCODE_SPEC_V38.md',
+    '.specifications/BITCODE_SPEC_V38_DELTA.md',
+    '.specifications/BITCODE_SPEC_V38_NOTES.md',
+    '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -195,7 +195,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v38-assetpack-synthesis-economic-traceability.test.js',
+        'scripts/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 AssetPack economic traceability protocol test failed: ${error.stderr || error.message}`);
@@ -221,7 +221,7 @@ function main() {
       ]);
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -240,7 +240,7 @@ function main() {
         '--config',
         'jest.config.cjs',
         '--runTestsByPath',
-        'src/__tests__/asset-pack-harness.test.ts',
+        'src/__tests__/asset-pack-host-plan.test.ts',
         '--runInBand',
         '--forceExit',
       ]);
@@ -291,18 +291,18 @@ function main() {
     assertCheck(failures, artifact.coverage.legacySourceRoots === false, 'Gate 8 artifact must not point at _legacy roots.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38AssetPackSynthesisEconomicTraceability'), 'V38 spec must name the Gate 8 report.');
   assertCheck(failures, delta.includes('Gate 8: AssetPack Synthesis Handoff And Economic Traceability'), 'V38 delta must include Gate 8.');

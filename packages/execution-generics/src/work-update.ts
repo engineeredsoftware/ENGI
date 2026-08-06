@@ -50,12 +50,14 @@ export interface AgentStepWorkUpdate extends WorkUpdate {
  * Work update emitted after a SDIVF DIV iteration completes (Validation ready-to-instruct).
  * The prose is the self-instruction text for the next iteration.
  */
-export interface SDIVFPipelineUpdate extends WorkUpdate {
+/** Work update for an ExecutionPipelineSDIVF DIV iteration (hierarchy-named). */
+export interface ExecutionPipelineSDIVFUpdate extends WorkUpdate {
   iteration: number;
   selfInstruction: string;
   confidence: number;
   suggestions: string[];
 }
+
 
 const WORK_UPDATE_NAMESPACE = 'work-update';
 const LATEST_AGENT_STEP_KEY = 'latest-agent-step';
@@ -86,7 +88,7 @@ export function storeAgentStepWorkUpdate(
  */
 export function storeIterationWorkUpdate(
   execution: Execution,
-  update: SDIVFPipelineUpdate
+  update: ExecutionPipelineSDIVFUpdate
 ): void {
   const root = execution.getRoot();
   root.store(WORK_UPDATE_NAMESPACE, `iteration-${update.iteration}`, update);
@@ -126,9 +128,9 @@ export function buildAgentStepWorkUpdate(params: {
 }
 
 /**
- * Helper to build a SDIVF iteration update.
+ * Helper to build an ExecutionPipelineSDIVF DIV-iteration work update.
  */
-export function buildSDIVFPipelineUpdate(params: {
+export function buildExecutionPipelineSDIVFUpdate(params: {
   execution: Execution;
   iteration: number;
   prose: string;
@@ -137,7 +139,7 @@ export function buildSDIVFPipelineUpdate(params: {
   suggestions: string[];
   tools: ToolUsageUpdate[];
   meta?: Record<string, StorableValue>;
-}): SDIVFPipelineUpdate {
+}): ExecutionPipelineSDIVFUpdate {
   const { execution, iteration, prose, selfInstruction, confidence, suggestions, tools, meta } =
     params;
   const aggregate = consumeIterationWorkContext(execution);
@@ -158,6 +160,7 @@ export function buildSDIVFPipelineUpdate(params: {
     meta,
   };
 }
+
 
 export function accumulateIterationWorkContext(
   execution: Execution,

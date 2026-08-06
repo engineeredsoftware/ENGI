@@ -29,21 +29,9 @@ try {
 
 const getGlobalContext = () => ({ rootDir: process.cwd() });
 
-export interface FileOperation {
-  type: 'edit' | 'create' | 'delete' | 'rename';
-  path: string;
-  oldPath?: string; // For rename operations
-  content?: string;
-  timestamp: number;
-}
-
-export interface DirectoryOperation {
-  type: 'move_dir' | 'rename_dir' | 'delete_dir' | 'create_dir';
-  path: string;
-  newPath?: string;
-  timestamp: number;
-  affectedFiles: string[];
-}
+// FileOperation / DirectoryOperation primitives live in ./types (canonical).
+import type { FileOperation, DirectoryOperation } from './types';
+export type { FileOperation, DirectoryOperation };
 
 /**
  * Converts any file path format to a complete absolute path
@@ -53,7 +41,7 @@ export interface DirectoryOperation {
  * @returns Complete absolute path (e.g. "/home/user/tmp/bitcode/repo/src/thing.py")
  */
 export function absolutifyPath(filePath: string): string {
-  const repoPath = getGlobalContext().repoPath!;
+  const repoPath = getGlobalContext().rootDir;
 
   // Remove leading slash if present for consistency
   const cleanPath = filePath.startsWith('/') ? filePath.slice(1) : filePath;

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v33-api-schema-compatibility-matrix.json';
+const ARTIFACT_PATH = '.proofs/v33/api-schema-compatibility-matrix.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const requiredConsumerSurfaces = Object.freeze([
@@ -150,24 +150,24 @@ export function buildV33ApiSchemaCompatibilityMatrixArtifact() {
       'shares the package-owned API schema compatibility matrix for versionless public routes',
       'public-api-btd-registry-success',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned API schema compatibility matrix for MCP tool calls',
       'mcp-api-asset-pack-create-success',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned API schema compatibility matrix for ChatGPT App blocked delivery',
       'chatgpt-app-deliver-assetpack-blocked',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned API schema compatibility matrix for Terminal handoff rows',
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
+      'shares the package-owned API schema compatibility matrix for product handoff rows',
       'terminal-handoff-preview-blocked',
     ]),
   ];
   const docsEvidence = [
-    scanTokens('BITCODE_SPEC_V33.md', ['APISchemaCompatibilityMatrix', 'Gate 7']),
-    scanTokens('BITCODE_SPEC_V33_DELTA.md', ['API Schemas Examples And Compatibility Matrix']),
-    scanTokens('BITCODE_SPEC_V33_PARITY_MATRIX.md', ['API schema compatibility']),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', ['V33 Gate 7 API Schemas Examples And Compatibility Matrix']),
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', ['APISchemaCompatibilityMatrix', 'Gate 7']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_DELTA.md', ['API Schemas Examples And Compatibility Matrix']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['API schema compatibility']),
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 7 API Schemas Examples And Compatibility Matrix']),
   ];
   const observedConsumerSurfaces = Array.from(new Set(matrixRows.map((row) => row.consumerSurface))).sort();
   const observedExamplePostures = Array.from(new Set(matrixRows.map((row) => row.examplePosture))).sort();

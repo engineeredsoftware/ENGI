@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v34-deployment-storage-posture.json';
+const ARTIFACT_PATH = '.proofs/v34/deployment-storage-posture.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -129,7 +129,7 @@ const carrierRows = Object.freeze([
     rollbackMaterialPosture: 'preview rollback rewrites source-safe measurements from receipt output root',
     requiredRoots: ['object_storage', 'database_projection', 'proof'],
     driftDetection: 'compare-preview-object-root-to-database-preview-root',
-    repairCommand: 'pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts --runInBand',
+    repairCommand: 'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts --runInBand',
     repairPosture: 'withhold preview update until source-safe projection is regenerated',
     validationCommand: 'pnpm run check:v34-gate4',
     proofRootBasis: ['AssetPackPreview', 'ReadFitsFindingSynthesis', 'InterfaceTelemetryProofHook'],
@@ -138,7 +138,7 @@ const carrierRows = Object.freeze([
     carrierId: 'generated_proof_artifacts',
     storageClass: 'proof_artifact',
     ownerHostId: 'proof_services',
-    storageOwnerPackage: 'packages/protocol',
+    storageOwnerPackage: 'scripts/specifying',
     supportedLaneIds: nonValueLanes,
     durabilityPosture: 'generated_replayable_artifact',
     disclosurePolicy: 'source_safe_proof_only',
@@ -154,7 +154,7 @@ const carrierRows = Object.freeze([
     repairCommand: 'pnpm run check:spec-quality && pnpm run check:v34-gate4',
     repairPosture: 'regenerate proof artifact from canonical source and re-run promotion checks',
     validationCommand: 'pnpm run check:v34-gate4',
-    proofRootBasis: ['BITCODE_SPEC_V34.md', 'BITCODE_SPEC_V34_PARITY_MATRIX.md'],
+    proofRootBasis: ['.specifications/BITCODE_SPEC_V34.md', '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md'],
   },
   {
     carrierId: 'audit_log_stream',
@@ -273,9 +273,9 @@ const driftRepairFixtures = Object.freeze([
 const sourceFiles = Object.freeze([
   'packages/btd/src/deployment-storage-posture.ts',
   'packages/btd/src/index.ts',
-  'BITCODE_SPEC_V34.md',
-  'BITCODE_SPEC_V34_DELTA.md',
-  'BITCODE_SPEC_V34_PARITY_MATRIX.md',
+  '.specifications/BITCODE_SPEC_V34.md',
+  '.specifications/BITCODE_SPEC_V34_DELTA.md',
+  '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
 ]);
 
 const testFiles = Object.freeze([
@@ -393,7 +393,7 @@ export function buildV34DeploymentStoragePostureArtifact() {
       'value-bearing-mainnet',
     ]),
     scanTokens('packages/btd/src/index.ts', ['deployment-storage-posture']),
-    scanTokens('BITCODE_SPEC_V34.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34.md', [
       ARTIFACT_PATH,
       'DeploymentStoragePosture',
       'protected source is never an unpaid interface payload',

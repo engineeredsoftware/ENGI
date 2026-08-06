@@ -1,0 +1,20 @@
+{
+  "name": "@bitcode/file-refactoring",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "private": true,
+  "dependencies": {
+    "@bitcode/lsp": "workspace:*",
+    "zod": "^3.22.0",
+    "@bitcode/files": "workspace:*",
+    "@bitcode/logger": "workspace:*"
+  },
+  "description": "File refactoring over @bitcode/files + LSP (packages/file-refactoring)",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  }
+}

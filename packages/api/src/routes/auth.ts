@@ -14,9 +14,9 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import { traceRoute } from '@bitcode/observability';
 import { log } from '@bitcode/logger';
 import { createAdminClient } from '@bitcode/orm';
-import { sendServerEvent } from '@bitcode/google-analytics';
-import { createJsonResponse, createErrorResponse } from '@bitcode/responses';
-import { sendEmail } from '@bitcode/email';
+import { sendServerEvent } from '@bitcode/external-telemetry-google';
+import { createJsonResponse, createErrorResponse } from '@bitcode/api/responses';
+import { sendEmail } from '@bitcode/notifications';
 import * as crypto from 'crypto';
 
 const orm = createAdminClient();

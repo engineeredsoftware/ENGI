@@ -23,7 +23,6 @@ export { ExecutionEventsModel } from './execution-events';
 export {
   AssetPackGeneratedAssetsModel,
   AssetPackPhaseExecutionsModel,
-  AssetPackRunInstructionsModel,
   AssetPackRunJobsModel,
   AssetPackStreamLogsModel,
   AssetPackVectorsModel,
@@ -101,9 +100,6 @@ export type {
   AssetPackPhaseExecution,
   AssetPackPhaseExecutionInsert,
   AssetPackPhaseExecutionUpdate,
-  AssetPackRunInstruction,
-  AssetPackRunInstructionInsert,
-  AssetPackRunInstructionUpdate,
   AssetPackRunJob,
   AssetPackRunJobInsert,
   AssetPackRunJobUpdate,

@@ -27,7 +27,7 @@ describe('conversation persistence privacy redaction', () => {
 
   it('recursively redacts sensitive metadata fields', () => {
     const redacted = redactConversationPersistenceValue({
-      sourceRef: 'engineeredsoftware/ENGI',
+      sourceRef: 'octocat/Spoon-Knife',
       providerToken: 'Bearer abcdefghijklmnopqrstuvwxyz12345',
       token_type: 'source',
       nested: {
@@ -40,7 +40,7 @@ describe('conversation persistence privacy redaction', () => {
     expect(redacted.redactedPaths).toEqual(['$.providerToken', '$.nested.walletPrivateMaterial']);
     expect(JSON.stringify(redacted.value)).not.toContain('abcdefghijklmnopqrstuvwxyz12345');
     expect(JSON.stringify(redacted.value)).not.toContain('must not persist');
-    expect(JSON.stringify(redacted.value)).toContain('engineeredsoftware/ENGI');
+    expect(JSON.stringify(redacted.value)).toContain('octocat/Spoon-Knife');
     expect((redacted.value as Record<string, unknown>).token_type).toBe('source');
   });
 

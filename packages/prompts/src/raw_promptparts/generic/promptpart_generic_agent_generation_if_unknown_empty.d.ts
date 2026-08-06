@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Instruct the model to include empty values of correct type when data is unknown"
- * current_version: "V26.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },

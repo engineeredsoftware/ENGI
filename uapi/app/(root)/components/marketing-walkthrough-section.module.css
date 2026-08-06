@@ -1,6 +1,0 @@
-:global { @keyframes wobble {
-  from { transform: rotate(0deg); }
-  25% { transform: rotate(4deg); }
-  75% { transform: rotate(-4deg); }
-  to { transform: rotate(0deg); }
-} }

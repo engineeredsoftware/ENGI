@@ -2,6 +2,21 @@
 
 Industrial-grade parsing utilities for structured data extraction and validation with enterprise-level error handling and fallback mechanisms.
 
+## Tests (co-located; core vs edges)
+
+```text
+src/__tests__/core/*.core.test.ts
+src/__tests__/edges/*.edges.test.ts
+```
+
+```bash
+pnpm --filter @bitcode/parsing test          # both (required)
+pnpm --filter @bitcode/parsing test:core
+pnpm --filter @bitcode/parsing test:edges
+```
+
+Do not re-host these under `agent-generics` or monorepo root.
+
 ## Overview
 
 Comprehensive parsing framework designed for reliable extraction and validation of structured data from LLM responses and unstructured text. Implements advanced JSON extraction algorithms, schema validation with automatic fallback generation, and performance-optimized retry mechanisms.
@@ -54,27 +69,27 @@ import { parseResponse } from '@bitcode/parsing';
 import { z } from 'zod';
 
 const TaskResultSchema = z.object({
-  success: z.boolean(),
-  data: z.array(z.string()),
-  confidence: z.number().min(0).max(1),
-  metadata: z.record(z.unknown()).optional()
+ success: z.boolean(),
+ data: z.array(z.string()),
+ confidence: z.number().min(0).max(1),
+ metadata: z.record(z.unknown()).optional()
 });
 
 async function processLLMResponse(response: string) {
-  return await parseResponse(
-    response,
-    TaskResultSchema,
-    () => ({
-      success: false,
-      data: [],
-      confidence: 0,
-      metadata: { error: 'Parsing failed' }
-    }),
-    {
-      maxRetries: 3,
-      retryDelay: 1000
-    }
-  );
+ return await parseResponse(
+ response,
+ TaskResultSchema,
+ () => ({
+ success: false,
+ data: [],
+ confidence: 0,
+ metadata: { error: 'Parsing failed' }
+ }),
+ {
+ maxRetries: 3,
+ retryDelay: 1000
+ }
+ );
 }
 ```
 
@@ -84,24 +99,24 @@ import { parseResponse } from '@bitcode/parsing';
 import { z } from 'zod';
 
 const APIResponseSchema = z.object({
-  status: z.enum(['success', 'error', 'pending']),
-  message: z.string(),
-  data: z.unknown().optional(),
-  timestamp: z.string().datetime()
+ status: z.enum(['success', 'error', 'pending']),
+ message: z.string(),
+ data: z.unknown().optional(),
+ timestamp: z.string().datetime()
 });
 
 export async function validateAPIResponse(rawResponse: string) {
-  const validated = await parseResponse(
-    rawResponse,
-    APIResponseSchema,
-    () => ({
-      status: 'error' as const,
-      message: 'Invalid response format',
-      timestamp: new Date().toISOString()
-    })
-  );
-  
-  return validated;
+ const validated = await parseResponse(
+ rawResponse,
+ APIResponseSchema,
+ () => ({
+ status: 'error' as const,
+ message: 'Invalid response format',
+ timestamp: new Date().toISOString()
+ })
+ );
+
+ return validated;
 }
 ```
 
@@ -111,56 +126,56 @@ import { extractJsonFromResponse, parseResponse } from '@bitcode/parsing';
 import { z } from 'zod';
 
 const AssetPackEvidenceSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  description: z.string(),
-  requirements: z.array(z.object({
-    id: z.string(),
-    text: z.string(),
-    priority: z.enum(['high', 'medium', 'low'])
-  })),
-  timeline: z.object({
-    estimatedHours: z.number().positive(),
-    deadline: z.string().datetime()
-  }),
-  tags: z.array(z.string()).optional()
+ id: z.string(),
+ title: z.string(),
+ description: z.string(),
+ requirements: z.array(z.object({
+ id: z.string(),
+ text: z.string(),
+ priority: z.enum(['high', 'medium', 'low'])
+ })),
+ timeline: z.object({
+ estimatedHours: z.number().positive(),
+ deadline: z.string().datetime()
+ }),
+ tags: z.array(z.string()).optional()
 });
 
 class AssetPackEvidenceParser {
-  async parseAssetPackEvidence(llmOutput: string) {
-    try {
-      // First attempt: direct parsing
-      const result = await parseResponse(
-        llmOutput,
-        AssetPackEvidenceSchema,
-        this.createFallbackAssetPackEvidence
-      );
-      
-      return result;
-    } catch (error) {
-      // Fallback: extract JSON manually and retry
-      const extracted = extractJsonFromResponse(llmOutput);
-      return await parseResponse(
-        extracted,
-        AssetPackEvidenceSchema,
-        this.createFallbackAssetPackEvidence
-      );
-    }
-  }
-  
-  private createFallbackAssetPackEvidence() {
-    return {
-      id: generateId(),
-      title: 'Untitled AssetPack evidence',
-      description: 'Description not provided',
-      requirements: [],
-      timeline: {
-        estimatedHours: 8,
-        deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
-      },
-      tags: []
-    };
-  }
+ async parseAssetPackEvidence(llmOutput: string) {
+ try {
+ // First attempt: direct parsing
+ const result = await parseResponse(
+ llmOutput,
+ AssetPackEvidenceSchema,
+ this.createFallbackAssetPackEvidence
+ );
+
+ return result;
+ } catch (error) {
+ // Fallback: extract JSON manually and retry
+ const extracted = extractJsonFromResponse(llmOutput);
+ return await parseResponse(
+ extracted,
+ AssetPackEvidenceSchema,
+ this.createFallbackAssetPackEvidence
+ );
+ }
+ }
+
+ private createFallbackAssetPackEvidence() {
+ return {
+ id: generateId(),
+ title: 'Untitled AssetPack evidence',
+ description: 'Description not provided',
+ requirements: [],
+ timeline: {
+ estimatedHours: 8,
+ deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+ },
+ tags: []
+ };
+ }
 }
 ```
 
@@ -169,29 +184,29 @@ class AssetPackEvidenceParser {
 import { parseResponse } from '@bitcode/parsing';
 
 class BatchParser {
-  async parseMultipleResponses<T>(
-    responses: string[],
-    schema: z.ZodType<T>,
-    fallback: () => T
-  ): Promise<T[]> {
-    const results = await Promise.allSettled(
-      responses.map(response => 
-        parseResponse(response, schema, fallback, {
-          maxRetries: 2,
-          retryDelay: 500
-        })
-      )
-    );
-    
-    return results.map((result, index) => {
-      if (result.status === 'fulfilled') {
-        return result.value;
-      } else {
-        console.warn(`Failed to parse response ${index}:`, result.reason);
-        return fallback();
-      }
-    });
-  }
+ async parseMultipleResponses<T>(
+ responses: string[],
+ schema: z.ZodType<T>,
+ fallback: () => T
+ ): Promise<T[]> {
+ const results = await Promise.allSettled(
+ responses.map(response =>
+ parseResponse(response, schema, fallback, {
+ maxRetries: 2,
+ retryDelay: 500
+ })
+ )
+ );
+
+ return results.map((result, index) => {
+ if (result.status === 'fulfilled') {
+ return result.value;
+ } else {
+ console.warn(`Failed to parse response ${index}:`, result.reason);
+ return fallback();
+ }
+ });
+ }
 }
 ```
 
@@ -222,12 +237,12 @@ class BatchParser {
 ```typescript
 // Automatic error recovery with detailed diagnostics
 try {
-  const result = await parseResponse(malformedJson, schema, fallback);
+ const result = await parseResponse(malformedJson, schema, fallback);
 } catch (error) {
-  // Detailed error information available:
-  // - Parse position
-  // - Input preview around error
-  // - Suggested corrections
+ // Detailed error information available:
+ // - Parse position
+ // - Input preview around error
+ // - Suggested corrections
 }
 ```
 
@@ -253,19 +268,19 @@ const result = await parseResponse(response, schema, fallback);
 function extractJsonFromResponse(response: string): string;
 
 function parseResponse<T>(
-  response: string,
-  schema: z.ZodType<T>,
-  fallback: () => T,
-  options?: {
-    maxRetries?: number;
-    retryDelay?: number;
-  }
+ response: string,
+ schema: z.ZodType<T>,
+ fallback: () => T,
+ options?: {
+ maxRetries?: number;
+ retryDelay?: number;
+ }
 ): Promise<T>;
 
 function createFallbackResponse<T>(
-  schema: z.ZodType<T>,
-  error: Error,
-  taskType?: string
+ schema: z.ZodType<T>,
+ error: Error,
+ taskType?: string
 ): T;
 
 // Internal utility for advanced fallback generation

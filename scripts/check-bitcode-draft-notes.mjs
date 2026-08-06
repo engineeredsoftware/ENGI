@@ -50,7 +50,7 @@ function main() {
   /** @type {string[]} */
   const failures = [];
 
-  const activeSpecPrefix = Number(String(currentTarget).replace(/^V/u, '')) >= 26 ? 'BITCODE_SPEC' : 'ENGI_SPEC';
+  const activeSpecPrefix = Number(String(currentTarget).replace(/^V/u, '')) >= 26 ? '.specifications/BITCODE_SPEC' : 'ENGI_SPEC';
 
   const requiredPhrases = [
     `Spec ${version} Notes`,

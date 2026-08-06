@@ -1,0 +1,307 @@
+{
+  "artifactId": "v43-deposit-policy-compensation",
+  "schemaId": "bitcode.v43.depositPolicyCompensation.v1",
+  "version": "V43",
+  "currentTarget": "V42",
+  "sourceSafetyVerdict": "source-safe-deposit-policy-compensation-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v43-deposit-policy-compensation:481dea513c53c49c5f5e41a8",
+  "passed": true,
+  "objectIds": [
+    "DepositAssetPackOptionPolicy",
+    "DepositAssetPackOptionPolicyReport",
+    "DepositAssetPackOptionPolicyEvaluation",
+    "source criticality posture",
+    "likely demand posture",
+    "ROI posture",
+    "BTD potential estimate",
+    "BTC source-to-shares compensation route",
+    "future Gate 7 admission boundary"
+  ],
+  "fieldIds": [
+    "sourceCriticality",
+    "demand",
+    "roi",
+    "btdPotential",
+    "compensation",
+    "policyDecision",
+    "admissionBoundary",
+    "policy roots"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_assetpack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload"
+  ],
+  "contractRows": [
+    {
+      "rowId": "criticality-policy",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "contract": "DepositAssetPackOptionPolicy evaluates source criticality from source-safe criticality signals and blocks critical IP before Gate 7 admission.",
+      "requiredFields": [
+        "sourceCriticality",
+        "blocked-critical-source",
+        "critical_source_policy_block"
+      ],
+      "rowRoot": "v43-deposit-policy-contract:e5411b4187a92443f8ac974f",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "demand-roi-policy",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "contract": "Policy evaluates likely demand and ROI deterministically from source-safe option measurements, demand confidence, estimated settlement, and development cost.",
+      "requiredFields": [
+        "demand",
+        "roi",
+        "positive-expected-value",
+        "negative-expected-value"
+      ],
+      "rowRoot": "v43-deposit-policy-contract:b686a0c2af187d224c61c5f7",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "btd-compensation-policy",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "contract": "Policy exposes BTD potential as estimate-only and previews future-reader BTC source-to-shares compensation without minting BTD or transferring rights.",
+      "requiredFields": [
+        "btdPotential",
+        "compensation",
+        "source-to-shares-largest-remainder",
+        "BTC"
+      ],
+      "rowRoot": "v43-deposit-policy-contract:00577909a54242c3c4cf17e3",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "route-policy-readback",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "contract": "/deposit renders policy readback for criticality, demand, ROI, BTD potential, and compensation while admission/indexing remain owned by Gate 7.",
+      "requiredFields": [
+        "DepositAssetPackOptionPolicy",
+        "BTC source-to-shares preview",
+        "future-gate7-deposit-option-review"
+      ],
+      "rowRoot": "v43-deposit-policy-contract:d04bd16cdda75bf1c0539c52",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "spec": "BITCODE_SPEC_V43.md:28f17417fec136cec3a08645",
+    "delta": "BITCODE_SPEC_V43_DELTA.md:360fe5346443a0bf0d44f8c7",
+    "notes": "BITCODE_SPEC_V43_NOTES.md:8c4b6932fea7cdfe81a8406c",
+    "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:450948415f13c6732f50eb6e",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
+    "readme": "README.md:d28ec731634e03953d8adfe6",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
+    "packageJson": "package.json:b79014968c556bc1b43ab341",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
+    "optionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
+    "policyModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
+    "optionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
+    "policyModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts:1af7adccac488298ccd7f048",
+    "routeModel": "apps/uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
+    "client": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "routeModelTest": "apps/uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
+    "pageTest": "apps/uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
+    "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
+    "packageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
+    "protocolIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "protocolTest": "scripts/specifying/test/v43-deposit-policy-compensation.test.js:f84b0c016065b10f796eb775",
+    "generator": "scripts/generate-v43-deposit-policy-compensation.mjs:0117b1222d0f4a4640324b47",
+    "checker": "scripts/check-v43-gate6-deposit-policy-compensation.mjs:03412b725c36f24991a6325e"
+  },
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v43-draft-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate6",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "spec-names-policy-objects",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate6",
+      "sourcePath": "BITCODE_SPEC_V43_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate6",
+      "sourcePath": "BITCODE_SPEC_V43_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate6",
+      "sourcePath": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate6",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readme-records-gate6",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "protocol-readme-records-gate6",
+      "sourcePath": "scripts/specifying/README.md",
+      "passed": true
+    },
+    {
+      "id": "policy-model-defines-report",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "passed": true
+    },
+    {
+      "id": "policy-model-defines-criticality",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "passed": true
+    },
+    {
+      "id": "policy-model-defines-demand-roi",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "passed": true
+    },
+    {
+      "id": "policy-model-defines-btd-compensation",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "passed": true
+    },
+    {
+      "id": "policy-model-defers-gate7-admission",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "passed": true
+    },
+    {
+      "id": "policy-model-forbids-source-leakage",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
+      "passed": true
+    },
+    {
+      "id": "route-model-owns-policy",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-policy",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-package-exports-policy",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-manifest-exports-policy",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
+      "passed": true
+    },
+    {
+      "id": "policy-test-covers-report",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts",
+      "passed": true
+    },
+    {
+      "id": "route-test-covers-policy",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "page-test-covers-policy",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "protocol-test-covers-artifact",
+      "sourcePath": "scripts/specifying/test/v43-deposit-policy-compensation.test.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-package-exports-gate6",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-types-export-gate6",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate6",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate6",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate6",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v43-deposit-policy-compensation.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v43-gate6-deposit-policy-compensation.mjs",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "depositPolicyImplemented": true,
+    "criticalityPolicyImplemented": true,
+    "criticalSourceBlockedBeforeAdmission": true,
+    "demandPolicyImplemented": true,
+    "roiPolicyImplemented": true,
+    "btdPotentialEstimateOnly": true,
+    "compensationPolicyImplemented": true,
+    "compensationPriceAsset": "BTC",
+    "compensationAllocationMethod": "source-to-shares-largest-remainder",
+    "btdMintRequiresFutureNeedFitSettlement": true,
+    "admissionAndIndexingDeferredToGate7": true,
+    "routePolicyReadbackImplemented": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "requiredPredicateCount": 30,
+    "passedPredicateCount": 30,
+    "failedPredicateIds": []
+  }
+}

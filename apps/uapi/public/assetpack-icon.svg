@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Bitcode AssetPack mark — dual:
+  purple/orange washes 0.52; crease (12,27)-(32,38)-(52,27);
+  mid box line on crease; full-size lattice + brackets;
+  shadows are darker tints of each icon (fuchsia-700 / orange-700), not black.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <filter id="ap-shadow-purple" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="#a21caf" flood-opacity="0.72"/>
+    </filter>
+    <filter id="ap-shadow-orange" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="#c2410c" flood-opacity="0.72"/>
+    </filter>
+  </defs>
+  <path fill="rgba(232,121,249,0.52)" d="M32 6 52 17.5 52 27 32 38 12 27 12 17.5 32 6Z"/>
+  <path fill="rgba(251,146,60,0.52)" d="M12 27 32 38 52 27V46.5L32 58 12 46.5V27Z"/>
+  <path stroke="#65FEB7" stroke-width="2.4" stroke-linejoin="round" d="M32 6 52 17.5v29L32 58 12 46.5v-29L32 6Z"/>
+  <path stroke="#65FEB7" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" d="M12 27 32 38 52 27"/>
+  <g filter="url(#ap-shadow-orange)">
+    <circle cx="26" cy="43.5" r="2.2" fill="#fb923c"/>
+    <circle cx="38" cy="43.5" r="2.2" fill="#fb923c"/>
+    <circle cx="32" cy="50" r="2.2" fill="#fb923c"/>
+    <path stroke="#fb923c" stroke-width="1.6" stroke-linecap="round" d="M27.8 44.3 30.2 48.3M36.2 44.3 33.8 48.3M28.2 43.5H35.8"/>
+  </g>
+  <path stroke="#e879f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#ap-shadow-purple)" d="M27 17 23.5 20.5 27 24M37 17 40.5 20.5 37 24"/>
+</svg>

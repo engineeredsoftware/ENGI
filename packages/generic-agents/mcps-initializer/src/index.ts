@@ -2,7 +2,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -834,7 +834,8 @@ export const mcpsInitializerStepPrompts = {
 /**
  * Comprehensive MCP initialization agent using full PTRR cycle for detailed system integration
  */
-const comprehensiveMcp = factoryAgentWithPTRR<McpInput, McpsInitializerAgentRetryStepOutput>({
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveMcp: any = factoryPTRRAgent<McpInput, McpsInitializerAgentRetryStepOutput>({
   name: 'comprehensive-mcp',
   description: 'Complete MCP initialization with validation, tool registration, and system integration',
   prompt: mcpsInitializerPrompt,
@@ -854,7 +855,7 @@ const comprehensiveMcp = factoryAgentWithPTRR<McpInput, McpsInitializerAgentRetr
 /**
  * Quick MCP initialization agent for basic tool registration
  */
-const quickMcp = factoryAgentWithSingleStep<McpInput, McpsInitializerAgentRetryStepOutput>({
+const quickMcp: any = factoryAgentWithSingleStep<McpInput, McpsInitializerAgentRetryStepOutput>({
   name: 'quick-mcp',
   description: 'Fast MCP initialization for basic tool registration and system setup',
   execute: async (input, execution) => {

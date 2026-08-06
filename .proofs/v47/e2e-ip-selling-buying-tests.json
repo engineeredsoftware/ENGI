@@ -1,0 +1,309 @@
+{
+  "artifactId": "v47-e2e-ip-selling-buying-tests",
+  "schemaId": "bitcode.v47.e2eIpSellingBuyingTests.v1",
+  "version": "V47",
+  "currentTarget": "V46",
+  "artifactPath": ".proofs/v47/e2e-ip-selling-buying-tests.json",
+  "sourceSafetyVerdict": "source-safe-e2e-ip-exchange-browser-proof",
+  "scenarioIds": [
+    "ip-seller-deposits-assetpack",
+    "ip-buyer-measures-quotes-settles",
+    "packs-dashboard-settlement-rights-delivery-repair-readback"
+  ],
+  "routeIds": [
+    "/deposit",
+    "/read",
+    "/packs"
+  ],
+  "verificationIds": [
+    "source-connection-before-synthesis",
+    "source-safe-measurement-review-before-approval",
+    "journaled-execution-rows",
+    "fit-measurement-review-before-payment",
+    "deterministic-btc-testnet-quote-basis",
+    "settlement-observation-finality-order",
+    "btd-rights-receipt-readback",
+    "repository-pr-delivery-readback",
+    "packs-state-readback",
+    "fail-closed-repair-surface",
+    "browser-error-trap-clean"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_assetpack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload",
+    "mainnet_value_bearing_payment_secret"
+  ],
+  "completionRows": [
+    {
+      "rowId": "seller-flow-browser-proof",
+      "owner": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "route": "/deposit",
+      "contract": "A browser test deposits IP the Bitcode way: source connection gates option synthesis, source-safe measurements render before approval, admission readback synchronizes to /packs, and the flow journals execution rows.",
+      "requiredFields": [
+        "Synthesize options",
+        "Approve for Depository",
+        "/packs?type=depository-assetpack"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-e2e-ip-exchange-row:af3b9e5b68acbbf7dea11c62"
+    },
+    {
+      "rowId": "buyer-flow-browser-proof",
+      "owner": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "route": "/read",
+      "contract": "A browser test buys synthesized IP the Bitcode way: the five-step session renders the fit measurement review, final BTD scalar, and deterministic BTC-testnet quote basis before payment, then reads back payment observation, finality, BTD rights receipt, and repository PR delivery in order.",
+      "requiredFields": [
+        "Fit measurement review",
+        "Final BTD scalar",
+        "BTD rights receipt root",
+        "Delivery receipt root"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-e2e-ip-exchange-row:707e1fe6acffbc0a60986d1d"
+    },
+    {
+      "rowId": "packs-dashboard-browser-proof",
+      "owner": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "route": "/packs",
+      "contract": "A browser test audits the exchange on /packs: master-detail state readback tracks settlement, BTD rights, compensation, and delivery, and repair-required activity exposes the fail-closed repair surface with commodity-state blockers.",
+      "requiredFields": [
+        "State readback",
+        "Repair surface",
+        "btd-rights-transferred"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-e2e-ip-exchange-row:5535a1bb2d35955dca3ae97d"
+    },
+    {
+      "rowId": "deterministic-mock-harness",
+      "owner": "apps/uapi/tests/e2e/commercial-mvp.helpers.ts",
+      "route": "/deposit",
+      "contract": "The browser proof runs in deterministic mock mode with stateful execution-history journaling, mocked VCS/auxillary surfaces, and a browser error trap that fails the proof on framework overlays or console errors.",
+      "requiredFields": [
+        "installCommercialMvpApiMocks",
+        "installCommercialBrowserErrorTrap",
+        "installExecutionHistoryMock"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_assetpack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v47-e2e-ip-exchange-row:a195a7a0dfa18c8363e03052"
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v47-launch-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-records-gate7-e2e-ip-exchange-tests",
+      "sourcePath": "BITCODE_SPEC_V47.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate7-e2e-ip-exchange-tests",
+      "sourcePath": "BITCODE_SPEC_V47_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-record-gate7-e2e-ip-exchange-tests",
+      "sourcePath": "BITCODE_SPEC_V47_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate7-e2e-ip-exchange-tests",
+      "sourcePath": "BITCODE_SPEC_V47_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate7-closure",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "spec-proves-ip-seller-deposit-flow",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "passed": true
+    },
+    {
+      "id": "spec-proves-ip-buyer-read-flow",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "passed": true
+    },
+    {
+      "id": "spec-proves-packs-dashboard-readback",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "passed": true
+    },
+    {
+      "id": "spec-runs-deterministic-source-safe-mock-mode",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "passed": true
+    },
+    {
+      "id": "e2e-harness-binds-helpers-and-config",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.helpers.ts",
+      "passed": true
+    },
+    {
+      "id": "uapi-package-exposes-ip-exchange-script",
+      "sourcePath": "apps/uapi/package.json",
+      "passed": true
+    },
+    {
+      "id": "route-clients-carry-proven-surfaces",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate7",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate7",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate7-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-checker-test-exist",
+      "sourcePath": "scripts/generate-v47-e2e-ip-selling-buying-tests.mjs",
+      "passed": true
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V47.md:476ca5a5d0b07b31694f0b68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
+    "ipExchangeSpec": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts:86af66133e5ede25935ffd9d",
+    "e2eHelpers": "apps/uapi/tests/e2e/commercial-mvp.helpers.ts:5bb8c28f36170b877e8a467a",
+    "playwrightConfig": "apps/uapi/playwright.config.ts:0aea6b01fa17b8c0614b2074",
+    "uapiPackageJson": "apps/uapi/package.json:dc9773834cf101bb272eb07c",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:f01b600f9ef64cd3739460ef",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:6314e03df5bf7c598e5b7802",
+    "packageJson": "package.json:4d9f041eb01a920860a26f75",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js:1ecddb0bd123deefbc5068b1",
+    "protocolTest": "scripts/specifying/test/v47-e2e-ip-selling-buying-tests.test.js:4faaa57ae3a59253e6f1cb7e",
+    "generator": "scripts/generate-v47-e2e-ip-selling-buying-tests.mjs:c0c83f7b37d8db3db755d1c5",
+    "checker": "scripts/check-v47-gate7-e2e-ip-selling-buying-tests.mjs:a4cda45b853fd314679baab4",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
+  },
+  "artifactRoot": "v47-e2e-ip-selling-buying-tests:4ff062c8b668f3b560d68660",
+  "coverage": {
+    "requiredPredicateCount": 17,
+    "passedPredicateCount": 17,
+    "failedPredicateIds": [],
+    "sellerFlowProofComplete": true,
+    "buyerFlowProofComplete": true,
+    "packsDashboardProofComplete": true,
+    "deterministicMockHarnessComplete": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetEnabled": false
+  },
+  "passed": true
+}

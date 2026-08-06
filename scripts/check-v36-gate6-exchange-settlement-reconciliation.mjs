@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v36-exchange-settlement-reconciliation.json';
+const ARTIFACT_PATH = '.proofs/v36/exchange-settlement-reconciliation.json';
 const REQUIRED_RECEIPT_STATES = [
   'payment_observed_pending_finality',
   'finalized_rights_transferred',
@@ -112,7 +112,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -131,20 +131,20 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/exchange-settlement-reconciliation.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v36-exchange-settlement-reconciliation.test.js',
+    'scripts/specifying/src/canonical/exchange-settlement-reconciliation.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js',
     'scripts/generate-v36-exchange-settlement-reconciliation.mjs',
     'scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs',
-    'BITCODE_SPEC_V36.md',
-    'BITCODE_SPEC_V36_DELTA.md',
-    'BITCODE_SPEC_V36_NOTES.md',
-    'BITCODE_SPEC_V36_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V36.md',
+    '.specifications/BITCODE_SPEC_V36_DELTA.md',
+    '.specifications/BITCODE_SPEC_V36_NOTES.md',
+    '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
-    'uapi/app/exchange/README.md',
+    'scripts/specifying/README.md',
+    'apps/uapi/app/exchange/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -164,7 +164,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v36-exchange-settlement-reconciliation.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js']);
     } catch (error) {
       failures.push(`V36 Exchange settlement reconciliation package test failed: ${error.stderr || error.message}`);
     }
@@ -219,22 +219,22 @@ function main() {
   }
 
   const docs = [
-    read(root, 'BITCODE_SPEC_V36.md'),
-    read(root, 'BITCODE_SPEC_V36_DELTA.md'),
-    read(root, 'BITCODE_SPEC_V36_NOTES.md'),
-    read(root, 'BITCODE_SPEC_V36_PARITY_MATRIX.md'),
+    read(root, '.specifications/BITCODE_SPEC_V36.md'),
+    read(root, '.specifications/BITCODE_SPEC_V36_DELTA.md'),
+    read(root, '.specifications/BITCODE_SPEC_V36_NOTES.md'),
+    read(root, '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md'),
   ];
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const exchangeReadme = read(root, 'uapi/app/exchange/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const exchangeReadme = read(root, 'apps/uapi/app/exchange/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const source = read(root, 'packages/protocol/src/canonical/exchange-settlement-reconciliation.js');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
-  const test = read(root, 'packages/protocol/test/v36-exchange-settlement-reconciliation.test.js');
+  const source = read(root, 'scripts/specifying/src/canonical/exchange-settlement-reconciliation.js');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
+  const test = read(root, 'scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js');
 
   for (const doc of docs) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V36 docs must mention ${ARTIFACT_PATH}.`);

@@ -1,4 +1,26 @@
 #!/usr/bin/env sh
+# Bitcode pre-commit: living local CI must be completely green by default.
+# Spec-sensitive staged paths also run host-agnostic spec basics.
+#
+# Escape hatch (operator only — not a green-commit substitute for shared/
+# production work). Accepts value "1" only:
+#   BITCODE_SKIP_PRE_COMMIT_CI=1   Skip full living local CI mirror
+#                                  (scripts/run-bitcode-local-ci.mjs --mode full)
+#   BITCODE_SKIP_PRE_COMMIT=1      Skip entire pre-commit hook (CI + spec basics)
+#
+# Example:
+#   BITCODE_SKIP_PRE_COMMIT_CI=1 git commit -m "..."
 set -eu
+
+if [ "${BITCODE_SKIP_PRE_COMMIT:-}" = "1" ]; then
+  printf '%s\n' "pre-commit: BITCODE_SKIP_PRE_COMMIT=1 — skipping entire pre-commit hook"
+  exit 0
+fi
+
+if [ "${BITCODE_SKIP_PRE_COMMIT_CI:-}" = "1" ]; then
+  printf '%s\n' "pre-commit: BITCODE_SKIP_PRE_COMMIT_CI=1 — skipping living local CI validation suite"
+else
+  node scripts/run-bitcode-local-ci.mjs --mode full
+fi
 
 node scripts/check-bitcode-pre-commit.mjs

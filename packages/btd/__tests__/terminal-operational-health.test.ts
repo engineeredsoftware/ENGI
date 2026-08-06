@@ -1,14 +1,14 @@
 import {
-  aggregateTerminalOperationalTelemetrySeverity,
-  buildTerminalOperationalHealthRead,
-} from '../src/terminal-operational-health';
+  aggregateOperationalTelemetrySeverity,
+  buildOperationalHealthRead,
+} from '../src/operational-health';
 import { buildV27CryptoTelemetryRecord } from '../src/telemetry';
 
 const issuedAt = 'terminal-operational-health-test';
 
-describe('Terminal operational health read', () => {
+describe('product operational health read', () => {
   it('surfaces all deployment lanes and blocks value-bearing mainnet without approval root', () => {
-    const read = buildTerminalOperationalHealthRead({ issuedAt });
+    const read = buildOperationalHealthRead({ issuedAt });
 
     expect(read.lanes.map((lane) => lane.lane)).toEqual([
       'local',
@@ -33,7 +33,7 @@ describe('Terminal operational health read', () => {
   });
 
   it('admits value-bearing mainnet only when an operational approval root is present', () => {
-    const read = buildTerminalOperationalHealthRead({
+    const read = buildOperationalHealthRead({
       issuedAt,
       operationalApprovalRoots: {
         'mainnet-value-bearing': 'approval-root',
@@ -62,9 +62,9 @@ describe('Terminal operational health read', () => {
         issuedAt,
       }),
     ];
-    const read = buildTerminalOperationalHealthRead({ issuedAt, telemetryRecords });
+    const read = buildOperationalHealthRead({ issuedAt, telemetryRecords });
 
-    expect(aggregateTerminalOperationalTelemetrySeverity(telemetryRecords)).toBe('critical');
+    expect(aggregateOperationalTelemetrySeverity(telemetryRecords)).toBe('critical');
     expect(read.telemetry.severity).toBe('critical');
     expect(read.broadcaster).toMatchObject({
       state: 'review',
@@ -77,7 +77,7 @@ describe('Terminal operational health read', () => {
   });
 
   it('keeps upgrade, rollback, migration, and generated type refresh visible', () => {
-    const read = buildTerminalOperationalHealthRead({
+    const read = buildOperationalHealthRead({
       issuedAt,
       rollbackPlanRoot: 'rollback-root',
       generatedTypeRefreshState: 'current',
@@ -85,9 +85,9 @@ describe('Terminal operational health read', () => {
 
     expect(read.upgrade).toMatchObject({
       state: 'planned',
-      migrationRoot: 'terminal-migration-root',
+      migrationRoot: 'operational-migration-root',
       rollbackPlanRoot: 'rollback-root',
-      approvalReceiptRoot: 'terminal-approval-root',
+      approvalReceiptRoot: 'operational-approval-root',
       generatedTypeRefresh: {
         state: 'current',
         source: 'packages/orm/src/types/database.generated.ts',
@@ -97,7 +97,7 @@ describe('Terminal operational health read', () => {
   });
 
   it('declares GitHub as the active VCS path and leaves broader providers future-scoped', () => {
-    const read = buildTerminalOperationalHealthRead({ issuedAt });
+    const read = buildOperationalHealthRead({ issuedAt });
 
     expect(read.providers).toEqual(
       expect.arrayContaining([
@@ -110,7 +110,7 @@ describe('Terminal operational health read', () => {
   });
 
   it('uses Bitcoin Taproot/PSBT as first-class and keeps Binance-family pilots disabled', () => {
-    const read = buildTerminalOperationalHealthRead({ issuedAt });
+    const read = buildOperationalHealthRead({ issuedAt });
 
     expect(read.settlementNetworks).toEqual(
       expect.arrayContaining([
@@ -123,7 +123,7 @@ describe('Terminal operational health read', () => {
   });
 
   it('builds a synthetic testnet minting readback that can be ledger/database diffed', () => {
-    const read = buildTerminalOperationalHealthRead({ issuedAt });
+    const read = buildOperationalHealthRead({ issuedAt });
 
     expect(read.testnetMinting.measurementReceipt.kind).toBe('btd.measure_mint');
     expect(read.testnetMinting.measurementReceipt.tokenCount).toBe(1);
@@ -135,11 +135,12 @@ describe('Terminal operational health read', () => {
       commitmentMethod: 'taproot',
       finalityState: 'prepared',
     });
-    expect(read.testnetMinting.terminalJournalRows.map((row) => row.transactionKind)).toEqual([
+    // Canonical field names (journalRows); product-era terminalJournalRows removed.
+    expect(read.testnetMinting.journalRows.map((row) => row.transactionKind)).toEqual([
       'asset_pack_mint',
       'asset_pack_anchor',
     ]);
-    expect(read.testnetMinting.terminalJournalDiff.blocking).toBe(false);
+    expect(read.testnetMinting.journalDiff.blocking).toBe(false);
     expect(read.testnetMinting.ledgerDatabaseReconciliation.blocking).toBe(false);
     expect(read.testnetMinting.ledgerObservedFacts).toEqual(read.testnetMinting.databaseProjectedFacts.map((fact) => ({
       factId: fact.factId,

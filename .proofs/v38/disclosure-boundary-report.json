@@ -1,0 +1,1390 @@
+{
+  "artifactId": "v38-inference-telemetry-disclosure-report",
+  "schemaId": "bitcode.v38.inferenceTelemetryDisclosureReport.v1",
+  "version": "V38",
+  "currentTarget": "V37",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "artifactPath": ".proofs/v38/disclosure-boundary-report.json",
+  "artifactRoot": "v38-inference-telemetry-disclosure-report:6b52c044d55df62ac1b0db97",
+  "sourceSafetyVerdict": "source-safe-inference-telemetry-disclosure-metadata",
+  "passed": true,
+  "failures": [],
+  "telemetryLevelIds": [
+    "pipeline_phase",
+    "agent",
+    "ptrr_step",
+    "failsafe",
+    "thricified_generation",
+    "tool",
+    "prompt_template",
+    "interpolated_prompt",
+    "raw_response",
+    "parsed_output",
+    "schema_verdict",
+    "retry",
+    "repair"
+  ],
+  "disclosureTierIds": [
+    "public_status_source_safe",
+    "execution_identity_source_safe",
+    "prompt_template_identity_source_safe",
+    "prompt_template_metadata_source_safe",
+    "interpolated_prompt_private_or_redacted_shape",
+    "raw_provider_response_private",
+    "raw_response_root_source_safe",
+    "parsed_typed_output_shape_source_safe",
+    "schema_verdict_source_safe",
+    "tool_input_output_shape_source_safe",
+    "proof_root_source_safe",
+    "operator_debug_private"
+  ],
+  "eventKindIds": [
+    "pipeline-phase-lifecycle",
+    "ptrr-agent-step-lifecycle",
+    "failsafe-sequence-lifecycle",
+    "thricified-generation-lifecycle",
+    "tool-execution-lifecycle",
+    "prompt-template-interpolation",
+    "raw-response-parsed-output-schema",
+    "stream-ui-storage-projection"
+  ],
+  "forbiddenPayloadClasses": [
+    "secret_values",
+    "provider_tokens",
+    "wallet_private_material",
+    "protected_source_payloads",
+    "raw_protected_prompts",
+    "raw_model_responses_with_protected_source",
+    "unpaid_assetpack_source",
+    "settlement_private_payloads",
+    "global_ledger_authority_claim"
+  ],
+  "rows": [
+    {
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "eventKindId": "pipeline-phase-lifecycle",
+      "label": "Pipeline phase lifecycle stream rows",
+      "sourceRoots": [
+        "packages/pipelines-generics/src/phases/sdivf-factory.ts",
+        "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts"
+      ],
+      "requiredTelemetryLevelIds": [
+        "pipeline_phase",
+        "repair",
+        "retry"
+      ],
+      "disclosureTierIds": [
+        "execution_identity_source_safe",
+        "proof_root_source_safe",
+        "public_status_source_safe"
+      ],
+      "streamEventKindIds": [
+        "phase-start",
+        "phase-complete",
+        "completion",
+        "error"
+      ],
+      "allowedPayloadFields": [
+        "executionId",
+        "executionNodeId",
+        "executionRootId",
+        "executionPath",
+        "namespace",
+        "key",
+        "timestamp",
+        "executionState.phase",
+        "message",
+        "phase.status",
+        "phase.iteration"
+      ],
+      "storageTargetIds": [
+        "execution_event_store",
+        "phase.start",
+        "phase.complete"
+      ],
+      "proofRootFields": [
+        "executionRootId",
+        "phaseRoot",
+        "telemetryRoot"
+      ],
+      "failClosedStates": [
+        "missing_phase_identity",
+        "phase_error_without_source_safe_summary"
+      ],
+      "requiredPredicateIds": [
+        "pipeline.stream-emits-phase-events",
+        "pipeline.stream-summarizes-phase-input-output",
+        "pipeline.adapter-infers-phase-event-types"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ],
+      "sourceSafetyClass": "source_safe_inference_telemetry_disclosure_metadata",
+      "promptPayloadVisible": false,
+      "rawProviderResponseVisible": false,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "sourceRootVisibleOnly": true,
+      "rowRoot": "v38-inference-telemetry-disclosure-row:6d83a48ca351dc50838cad8d"
+    },
+    {
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "eventKindId": "ptrr-agent-step-lifecycle",
+      "label": "PTRR agent and Plan/Try/Refine/Retry lifecycle rows",
+      "sourceRoots": [
+        "packages/agent-generics/src/agents/factories.ts",
+        "packages/agent-generics/src/steps/factories.ts",
+        "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts"
+      ],
+      "requiredTelemetryLevelIds": [
+        "agent",
+        "ptrr_step",
+        "retry"
+      ],
+      "disclosureTierIds": [
+        "execution_identity_source_safe",
+        "parsed_typed_output_shape_source_safe",
+        "proof_root_source_safe",
+        "public_status_source_safe"
+      ],
+      "streamEventKindIds": [
+        "agent-start",
+        "agent-complete",
+        "work-update",
+        "status"
+      ],
+      "allowedPayloadFields": [
+        "agentId",
+        "agent.name",
+        "ptrrStepId",
+        "ptrrStepName",
+        "executionState.agent",
+        "executionState.step",
+        "typedOutputRoot",
+        "status.progress"
+      ],
+      "storageTargetIds": [
+        "agent.start",
+        "agent.complete",
+        "step.name",
+        "work-update"
+      ],
+      "proofRootFields": [
+        "agentRoot",
+        "stepRoot",
+        "typedOutputRoot"
+      ],
+      "failClosedStates": [
+        "missing_agent_identity",
+        "unknown_ptrr_step",
+        "typed_output_parse_failed"
+      ],
+      "requiredPredicateIds": [
+        "ptrr.adapter-infers-agent-events",
+        "ptrr.factory-builds-four-steps",
+        "ptrr.step-trace-logs-source-safe-summary"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ],
+      "sourceSafetyClass": "source_safe_inference_telemetry_disclosure_metadata",
+      "promptPayloadVisible": false,
+      "rawProviderResponseVisible": false,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "sourceRootVisibleOnly": true,
+      "rowRoot": "v38-inference-telemetry-disclosure-row:47e0c1c8d217eab7beaa2197"
+    },
+    {
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "eventKindId": "failsafe-sequence-lifecycle",
+      "label": "FailsafeGenerationSequence context, chunking, stitch, retry, and repair rows",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/failsafe-sequence.ts",
+        "packages/agent-generics/src/substeps/factories.ts",
+        "packages/agent-generics/src/diagnostics/instrumentation.ts"
+      ],
+      "requiredTelemetryLevelIds": [
+        "failsafe",
+        "repair",
+        "retry"
+      ],
+      "disclosureTierIds": [
+        "execution_identity_source_safe",
+        "interpolated_prompt_private_or_redacted_shape",
+        "operator_debug_private",
+        "proof_root_source_safe"
+      ],
+      "streamEventKindIds": [
+        "status",
+        "work-update",
+        "thinking"
+      ],
+      "allowedPayloadFields": [
+        "failsafe",
+        "contextSelectorIds",
+        "contextShape",
+        "chunkCount",
+        "stitchState",
+        "retryAttempt",
+        "repairStrategy"
+      ],
+      "storageTargetIds": [
+        "ptrr.failsafe",
+        "context.full",
+        "context.selectors",
+        "chunking.required"
+      ],
+      "proofRootFields": [
+        "failsafeRoot",
+        "contextRoot",
+        "repairRoot"
+      ],
+      "failClosedStates": [
+        "missing_context_root",
+        "oversized_context_without_failsafe",
+        "repair_without_schema"
+      ],
+      "requiredPredicateIds": [
+        "failsafe.source-names-prepare-chunk-stitch",
+        "failsafe.instrumentation-logs-failsafe-events",
+        "failsafe.trace-prunes-prompts-by-default"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ],
+      "sourceSafetyClass": "source_safe_inference_telemetry_disclosure_metadata",
+      "promptPayloadVisible": false,
+      "rawProviderResponseVisible": false,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "sourceRootVisibleOnly": true,
+      "rowRoot": "v38-inference-telemetry-disclosure-row:b7f7135759fc474ca989d8c1"
+    },
+    {
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "eventKindId": "thricified-generation-lifecycle",
+      "label": "ThricifiedGeneration Reason/Judge/StructuredOutput rows",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/agent-generics/src/diagnostics/instrumentation.ts",
+        "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts"
+      ],
+      "requiredTelemetryLevelIds": [
+        "interpolated_prompt",
+        "parsed_output",
+        "prompt_template",
+        "raw_response",
+        "schema_verdict",
+        "thricified_generation"
+      ],
+      "disclosureTierIds": [
+        "interpolated_prompt_private_or_redacted_shape",
+        "operator_debug_private",
+        "parsed_typed_output_shape_source_safe",
+        "prompt_template_identity_source_safe",
+        "prompt_template_metadata_source_safe",
+        "raw_provider_response_private",
+        "raw_response_root_source_safe",
+        "schema_verdict_source_safe"
+      ],
+      "streamEventKindIds": [
+        "generation",
+        "thinking",
+        "status",
+        "error"
+      ],
+      "allowedPayloadFields": [
+        "generation",
+        "reasoningPresent",
+        "judgmentPresent",
+        "promptTemplateId",
+        "promptTemplatePresent",
+        "interpolatedPromptPresent",
+        "rawModelResponsePresent",
+        "rawResponseRoot",
+        "parsedTypedOutputPresent",
+        "parsedTypeRoot",
+        "schemaVerdict",
+        "provider",
+        "model",
+        "usage"
+      ],
+      "storageTargetIds": [
+        "llm.input",
+        "llm.output",
+        "llm.parsedOutput",
+        "llm.usage"
+      ],
+      "proofRootFields": [
+        "promptTemplateRoot",
+        "interpolatedPromptRoot",
+        "rawResponseRoot",
+        "parsedTypeRoot"
+      ],
+      "failClosedStates": [
+        "raw_response_visible_in_public_stream",
+        "schema_parse_failed",
+        "prompt_without_template_id"
+      ],
+      "requiredPredicateIds": [
+        "generation.source-stores-prompt-template-and-interpolated-prompt",
+        "generation.source-stores-raw-and-parsed-output",
+        "generation.adapter-maps-llm-output-to-generation",
+        "generation.instrumentation-logs-start-success-error"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ],
+      "sourceSafetyClass": "source_safe_inference_telemetry_disclosure_metadata",
+      "promptPayloadVisible": false,
+      "rawProviderResponseVisible": false,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "sourceRootVisibleOnly": true,
+      "rowRoot": "v38-inference-telemetry-disclosure-row:0e3ddfaa5b16b4d6afbf2479"
+    },
+    {
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "eventKindId": "tool-execution-lifecycle",
+      "label": "Tool execution input, output, result, and policy rows",
+      "sourceRoots": [
+        "packages/tools-generics/src/execution/ToolExecution.ts",
+        "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts"
+      ],
+      "requiredTelemetryLevelIds": [
+        "schema_verdict",
+        "tool"
+      ],
+      "disclosureTierIds": [
+        "execution_identity_source_safe",
+        "operator_debug_private",
+        "proof_root_source_safe",
+        "tool_input_output_shape_source_safe"
+      ],
+      "streamEventKindIds": [
+        "tool-use",
+        "status",
+        "error"
+      ],
+      "allowedPayloadFields": [
+        "toolId",
+        "toolName",
+        "toolInputPresent",
+        "toolOutputPresent",
+        "toolErrorPresent",
+        "toolOk",
+        "inputShape",
+        "outputShape",
+        "policyRoot"
+      ],
+      "storageTargetIds": [
+        "tools.invocation",
+        "tools.result",
+        "toolEvents.invocation",
+        "toolEvents.result"
+      ],
+      "proofRootFields": [
+        "toolInputRoot",
+        "toolOutputRoot",
+        "policyRoot"
+      ],
+      "failClosedStates": [
+        "tool_payload_contains_secret",
+        "tool_policy_denied",
+        "tool_output_contains_protected_source"
+      ],
+      "requiredPredicateIds": [
+        "tool.adapter-maps-tool-results",
+        "tool.adapter-sanitizes-tool-events",
+        "tool.ui-summarizes-tool-telemetry"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ],
+      "sourceSafetyClass": "source_safe_inference_telemetry_disclosure_metadata",
+      "promptPayloadVisible": false,
+      "rawProviderResponseVisible": false,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "sourceRootVisibleOnly": true,
+      "rowRoot": "v38-inference-telemetry-disclosure-row:9deff6fef0a01c43e4e3348b"
+    },
+    {
+      "rowId": "telemetry:prompt-template-interpolation",
+      "eventKindId": "prompt-template-interpolation",
+      "label": "Prompt template identity and interpolated prompt boundary rows",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+        "scripts/specifying/src/canonical/prompt-benchmark-report.js"
+      ],
+      "requiredTelemetryLevelIds": [
+        "interpolated_prompt",
+        "prompt_template",
+        "schema_verdict"
+      ],
+      "disclosureTierIds": [
+        "interpolated_prompt_private_or_redacted_shape",
+        "prompt_template_identity_source_safe",
+        "prompt_template_metadata_source_safe",
+        "proof_root_source_safe"
+      ],
+      "streamEventKindIds": [
+        "generation",
+        "status"
+      ],
+      "allowedPayloadFields": [
+        "promptTemplateId",
+        "promptTemplatePresent",
+        "interpolatedPromptPresent",
+        "inputMessageCount",
+        "promptTemplateRoot",
+        "interpolatedPromptRoot",
+        "contextBindingIds"
+      ],
+      "storageTargetIds": [
+        "llm.input.promptTemplate",
+        "llm.input.interpolatedPrompt",
+        "readingPipelineTelemetry"
+      ],
+      "proofRootFields": [
+        "promptTemplateRoot",
+        "interpolatedPromptRoot",
+        "promptBenchmarkRoot"
+      ],
+      "failClosedStates": [
+        "missing_prompt_template_id",
+        "interpolated_prompt_publicly_visible",
+        "context_binding_missing"
+      ],
+      "requiredPredicateIds": [
+        "prompt.observability-records-template-and-interpolation-flags",
+        "prompt.harness-stream-summarizes-template-and-interpolation",
+        "prompt.benchmark-report-bound-to-telemetry"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ],
+      "sourceSafetyClass": "source_safe_inference_telemetry_disclosure_metadata",
+      "promptPayloadVisible": false,
+      "rawProviderResponseVisible": false,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "sourceRootVisibleOnly": true,
+      "rowRoot": "v38-inference-telemetry-disclosure-row:69827fb703ae8422d5a9cf5f"
+    },
+    {
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "eventKindId": "raw-response-parsed-output-schema",
+      "label": "Raw response root, parsed typed output shape, and schema verdict rows",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts"
+      ],
+      "requiredTelemetryLevelIds": [
+        "parsed_output",
+        "raw_response",
+        "repair",
+        "schema_verdict"
+      ],
+      "disclosureTierIds": [
+        "operator_debug_private",
+        "parsed_typed_output_shape_source_safe",
+        "raw_provider_response_private",
+        "raw_response_root_source_safe",
+        "schema_verdict_source_safe"
+      ],
+      "streamEventKindIds": [
+        "generation",
+        "error",
+        "status"
+      ],
+      "allowedPayloadFields": [
+        "rawModelResponsePresent",
+        "rawResponseRoot",
+        "parsedTypedOutputPresent",
+        "parsedOutputPresent",
+        "parsedShape",
+        "outputSchema",
+        "returnType",
+        "schemaVerdict",
+        "repairAttempt"
+      ],
+      "storageTargetIds": [
+        "llm.output.rawResponse",
+        "llm.parsedOutput.parsedTypedOutput",
+        "readingPipelineTelemetry.outputSchema"
+      ],
+      "proofRootFields": [
+        "rawResponseRoot",
+        "parsedTypeRoot",
+        "schemaVerdictRoot",
+        "repairRoot"
+      ],
+      "failClosedStates": [
+        "raw_response_visible_to_reader",
+        "parsed_output_missing_schema",
+        "repair_untracked"
+      ],
+      "requiredPredicateIds": [
+        "schema.tests-cover-raw-and-parsed-output-evidence",
+        "schema.observability-records-raw-and-parsed-evidence",
+        "schema.harness-metadata-carries-inference-audit-shape"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ],
+      "sourceSafetyClass": "source_safe_inference_telemetry_disclosure_metadata",
+      "promptPayloadVisible": false,
+      "rawProviderResponseVisible": false,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "sourceRootVisibleOnly": true,
+      "rowRoot": "v38-inference-telemetry-disclosure-row:18a75cccfbf669cd1c7ee4cc"
+    },
+    {
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "eventKindId": "stream-ui-storage-projection",
+      "label": "Execution stream storage projection and rich log UI rows",
+      "sourceRoots": [
+        "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "scripts/specifying/src/canonical/conversation-stream-event-contract.js",
+        "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js"
+      ],
+      "requiredTelemetryLevelIds": [
+        "agent",
+        "failsafe",
+        "interpolated_prompt",
+        "parsed_output",
+        "pipeline_phase",
+        "prompt_template",
+        "ptrr_step",
+        "raw_response",
+        "repair",
+        "retry",
+        "schema_verdict",
+        "thricified_generation",
+        "tool"
+      ],
+      "disclosureTierIds": [
+        "execution_identity_source_safe",
+        "interpolated_prompt_private_or_redacted_shape",
+        "operator_debug_private",
+        "parsed_typed_output_shape_source_safe",
+        "prompt_template_identity_source_safe",
+        "prompt_template_metadata_source_safe",
+        "proof_root_source_safe",
+        "public_status_source_safe",
+        "raw_provider_response_private",
+        "raw_response_root_source_safe",
+        "schema_verdict_source_safe",
+        "tool_input_output_shape_source_safe"
+      ],
+      "streamEventKindIds": [
+        "phase-start",
+        "phase-complete",
+        "agent-start",
+        "agent-complete",
+        "tool-use",
+        "generation",
+        "thinking",
+        "error",
+        "completion",
+        "status",
+        "work-update"
+      ],
+      "allowedPayloadFields": [
+        "collapsed_status",
+        "expanded_metadata",
+        "readingPipelineTelemetry",
+        "inferenceAudit.shape",
+        "proof_roots",
+        "redaction_posture",
+        "prompt_disclosure_posture",
+        "result_disclosure_posture",
+        "fail_closed_states"
+      ],
+      "storageTargetIds": [
+        "execution_event_store",
+        "execution_stream",
+        "PipelineExecutionLog.status.metadata"
+      ],
+      "proofRootFields": [
+        "eventRoot",
+        "executionRoot",
+        "telemetryRoot",
+        "redactionRoot"
+      ],
+      "failClosedStates": [
+        "unsafe_stream_payload",
+        "missing_redaction_posture",
+        "protected_source_visible",
+        "unpaid_assetpack_source_visible"
+      ],
+      "requiredPredicateIds": [
+        "stream.adapter-sanitizes-large-and-sensitive-fields",
+        "stream.ui-renders-expanded-metadata",
+        "stream.terminal-harness-carries-reading-telemetry",
+        "stream.v35-and-v37-catalogs-bound"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads",
+        "global_ledger_authority_claim"
+      ],
+      "sourceSafetyClass": "source_safe_inference_telemetry_disclosure_metadata",
+      "promptPayloadVisible": false,
+      "rawProviderResponseVisible": false,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "sourceRootVisibleOnly": true,
+      "rowRoot": "v38-inference-telemetry-disclosure-row:3060c3bac5e166bab9c713ec"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/pipelines-generics/src/execution/PipelineExecution.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/pipelines-generics/src/phases/sdivf-factory.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/diagnostics/instrumentation.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/tools-generics/src/execution/ToolExecution.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "scripts/specifying/src/canonical/conversation-stream-event-contract.js",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
+      "exists": true,
+      "legacy": false
+    }
+  ],
+  "sourcePredicateResults": [
+    {
+      "id": "telemetry:pipeline-phase-lifecycle.source-roots-present",
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "sourcePath": "packages/pipelines-generics/src/phases/sdivf-factory.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:pipeline-phase-lifecycle.disclosure-tiers-present",
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "telemetry:pipeline-phase-lifecycle.forbidden-payloads-listed",
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "sourcePath": "forbiddenPayloadClasses",
+      "passed": true
+    },
+    {
+      "id": "telemetry:pipeline-phase-lifecycle.source-safe-booleans-false",
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "sourcePath": "sourceSafetyClass",
+      "passed": true
+    },
+    {
+      "id": "telemetry:pipeline-phase-lifecycle.proof-roots-present",
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "sourcePath": "proofRootFields",
+      "passed": true
+    },
+    {
+      "id": "pipeline.stream-emits-phase-events",
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "sourcePath": "packages/pipelines-generics/src/phases/sdivf-factory.ts",
+      "passed": true
+    },
+    {
+      "id": "pipeline.stream-summarizes-phase-input-output",
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "sourcePath": "packages/pipelines-generics/src/phases/sdivf-factory.ts",
+      "passed": true
+    },
+    {
+      "id": "pipeline.adapter-infers-phase-event-types",
+      "rowId": "telemetry:pipeline-phase-lifecycle",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:ptrr-agent-step-lifecycle.source-roots-present",
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts,packages/agent-generics/src/steps/factories.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:ptrr-agent-step-lifecycle.disclosure-tiers-present",
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "telemetry:ptrr-agent-step-lifecycle.forbidden-payloads-listed",
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "sourcePath": "forbiddenPayloadClasses",
+      "passed": true
+    },
+    {
+      "id": "telemetry:ptrr-agent-step-lifecycle.source-safe-booleans-false",
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "sourcePath": "sourceSafetyClass",
+      "passed": true
+    },
+    {
+      "id": "telemetry:ptrr-agent-step-lifecycle.proof-roots-present",
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "sourcePath": "proofRootFields",
+      "passed": true
+    },
+    {
+      "id": "ptrr.adapter-infers-agent-events",
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "ptrr.factory-builds-four-steps",
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "ptrr.step-trace-logs-source-safe-summary",
+      "rowId": "telemetry:ptrr-agent-step-lifecycle",
+      "sourcePath": "packages/agent-generics/src/diagnostics/instrumentation.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:failsafe-sequence-lifecycle.source-roots-present",
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts,packages/agent-generics/src/substeps/factories.ts,packages/agent-generics/src/diagnostics/instrumentation.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:failsafe-sequence-lifecycle.disclosure-tiers-present",
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "telemetry:failsafe-sequence-lifecycle.forbidden-payloads-listed",
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "sourcePath": "forbiddenPayloadClasses",
+      "passed": true
+    },
+    {
+      "id": "telemetry:failsafe-sequence-lifecycle.source-safe-booleans-false",
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "sourcePath": "sourceSafetyClass",
+      "passed": true
+    },
+    {
+      "id": "telemetry:failsafe-sequence-lifecycle.proof-roots-present",
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "sourcePath": "proofRootFields",
+      "passed": true
+    },
+    {
+      "id": "failsafe.source-names-prepare-chunk-stitch",
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.instrumentation-logs-failsafe-events",
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "sourcePath": "packages/agent-generics/src/diagnostics/instrumentation.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.trace-prunes-prompts-by-default",
+      "rowId": "telemetry:failsafe-sequence-lifecycle",
+      "sourcePath": "packages/agent-generics/src/diagnostics/instrumentation.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:thricified-generation-lifecycle.source-roots-present",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/agent-generics/src/diagnostics/instrumentation.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:thricified-generation-lifecycle.disclosure-tiers-present",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "telemetry:thricified-generation-lifecycle.forbidden-payloads-listed",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "forbiddenPayloadClasses",
+      "passed": true
+    },
+    {
+      "id": "telemetry:thricified-generation-lifecycle.source-safe-booleans-false",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "sourceSafetyClass",
+      "passed": true
+    },
+    {
+      "id": "telemetry:thricified-generation-lifecycle.proof-roots-present",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "proofRootFields",
+      "passed": true
+    },
+    {
+      "id": "generation.source-stores-prompt-template-and-interpolated-prompt",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.source-stores-raw-and-parsed-output",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.adapter-maps-llm-output-to-generation",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.instrumentation-logs-start-success-error",
+      "rowId": "telemetry:thricified-generation-lifecycle",
+      "sourcePath": "packages/agent-generics/src/diagnostics/instrumentation.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:tool-execution-lifecycle.source-roots-present",
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "sourcePath": "packages/tools-generics/src/execution/ToolExecution.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:tool-execution-lifecycle.disclosure-tiers-present",
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "telemetry:tool-execution-lifecycle.forbidden-payloads-listed",
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "sourcePath": "forbiddenPayloadClasses",
+      "passed": true
+    },
+    {
+      "id": "telemetry:tool-execution-lifecycle.source-safe-booleans-false",
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "sourcePath": "sourceSafetyClass",
+      "passed": true
+    },
+    {
+      "id": "telemetry:tool-execution-lifecycle.proof-roots-present",
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "sourcePath": "proofRootFields",
+      "passed": true
+    },
+    {
+      "id": "tool.adapter-maps-tool-results",
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "tool.adapter-sanitizes-tool-events",
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "tool.ui-summarizes-tool-telemetry",
+      "rowId": "telemetry:tool-execution-lifecycle",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:prompt-template-interpolation.source-roots-present",
+      "rowId": "telemetry:prompt-template-interpolation",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts,apps/uapi/tests/terminalPipelineHarnessClient.test.ts,scripts/specifying/src/canonical/prompt-benchmark-report.js",
+      "passed": true
+    },
+    {
+      "id": "telemetry:prompt-template-interpolation.disclosure-tiers-present",
+      "rowId": "telemetry:prompt-template-interpolation",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "telemetry:prompt-template-interpolation.forbidden-payloads-listed",
+      "rowId": "telemetry:prompt-template-interpolation",
+      "sourcePath": "forbiddenPayloadClasses",
+      "passed": true
+    },
+    {
+      "id": "telemetry:prompt-template-interpolation.source-safe-booleans-false",
+      "rowId": "telemetry:prompt-template-interpolation",
+      "sourcePath": "sourceSafetyClass",
+      "passed": true
+    },
+    {
+      "id": "telemetry:prompt-template-interpolation.proof-roots-present",
+      "rowId": "telemetry:prompt-template-interpolation",
+      "sourcePath": "proofRootFields",
+      "passed": true
+    },
+    {
+      "id": "prompt.observability-records-template-and-interpolation-flags",
+      "rowId": "telemetry:prompt-template-interpolation",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.harness-stream-summarizes-template-and-interpolation",
+      "rowId": "telemetry:prompt-template-interpolation",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.benchmark-report-bound-to-telemetry",
+      "rowId": "telemetry:prompt-template-interpolation",
+      "sourcePath": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
+      "passed": true
+    },
+    {
+      "id": "telemetry:raw-response-parsed-output-schema.source-roots-present",
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts,apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:raw-response-parsed-output-schema.disclosure-tiers-present",
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "telemetry:raw-response-parsed-output-schema.forbidden-payloads-listed",
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "sourcePath": "forbiddenPayloadClasses",
+      "passed": true
+    },
+    {
+      "id": "telemetry:raw-response-parsed-output-schema.source-safe-booleans-false",
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "sourcePath": "sourceSafetyClass",
+      "passed": true
+    },
+    {
+      "id": "telemetry:raw-response-parsed-output-schema.proof-roots-present",
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "sourcePath": "proofRootFields",
+      "passed": true
+    },
+    {
+      "id": "schema.tests-cover-raw-and-parsed-output-evidence",
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+      "passed": true
+    },
+    {
+      "id": "schema.observability-records-raw-and-parsed-evidence",
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+      "passed": true
+    },
+    {
+      "id": "schema.harness-metadata-carries-inference-audit-shape",
+      "rowId": "telemetry:raw-response-parsed-output-schema",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "passed": true
+    },
+    {
+      "id": "telemetry:stream-ui-storage-projection.source-roots-present",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts,apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx,apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx,apps/uapi/tests/pipelineExecutionLogHeader.test.tsx,apps/uapi/tests/conversationStreamPipelineLog.test.tsx,scripts/specifying/src/canonical/conversation-stream-event-contract.js,scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+      "passed": true
+    },
+    {
+      "id": "telemetry:stream-ui-storage-projection.disclosure-tiers-present",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "telemetry:stream-ui-storage-projection.forbidden-payloads-listed",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "forbiddenPayloadClasses",
+      "passed": true
+    },
+    {
+      "id": "telemetry:stream-ui-storage-projection.source-safe-booleans-false",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "sourceSafetyClass",
+      "passed": true
+    },
+    {
+      "id": "telemetry:stream-ui-storage-projection.proof-roots-present",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "proofRootFields",
+      "passed": true
+    },
+    {
+      "id": "stream.adapter-sanitizes-large-and-sensitive-fields",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "passed": true
+    },
+    {
+      "id": "stream.ui-renders-expanded-metadata",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "passed": true
+    },
+    {
+      "id": "stream.terminal-harness-carries-reading-telemetry",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "passed": true
+    },
+    {
+      "id": "stream.v35-and-v37-catalogs-bound",
+      "rowId": "telemetry:stream-ui-storage-projection",
+      "sourcePath": "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js,scripts/specifying/src/canonical/conversation-stream-event-contract.js",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "rowCount": 8,
+    "requiredTelemetryLevelCount": 13,
+    "requiredTelemetryLevelIds": [
+      "agent",
+      "failsafe",
+      "interpolated_prompt",
+      "parsed_output",
+      "pipeline_phase",
+      "prompt_template",
+      "ptrr_step",
+      "raw_response",
+      "repair",
+      "retry",
+      "schema_verdict",
+      "thricified_generation",
+      "tool"
+    ],
+    "missingTelemetryLevelIds": [],
+    "disclosureTierCount": 12,
+    "disclosureTierIds": [
+      "execution_identity_source_safe",
+      "interpolated_prompt_private_or_redacted_shape",
+      "operator_debug_private",
+      "parsed_typed_output_shape_source_safe",
+      "prompt_template_identity_source_safe",
+      "prompt_template_metadata_source_safe",
+      "proof_root_source_safe",
+      "public_status_source_safe",
+      "raw_provider_response_private",
+      "raw_response_root_source_safe",
+      "schema_verdict_source_safe",
+      "tool_input_output_shape_source_safe"
+    ],
+    "missingDisclosureTierIds": [],
+    "eventKindCount": 8,
+    "missingEventKindIds": [],
+    "streamEventKindIds": [
+      "agent-complete",
+      "agent-start",
+      "completion",
+      "error",
+      "generation",
+      "phase-complete",
+      "phase-start",
+      "status",
+      "thinking",
+      "tool-use",
+      "work-update"
+    ],
+    "requiredPredicateCount": 66,
+    "passedPredicateCount": 66,
+    "failedPredicateIds": [],
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "sourceSafeMetadataOnly": true,
+    "promptPayloadVisible": false,
+    "rawProviderResponseVisible": false,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "v35TelemetryTaxonomyRoot": "telemetry-taxonomy-catalog:39e4b53d0c25aa4fdfd7e038",
+    "v37ConversationStreamRoot": "conversation-stream-event-contract:6d1ff0ba548019ef18ba5f7e",
+    "gate2InventoryRoot": "v38-inference-surface-inventory:3f50930549dee560db576a9a",
+    "gate3StackRoot": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130",
+    "gate4PromptBenchmarkRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
+    "executionStreamEventTypeCount": 18,
+    "sanitizeDeleteCount": 4,
+    "readingTelemetryCount": 20,
+    "inferenceAuditCount": 4,
+    "promptTemplateFlagCount": 53,
+    "interpolatedPromptFlagCount": 17,
+    "rawResponseFlagCount": 24,
+    "parsedTypedOutputFlagCount": 19,
+    "schemaVerdictCount": 170
+  },
+  "upstreamProofRoots": {
+    "v35TelemetryTaxonomyRoot": "telemetry-taxonomy-catalog:39e4b53d0c25aa4fdfd7e038",
+    "v37ConversationStreamRoot": "conversation-stream-event-contract:6d1ff0ba548019ef18ba5f7e",
+    "gate2InventoryRoot": "v38-inference-surface-inventory:3f50930549dee560db576a9a",
+    "gate3StackRoot": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130",
+    "gate4PromptBenchmarkRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d"
+  },
+  "redactionBoundary": {
+    "allowedPublicPayloadClasses": [
+      "event_ids",
+      "execution_ids",
+      "phase_ids",
+      "agent_ids",
+      "ptrr_step_ids",
+      "failsafe_ids",
+      "thricified_generation_ids",
+      "tool_ids",
+      "prompt_template_ids",
+      "schema_ids",
+      "proof_roots",
+      "source_safe_shapes",
+      "counts",
+      "state_enums"
+    ],
+    "privateOrOperatorOnlyPayloadClasses": [
+      "interpolated_prompt_content",
+      "raw_provider_response_content",
+      "full_prompt_sidecars",
+      "operator_debug_sidecars"
+    ],
+    "forbiddenPublicPayloadClasses": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "unpaid_assetpack_source",
+      "settlement_private_payloads",
+      "global_ledger_authority_claim"
+    ]
+  }
+}

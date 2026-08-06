@@ -6,7 +6,7 @@
  * execution-generics primitives.
  */
 
-import type { PipelineExecution } from './PipelineExecution';
+import type { ExecutionPipeline } from './ExecutionPipeline';
 import { log } from '@bitcode/logger';
 import type { Executor } from '@bitcode/execution-generics';
 
@@ -17,7 +17,7 @@ import type { Executor } from '@bitcode/execution-generics';
  * - process.env.BITCODE_EXECUTION_DEBUG === 'true'
  * - process.env.LOG_LEVEL === 'debug'
  */
-export function isExecutionDebugEnabled(execution: PipelineExecution | { findUp?: Function }): boolean {
+export function isExecutionDebugEnabled(execution: ExecutionPipeline | { findUp?: Function }): boolean {
   try {
     const execAny = execution as any;
     const execFlag = typeof execAny.findUp === 'function' ? execAny.findUp('config', 'debug') : undefined;
@@ -31,7 +31,7 @@ export function isExecutionDebugEnabled(execution: PipelineExecution | { findUp?
 /**
  * Enable debug logging by storing a flag in execution config.
  */
-export function enableExecutionDebug(execution: PipelineExecution & { store: Function }, enabled = true): void {
+export function enableExecutionDebug(execution: ExecutionPipeline & { store: Function }, enabled = true): void {
   try {
     (execution as any).store('config', 'debug', !!enabled);
   } catch {}

@@ -127,7 +127,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 Gate 12 work. Observed ${pointer || 'empty'}.`);
 
@@ -141,32 +141,32 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V45.md',
-    'BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'BITCODE_SPEC.txt',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC.txt',
     'package.json',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-commodity-state.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-commodity-state.test.ts',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/jest.config.cjs',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-commodity-state.test.ts',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/jest.config.cjs',
   ];
 
   for (const relativePath of requiredFiles) {
     assertCheck(failures, exists(root, relativePath), `Missing required V45 Gate 12 file: ${relativePath}`);
   }
 
-  const commodityState = read(root, 'packages/pipelines/asset-pack/src/asset-pack-commodity-state.ts');
-  const commodityStateTest = read(root, 'packages/pipelines/asset-pack/src/__tests__/asset-pack-commodity-state.test.ts');
-  const packActivityModel = read(root, 'uapi/components/base/bitcode/activity/pack-activity-model.ts');
-  const packActivityTest = read(root, 'uapi/tests/packActivityModel.test.ts');
-  const assetPackPackageJson = read(root, 'packages/pipelines/asset-pack/package.json');
-  const assetPackIndex = read(root, 'packages/pipelines/asset-pack/src/index.ts');
-  const uapiJestConfig = read(root, 'uapi/jest.config.cjs');
+  const commodityState = read(root, 'packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts');
+  const commodityStateTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-commodity-state.test.ts');
+  const packActivityModel = read(root, 'apps/uapi/components/bitcode/activity/pack-activity-model.ts');
+  const packActivityTest = read(root, 'apps/uapi/tests/packActivityModel.test.ts');
+  const assetPackPackageJson = read(root, 'packages/asset-packs-pipelines/domain/package.json');
+  const assetPackIndex = read(root, 'packages/asset-packs-pipelines/domain/src/index.ts');
+  const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
   const packageJson = read(root, 'package.json');
-  const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
 
   assertLiterals(failures, commodityState, assetPackStates, 'AssetPack lifecycle state', 'asset-pack-commodity-state.ts');
   assertLiterals(failures, commodityState, btdStates, 'BTD scalar-volume state', 'asset-pack-commodity-state.ts');
@@ -243,17 +243,17 @@ function main() {
   assertCheck(
     failures,
     assetPackPackageJson.includes('"./asset-pack-commodity-state": "./src/asset-pack-commodity-state.ts"'),
-    '@bitcode/pipeline-asset-pack package must export ./asset-pack-commodity-state.',
+    '@bitcode/asset-packs-pipelines-domain package must export ./asset-pack-commodity-state.',
   );
   assertCheck(
     failures,
     assetPackIndex.includes("export * from './asset-pack-commodity-state';"),
-    '@bitcode/pipeline-asset-pack root index must export asset-pack-commodity-state.',
+    '@bitcode/asset-packs-pipelines-domain root index must export asset-pack-commodity-state.',
   );
   assertCheck(
     failures,
-    uapiJestConfig.includes('^@bitcode/pipeline-asset-pack/asset-pack-commodity-state$'),
-    'uapi Jest config must resolve @bitcode/pipeline-asset-pack/asset-pack-commodity-state.',
+    uapiJestConfig.includes('^@bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state$'),
+    'uapi Jest config must resolve @bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state.',
   );
   assertCheck(
     failures,
@@ -263,8 +263,8 @@ function main() {
 
   for (const phrase of [
     'Gate 12 implementation readback',
-    'packages/pipelines/asset-pack/src/asset-pack-commodity-state.ts',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
     'check:v45-gate12',
   ]) {
     assertCheck(failures, parity.includes(phrase), `V45 parity matrix must include Gate 12 readback phrase: ${phrase}`);

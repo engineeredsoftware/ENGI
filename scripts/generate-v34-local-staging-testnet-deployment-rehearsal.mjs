@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json';
+const ARTIFACT_PATH = '.proofs/v34/local-staging-testnet-deployment-rehearsal.json';
 const GENERATED_AT = '2026-05-23T00:00:00.000Z';
 
 const requiredRehearsalIds = Object.freeze([
@@ -127,9 +127,9 @@ function fullStackRow(rehearsalId, label, laneId, screenshotOrLogRoots, settleme
     ],
     screenshotOrLogRoots,
     validationCommands: [
-      'pnpm --dir uapi run test:e2e:terminal-ux',
+      'pnpm --dir apps/uapi run test:e2e:terminal-ux',
       'pnpm --filter @bitcode/api build',
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand',
       'pnpm run qa:pipeline-readback',
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/deployment-storage-posture.test.ts',
@@ -237,10 +237,10 @@ function buildArtifact() {
     ]),
   ];
   const docsEvidence = [
-    evidence('BITCODE_SPEC_V34.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
-    evidence('BITCODE_SPEC_V34_DELTA.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
-    evidence('BITCODE_SPEC_V34_PARITY_MATRIX.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
-    evidence('SPECIFICATIONS_ROADMAP.md', ['V34 Gate 9 closure anchor']),
+    evidence('.specifications/BITCODE_SPEC_V34.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
+    evidence('.specifications/BITCODE_SPEC_V34_DELTA.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
+    evidence('.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
+    evidence('.specifications/SPECIFICATIONS_ROADMAP.md', ['V34 Gate 9 closure anchor']),
   ];
   const workflowEvidence = [
     evidence('.github/workflows/bitcode-gate-quality.yml', ['check-v34-gate9-local-staging-testnet-deployment-rehearsal.mjs', 'deployment-readiness-rehearsal.test.ts']),

@@ -28,14 +28,14 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_REFINE_PHASE_HEADER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_audioprocessor_refine_phase_header';
 
 
 
 
 
 export const AUDIO_PROCESSOR_REFINE_PROMPT = new Prompt()
-  .set('phase', createPromptPart('REFINE: Enhance Audio Processing Results'))
+  .set('phase', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_REFINE_PHASE_HEADER)
   .set('purpose', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PURPOSE_CORESTATEMENT)
   .set('enhancement', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_REFINE_ENHANCEMENT_APPROACH)
   .set('quality', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_REFINE_QUALITY_CRITERIA)

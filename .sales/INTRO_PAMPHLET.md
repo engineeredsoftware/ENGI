@@ -1,24 +1,78 @@
-[Advanced Engineered Software, Inc] --- [Date]
+# Bitcode — Buy technical knowledge that makes agents better
 
-Bitcode Technical-Knowledge Exchange
+**Trade technical data on the Bitcode exchange.**  
+When your agents need better code, context, and patterns—**Read** the AssetPacks that fit. Pay in **Bitcoin**. Keep IP source-safe.
 
-Customer Introduction Pamphlet
+---
 
-Bitcode measures repo-authenticated technical supply against stated Reads, selects and proves Fit, and prepares AssetPacks with Finish-ready Shippables. The product is built for accountable software work: every execution should carry source, evidence, proof, and clear ownership boundaries.
+## The problem (in one breath)
 
-Bitcode agents work through version-control and approved developer-operation integrations. They are powerful engineering systems, so production use should be scoped through repository permissions, review policy, evidence retention, and customer-specific risk controls.
+Agents are only as good as the material they can actually use. Public repos are noisy. Private IP is locked. Random RAG dumps are unmeasured. You need **measured, fit-checked knowledge**—not another pile of files.
 
-Cost Estimate: V26 commercial pricing is quote-based until Exchange settlement, BTC fee liquidity, and non-fungible `$BTD` share/read-right flows are promoted into the later-version product line.
+## The offer
 
-*Work is measured dynamically as Bitcode: source, Read, Fit, proof, settlement, AssetPack evidence, and Finish-delivered Shippables. V26 does not sell prepaid units or treat `$BTD` as a spendable currency token.
-**It is reasonable to budget for expert-reviewed engineering outcomes until later Terminal, Exchange, and external-connection versions complete automated commercial flows.
+**Bitcode finds deposited AssetPacks and synthesizes new candidates that satisfy your Need.**  
+You describe what you need. You review fits. You settle for what earns the right to be used. Measurements are visible; protected source stays protected until settlement.
 
-Commercial Access: enterprise agreement, implementation scope, or asset-pack procurement.
+> **Buy Packs** on `/reads` · **View the exchange** on `/packs` · **Sell supply** on `/deposits` if you later contribute.
 
-AES' Unique Offering with Bitcode:
+---
 
-1. AES builds customer software and Bitcode itself through the same proof-bearing technical-knowledge exchange model. V26 commercial work centers on proven Bitcode execution rather than prepaid accounting.
-2. Source, Reads, AssetPacks, proofs, Terminal activity, and Exchange state are the product-owned objects; external interfaces and integrations are admitted ingress or delivery mechanisms.
-3. Continual improvement is captured through Evidence Documents, execution records, and proof feedback so repeated work can become auditable product knowledge rather than informal agent memory.
+## How reading works (three moves)
 
-***Evidence Documents, particularly AGENTS.md and execution-end digests, are how portable customer instructions and learned constraints enter the system. Bespoke customer systems can add equivalent evidence surfaces when they preserve Bitcode ownership and proof boundaries.
+| | | |
+| --- | --- | --- |
+| **1. Read** | Describe your Need | Perfect packs, not vague search |
+| **2. Review** | Quantity · Quality · Fit | Candidates you can actually compare |
+| **3. Settle** | BTC ↔ BTD | Buy BTD, earn rails for supply, acquire data |
+
+**Source to delivery, for buyers:** Need → candidates → Fit → settle → use.
+
+---
+
+## Why this improves agent performance
+
+1. **Need-gated synthesis** — You don’t scrape the internet; you request packs matched to a stated Need.
+2. **Measurements, not vibes** — Public measures score options so agents (and humans) can rank before commitment.
+3. **Source-safe by design** — See measurements and roots first. Private source stays private until rights transfer.
+4. **Auditable trade** — Settlements ride an open-source, on-chain ledger posture—no black-box “trust us.”
+5. **Everywhere your agents already live** — Website GUI, **MCP API**, and (soon) conversational extensions so Reads aren’t trapped in one UI.
+
+---
+
+## What you buy
+
+- **AssetPacks** — Measured packages of technical knowledge (options you can reread on Packs).
+- **BTD** — Data-backed digital asset posture for volume and rights (ERC-1155 family language on the product surface).
+- **Bitcoin settlement** — Purchase and settle reads in BTC.
+
+**Simple footnotes of truth**
+
+- \* BTD tokens are immutable, scarce, deflationary, data-backed digital assets.  
+- \*\* An AssetPack’s BTD volume is a protocol determination; price is a market one.  
+- \*\*\* Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.
+
+---
+
+## Interfaces (same product law)
+
+| Surface | For readers |
+| --- | --- |
+| **Website** | Connect wallets & sources; synthesize, review, settle AssetPacks |
+| **MCP API** | Script and embed Reads in your own agents and apps |
+| **Whitepaper + open repo** | Protocol orientation and contributable canon |
+| **Conversational extensions** | Coming soon—Bitcode inside the chats you already use |
+
+---
+
+## One-liner for the team
+
+**Bitcode is the marketplace where you buy measured AssetPacks—with Bitcoin—to raise agent performance without gambling on unproven source.**
+
+**Primary CTA:** Buy Packs → `/reads`  
+**See the book:** Packs → `/packs`  
+**Learn more:** Docs · Whitepaper · [github.com/advancedengineeredsoftware/Bitcode](https://github.com/advancedengineeredsoftware/Bitcode) · [@bitcodehq](https://x.com/bitcodehq)
+
+---
+
+*Advanced Engineered Software, Inc. · Knowledge exchange made possible.*

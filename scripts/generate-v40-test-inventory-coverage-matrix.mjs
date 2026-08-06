@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V40_TEST_INVENTORY_COVERAGE_MATRIX_ARTIFACT_PATH,
   buildV40TestInventoryCoverageMatrix,
-} from '../packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js';
+} from '../scripts/specifying/src/canonical/v40-test-inventory-coverage-matrix.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

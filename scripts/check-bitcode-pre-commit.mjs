@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { ACTIVE_CANON_VERSION } from '../packages/protocol/src/index.js';
+import { ACTIVE_CANON_VERSION } from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,11 +12,12 @@ const defaultRepoRoot = path.resolve(__dirname, '..');
 const defaultQualityScript = path.join(defaultRepoRoot, 'scripts/run-bitcode-spec-quality.mjs');
 
 const SPEC_RELEVANT_PATHS = [
-  /^BITCODE_SPEC(?:IFYING)?(?:_.*)?\.md$/u,
-  /^BITCODE_SPEC\.txt$/u,
-  /^packages\/protocol\/src\/canonical\/v21-specifying\.js$/u,
+  /^specifications\/BITCODE_SPEC(?:IFYING)?(?:_.*)?\.md$/u,
+  /^specifications\/BITCODE_SPEC\.txt$/u,
+  /^specifications\/SPECIFICATIONS_ROADMAP\.md$/u,
+  /^scripts\/specifying\//u,
   /^package\.json$/u,
-  /^scripts\/(?:check-bitcode-|check-v28-metadevelopment-readiness|check-v29-gate1-objectives-and-gating|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|setup-bitcode-git-hooks)/u,
+  /^scripts\/(?:check-bitcode-|check-v28-metadevelopment-readiness|check-v29-gate1-objectives-and-gating|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|run-bitcode-local-ci|setup-bitcode-git-hooks)/u,
   /^\.githooks\/(?:pre-commit|commit-msg)$/u,
   /^\.github\/workflows\/(?:bitcode-canon-quality|bitcode-gate-quality|v28-canon-promotion|v29-canon-promotion)\.yml$/u
 ];
@@ -55,7 +56,7 @@ export function isSpecRelevantPath(stagedPath) {
 export function runPreCommitCheck({ repoRoot, qualityScript }) {
   let activeVersion = ACTIVE_CANON_VERSION;
   try {
-    activeVersion = readFileSync(path.join(repoRoot, 'BITCODE_SPEC.txt'), 'utf8').trim() || ACTIVE_CANON_VERSION;
+    activeVersion = readFileSync(path.join(repoRoot, '.specifications/BITCODE_SPEC.txt'), 'utf8').trim() || ACTIVE_CANON_VERSION;
   } catch {
     activeVersion = ACTIVE_CANON_VERSION;
   }

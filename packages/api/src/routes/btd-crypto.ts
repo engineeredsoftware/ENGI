@@ -1,7 +1,7 @@
 import { traceRoute } from '@bitcode/observability';
 import { createAdminClient, type BtdRegistryModel } from '@bitcode/orm';
 import { createClient } from '@bitcode/supabase/ssr/server';
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 import {
   type AssetPackExchangeOrder,
   type AssetPackLedgerAnchor,
@@ -36,9 +36,9 @@ import {
   type BtdOwnershipClaim,
   type BtdSourceToSharesProofInput,
   type BtdSourceToSharesProofSettlement,
-  type BtdTerminalJournalInput,
-  type BtdTerminalJournalSettlement,
-  type TerminalJournalEntry,
+  type BtdJournalInput,
+  type BtdJournalSettlement,
+  type JournalEntry,
   type BtcFeeTransactionReceipt,
   type ProjectionRepairReceipt,
   type V27CryptoTelemetryRecord,
@@ -59,7 +59,7 @@ import {
   buildBtdRegistrySnapshot,
   buildBtdSourceToSharesProofSettlement,
   buildBtdStableId as stableId,
-  buildBtdTerminalJournalSettlement,
+  buildBtdJournalSettlement,
   buildLicensedReadRevenueRoute,
   parseBtdOptionalBigInt,
   parseBtdRequiredBigInt,
@@ -83,7 +83,7 @@ export {
   buildBtdReadAccessDecision,
   buildBtdRegistrySnapshot,
   buildBtdSourceToSharesProofSettlement,
-  buildBtdTerminalJournalSettlement,
+  buildBtdJournalSettlement,
 };
 
 type AuthenticatedUser = {
@@ -486,8 +486,8 @@ export function buildPostBtdAssetPackExchangeRoute(options: BtdRouteOptions = {}
   });
 }
 
-export function buildPostBtdTerminalJournalRoute(options: BtdRouteOptions = {}) {
-  return traceRoute('/btd/terminal-journal', async (request: Request) => {
+export function buildPostBtdJournalRoute(options: BtdRouteOptions = {}) {
+  return traceRoute('/btd/journal', async (request: Request) => {
     const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
       request,
     );
@@ -495,16 +495,16 @@ export function buildPostBtdTerminalJournalRoute(options: BtdRouteOptions = {}) 
       return createJsonResponse({ error: 'Unauthorized' }, 401);
     }
 
-    let body: BtdTerminalJournalInput;
+    let body: BtdJournalInput;
     try {
       body = await request.json();
     } catch {
       return createJsonResponse({ error: 'Invalid JSON body' }, 400);
     }
 
-    let settlement: BtdTerminalJournalSettlement;
+    let settlement: BtdJournalSettlement;
     try {
-      const draft = buildBtdTerminalJournalSettlement({
+      const draft = buildBtdJournalSettlement({
         ...body,
         actorId: user.userId,
         exchangeSequence: parseBtdOptionalBigInt(body.exchangeSequence, 'exchangeSequence'),
@@ -514,7 +514,7 @@ export function buildPostBtdTerminalJournalRoute(options: BtdRouteOptions = {}) 
           ? options.registry ?? getDefaultRegistry()
           : undefined;
       const registryWrite = registry
-        ? await registry.insertTerminalJournalEntry(toTerminalJournalRegistryRow(draft.entry!))
+        ? await registry.insertJournalEntry(toJournalRegistryRow(draft.entry!))
         : undefined;
 
       settlement = {
@@ -768,7 +768,7 @@ export const postBtdAncestryReview = buildPostBtdAncestryReviewRoute();
 export const postBtdBtcFeeTransaction = buildPostBtdBtcFeeTransactionRoute();
 export const postBtdAssetPackLedgerAnchor = buildPostBtdAssetPackLedgerAnchorRoute();
 export const postBtdAssetPackExchange = buildPostBtdAssetPackExchangeRoute();
-export const postBtdTerminalJournal = buildPostBtdTerminalJournalRoute();
+export const postBtdJournal = buildPostBtdJournalRoute();
 export const postBtdLedgerDatabaseReconciliation =
   buildPostBtdLedgerDatabaseReconciliationRoute();
 export const postBtdSourceToSharesProof = buildPostBtdSourceToSharesProofRoute();
@@ -966,7 +966,7 @@ function toAssetPackRightsTransferRegistryRow(
   };
 }
 
-function toTerminalJournalRegistryRow(entry: TerminalJournalEntry): Record<string, unknown> {
+function toJournalRegistryRow(entry: JournalEntry): Record<string, unknown> {
   return {
     journal_entry_id: entry.journalEntryId,
     transaction_kind: entry.transactionKind,

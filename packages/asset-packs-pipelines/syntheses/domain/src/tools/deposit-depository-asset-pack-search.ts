@@ -1,0 +1,870 @@
+/**
+ * Pure Depository AssetPack search (no Tool base class).
+ * Used by Deposit/Read Discovery search agents and unit tests.
+ *
+ * Multi-query hybrid (Supabase toolkit shape):
+ *  - Keyword/lexical (+ optional static filters) over in-memory DepositoryAsset[]
+ *  - Semantic vector via Supabase pgvector RPC (gte-small 384 embeddings)
+ *  - Fan-out: each query independent; hits union by assetId (max score)
+ *
+ * Embed generation: open-source gte-small via Edge (not OpenAI Embeddings API).
+ * Products: deposit-relevants | read-need-fits (query plan framing only).
+ */
+
+import {
+  buildAssetPackEmbeddingPolicy,
+  MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC,
+  resolveAssetPackEmbeddingConfig,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/embedding-config';
+import { embedDepositoryTextVector } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-embed';
+import {
+  searchDepositoryAssetSpace,
+  type DepositoryAsset,
+  type DepositorySearchResult,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-search';
+import {
+  assetPassesAbsoluteFilters,
+  blendHybridScoreWithAbsolutes,
+  extractAbsoluteFacets,
+  type DepositoryAbsoluteFilters,
+} from '../depository-search-absolute-facets';
+import {
+  buildDepositorySearchQueryPlan,
+  type DepositorySearchProduct,
+} from './depository-search-query-plan';
+
+export type DepositoryStaticFilters = {
+  kinds?: string[] | null;
+  repositories?: string[] | null;
+  lifecycle?: string[] | null;
+  /** OR of absolute kinds present on the pack (see requireAllAbsoluteKinds). */
+  absoluteKinds?: string[] | null;
+  /** AND of absolute kinds when true. */
+  requireAllAbsoluteKinds?: boolean;
+  /** Per-kind volume floors (0..1). */
+  minAbsoluteVolumes?: Record<string, number> | null;
+  /** Weighted absolute composite floor (0..1). */
+  minAbsoluteComposite?: number | null;
+};
+
+export type DepositDepositorySearchToolInput = {
+  queryTerms?: string[];
+  /**
+   * Multi-query fan-out. When present, each query is searched independently
+   * and hits are unioned (max score). Prefer this for read Need-fits.
+   */
+  queries?: string[] | null;
+  /** Free-text Need / demand — folded into query plan when present. */
+  needText?: string | null;
+  expressedRead?: string | null;
+  /** Product query framing: deposit-relevants | read-need-fits (not dual-pipeline mode). */
+  product?: DepositorySearchProduct;
+  paths?: string[] | null;
+  assets?: DepositoryAsset[];
+  /** Optional static field filters (kind / repo / lifecycle / absolute kinds). */
+  staticFilters?: DepositoryStaticFilters | null;
+  maxResults?: number;
+  /** Cap per individual query before union (default 8). */
+  maxPerQuery?: number;
+  repositoryFullName?: string;
+  supabase?: {
+    rpc: (
+      fn: string,
+      args: Record<string, unknown>,
+    ) => Promise<{ data: unknown; error: unknown }>;
+  };
+  embedQuery?: (text: string) => Promise<number[] | null>;
+  env?: NodeJS.ProcessEnv;
+};
+
+export type DepositDepositorySearchHit = {
+  assetId: string;
+  title: string | null;
+  finalScore: number | null;
+  semanticScore: number | null;
+  matchedTerms: string[];
+  channel: 'lexical' | 'vector' | 'hybrid' | 'static';
+  /** Queries that contributed to this hit (multi-query audit). */
+  matchedQueries?: string[];
+};
+
+/**
+ * Source-safe search quality telemetry for pipeline/stream debug
+ * (deposit relevants + read Need-fits). No raw source; scores + ids only.
+ */
+export type DepositorySearchQualityTelemetry = {
+  schema: 'bitcode.depository.search-quality-telemetry';
+  product: DepositorySearchProduct;
+  repositoryFullName: string | null;
+  queryCount: number;
+  queries: string[];
+  needTextPreview: string | null;
+  assetCorpusSize: number;
+  assetCorpusAfterFilters: number;
+  hitCount: number;
+  topHits: Array<{
+    assetId: string;
+    title: string | null;
+    finalScore: number | null;
+    semanticScore: number | null;
+    channel: string;
+    matchedQueries: string[];
+    matchedTerms: string[];
+  }>;
+  channelCounts: Record<string, number>;
+  underservedTopics: string[];
+  saturatedTopics: string[];
+  vector: {
+    enabled: boolean;
+    status: string;
+    /** Why vector channel did not run (ops-visible; empty when hybrid/vector-matched). */
+    disabledReason: string | null;
+    rpc: string;
+    embedProvider: string;
+    embedModel: string;
+    embedDimensions: number;
+    queriesEmbedded: number;
+    queriesEmbedFailed: number;
+    store: 'supabase-pgvector';
+  };
+  durationMs: number;
+  resultState: string | null;
+};
+
+export type DepositDepositorySearchToolResult = {
+  success: boolean;
+  embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
+  queryTerms: string[];
+  queryPlan: string[];
+  /** Distinct queries that were fanned out. */
+  queries: string[];
+  queryCount: number;
+  hitCount: number;
+  hits: DepositDepositorySearchHit[];
+  underservedTopics: string[];
+  saturatedTopics: string[];
+  vectorStore: {
+    table: string;
+    rpc: string;
+    distanceMetric: string;
+    status: 'policy-declared' | 'lexical-only' | 'vector-matched' | 'hybrid';
+  };
+  searchResult: DepositorySearchResult | null;
+  /** Extensive search quality telemetry for real deposit/read debugging. */
+  telemetry: DepositorySearchQualityTelemetry;
+};
+
+function asTerms(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value.map((t) => String(t || '').trim()).filter(Boolean))];
+}
+
+/**
+ * Field weights for lexical match (STAB-C1 / search MVP law):
+ * commercial NL ≫ absolute fixtures ≫ title/summary ≫ topics ≫ paths.
+ * Never JSON.stringify the whole asset (keys/noise dominate false hits).
+ */
+export const LEXICAL_FIELD_WEIGHTS = {
+  commercialNl: 1.0,
+  absoluteFixtures: 0.55,
+  titleSummary: 0.4,
+  topics: 0.3,
+  paths: 0.12,
+} as const;
+
+export type LexicalFieldId = keyof typeof LEXICAL_FIELD_WEIGHTS;
+
+type LexicalFieldCorpus = {
+  id: LexicalFieldId;
+  weight: number;
+  text: string;
+};
+
+function unitKindMatches(unitKind: string, patterns: RegExp[]): boolean {
+  const k = String(unitKind || '').toLowerCase();
+  return patterns.some((p) => p.test(k));
+}
+
+/**
+ * Source-safe field corpora for field-weighted lexical scoring.
+ * Prefers commercial-nl content units and metadata commercialTitle/Description.
+ */
+export function collectLexicalFieldCorpora(asset: DepositoryAsset): LexicalFieldCorpus[] {
+  const meta = (asset?.metadata || {}) as Record<string, unknown>;
+  const units = Array.isArray(asset?.contentUnits) ? asset.contentUnits : [];
+
+  const commercialUnitText = units
+    .filter((u) =>
+      unitKindMatches(u.unitKind, [/commercial/, /^nl$/, /buyer/, /purchase/]),
+    )
+    .map((u) => String(u.text || '').trim())
+    .filter(Boolean)
+    .join(' ');
+  const commercialMeta = [
+    typeof meta.commercialTitle === 'string' ? meta.commercialTitle : '',
+    typeof meta.commercialDescription === 'string' ? meta.commercialDescription : '',
+    typeof meta.commercial_title === 'string' ? meta.commercial_title : '',
+    typeof meta.commercial_description === 'string' ? meta.commercial_description : '',
+  ]
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .join(' ');
+  const commercial = commercialUnitText || commercialMeta;
+
+  const fixtureUnitText = units
+    .filter((u) =>
+      unitKindMatches(u.unitKind, [/absolute/, /fixture/, /measure/]),
+    )
+    .map((u) => String(u.text || '').trim())
+    .filter(Boolean)
+    .join(' ');
+  const fixturesMeta = Array.isArray(meta.absoluteFixtures)
+    ? meta.absoluteFixtures
+        .map((f) => {
+          if (!f || typeof f !== 'object') return '';
+          const row = f as Record<string, unknown>;
+          const head = String(row.label || row.measurementKind || '').trim();
+          const desc = String(row.descriptor || '').trim();
+          return [head, desc].filter(Boolean).join(' ');
+        })
+        .filter(Boolean)
+        .join(' ')
+    : '';
+  const absoluteKinds = Array.isArray(meta.absoluteKinds)
+    ? meta.absoluteKinds.map((k) => String(k || '').trim()).filter(Boolean).join(' ')
+    : '';
+  const fixtures = [fixtureUnitText, fixturesMeta, absoluteKinds].filter(Boolean).join(' ');
+
+  const titleSummary = [asset?.title, asset?.summary]
+    .map((s) => (typeof s === 'string' ? s.trim() : ''))
+    .filter(Boolean)
+    .join(' ');
+  // Summary content units that are not commercial/fixtures/paths.
+  const summaryUnits = units
+    .filter(
+      (u) =>
+        unitKindMatches(u.unitKind, [/summary/, /title/, /topic/]) &&
+        !unitKindMatches(u.unitKind, [/commercial/, /absolute/, /fixture/, /path/]),
+    )
+    .map((u) => String(u.text || '').trim())
+    .filter(Boolean)
+    .join(' ');
+  const titleSummaryBlob = [titleSummary, summaryUnits].filter(Boolean).join(' ');
+
+  const topics = [
+    ...(Array.isArray(meta.topics) ? meta.topics.map((t) => String(t || '')) : []),
+    ...(Array.isArray(meta.tags) ? meta.tags.map((t) => String(t || '')) : []),
+  ]
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .join(' ');
+
+  const pathUnits = units
+    .filter((u) => unitKindMatches(u.unitKind, [/path/]) || Boolean(u.path))
+    .map((u) => [u.text, u.path].filter(Boolean).join(' '))
+    .join(' ');
+  const pathMeta = [
+    ...(Array.isArray(meta.coveredSourcePaths)
+      ? meta.coveredSourcePaths.map((p) => String(p || ''))
+      : []),
+    ...(Array.isArray(meta.sourcePaths) ? meta.sourcePaths.map((p) => String(p || '')) : []),
+    ...(Array.isArray(meta.source_path_tokens)
+      ? meta.source_path_tokens.map((p) => String(p || ''))
+      : []),
+  ]
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .join(' ');
+  const paths = [pathUnits, pathMeta].filter(Boolean).join(' ');
+
+  const out: LexicalFieldCorpus[] = [];
+  if (commercial) {
+    out.push({
+      id: 'commercialNl',
+      weight: LEXICAL_FIELD_WEIGHTS.commercialNl,
+      text: commercial.toLowerCase(),
+    });
+  }
+  if (fixtures) {
+    out.push({
+      id: 'absoluteFixtures',
+      weight: LEXICAL_FIELD_WEIGHTS.absoluteFixtures,
+      text: fixtures.toLowerCase(),
+    });
+  }
+  if (titleSummaryBlob) {
+    out.push({
+      id: 'titleSummary',
+      weight: LEXICAL_FIELD_WEIGHTS.titleSummary,
+      text: titleSummaryBlob.toLowerCase(),
+    });
+  }
+  if (topics) {
+    out.push({
+      id: 'topics',
+      weight: LEXICAL_FIELD_WEIGHTS.topics,
+      text: topics.toLowerCase(),
+    });
+  }
+  if (paths) {
+    out.push({
+      id: 'paths',
+      weight: LEXICAL_FIELD_WEIGHTS.paths,
+      text: paths.toLowerCase(),
+    });
+  }
+  return out;
+}
+
+/**
+ * Field-weighted lexical score (STAB-C1).
+ * Multi-word Need phrases weigh more than single path-stem tokens.
+ * A term matching commercial NL contributes full weight; path-only matches
+ * contribute LEXICAL_FIELD_WEIGHTS.paths so path noise cannot rank like buyer prose.
+ */
+export function fieldWeightedLexicalScore(
+  asset: DepositoryAsset,
+  terms: string[],
+): {
+  score: number;
+  matched: string[];
+  fieldHits: Partial<Record<LexicalFieldId, string[]>>;
+} {
+  if (!terms.length) return { score: 0, matched: [], fieldHits: {} };
+  const fields = collectLexicalFieldCorpora(asset);
+  if (!fields.length) return { score: 0, matched: [], fieldHits: {} };
+
+  let weightSum = 0;
+  let matchedWeight = 0;
+  const matched: string[] = [];
+  const fieldHits: Partial<Record<LexicalFieldId, string[]>> = {};
+
+  for (const term of terms) {
+    const t = String(term || '').trim().toLowerCase();
+    if (!t) continue;
+    const isPhrase = /\s/.test(term) || t.length > 24;
+    const termW = isPhrase ? 2.5 : 1;
+    weightSum += termW;
+
+    let bestWeight = 0;
+    let bestField: LexicalFieldId | null = null;
+    for (const field of fields) {
+      if (field.text.includes(t) && field.weight > bestWeight) {
+        bestWeight = field.weight;
+        bestField = field.id;
+      }
+    }
+    if (bestWeight > 0 && bestField) {
+      matchedWeight += termW * bestWeight;
+      matched.push(term);
+      const list = fieldHits[bestField] || [];
+      list.push(term);
+      fieldHits[bestField] = list;
+    }
+  }
+
+  return {
+    score: weightSum > 0 ? matchedWeight / weightSum : 0,
+    matched,
+    fieldHits,
+  };
+}
+
+/** @deprecated Prefer fieldWeightedLexicalScore — kept as thin alias for local call sites. */
+function lexicalScore(
+  asset: DepositoryAsset,
+  terms: string[],
+): { score: number; matched: string[] } {
+  const { score, matched } = fieldWeightedLexicalScore(asset, terms);
+  return { score, matched };
+}
+
+function applyStaticFilters(
+  assets: DepositoryAsset[],
+  filters: DepositoryStaticFilters | null | undefined,
+): DepositoryAsset[] {
+  if (!filters) return assets;
+  const kinds = asTerms(filters.kinds).map((k) => k.toLowerCase());
+  const repos = asTerms(filters.repositories).map((r) => r.toLowerCase());
+  const lifecycles = asTerms(filters.lifecycle).map((l) => l.toLowerCase());
+  const absoluteFilters: DepositoryAbsoluteFilters = {
+    absoluteKinds: filters.absoluteKinds,
+    requireAllAbsoluteKinds: filters.requireAllAbsoluteKinds,
+    minAbsoluteVolumes: filters.minAbsoluteVolumes,
+    minAbsoluteComposite: filters.minAbsoluteComposite,
+  };
+  const hasAbsoluteFilter =
+    asTerms(filters.absoluteKinds).length > 0 ||
+    (filters.minAbsoluteVolumes && Object.keys(filters.minAbsoluteVolumes).length > 0) ||
+    (typeof filters.minAbsoluteComposite === 'number' && Number.isFinite(filters.minAbsoluteComposite));
+  if (!kinds.length && !repos.length && !lifecycles.length && !hasAbsoluteFilter) {
+    return assets;
+  }
+  return assets.filter((asset) => {
+    const meta = (asset.metadata || {}) as Record<string, unknown>;
+    if (kinds.length) {
+      const kind = String(asset.artifactKind || asset.artifactType || '').toLowerCase();
+      if (!kinds.some((k) => kind.includes(k))) return false;
+    }
+    if (repos.length) {
+      const repo = String(asset.repositoryFullName || '').toLowerCase();
+      if (!repos.some((r) => repo.includes(r))) return false;
+    }
+    if (lifecycles.length) {
+      const life = String(meta.lifecycleState || meta.lifecycle || '').toLowerCase();
+      if (!lifecycles.some((l) => life.includes(l))) return false;
+    }
+    if (hasAbsoluteFilter && !assetPassesAbsoluteFilters(asset, absoluteFilters)) {
+      return false;
+    }
+    return true;
+  });
+}
+
+function mergeHit(
+  hitMap: Map<string, DepositDepositorySearchHit>,
+  next: DepositDepositorySearchHit,
+  query: string,
+): void {
+  const existing = hitMap.get(next.assetId);
+  if (!existing) {
+    hitMap.set(next.assetId, {
+      ...next,
+      matchedQueries: [query],
+    });
+    return;
+  }
+  const existingScore = existing.finalScore ?? 0;
+  const nextScore = next.finalScore ?? 0;
+  const matchedQueries = [
+    ...new Set([...(existing.matchedQueries || []), query]),
+  ];
+  if (nextScore > existingScore) {
+    hitMap.set(next.assetId, {
+      ...next,
+      matchedTerms: [...new Set([...existing.matchedTerms, ...next.matchedTerms])],
+      matchedQueries,
+      channel:
+        existing.channel === 'vector' || next.channel === 'vector'
+          ? existing.channel === 'lexical' || next.channel === 'lexical'
+            ? 'hybrid'
+            : next.channel
+          : next.channel === 'hybrid' || existing.channel === 'hybrid'
+            ? 'hybrid'
+            : next.channel,
+    });
+  } else {
+    hitMap.set(next.assetId, {
+      ...existing,
+      matchedTerms: [...new Set([...existing.matchedTerms, ...next.matchedTerms])],
+      matchedQueries,
+      // Multi-query agreement boost (capped).
+      finalScore: Math.min(
+        1,
+        existingScore + 0.03 * Math.max(0, matchedQueries.length - 1),
+      ),
+      channel:
+        existing.channel === 'lexical' && next.channel === 'vector'
+          ? 'hybrid'
+          : existing.channel,
+    });
+  }
+}
+
+/** Default embed: Supabase Edge gte-small (384) — never OpenAI Embeddings API. */
+async function defaultEmbedQuery(
+  text: string,
+  env: NodeJS.ProcessEnv,
+): Promise<number[] | null> {
+  return embedDepositoryTextVector(text, env);
+}
+
+/**
+ * Build the list of distinct queries to fan out.
+ * Prefer explicit `queries`; else treat each queryTerm as a query when many;
+ * else a single merged plan.
+ */
+function resolveQueries(input: DepositDepositorySearchToolInput, finalTerms: string[]): string[] {
+  const explicit = asTerms(input.queries);
+  if (explicit.length > 0) return explicit.slice(0, 12);
+  // Fan-out: each substantial term/phrase is its own query (read multi-query law).
+  if (finalTerms.length >= 2) {
+    return finalTerms.slice(0, 12);
+  }
+  return finalTerms.length ? finalTerms : [];
+}
+
+export async function runDepositDepositoryAssetPackSearch(
+  input: DepositDepositorySearchToolInput,
+): Promise<DepositDepositorySearchToolResult> {
+  const startedAt = Date.now();
+  const env = input.env || process.env;
+  const product: DepositorySearchProduct =
+    input.product ||
+    (input.needText || input.expressedRead ? 'read-need-fits' : 'deposit-relevants');
+  const explicitTerms = asTerms(input?.queryTerms);
+  // Prefer explicit model terms when present; else build from Need/paths.
+  const queryTerms =
+    explicitTerms.length > 0
+      ? explicitTerms
+      : buildDepositorySearchQueryPlan({
+          queryTerms: explicitTerms,
+          needText: input.needText,
+          expressedRead: input.expressedRead,
+          repositoryFullName: input.repositoryFullName,
+          paths: input.paths,
+          product,
+        });
+  // When both Need and explicit terms exist, ensure Need phrase is in the plan.
+  const withNeed =
+    explicitTerms.length > 0 && (input.needText || input.expressedRead)
+      ? buildDepositorySearchQueryPlan({
+          queryTerms: explicitTerms,
+          needText: input.needText,
+          expressedRead: input.expressedRead,
+          repositoryFullName: input.repositoryFullName,
+          paths: input.paths,
+          product,
+        })
+      : queryTerms;
+  const finalTerms = withNeed.length > 0 ? withNeed : queryTerms;
+  const queries = resolveQueries(input, finalTerms);
+
+  const embeddingPolicy = buildAssetPackEmbeddingPolicy(
+    resolveAssetPackEmbeddingConfig(env),
+  );
+  const maxResults = Math.max(1, Math.min(40, Number(input?.maxResults) || 12));
+  const maxPerQuery = Math.max(1, Math.min(20, Number(input?.maxPerQuery) || 8));
+  const rawAssets = Array.isArray(input?.assets) ? input.assets : [];
+  const assets = applyStaticFilters(rawAssets, input.staticFilters);
+
+  const defaultPrompt =
+    product === 'read-need-fits'
+      ? 'read need-fit depository search'
+      : 'deposit supply demand framing';
+
+  let searchResult: DepositorySearchResult | null = null;
+  const hitMap = new Map<string, DepositDepositorySearchHit>();
+  const fanout = queries.length > 0 ? queries : [finalTerms.join(' ') || defaultPrompt];
+
+  // ---- Lexical multi-query over in-memory assets ----
+  if (assets.length > 0) {
+    // Full-plan rank once for ranking evidence root (and single-query path).
+    const fullRead = {
+      prompt: finalTerms.join(' ; ') || defaultPrompt,
+      expressed_read: finalTerms.join(' ; '),
+      primary_intent: finalTerms[0] || defaultPrompt,
+      satisfaction_criteria: finalTerms.slice(0, 8),
+      repositoryFullName: input?.repositoryFullName || null,
+      targetArtifactKinds: ['asset-pack'],
+      closureCriteria: finalTerms.slice(0, 6),
+      failureModes: [],
+      product,
+    };
+    searchResult = await searchDepositoryAssetSpace({
+      read: fullRead as any,
+      assets,
+      thresholds: {
+        semanticScore: 0.1,
+        reviewScore: 0.15,
+        worthyScore: 0.25,
+        maxSelectedCandidates: maxResults,
+      },
+      createdAt: new Date().toISOString(),
+    });
+    // When explicit multi-query is provided, rely on per-query fan-out only so
+    // soft full-plan ranks do not dilute the hit set with weak matches.
+    const explicitMultiQuery = asTerms(input.queries).length > 0;
+    if (!explicitMultiQuery) {
+      for (const candidate of searchResult.selectedCandidates || []) {
+        const c = candidate as any;
+        const id = String(c?.assetId || '');
+        if (!id) continue;
+        const { matched } = lexicalScore(c as DepositoryAsset, finalTerms);
+        mergeHit(
+          hitMap,
+          {
+            assetId: id,
+            title: c?.title ?? null,
+            finalScore: c?.ranking?.finalScore ?? null,
+            semanticScore: c?.ranking?.semanticScore ?? null,
+            matchedTerms: matched,
+            channel: 'lexical',
+          },
+          finalTerms[0] || defaultPrompt,
+        );
+      }
+    }
+
+    for (const query of fanout) {
+      const terms = query
+        .split(/[;\n]+/)
+        .map((t) => t.trim())
+        .filter(Boolean);
+      const scoreTerms = terms.length > 1 ? terms : [query];
+      const perQuery: DepositDepositorySearchHit[] = [];
+      for (const asset of assets) {
+        const id = String((asset as any)?.assetId || '');
+        if (!id) continue;
+        const { score, matched } = lexicalScore(asset, scoreTerms);
+        const threshold = matched.some((m) => /\s/.test(m) || m.length > 24)
+          ? 0.12
+          : 0.2;
+        if (score >= threshold) {
+          perQuery.push({
+            assetId: id,
+            title: (asset as any)?.title ?? null,
+            finalScore: score,
+            semanticScore: score,
+            matchedTerms: matched,
+            channel: 'lexical',
+          });
+        }
+      }
+      perQuery
+        .sort(
+          (a, b) =>
+            (b.finalScore ?? 0) - (a.finalScore ?? 0) ||
+            a.assetId.localeCompare(b.assetId),
+        )
+        .slice(0, maxPerQuery)
+        .forEach((hit) => mergeHit(hitMap, hit, query));
+    }
+  }
+
+  // ---- Vector multi-query (Supabase pgvector + gte-small) ----
+  // Product default: on when BITCODE_DEPOSITORY_VECTOR_SEARCH is 1/true/yes/on
+  // (host seeds 1 when unset). Explicit 0/false/off → lexical-only.
+  let vectorStatus: DepositDepositorySearchToolResult['vectorStore']['status'] =
+    assets.length > 0 ? 'lexical-only' : 'policy-declared';
+  const vectorFlag = String(env.BITCODE_DEPOSITORY_VECTOR_SEARCH ?? '')
+    .trim()
+    .toLowerCase();
+  const vectorEnabled = ['1', 'true', 'yes', 'on'].includes(vectorFlag);
+  let queriesEmbedded = 0;
+  let queriesEmbedFailed = 0;
+  if (!vectorEnabled) {
+    vectorStatus = assets.length > 0 ? 'lexical-only' : 'policy-declared';
+  }
+  if (vectorEnabled && fanout.length > 0) {
+    const embedFn = input.embedQuery || ((text: string) => defaultEmbedQuery(text, env));
+    // Product RPC only (gte-small 384); no legacy OpenAI deliverable path.
+    const rpcName =
+      embeddingPolicy.vectorStore.rpc || MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC;
+    const vectorQueries = fanout.slice(0, 6);
+    for (const query of vectorQueries) {
+      const vector = await embedFn(query);
+      if (!vector) {
+        queriesEmbedFailed += 1;
+        continue;
+      }
+      queriesEmbedded += 1;
+      if (!input.supabase?.rpc) continue;
+      try {
+        const filterAbsoluteKinds = asTerms(input.staticFilters?.absoluteKinds);
+        const filterLifecycle = asTerms(input.staticFilters?.lifecycle)[0] || null;
+        const filterKind = asTerms(input.staticFilters?.kinds)[0] || null;
+        // Facet-aware RPC (defaults allow 3-arg-style callers). On error, retry bare.
+        let data: unknown = null;
+        let error: unknown = null;
+        const facetRpc = await input.supabase.rpc(rpcName, {
+          query_embedding: vector,
+          match_count: maxPerQuery,
+          filter_absolute_kinds: filterAbsoluteKinds.length ? filterAbsoluteKinds : null,
+          filter_lifecycle: filterLifecycle,
+          filter_kind: filterKind,
+        });
+        if (!facetRpc.error && Array.isArray(facetRpc.data)) {
+          data = facetRpc.data;
+        } else {
+          const legacy = await input.supabase.rpc(rpcName, {
+            query_embedding: vector,
+            match_count: maxPerQuery,
+          });
+          data = legacy.data;
+          error = legacy.error;
+        }
+        if (error || !Array.isArray(data)) continue;
+        for (const row of data as any[]) {
+          const id = String(
+            row?.asset_id || row?.deliverable_id || row?.id || row?.assetId || '',
+          );
+          if (!id) continue;
+          // Client-side absolute filter for vector-only hits (no in-memory asset).
+          if (filterAbsoluteKinds.length && Array.isArray(row?.absolute_kinds)) {
+            const listed = (row.absolute_kinds as unknown[]).map((k) =>
+              String(k || '').toLowerCase(),
+            );
+            const ok = filterAbsoluteKinds.some((k) => listed.includes(k.toLowerCase()));
+            if (!ok) continue;
+          }
+          const semanticScore =
+            typeof row?.similarity === 'number'
+              ? row.similarity
+              : typeof row?.score === 'number'
+                ? row.score
+                : null;
+          mergeHit(
+            hitMap,
+            {
+              assetId: id,
+              title: row?.title ?? null,
+              finalScore: semanticScore,
+              semanticScore,
+              matchedTerms: [query],
+              channel: 'vector',
+            },
+            query,
+          );
+        }
+        vectorStatus =
+          hitMap.size > 0 && assets.length > 0 ? 'hybrid' : 'vector-matched';
+      } catch {
+        /* keep lexical */
+      }
+    }
+  }
+
+  // Hybrid re-rank: blend lexical/vector scores with absolute facet richness.
+  const assetById = new Map(
+    assets.map((a) => [String((a as { assetId?: string }).assetId || ''), a] as const),
+  );
+  for (const [id, hit] of hitMap) {
+    const asset = assetById.get(id);
+    if (!asset) continue;
+    const blended = blendHybridScoreWithAbsolutes(hit.finalScore, asset, {
+      queryTerms: finalTerms,
+      absoluteWeight: product === 'read-need-fits' ? 0.24 : 0.18,
+    });
+    const facets = extractAbsoluteFacets(asset);
+    hitMap.set(id, {
+      ...hit,
+      finalScore: blended,
+      matchedTerms: [
+        ...new Set([
+          ...hit.matchedTerms,
+          ...facets.kinds.filter((k) =>
+            finalTerms.some((t) => k.includes(t.toLowerCase()) || t.toLowerCase().includes(k)),
+          ),
+        ]),
+      ],
+      channel:
+        hit.channel === 'vector' || hit.channel === 'hybrid'
+          ? facets.kinds.length
+            ? 'hybrid'
+            : hit.channel
+          : hit.channel,
+    });
+  }
+
+  const hits = [...hitMap.values()]
+    .sort(
+      (a, b) =>
+        (b.finalScore ?? 0) - (a.finalScore ?? 0) ||
+        (b.matchedQueries?.length ?? 0) - (a.matchedQueries?.length ?? 0) ||
+        a.assetId.localeCompare(b.assetId),
+    )
+    .slice(0, maxResults);
+
+  const hitBlob = hits
+    .map((h) => `${h.title || ''} ${h.matchedTerms.join(' ')}`)
+    .join(' ')
+    .toLowerCase();
+  const underservedTopics = finalTerms.filter(
+    (term) => !hitBlob.includes(term.toLowerCase()),
+  );
+  const saturatedTopics = finalTerms.filter((term) =>
+    hitBlob.includes(term.toLowerCase()),
+  );
+
+  const channelCounts: Record<string, number> = {};
+  for (const h of hits) {
+    channelCounts[h.channel] = (channelCounts[h.channel] || 0) + 1;
+  }
+
+  const needPreview =
+    typeof input.needText === 'string' && input.needText.trim()
+      ? input.needText.trim().slice(0, 160)
+      : typeof input.expressedRead === 'string' && input.expressedRead.trim()
+        ? input.expressedRead.trim().slice(0, 160)
+        : null;
+
+  const telemetry: DepositorySearchQualityTelemetry = {
+    schema: 'bitcode.depository.search-quality-telemetry',
+    product,
+    repositoryFullName: input.repositoryFullName || null,
+    queryCount: fanout.length,
+    queries: fanout,
+    needTextPreview: needPreview,
+    assetCorpusSize: rawAssets.length,
+    assetCorpusAfterFilters: assets.length,
+    hitCount: hits.length,
+    topHits: hits.slice(0, 12).map((h) => ({
+      assetId: h.assetId,
+      title: h.title,
+      finalScore: h.finalScore,
+      semanticScore: h.semanticScore,
+      channel: h.channel,
+      matchedQueries: h.matchedQueries || [],
+      matchedTerms: h.matchedTerms.slice(0, 8),
+    })),
+    channelCounts,
+    underservedTopics,
+    saturatedTopics,
+    vector: {
+      enabled: vectorEnabled,
+      status: vectorStatus,
+      disabledReason: !vectorEnabled
+        ? 'BITCODE_DEPOSITORY_VECTOR_SEARCH off (set 1 for gte-small+pgvector hybrid)'
+        : queriesEmbedded === 0 && queriesEmbedFailed > 0
+          ? 'embed failed for all vector queries (Edge gte-small / auth / URL)'
+          : vectorEnabled && !input.supabase?.rpc
+            ? 'supabase.rpc not injected on execution (pipeline|deposit.supabase)'
+            : vectorStatus === 'lexical-only' && vectorEnabled
+              ? 'vector path enabled but no vector hits merged (empty index or RPC miss)'
+              : null,
+      rpc: embeddingPolicy.vectorStore.rpc,
+      embedProvider: String(embeddingPolicy.provider),
+      embedModel: embeddingPolicy.model,
+      embedDimensions: embeddingPolicy.dimensions,
+      queriesEmbedded,
+      queriesEmbedFailed,
+      store: 'supabase-pgvector',
+    },
+    durationMs: Date.now() - startedAt,
+    resultState:
+      typeof (searchResult as { resultState?: string } | null)?.resultState === 'string'
+        ? (searchResult as { resultState: string }).resultState
+        : hits.length > 0
+          ? 'hits'
+          : 'no_hits',
+  };
+
+  return {
+    success: true,
+    embeddingPolicy,
+    queryTerms: finalTerms,
+    queryPlan: finalTerms,
+    queries: fanout,
+    queryCount: fanout.length,
+    hitCount: hits.length,
+    hits,
+    underservedTopics,
+    saturatedTopics,
+    vectorStore: {
+      table: embeddingPolicy.vectorStore.table,
+      rpc: embeddingPolicy.vectorStore.rpc,
+      distanceMetric: embeddingPolicy.vectorStore.distanceMetric,
+      status: vectorStatus,
+    },
+    searchResult,
+    telemetry,
+  };
+}
+
+export {
+  buildDepositorySearchQueryPlan,
+  extractNeedPrimaryPhrase,
+  tokenizeSearchTerms,
+} from './depository-search-query-plan';
+export type { DepositorySearchProduct } from './depository-search-query-plan';

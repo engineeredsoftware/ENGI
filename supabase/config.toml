@@ -86,7 +86,9 @@ subject = "You're invited to Bitcode"
 content_path = "./supabase/templates/invite.html"
 
 [auth.email.template.confirmation]
-subject = "Confirm your Bitcode account"
+# Waitlist "Request access" uses Auth signUp → this Confirm signup template.
+# Production: paste the same HTML in Dashboard → Authentication → Email Templates.
+subject = "Welcome to the Bitcode waitlist"
 content_path = "./supabase/templates/confirm.html"
 
 [auth.email.template.recovery]

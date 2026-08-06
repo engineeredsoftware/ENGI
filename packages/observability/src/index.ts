@@ -90,3 +90,4 @@ export const telemetry = {
   recordMetric,
   recordError,
 };
+export * from './product-analytics';

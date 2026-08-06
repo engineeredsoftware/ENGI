@@ -35,11 +35,11 @@ describe('DeploymentPromotionReadinessReport', () => {
       'node scripts/promote-bitcode-canon.mjs --version V34 --commit HEAD --dry-run',
     ]));
     expect(report.generatedProofOutputs).toEqual(expect.arrayContaining([
-      'BITCODE_SPEC_V34_PROVEN.md',
-      '.bitcode/v34-spec-family-report.json',
-      '.bitcode/v34-canonical-input-report.json',
-      '.bitcode/v34-canon-posture-drift-report.json',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.specifications/BITCODE_SPEC_V34_PROVEN.md',
+      '.proofs/v34/spec-family-report.json',
+      '.proofs/v34/canonical-input-report.json',
+      '.proofs/v34/canon-posture-drift-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
     ]));
     expect(report.promotionWorkflowPath).toBe('.github/workflows/v34-canon-promotion.yml');
     expect(report.promotionScriptPath).toBe('scripts/promote-bitcode-canon.mjs');
@@ -64,12 +64,12 @@ describe('DeploymentPromotionReadinessReport', () => {
     const mutated: DeploymentPromotionReadinessReportInput = {
       ...input,
       gateArtifactPaths: input.gateArtifactPaths.filter(
-        (artifactPath) => artifactPath !== '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
+        (artifactPath) => artifactPath !== '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
       ),
     };
 
     expect(() => buildDeploymentPromotionReadinessReport(mutated)).toThrow(
-      /missing gate artifacts: .bitcode\/v34-local-staging-testnet-deployment-rehearsal.json/,
+      /missing gate artifacts: .proofs\/v34\/local-staging-testnet-deployment-rehearsal.json/,
     );
   });
 

@@ -33,19 +33,19 @@ PromptParts should be the smallest meaningful units that can be versioned and op
 export const PROMPTPART_GENERIC_FORMATTING_YOUARE: PromptPart = 'You are' as PromptPart;
 
 // ✅ CORRECT - Complete field value
-export const PROMPTPART_SPECIFIC_TOOL_CODESEARCHER_PURPOSE: PromptPart = 
-  'Search codebase using semantic pattern matching' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_CODESEARCHER_PURPOSE: PromptPart =
+ 'Search codebase using semantic pattern matching' as PromptPart;
 
 // ✅ CORRECT - Reusable transition
-export const PROMPTPART_GENERIC_FORMATTING_BASEDONTHIS: PromptPart = 
-  'Based on this analysis,' as PromptPart;
+export const PROMPTPART_GENERIC_FORMATTING_BASEDONTHIS: PromptPart =
+ 'Based on this analysis,' as PromptPart;
 
 // ❌ WRONG - Single word, no optimization value
 export const PROMPTPART_GENERIC_AND: PromptPart = 'and' as PromptPart;
 
 // ❌ WRONG - Too large, should be broken down
-export const PROMPT_GENERIC_FULL_PARAGRAPH: PromptPart = 
-  'This comprehensive tool performs advanced analysis...'; // NO!
+export const PROMPT_GENERIC_FULL_PARAGRAPH: PromptPart =
+ 'This comprehensive tool performs advanced analysis...'; // NO!
 ```
 
 ## V26 Industrial Language Requirements
@@ -74,20 +74,20 @@ promptpart_[generic|specific]_[domain]_[PROMPTCLASSNAME]_[semanticcontext]_[POSI
 **Mandatory Components**:
 1. `promptpart` - Literal prefix (always lowercase)
 2. `[generic|specific]` - Reusability scope
-   - `generic`: Used across MANY prompts/parts
-   - `specific`: Tied to one Prompt class
+ - `generic`: Used across MANY prompts/parts
+ - `specific`: Tied to one Prompt class
 3. `[domain]` - One of: tool, agent, pipeline, phase, formatting, validation, system
 4. `[PROMPTCLASSNAME]` - Class name WITHOUT "Prompt" suffix (lowercase)
-   - `BitcodeSystemPrompt` → `bitcodesystem`
-   - `WebSearchToolPrompt` → `websearchtool`
+ - `BitcodeSystemPrompt` → `bitcodesystem`
+ - `WebSearchToolPrompt` → `websearchtool`
 5. `[semanticcontext]` - What content is about (NO underscores)
-   - `inherentknowledgeidentity` NOT `inherentknowledge_identity`
+ - `inherentknowledgeidentity` NOT `inherentknowledge_identity`
 6. `[POSITION]` - WHERE in prompt:
-   - `opener`/`closer` - Opening/closing statements
-   - `header`/`footer` - Section headers/footers
-   - `corestatement` - Main statement
-   - `detailcontent` - Detailed content
-   - `list`/`listitem` - Lists and items
+ - `opener`/`closer` - Opening/closing statements
+ - `header`/`footer` - Section headers/footers
+ - `corestatement` - Main statement
+ - `detailcontent` - Detailed content
+ - `list`/`listitem` - Lists and items
 
 **Examples**:
 - `promptpart_specific_system_bitcodesystem_inherentknowledgeidentity_opener.ts`
@@ -141,15 +141,15 @@ Every PromptPart must include:
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Define tool purpose for code searching"
- * current_version: "V26.00.0"  // Start unbenchmarked at V26.00.0
- * versions: []                   // Empty for new PromptParts
+ * current_version: "V26.00.0" // Start unbenchmarked at V26.00.0
+ * versions: [] // Empty for new PromptParts
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses specific algorithms?", "score": 0.94 },
- *   { "name": "implementation_ready", "test": "Can developers implement?", "score": 0.92 }
+ * { "name": "technical_accuracy", "test": "Uses specific algorithms?", "score": 0.94 },
+ * { "name": "implementation_ready", "test": "Can developers implement?", "score": 0.92 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_TOOL_CODESEARCHER_PURPOSE: PromptPart = 
-  'Search codebase using AST parsing and LSP symbol resolution' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_CODESEARCHER_PURPOSE: PromptPart =
+ 'Search codebase using AST parsing and LSP symbol resolution' as PromptPart;
 ```
 
 **Required Fields**:

@@ -1,10 +1,10 @@
-// Migrated from uapi/lib/logger.ts – no code changes.
+// Migrated from apps/uapi/lib/logger.ts – no code changes.
 // The original file now re-exports from this module so existing imports keep working.
 
 import * as fs from 'fs/promises';
 import * as os from 'os';
 import { supabaseAdmin } from '@bitcode/supabase';
-import { putArtifactAtKey } from '@bitcode/artifacts';
+import { putArtifactAtKey } from '@bitcode/generic-artifacts-compose';
 
 const ORIGINAL_CONSOLE_ERROR = console.error.bind(console);
 const ORIGINAL_CONSOLE_WARN = console.warn.bind(console);
@@ -16,7 +16,7 @@ let sentryPromise: Promise<any> | null = null;
 function getSentry() {
   if (sentryPromise) return sentryPromise;
   if (process.env.NEXT_RUNTIME === 'edge') return Promise.resolve(null);
-  sentryPromise = import('@bitcode/sentry').catch(() => null);
+  sentryPromise = import('@bitcode/external-telemetry-sentry').catch(() => null);
   return sentryPromise;
 }
 
@@ -231,6 +231,67 @@ export async function writePromptIO(opts: {
     const fileBase = `${prefix}.${safe(opts.phase)}-${safe(opts.agent)}-${safe(opts.step)}-${safe(opts.sequence)}-${safe(opts.provider)}-${safe(opts.model)}`;
     const filename = joinPath(runDir, `${fileBase}.prompt.${opts.kind}`);
     await fs.writeFile(filename, opts.content ?? '', 'utf8');
+    return filename;
+  } catch {
+    return undefined;
+  }
+}
+
+// ------------------------------------------------------------
+// Raw LLM wire I/O writer (local debugging utility)
+//
+// Unlike writePromptIO (a flattened-prompt sidecar under /tmp, success-only,
+// intended for quick tailing), this writes the literal request payload and
+// the literal response/error for every LLM call — including failures like a
+// 413 request_too_large — to a per-run directory under the user's home
+// directory, so it survives past /tmp getting cleared and is easy to find.
+// ------------------------------------------------------------
+
+const RAW_LLM_LOG_BASE_DIR = joinPath(os.homedir(), '.proofs', 'logs', 'executions');
+let __rawLLMIOSeq = 0;
+
+export async function writeRawLLMIO(opts: {
+  executionId?: string;
+  pathKey: string;
+  kind: 'request' | 'response' | 'error';
+  provider?: string;
+  model?: string;
+  content: unknown;
+}): Promise<string | undefined> {
+  try {
+    const enabledEnv = String(process?.env?.BITCODE_WRITE_RAW_LLM_IO ?? '1').toLowerCase();
+    if (enabledEnv === '0' || enabledEnv === 'false') return undefined;
+    // Never litter the developer's home directory from a test run — jest
+    // exercises this same LLM-substep code path with mocked LLMs.
+    if (process?.env?.NODE_ENV === 'test') return undefined;
+
+    // Claim the sequence number before any await: callers fire-and-forget, so
+    // an await ahead of the increment lets concurrent writes swap numbers and
+    // the on-disk ordering stops reflecting call order.
+    const safe = (s: any) => String(s || '').toLowerCase().replace(/[^a-z0-9-_]+/g, '-').slice(0, 160) || 'na';
+    const seq = String(++__rawLLMIOSeq).padStart(5, '0');
+
+    const runDir = joinPath(RAW_LLM_LOG_BASE_DIR, sanitizeId(opts.executionId || 'run'));
+    try { await fs.mkdir(runDir, { recursive: true }); } catch {}
+    const filename = joinPath(runDir, `${seq}-${safe(opts.pathKey)}.${opts.kind}.json`);
+
+    const payload = opts.kind === 'error'
+      ? {
+          timestamp: new Date().toISOString(),
+          provider: opts.provider,
+          model: opts.model,
+          error: opts.content instanceof Error
+            ? { name: opts.content.name, message: opts.content.message, stack: opts.content.stack }
+            : opts.content,
+        }
+      : {
+          timestamp: new Date().toISOString(),
+          provider: opts.provider,
+          model: opts.model,
+          content: opts.content,
+        };
+
+    await fs.writeFile(filename, JSON.stringify(payload, null, 2), 'utf8');
     return filename;
   } catch {
     return undefined;

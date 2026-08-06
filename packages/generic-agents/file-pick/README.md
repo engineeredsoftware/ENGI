@@ -35,7 +35,6 @@ The File Picker Agent provides smart file selection capabilities through task-co
 ## Technical Implementation
 
 ### Dependencies
-- `@bitcode/digest` - Repository file analysis and selection utilities
 - `@bitcode/agent-generics` - Base agent framework with PTRR methodology
 - `zod` - Schema validation for structured outputs
 - File system integration for repository structure analysis
@@ -61,7 +60,7 @@ The agent processes task descriptions to select relevant repository files:
 
 ```typescript
 const fileSelection = await filePickerAgent.execute(
-  "Find authentication components and API handlers for login flow"
+ "Find authentication components and API handlers for login flow"
 );
 // Returns: ['src/components/LoginForm.tsx', 'src/api/auth.ts', 'src/hooks/useAuth.ts']
 ```
@@ -71,10 +70,10 @@ const fileSelection = await filePickerAgent.execute(
 ### File Selection Result
 ```typescript
 {
-  finalFiles: string[],           // Array of selected file paths
-  optimizations: string[],        // Applied optimization strategies
-  relevanceScore: number,         // Overall selection relevance (0-1)
-  taskAlignment: string           // Description of task alignment
+ finalFiles: string[], // Array of selected file paths
+ optimizations: string[], // Applied optimization strategies
+ relevanceScore: number, // Overall selection relevance (0-1)
+ taskAlignment: string // Description of task alignment
 }
 ```
 
@@ -100,7 +99,6 @@ const fileSelection = await filePickerAgent.execute(
 - Selection accuracy: >85% task-relevant file identification
 
 ## Integration Points
-- Integrates with `@bitcode/digest` pickRelevantFiles utility
 - Provides file list context for downstream processing agents
 - Compatible with artifact storage for selection audit trails
 - Saves selection results in JSON and plain text formats

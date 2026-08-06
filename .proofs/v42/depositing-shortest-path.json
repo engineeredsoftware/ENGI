@@ -1,0 +1,483 @@
+{
+  "artifactId": "v42-depositing-shortest-path",
+  "schemaId": "bitcode.v42.depositingShortestPath.v1",
+  "version": "V42",
+  "currentTarget": "V41",
+  "sourceSafetyVerdict": "source-safe-depositing-compensation-visibility-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v42-depositing-shortest-path:1059291e830568845da67d9e",
+  "passed": true,
+  "rows": [
+    {
+      "rowId": "path:source-to-admission-proof",
+      "purpose": "Make the shortest Depositing path explicit: source material, repository/source anchor, Depository admission, source-safe proof roots, and next Reading handoff.",
+      "sourceRoots": [
+        "scripts/specifying/server.js",
+        "scripts/specifying/src/bitcode-demo.js",
+        "apps/uapi/app/api/deposits/route.ts",
+        "apps/uapi/app/terminal/TerminalDepositComposer.tsx"
+      ],
+      "emittedTypes": [
+        "createDeposit",
+        "buildDepositoryEvidence",
+        "TerminalDepositResponseEvidence"
+      ],
+      "requiredEvidence": [
+        "repositoryFullName",
+        "sourceBranch",
+        "sourceCommit",
+        "proofRoot",
+        "measurementRoot"
+      ],
+      "rowRoot": "v42-depositing-shortest-path-row:7e931285b6eabbbcce8b6855",
+      "sourceSafetyClass": "source_safe_depositing_compensation_visibility_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "api:deposit-route-readiness-contract",
+      "purpose": "Keep POST /api/deposits admitted only after signed transaction and repository readiness checks, then project source-safe Depository evidence.",
+      "sourceRoots": [
+        "apps/uapi/app/api/deposits/route.ts",
+        "scripts/specifying/server.js",
+        "scripts/specifying/test/protocol-package-boundary.test.js"
+      ],
+      "emittedTypes": [
+        "requireBitcodeSignedTransactionReadiness",
+        "BitcodeAppContext.createDeposit"
+      ],
+      "requiredEvidence": [
+        "requiresRepositoryAnchor",
+        "repositoryProvider",
+        "walletAuthorizationProof"
+      ],
+      "rowRoot": "v42-depositing-shortest-path-row:ce3fb56bc4fbed8d5867fda9",
+      "sourceSafetyClass": "source_safe_depositing_compensation_visibility_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "supply:depository-record-compensation-preview",
+      "purpose": "Attach a deterministic compensation preview to DepositorySupplyRecord without minting BTD or exposing source before an accepted Need-Fit and settlement.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts"
+      ],
+      "emittedTypes": [
+        "DepositorySupplyCompensationPreview",
+        "DepositorySupplyRecord.compensationPreview"
+      ],
+      "requiredEvidence": [
+        "source-to-shares-largest-remainder",
+        "not-minted-by-deposit-admission",
+        "compensationPreviewRoot"
+      ],
+      "rowRoot": "v42-depositing-shortest-path-row:c51d568dcab3bc943f6a6a98",
+      "sourceSafetyClass": "source_safe_depositing_compensation_visibility_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "documents:source-safe-search-and-vector-projection",
+      "purpose": "Preserve source-safe lexical, metadata, measurement, and vector search documents so deposits become searchable without protected source payloads.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts"
+      ],
+      "emittedTypes": [
+        "DepositorySupplySearchDocument",
+        "DepositorySupplyVectorProjection"
+      ],
+      "requiredEvidence": [
+        "text-embedding-3-small",
+        "1536",
+        "match_deliverable_vectors"
+      ],
+      "rowRoot": "v42-depositing-shortest-path-row:54e3a870b07b258bde48dd92",
+      "sourceSafetyClass": "source_safe_depositing_compensation_visibility_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "storage:depository-readback-projection",
+      "purpose": "Bind Depository admission to durable source-safe storage readback through deliverables, vector rows, ledger rows, and source-to-shares allocation posture.",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/README.md",
+        "BITCODE_SPEC_V42.md"
+      ],
+      "emittedTypes": [
+        "DepositorySupplyStorageProjection",
+        "compensationPreview.readback"
+      ],
+      "requiredEvidence": [
+        "deliverables",
+        "deliverable_vectors",
+        "ledger_entries",
+        "source_to_shares_allocations"
+      ],
+      "rowRoot": "v42-depositing-shortest-path-row:ce303882896d4c8adb8abde6",
+      "sourceSafetyClass": "source_safe_depositing_compensation_visibility_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "ledger:source-to-shares-compensation-readback",
+      "purpose": "Record depositor compensation visibility through pending-claim and eligible-route ledger keys while deferring actual BTC allocation until paid AssetPack settlement.",
+      "sourceRoots": [
+        "scripts/specifying/server.js",
+        "scripts/specifying/src/bitcode-demo.js",
+        "scripts/specifying/test/protocol-package-boundary.test.js"
+      ],
+      "emittedTypes": [
+        "ledger.accounts",
+        "compensationPreview.readback.ledgerAccountKeys"
+      ],
+      "requiredEvidence": [
+        "pending_claims",
+        "eligible_compensation_routes",
+        "future-reader-after-settlement"
+      ],
+      "rowRoot": "v42-depositing-shortest-path-row:5bcf92e8564e1d3d5ac09fd9",
+      "sourceSafetyClass": "source_safe_depositing_compensation_visibility_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "terminal:compensation-visibility-readback",
+      "purpose": "Show source-safe compensation posture in Terminal and carry compensation roots through activity history and the deposit-to-read workbench.",
+      "sourceRoots": [
+        "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
+        "apps/uapi/app/terminal/terminal-activity-history.ts",
+        "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
+        "apps/uapi/app/terminal/terminal-run-data.ts"
+      ],
+      "emittedTypes": [
+        "TerminalDepositResponseEvidence",
+        "WorkspaceRun",
+        "TerminalDepositedSourceRevision"
+      ],
+      "requiredEvidence": [
+        "compensationPreviewRoot",
+        "sourceToSharesPreviewRoot",
+        "Compensation route"
+      ],
+      "rowRoot": "v42-depositing-shortest-path-row:5ac46b95fa31585ff8f7ecef",
+      "sourceSafetyClass": "source_safe_depositing_compensation_visibility_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "rehearsal:local-staging-deposit-readback",
+      "purpose": "Keep Gate 2 locally checkable and staging-testnet rehearsable through package tests, protocol route tests, generated artifact checks, and source-safe proof rows.",
+      "sourceRoots": [
+        "BITCODE_SPEC_V42.md",
+        "BITCODE_SPEC_V42_DELTA.md",
+        "BITCODE_SPEC_V42_NOTES.md",
+        "BITCODE_SPEC_V42_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md"
+      ],
+      "emittedTypes": [
+        "V42DepositingShortestPathReport"
+      ],
+      "requiredEvidence": [
+        "local/staging rehearsal",
+        "staging-testnet",
+        "check:v42-gate2"
+      ],
+      "rowRoot": "v42-depositing-shortest-path-row:b87642ce4dfa333fd4b4ea03",
+      "sourceSafetyClass": "source_safe_depositing_compensation_visibility_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    }
+  ],
+  "rowIds": [
+    "path:source-to-admission-proof",
+    "api:deposit-route-readiness-contract",
+    "supply:depository-record-compensation-preview",
+    "documents:source-safe-search-and-vector-projection",
+    "storage:depository-readback-projection",
+    "ledger:source-to-shares-compensation-readback",
+    "terminal:compensation-visibility-readback",
+    "rehearsal:local-staging-deposit-readback"
+  ],
+  "predicateResults": [
+    {
+      "id": "deposit-route-requires-readiness",
+      "sourcePath": "apps/uapi/app/api/deposits/route.ts",
+      "passed": true
+    },
+    {
+      "id": "server-creates-deposit-and-ledger-readback",
+      "sourcePath": "scripts/specifying/server.js",
+      "passed": true
+    },
+    {
+      "id": "runtime-builds-compensation-preview",
+      "sourcePath": "scripts/specifying/src/bitcode-demo.js",
+      "passed": true
+    },
+    {
+      "id": "runtime-keeps-source-safe-visibility",
+      "sourcePath": "scripts/specifying/src/bitcode-demo.js",
+      "passed": true
+    },
+    {
+      "id": "supply-index-defines-compensation-preview",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+      "passed": true
+    },
+    {
+      "id": "supply-index-defers-btd-mint",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+      "passed": true
+    },
+    {
+      "id": "supply-index-projects-source-to-shares-readback",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+      "passed": true
+    },
+    {
+      "id": "supply-index-preserves-search-documents",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+      "passed": true
+    },
+    {
+      "id": "supply-tests-cover-compensation-preview",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
+      "passed": true
+    },
+    {
+      "id": "supply-tests-cover-no-protected-source",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
+      "passed": true
+    },
+    {
+      "id": "protocol-test-covers-compensation-route",
+      "sourcePath": "scripts/specifying/test/protocol-package-boundary.test.js",
+      "passed": true
+    },
+    {
+      "id": "terminal-composer-captures-compensation-roots",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
+      "passed": true
+    },
+    {
+      "id": "terminal-history-maps-compensation-roots",
+      "sourcePath": "apps/uapi/app/terminal/terminal-activity-history.ts",
+      "passed": true
+    },
+    {
+      "id": "terminal-workbench-shows-compensation-rows",
+      "sourcePath": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
+      "passed": true
+    },
+    {
+      "id": "workspace-run-carries-compensation-fields",
+      "sourcePath": "apps/uapi/app/terminal/terminal-run-data.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-readme-documents-compensation-preview",
+      "sourcePath": "packages/asset-packs-pipelines/domain/README.md",
+      "passed": true
+    },
+    {
+      "id": "v42-spec-gate2-expanded",
+      "sourcePath": "BITCODE_SPEC_V42.md",
+      "passed": true
+    },
+    {
+      "id": "v42-delta-gate2-implemented",
+      "sourcePath": "BITCODE_SPEC_V42_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "v42-notes-gate2-rehearsal",
+      "sourcePath": "BITCODE_SPEC_V42_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "v42-parity-gate2-closed",
+      "sourcePath": "BITCODE_SPEC_V42_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate2-closure",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "rowCount": 8,
+    "requiredPredicateCount": 21,
+    "passedPredicateCount": 21,
+    "failedPredicateIds": [],
+    "acceptedUserPath": [
+      "provide-source-material",
+      "select-repository-source-anchor",
+      "admit-deposit-to-depository",
+      "receive-source-safe-admission-proof",
+      "view-later-btc-compensation-attribution"
+    ],
+    "routeApiContractsCovered": true,
+    "sourceValidationCovered": true,
+    "storageProjectionCovered": true,
+    "depositorySearchDocumentCovered": true,
+    "sourceToSharesCompensationReadbackCovered": true,
+    "terminalCompensationVisibilityCovered": true,
+    "localStagingRehearsalCovered": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "btdMintedAtDepositAdmission": false,
+    "btdRightsTransferredBeforeSettlement": false,
+    "compensationAllocationMethod": "source-to-shares-largest-remainder",
+    "compensationPriceAsset": "BTC",
+    "legacySourceRoots": false
+  },
+  "sourceRoots": {
+    "depositorySupplyIndex": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+    "depositorySupplyIndexTest": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
+    "embeddingConfig": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+    "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
+    "protocolServer": "scripts/specifying/server.js",
+    "protocolRuntime": "scripts/specifying/src/bitcode-demo.js",
+    "protocolBoundaryTest": "scripts/specifying/test/protocol-package-boundary.test.js",
+    "uapiDepositRoute": "apps/uapi/app/api/deposits/route.ts",
+    "terminalDepositComposer": "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
+    "terminalActivityHistory": "apps/uapi/app/terminal/terminal-activity-history.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
+    "terminalRunData": "apps/uapi/app/terminal/terminal-run-data.ts",
+    "v42Spec": "BITCODE_SPEC_V42.md",
+    "v42Delta": "BITCODE_SPEC_V42_DELTA.md",
+    "v42Notes": "BITCODE_SPEC_V42_NOTES.md",
+    "v42Parity": "BITCODE_SPEC_V42_PARITY_MATRIX.md",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md"
+  }
+}

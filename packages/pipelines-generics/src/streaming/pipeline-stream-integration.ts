@@ -8,7 +8,7 @@
 import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { Execution } from '@bitcode/execution-generics/Execution';
 import { toPhaseLower, toStepLower } from '../types/primitives';
-import { Streamer } from '@bitcode/streams';
+import { Streamer } from '@bitcode/api/streams';
 import { ExecutionEventsModel } from '@bitcode/orm';
 
 type SupabaseClient = any;
@@ -26,9 +26,204 @@ export interface PipelineStreamConfig {
   structuredToDatabase?: boolean;
 }
 
+// Source-safety law (V48): pipeline telemetry must never serialize raw prompts
+// or provider responses (rawPromptVisible/rawProviderResponseVisible=false). Raw
+// prompt/response content auto-streams via Execution.store under the `llm`
+// namespace, but the content-bearing key NAMES drift between the two LLM-call
+// paths: the formal Thinkings substeps store `input`/`prompt`/`output`/
+// `parsedOutput`, while AgentLLMsRegistry/ExecutionPipelineLLMRegistry (direct getLLM
+// calls) store `messages`/`config`/`response`. A content-key denylist silently
+// missed `response`, so a raw model response leaked through as a status-event
+// message (and the renderer split that multi-line payload into one row per
+// line). We therefore withhold by ALLOWLIST: every `llm` store is content-
+// withheld EXCEPT a fixed set of source-safe metadata keys. This is robust to
+// new content keys and is applied universally to every pipeline stream event
+// (not per-pipeline).
+const SOURCE_SAFE_LLM_METADATA_KEYS = new Set([
+  'startTime',
+  'endTime',
+  'duration',
+  'usage',
+  'status',
+  'provider',
+  'model',
+  'configKey',
+  'stopReason',
+  'error',
+]);
+
+// Content-bearing NON-llm stores that can carry verbatim depositor source and
+// must therefore also be withheld (same allowlist philosophy — the withheld
+// projection keeps only fixed source-safe metadata):
+//  - pipeline:input      the full pipeline input, which on a deposit carries
+//                        the verbatim inventory (inventory.sources[*].content);
+//  - deposit:inventory   the verbatim depositor source inventory itself;
+//  - tool:input/result   ExecutionTool.execute raw tool args/results
+//                        (repository reads flow straight through these);
+//  - tools:invocation/result  the Thinkings tool-loop's per-invocation
+//                        args/results stores.
+// Tool telemetry keeps its name/duration/status metadata: those live in the
+// SEPARATE tool:name/startTime/endTime/status stores (each store() call is its
+// own event) plus the safe projection fields below.
+const SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE: Record<string, Set<string>> = {
+  pipeline: new Set(['input']),
+  deposit: new Set(['inventory']),
+  tool: new Set(['input', 'result']),
+  tools: new Set(['invocation', 'result']),
+  // PCC's read-in re-carries the resolved VALUES of the selected keys — when
+  // the selection includes the inventory, selectedContext holds verbatim
+  // source (observed live, run 59504a3e). context:keys/selectedKeys/
+  // missingKeys stay visible: key NAMES are source-safe.
+  context: new Set(['selectedContext', 'full']),
+};
+
+/**
+ * Estimate serialized character weight without building a giant string.
+ * Full-repo deposit inventories can exceed V8 string limits when
+ * JSON.stringify'd (~hundreds of MB of inventory.sources[*].content), which
+ * previously crashed runs with "Invalid string length" during telemetry.
+ */
+export function estimateSerializedChars(
+  value: unknown,
+  budget = 50_000_000,
+): number {
+  let total = 0;
+  const visit = (node: unknown, keyHint = ''): void => {
+    if (total >= budget) return;
+    if (node == null) {
+      total += 4;
+      return;
+    }
+    const t = typeof node;
+    if (t === 'string') {
+      total += (node as string).length + 2;
+      return;
+    }
+    if (t === 'number' || t === 'boolean') {
+      total += String(node).length;
+      return;
+    }
+    if (t === 'bigint') {
+      total += String(node).length + 1;
+      return;
+    }
+    if (Array.isArray(node)) {
+      // inventory.sources — O(n) length sum, not deep string walks of every blob.
+      if (keyHint === 'sources' && node.length > 0 && node[0] && typeof node[0] === 'object') {
+        total += 2;
+        for (const item of node) {
+          if (!item || typeof item !== 'object') continue;
+          const file = item as { path?: unknown; content?: unknown };
+          total +=
+            20 +
+            (typeof file.path === 'string' ? file.path.length : 0) +
+            (typeof file.content === 'string' ? file.content.length : 0);
+          if (total >= budget) return;
+        }
+        return;
+      }
+      total += 2;
+      for (let i = 0; i < node.length; i += 1) {
+        visit(node[i], keyHint);
+        total += 1;
+        if (total >= budget) return;
+      }
+      return;
+    }
+    if (t === 'object') {
+      total += 2;
+      for (const [k, v] of Object.entries(node as Record<string, unknown>)) {
+        total += k.length + 3;
+        visit(v, k);
+        if (total >= budget) return;
+      }
+    }
+  };
+  try {
+    visit(value);
+  } catch {
+    return total > 0 ? total : 0;
+  }
+  return total;
+}
+
+export function sourceSafeStreamEvent(event: any): any {
+  if (!event || typeof event !== 'object') return event;
+  const namespace = String((event as any).namespace ?? '');
+  const key = String((event as any).key ?? '');
+  // llm-namespace stores carry raw prompt/response content: withhold every llm
+  // store EXCEPT the fixed metadata allowlist. A fixed set of non-llm stores
+  // (pipeline input / deposit inventory / tool args+results) carries verbatim
+  // source content and is withheld too. Everything else passes through
+  // unchanged.
+  const isLlmContent = namespace === 'llm' && !SOURCE_SAFE_LLM_METADATA_KEYS.has(key);
+  const isSourceContent =
+    SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE[namespace]?.has(key) === true;
+  if (!isLlmContent && !isSourceContent) {
+    return event;
+  }
+  const data =
+    (event as any).data && typeof (event as any).data === 'object'
+      ? ((event as any).data as Record<string, any>)
+      : {};
+  // Prefer an already-computed contentChars from an upstream redaction (onStore
+  // stubs huge inventories so the stream never holds verbatim sources).
+  let contentChars: number | null =
+    typeof data.contentChars === 'number' && Number.isFinite(data.contentChars)
+      ? data.contentChars
+      : null;
+  if (contentChars == null) {
+    if (typeof (event as any).data === 'string') {
+      contentChars = (event as any).data.length;
+    } else if (typeof data.content === 'string') {
+      contentChars = data.content.length;
+    } else if (typeof data.prompt === 'string') {
+      contentChars = data.prompt.length;
+    } else if ((event as any).data && typeof (event as any).data === 'object') {
+      // Walk-only size estimate — never JSON.stringify multi-hundred-MB inventories.
+      contentChars = estimateSerializedChars((event as any).data);
+    }
+  }
+  const state =
+    (event as any).executionState && typeof (event as any).executionState === 'object'
+      ? (event as any).executionState
+      : {};
+  // The stream adapter mirrors content into metadata.stores (toolEvents /
+  // generations snapshots) — strip it so withheld content cannot leak through
+  // the enrichment side channel.
+  const metadata =
+    (event as any).metadata && typeof (event as any).metadata === 'object'
+      ? (() => {
+          const { stores: _stores, ...rest } = (event as any).metadata as Record<string, any>;
+          return rest;
+        })()
+      : (event as any).metadata;
+  return {
+    ...event,
+    metadata,
+    message: '[content withheld — source-safe]',
+    data: {
+      contentWithheld: true,
+      sourceSafetyClass: 'source_safe',
+      stage: key,
+      namespace,
+      generation: data.generation ?? state.generation ?? null,
+      provider: data.provider ?? null,
+      model: data.model ?? null,
+      // Tool metadata survives: name + outcome, never args/results.
+      tool: typeof data.tool === 'string' ? data.tool : null,
+      ok: typeof data.ok === 'boolean' ? data.ok : null,
+      contentChars,
+      phase: data.phase ?? state.phase ?? null,
+      agent: data.agent ?? state.agent ?? null,
+      step: data.step ?? state.step ?? null,
+    },
+  };
+}
+
 /**
  * Wire up a pipeline execution with streaming
- * 
+ *
  * This registers a stream manager with the execution so that
  * all storage operations emit stream events automatically.
  */
@@ -52,45 +247,71 @@ export function enablePipelineStreaming(
     (config.structuredToDatabase !== true || process?.env?.BITCODE_PIPELINE_LEGACY_EVENTS_DB === '1');
 
   if (legacyExecutionEventsEnabled && config.supabase) {
-    // Best-effort: ensure an executions row exists if runId looks like a UUID
-    try {
-      const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-      const isUuid = uuidRe.test(String(config.runId || ''));
-      if (isUuid) {
-        const now = new Date().toISOString();
-        // Try insert; ignore duplicate errors
-        config.supabase
-          .from('executions')
-          .insert({
-            id: config.runId,
-            user_id: config.userId,
-            status: 'running',
-            type: 'agentic-execution:asset-pack',
-            started_at: now,
-            created_at: now,
-            updated_at: now
-          } as any)
-          .then(() => {})
-          .catch((e: any) => {
-            if (!String(e?.message || '').toLowerCase().includes('duplicate')) {
-              // swallow non-duplicate as best-effort
-            }
-          });
+    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    const isUuid = uuidRe.test(String(config.runId || ''));
+
+    // Ensure an `executions` row exists before any `execution_events` row can
+    // reference it (execution_events.run_id has a FK to executions.id). Idempotent
+    // (duplicate insert = row already exists, either way).
+    const ensureExecutionsRowExists = async (): Promise<void> => {
+      if (!isUuid) return;
+      const now = new Date().toISOString();
+      try {
+        await config.supabase.from('executions').insert({
+          id: config.runId,
+          user_id: config.userId,
+          status: 'running',
+          type: 'agentic-execution:asset-pack',
+          started_at: now,
+          created_at: now,
+          updated_at: now,
+        } as any);
+      } catch (e: any) {
+        if (!String(e?.message || '').toLowerCase().includes('duplicate')) {
+          // swallow non-duplicate as best-effort; the retry-on-FK-violation below
+          // is the guaranteed backstop.
+        }
       }
-    } catch {}
+    };
+
+    // Fire immediately (don't block registerStreamer/emitEvent below), but track
+    // the promise so the FIRST event to persist can await it — otherwise the
+    // initial "Pipeline execution started" status event (emitted synchronously
+    // right after this function returns, e.g. by createStreamingExecution) races
+    // this insert and can hit a 23503 FK violation before the row lands.
+    let pendingEnsureRow: Promise<void> | null = ensureExecutionsRowExists();
 
     const eventsModel = new ExecutionEventsModel(config.supabase);
-    
+
     // Subscribe to stream events and persist them
     streamer.subscribe(async (event) => {
-      try {
-        await eventsModel.create({
+      if (pendingEnsureRow) {
+        await pendingEnsureRow;
+        pendingEnsureRow = null;
+      }
+      const persist = () =>
+        eventsModel.create({
           run_id: config.runId,
           event_type: event.type,
-          event_data: event,
+          event_data: sourceSafeStreamEvent(event),
           created_at: new Date().toISOString(),
         });
-      } catch (error) {
+      try {
+        await persist();
+      } catch (error: any) {
+        // Self-healing backstop: if the executions row still doesn't exist (any
+        // residual race — slow network, replica lag, concurrent dispatch), ensure
+        // it and retry once before giving up.
+        if (error?.code === '23503') {
+          try {
+            await ensureExecutionsRowExists();
+            await persist();
+            return;
+          } catch (retryError) {
+            console.error('Failed to persist stream event after ensuring executions row:', retryError);
+            return;
+          }
+        }
         console.error('Failed to persist stream event:', error);
       }
     });
@@ -571,7 +792,12 @@ export function createStreamingExecution(
   config: PipelineStreamConfig & { parent?: Execution }
 ): Execution {
       const execution = new Execution(config.runId, config.parent);
-  
+
+  // Canonical run identity: substep diagnostics (e.g. the raw LLM I/O
+  // sidecar directory) resolve the run id via findUp('execution',
+  // 'correlationId') from arbitrarily deep child nodes.
+  execution.store('execution', 'correlationId', config.runId);
+
   // Enable streaming
   enablePipelineStreaming(execution, config);
   

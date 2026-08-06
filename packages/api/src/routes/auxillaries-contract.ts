@@ -5,7 +5,8 @@ import {
 } from '@bitcode/btd';
 import type { BtdOrganizationPolicyAuthority } from '@bitcode/btd';
 
-export const AUXILLARY_FLOW_STEPS = ['wallet', 'externals', 'profile', 'interfaces'] as const;
+/** Selector / onboarding order: Profile first, then Wallet, Externals, Interfaces. */
+export const AUXILLARY_FLOW_STEPS = ['profile', 'wallet', 'externals', 'interfaces'] as const;
 export const AUXILLARIES_CONTRACT_VERSION = 'v31-draft-auxillaries-contracts' as const;
 
 export type ConcreteAuxillaryPane = (typeof AUXILLARY_FLOW_STEPS)[number];
@@ -169,7 +170,7 @@ export interface AuxillariesPreferencePosture {
   };
   templates: {
     configured: boolean;
-    shippableTemplateCount: number;
+    deliveryTemplateCount: number;
     evidenceDocumentTemplateCount: number;
     autoSaveTemplates: boolean;
     preferenceRoot: string;
@@ -263,7 +264,7 @@ export interface AuxillariesConnectionReadiness {
 export interface AuxillariesInterfaceAdmission {
   kind: 'AuxillariesInterfaceAdmission';
   interfaceId: string;
-  surface: 'terminal' | 'api' | 'mcp' | 'chatgpt_app' | 'exchange' | 'future_hook';
+  surface: 'product' | 'api' | 'mcp' | 'chatgpt_app' | 'exchange' | 'future_hook';
   authMode: 'session' | 'api_key' | 'provider_oauth' | 'wallet_signature' | 'not_admitted';
   readiness: AuxillariesReadinessState;
   policyRequirements: string[];
@@ -432,7 +433,18 @@ export function normalizeAuxillarySteps(value: unknown): ConcreteAuxillaryPane[]
     .map((entry) => normalizeAuxillaryPane(String(entry || '')))
     .filter((entry): entry is ConcreteAuxillaryPane => Boolean(entry));
 
-  return Array.from(new Set(normalized));
+  /*
+   * LEGACY SMELL (cleanup when storage no longer emits pre-ring step ids):
+   * Historical onboarded_steps used btd/connects (and free-form order). Aliases
+   * map those to wallet/externals, but Set(input-order) scrambled the ring
+   * (profile, wallet, externals, interfaces). Always re-emit in FLOW_STEPS
+   * order so consumers and contract tests share one stable sequence.
+   * TODO: once all persisted onboarded_steps are already canonical ring ids
+   * in FLOW_STEPS order, drop alias-only paths and this reorder if still
+   * redundant — keep alias map until DB rows are fully migrated.
+   */
+  const unique = new Set(normalized);
+  return AUXILLARY_FLOW_STEPS.filter((step) => unique.has(step));
 }
 
 export function parseStoredAuxillarySteps(value: unknown): ConcreteAuxillaryPane[] {
@@ -808,26 +820,7 @@ export function buildAuxillariesProfileState(input: {
           label: 'Open Wallet',
         })
       : null,
-    !preferences.model.configured
-      ? buildProfileCompletenessIssue({
-          id: 'preferences.model_missing',
-          severity: 'recoverable',
-          summary: 'Model preference is not configured.',
-          requiredAction: 'Choose default model support for Auxillaries-driven actions.',
-          pane: 'interfaces',
-          label: 'Configure Models',
-        })
-      : null,
-    !preferences.templates.configured
-      ? buildProfileCompletenessIssue({
-          id: 'preferences.templates_missing',
-          severity: 'recoverable',
-          summary: 'Template preference is not configured.',
-          requiredAction: 'Configure shippable and evidence templates for support output.',
-          pane: 'interfaces',
-          label: 'Configure Templates',
-        })
-      : null,
+    // Model/template preference gaps are intentionally not profile readiness issues.
   ].filter((entry): entry is AuxillariesProfileCompletenessIssue => Boolean(entry));
   const blockers = issues
     .filter((issue) => issue.severity === 'blocking')
@@ -883,8 +876,8 @@ export function buildAuxillariesPreferencePosture(input: {
 }): AuxillariesPreferencePosture {
   const modelRecord = asRecord(toAuxillariesJsonSafe(input.modelPreferences ?? null));
   const templateRecord = asRecord(toAuxillariesJsonSafe(input.templatePreferences ?? null));
-  const shippableTemplates =
-    asRecord(templateRecord?.shippable_templates) ??
+  const deliveryTemplates =
+    asRecord(templateRecord?.delivery_templates) ??
     asRecord(templateRecord?.deliverable_templates);
   const evidenceDocumentTemplates =
     asRecord(templateRecord?.evidence_document_templates) ??
@@ -897,7 +890,7 @@ export function buildAuxillariesPreferencePosture(input: {
     readString(modelRecord?.provider) ??
     readString(modelRecord?.default_provider) ??
     readString(modelRecord?.defaultProvider);
-  const shippableTemplateCount = shippableTemplates ? Object.keys(shippableTemplates).length : 0;
+  const deliveryTemplateCount = deliveryTemplates ? Object.keys(deliveryTemplates).length : 0;
   const evidenceDocumentTemplateCount = evidenceDocumentTemplates ? Object.keys(evidenceDocumentTemplates).length : 0;
   const autoSaveTemplates = readBoolean(templateRecord?.auto_save_templates) ??
     readBoolean(templateRecord?.autoSaveTemplates) ??
@@ -908,8 +901,8 @@ export function buildAuxillariesPreferencePosture(input: {
     model,
   };
   const templateWithoutRoot = {
-    configured: shippableTemplateCount + evidenceDocumentTemplateCount > 0 || autoSaveTemplates,
-    shippableTemplateCount,
+    configured: deliveryTemplateCount + evidenceDocumentTemplateCount > 0 || autoSaveTemplates,
+    deliveryTemplateCount,
     evidenceDocumentTemplateCount,
     autoSaveTemplates,
   };
@@ -1165,8 +1158,8 @@ export function buildAuxillariesInterfaceAdmissions(input: {
 
   return [
     buildAuxillariesInterfaceAdmission({
-      interfaceId: 'terminal',
-      surface: 'terminal',
+      interfaceId: 'product',
+      surface: 'product',
       authMode: 'session',
       readiness: profileIdentityReady ? 'ready' : 'blocked',
       policyRequirements: [
@@ -1430,7 +1423,7 @@ export function buildOrganizationPolicyAuthority(input: {
       ...readStringList(profile?.permission_grants),
       ...readStringList(profile?.permissionGrants),
     ],
-    interfaceSurface: 'terminal',
+    interfaceSurface: 'product',
     action: 'pay_btc_fee',
     walletId: input.walletBtdPaneState?.walletCapability.address ?? null,
     settlementState: 'not_required',
@@ -1465,7 +1458,7 @@ export function buildOrganizationPolicyAuthority(input: {
         readString(profile?.multiSigPolicyRoot) ??
         null,
     },
-    recoveryRoute: '/terminal?auxillary-open-to=profile',
+    recoveryRoute: '/packs?auxillary-open-to=profile',
   });
 }
 
@@ -1498,7 +1491,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
         severity: readiness.connected ? 'warning' : 'blocking',
         summary: `${readiness.provider} provider readiness requires repair.`,
         requiredAction: readiness.requiredRepairAction,
-        repairRoute: '/terminal?auxillary-open-to=externals',
+        repairRoute: '/packs?auxillary-open-to=externals',
         retryPolicy: 'after_repair',
       }));
     }
@@ -1511,7 +1504,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
       severity: 'blocking',
       summary: 'Wallet binding is missing for settlement-adjacent support actions.',
       requiredAction: 'Connect and verify a Bitcoin wallet.',
-      repairRoute: '/terminal?auxillary-open-to=wallet',
+      repairRoute: '/packs?auxillary-open-to=wallet',
       retryPolicy: 'after_repair',
     }));
   } else if (!input.walletBtdPaneState.signerPosture.ready) {
@@ -1521,7 +1514,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
       severity: 'warning',
       summary: 'Wallet binding exists but signer posture is not verified.',
       requiredAction: input.walletBtdPaneState.signerPosture.requiredAction,
-      repairRoute: '/terminal?auxillary-open-to=wallet',
+      repairRoute: '/packs?auxillary-open-to=wallet',
       retryPolicy: 'after_repair',
     }));
   }
@@ -1534,7 +1527,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
       severity: 'warning',
       summary: `${blockedInterface.interfaceId} is not admitted for the requested support surface.`,
       requiredAction: blockedInterface.blockers.join(', ') || 'Review interface policy.',
-      repairRoute: '/terminal?auxillary-open-to=interfaces',
+      repairRoute: '/packs?auxillary-open-to=interfaces',
       retryPolicy: 'after_repair',
     }));
   }
@@ -1546,7 +1539,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
       severity: 'warning',
       summary: 'Organization authority is not admitted for settlement-adjacent actions.',
       requiredAction: 'Review organization role, grants, and wallet binding.',
-      repairRoute: '/terminal?auxillary-open-to=profile',
+      repairRoute: '/packs?auxillary-open-to=profile',
       retryPolicy: 'after_repair',
     }));
   }
@@ -1793,7 +1786,7 @@ export function validateAuxillariesContractSnapshot(value: unknown): Auxillaries
   if (!Array.isArray(record.interfaceAdmissions)) errors.push('interfaceAdmissions must be an array');
   if (Array.isArray(record.interfaceAdmissions)) {
     const requiredInterfaceIds = new Set([
-      'terminal',
+      'product',
       'api',
       'mcp',
       'chatgpt-app',
@@ -2048,7 +2041,7 @@ function buildProfileCompletenessIssue(input: {
   const repairRoute: AuxillariesProfileRepairRoute = {
     issueId: input.id,
     pane: input.pane,
-    route: `/terminal?auxillary-open-to=${input.pane}`,
+    route: `/packs?auxillary-open-to=${input.pane}`,
     label: input.label,
     retryPolicy: 'after_repair',
   };

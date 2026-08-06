@@ -1,0 +1,364 @@
+{
+  "artifactId": "v43-packs-activity-master-detail",
+  "schemaId": "bitcode.v43.packsActivityMasterDetail.v1",
+  "version": "V43",
+  "currentTarget": "V42",
+  "sourceSafetyVerdict": "source-safe-packs-activity-master-detail-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v43-packs-activity-master-detail:6ebf3378fe3f20ae9c256a1e",
+  "passed": true,
+  "typeIds": [
+    "deposit-option",
+    "depository-assetpack",
+    "read-need-fit-preview",
+    "settled-assetpack",
+    "settlement",
+    "compensation",
+    "delivery",
+    "repair",
+    "execution",
+    "notification"
+  ],
+  "searchFieldIds": [
+    "title",
+    "description",
+    "assetPackTitle",
+    "measurements",
+    "values",
+    "activityType",
+    "transactionType",
+    "settlementState",
+    "compensationState",
+    "deliveryState",
+    "repairState",
+    "proofRoots",
+    "repository",
+    "timestamp"
+  ],
+  "sortIds": [
+    "timestamp",
+    "title",
+    "value",
+    "settlementState",
+    "compensationState",
+    "deliveryState",
+    "repairState"
+  ],
+  "filterIds": [
+    "activityType",
+    "scope",
+    "state",
+    "settlementState",
+    "compensationState",
+    "deliveryState",
+    "repairState",
+    "repository"
+  ],
+  "detailSectionIds": [
+    "overview",
+    "measurements",
+    "values",
+    "proofs",
+    "settlement",
+    "compensation",
+    "delivery",
+    "repair",
+    "telemetry",
+    "metadata"
+  ],
+  "contractRows": [
+    {
+      "rowId": "pack-activity-record",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "contract": "PackActivityRecord contains source-safe activity type, title, description, repository, measurements, values, proof roots, and state readback.",
+      "requiredFields": [
+        "type",
+        "title",
+        "description",
+        "repository",
+        "measurements",
+        "values",
+        "proofRoots",
+        "settlementState",
+        "compensationState",
+        "deliveryState",
+        "repairState",
+        "sourceSafety"
+      ],
+      "rowRoot": "v43-pack-activity-contract:e926866621fcbe78d9b74364",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "packs-activity-api",
+      "owner": "apps/uapi/app/api/packs/activity/route.ts",
+      "contract": "/api/packs/activity returns queried PackActivity records, summary, detail projection, and explicit source-safety posture.",
+      "requiredFields": [
+        "records",
+        "summary",
+        "detail",
+        "query",
+        "sourceSafety"
+      ],
+      "rowRoot": "v43-pack-activity-contract:e4db1aab78785a05d8532363",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "packs-route-master-detail",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "contract": "/packs renders searchable, sortable, filterable master-detail pack activity with proof roots and state readback.",
+      "requiredFields": [
+        "search",
+        "type",
+        "state",
+        "sort",
+        "detailId"
+      ],
+      "rowRoot": "v43-pack-activity-contract:944aa2ee719f63a979670461",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "exchange-compatibility-redirect",
+      "owner": "apps/uapi/app/exchange/page.tsx",
+      "contract": "/exchange is retained only as compatibility redirect into /packs while preserving query parameters.",
+      "requiredFields": [
+        "/packs",
+        "searchParams"
+      ],
+      "rowRoot": "v43-pack-activity-contract:110b30f6fdfa36ccaa3daf6d",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "spec": "BITCODE_SPEC_V43.md:28f17417fec136cec3a08645",
+    "delta": "BITCODE_SPEC_V43_DELTA.md:360fe5346443a0bf0d44f8c7",
+    "notes": "BITCODE_SPEC_V43_NOTES.md:8c4b6932fea7cdfe81a8406c",
+    "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:450948415f13c6732f50eb6e",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
+    "readme": "README.md:d28ec731634e03953d8adfe6",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
+    "packageJson": "package.json:b79014968c556bc1b43ab341",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
+    "model": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "route": "apps/uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
+    "page": "apps/uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
+    "client": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "exchangeRedirect": "apps/uapi/app/exchange/page.tsx:be7a744d1f9c9252d1b6eba9",
+    "nav": "apps/uapi/components/base/bitcode/layout/nav.tsx:802e44030967176ec5c18cea",
+    "workspaceSurface": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
+    "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
+    "publicExplainers": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
+    "packageIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageTest": "scripts/specifying/test/v43-packs-activity-master-detail.test.js:baf3e44b2fbe4e62590c1824",
+    "uapiTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "generator": "scripts/generate-v43-packs-activity-master-detail.mjs:f342bc9b3ebb8de4e7aa2882",
+    "checker": "scripts/check-v43-gate3-packs-activity-master-detail.mjs:5914a444235ffb15bb3272ad"
+  },
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v43-draft-or-later",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate3",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "spec-names-packactivity-contracts",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate3",
+      "sourcePath": "BITCODE_SPEC_V43_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate3",
+      "sourcePath": "BITCODE_SPEC_V43_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate3",
+      "sourcePath": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate3",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readme-records-gate3",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "protocol-readme-records-gate3",
+      "sourcePath": "scripts/specifying/README.md",
+      "passed": true
+    },
+    {
+      "id": "model-defines-packactivity-record",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "model-defines-search-filter-sort",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "model-defines-detail-projection",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "model-defines-source-safety-assertion",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "api-route-exposes-packactivity-query",
+      "sourcePath": "apps/uapi/app/api/packs/activity/route.ts",
+      "passed": true
+    },
+    {
+      "id": "packs-page-canonical-route",
+      "sourcePath": "apps/uapi/app/packs/page.tsx",
+      "passed": true
+    },
+    {
+      "id": "packs-client-master-detail",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "packs-client-search-sort-filter",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "exchange-route-redirects-to-packs",
+      "sourcePath": "apps/uapi/app/exchange/page.tsx",
+      "passed": true
+    },
+    {
+      "id": "nav-links-to-packs",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/nav.tsx",
+      "passed": true
+    },
+    {
+      "id": "public-shell-recognizes-packs",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts",
+      "passed": true
+    },
+    {
+      "id": "public-copy-uses-packs-link",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "passed": true
+    },
+    {
+      "id": "public-explainers-use-packs",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
+      "passed": true
+    },
+    {
+      "id": "uapi-test-covers-model",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "protocol-test-covers-artifact",
+      "sourcePath": "scripts/specifying/test/v43-packs-activity-master-detail.test.js",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate3",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-types-export-gate3",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate3",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate3",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate3",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v43-packs-activity-master-detail.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v43-gate3-packs-activity-master-detail.mjs",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "packActivityContractsImplemented": true,
+    "packsRouteImplemented": true,
+    "packsActivityApiImplemented": true,
+    "exchangeRedirectCompatibilityImplemented": true,
+    "tableSearchImplemented": true,
+    "columnSortImplemented": true,
+    "filteringImplemented": true,
+    "detailProjectionImplemented": true,
+    "proofRootDisplayImplemented": true,
+    "settlementStateReadbackImplemented": true,
+    "compensationStateReadbackImplemented": true,
+    "deliveryStateReadbackImplemented": true,
+    "repairStateReadbackImplemented": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "sourceSnippetVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "forbiddenPayloadClasses": [
+      "protected-source-payloads",
+      "unpaid-assetpack-source",
+      "source-snippets",
+      "raw-prompts",
+      "interpolated-prompts",
+      "raw-provider-responses",
+      "credentials",
+      "wallet-private-material",
+      "settlement-private-payloads"
+    ],
+    "requiredPredicateCount": 31,
+    "passedPredicateCount": 31,
+    "failedPredicateIds": []
+  }
+}

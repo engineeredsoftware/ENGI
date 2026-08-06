@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_SYSTEM_CONTEXT: PromptPart = 
-  'Operating within enterprise document management systems, interfacing with SharePoint Online/Google Workspace APIs, cloud storage providers (AWS S3/Azure Blob), maintaining processing throughput >1000 docs/hour with memory optimization for concurrent batch processing' as PromptPart;
+  'Operating within enterprise document management systems, interfacing with SharePoint Online/Google Workspace APIs, cloud storage providers (AWS S3/Azure Blob), maintaining processing throughput >1000 .docs/hour with memory optimization for concurrent batch processing' as PromptPart;

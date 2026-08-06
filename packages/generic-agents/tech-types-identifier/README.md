@@ -15,7 +15,7 @@ Specialized analysis agent for technology stack identification and classificatio
 ## Technical Implementation
 
 ### Architecture
-- Lightweight wrapper implementation around the canonical `@bitcode/tech-types` package
+- Lightweight wrapper implementation around the canonical `@bitcode/generic-measurements-tech-types` package
 - Minimal agent interface for integration with pipeline systems
 - Focuses on deterministic analysis of static file content
 - Provides structured output for downstream consumption that should align with the canonical `technologyProfile` emitted by Bitcode read-measurement
@@ -40,15 +40,15 @@ Specialized analysis agent for technology stack identification and classificatio
 ### Technology Stack Schema
 ```typescript
 {
-  technologyProfile: {
-    stackHints: string[],
-    languages: string[],
-    technologies: string[],
-    brands: string[],
-  },
-  databases: string[],
-  tools: string[],
-  confidence: number
+ technologyProfile: {
+ stackHints: string[],
+ languages: string[],
+ technologies: string[],
+ brands: string[],
+ },
+ databases: string[],
+ tools: string[],
+ confidence: number
 }
 ```
 

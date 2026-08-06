@@ -33,32 +33,32 @@ import { codeEditorAgent } from '@bitcode/generic-agent-code-editor';
 
 // Multi-file editing with Divide|Apply|Correct
 const result = await codeEditorAgent({
-  changes: [
-    {
-      filePath: 'src/auth/index.ts',
-      patches: [
-        {
-          description: 'Add JWT validation',
-          oldContent: 'function validateToken(token: string)',
-          newContent: 'async function validateToken(token: string): Promise<boolean>'
-        }
-      ]
-    }
-  ],
-  taskDescription: 'Implement JWT validation',  // Edit intent supplied from a measured Bitcode Read.
-  transactional: true,
-  validateSyntax: true
+ changes: [
+ {
+ filePath: 'src/auth/index.ts',
+ patches: [
+ {
+ description: 'Add JWT validation',
+ oldContent: 'function validateToken(token: string)',
+ newContent: 'async function validateToken(token: string): Promise<boolean>'
+ }
+ ]
+ }
+ ],
+ taskDescription: 'Implement JWT validation', // Edit intent supplied from a measured Bitcode Read.
+ transactional: true,
+ validateSyntax: true
 }, execution);
 
 // Simple single-file edit
 const result = await codeEditorAgent({
-  singleEdit: {
-    command: 'str_replace',
-    path: 'README.md',
-    oldStr: 'old text',
-    newStr: 'new text'
-  },
-  taskDescription: 'Update documentation'  // Edit intent supplied from a measured Bitcode Read.
+ singleEdit: {
+ command: 'str_replace',
+ path: 'README.md',
+ oldStr: 'old text',
+ newStr: 'new text'
+ },
+ taskDescription: 'Update documentation' // Edit intent supplied from a measured Bitcode Read.
 }, execution);
 ```
 
@@ -72,7 +72,7 @@ Direct single-file editing for simple changes without the full pattern.
 
 ## Integration
 
-The agent uses `TransactionalFileEditor` from `@bitcode/editing` for:
+The agent uses `TransactionalFileEditor` from `@bitcode/file-editing` for:
 - **Transactional Operations**: All edits can be rolled back as a unit
 - **File Locking**: Prevents concurrent modifications
 - **Automatic Backups**: Creates backups before changes
@@ -90,7 +90,7 @@ The agent provides comprehensive test support through `@bitcode/testing`:
 
 - `@bitcode/agent-generics`: Agent factory and PTRR pattern
 - `@bitcode/execution-generics`: Execution context and tool management
-- `@bitcode/editing`: Transactional file editing primitives
+- `@bitcode/file-editing`: Transactional file editing primitives
 - `@bitcode/prompts`: Prompt management
 
 ## Error Handling

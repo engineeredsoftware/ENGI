@@ -10,6 +10,7 @@
 
 import { Prompt, PromptFormatter } from '../prompt';
 import { PromptPart, createPromptPart } from '../parts/PromptPart';
+import { PROMPTPART_GENERIC_FORMATTING_CONTENTNOTAVAILABLE_DETAILCONTENT } from '../raw_promptparts/generic/promptpart_generic_formatting_contentnotavailable_detailcontent';
 
 interface TreeNode {
   children: Map<string, TreeNode>;
@@ -90,7 +91,7 @@ export const hierarchicalFormatter: PromptFormatter = (prompt) => {
       const leafSegment = segments[segments.length - 1];
       current.set(leafSegment, {
         children: new Map(),
-        content: createPromptPart('THIS CONTENT NOT AVAILABLE')
+        content: PROMPTPART_GENERIC_FORMATTING_CONTENTNOTAVAILABLE_DETAILCONTENT,
       });
     }
   }
@@ -123,5 +124,6 @@ export const hierarchicalFormatter: PromptFormatter = (prompt) => {
   
   renderNode(tree);
   
+  // Hierarchical format result is composition of already-raw path parts.
   return createPromptPart(parts.join('\n').trim());
 };

@@ -7,6 +7,11 @@ import {
   NotificationRecord,
   NotificationType,
 } from './types';
+import {
+  categoryForNotificationType,
+  resolveNotificationContactEmail,
+  shouldSendUserEmail,
+} from './email-preferences';
 import { sendEmail } from './index';
 
 /*
@@ -107,15 +112,6 @@ interface PersistParams {
   payload: NotificationPayload;
 }
 
-type AuthAdminGetUserResponse = {
-  data: {
-    user?: {
-      email?: string | null;
-    } | null;
-  } | null;
-  error: Error | null;
-};
-
 async function persistAndDispatch(params: PersistParams): Promise<void> {
   const { userId, notifType, payload } = params;
 
@@ -147,45 +143,38 @@ async function persistAndDispatch(params: PersistParams): Promise<void> {
   );
 }
 
-// Minimal stub – in production we’d look up user email & choose template
-async function maybeSendEmail(userId: string, type: NotificationType, payload: NotificationPayload): Promise<void> {
-  // Resolve email once and cache in memory to reduce extra DB hits
-  const email = await fetchUserEmail(userId);
-  if (!email) {
+async function maybeSendEmail(
+  userId: string,
+  type: NotificationType,
+  payload: NotificationPayload,
+): Promise<void> {
+  const category = categoryForNotificationType(type);
+  const decision = await shouldSendUserEmail(userId, category);
+  if (!decision.allowed || !decision.email) {
     // eslint-disable-next-line no-console
-    console.warn('[notifications] user email not found for', userId);
+    console.log('[notifications] skip email', { userId, type, category, reason: decision.reason });
     return;
   }
 
   const subject = payload.message;
-  await sendEmail({ to: email, subject, template: 'generic_notification', vars: { message: payload.message, url: payload.url ?? '' } });
+  await sendEmail({
+    to: decision.email,
+    subject,
+    template: 'generic_notification',
+    vars: {
+      subject,
+      name: '',
+      message: payload.message,
+      body: `<p>${payload.message}</p>`,
+      url: payload.url ?? '',
+      buttonText: payload.url ? 'Open Bitcode' : '',
+      buttonUrl: payload.url ?? '',
+    },
+  });
 }
 
-// Simple in-memory cache (<1000 entries, not LRU) – good enough for single process
-const emailCache: Record<string, string | undefined> = {};
-
-async function fetchUserEmail(userId: string): Promise<string | undefined> {
-  if (userId in emailCache) return emailCache[userId];
-  try {
-    const authAdmin = (supabase.auth as typeof supabase.auth & {
-      admin?: {
-        getUserById(id: string): Promise<AuthAdminGetUserResponse>;
-      };
-    }).admin;
-    if (!authAdmin) {
-      console.warn('[notifications] auth admin client unavailable');
-      emailCache[userId] = undefined;
-      return undefined;
-    }
-
-    const { data, error } = await authAdmin.getUserById(userId);
-    if (error) throw error;
-    const email = data?.user?.email;
-    emailCache[userId] = email ?? undefined;
-    return email ?? undefined;
-  } catch (err) {
-    console.error('[notifications] fetch email error', err);
-    emailCache[userId] = undefined;
-    return undefined;
-  }
+/** Prefer profile notification email; fall back to auth. */
+export async function fetchUserEmail(userId: string): Promise<string | undefined> {
+  const email = await resolveNotificationContactEmail(userId);
+  return email ?? undefined;
 }

@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 Gate 13 work. Observed ${pointer || 'empty'}.`);
 
@@ -81,14 +81,14 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V45.md',
-    'BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'BITCODE_SPEC.txt',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC.txt',
     'package.json',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts',
-    'packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
     'packages/btd/src/source-to-shares.ts',
   ];
 
@@ -96,12 +96,12 @@ function main() {
     assertCheck(failures, exists(root, relativePath), `Missing required V45 Gate 13 file: ${relativePath}`);
   }
 
-  const implementation = read(root, 'packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts');
-  const test = read(root, 'packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts');
+  const implementation = read(root, 'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts');
+  const test = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-scalar-volume-quote.test.ts');
   const packageJson = read(root, 'package.json');
-  const assetPackPackageJson = read(root, 'packages/pipelines/asset-pack/package.json');
-  const assetPackIndex = read(root, 'packages/pipelines/asset-pack/src/index.ts');
-  const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const assetPackPackageJson = read(root, 'packages/asset-packs-pipelines/domain/package.json');
+  const assetPackIndex = read(root, 'packages/asset-packs-pipelines/domain/src/index.ts');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
 
   assertIncludesAll(failures, implementation, [
     'bitcode.btd.scalar-volume.quote-conservation',
@@ -151,12 +151,12 @@ function main() {
   assertCheck(
     failures,
     assetPackPackageJson.includes('"./btd-scalar-volume-quote": "./src/btd-scalar-volume-quote.ts"'),
-    '@bitcode/pipeline-asset-pack package must export ./btd-scalar-volume-quote.',
+    '@bitcode/asset-packs-pipelines-domain package must export ./btd-scalar-volume-quote.',
   );
   assertCheck(
     failures,
     assetPackIndex.includes("export * from './btd-scalar-volume-quote';"),
-    '@bitcode/pipeline-asset-pack root index must export btd-scalar-volume-quote.',
+    '@bitcode/asset-packs-pipelines-domain root index must export btd-scalar-volume-quote.',
   );
   assertCheck(
     failures,
@@ -166,8 +166,8 @@ function main() {
 
   assertIncludesAll(failures, parity, [
     'Gate 13 implementation readback',
-    'packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts',
-    'packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts',
+    'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
     'check:v45-gate13',
   ], 'V45 parity matrix Gate 13 readback');
 

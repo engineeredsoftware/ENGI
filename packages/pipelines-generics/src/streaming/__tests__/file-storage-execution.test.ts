@@ -3,7 +3,7 @@ import * as path from 'path';
 import { Execution, ExecutionStorageDestination } from '@bitcode/execution-generics';
 
 // Mock artifacts to write to local filesystem instead of S3/Supabase
-jest.mock('@bitcode/artifacts', () => {
+jest.mock('@bitcode/generic-artifacts-compose', () => {
   const baseDir = path.resolve(process.cwd(), '.test-artifacts');
   if (!fs.existsSync(baseDir)) fs.mkdirSync(baseDir, { recursive: true });
   return {

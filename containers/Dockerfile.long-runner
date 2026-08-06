@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------------------
+# Long-runner image - executes a single AssetPack pipeline
+# ---------------------------------------------------------------------------
+# Usage: docker build -f containers/Dockerfile.long-runner -t bitcode/long-runner:latest .
+#        docker run -e SUPABASE_SERVICE_ROLE_KEY=... -e RUN_ID=<uuid> bitcode/long-runner
+#
+# The container expects a RUN_ID env or arg and will automatically stream
+# progress events to Supabase using SupabaseStream.
+# ---------------------------------------------------------------------------
+
+FROM node:22-bookworm-slim AS base
+
+WORKDIR /app
+
+# Install system deps required by headless playwright and git operations.
+RUN apt-get update && apt-get install -y \
+    git \
+    openssh-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy monorepo workspace pieces needed for runner execution.
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY packages ./packages
+COPY apps/uapi ./apps/uapi
+
+# Match monorepo packageManager (pnpm@10.x) + Node >= 21 engines.
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
+
+# Install production deps (no devDependencies speeds up image build)
+RUN pnpm --filter bitcode-uapi... install --prod --frozen-lockfile
+
+# ------------------------------------------------------------------------
+# Final image – slim and ready to execute run-long-runner.ts
+# ------------------------------------------------------------------------
+FROM node:22-bookworm-slim
+
+WORKDIR /app
+
+COPY --from=base /app /app
+
+ENV NODE_ENV=production \
+    TZ=UTC
+
+ENTRYPOINT ["npx", "ts-node", "apps/uapi/scripts/run-long-runner.ts"]

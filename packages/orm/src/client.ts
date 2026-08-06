@@ -21,7 +21,6 @@ import { BtdRegistryModel } from './models/btd-registry';
 import {
   AssetPackGeneratedAssetsModel,
   AssetPackPhaseExecutionsModel,
-  AssetPackRunInstructionsModel,
   AssetPackRunJobsModel,
   AssetPackStreamLogsModel,
   AssetPackVectorsModel,
@@ -95,7 +94,6 @@ export interface BitcodeOrmClient {
   assetPackVectors: AssetPackVectorsModel;
   assetPackPhaseExecutions: AssetPackPhaseExecutionsModel;
   assetPackRunJobs: AssetPackRunJobsModel;
-  assetPackRunInstructions: AssetPackRunInstructionsModel;
   assetPackStreamLogs: AssetPackStreamLogsModel;
   assetPackGeneratedAssets: AssetPackGeneratedAssetsModel;
   bitcodeActivityEvents: BitcodeActivityEventsModel;
@@ -144,7 +142,6 @@ export function createClient(authToken?: string): BitcodeOrmClient {
     assetPackVectors: new AssetPackVectorsModel(supabase),
     assetPackPhaseExecutions: new AssetPackPhaseExecutionsModel(supabase),
     assetPackRunJobs: new AssetPackRunJobsModel(supabase),
-    assetPackRunInstructions: new AssetPackRunInstructionsModel(supabase),
     assetPackStreamLogs: new AssetPackStreamLogsModel(supabase),
     assetPackGeneratedAssets: new AssetPackGeneratedAssetsModel(supabase),
     bitcodeActivityEvents: new BitcodeActivityEventsModel(supabase),
@@ -184,7 +181,6 @@ export function createAdminClient(): AdminClient {
     assetPackVectors: new AssetPackVectorsModel(supabase),
     assetPackPhaseExecutions: new AssetPackPhaseExecutionsModel(supabase),
     assetPackRunJobs: new AssetPackRunJobsModel(supabase),
-    assetPackRunInstructions: new AssetPackRunInstructionsModel(supabase),
     assetPackStreamLogs: new AssetPackStreamLogsModel(supabase),
     assetPackGeneratedAssets: new AssetPackGeneratedAssetsModel(supabase),
     bitcodeActivityEvents: new BitcodeActivityEventsModel(supabase),

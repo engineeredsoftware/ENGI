@@ -269,8 +269,8 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
       data: {
         tool: 'vcs_create_pull_request',
         ok: true,
-        input: { repository: 'engineeredsoftware/ENGI', baseBranch: 'main' },
-        output: { pullRequestNumber: 4, pullRequestUrl: 'https://github.com/engineeredsoftware/ENGI/pull/4' },
+        input: { repository: 'octocat/Spoon-Knife', baseBranch: 'main' },
+        output: { pullRequestNumber: 4, pullRequestUrl: 'https://github.com/octocat/Spoon-Knife/pull/4' },
       },
     });
 
@@ -280,8 +280,8 @@ describe('enablePipelineStreaming + Execution emits DB events (snapshot stream)'
     expect(supabase.tables.deliverable_pipeline_tool_executions[0]).toMatchObject({
       agent_step_id: 'deliverable_pipeline_agent_steps-1',
       tool_name: 'vcs_create_pull_request',
-      tool_input: { repository: 'engineeredsoftware/ENGI', baseBranch: 'main' },
-      tool_output: { pullRequestNumber: 4, pullRequestUrl: 'https://github.com/engineeredsoftware/ENGI/pull/4' },
+      tool_input: { repository: 'octocat/Spoon-Knife', baseBranch: 'main' },
+      tool_output: { pullRequestNumber: 4, pullRequestUrl: 'https://github.com/octocat/Spoon-Knife/pull/4' },
       tool_error: null,
     });
   });

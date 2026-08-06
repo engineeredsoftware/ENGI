@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v40-conversation-terminal-integration.json';
+const ARTIFACT_PATH = '.proofs/v40/conversation-terminal-integration.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -70,7 +70,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v40-gate6-conversation-terminal-integration.mjs [--skip-branch-check] [--skip-integration-tests] [--repo-root <path>]',
       '',
-      'Checks V40 Gate 6 Conversation and Terminal integration coverage artifact freshness, source-safe metadata, docs, workflows, and focused integration tests.',
+      'Checks V40 Gate 6 Conversation and product integration coverage artifact freshness, source-safe metadata, docs, workflows, and focused integration tests.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -78,7 +78,7 @@ function printHelp() {
 
 function runIntegrationSmoke(root, failures) {
   const commands = [
-    ['pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-conversation-terminal-integration.test.js']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-conversation-terminal-integration.test.js']],
     ['pnpm', ['--filter', '@bitcode/api', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
       'src/conversations/__tests__/stream-events.test.ts',
       'src/conversations/__tests__/branch-conversation.test.ts',
@@ -87,7 +87,7 @@ function runIntegrationSmoke(root, failures) {
       '--runInBand',
       '--forceExit',
     ]],
-    ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath',
+    ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath',
       'tests/conversationTerminalIntegrationCoverage.test.tsx',
       'tests/conversationTerminalHandoff.test.tsx',
       'tests/conversationStreamPipelineLog.test.tsx',
@@ -103,7 +103,7 @@ function runIntegrationSmoke(root, failures) {
       'tests/pipelineExecutionLogHeader.test.tsx',
       '--runInBand',
     ]],
-    ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
+    ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
       'src/__tests__/reading-interface-product-parity.test.ts',
       '--runInBand',
       '--forceExit',
@@ -114,7 +114,7 @@ function runIntegrationSmoke(root, failures) {
     try {
       run(root, command, args);
     } catch (error) {
-      failures.push(`Conversation/Terminal integration smoke failed for ${command} ${args.join(' ')}: ${error.stderr || error.message}`);
+      failures.push(`Conversation/product integration smoke failed for ${command} ${args.join(' ')}: ${error.stderr || error.message}`);
       return;
     }
   }
@@ -129,7 +129,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V39', `BITCODE_SPEC.txt must remain V39 during V40 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -144,16 +144,16 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-conversation-terminal-integration.js',
-    'packages/protocol/test/v40-conversation-terminal-integration.test.js',
+    'scripts/specifying/src/canonical/v40-conversation-terminal-integration.js',
+    'scripts/specifying/test/v40-conversation-terminal-integration.test.js',
     'scripts/generate-v40-conversation-terminal-integration.mjs',
     'scripts/check-v40-gate6-conversation-terminal-integration.mjs',
-    'uapi/tests/conversationTerminalIntegrationCoverage.test.tsx',
-    'BITCODE_SPEC_V40.md',
-    'BITCODE_SPEC_V40_DELTA.md',
-    'BITCODE_SPEC_V40_NOTES.md',
-    'BITCODE_SPEC_V40_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx',
+    '.specifications/BITCODE_SPEC_V40.md',
+    '.specifications/BITCODE_SPEC_V40_DELTA.md',
+    '.specifications/BITCODE_SPEC_V40_NOTES.md',
+    '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -167,7 +167,7 @@ function main() {
     try {
       run(root, 'node', ['scripts/generate-v40-conversation-terminal-integration.mjs', '--check']);
     } catch (error) {
-      failures.push(`V40 Conversation/Terminal integration artifact check failed: ${error.stderr || error.message}`);
+      failures.push(`V40 Conversation/product integration artifact check failed: ${error.stderr || error.message}`);
     }
   }
 
@@ -176,10 +176,10 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v40-conversation-terminal-integration.test.js',
+        'scripts/specifying/test/v40-conversation-terminal-integration.test.js',
       ]);
     } catch (error) {
-      failures.push(`V40 Conversation/Terminal integration protocol test failed: ${error.stderr || error.message}`);
+      failures.push(`V40 Conversation/product integration protocol test failed: ${error.stderr || error.message}`);
     }
   }
 
@@ -201,17 +201,17 @@ function main() {
     assertCheck(
       failures,
       artifact.sourceSafetyVerdict === 'source-safe-conversation-terminal-integration-metadata',
-      'Gate 6 artifact must declare source-safe Conversation/Terminal integration metadata.',
+      'Gate 6 artifact must declare source-safe Conversation/product integration metadata.',
     );
-    assertCheck(failures, artifact.coverage.rowCount === 8, 'Gate 6 must cover eight Conversation/Terminal integration rows.');
-    assertCheck(failures, artifact.coverage.coveredRowCount === 8, 'Gate 6 Conversation/Terminal integration rows must all be covered.');
-    assertCheck(failures, artifact.coverage.missingRowCount === 0, 'Gate 6 must not leave missing Conversation/Terminal integration rows.');
-    assertCheck(failures, artifact.coverage.blockedRowCount === 0, 'Gate 6 must not leave blocked Conversation/Terminal integration rows.');
-    assertCheck(failures, artifact.coverage.exemptRowCount === 0, 'Gate 6 must not rely on Conversation/Terminal integration exemptions.');
-    assertCheck(failures, artifact.coverage.expectedTotals.terminalHandoffWorkflowCount === 6, 'Gate 6 must bind six Terminal handoff workflows.');
+    assertCheck(failures, artifact.coverage.rowCount === 8, 'Gate 6 must cover eight Conversation/product integration rows.');
+    assertCheck(failures, artifact.coverage.coveredRowCount === 8, 'Gate 6 Conversation/product integration rows must all be covered.');
+    assertCheck(failures, artifact.coverage.missingRowCount === 0, 'Gate 6 must not leave missing Conversation/product integration rows.');
+    assertCheck(failures, artifact.coverage.blockedRowCount === 0, 'Gate 6 must not leave blocked Conversation/product integration rows.');
+    assertCheck(failures, artifact.coverage.exemptRowCount === 0, 'Gate 6 must not rely on Conversation/product integration exemptions.');
+    assertCheck(failures, artifact.coverage.expectedTotals.terminalHandoffWorkflowCount === 6, 'Gate 6 must bind six product handoff workflows.');
     assertCheck(failures, artifact.coverage.expectedTotals.terminalReadingStageCount === 5, 'Gate 6 must bind five enterprise Reading stages.');
     assertCheck(failures, artifact.coverage.expectedTotals.conversationStreamEventKindCount === 7, 'Gate 6 must bind seven Conversation stream event kinds.');
-    assertCheck(failures, artifact.coverage.allCriticalSurfacesClosed === true, 'Gate 6 must close all critical Conversation/Terminal integration surfaces.');
+    assertCheck(failures, artifact.coverage.allCriticalSurfacesClosed === true, 'Gate 6 must close all critical Conversation/product integration surfaces.');
     for (const field of [
       'terminalHandoffRouteCoverageClosed',
       'conversationStreamLogCoverageClosed',
@@ -232,25 +232,25 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 6 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V40.md');
-  const delta = read(root, 'BITCODE_SPEC_V40_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V40_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V40.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
-  assertCheck(failures, spec.includes('V40 Gate 6 Conversation And Terminal Integration Coverage'), 'V40 spec must document Gate 6 Conversation and Terminal integration coverage.');
+  assertCheck(failures, spec.includes('V40 Gate 6 Conversation And product Integration Coverage'), 'V40 spec must document Gate 6 Conversation and product integration coverage.');
   assertCheck(failures, delta.includes('Gate 6 closes with package-backed `V40ConversationTerminalIntegration`'), 'V40 delta must document Gate 6 closure.');
   assertCheck(failures, notes.includes('Gate 6 implementation notes'), 'V40 notes must document Gate 6 implementation notes.');
   assertCheck(failures, parity.includes('v40-conversation-terminal-integration'), 'V40 parity must document Gate 6 artifact.');
   assertCheck(failures, roadmap.includes('V40 Gate 6 closure anchor'), 'Roadmap must include V40 Gate 6 closure anchor.');
 
   if (failures.length > 0) {
-    process.stderr.write(`V40 Gate 6 Conversation and Terminal integration check failed:\n- ${failures.join('\n- ')}\n`);
+    process.stderr.write(`V40 Gate 6 Conversation and product integration check failed:\n- ${failures.join('\n- ')}\n`);
     process.exitCode = 1;
     return;
   }
 
-  process.stdout.write(`V40 Gate 6 Conversation and Terminal integration ok artifact=${artifact.artifactRoot}\n`);
+  process.stdout.write(`V40 Gate 6 Conversation and product integration ok artifact=${artifact.artifactRoot}\n`);
 }
 
 main();

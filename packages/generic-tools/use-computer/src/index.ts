@@ -2,7 +2,7 @@
  * Internal computer-use primitive for V26 fifth-gate reform.
  *
  * V26 admits this retained shell primitive only behind registry configuration
- * for Read-measurement evidence. It is not a Bitcode Exchange or Terminal state
+ * for Read-measurement evidence. It is not a Bitcode Exchange or product state
  * owner, and broad computer-using agents are deferred beyond V26.
  */
 import { attachDocCodeToolPrompt, factoryTool } from '@bitcode/tools-generics';

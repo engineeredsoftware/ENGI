@@ -9,7 +9,7 @@ import { buildV33ReadLicenseAssetPackRightsContractsArtifact } from './generate-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-read-license-assetpack-rights-contracts.json';
+const ARTIFACT = '.proofs/v33/read-license-assetpack-rights-contracts.json';
 
 const REQUIRED_SURFACES = ['api', 'mcp', 'chatgpt_app', 'terminal'];
 const SECRET_MARKERS = [
@@ -93,7 +93,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -117,19 +117,19 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'uapi/tests/terminalOrganizationAuthority.test.ts',
+    'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-read-license-assetpack-rights-contracts.mjs',
     'scripts/check-v33-gate6-read-license-assetpack-rights-contracts.mjs',
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V33 Gate 6 file: ${relativePath}`);
@@ -184,19 +184,19 @@ function main() {
   const btdSource = read(root, 'packages/btd/src/read-license-assetpack-rights-contract.ts');
   const btdTest = read(root, 'packages/btd/__tests__/read-license-assetpack-rights-contract.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
-  const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
-    read(root, 'BITCODE_SPEC_V33.md'),
-    read(root, 'BITCODE_SPEC_V33_DELTA.md'),
-    read(root, 'BITCODE_SPEC_V33_NOTES.md'),
-    read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md'),
-    read(root, 'SPECIFICATIONS_ROADMAP.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md'),
+    read(root, '.specifications/SPECIFICATIONS_ROADMAP.md'),
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');
-  const protocolSpecifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const protocolSpecifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   assertCheck(failures, btdSource.includes('buildBtdReadLicenseInterfaceContract'), 'BTD source must build ReadLicenseInterfaceContract.');
   assertCheck(failures, btdSource.includes('buildBtdAssetPackRightsInterfaceContract'), 'BTD source must build AssetPackRightsInterfaceContract.');
@@ -207,7 +207,7 @@ function main() {
   assertCheck(failures, apiTest.includes('api-read-license-source-safe-preview'), 'API tests must share Gate 6 fixture.');
   assertCheck(failures, mcpTest.includes('mcp-finding-fits-source-safe-preview'), 'MCP tests must share Gate 6 fixture.');
   assertCheck(failures, chatgptTest.includes('chatgpt-unpaid-delivery-denied'), 'ChatGPT tests must share Gate 6 fixture.');
-  assertCheck(failures, terminalTest.includes('terminal-paid-rights-delivery'), 'Terminal tests must share Gate 6 fixture.');
+  assertCheck(failures, terminalTest.includes('terminal-paid-rights-delivery'), 'product tests must share Gate 6 fixture.');
   assertCheck(failures, specs.includes('V33 Gate 6 Read License And AssetPack Rights Interface Contracts'), 'Spec/roadmap must describe Gate 6 as current work.');
   assertCheck(failures, packageJson.includes('check:v33-gate6'), 'package.json must expose check:v33-gate6.');
   assertCheck(failures, workflow.includes('check-v33-gate6-read-license-assetpack-rights-contracts.mjs'), 'Gate workflow must run Gate 6 checker.');

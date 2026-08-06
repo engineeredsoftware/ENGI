@@ -46,27 +46,27 @@ Model Context Protocol integration for Figma design platform. Provides comprehen
 ```typescript
 // Authenticated Figma API client
 interface FigmaAPIConfig {
-  readonly accessToken: string;
-  readonly baseUrl: string;
-  readonly timeout: number;
-  readonly retryAttempts: number;
+ readonly accessToken: string;
+ readonly baseUrl: string;
+ readonly timeout: number;
+ readonly retryAttempts: number;
 }
 
 async function makeFigmaRequest(endpoint: string, options: RequestInit = {}): Promise<any> {
-  const config = getFigmaConfig();
-  const url = `${config.baseUrl}${endpoint}`;
-  
-  const requestOptions: RequestInit = {
-    ...options,
-    headers: {
-      'X-Figma-Token': config.accessToken,
-      'Content-Type': 'application/json',
-      ...options.headers
-    },
-    signal: AbortSignal.timeout(config.timeout)
-  };
-  
-  return fetch(url, requestOptions);
+ const config = getFigmaConfig();
+ const url = `${config.baseUrl}${endpoint}`;
+
+ const requestOptions: RequestInit = {
+ ...options,
+ headers: {
+ 'X-Figma-Token': config.accessToken,
+ 'Content-Type': 'application/json',
+ ...options.headers
+ },
+ signal: AbortSignal.timeout(config.timeout)
+ };
+
+ return fetch(url, requestOptions);
 }
 ```
 
@@ -83,16 +83,16 @@ const FigmaImageScaleSchema = z.number().min(0.01).max(4).default(2);
 ```typescript
 // Production-grade tool definition with comprehensive error handling
 export const figmaListArtboardsTool = tool({
-  description: 'List all artboards (frames) from a Figma file, extracting their names, IDs, and metadata for design analysis',
-  parameters: z.object({
-    fileKey: FigmaFileKeySchema.describe('The Figma file key (from the file URL)'),
-    includeComponents: z.boolean().optional().default(false),
-    includeInstances: z.boolean().optional().default(false),
-    filterPattern: z.string().optional().describe('Optional regex pattern to filter artboard names')
-  }),
-  execute: async ({ fileKey, includeComponents, includeInstances, filterPattern }) => {
-    // Implementation with comprehensive error handling and logging
-  }
+ description: 'List all artboards (frames) from a Figma file, extracting their names, IDs, and metadata for design analysis',
+ parameters: z.object({
+ fileKey: FigmaFileKeySchema.describe('The Figma file key (from the file URL)'),
+ includeComponents: z.boolean().optional().default(false),
+ includeInstances: z.boolean().optional().default(false),
+ filterPattern: z.string().optional().describe('Optional regex pattern to filter artboard names')
+ }),
+ execute: async ({ fileKey, includeComponents, includeInstances, filterPattern }) => {
+ // Implementation with comprehensive error handling and logging
+ }
 });
 ```
 
@@ -118,18 +118,18 @@ export FIGMA_ACCESS_TOKEN="figma-personal-access-token"
 ### Tool Registration
 ```typescript
 import {
-  figmaListArtboardsTool,
-  figmaGetArtboardPNGTool,
-  figmaFindArtboardByNameTool,
-  figmaGetFileTool
-} from '@bitcode/mcps-tools/figma';
+ figmaListArtboardsTool,
+ figmaGetArtboardPNGTool,
+ figmaFindArtboardByNameTool,
+ figmaGetFileTool
+} from '@bitcode/generic-tools-mcps-tools/figma';
 
 // MCP server integration
 const figmaTools = [
-  figmaListArtboardsTool,
-  figmaGetArtboardPNGTool,
-  figmaFindArtboardByNameTool,
-  figmaGetFileTool
+ figmaListArtboardsTool,
+ figmaGetArtboardPNGTool,
+ figmaFindArtboardByNameTool,
+ figmaGetFileTool
 ];
 ```
 

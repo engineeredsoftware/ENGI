@@ -1,0 +1,10 @@
+{
+  "delivery_templates": {
+    "pullRequests": ["pr-quick-todo"]
+  },
+  "evidence_document_templates": {
+    "assetPackFeedback": ["feedback-pr"],
+    "knowledgeExtension": ["know-framework"],
+    "mcpConfig": ["mcp-supabase"]
+  }
+}

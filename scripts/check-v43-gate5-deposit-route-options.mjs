@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_DEPOSIT_ROUTE_OPTIONS_ARTIFACT_PATH,
   buildV43DepositRouteOptions,
-} from '../packages/protocol/src/canonical/v43-deposit-route-options.js';
+} from '../scripts/specifying/src/canonical/v43-deposit-route-options.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V42', `BITCODE_SPEC.txt must remain V42 during V43 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -82,25 +82,25 @@ function main() {
 
   for (const relativePath of [
     V43_DEPOSIT_ROUTE_OPTIONS_ARTIFACT_PATH,
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/app/deposit/page.tsx',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/app/terminal/terminal-routes.ts',
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts',
-    'packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts',
-    'uapi/tests/depositRouteModel.test.ts',
-    'uapi/tests/depositPageClient.test.tsx',
-    'packages/protocol/src/canonical/v43-deposit-route-options.js',
-    'packages/protocol/test/v43-deposit-route-options.test.js',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/app/deposit/page.tsx',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-routes.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-options.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/deposit-asset-pack-options.test.ts',
+    'apps/uapi/tests/depositRouteModel.test.ts',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'scripts/specifying/src/canonical/v43-deposit-route-options.js',
+    'scripts/specifying/test/v43-deposit-route-options.test.js',
     'scripts/generate-v43-deposit-route-options.mjs',
     'scripts/check-v43-gate5-deposit-route-options.mjs',
-    'BITCODE_SPEC_V43.md',
-    'BITCODE_SPEC_V43_DELTA.md',
-    'BITCODE_SPEC_V43_NOTES.md',
-    'BITCODE_SPEC_V43_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V43.md',
+    '.specifications/BITCODE_SPEC_V43_DELTA.md',
+    '.specifications/BITCODE_SPEC_V43_NOTES.md',
+    '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -143,7 +143,7 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', 'deposit-asset-pack-options.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', 'deposit-asset-pack-options.test.ts', '--runInBand']);
     } catch {
       failures.push('asset-pack deposit-asset-pack-options.test.ts must pass.');
     }
@@ -151,7 +151,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi depositRouteModel.test.ts and depositPageClient.test.tsx must pass.');
     }

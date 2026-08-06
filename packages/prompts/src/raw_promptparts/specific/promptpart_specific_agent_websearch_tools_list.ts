@@ -15,4 +15,4 @@ export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TOOLS_LIST: PromptPart =
 - searchWithUrlIntelligence: use provided URLs only to improve query targeting for the active read
 - multiProviderSearch: compare providers when source coverage or volatility requires corroboration
 - getContents: retrieve specific source pages for attribution, snippet verification, and source-quality assessment
-- no tool may mutate repository state, deliver AssetPacks, assert proof closure, or define Exchange/Terminal product semantics` as PromptPart;
+- no tool may mutate repository state, deliver AssetPacks, assert proof closure, or define Exchange/product semantics` as PromptPart;

@@ -1,0 +1,230 @@
+/* eslint-disable react/no-multi-comp */
+
+import React from 'react';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import Nav from '@/components/bitcode/layout/Nav/Nav';
+
+const mockPush = jest.fn();
+const mockReplace = jest.fn();
+const mockOpenOrbital = jest.fn();
+const mockPrefetchOrbital = jest.fn();
+const mockUseAuth = jest.fn();
+const mockUseUserData = jest.fn();
+let mockPathname = '/';
+
+jest.mock('next/navigation', () => ({
+  usePathname: () => mockPathname,
+  useRouter: () => ({ push: mockPush, replace: mockReplace }),
+}));
+
+jest.mock('@/components/bitcode/auth/AuthProvider/AuthProvider', () => ({
+  useAuth: () => mockUseAuth(),
+}));
+
+jest.mock('@/hooks/useUserData', () => ({
+  useUserData: () => mockUseUserData(),
+}));
+
+jest.mock('@/components/auxillaries/AuxillariesProvider/AuxillariesProvider', () => ({
+  openAuxillaries: (...args: unknown[]) => mockOpenOrbital(...args),
+  prefetchAuxillaries: () => mockPrefetchOrbital(),
+}));
+
+jest.mock('@/config/features', () => ({
+  FEATURE_FLAGS: {
+    HIDE_BTD_TRACKER: false,
+    NOTIFICATIONS: true,
+    DISABLE_USING: true,
+  },
+}));
+
+jest.mock('@/components/bitcode/layout/NavBrand/NavBrand', () => ({
+  __esModule: true,
+  default: ({
+    onClick,
+    surface,
+  }: {
+    onClick: () => void;
+    surface: string | null;
+  }) => (
+    <button type="button" onClick={onClick}>
+      Brand {surface ?? 'null'}
+    </button>
+  ),
+}));
+
+jest.mock('@/components/bitcode/btd/BtdTracker/BtdTracker', () => ({
+  BTDTracker: ({
+    onOpenBtdAuxillary,
+  }: {
+    onOpenBtdAuxillary?: () => void;
+  }) => (
+    <button
+      type="button"
+      aria-label="0 BTD; 0 APs. Open BTD wallet auxillary."
+      onClick={() => onOpenBtdAuxillary?.()}
+    >
+      BTD
+    </button>
+  ),
+}));
+
+jest.mock('@/components/bitcode/notifications/NotificationsWidget/NotificationsWidget', () => ({
+  NotificationsWidget: () => <div>Notifications</div>,
+}));
+
+jest.mock('@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper', () => ({
+  DisabledTooltipWrapper: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+jest.mock('@/components/bitcode/nav/AuxillariesUseButton/AuxillariesUseButton', () => ({
+  AuxillariesUseButton: () => <div>Use button</div>,
+}));
+
+describe('Nav public shell', () => {
+  beforeEach(() => {
+    mockPathname = '/';
+    mockPush.mockReset();
+    mockReplace.mockReset();
+    mockOpenOrbital.mockReset();
+    mockPrefetchOrbital.mockReset();
+    mockUseAuth.mockReturnValue({ user: null });
+    mockUseUserData.mockReturnValue({
+      data: {},
+      hasWalletConnection: false,
+      walletConnectionStatus: null,
+      btdBalance: 0,
+      btcFeeBalance: null,
+      recentBtdAssetPacks: [],
+      isLoading: false,
+      isRevalidating: false,
+    });
+  });
+
+  it('shows stable public-route links and guest Connect Wallet only (no Open Auxillaries)', () => {
+    render(<Nav />);
+
+    const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
+    const rightChrome = screen.getByTestId('nav-right-chrome');
+
+    expect(screen.getByText('Brand home')).toBeInTheDocument();
+    // Product order: Read | Exchange | Deposit (docs lives in logo-area NavBrand).
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
+    expect(screen.getByRole('link', { name: 'Exchange' })).not.toHaveAttribute('aria-current');
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
+    expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
+    // Nav info explainers removed — product routes are label links only.
+    expect(screen.queryByRole('button', { name: 'Explain Exchange' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Explain Deposit' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Explain Read' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
+    // Fixed right band so Reading wallet ↔ Connect ↔ balances never reflow links.
+    expect(rightChrome.className).toMatch(/tablet:w-\[21rem\]/);
+    expect(rightChrome.className).toMatch(/tablet:min-w-\[21rem\]/);
+
+    fireEvent.mouseEnter(createButton);
+    fireEvent.click(createButton);
+
+    expect(screen.queryByText('Use button')).toBeNull();
+    expect(mockPrefetchOrbital).toHaveBeenCalledTimes(1);
+    expect(mockOpenOrbital).toHaveBeenCalledWith('AuxillariesWindow');
+  });
+
+  it('waits for wallet readiness before showing public guest wallet actions', () => {
+    mockUseUserData.mockReturnValue({
+      data: null,
+      hasWalletConnection: false,
+      walletConnectionStatus: null,
+      btdBalance: 0,
+      btcFeeBalance: null,
+      recentBtdAssetPacks: [],
+      isLoading: true,
+      isRevalidating: false,
+    });
+
+    render(<Nav />);
+
+    expect(screen.getByTestId('nav-wallet-readiness-loading')).toHaveTextContent('Reading wallet');
+    expect(screen.getByTestId('nav-right-chrome')).toContainElement(
+      screen.getByTestId('nav-wallet-readiness-loading'),
+    );
+    expect(screen.queryByRole('button', { name: 'Connect Wallet' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
+  });
+
+  it('keeps public-route links visible; wallet (not a right-side menu) opens Auxillaries', () => {
+    mockUseAuth.mockReturnValue({
+      user: {
+        id: 'user-1',
+        email: 'operator@example.com',
+      },
+    });
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand home')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
+    expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
+    expect(screen.getByText('Notifications')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'User menu' })).toBeNull();
+
+    const wallet = screen.getByLabelText(/Open BTD wallet auxillary/i);
+    fireEvent.click(wallet);
+
+    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'wallet');
+  });
+
+  it('renders docs brand surface on docs routes without a main-nav Docs link', () => {
+    mockPathname = '/docs';
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand docs')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
+  });
+
+  it('renders exchange brand posture and active nav on exchange routes', () => {
+    mockPathname = '/exchange';
+
+    render(<Nav />);
+
+    // Workspace surface for Exchange (compat /exchange also maps here).
+    expect(screen.getByText(/Brand (packs|exchange|network)/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('aria-current', 'page');
+  });
+
+  it('renders read brand posture and active nav on read routes', () => {
+    mockPathname = '/reads';
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand read')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('aria-current', 'page');
+  });
+
+  it('renders deposit brand posture and active nav on deposit routes', () => {
+    mockPathname = '/deposits';
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand deposit')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('aria-current', 'page');
+  });
+
+  it('treats /edgetimes as a docs-branded public route without main-nav Docs', () => {
+    mockPathname = '/edgetimes';
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand docs')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
+  });
+});

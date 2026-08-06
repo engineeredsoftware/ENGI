@@ -35,7 +35,7 @@ import {
   buildBtdProtocolTelemetrySettlement,
   buildBtdReadAccessDecision,
   buildBtdSourceToSharesProofSettlement,
-  buildBtdTerminalJournalSettlement,
+  buildBtdJournalSettlement,
   buildBtdProtocolTelemetryRecord,
   buildBtcFeeQuote,
   createBtdMeasureMintState,
@@ -61,7 +61,7 @@ import {
   buildPostBtdProtocolTelemetryRoute,
   buildPostBtdReadAccessRoute,
   buildPostBtdSourceToSharesProofRoute,
-  buildPostBtdTerminalJournalRoute,
+  buildPostBtdJournalRoute,
   postBtdInterfaceIntegrationRegression,
 } from '../btd-crypto';
 
@@ -242,7 +242,7 @@ function protocolTelemetryBody(overrides: Record<string, unknown> = {}) {
     root: 'source-to-shares-api-root',
     receiptRoot: 'source-to-shares-api-receipt-root',
     proofRoot: 'source-to-shares-api-proof-root',
-    artifactPath: '.bitcode/source-to-shares-api-proof.json',
+    artifactPath: '.proofs/_shared/source-to-shares-api-proof.json',
     metadata: {
       sourceSafe: true,
       settlementAdmissible: true,
@@ -262,8 +262,8 @@ function protocolTelemetryBody(overrides: Record<string, unknown> = {}) {
         telemetryRoot: record.telemetryRoot,
         theoremIds: ['source-safe', 'settlement-conserved'],
         replayStepIds: ['emit-telemetry', 'bind-source-to-shares-proof'],
-        witnessArtifactPaths: ['.bitcode/source-to-shares-api-proof.json'],
-        generatedArtifactPath: '.bitcode/generated/source-to-shares-api-proof.json',
+        witnessArtifactPaths: ['.proofs/_shared/source-to-shares-api-proof.json'],
+        generatedArtifactPath: '.proofs/generated/source-to-shares-api-proof.json',
         issuedAt,
       },
     ],
@@ -287,10 +287,10 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
     records: [
       {
         ...recordBase,
-        surface: 'terminal',
+        surface: 'product',
         consumerId: 'terminal-transaction-cockpit',
         packageExport: '@bitcode/btd/interface-integration-contract',
-        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
         objectFamilies: ['btd_registry', 'read_access', 'terminal_journal'],
         proofRoot: 'terminal-interface-proof-root',
       },
@@ -313,7 +313,7 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
         surface: 'mcp',
         consumerId: 'bitcode-mcp-interface',
         packageExport: '@bitcode/btd/interface-integration-contract',
-        adapterPath: 'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
+        adapterPath: 'apps/mcp/src/interface-integration.ts',
         objectFamilies: ['source_to_shares_proof', 'organization_authority'],
         proofRoot: 'mcp-interface-proof-root',
       },
@@ -322,7 +322,7 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
         surface: 'chatgpt_app',
         consumerId: 'bitcode-chatgpt-app-interface',
         packageExport: '@bitcode/btd/interface-integration-contract',
-        adapterPath: 'packages/chatgptapp/src/interface-integration.ts',
+        adapterPath: 'apps/chatgpt/src/interface-integration.ts',
         objectFamilies: ['read_access', 'organization_authority'],
         proofRoot: 'chatgpt-app-interface-proof-root',
       },
@@ -331,7 +331,7 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
         surface: 'auxillaries_hook',
         consumerId: 'auxillaries-interface-hook',
         packageExport: '@bitcode/btd/interface-integration-contract',
-        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
         objectFamilies: ['btd_registry', 'organization_authority'],
         proofRoot: 'auxillaries-interface-proof-root',
       },
@@ -340,7 +340,7 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
         surface: 'exchange_hook',
         consumerId: 'exchange-interface-hook',
         packageExport: '@bitcode/btd/interface-integration-contract',
-        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
         objectFamilies: ['btd_receipts', 'btc_fee_operation', 'ledger_projection'],
         proofRoot: 'exchange-interface-proof-root',
       },
@@ -349,7 +349,7 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
         surface: 'conversations_hook',
         consumerId: 'conversations-interface-hook',
         packageExport: '@bitcode/btd/interface-integration-contract',
-        adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+        adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
         objectFamilies: ['read_access', 'organization_authority', 'protocol_telemetry'],
         proofRoot: 'conversations-interface-proof-root',
       },
@@ -797,7 +797,7 @@ describe('BTD crypto API builders', () => {
       walletId: 'wallet-reader',
       settlementState: 'settled',
       confirmed: true,
-      targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+      targetAnchor: 'github:octocat/Spoon-Knife/pull/42',
       readAccessDecision: {
         decision: 'owner_read',
         accessPolicyHash: 'policy-api-hash',
@@ -830,7 +830,7 @@ describe('BTD crypto API builders', () => {
           organizationId: 'org-api-1',
           organizationRole: 'member',
           organizationPermissionGrants: ['reading:request_finding_fits'],
-          interfaceSurface: 'terminal',
+          interfaceSurface: 'product',
           action: 'request_finding_fits',
           at: issuedAt,
         }),
@@ -1095,8 +1095,8 @@ describe('BTD crypto API builders', () => {
     expect(transfer.terminalJournalEntry.transactionKind).toBe('rights_transfer');
   });
 
-  it('builds Terminal journal coverage and blocking diff settlements', () => {
-    const entry = buildBtdTerminalJournalSettlement({
+  it('builds BTD journal coverage and blocking diff settlements', () => {
+    const entry = buildBtdJournalSettlement({
       actorId: 'user-1',
       action: 'commit_entry',
       journalEntryId: 'journal-api-1',
@@ -1108,7 +1108,7 @@ describe('BTD crypto API builders', () => {
       exchangeSequence: 15n,
       issuedAt,
     });
-    const diff = buildBtdTerminalJournalSettlement({
+    const diff = buildBtdJournalSettlement({
       actorId: 'user-1',
       action: 'diff_projection',
       entry: entry.entry,
@@ -1120,7 +1120,7 @@ describe('BTD crypto API builders', () => {
       },
       issuedAt,
     });
-    const coverage = buildBtdTerminalJournalSettlement({
+    const coverage = buildBtdJournalSettlement({
       actorId: 'user-1',
       action: 'coverage',
       coverageId: 'terminal-coverage-api-1',
@@ -1647,19 +1647,19 @@ describe('BTD crypto API builders', () => {
     expect(updateExchangeOrder).not.toHaveBeenCalled();
   });
 
-  it('returns JSON-safe Terminal journal settlements and persists explicit commits', async () => {
-    const insertTerminalJournalEntry = jest.fn(async (row) => ({
+  it('returns JSON-safe BTD journal settlements and persists explicit commits', async () => {
+    const insertJournalEntry = jest.fn(async (row) => ({
       journal_entry_id: row.journal_entry_id,
       transaction_kind: row.transaction_kind,
     }));
-    const route = buildPostBtdTerminalJournalRoute({
+    const route = buildPostBtdJournalRoute({
       resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
       registry: {
-        insertTerminalJournalEntry,
+        insertJournalEntry,
       } as any,
     });
     const commitResponse = await route(
-      new Request('https://bitcode.test/api/btd/terminal-journal', {
+      new Request('https://bitcode.test/api/btd/journal', {
         method: 'POST',
         body: JSON.stringify({
           action: 'commit_entry',
@@ -1677,7 +1677,7 @@ describe('BTD crypto API builders', () => {
     );
     const commitBody = await commitResponse.json();
     const diffResponse = await route(
-      new Request('https://bitcode.test/api/btd/terminal-journal', {
+      new Request('https://bitcode.test/api/btd/journal', {
         method: 'POST',
         body: JSON.stringify({
           action: 'diff_projection',
@@ -1699,7 +1699,7 @@ describe('BTD crypto API builders', () => {
     expect(commitBody.committed).toBe(true);
     expect(diffResponse.status).toBe(200);
     expect(diffBody.diff.blocking).toBe(true);
-    expect(insertTerminalJournalEntry).toHaveBeenCalledWith(
+    expect(insertJournalEntry).toHaveBeenCalledWith(
       expect.objectContaining({
         journal_entry_id: 'journal-api-1',
         transaction_kind: 'rights_transfer',

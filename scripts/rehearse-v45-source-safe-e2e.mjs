@@ -5,7 +5,7 @@ import {
   V45_SOURCE_SAFE_E2E_REHEARSAL_LANE_IDS,
   V45_SOURCE_SAFE_E2E_REHEARSAL_STAGE_IDS,
   buildV45SourceSafeEndToEndRehearsal,
-} from '../packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js';
 
 function digest(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex').slice(0, 24);

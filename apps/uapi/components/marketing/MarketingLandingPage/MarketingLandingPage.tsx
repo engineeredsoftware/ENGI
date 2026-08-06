@@ -1,0 +1,360 @@
+'use client';
+
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import Footer from '@/components/bitcode/layout/Footer/Footer';
+
+import { MarketingLandingAudienceSection } from '@/components/marketing/MarketingLandingAudienceSection/MarketingLandingAudienceSection';
+import { MarketingLandingGuideCard } from '@/components/marketing/MarketingLandingGuideCard/MarketingLandingGuideCard';
+import { MarketingLandingHero } from '@/components/marketing/MarketingLandingHero/MarketingLandingHero';
+import { MarketingLandingProductPreview } from '@/components/marketing/MarketingLandingProductPreview/MarketingLandingProductPreview';
+import { MarketingLandingScrollCue } from '@/components/marketing/MarketingLandingScrollCue/MarketingLandingScrollCue';
+import { MarketingLandingTestnetSection } from '@/components/marketing/MarketingLandingTestnetSection/MarketingLandingTestnetSection';
+import { MarketingLandingValueFlow } from '@/components/marketing/MarketingLandingValueFlow/MarketingLandingValueFlow';
+import { MarketingLandingWaitlist } from '@/components/marketing/MarketingLandingWaitlist/MarketingLandingWaitlist';
+import {
+  animatedMotionStyle,
+  entranceEase,
+  landingAudienceViewport,
+  landingProductionViewport,
+} from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
+import '@/styles/marketing-landing-shell.css';
+import '@/styles/marketing-landing-glow.css';
+import '@/styles/particle-effect.css';
+
+type Particle = {
+  id: number;
+  x: number;
+  y: number;
+  delay: number;
+  size: number;
+  dx: number;
+  dy: number;
+  duration: number;
+};
+
+const BACKGROUND_PARTICLES: readonly Particle[] = Array.from({ length: 14 }, (_, index) => ({
+  id: index,
+  x: (index * 17.5 + 11) % 100,
+  y: (index * 23.25 + 7) % 100,
+  delay: (index * 0.37) % 5,
+  size: 2 + (index % 4),
+  dx: (((index * 5) % 9) - 4) * 10,
+  dy: (((index * 7) % 9) - 4) * 9,
+  duration: 7 + (index % 5),
+}));
+
+export default function MarketingLandingPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  /** Hero column height — scroll cue sits at this Y, but full-width centered (X). */
+  const heroColumnRef = useRef<HTMLDivElement>(null);
+  const [scrollCueTop, setScrollCueTop] = useState(0);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const setAnimsPaused = (paused: boolean) => {
+      container.classList.toggle('marketing-landing-shell--anims-paused', paused);
+    };
+
+    const syncVisibility = () => {
+      const hidden =
+        typeof document !== 'undefined' && document.visibilityState === 'hidden';
+      setAnimsPaused(hidden);
+    };
+
+    // Pause document-tall orbital/particle CSS when the tab is backgrounded.
+    syncVisibility();
+    document.addEventListener('visibilitychange', syncVisibility);
+
+    if (!window.matchMedia('(pointer: fine)').matches) {
+      container.style.setProperty('--mouse-x', '50%');
+      container.style.setProperty('--mouse-y', '50%');
+      return () => {
+        document.removeEventListener('visibilitychange', syncVisibility);
+        setAnimsPaused(false);
+      };
+    }
+
+    let frameId: number | null = null;
+    let geometryFrameId: number | null = null;
+    let nextX = 50;
+    let nextY = 50;
+    // Cache geometry so pointermove does not force layout every event (same math).
+    let rectLeft = 0;
+    let rectTop = 0;
+    let rectWidth = 1;
+    let stageHeight = 1;
+
+    const refreshGeometryNow = () => {
+      const rect = container.getBoundingClientRect();
+      rectLeft = rect.left;
+      rectTop = rect.top;
+      rectWidth = rect.width || 1;
+      stageHeight = container.offsetHeight || container.scrollHeight || rect.height || 1;
+    };
+
+    /** Coalesce scroll/resize geometry reads to one layout per frame. */
+    const scheduleGeometryRefresh = () => {
+      if (geometryFrameId !== null) return;
+      geometryFrameId = window.requestAnimationFrame(() => {
+        geometryFrameId = null;
+        refreshGeometryNow();
+      });
+    };
+
+    const commitMousePosition = () => {
+      frameId = null;
+      // Skip style work when the tab is not visible (no perceptible change while active).
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
+        return;
+      }
+      container.style.setProperty('--mouse-x', `${nextX}%`);
+      container.style.setProperty('--mouse-y', `${nextY}%`);
+    };
+
+    const scheduleCommit = () => {
+      if (frameId !== null) {
+        return;
+      }
+      frameId = window.requestAnimationFrame(commitMousePosition);
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
+        return;
+      }
+      nextX = ((event.clientX - rectLeft) / rectWidth) * 100;
+      nextY = ((event.clientY - rectTop) / stageHeight) * 100;
+      scheduleCommit();
+    };
+
+    const resetMousePosition = () => {
+      nextX = 50;
+      nextY = 50;
+      scheduleCommit();
+    };
+
+    refreshGeometryNow();
+    container.addEventListener('pointermove', handlePointerMove, { passive: true });
+    container.addEventListener('pointerleave', resetMousePosition);
+    window.addEventListener('resize', scheduleGeometryRefresh, { passive: true });
+    window.addEventListener('scroll', scheduleGeometryRefresh, { passive: true });
+    document.addEventListener('visibilitychange', scheduleGeometryRefresh);
+
+    return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+      if (geometryFrameId !== null) {
+        window.cancelAnimationFrame(geometryFrameId);
+      }
+      container.removeEventListener('pointermove', handlePointerMove);
+      container.removeEventListener('pointerleave', resetMousePosition);
+      window.removeEventListener('resize', scheduleGeometryRefresh);
+      window.removeEventListener('scroll', scheduleGeometryRefresh);
+      document.removeEventListener('visibilitychange', scheduleGeometryRefresh);
+      document.removeEventListener('visibilitychange', syncVisibility);
+      setAnimsPaused(false);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const el = heroColumnRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+
+    const sync = () => setScrollCueTop(el.offsetHeight);
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <>
+      <svg width="0" height="0" style={{ position: 'absolute', top: '-9999px' }}>
+        <defs>
+          <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+            <feFlood floodColor="#67feb7" floodOpacity="0.8" result="glowColor" />
+            <feComposite in="glowColor" in2="coloredBlur" operator="in" result="softGlow" />
+            <feMerge>
+              <feMergeNode in="softGlow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
+
+      <div
+        ref={containerRef}
+        className="marketing-landing-shell relative flex w-full flex-col bg-[#030816] text-white"
+        style={{
+          minHeight: '100svh',
+          '--mouse-x': '50%',
+          '--mouse-y': '50%',
+        } as React.CSSProperties}
+      >
+        <div className="relative flex min-h-[100svh] w-full flex-col">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(103,254,183,0.14),transparent_34%),linear-gradient(180deg,#07131d_0%,#030816_45%,#02060d_100%)]" />
+          <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(103,254,183,0.09)_1px,transparent_1px),linear-gradient(90deg,rgba(103,254,183,0.09)_1px,transparent_1px)] [background-size:160px_160px]" />
+
+          <div
+            data-testid="landing-orbital-ambience"
+            className="orbital-system absolute inset-0 hidden opacity-60 motion-reduce:hidden laptop:block"
+            style={{ contain: 'paint' }}
+          >
+            <div
+              className="orbital-ring"
+              style={{ '--size': '86%', '--delay': '0s', '--rotation': '' } as React.CSSProperties}
+            />
+            <div
+              className="orbital-ring"
+              style={{ '--size': '64%', '--delay': '2.2s', '--rotation': '' } as React.CSSProperties}
+            />
+            <div
+              className="orbital-ring"
+              style={{ '--size': '40%', '--delay': '4.4s', '--rotation': '' } as React.CSSProperties}
+            />
+          </div>
+
+          {BACKGROUND_PARTICLES.map((particle) => (
+            <div
+              key={particle.id}
+              className="quantum-particle absolute hidden rounded-full bg-[#67feb7] motion-reduce:hidden tablet:block"
+              style={{
+                left: `${particle.x}%`,
+                top: `${particle.y}%`,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
+                boxShadow: `0 0 ${particle.size * 3}px rgba(103, 254, 183, 0.55)`,
+                '--particle-dx': `${particle.dx}px`,
+                '--particle-dy': `${particle.dy}px`,
+                '--particle-duration': `${particle.duration}s`,
+                '--particle-delay': `${particle.delay}s`,
+              } as React.CSSProperties}
+            />
+          ))}
+
+          {/*
+            Pointer glow: same radial as before. Avoid will-change:background on a
+            document-tall layer (promotes a huge composited surface after waitlist
+            lengthened the shell). Visual is unchanged; paint cost drops.
+          */}
+          <div
+            data-testid="landing-pointer-glow"
+            className="pointer-events-none absolute inset-0 hidden transition-opacity duration-300 motion-reduce:hidden laptop:block"
+            style={{
+              background:
+                'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(103, 254, 183, 0.16) 0%, rgba(103, 254, 183, 0.08) 16%, transparent 44%)',
+              contain: 'strict',
+            }}
+          />
+          <div
+            data-testid="landing-ambient-glow"
+            className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/10 blur-3xl motion-reduce:hidden laptop:block"
+            style={{ contain: 'paint' }}
+          />
+
+          {/*
+            Three-band layout:
+            1) Opening — hero (through CTAs) | Source Measurements + Exchanging Knowledge.
+               items-start so tops stay level (items-end sank the hero when the depot
+               was taller; stretch+mt-auto opened a mid-column gap under Why now).
+            2) Audience — Stop buying… | If you have code…
+            3) Production — Protocol + micro-blog | lower four depot panels.
+            gap-4/5/6 matches column gutters so y-gaps equal x-gaps.
+          */}
+          <main className="relative z-20 mx-auto flex w-full min-w-0 max-w-7xl flex-1 flex-col items-stretch gap-4 overflow-x-clip px-4 pb-8 pt-24 phone:pb-10 phone:pt-28 tablet:gap-5 tablet:px-6 laptop:gap-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
+            {/*
+              Opening band only above the fold — waitlist must not sit under the
+              scroll cue or push into the first viewport. Scroll cue is absolute
+              at hero column height (pre-waitlist law); tablet+ only.
+            */}
+            <div className="relative w-full">
+              <div className="grid w-full items-start gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
+                <div ref={heroColumnRef} className="w-full min-w-0">
+                  <MarketingLandingHero />
+                </div>
+                <MarketingLandingProductPreview variant="upper" />
+              </div>
+              <div
+                className="pointer-events-none absolute inset-x-0 z-[2] hidden justify-center tablet:flex"
+                style={{ top: scrollCueTop > 0 ? scrollCueTop : undefined }}
+              >
+                <MarketingLandingScrollCue targetId="landing-audience" />
+              </div>
+            </div>
+
+            <MarketingLandingAudienceSection />
+
+            {/*
+              Waitlist below the fold: after audience so scroll-cue → audience
+              remains unregressed; full main width; enter on scroll (not above fold).
+            */}
+            <motion.div
+              data-testid="landing-waitlist-enter"
+              className="w-full min-w-0"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={landingAudienceViewport}
+              transition={{ duration: 0.85, ease: entranceEase }}
+              style={animatedMotionStyle}
+            >
+              <MarketingLandingWaitlist />
+            </motion.div>
+
+            {/*
+              One shared whileInView for the whole production band so Code ⇄ Coin
+              and Exchange Posture (plus value-flow / micro-blog) enter together.
+            */}
+            {/*
+              Production band as a flat grid so phone order can put micro-blog last
+              without duplicating nodes:
+                phone:  protocol → value-flow → exchange posture → micro-blog
+                laptop: left stack (protocol, value-flow, micro-blog) | lower depot
+            */}
+            <motion.div
+              data-testid="landing-production-band"
+              className="grid w-full min-w-0 grid-cols-1 gap-4 tablet:gap-5 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] laptop:gap-6"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={landingProductionViewport}
+              transition={{ duration: 0.85, ease: entranceEase }}
+              style={animatedMotionStyle}
+            >
+              <div className="order-1 min-w-0 shrink-0 laptop:col-start-1 laptop:row-start-1">
+                <MarketingLandingTestnetSection />
+              </div>
+              <div className="order-2 min-w-0 shrink-0 laptop:col-start-1 laptop:row-start-2">
+                <MarketingLandingValueFlow />
+              </div>
+              {/*
+                Exchange posture before micro-blog on phone; right column on laptop
+                spanning the full left stack height.
+              */}
+              <div className="order-3 min-w-0 laptop:col-start-2 laptop:row-span-3 laptop:row-start-1 laptop:h-full">
+                <MarketingLandingProductPreview variant="lower" />
+              </div>
+              {/*
+                Micro-blog last on phone. Tab tops use -translate-y-1/2 — pt-3
+                compensates so the visual gap matches sections above.
+              */}
+              <div className="order-4 min-w-0 shrink-0 pt-3 laptop:col-start-1 laptop:row-start-3">
+                <MarketingLandingGuideCard />
+              </div>
+            </motion.div>
+          </main>
+
+          <div className="relative z-20 mt-auto w-full">
+            <Footer showPrimaryContent={false} className="mt-0 border-white/10 bg-[#02060d]/72 backdrop-blur-xl" />
+          </div>
+
+        </div>
+      </div>
+    </>
+  );
+}

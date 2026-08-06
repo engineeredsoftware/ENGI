@@ -9,7 +9,7 @@ import { buildV33InterfaceConsumerUxRegressionProofArtifact } from './generate-v
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-interface-consumer-ux-regression-proof.json';
+const ARTIFACT = '.proofs/v33/interface-consumer-ux-regression-proof.json';
 
 const REQUIRED_SURFACES = [
   'public_api',
@@ -108,7 +108,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -132,19 +132,19 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'uapi/tests/terminalOrganizationAuthority.test.ts',
+    'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-interface-consumer-ux-regression-proof.mjs',
     'scripts/check-v33-gate9-interface-consumer-ux-regression-proof.mjs',
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V33 Gate 9 file: ${relativePath}`);
@@ -204,19 +204,19 @@ function main() {
   const btdSource = read(root, 'packages/btd/src/interface-consumer-ux-regression-proof.ts');
   const btdTest = read(root, 'packages/btd/__tests__/interface-consumer-ux-regression-proof.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
-  const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
-    read(root, 'BITCODE_SPEC_V33.md'),
-    read(root, 'BITCODE_SPEC_V33_DELTA.md'),
-    read(root, 'BITCODE_SPEC_V33_NOTES.md'),
-    read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md'),
-    read(root, 'SPECIFICATIONS_ROADMAP.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md'),
+    read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md'),
+    read(root, '.specifications/SPECIFICATIONS_ROADMAP.md'),
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');
-  const protocolSpecifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const protocolSpecifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const sourcePhrase of [
     'BTD_INTERFACE_CONSUMER_UX_REGRESSION_SURFACES',
@@ -239,7 +239,7 @@ function main() {
   assertCheck(failures, apiTest.includes('InterfaceConsumerUxRegressionProof for public API denied states'), 'Gate 9 public API test must consume UX proof.');
   assertCheck(failures, mcpTest.includes('InterfaceConsumerUxRegressionProof for MCP Finding Fits readability'), 'Gate 9 MCP test must consume UX proof.');
   assertCheck(failures, chatgptTest.includes('InterfaceConsumerUxRegressionProof for ChatGPT App blocked delivery'), 'Gate 9 ChatGPT App test must consume UX proof.');
-  assertCheck(failures, terminalTest.includes('InterfaceConsumerUxRegressionProof for Terminal handoff readability'), 'Gate 9 Terminal test must consume UX proof.');
+  assertCheck(failures, terminalTest.includes('InterfaceConsumerUxRegressionProof for product handoff readability'), 'Gate 9 product test must consume UX proof.');
   assertCheck(failures, specs.includes('InterfaceConsumerUxRegressionProof'), 'Gate 9 specs must name InterfaceConsumerUxRegressionProof.');
   assertCheck(failures, specs.includes('source-safe summary, proof roots, repair steps, and fee/rights preview'), 'Gate 9 specs must preserve closure acceptance wording.');
   assertCheck(failures, packageJson.includes('generate:v33-interface-consumer-ux-regression-proof'), 'Gate 9 package script missing generator.');
