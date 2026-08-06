@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * Living required local CI mirror (V47 pointer + V48 draft).
+ * Living required local CI mirror (pointer-aware).
+ * Pre-promotion: V47 pointer + V48 draft family/gates.
+ * Post-promotion: V48 sole active + living check-v48-gate*.
  *
  * Mirrors required GitHub surfaces that gate shared-branch work:
  *   - Casing and Import Consistency
- *   - Bitcode Canon Quality / Spec Basics (active + draft family, posture,
- *     promotion readiness, and every present scripts/check-v{N}-gate*.mjs for
- *     the draft target — same skip flags as Spec Basics)
+ *   - Bitcode Canon Quality / Spec Basics
  *   - Bitcode Gate Quality (typecheck, package tests, staged harness)
  *   - CI lint-build + test-mocks
  *
@@ -183,7 +183,9 @@ export function buildLocalCiSteps(repoRoot, mode) {
     return steps;
   }
 
-  // --- full living mirror ---
+  // --- full living mirror (pointer-aware: V47+V48 draft, or V48 sole) ---
+
+  const pointer = readPointer(repoRoot);
 
   add('casing-raw-promptparts', () =>
     runStep(repoRoot, 'Casing: raw_promptparts', 'bash', [
@@ -194,56 +196,35 @@ export function buildLocalCiSteps(repoRoot, mode) {
     runStep(repoRoot, 'Casing: import mismatches', 'bash', ['scripts/check-import-casing.sh']),
   );
 
-  add('canon-v47-family', () =>
-    runNodeScript(repoRoot, 'Canon: V47 promoted family', [
-      'scripts/check-bitcode-spec-family.mjs',
-      '--version',
-      'V47',
-      '--mode',
-      'promoted',
-      '--current-target',
-      'V47',
-    ]),
-  );
-  add('canon-v47-inputs', () =>
-    runNodeScript(repoRoot, 'Canon: V47 canonical inputs', [
-      'scripts/check-bitcode-canonical-inputs.mjs',
-      '--current-target',
-      'V47',
-    ]),
-  );
-  add('canon-posture', () =>
-    runNodeScript(repoRoot, 'Canon: V47→V48 posture drift', [
-      'scripts/check-bitcode-canon-posture-drift.mjs',
-      '--active-canon',
-      'V47',
-      '--draft-target',
-      'V48',
-    ]),
-  );
-  add('canon-v47-gate10', () =>
-    runNodeScript(repoRoot, 'Canon: V47 gate10 promotion readiness', [
-      'scripts/check-v47-gate10-promotion-readiness.mjs',
-      '--promotion-mode',
-      '--skip-branch-check',
-      '--skip-package-tests',
-    ]),
-  );
-  if (existsSync(path.join(repoRoot, '.specifications/BITCODE_SPEC_V48.md'))) {
-    add('canon-v48-draft-family', () =>
-      runNodeScript(repoRoot, 'Canon: V48 draft family', [
+  if (pointer === 'V48') {
+    // Post-promotion: V48 sole active (next-draft also V48 until V49 opens).
+    add('canon-v48-family', () =>
+      runNodeScript(repoRoot, 'Canon: V48 promoted family', [
         'scripts/check-bitcode-spec-family.mjs',
         '--version',
         'V48',
         '--mode',
-        'draft',
+        'promoted',
         '--current-target',
-        'V47',
+        'V48',
       ]),
     );
-    // Spec Basics (bitcode-canon-quality) runs present V48 draft gate checkers
-    // after the draft family. Local full mode must include them so stale proofs
-    // (e.g. Gate 4 depositor website completion) fail pre-commit, not only GH.
+    add('canon-v48-inputs', () =>
+      runNodeScript(repoRoot, 'Canon: V48 canonical inputs', [
+        'scripts/check-bitcode-canonical-inputs.mjs',
+        '--current-target',
+        'V48',
+      ]),
+    );
+    add('canon-posture', () =>
+      runNodeScript(repoRoot, 'Canon: V48 sole posture', [
+        'scripts/check-bitcode-canon-posture-drift.mjs',
+        '--active-canon',
+        'V48',
+        '--draft-target',
+        'V48',
+      ]),
+    );
     const v48GateScripts = listDraftGateCheckScripts(repoRoot, 48);
     for (const scriptName of v48GateScripts) {
       const gateId = scriptName.replace(/^check-v48-|\.mjs$/g, '');
@@ -255,6 +236,68 @@ export function buildLocalCiSteps(repoRoot, mode) {
           '--skip-uapi-tests',
         ]),
       );
+    }
+  } else {
+    // Pre-promotion living path: V47 active + V48 draft.
+    add('canon-v47-family', () =>
+      runNodeScript(repoRoot, 'Canon: V47 promoted family', [
+        'scripts/check-bitcode-spec-family.mjs',
+        '--version',
+        'V47',
+        '--mode',
+        'promoted',
+        '--current-target',
+        'V47',
+      ]),
+    );
+    add('canon-v47-inputs', () =>
+      runNodeScript(repoRoot, 'Canon: V47 canonical inputs', [
+        'scripts/check-bitcode-canonical-inputs.mjs',
+        '--current-target',
+        'V47',
+      ]),
+    );
+    add('canon-posture', () =>
+      runNodeScript(repoRoot, 'Canon: V47→V48 posture drift', [
+        'scripts/check-bitcode-canon-posture-drift.mjs',
+        '--active-canon',
+        'V47',
+        '--draft-target',
+        'V48',
+      ]),
+    );
+    add('canon-v47-gate10', () =>
+      runNodeScript(repoRoot, 'Canon: V47 gate10 promotion readiness', [
+        'scripts/check-v47-gate10-promotion-readiness.mjs',
+        '--promotion-mode',
+        '--skip-branch-check',
+        '--skip-package-tests',
+      ]),
+    );
+    if (existsSync(path.join(repoRoot, '.specifications/BITCODE_SPEC_V48.md'))) {
+      add('canon-v48-draft-family', () =>
+        runNodeScript(repoRoot, 'Canon: V48 draft family', [
+          'scripts/check-bitcode-spec-family.mjs',
+          '--version',
+          'V48',
+          '--mode',
+          'draft',
+          '--current-target',
+          'V47',
+        ]),
+      );
+      const v48GateScripts = listDraftGateCheckScripts(repoRoot, 48);
+      for (const scriptName of v48GateScripts) {
+        const gateId = scriptName.replace(/^check-v48-|\.mjs$/g, '');
+        add(`canon-v48-${gateId}`, () =>
+          runNodeScript(repoRoot, `Canon Spec Basics: V48 ${gateId}`, [
+            `scripts/${scriptName}`,
+            '--skip-branch-check',
+            '--skip-package-tests',
+            '--skip-uapi-tests',
+          ]),
+        );
+      }
     }
   }
 
@@ -694,9 +737,9 @@ export function buildLocalCiSteps(repoRoot, mode) {
 export function runLocalCi(options) {
   const { mode, repoRoot, list } = options;
   const pointer = readPointer(repoRoot);
-  if (mode === 'full' && pointer !== 'V47') {
+  if (mode === 'full' && pointer !== 'V47' && pointer !== 'V48') {
     throw new Error(
-      `run-bitcode-local-ci full mode is wired for the living V47 pointer + V48 draft path; observed pointer=${pointer || 'empty'}. Update scripts/run-bitcode-local-ci.mjs when the active pointer advances.`,
+      `run-bitcode-local-ci full mode supports living pointers V47 (with V48 draft) or V48 sole; observed pointer=${pointer || 'empty'}.`,
     );
   }
 

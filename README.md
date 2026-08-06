@@ -9,8 +9,8 @@ always the single current Bitcode system under the active canon.
 
 | | |
 |---|---|
-| **Active canon on `main`** | **V47** (`.specifications/BITCODE_SPEC.txt`) |
-| **Draft target** | **V48** (`version/v48`, full-stack rebuild-alone SPEC) |
+| **Active canon on `main`** | **V47** (`.specifications/BITCODE_SPEC.txt`) — **V48 as-is promotion prepared** on `version/v48` |
+| **Draft target** | **V48** sole-complete family (`version/v48`); post-promote target: **V48 sole** |
 | **How to develop** | **[`CONTRIBUTING.md`](CONTRIBUTING.md)** — setup, canon, env, hosts, GitHub App, testing |
 | **How the tree is organized** | [`.docs/FAMILIARIZATION.md`](.docs/FAMILIARIZATION.md) |
 | **Filesystem / component law** | [`.docs/BITCODE_SOURCE_LAYOUT.md`](.docs/BITCODE_SOURCE_LAYOUT.md) |

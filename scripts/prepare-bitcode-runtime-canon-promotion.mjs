@@ -208,34 +208,107 @@ async function main() {
   const nextDraft = args.nextDraft || deriveNextDraft(version);
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
 
+  // Living carriers (post-protocol-demonstration): specifying package.
+  const specifyingCanonPosturePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'src', 'canon-posture.js');
+  const specifyingReadmePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'README.md');
+  const specifyingDataStatePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'data', 'state.json');
+  // Optional legacy / alternate carriers (may be absent).
   const demonstrationCanonPosturePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'src', 'canon-posture.js');
   const demonstrationReadmePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'README.md');
   const packageCanonPosturePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'src', 'canon-posture.js');
   const packageReadmePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'README.md');
   const packageDataStatePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'data', 'state.json');
 
-  const [demonstrationCanonPostureContent, demonstrationReadmeContent] = await Promise.all([
-    fs.readFile(demonstrationCanonPosturePath, 'utf8'),
-    fs.readFile(demonstrationReadmePath, 'utf8')
-  ]);
-  const [packageCanonPostureContent, packageReadmeContent, packageDataStateContent] = await Promise.all([
+  const [
+    specifyingCanonPostureContent,
+    specifyingReadmeContent,
+    specifyingDataStateContent,
+    demonstrationCanonPostureContent,
+    demonstrationReadmeContent,
+    packageCanonPostureContent,
+    packageReadmeContent,
+    packageDataStateContent,
+  ] = await Promise.all([
+    fs.readFile(specifyingCanonPosturePath, 'utf8'),
+    readOptionalFile(specifyingReadmePath),
+    readOptionalFile(specifyingDataStatePath),
+    readOptionalFile(demonstrationCanonPosturePath),
+    readOptionalFile(demonstrationReadmePath),
     readOptionalFile(packageCanonPosturePath),
     readOptionalFile(packageReadmePath),
-    readOptionalFile(packageDataStatePath)
+    readOptionalFile(packageDataStatePath),
   ]);
 
+  /** @type {Promise<void>[]} */
   const writes = [
-    fs.writeFile(demonstrationCanonPosturePath, rewriteCanonPostureSource(demonstrationCanonPostureContent, version, nextDraft), 'utf8'),
-    fs.writeFile(demonstrationReadmePath, rewriteReadme(demonstrationReadmeContent, version, nextDraft), 'utf8')
+    fs.writeFile(
+      specifyingCanonPosturePath,
+      rewriteCanonPostureSource(specifyingCanonPostureContent, version, nextDraft),
+      'utf8',
+    ),
   ];
+  if (specifyingReadmeContent !== null) {
+    writes.push(
+      fs.writeFile(
+        specifyingReadmePath,
+        rewritePackageReadme(specifyingReadmeContent, version, nextDraft),
+        'utf8',
+      ),
+    );
+  }
+  if (specifyingDataStateContent !== null) {
+    writes.push(
+      fs.writeFile(
+        specifyingDataStatePath,
+        rewriteRuntimeDataState(specifyingDataStateContent, version, nextDraft),
+        'utf8',
+      ),
+    );
+  }
+  if (demonstrationCanonPostureContent !== null) {
+    writes.push(
+      fs.writeFile(
+        demonstrationCanonPosturePath,
+        rewriteCanonPostureSource(demonstrationCanonPostureContent, version, nextDraft),
+        'utf8',
+      ),
+    );
+  }
+  if (demonstrationReadmeContent !== null) {
+    writes.push(
+      fs.writeFile(
+        demonstrationReadmePath,
+        rewriteReadme(demonstrationReadmeContent, version, nextDraft),
+        'utf8',
+      ),
+    );
+  }
   if (packageCanonPostureContent !== null) {
-    writes.push(fs.writeFile(packageCanonPosturePath, rewriteCanonPostureSource(packageCanonPostureContent, version, nextDraft), 'utf8'));
+    writes.push(
+      fs.writeFile(
+        packageCanonPosturePath,
+        rewriteCanonPostureSource(packageCanonPostureContent, version, nextDraft),
+        'utf8',
+      ),
+    );
   }
   if (packageReadmeContent !== null) {
-    writes.push(fs.writeFile(packageReadmePath, rewritePackageReadme(packageReadmeContent, version, nextDraft), 'utf8'));
+    writes.push(
+      fs.writeFile(
+        packageReadmePath,
+        rewritePackageReadme(packageReadmeContent, version, nextDraft),
+        'utf8',
+      ),
+    );
   }
   if (packageDataStateContent !== null) {
-    writes.push(fs.writeFile(packageDataStatePath, rewriteRuntimeDataState(packageDataStateContent, version, nextDraft), 'utf8'));
+    writes.push(
+      fs.writeFile(
+        packageDataStatePath,
+        rewriteRuntimeDataState(packageDataStateContent, version, nextDraft),
+        'utf8',
+      ),
+    );
   }
   await Promise.all(writes);
 

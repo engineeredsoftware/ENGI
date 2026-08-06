@@ -412,10 +412,10 @@
   "sourceRoots": {
     "activePointer": ".specifications/BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
     "spec": ".specifications/BITCODE_SPEC_V48.md:f254eac17b656b41c144f442",
-    "delta": ".specifications/BITCODE_SPEC_V48_DELTA.md:9b52fd9d49b83ec43b134223",
+    "delta": ".specifications/BITCODE_SPEC_V48_DELTA.md:fde9d7e056eb4ac0ad007384",
     "notes": ".specifications/BITCODE_SPEC_V48_NOTES.md:ea549484eaedce96a1b1e085",
     "parity": ".specifications/BITCODE_SPEC_V48_PARITY_MATRIX.md:3bae28b64cd8576eae7d2d3c",
-    "roadmap": ".specifications/SPECIFICATIONS_ROADMAP.md:edf9916bbb69200a0bbd2605",
+    "roadmap": ".specifications/SPECIFICATIONS_ROADMAP.md:7ad72770427bb0afc72f059d",
     "depositRouteModel": "apps/uapi/components/deposits/models/deposit-route-model.ts:376bd9efce837052ef895eef",
     "depositRouteSessionTypes": "apps/uapi/components/deposits/models/deposit-route-session-types.ts:5f3236159054d90ea17c713c",
     "depositClient": "apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx:d546178fabf0f11e4c66f752",
@@ -454,9 +454,9 @@
     "generator": "scripts/generate-v48-depositor-website-completion.mjs:e6db8828c5a56ca6e9db9ecf",
     "checker": "scripts/check-v48-gate4-depositor-website-completion.mjs:dda78a3f25f41bc1951afc92",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:befdbcaf0c6828e361191ce3",
-    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:a994335a16eeaba1ecb1f709"
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:3f1288565117393d5fb9dc9f"
   },
-  "artifactRoot": "v48-depositor-website-completion:6c9f4a5f9d1e8bc2bb0d0244",
+  "artifactRoot": "v48-depositor-website-completion:423e1960ac1a4d666818e3eb",
   "coverage": {
     "requiredPredicateCount": 24,
     "passedPredicateCount": 24,

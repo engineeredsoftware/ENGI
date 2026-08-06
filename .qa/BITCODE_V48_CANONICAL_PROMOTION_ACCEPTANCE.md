@@ -7,8 +7,11 @@
   (version-branch readiness toward `main` promotion). Complements
   [`.qa/BITCODE_V48_QA.md`](BITCODE_V48_QA.md) (gate-level experiential QA) and
   does **not** replace rebuild-alone law in `.specifications/BITCODE_SPEC_V48.md`.
-- **Posture:** draft acceptance criteria; sections open until closed with
-  evidence under this file or linked run artifacts.
+- **Posture:** **As-is promotion override accepted** (human, 2026-08-06): promote
+  V48 pointer to active canon without formal Gate 2–3/5–10 machine-matrix
+  completion. Version objectives treated complete for sole-complete SPEC +
+  living product tree. Residual debt remains documented; value-bearing mainnet
+  stays blocked.
 - **Source-safety:** no secrets, protected source bodies, wallet material,
   service-role keys, or raw private customer payloads. LLM wire dumps may
   quote system/user prompts that contain only keys-only execution trees and
@@ -40,10 +43,18 @@
 | 9 | Source-safety / obfuscations / catalog binding | Open |
 | 10 | BTD / BTC-testnet settlement & ledger readback | Open |
 | 11 | uapi routes (Packs / Deposits / Reads / Docs) green | Open |
-| 12 | Spec family / promotion workflow green | Open |
-| 13 | Residual risks & explicit non-goals | Open |
+| 12 | Spec family / promotion workflow green | **Partial** — as-is machinery wired (`promote:canon --version V48`, `v48-canon-promotion.yml`, local CI pointer-aware); full Gate 10 artifact matrix residual |
+| 13 | Residual risks & explicit non-goals | **Closed (override)** — as-is residual listed below |
 
-*(Sections 2–13 are placeholders for subsequent fills.)*
+### As-is promotion residual (accepted)
+
+Not blocking pointer advance under human override:
+
+- Formal Gate 2–3,5–9 generated proof JSON matrix + checkers (beyond living
+  `check:v48-gate4` / depositor completion artifact)
+- Formal Gate 10 `buildV48PromotionReadinessReport` full binding without override
+- Exhaustive call-by-call LLM QA (§1 progressive)
+- Optional V49 notes-only draft (posture: **V48 sole** after promotion)
 
 ---
 

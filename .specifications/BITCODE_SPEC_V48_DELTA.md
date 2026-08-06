@@ -19,6 +19,15 @@
 - Proven: `BITCODE_SPEC_V48_PROVEN.md`
 
 
+## Accepted V48 promotion override (as-is)
+
+Human-accepted **as-is** promotion (2026-08-06): advance `BITCODE_SPEC.txt` to
+`V48` without the full formal Gate 2–3/5–10 machine-matrix evidence set that
+the promotion canon originally listed. Living product tree + sole-complete SPEC
+family are treated as complete for pointer advance. Residual: formal Gate 10
+artifact matrix, missing `check:v48-gate{2,3,5–9}` product proofs. Mainnet
+value-bearing settlement remains blocked.
+
 ## Why V48 exists
 
 V48 exists to make the website application commercially ready on staging-testnet

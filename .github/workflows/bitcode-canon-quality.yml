@@ -500,6 +500,13 @@ jobs:
                 node "$check" --skip-branch-check --skip-package-tests --skip-uapi-tests
               done
             fi
+          elif [ "$POINTER" = "V48" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V48 --mode promoted --current-target V48
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V48
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V48 --draft-target V48
+            for check in $(ls scripts/check-v48-gate*.mjs 2>/dev/null | sort -V); do
+              node "$check" --skip-branch-check --skip-package-tests --skip-uapi-tests
+            done
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1

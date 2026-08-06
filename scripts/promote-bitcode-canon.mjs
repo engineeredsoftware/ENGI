@@ -42,7 +42,7 @@ function printHelp() {
       'Usage: npm run promote:canon -- --version V20 --commit <proof-source-commit> [--dry-run]',
       '',
       'Options:',
-      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, V47.',
+      '  --version <VN>           Canonical version to promote. Accepted targets: V19–V25, V28–V48.',
       '  --commit <sha>           Proof-source commit to render into the generated appendix.',
       '  --dry-run                Print the promotion plan without executing commands or writing files.',
       '  --allow-dirty-start      Permit a dirty worktree before promotion. Not for canonical use.',
@@ -666,6 +666,17 @@ function buildCommandPlan(version, commit) {
   const v47PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V47']];
   const v47PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V47', '--mode', 'promoted', '--current-target', 'V47']];
   const v47PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V47', '--draft-target', 'V48']];
+  // V48 as-is promotion: sole complete commercial website; next draft stays V48
+  // (no V49 family until opened). Only living check-v48-gate* scripts run.
+  const v48DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V48', '--mode', 'draft', '--current-target', 'V47']];
+  const v48CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V47']];
+  const v48DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V47', '--draft-target', 'V48']];
+  const v48Gate4Command = ['node', ['scripts/check-v48-gate4-depositor-website-completion.mjs', '--skip-branch-check', '--skip-package-tests', '--skip-uapi-tests']];
+  const v48PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V48', '--commit', commit]];
+  const v48PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V48', '--next-draft', 'V48']];
+  const v48PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V48']];
+  const v48PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V48', '--mode', 'promoted', '--current-target', 'V48']];
+  const v48PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V48', '--draft-target', 'V48']];
   const inheritedProofCommands = [
     ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'typecheck']],
     ['pnpm', ['--filter', '@bitcode/specifying', 'run', 'test:unit']],
@@ -1620,7 +1631,33 @@ function buildCommandPlan(version, commit) {
       ['git', ['diff', '--check']]
     ];
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, or V46.`);
+  if (version === 'V48') {
+    // As-is promotion: human override of full Gate 2–10 matrix. Only living
+    // V48 gate scripts present on disk (today: gate4) plus family/posture.
+    return [
+      v48DraftSpecCheckCommand,
+      v48CanonicalInputCheckCommand,
+      v48DraftCanonPostureDriftCommand,
+      v48Gate4Command,
+      ['pnpm', ['--filter', '@bitcode/specifying', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/specifying', 'test']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'test']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      v48PreparePromotionSpecFamilyCommand,
+      v48PrepareRuntimePromotionCommand,
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--check', '--allow-dirty']],
+      v48PromotedCanonicalInputCheckCommand,
+      v48PromotedSpecCheckCommand,
+      v48PromotedCanonPostureDriftCommand,
+      ['git', ['diff', '--check']],
+    ];
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19–V25 or V28–V48.`);
 }
 
 /**
@@ -3110,7 +3147,18 @@ async function buildCommitMessageBody(version, commit) {
   if (version === 'V47') {
     return buildDerivedV47CommitMessageBody(commit);
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, or V47.`);
+  if (version === 'V48') {
+    return [
+      'Promotes V48 as active sole-complete commercial website testnet canon.',
+      '',
+      'As-is promotion override: formal Gate 2–3/5–10 machine matrix residual;',
+      'living product tree + sole-complete SPEC family accepted for pointer',
+      'advance. Value-bearing mainnet remains blocked.',
+      '',
+      `Proof-source commit: ${commit}`,
+    ].join('\n');
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19–V25 or V28–V48.`);
 }
 
 async function main() {
@@ -3121,8 +3169,8 @@ async function main() {
   }
 
   const version = args.version || '';
-  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28', 'V29', 'V30', 'V31', 'V32', 'V33', 'V34', 'V35', 'V36', 'V37', 'V38', 'V39', 'V40', 'V41', 'V42', 'V43', 'V44', 'V45', 'V46', 'V47'].includes(version)) {
-    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, V46, or V47. Received ${version || 'none'}.`);
+  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28', 'V29', 'V30', 'V31', 'V32', 'V33', 'V34', 'V35', 'V36', 'V37', 'V38', 'V39', 'V40', 'V41', 'V42', 'V43', 'V44', 'V45', 'V46', 'V47', 'V48'].includes(version)) {
+    throw new Error(`Canonical promotion accepts --version V19–V25 or V28–V48. Received ${version || 'none'}.`);
   }
   const commit = args.commit || '';
   if (!commit) {
