@@ -58,9 +58,9 @@ describe('agent-measure-absolutes', () => {
     expect(fileSpan?.magnitude).toBe(2); // two fileChanges
     expect(fileSpan?.unit).toBe('files');
     const correctness = measurements.find((m) => m.measurementKind === 'correctness-estimate');
-    expect(correctness?.volume).toBe(0.82); // = confidence
-    // Absolute law: magnitude always present; quality mirrors volume.
-    expect(correctness?.magnitude).toBe(0.82);
+    // Deterministic path no longer invents quality from confidence.
+    expect(correctness?.volume ?? 0).toBe(0);
+    expect(correctness?.status).toBe('insufficient_evidence');
   });
 
   it('maps agent readings onto the catalog and falls back per-missing-reading', () => {
@@ -361,9 +361,11 @@ describe('measureDataPackAbsolutes real-inference path (boundary-mocked measure-
       sources: SOURCES,
     });
 
-    // Identical to the deterministic report-derived absolutes: correctness stays
-    // confidence-derived, sizes stay measured.
-    expect(absolutes.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(0.7);
+    // Sizes stay measured; bare semantics do not invent confidence volumes when
+    // agent readings match no catalog kind.
+    const correctness = absolutes.find((m) => m.measurementKind === 'correctness-estimate');
+    expect(correctness?.volume ?? 0).toBe(0);
+    expect(correctness?.status).toBe('insufficient_evidence');
     expect(absolutes.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(2);
     expect(absolutes.find((m) => m.measurementKind === 'type-count')?.magnitude).toBe(1);
   }, 30000);

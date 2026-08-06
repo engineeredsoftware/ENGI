@@ -14,7 +14,8 @@ describe('CORE: DATA_PACK_ABSOLUTES catalogue (full commercial law)', () => {
   it('commercial catalogue is full vocabulary with Σ weights = 1', () => {
     expect(() => assertDataPackAbsolutesCatalogWeights()).not.toThrow();
     const n = DATA_PACK_ABSOLUTES_CATALOG.length;
-    expect(n).toBeGreaterThanOrEqual(65);
+    // Commercial law: full catalogue is exactly 65 kinds (not a 11/46 subset).
+    expect(n).toBe(65);
     expect(DATA_PACK_ABSOLUTE_KIND_SPECS).toHaveLength(n);
     expect(DATA_PACK_ABSOLUTE_KINDS).toHaveLength(n);
     // Legacy alias points at full catalogue (not a 11-kind subset).

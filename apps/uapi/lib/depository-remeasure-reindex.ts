@@ -1,5 +1,5 @@
 /**
- * Remeasure + reindex depository search documents for 46-kind absolute law.
+ * Remeasure + reindex depository search documents for 65-kind absolute law.
  *
  * Sources:
  * 1. depository_search_documents (existing facets)
@@ -147,7 +147,7 @@ async function loadExecutionPriorForAsset(
 
 /**
  * Remeasure absolute facets for all (or filtered) depository search documents
- * and reindex them under 46-kind commercial law.
+ * and reindex them under 65-kind commercial law.
  */
 export async function remeasureAndReindexDepositoryAbsolutes(
   options: RemeasureReindexOptions = {},

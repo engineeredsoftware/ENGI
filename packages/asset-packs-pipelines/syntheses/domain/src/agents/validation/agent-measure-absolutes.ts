@@ -55,13 +55,40 @@ export interface MeasurableAssetPackPatch {
 /**
  * Quantity kinds — tool/bare-count authoritative.
  * Derived from product catalog propertyClass so all structure quantities stay
- * in the 46-kind law (never a legacy 8-kind hand list).
+ * in the full commercial catalogue law (65 kinds; never a legacy 8-kind hand list).
  */
 const QUANTITY_KINDS = new Set(
   DATA_PACK_ABSOLUTES_PRODUCT_CATALOG.filter((s) => s.propertyClass === 'quantity').map(
     (s) => s.measurementKind,
   ),
 );
+
+/**
+ * Pull optional verification / provenance / quality sensor signals from the
+ * execution bag (host or prior tools). Finite numbers only — never invent.
+ */
+export function extractExecutionMeasureSignals(
+  execution: unknown,
+): Record<string, number> {
+  if (!execution || typeof execution !== 'object') return {};
+  const ctx = (execution as { context?: Record<string, unknown> }).context || {};
+  const bags: unknown[] = [
+    ctx.measureSignals,
+    ctx.staticSignals,
+    ctx.verificationSignals,
+    ctx.provenanceSignals,
+    (execution as { measureSignals?: unknown }).measureSignals,
+  ];
+  const out: Record<string, number> = {};
+  for (const bag of bags) {
+    if (!bag || typeof bag !== 'object' || Array.isArray(bag)) continue;
+    for (const [key, value] of Object.entries(bag as Record<string, unknown>)) {
+      const n = Number(value);
+      if (Number.isFinite(n) && n >= 0) out[key] = n;
+    }
+  }
+  return out;
+}
 
 /**
  * Quantity kinds the static-analysis report actually materializes.
@@ -160,9 +187,9 @@ function toDescriptor(patch: MeasurableAssetPackPatch, report: StaticAnalysisRep
  * Absolutes from the static-analysis report. SIZES come from the measured report
  * (estimated counts; exact where the covered file was sampled). When no source was
  * available (measuredFromSamples=false), sizes fall back to a covered-path-span
- * heuristic so the preview is never empty. correctness = confidence; semantic-volume
- * is monotone in the sizes. This is both the deterministic fallback AND the size
- * source the agent path builds on.
+ * heuristic so the preview is never empty. Quality / semantics kinds are NOT
+ * invented here from confidence (commercial honesty); those require quality
+ * measure-agent or host sensors. Structure report-owned quantities only.
  */
 /**
  * Distinct top-level modules touched by the patch (path prefix before first `/`
@@ -221,26 +248,7 @@ export function computeAbsolutesFromReport(
   const docSignal = clamp01(report.estimatedDocSignal ?? 0);
   const configSurface = Math.max(0, report.estimatedConfigSurface ?? report.configKeyCount ?? 0);
 
-  // Quality defaults (deterministic path): grounded in confidence + quantities.
-  const correctness = clamp01(patch.confidence ?? 0.6);
-  const quantityComposite = clamp01(
-    (functionCount / QUANTITY_NORMALIZER['function-count'] +
-      typeCount / QUANTITY_NORMALIZER['type-count'] +
-      fileSpan / QUANTITY_NORMALIZER['file-span'] +
-      symbolCount / QUANTITY_NORMALIZER['symbolic-richness'] +
-      moduleCount / QUANTITY_NORMALIZER.modularity +
-      langSpan / QUANTITY_NORMALIZER['lang-span'] +
-      testSurface / QUANTITY_NORMALIZER['test-surface'] +
-      apiSurface / QUANTITY_NORMALIZER['api-surface']) /
-      8,
-  );
-  const objectivesFidelity = clamp01(0.55 * correctness + 0.45 * quantityComposite);
-  const computationalUsage = clamp01(
-    0.4 * (symbolCount / QUANTITY_NORMALIZER['symbolic-richness']) +
-      0.35 * (functionCount / QUANTITY_NORMALIZER['function-count']) +
-      0.25 * (fileSpan / QUANTITY_NORMALIZER['file-span']),
-  );
-
+  // Report-owned structure quantities only — no confidence-invented quality.
   const magnitudeByKind: Record<string, number> = {
     'function-count': functionCount,
     'type-count': typeCount,
@@ -266,9 +274,6 @@ export function computeAbsolutesFromReport(
     'dependency-span': clamp01(dependencySpan / QUANTITY_NORMALIZER['dependency-span']),
     'doc-signal': docSignal,
     'config-surface': clamp01(configSurface / QUANTITY_NORMALIZER['config-surface']),
-    'correctness-estimate': correctness,
-    'objectives-fidelity': objectivesFidelity,
-    'computational-usage': computationalUsage,
   };
 
   // Instance structure profile for this pack (path/lang/op + quantity shape).
@@ -650,7 +655,12 @@ export async function measureDataPackAbsolutesAndIdentity(
         'dependency-span': report.estimatedDependencyCount,
         'doc-signal': report.estimatedDocSignal,
         'config-surface': report.estimatedConfigSurface ?? report.configKeyCount,
+        // Sampling coverage is not test coverage — do not map to test-coverage kind.
         ...identitySignals,
+        ...extractExecutionMeasureSignals(context.execution),
+      },
+      context: {
+        ...extractExecutionMeasureSignals(context.execution),
       },
     });
     const reportAbsolutes = computeAbsolutesFromReport(report, patch);

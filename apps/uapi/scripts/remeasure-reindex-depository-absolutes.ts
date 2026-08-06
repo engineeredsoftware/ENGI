@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 /**
- * Remeasure + reindex depository search documents under 46-kind absolute law.
+ * Remeasure + reindex depository search documents under 65-kind absolute law.
  *
  * Usage (from apps/uapi):
  *   pnpm remeasure-reindex-depository-absolutes

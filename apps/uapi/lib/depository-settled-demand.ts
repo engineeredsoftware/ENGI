@@ -232,7 +232,7 @@ export function settledPackToDepositoryAsset(
 }
 
 /**
- * Prefer indexed depository_search_documents (46-kind absolute facets) when present;
+ * Prefer indexed depository_search_documents (65-kind absolute facets) when present;
  * fall back to admitted execution activity rows.
  */
 export async function loadDepositorySearchAssets(limit = 120): Promise<DepositoryAsset[]> {

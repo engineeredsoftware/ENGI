@@ -94,3 +94,12 @@ or material-identity readings for non-report-owned kinds.
 
 - **2026-07-24:** Hierarchy packages scaffolded; weighted path uses bare measures; old monolithic category package removed.
 - **2026-07-25:** Excellence pass — full 65-kind Σ=1 catalogue; honesty + measureReport + materialIdentity carrier; deep measure source set; report-owned merge fix; toolPlan waves; deposit/Exchange display; review artifact; multi-language fixtures.
+- **2026-08-03:** Implementation-completeness audit classes A–E applied:
+  - **P0:** Semantics class D (confidence invention) → host/quality signal or
+    `insufficient_evidence` via `hostSignalMeasuredOrInsufficient`; residual
+    “46-kind” language → 65; fixture pins for no confidence invention.
+  - **P1:** Multi-language function/type bare heuristics aligned with host
+    static-analysis patterns; measure source set still required for body path.
+  - **P2:** `extractExecutionMeasureSignals` merges verification/provenance/
+    quality bags from execution into bare `staticSignals` (no invention).
+  - **P3:** Core tests for remaining 19 companion kinds; catalog length exact 65.

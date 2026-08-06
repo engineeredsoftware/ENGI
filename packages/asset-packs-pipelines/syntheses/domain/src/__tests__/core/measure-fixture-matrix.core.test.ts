@@ -89,6 +89,30 @@ describe('measure fixture matrix (core)', () => {
         expect(measureSet.manifestCount).toBeGreaterThanOrEqual(1);
         expect(deps?.items?.length || 0).toBeGreaterThan(0);
       }
+
+      // P0 honesty: semantics without quality agent/sensor must not invent from confidence.
+      const SEMANTICS_NO_INVENTION = [
+        'correctness-estimate',
+        'objectives-fidelity',
+        'coherence',
+        'completeness',
+        'capability-clarity',
+        'documentation-alignment',
+      ] as const;
+      for (const kind of SEMANTICS_NO_INVENTION) {
+        const row = byKind.get(kind);
+        expect(row?.status).toBe('insufficient_evidence');
+        expect(Number(row?.volume) || 0).toBe(0);
+      }
+
+      // Verification sandbox sensors absent → insufficient (not fake measured).
+      for (const kind of ['buildability', 'test-coverage', 'test-pass-rate'] as const) {
+        const row = byKind.get(kind);
+        expect(row?.status).not.toBe('measured');
+        if (!row?.status || row.status === 'insufficient_evidence' || row.status === 'expanded-fill') {
+          expect(Number(row?.volume) || 0).toBe(0);
+        }
+      }
     },
     60000,
   );

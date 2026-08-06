@@ -34,7 +34,9 @@ describe('normalizeAbsoluteHonestyStatuses', () => {
     expect(out[0].status).toBe('insufficient_evidence');
   });
 
-  it('keeps non-zero estimated as estimated', () => {
+  it('keeps non-zero estimated as estimated (quality-agent path)', () => {
+    // Bare semantics no longer invent confidence estimates; non-zero estimated
+    // remains valid only when a sensor or quality measure-agent produced it.
     const out = normalizeAbsoluteHonestyStatuses([
       row({ measurementKind: 'correctness-estimate', volume: 0.6, status: 'estimated' }),
     ]);

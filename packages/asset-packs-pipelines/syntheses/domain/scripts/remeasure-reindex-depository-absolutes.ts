@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 /**
- * Ops: remeasure + reindex depository absolute facets under 46-kind law.
+ * Ops: remeasure + reindex depository absolute facets under 65-kind law.
  *
  * Sources (merged):
  * 1. depository_search_documents (existing index rows)

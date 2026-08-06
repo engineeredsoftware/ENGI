@@ -90,3 +90,44 @@ export function notImplemented(
     status: 'not_implemented',
   };
 }
+
+/**
+ * Quality / sensor-gated absolute: only emit a volume when the host (or quality
+ * measure-agent merge) supplies a finite signal. Never invent scores from
+ * synthesis confidence alone (commercial honesty — V48 absolute audit class D).
+ */
+export function hostSignalMeasuredOrInsufficient(
+  measurementKind: string,
+  input: DataPackAbsoluteMeasureInput,
+  options?: {
+    /** Prefer ratio 0..1 magnitude when true (default true). */
+    isRatio?: boolean;
+    /** Divisor for non-ratio magnitude → volume. */
+    volumeDivisor?: number;
+    policyRole?: AbsoluteMeasureResult['policyRole'];
+    missingRationale?: string;
+  },
+): AbsoluteMeasureResult {
+  const isRatio = options?.isRatio !== false;
+  const raw = input.staticSignals?.[measurementKind] ?? input.context?.[measurementKind];
+  const n = Number(raw);
+  if (Number.isFinite(n) && n >= 0) {
+    const magnitude = isRatio ? clamp01(n) : Math.round(n);
+    const volume = isRatio
+      ? clamp01(n)
+      : clamp01(magnitude / Math.max(1, options?.volumeDivisor ?? 1));
+    return {
+      measurementKind,
+      magnitude,
+      volume,
+      rationale: 'host staticSignals/context (quality or sensor signal)',
+      status: 'measured',
+      policyRole: options?.policyRole,
+    };
+  }
+  return emptyInsufficient(
+    measurementKind,
+    options?.missingRationale ||
+      'Requires host quality/sensor signal (or quality measure-agent); never invent from confidence alone.',
+  );
+}
