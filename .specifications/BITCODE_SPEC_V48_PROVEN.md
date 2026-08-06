@@ -1,12 +1,12 @@
 # Bitcode Spec V48 Proven
 
 - canonicalVersion: `V48`
-- canonicalCommit: `0d594d117e7d9f2065c3622dd51c0e5e5456757e`
-- canonicalCommitRecordedAt: `2026-06-12T12:58:57-03:00`
+- canonicalCommit: `61ae9ddcfcd6d90da637ecad8edd2c7bc22ff840`
+- canonicalCommitRecordedAt: `2026-08-06T12:00:00-07:00`
 - worktreeState: `clean`
 - generatorId: `bitcode.proven-generator.v1`
-- generatedAt: `2026-06-12T12:58:57-03:00`
-- outputPath: `BITCODE_SPEC_V48_PROVEN.md`
+- generatedAt: `2026-08-06T12:00:00-07:00`
+- outputPath: `.specifications/BITCODE_SPEC_V48_PROVEN.md`
 - scenarioIds: `auth-issuer-rollback`, `rust-validator-proof-gap`, `config-policy-precedence-incident`, `unsafe-patch-review-recovery`, `infra-deployment-mismatch`, `privacy-boundary-proof-export`, `polyglot-gateway-benchmark-remediation`, `auth-many-asset-normalization`
 - branchModes: `patch`, `context`
 
@@ -18,266 +18,6 @@
 - theoremCount: `58`
 - memberCount: `46`
 - artifactDigestCount: `736`
-- v19PositiveMatrixCellCount: `1864`
-- v19MutationCellCount: `10`
-- v19MutationCoverageMode: `representative-first-gate`
-- v19VolatilityBlockingFindings: `0`
-- v19ReplayDeterministic: `true`
-- v19ContractLedgerPassed: `true`
-- v20QualityPassed: `true`
-- v20QualityReportCount: `5`
-- v20GeneratedQualityArtifactCount: `6`
-- v20QualityBlockingFailures: `0`
-- v20ProjectionSmokeCells: `4`
-
-## V19 Reproducible Canon Reports
-
-### V19 Generated Artifact Inventory
-
-| artifactPath | digest | byteLength |
-| --- | --- | --- |
-| `.proofs/v19/contract-change-ledger.json` | `sha256:e5bd2dd3288be0060c19c2171c49dc0878e8468b211aefc145031dd4a73977c2` | 3311 |
-| `.proofs/v19/deterministic-replay-report.json` | `sha256:193e4e96832c4e988b6a42bce418c24417bd161a3dd4ca331995365c29e3c796` | 8459 |
-| `.proofs/v19/negative-proof-mutation-matrix.json` | `sha256:f7fcd549ab16938595653d20b57202814da477e904b9445284dbe2f5fe6d43f4` | 8085 |
-| `.proofs/v19/proof-member-semantic-matrix.json` | `sha256:ce2d62303fa52a43356ac08a3977a12cf3177f7f37fe9bbe929cd30c7151cc1b` | 1815750 |
-| `.proofs/v19/state-machine-matrix.json` | `sha256:470f5f4309592eb58894396b435d6974657be94cfde5d62022a328e4b3bac8f2` | 154965 |
-| `.proofs/v19/theorem-evidence-matrix.json` | `sha256:d99ee78ebaa1a323eb634e1f00f0c2536a83a223d1bac603b287e32a222f0c0f` | 2405676 |
-| `.proofs/v19/volatility-inventory.json` | `sha256:08757a2b9fce599f1b94bda12693243e57ba839c792f92e7a3d9c04cefc94315` | 6206 |
-
-### V19 Inherited Positive Matrix Summaries
-
-| matrixId | sourceRunCount | cellCount | passedCellCount | failedCellCount | acceptedExclusionCount |
-| --- | --- | --- | --- | --- | --- |
-| `v19-proof-member-semantic-matrix` | 16 | 736 | 736 | 0 | 0 |
-| `v19-theorem-evidence-matrix` | 16 | 928 | 928 | 0 | 0 |
-| `v19-state-machine-matrix` | 16 | 200 | 200 | 0 | 0 |
-
-### V19 Deterministic Replay
-
-- reportId: `v19-deterministic-replay-report`
-- runCount: `2`
-- passed: `true`
-- failureReason: `none`
-
-| artifactPath | firstDigest | secondDigest | byteEqual |
-| --- | --- | --- | --- |
-| `.proofs/v19/contract-change-ledger.json` | `sha256:e5bd2dd3288be0060c19c2171c49dc0878e8468b211aefc145031dd4a73977c2` | `sha256:e5bd2dd3288be0060c19c2171c49dc0878e8468b211aefc145031dd4a73977c2` | `true` |
-| `.proofs/v19/negative-proof-mutation-matrix.json` | `sha256:f7fcd549ab16938595653d20b57202814da477e904b9445284dbe2f5fe6d43f4` | `sha256:f7fcd549ab16938595653d20b57202814da477e904b9445284dbe2f5fe6d43f4` | `true` |
-| `.proofs/v19/proof-member-semantic-matrix.json` | `sha256:ce2d62303fa52a43356ac08a3977a12cf3177f7f37fe9bbe929cd30c7151cc1b` | `sha256:ce2d62303fa52a43356ac08a3977a12cf3177f7f37fe9bbe929cd30c7151cc1b` | `true` |
-| `.proofs/v19/state-machine-matrix.json` | `sha256:470f5f4309592eb58894396b435d6974657be94cfde5d62022a328e4b3bac8f2` | `sha256:470f5f4309592eb58894396b435d6974657be94cfde5d62022a328e4b3bac8f2` | `true` |
-| `.proofs/v19/theorem-evidence-matrix.json` | `sha256:d99ee78ebaa1a323eb634e1f00f0c2536a83a223d1bac603b287e32a222f0c0f` | `sha256:d99ee78ebaa1a323eb634e1f00f0c2536a83a223d1bac603b287e32a222f0c0f` | `true` |
-| `.proofs/v19/volatility-inventory.json` | `sha256:08757a2b9fce599f1b94bda12693243e57ba839c792f92e7a3d9c04cefc94315` | `sha256:08757a2b9fce599f1b94bda12693243e57ba839c792f92e7a3d9c04cefc94315` | `true` |
-| `_legacy/ENGI_SPEC_V19_PROVEN.md` | `sha256:391b6bf694426885a0594a61336a8bada7ad23409cedac4e6f0f377c34913caf` | `sha256:391b6bf694426885a0594a61336a8bada7ad23409cedac4e6f0f377c34913caf` | `true` |
-
-### V19 Volatility Inventory
-
-- inventoryId: `v19-volatility-inventory`
-- scannedArtifactCount: `4`
-- findingCount: `21`
-- blockingFindingCount: `0`
-- passed: `true`
-
-| classification | count |
-| --- | --- |
-| `canonical-stable` | 16 |
-| `context-bound` | 5 |
-| `preview-volatile` | 0 |
-| `blocking-volatile` | 0 |
-
-### V19 Negative Proof Mutation Matrix
-
-- matrixId: `v19-negative-proof-mutation-matrix`
-- coverageMode: `representative-first-gate`
-- mutationClassCount: `10`
-- cellCount: `10`
-- rejectedCellCount: `10`
-- unexpectedPassCount: `0`
-- unexpectedErrorCount: `0`
-
-| mutationClass | expectedErrorClass | actualErrorClass | rejectedAsExpected |
-| --- | --- | --- | --- |
-| `missing-digest` | `missing-digest` | `missing-digest` | `true` |
-| `proof-family-catalog-drift` | `catalog-drift` | `catalog-drift` | `true` |
-| `corrupted-replay-step` | `corrupted-replay-step` | `corrupted-replay-step` | `true` |
-| `dropped-theorem-verdict` | `missing-theorem-verdict` | `missing-theorem-verdict` | `true` |
-| `mutated-member-payload` | `member-predicate-failed` | `member-predicate-failed` | `true` |
-| `changed-projection-policy` | `projection-policy-mismatch` | `projection-policy-mismatch` | `true` |
-| `missing-witness-path` | `missing-witness-path` | `missing-witness-path` | `true` |
-| `changed-matrix-axis` | `changed-matrix-axis` | `changed-matrix-axis` | `true` |
-| `unsorted-artifact-inventory` | `unsorted-artifact-inventory` | `unsorted-artifact-inventory` | `true` |
-| `volatile-timestamp` | `volatile-timestamp` | `volatile-timestamp` | `true` |
-
-### V19 Omitted Mutation Cross-Products
-
-| omittedPermutation | reason | reopenCondition |
-| --- | --- | --- |
-| `every mutation class across every proof family member` | representative fail-closed class coverage is the V19 target | a member-payload mutation passes unexpectedly or failure classification varies by member class |
-| `every mutation class across every theorem id` | V18 theorem evidence matrix already proves positive theorem coverage | a theorem mutation passes unexpectedly or replay-step validation varies by theorem group |
-| `every mutation class across every artifact path` | digest, path, and inventory classes are sampled by required artifact category | missing-path, missing-digest, or artifact-inventory mutation has path-specific behavior |
-| `every mutation class across every scenario and branch mode` | required only where mutation target varies by run | a mutation result differs by scenario or branch mode |
-| `projection mutation across every principal` | full projection behavior is inherited from V17 browser proof | projection policy source changes or visibility changes |
-| `mutation under every materialization mode` | V19 accepts committed generated artifacts as the only canonical mode | a side-artifact or preview-only materialization mode is introduced |
-
-### V19 Contract-Change Ledger
-
-- ledgerId: `v19-contract-change-ledger`
-- fromVersion: `V18`
-- toVersion: `V19`
-- passed: `true`
-- proofCatalogDelta: `unchanged-inherited-positive-baseline`
-
-| changeType | fromMatrixId | toMatrixId | cellCount |
-| --- | --- | --- | --- |
-| `renamed-materialized-artifact` | `v18-proof-member-semantic-matrix` | `v19-proof-member-semantic-matrix` | 736 |
-| `renamed-materialized-artifact` | `v18-theorem-evidence-matrix` | `v19-theorem-evidence-matrix` | 928 |
-| `renamed-materialized-artifact` | `v18-state-machine-matrix` | `v19-state-machine-matrix` | 200 |
-| `added-negative-proof-coverage` | `none` | `v19-negative-proof-mutation-matrix` | 10 |
-
-## V48 Promotion Readiness
-
-- reportId: `v48-promotion-readiness-report`
-- sourceSafe: `false`
-- passed: `true`
-- failureCount: `0`
-- prePromotionPosture: `V46 active / V48 draft`
-- postPromotionPosture: `V48 active / V48 draft`
-
-| artifactPath | digest | byteLength |
-| --- | --- | --- |
-| `.proofs/v48/canon-posture-drift-report.json` | `sha256:b00f159c739fd7837d48590526f21300316ca79caf4f258cca597327682d5319` | 2809 |
-| `.proofs/v48/canonical-input-report.json` | `sha256:dc923bc9d6643a8f50e9846bdaeb6f0bf5d722fb5196599da3d780f4295a52ce` | 632 |
-| `.proofs/v48/promotion-readiness-report.json` | `sha256:296f920a9a49c396ceb1451b2d67a072a5c0ea742383cc1426c8541816ad4a7f` | 17673 |
-| `.proofs/v48/spec-family-report.json` | `sha256:1e3b5b5b77e878afa959a18b612012c820931465ad6f7244da49f874254b891a` | 1010 |
-
-## V20 Operator Quality Reports
-
-### V20 Generated Quality Artifact Inventory
-
-| artifactPath | digest | byteLength |
-| --- | --- | --- |
-| `.proofs/v20/accessibility-report.json` | `sha256:ef7c8583207b0b538cd63fff8e86efb24697aaed00d83b1e5e2cf4e785ac986f` | 8210 |
-| `.proofs/v20/operator-acceptance-transcript.json` | `sha256:f1cc1dbe55c6799e87266e4cd4d87d5b432a239617e1808fb301ead71ddab396` | 10913 |
-| `.proofs/v20/performance-budget-report.json` | `sha256:232fddac2ecfe30538c12d1cbb23df4763d3e0a8b889903aba067e613c8279da` | 5038 |
-| `.proofs/v20/projection-quality-smoke-matrix.json` | `sha256:29de9a71f6064a4bf8055ccb733b1fc298a39e12442f4c4cf17a102c30db6a57` | 4935 |
-| `.proofs/v20/quality-summary.json` | `sha256:3cdff1bf7d345bfb41f3b7bdd4a0d702034c2e177137b8ae9d809f013685b985` | 4464 |
-| `.proofs/v20/visual-regression-report.json` | `sha256:64927e75e5ac739dc98fb03586029533b8c325199fe497bdfdb2f931a59b7f89` | 19369 |
-
-### V20 Quality Summary
-
-- reportId: `v20-quality-summary`
-- passed: `true`
-- qualityReportCount: `5`
-- generatedArtifactCount: `6`
-- inheritedPositiveMatrixCellCount: `1864`
-- inheritedNegativeMutationCellCount: `10`
-- inheritedDeterministicReplayPassed: `true`
-
-| reportId | artifactPath | passed | blockingFailures | acceptedExclusions |
-| --- | --- | --- | --- | --- |
-| `v20-operator-acceptance-transcript` | `.proofs/v20/operator-acceptance-transcript.json` | `true` | 0 | 0 |
-| `v20-visual-regression-report` | `.proofs/v20/visual-regression-report.json` | `true` | 0 | 0 |
-| `v20-accessibility-report` | `.proofs/v20/accessibility-report.json` | `true` | 0 | 0 |
-| `v20-performance-budget-report` | `.proofs/v20/performance-budget-report.json` | `true` | 0 | 1 |
-| `v20-projection-quality-smoke-matrix` | `.proofs/v20/projection-quality-smoke-matrix.json` | `true` | 0 | 0 |
-
-### V20 Operator Acceptance Transcript
-
-- reportId: `v20-operator-acceptance-transcript`
-- transcriptMode: `executable-browser-workflow-summary`
-- flowCount: `10`
-- stepCount: `10`
-- passed: `true`
-
-| flowId | stepId | scenarioId | branchMode | principal | passed |
-| --- | --- | --- | --- | --- | --- |
-| `seeded-shell-posture` | `seeded-shell-visible` | `auth-issuer-rollback` | `patch` | `buyer` | `true` |
-| `targeted-branch-run` | `targeted-deposit-to-settlement` | `auth-issuer-rollback` | `patch` | `buyer` | `true` |
-| `normalization-branch-run` | `normalization-source-to-shares` | `auth-many-asset-normalization` | `context` | `buyer` | `true` |
-| `public-privacy-boundary-projection` | `public-projection-quality-visible` | `privacy-boundary-proof-export` | `patch` | `public` | `true` |
-| `reviewer-privacy-boundary-projection` | `reviewer-projection-quality-visible` | `privacy-boundary-proof-export` | `patch` | `reviewer` | `true` |
-| `buyer-targeted-projection` | `buyer-projection-quality-visible` | `auth-issuer-rollback` | `patch` | `buyer` | `true` |
-| `internal-privacy-boundary-projection` | `internal-projection-quality-visible` | `privacy-boundary-proof-export` | `patch` | `internal` | `true` |
-| `invalid-deposit-error` | `invalid-deposit-fails-without-state-mutation` | `auth-issuer-rollback` | `patch` | `buyer` | `true` |
-| `no-survivor-conflict-reset` | `no-survivor-conflict-recovers-after-reset` | `auth-issuer-rollback` | `patch` | `buyer` | `true` |
-| `generated-appendix-report-discovery` | `generated-proof-and-quality-report-reference-visible` | `auth-issuer-rollback` | `patch` | `buyer` | `true` |
-
-### V20 Visual Regression Budget
-
-- reportId: `v20-visual-regression-report`
-- signatureMode: `deterministic-dom-geometry-signature`
-- screenshotMode: `deferred-until-local-ci-screenshot-stability`
-- stateCount: `10`
-- passed: `true`
-
-| stateId | scenarioId | branchMode | principal | signatureDigest | passed |
-| --- | --- | --- | --- | --- | --- |
-| `initial-seeded-shell` | `auth-issuer-rollback` | `patch` | `buyer` | `sha256:46e31a90a55a3977d6747b0200dbd441077fa34b167846c9d85cf94316c58f64` | `true` |
-| `targeted-branch-run` | `auth-issuer-rollback` | `patch` | `buyer` | `sha256:f783c8de2a49678bb7ee2b0fed8e1bd5ca294a7dab91b9e244dc7519d925f51e` | `true` |
-| `normalization-branch-run` | `auth-many-asset-normalization` | `context` | `buyer` | `sha256:19313616e2f72dc3273cb5f7f3b8411ae050e4e328215d10714385827ad1506b` | `true` |
-| `public-privacy-boundary-projection` | `privacy-boundary-proof-export` | `patch` | `public` | `sha256:6f1c0efce5abfea06241b85d1eeadca1a0fd4f4b2a67c1b28053705f9c65f026` | `true` |
-| `reviewer-privacy-boundary-projection` | `privacy-boundary-proof-export` | `patch` | `reviewer` | `sha256:08cdf8898535afff0b9d36673707de6894193e1c44e8f8ba7603800411d71895` | `true` |
-| `buyer-targeted-projection` | `auth-issuer-rollback` | `patch` | `buyer` | `sha256:8dc35576526041a6b3b922213d51aa9641d8ea3aa91c8cfaef6aa4b5cc91385d` | `true` |
-| `internal-privacy-boundary-projection` | `privacy-boundary-proof-export` | `patch` | `internal` | `sha256:e295312ba215829d49c1162e82de4c292893d885779de50f0d0f8b371fdf0112` | `true` |
-| `invalid-deposit-error` | `auth-issuer-rollback` | `patch` | `buyer` | `sha256:10b2c66c83978f5f0275271a67d4e7f45c45707470d616aef3fed48580e8d179` | `true` |
-| `no-survivor-conflict` | `auth-issuer-rollback` | `patch` | `buyer` | `sha256:1a681d66e8657a5927acbc617033fb35ae85c2dfff5ce6d88366b70a1b283b9a` | `true` |
-| `generated-appendix-report-reference` | `auth-issuer-rollback` | `patch` | `buyer` | `sha256:729bf4d2a934338eb78b303a1b5be9505fbdf20673e82bf91589187e9b60998f` | `true` |
-
-### V20 Accessibility Budget
-
-- reportId: `v20-accessibility-report`
-- engine: `deterministic-dom-accessibility-contract`
-- checkCount: `11`
-- normalTextContrast: `4.5`
-- nonTextUiContrast: `3`
-- passed: `true`
-
-| checkId | passed | assertionCount |
-| --- | --- | --- |
-| `control-names` | `true` | 4 |
-| `form-labeling` | `true` | 2 |
-| `keyboard-operation` | `true` | 3 |
-| `focus-order` | `true` | 8 |
-| `focus-visibility` | `true` | 5 |
-| `status-announcements` | `true` | 3 |
-| `landmarks-and-sections` | `true` | 4 |
-| `toggle-state` | `true` | 3 |
-| `contrast` | `true` | 4 |
-| `reduced-motion` | `true` | 1 |
-| `projection-safety` | `true` | 3 |
-
-### V20 Performance Budget
-
-- reportId: `v20-performance-budget-report`
-- measurementMode: `live-test-hard-gate-with-canonical-normalized-class`
-- operationCount: `9`
-- passed: `true`
-
-| operationId | budgetMs | hardGate | normalizedElapsedClass | passed |
-| --- | --- | --- | --- | --- |
-| `initial-seeded-shell-ready` | 1500 | `true` | `within-budget` | `true` |
-| `scenario-switch-summary-update` | 500 | `true` | `within-budget` | `true` |
-| `projection-switch-summary-update` | 500 | `true` | `within-budget` | `true` |
-| `targeted-branch-creation` | 5000 | `true` | `within-budget` | `true` |
-| `normalization-branch-creation` | 7000 | `true` | `within-budget` | `true` |
-| `proof-family-catalog-render-after-branch` | 1000 | `true` | `within-budget` | `true` |
-| `raw-visual-surface-mode-toggle` | 250 | `true` | `within-budget` | `true` |
-| `reset-to-ready-state` | 1500 | `true` | `within-budget` | `true` |
-| `full-quality-suite-duration` | `report-only` | `false` | `telemetry-only` | `true` |
-
-### V20 Projection Quality Smoke Matrix
-
-- reportId: `v20-projection-quality-smoke-matrix`
-- matrixMode: `representative-principal-quality-smoke`
-- cellCount: `4`
-- inheritedBrowserMatrixCells: `64`
-- passed: `true`
-
-| principal | scenarioId | rawFiles | sourceVisible | authVisible | qualityRequiresForbidden | passed |
-| --- | --- | --- | --- | --- | --- | --- |
-| `public` | `privacy-boundary-proof-export` | `false` | `false` | `false` | `false` | `true` |
-| `reviewer` | `privacy-boundary-proof-export` | `false` | `false` | `false` | `false` | `true` |
-| `buyer` | `auth-issuer-rollback` | `false` | `false` | `true` | `false` | `true` |
-| `internal` | `privacy-boundary-proof-export` | `true` | `true` | `true` | `false` | `true` |
 
 ## Proof Family Inventory
 
@@ -630,8 +370,8 @@
 | `rust-validator-proof-gap` | `context` | `read_rust-validator-proof-gap_7044fe8972` | `bitcode/remediation-read_rust-validator-proof-gap_7044fe8972-rust-validator-proof-gap` | `asset_pack_3b7a68101d23` | 9 | `true` | `true` | 47 | 46 | `true` |
 | `config-policy-precedence-incident` | `patch` | `read_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_d0c7f0b06b9a` | 9 | `true` | `true` | 47 | 46 | `true` |
 | `config-policy-precedence-incident` | `context` | `read_config-policy-precedence-incident_f39d972e54` | `bitcode/remediation-read_config-policy-precedence-incident_f39d972e54-config-policy-precedence-incident` | `asset_pack_d0c7f0b06b9a` | 9 | `true` | `true` | 47 | 46 | `true` |
-| `unsafe-patch-review-recovery` | `patch` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_fd3c892c8e9e` | 9 | `true` | `true` | 47 | 46 | `true` |
-| `unsafe-patch-review-recovery` | `context` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_fd3c892c8e9e` | 9 | `true` | `true` | 47 | 46 | `true` |
+| `unsafe-patch-review-recovery` | `patch` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_cce630153e2f` | 9 | `true` | `true` | 47 | 46 | `true` |
+| `unsafe-patch-review-recovery` | `context` | `read_unsafe-patch-review-recovery_16a56c87c5` | `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery` | `asset_pack_cce630153e2f` | 9 | `true` | `true` | 47 | 46 | `true` |
 | `infra-deployment-mismatch` | `patch` | `read_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_9f1b844a2cdf` | 9 | `true` | `true` | 47 | 46 | `true` |
 | `infra-deployment-mismatch` | `context` | `read_infra-deployment-mismatch_be8a999141` | `bitcode/remediation-read_infra-deployment-mismatch_be8a999141-infra-deployment-mismatch` | `asset_pack_9f1b844a2cdf` | 9 | `true` | `true` | 47 | 46 | `true` |
 | `privacy-boundary-proof-export` | `patch` | `read_privacy-boundary-proof-export_8163942d95` | `bitcode/remediation-read_privacy-boundary-proof-export_8163942d95-privacy-boundary-proof-export` | `asset_pack_c5fef3ab17c5` | 9 | `true` | `true` | 47 | 46 | `true` |
@@ -661,13 +401,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:256959c2fe4952b795e30622c3811861f5488c1d81c55cb836ce21d8b2813e64` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:f4595d1c00efd134c3dbaf7f5eb8a1ea6f7afb1afeaacfc52da133a9d6619393` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:ef1b8ca12d6f3721400e708e5a5ca7f9f47b4badf6c5d489c4202af9057bb17d` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:9592d38f7281eafa7ac658e48cbf6e35ab44591384bf73dc11e332237160df39` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:098b3934f79eaf77bbd0f72593b3e9d35a83344894d46a09a1c84853f2bc710e` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:cfea2cc82ce182248ce41d6c0354e00c55fad05e1304ab3e37f6ee43b43b4fca` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:0896df3fcc89b27fe7ac491caad0d739503111bdce24e03e8f037937ac2790de` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:a699a9d4a93f02f9fcb5b55b3d800a9f5054eccc060f1fd70ca22403790b062e` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:dbd511852b36bc668d92cb11693edef914be3bb0ab67a0fc9551ecb567d6bb89` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:90e9ab83bdd89f9f30884839989744d76c4e1a255139a41ad9125fb5b8a902c3` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:a62cd1ac553854bf6245789734a263fa453a359240f302495fde87ddb4266f85` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:2bc0cdb1b9c54e9b714d946f3bee408f0343a3dade3175bb2dd3e34c1ca022a9` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -725,52 +465,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:a08dcb38b21b853afb64378b8872b02e066da3a7a72adfa93c6abfd217c55cfc` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:1c38aa47b7361ce985b48e3da400d880f37290debf70271c34ed3b10fafe72fa` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:098b3934f79eaf77bbd0f72593b3e9d35a83344894d46a09a1c84853f2bc710e` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:bb991a44a9624cf3256d9dd6e8fa478e205b672bb5c568ae9fad9d51ab1fc2a0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:f5da41a20f3a15375abbe1fdabd2a88239a2a8f637aaf033e8018915a0e9c7eb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:7be4db9348b2c5ba639d54417be9e428fda3017cf10f61ed4c552272d07e01a4` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:0896df3fcc89b27fe7ac491caad0d739503111bdce24e03e8f037937ac2790de` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:f5da41a20f3a15375abbe1fdabd2a88239a2a8f637aaf033e8018915a0e9c7eb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:46e2aab2c9db74f02f715034b5c63518119a590f18d4d2bf37c35c5c174e76ba` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:9a6e2f064abffb599de2da3958dcc34872ea7ee8f1391833892adc9165ffbd3b` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:5e11035a0494b9469ec3e0ae8da9551fa453a4db26b683629ccc386f258956f6` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:dbd511852b36bc668d92cb11693edef914be3bb0ab67a0fc9551ecb567d6bb89` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:8d53e712cc5428f330c44f0b9a655184dfa0c1b2e9c37d943bebdc4a4fe7abb7` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:dbbefbc15726b9c8549a12d839ef255e408165561934a990ffc57f00cf17bdec` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:95ea653c70ac6b1bdac49a954e374e5c7e558dbe4ba78b2179e1e6c33a6de3a3` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:a62cd1ac553854bf6245789734a263fa453a359240f302495fde87ddb4266f85` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:dbbefbc15726b9c8549a12d839ef255e408165561934a990ffc57f00cf17bdec` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:c7bf28b10599cbeed80e59bee47b9b6b799cd188cb2a46b0f91f96b462e3d392` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:d25e761512f1d40adc659462dd06c03af6e25f2e48a30b5b89ae7ffc928e776d` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:4d4111ebb0cb41d0246d93e30a808c007241d27c715b491aa53e762342c8759c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:02e131ce1efdb0b3f9a621fbd2ba6a3f805b9b85b6903292117901611b0fe21d` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:d2e5b13ede9cf7ed83508d98e23c977f8834385f9f0daea55f85a3f4214fa874` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:6785dfd7468c04256efcc79d07a7d8a7e95878300a29dd7018b3f8e91b3362ab` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:84f3d30696056f8be6056acc338e2cfadfdade990b1736be82391bb606af1076` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:9e6a10b2ec749912879e6bcd36fa1fba4ea6addfe1a37475e7a49718a154ad2d` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:256959c2fe4952b795e30622c3811861f5488c1d81c55cb836ce21d8b2813e64` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:f5f9f0d0bfcdb4e04468c26d9ad18a982d1c96bd542f748eb3e2f8895702dcb7` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:b259d0cc8915b4491f7cf220e2bba34ae95e7b68e1d30f07e3fa6ada7dfb0563` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:f377c98e7db49df061805373caca01b550d3fcadd7be710991e4c3ddf2df826d` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:a9c087535c2de8ba4550cb9ed8b7c0cb92b64dd3e9bf0eb5d8e502981602b771` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:295cf78382de6b94a028e4c61541ea0c6a57aa62ed63593efd0ba7998459a4e0` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:6dcc4f10e576cd74891519cda9354cd2b04d7a01f2a014653957f856f3eb1f6f` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:29ff4ec48f268fb6d01200b2fe7ce73d9163e23750063a18f82c4718b7a959f3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:55dbd6deb51d87eb2ff01171e034d15cfed21816c8e57153255ae7bea45959da` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:53e381a359ca047b8d0b7ef1c3d5cde49040d956323791cdc28428e58d2440c9` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:7ce41a1c51e3a7cdac620291ab8cef1e1af9cc12d30a5837aa3e769c74af681d` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:88e91d3b9fda3530435c6bd9ca97ba215ad754bdf5ac29091cebdd546a362f35` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:a612d67d1995853ee132d9dd21fd8c64c8f986b6c41a2b0e0d042447552f2cd6` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:bb8674abf94ae1d8ee5d5ed695258555f039326c2a75d3632dfd65271a06b1e1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:1a33ac2be9d039f56b0448f6eb47833327f655c46770eff998d30232f759fe03` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:7e019f446bf0e5598721d48a07faf09d8a92b86fe037a9383c27fe075c376727` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:5d174065b4f78b059f10f0d39d4f256ce0adcd2dc0e1a825f9f9618b85a58964` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:49a7941430fe1eccbe71c0b321955dd7790faa63c7d983123118ca94fddeb04d` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:7b3b4c552085629cbb6af1dfc705a69ada6e0f34c32365ac768407679052b24f` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:70bc3fdae9bd5f4424476c90c9272989d161c73c04c88ae96c87e8f8473a0848` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:f5da41a20f3a15375abbe1fdabd2a88239a2a8f637aaf033e8018915a0e9c7eb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:a116782f3f2d2a02acc6f45be8320e9eb265bc77de7f4b2db59a5c610a0d2e97` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:9592d38f7281eafa7ac658e48cbf6e35ab44591384bf73dc11e332237160df39` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:3521603a18e2f2d11f8c7513318fd8e35f143d0c6c7232d34dbbd08887b16b70` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:6b9bfd5c1dab04e253f4786b0f6375266fef472ddcfd6ae63b5750fb48cdefc7` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:374a307f4d4e017f4ce372feea54a7201e38b5eb3055cc64f1a04ed7e322c049` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:dbbefbc15726b9c8549a12d839ef255e408165561934a990ffc57f00cf17bdec` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:83aed0ae012894de55ab87556cae19eedb46712815db8124a4b9ed52076dfdf0` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:a699a9d4a93f02f9fcb5b55b3d800a9f5054eccc060f1fd70ca22403790b062e` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:0458593a95733b5c411c3cbdfe188bcc394fbfe5811f5deb8e73bb3a83aca630` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:9901fc2c0ead9f1445ec4254fdc9c621f3fd92e413e815b0b8d768fb8ab30f5d` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:84589b01e819a4cbda12a5abffc91f2e9e3fef44e23c240b35ecea19d0e1325c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:f6e862d56ff0166f78dd46659332af9cb94f638d39c165b1573dcfb524aed357` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:dff1642ab7d6939c2263360e45775d5e737934200b4dd05740f2aa1d437b26cf` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:433796e9495bb735acb1fd1a916b3e3d212cae22a4bec0ccda69a4ba7b538620` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:cfea2cc82ce182248ce41d6c0354e00c55fad05e1304ab3e37f6ee43b43b4fca` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:67b87bf5996298f2177f9db66ed562b31a90d8b7b746090074b74acbb274f238` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:2e53b0aaefdeedcffd626747c247f61dd7cbfbcd8edd54ee6e27d43b89919ea6` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:4b8e9b850357b52fdfa98451bb678e23b21abe83e652cd8bcb0dbe3308a24b9b` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:a2da5bdc3dfc4931778432c06416007c8ca154aadae5c334d563a0ac9b585073` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:90e9ab83bdd89f9f30884839989744d76c4e1a255139a41ad9125fb5b8a902c3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:83bcaaf9d2b037535e3155879f3b613e714a963aee6577de070099cba6a07e14` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:d1ff71fa51725c5244d89beced18e8cd51aec0504c0aca07cc10c66c94e492c9` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:f4595d1c00efd134c3dbaf7f5eb8a1ea6f7afb1afeaacfc52da133a9d6619393` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:0e40751f7e15e39c69210e9bd1abd9d12cd49bb873bde875cf3c7de9b1395bd4` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:d4b99c26cb2a37743cbbd1f99761212f0065129290b416c1819a8a9934f8f751` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:ef1b8ca12d6f3721400e708e5a5ca7f9f47b4badf6c5d489c4202af9057bb17d` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:4f1a499e20476e17314d509f31bbb2916af74de48aadc94291ed2d0e3ca0f466` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:0feea3e1993fb13794a7017859665acff7c7f180604739e7835f49d5feb425ab` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:ba96ccbd5f1ff2e65173d06e47ad3ff7c071eff0579ffd3cf2067f52444af1af` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:a3d43519a9c90ff44fdef10626caa552c380d594845d4fad6166a5ef9e79928a` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:b76d433cbe01cda9637c652416b2045618a6da8f5cf8ae36dbf8d545c9536b38` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### auth-issuer-rollback/context
 
@@ -786,13 +526,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:256959c2fe4952b795e30622c3811861f5488c1d81c55cb836ce21d8b2813e64` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:f4595d1c00efd134c3dbaf7f5eb8a1ea6f7afb1afeaacfc52da133a9d6619393` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:ef1b8ca12d6f3721400e708e5a5ca7f9f47b4badf6c5d489c4202af9057bb17d` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:e5d0ddd164f244e7747c498ab9ebebd58c9bbc881a38786fc3185a6a47f27cf6` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:ff2d9cec42dd2f31397e5bc8de46cffd9f53379230391b865468c27e8354122d` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:09cd59c100db1e5a7931d10338fce407145c0d97ce0eef28a59a5a6dcd3096d3` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:ac206af0e4758da5b5b9b75d0972dee99057ce5f0694e7d84428c1e132f0d11c` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:5e69262ed8fcf6938df97b030537b5ca3562b710bd8953f15b56851f4961d03c` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:afef8b8aa27280c9ce1d63c35e9cba68430a57dab0a2ba3b4ebb20fd57e621a3` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:f8eb0241be39488c3e9dd7da0acfa1ac0aade7702a7b5a48932b3779b1ceb5c1` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:b8cf6c4686f476249ec92057770d4b67ff3514fa63a6b48e9de2089f724435c3` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:0800e46f246b20d88857779f128a9a59edd322529b3dc5735eba5a9710399db0` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -850,52 +590,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:cb89d3a06d4b07b5e70012ed8ad97838ee36e9689232913f9a86f1228dfe91cc` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:a077681f046fbb925c387550b5a8df129bfb602c74b0a482699ff28c8dcf6fac` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:ff2d9cec42dd2f31397e5bc8de46cffd9f53379230391b865468c27e8354122d` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:0e099a68bff2f7b516d63008b9e31953880c487d81074de3b1e035b68e6bd2a9` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:588c76e7d32b2409990e39ad16946c59d6cf15db87d451f043f2a194cdd56dbb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:7be4db9348b2c5ba639d54417be9e428fda3017cf10f61ed4c552272d07e01a4` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:ac206af0e4758da5b5b9b75d0972dee99057ce5f0694e7d84428c1e132f0d11c` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:588c76e7d32b2409990e39ad16946c59d6cf15db87d451f043f2a194cdd56dbb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:46e2aab2c9db74f02f715034b5c63518119a590f18d4d2bf37c35c5c174e76ba` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:3255b47b969074ca2889a8a30d5ef020dddc3f71033a87add947fe49397a1bb7` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:fb42afe7dfa35406e743ac6e33fde0d46a54f17661ed2e66b92f821453a42292` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:afef8b8aa27280c9ce1d63c35e9cba68430a57dab0a2ba3b4ebb20fd57e621a3` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:57aae14b479887067a17ffb179f7f340bb0c7409eae2b696ff4ad622a14b2237` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:5ca87938497b7e5744c3a630d53d0970c721ae4767358368bf5fa0be60d92034` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:95ea653c70ac6b1bdac49a954e374e5c7e558dbe4ba78b2179e1e6c33a6de3a3` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:b8cf6c4686f476249ec92057770d4b67ff3514fa63a6b48e9de2089f724435c3` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:5ca87938497b7e5744c3a630d53d0970c721ae4767358368bf5fa0be60d92034` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:c7bf28b10599cbeed80e59bee47b9b6b799cd188cb2a46b0f91f96b462e3d392` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:7e22edb0b2a1daf5244a70102f5b66356ceb9358a23b92c3b31cc1a0eed849a4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:94c92e34df4f6e3a8e15ef2030bdbd36663f16419a5fc66bf3b6c3fbc19a2a2e` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:02e131ce1efdb0b3f9a621fbd2ba6a3f805b9b85b6903292117901611b0fe21d` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:02e35de18dbd94fda4da1621d0ef15130d33ff0e257485d432fc90275c89630b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:c48fea714cadaf811ea6abbcff3062929d0ccfa7b16e943af104176201cbb98c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:84f3d30696056f8be6056acc338e2cfadfdade990b1736be82391bb606af1076` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:9e6a10b2ec749912879e6bcd36fa1fba4ea6addfe1a37475e7a49718a154ad2d` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:256959c2fe4952b795e30622c3811861f5488c1d81c55cb836ce21d8b2813e64` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:474af6929f6571b43b0bf7775885c66089db4111b9fe4862a10bc74c1453906c` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:8c167479576094e68a68e8e4041079403a22635f31826494a5a62eed0bd812d4` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:cbcae63fa8e4650193ba088f2efbe3132de023f9ad4334384d64b506d72f3db4` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:813bfe253077e589372561323feee22b8c354887d667ad66137d47b586d63f2f` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:5ea216f7a4ad931f4bb1cb10500eaffca2a183d29e828b4fbb2559239216b94e` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:6dcc4f10e576cd74891519cda9354cd2b04d7a01f2a014653957f856f3eb1f6f` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:ddc957b36850ea6bd7122d828826751bef0a726e07b426aae561fb7a03b8c3a6` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:0602936380cb56c3e942d28298f7fca0f4eb34477bb453aac8ca1511fe92653f` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:a36987dd6be3eeae5c53d8dd6607d89e6dccfa7ebe6b3ced1057c571037a077f` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:affbbe0d862f2d4cdbae7c6935b6fd5ee43ab4849b22556ccd84e2cd2f49388e` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:88e91d3b9fda3530435c6bd9ca97ba215ad754bdf5ac29091cebdd546a362f35` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:a612d67d1995853ee132d9dd21fd8c64c8f986b6c41a2b0e0d042447552f2cd6` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:fa7522727b5f22d3920b966611ed101f0d3c28365936db8cc66fa60f84ac1a4a` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:1a33ac2be9d039f56b0448f6eb47833327f655c46770eff998d30232f759fe03` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:7d5e5e6b7c45801a8d0a9f6eacef932fd24e624b825b36b08d72f807f46de67b` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:5d174065b4f78b059f10f0d39d4f256ce0adcd2dc0e1a825f9f9618b85a58964` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:49a7941430fe1eccbe71c0b321955dd7790faa63c7d983123118ca94fddeb04d` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:7b3b4c552085629cbb6af1dfc705a69ada6e0f34c32365ac768407679052b24f` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:9aed3047408104cd9854d48fcc38cbd920fc4abe243ac795da4885014d9ece82` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:588c76e7d32b2409990e39ad16946c59d6cf15db87d451f043f2a194cdd56dbb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:ae941c8173e039154e73aed5639abd804c445e4a995ea70860c6a0e47f2f1c5d` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:e5d0ddd164f244e7747c498ab9ebebd58c9bbc881a38786fc3185a6a47f27cf6` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:3521603a18e2f2d11f8c7513318fd8e35f143d0c6c7232d34dbbd08887b16b70` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:6b9bfd5c1dab04e253f4786b0f6375266fef472ddcfd6ae63b5750fb48cdefc7` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:609365c7c00e60e3776bc4f7e51f12f0a9592e73ad6fb5dd30ea864169403851` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:5ca87938497b7e5744c3a630d53d0970c721ae4767358368bf5fa0be60d92034` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:e18adb7120599728160b56e57b69210387b2fe36a94f64dbce5bc616f363d685` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:5e69262ed8fcf6938df97b030537b5ca3562b710bd8953f15b56851f4961d03c` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:ecbd5a7070f28dda086bce15a4dde9516694e604b5a5813f0f17e85a2adefede` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:9901fc2c0ead9f1445ec4254fdc9c621f3fd92e413e815b0b8d768fb8ab30f5d` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:353de85a96c880e685ed207eb42ef32040fe839fde2d131cbcf0edf8c7881e04` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:38d3d641821f37594d0ee5dd779048826440a417be4faedfaa1c0273a9aafd83` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:bfa3f543a1f69577e855dc7432c5325b4b0be48a90890a1019559509f677af7f` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:d82bd7f5eef9645e375b456c1a159320b5b3c6d2cac1826c14e45d74098250d6` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:09cd59c100db1e5a7931d10338fce407145c0d97ce0eef28a59a5a6dcd3096d3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:38c39642c49d9428a3b1e57e668b4ecf3d2833a4d6ab27e92b5e5a0d78fe3ca8` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:796699114487839b6ddfdab36c790f4b527690e96769c8203a67ec09685d15b5` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:b88a8998eff552c152b09f77591a3017aebd2a4a88ae781f1465978b9615d006` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:185b4496db8c60a7b18b3b86517dd57f4272f3971c3f50e1a4c01797ec013a51` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:f8eb0241be39488c3e9dd7da0acfa1ac0aade7702a7b5a48932b3779b1ceb5c1` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:83bcaaf9d2b037535e3155879f3b613e714a963aee6577de070099cba6a07e14` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:d1ff71fa51725c5244d89beced18e8cd51aec0504c0aca07cc10c66c94e492c9` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:f4595d1c00efd134c3dbaf7f5eb8a1ea6f7afb1afeaacfc52da133a9d6619393` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:0e40751f7e15e39c69210e9bd1abd9d12cd49bb873bde875cf3c7de9b1395bd4` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:d4b99c26cb2a37743cbbd1f99761212f0065129290b416c1819a8a9934f8f751` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:ef1b8ca12d6f3721400e708e5a5ca7f9f47b4badf6c5d489c4202af9057bb17d` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:4f1a499e20476e17314d509f31bbb2916af74de48aadc94291ed2d0e3ca0f466` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:0feea3e1993fb13794a7017859665acff7c7f180604739e7835f49d5feb425ab` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:ee68b62ef943bdda96b84eaa1efadaa91529571b4ab874eb652f98461f901a37` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:a3d43519a9c90ff44fdef10626caa552c380d594845d4fad6166a5ef9e79928a` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:ec86c64e5f264417564c93a477a2ca78596a571048848c98f7119e65f4dac1d7` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### rust-validator-proof-gap/patch
 
@@ -911,13 +651,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:4f09eb2ae7c6db3a769ab72b39c692158c09da634ddd72b205c3d7a507783ede` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:b55a0102ac4e3332e525d2353d74b80087b1fdc6d2929fcfb9f2c8948441b92a` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:7dd293ae5e77426d61f149094cdd5cd270958c709e5450e2fd2e59071b3ecf27` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:0832ded750cdd02c6465643c4472466116da0c4543272bbcad7040e9ac166dee` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:54673ee8002b9b47cdf6543c747ea377da8d7a2f4b16672a7d3f1cd01cd08acb` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:b14ee59f7d8b27885fd96e5bb0f20222825045013c5827525f291844a597c26a` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:6d730db590e80e5b9070d41dc88dfa2a83ec00050ee9bd976eb63c221fded753` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:1ef0e9dbdab22331bc9f5be87d5177cc19aa2a899e6c26c4a563a0882f330746` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:37d2ff77cc9bdc01ffd3d5eaaa3800571cb75fdce16914ccaad1ffabca503d91` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:4798e4b74f752495e3f86098e43d3f8eb040469c1d47ea39be5fb72aee9f9d3a` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:3e6e1264438e0e3af4365c50a93d6ab55f38c552b748d0d92c87803bdd79d138` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:34f2a976e6dc61ca978b606608d7205e2c5c0cd4ed5e8eb38fdaea91c8faa026` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -975,52 +715,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:954f6fe05a26bb44a1f65602fb4a23d8b88571c3453cd0ed215c45963766a83b` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:f62b272e830007b203ceff28d5b8bc0fd395e9da882d1e594174a9082a434dfc` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:54673ee8002b9b47cdf6543c747ea377da8d7a2f4b16672a7d3f1cd01cd08acb` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:3bcaf0822c21e62c925beb91ff3a490252f9dd1bedc853d40299eba713f5c5c3` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:03329a4920190ad468ca25efb3ca0848cac25529e67e23273f2b6126ea7b126d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:1124a2f883b00427e64f6bd489c4cafcaa0bac94ff0da746d1ac2cc18315928a` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:6d730db590e80e5b9070d41dc88dfa2a83ec00050ee9bd976eb63c221fded753` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:03329a4920190ad468ca25efb3ca0848cac25529e67e23273f2b6126ea7b126d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:fce26ebe697ef2aef5f0977e48ec147406bea365c4af301bc28a82d71b97d85a` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:da4b79d0450bab8a6f7561d6599608cfd3242b8b034cd7d26fbe86edfbe1fd8a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:814f7ba82b0a68df6ea1cec2cf2d2cc7402209f0f525156351ecaf11653e9012` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:37d2ff77cc9bdc01ffd3d5eaaa3800571cb75fdce16914ccaad1ffabca503d91` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:4910272ce690e05a4da36aede0dfdf5cebf5620df992644819cc88051d4e2e58` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:a723b407fd033e8303a99db2876fb53c09387b09361100ed3904f51acea2ac6f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:ff62568a9de1e21b652e4e3182ec8f993e58f1397aa51d0339d88fc799c82e60` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:3e6e1264438e0e3af4365c50a93d6ab55f38c552b748d0d92c87803bdd79d138` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:a723b407fd033e8303a99db2876fb53c09387b09361100ed3904f51acea2ac6f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:1b72a64b055795e67f2177bc3797069ae0fd58d0a3d5c709dccf461390d49a4e` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:2287984d304bf31068f4c3517233a3f7da5f2dc444ee5236b539bfd548e7be5a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:6fb14d8000883576783bf728694ae38f202197fa34e056d59e4ea56e44642887` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:0ba1bdf22cb299df63508fa49e6d994d716d0a5d89e426c260c68ebccd969771` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:219fc46372c945c417cff684dc7c67798d80bad9c01a3388eacfd490b1a6b255` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:e13043611334caee42156d937557e178bdd4415d0b063bcdfc129d44fc8ec643` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:519f691be91077b676c361901d1deb1dc99c51698307c9d21f23b38c399893ec` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:276a42d09d1c3507cae113787129c222569bdb7a9934d70c791715e3a490b6b1` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:4f09eb2ae7c6db3a769ab72b39c692158c09da634ddd72b205c3d7a507783ede` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:ac5961a0c7d2162c86ce74e6e50119cd020397bca3db2ea0002f908aeae4c366` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:bb6746f6788dc16b240d863028e05f3522e9fa814c21f47723e79308f5016b41` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:56f03f73459c307d37adc3b8727e831934e2a4c9f563e1d3941fa04548cfd8b0` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:b32f4eec3c3318b969c91f9e90ad70b2242d3213e970e1660463916a86a8a01f` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:4084b99de4b1408240b0538b780841a006ec33f21a4d23346035a4ea32b3e272` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:f57acf4f92feccaf527a3136e98e0c62e8793e1791777cf2810fe80d9864381c` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:ea21dbf7b59f8af276a6039b98112f6eced801881db2408ddd6d25fa727e0bc9` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:e46dfdfb72cef278816754660918af86cf9b5715aa19c56ed78c79e4f9bd91d8` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:e48d427b420ff2f7622b93e34299c019a3f9cddeac59e669febd4846810c85d2` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:7243dc10a8a7110d33cfb1e19b6e6dd11bd22dde647c71030cd14ce96cffefe1` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:24acf3a10dd89da1bdbfa4cc8591e537f89d28befa009a451cc3bfe09a64d5c6` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:75fee22c4117c5669cf0b25919bda19d9dd09d68faa223d6fc2bcf42c4b1045b` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:797e292bde61047478891c4753ee3e83d53e5adf90fac0f2870f3a5a74465909` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:4c9320e1fb1e760211f8851eb15ea69ba881504e90475e754a786add18174632` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:81745756a07140ab4d6633127a602d24ea2e43eedbf1803eee531b391fcbd1bf` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:10c1bc687b7b161f69a70c174f548b1a6708c0e87394630574e19ddcd791c960` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:99b79e74239ef796716c5ddd713dbcf9bda1ca10c4b6368916e6736f4b290f1a` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:03329a4920190ad468ca25efb3ca0848cac25529e67e23273f2b6126ea7b126d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:06d016c0dc874b965838fcd75b9ab33f642c8dde4f995b545da8ce88506c79d0` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:0832ded750cdd02c6465643c4472466116da0c4543272bbcad7040e9ac166dee` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:e095edda3ba3d6e04edddcd9e3878383ec33fd66f23ea7d2557718031d991b5a` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:721bc6d6f9a94bed07b07aa441ba4d92a689cc562f6594e5f04bea4c97c2dc18` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:a5211d59927786d89bf03d1d5f324abff026c82ed7730896cc964f12a01e6ab9` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:a723b407fd033e8303a99db2876fb53c09387b09361100ed3904f51acea2ac6f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:5d8f8846a7aed1a7693a93f69524bab7180f25130915e79b53eb242e6ca55f58` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:1ef0e9dbdab22331bc9f5be87d5177cc19aa2a899e6c26c4a563a0882f330746` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:3f7148afee2a0b067968500edbdc812560dbc5936fae54b6558474ac8a4687d9` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:ea8daa50baf855ebc90a9ce32cba0f9063d02f165f0badee508fb646b673e6c7` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:2a2f8de9d982141505c8aa264a421e027d6c7eaaabda18b3cc5d75d2ad5a98f0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:2d9c02287ce036d3f03f9a47e18c617a933e3797d06f5309431e3a4c52eb8d0e` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:56d9507dd0e963d4c9391523388f28f105c1414c49cea88e0047aade1298663d` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:7b1b9bb523ffbadf3fe64cffd26bec00e2d6fd6c17aa068d933c5371237b4e0e` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:b14ee59f7d8b27885fd96e5bb0f20222825045013c5827525f291844a597c26a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:441a223b4ac47882d958d1fbfdefb48afc1d2fdfb1e0404fe12395683006e3f7` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:b0bb00da6865cdbb4d761ef935e1573359b3f293f1b55e07d7810252dd0c7c1e` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:65c0265ca56dddca5ac1909af2e827a50ade4b6bd7fa7e0840317b4be7dfcc38` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:d5f3ab92eacf2fced5af1918ec071cbc3c5fcae227caaee23ba24a5c7f690dcd` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:4798e4b74f752495e3f86098e43d3f8eb040469c1d47ea39be5fb72aee9f9d3a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:8f009ea19064c0f16810c3751adde06a46aa57c19b400218bfc84972da0319a1` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:ec13771783a116c9d3a317dd42d32f02a865ae0f39547c4c7294bd641e559981` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:b55a0102ac4e3332e525d2353d74b80087b1fdc6d2929fcfb9f2c8948441b92a` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:a44a0169819cfa3ba7f4476ec9ec1a688db2144a2938eb19d0331b0a08ec6a7c` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:b782f2c8bfd781ad772533bc66999906325618c5248837e1107517f2dab36cb0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:7dd293ae5e77426d61f149094cdd5cd270958c709e5450e2fd2e59071b3ecf27` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:ca97eb1e6ef469039eba9bc3f04e99bac616148263ecfb560d9038a5a6713dcd` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:ab5f4f8343130819435c7ad0345a8f7e8497831a45861fdaa9ef605b59c33395` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:0570227ca830f82b6d45ac42b70a1a15fa1a24782bbc7f684f40117f9a28f0ab` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:7d1fa0d85783f56b148948d5559c8237301233a2183121d1a6b1b588ccd77f42` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:4ffb78da8965bc202d6e4933569e1dab7f71067094aa5fa0290d3c779be6b1d5` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### rust-validator-proof-gap/context
 
@@ -1036,13 +776,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:4f09eb2ae7c6db3a769ab72b39c692158c09da634ddd72b205c3d7a507783ede` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:b55a0102ac4e3332e525d2353d74b80087b1fdc6d2929fcfb9f2c8948441b92a` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:7dd293ae5e77426d61f149094cdd5cd270958c709e5450e2fd2e59071b3ecf27` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:fae43adb9a288eabaf5946221c0715414693f6cf144b78fd3b6a8b43fe4b54ab` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:54673ee8002b9b47cdf6543c747ea377da8d7a2f4b16672a7d3f1cd01cd08acb` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:d5c9baa464fc2e61ec0f46da3be4a4eef78cf0ea474feb6a3198e14feb1b5e11` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:2fbb1f37244e7d0a1e313cfbe7f24e1cd88a6059bea1efe553030c45f3d31d24` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:952784485c94a90909c1e5e2a80883288938fdbf68574f8d529ee518fdc0b2a5` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:37d2ff77cc9bdc01ffd3d5eaaa3800571cb75fdce16914ccaad1ffabca503d91` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:717e03dc4dbacec818475f95617db4f40da6d528eeeaece35f18dc362ca969ab` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:f4596c1ca8aa6c7560ba782a8d655142be2fefd6d87615be8b51f2c39da8414f` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:34f2a976e6dc61ca978b606608d7205e2c5c0cd4ed5e8eb38fdaea91c8faa026` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1100,52 +840,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:aa38f0352b0b25daa0bb120f6ec6bba92ad433f14fdbb522171f11e24add092d` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:10a58df1e6f48dcdf09098f83021c983c8bfe3c17173dc79b4a9e73e3fd96258` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:54673ee8002b9b47cdf6543c747ea377da8d7a2f4b16672a7d3f1cd01cd08acb` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:3bcaf0822c21e62c925beb91ff3a490252f9dd1bedc853d40299eba713f5c5c3` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:7bd6a0865e9267411b854f91754b10dc446d1b20375009a3099e670933eab4fb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:1124a2f883b00427e64f6bd489c4cafcaa0bac94ff0da746d1ac2cc18315928a` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:2fbb1f37244e7d0a1e313cfbe7f24e1cd88a6059bea1efe553030c45f3d31d24` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:7bd6a0865e9267411b854f91754b10dc446d1b20375009a3099e670933eab4fb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:fce26ebe697ef2aef5f0977e48ec147406bea365c4af301bc28a82d71b97d85a` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:e648351a7138ca1276edb76f7c5798a35f6be1a9b418072f2e624c270003cff8` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:19278c55d71218caddd367a5e1b21d248f3a6158532871a539223a32be0c5e8c` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:37d2ff77cc9bdc01ffd3d5eaaa3800571cb75fdce16914ccaad1ffabca503d91` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:4910272ce690e05a4da36aede0dfdf5cebf5620df992644819cc88051d4e2e58` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:56d1ddda3f41936ad55777671a4cfd10750f674287862b06c17a83634b8c0285` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:ff62568a9de1e21b652e4e3182ec8f993e58f1397aa51d0339d88fc799c82e60` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:f4596c1ca8aa6c7560ba782a8d655142be2fefd6d87615be8b51f2c39da8414f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:56d1ddda3f41936ad55777671a4cfd10750f674287862b06c17a83634b8c0285` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:1b72a64b055795e67f2177bc3797069ae0fd58d0a3d5c709dccf461390d49a4e` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:2287984d304bf31068f4c3517233a3f7da5f2dc444ee5236b539bfd548e7be5a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:6fb14d8000883576783bf728694ae38f202197fa34e056d59e4ea56e44642887` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:0ba1bdf22cb299df63508fa49e6d994d716d0a5d89e426c260c68ebccd969771` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:219fc46372c945c417cff684dc7c67798d80bad9c01a3388eacfd490b1a6b255` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:e13043611334caee42156d937557e178bdd4415d0b063bcdfc129d44fc8ec643` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:519f691be91077b676c361901d1deb1dc99c51698307c9d21f23b38c399893ec` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:276a42d09d1c3507cae113787129c222569bdb7a9934d70c791715e3a490b6b1` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:4f09eb2ae7c6db3a769ab72b39c692158c09da634ddd72b205c3d7a507783ede` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:5e125c7620a790c8e3fd50ad27d8602568d5d43e00b0aff8b8efa52127286d59` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:e9c4799551aa74c418c9d483f98e19bb6ba61e073607f4bb7c058805a8032d61` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:b426ce94afa920bc8d16702fd2f54da342ba198387e30b237bf9d58305153be7` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:2fc6ecb431bf4672b35049183c26ce43260e20c9a79a2cea65b089ee7820ab2a` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:4084b99de4b1408240b0538b780841a006ec33f21a4d23346035a4ea32b3e272` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:f57acf4f92feccaf527a3136e98e0c62e8793e1791777cf2810fe80d9864381c` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:d2f4128d0f6e4e2627e0f46c69b00a6212616ad4f795bc599cc5e24be8d6a034` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:9c85838d234617258bbaba461d4afade881941b4a09ff4754af08824fa1281cd` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:21cb7730a4c4508217d95247da4677f13f792ca81b01c3edc6fea2a7f513e89e` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:7243dc10a8a7110d33cfb1e19b6e6dd11bd22dde647c71030cd14ce96cffefe1` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:24acf3a10dd89da1bdbfa4cc8591e537f89d28befa009a451cc3bfe09a64d5c6` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:75fee22c4117c5669cf0b25919bda19d9dd09d68faa223d6fc2bcf42c4b1045b` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:797e292bde61047478891c4753ee3e83d53e5adf90fac0f2870f3a5a74465909` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:4c9320e1fb1e760211f8851eb15ea69ba881504e90475e754a786add18174632` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:81745756a07140ab4d6633127a602d24ea2e43eedbf1803eee531b391fcbd1bf` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:10c1bc687b7b161f69a70c174f548b1a6708c0e87394630574e19ddcd791c960` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:99b79e74239ef796716c5ddd713dbcf9bda1ca10c4b6368916e6736f4b290f1a` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:7bd6a0865e9267411b854f91754b10dc446d1b20375009a3099e670933eab4fb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:63ef504f3945894d77cc0974005bcce1092d5982ec3deb3ee2037d96f4aea598` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:fae43adb9a288eabaf5946221c0715414693f6cf144b78fd3b6a8b43fe4b54ab` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:e095edda3ba3d6e04edddcd9e3878383ec33fd66f23ea7d2557718031d991b5a` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:721bc6d6f9a94bed07b07aa441ba4d92a689cc562f6594e5f04bea4c97c2dc18` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:a5211d59927786d89bf03d1d5f324abff026c82ed7730896cc964f12a01e6ab9` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:56d1ddda3f41936ad55777671a4cfd10750f674287862b06c17a83634b8c0285` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:f7f153fe92714565b805eadc8d881821945a69c5bdc66ca948c8fd252138acdc` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:952784485c94a90909c1e5e2a80883288938fdbf68574f8d529ee518fdc0b2a5` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:3f7148afee2a0b067968500edbdc812560dbc5936fae54b6558474ac8a4687d9` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:ea8daa50baf855ebc90a9ce32cba0f9063d02f165f0badee508fb646b673e6c7` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:2a2f8de9d982141505c8aa264a421e027d6c7eaaabda18b3cc5d75d2ad5a98f0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:ca40d86f416da0c66700f1a3ca2dc6651a16ce69276bda6c0c081987edd67c39` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:25dca8a8160905ae58f03c40b3e12dfc364ffde6092510d80df425313a973380` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:faa095740f49cc6fcf3378253dd0e6416df8b6c3e9bb655c0acd1ac3c3ea2fd3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:d5c9baa464fc2e61ec0f46da3be4a4eef78cf0ea474feb6a3198e14feb1b5e11` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:441a223b4ac47882d958d1fbfdefb48afc1d2fdfb1e0404fe12395683006e3f7` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:727c072a206c5c44fa1c6e3a2546883a118ebe14445e9667a0ae272dcd7c10d7` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:afaa06fe8bd0394591492353368327f1874c5bcc160f0d993abf2370728819ab` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:02ccf498968830b618b2abeb28cd2e675c3fb01b927734418b250ef29c235fdd` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:717e03dc4dbacec818475f95617db4f40da6d528eeeaece35f18dc362ca969ab` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:8f009ea19064c0f16810c3751adde06a46aa57c19b400218bfc84972da0319a1` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:ec13771783a116c9d3a317dd42d32f02a865ae0f39547c4c7294bd641e559981` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:b55a0102ac4e3332e525d2353d74b80087b1fdc6d2929fcfb9f2c8948441b92a` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:a44a0169819cfa3ba7f4476ec9ec1a688db2144a2938eb19d0331b0a08ec6a7c` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:b782f2c8bfd781ad772533bc66999906325618c5248837e1107517f2dab36cb0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:7dd293ae5e77426d61f149094cdd5cd270958c709e5450e2fd2e59071b3ecf27` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:ca97eb1e6ef469039eba9bc3f04e99bac616148263ecfb560d9038a5a6713dcd` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:ab5f4f8343130819435c7ad0345a8f7e8497831a45861fdaa9ef605b59c33395` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:bf96cac17f262ed884e2a4fd28dcaad4ae3bb6e0c4e08fea7b436bcbd6c3e34d` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:7d1fa0d85783f56b148948d5559c8237301233a2183121d1a6b1b588ccd77f42` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:7da25e732a38b8f8712a544f5ed6b05c1e46b937b0e9c47f9cbd1bf0cd279a74` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### config-policy-precedence-incident/patch
 
@@ -1160,14 +900,14 @@
 
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
-| `inference-synthesis` | `sha256:b128d3ebfafc59642ae7d5574f24afe8f80dae532dcf68c24cef779bce0666c0` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:adab7903446c23a53b6104c1e12fefca4bd54fe2bba624f440d3aa2e774b2068` | `.proofs/_shared/static-measurement-proof.json` |
+| `inference-synthesis` | `sha256:341bab27034bb5ea4cbf3c84c4fad6af7999a0032535a796c678b186e7049bf4` | `.proofs/_shared/inference-synthesis-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:5dda7271fe1c689026c0e8d950f873fbeffd1a657a7df9bdd6bbbcccc88113e6` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:cef9aa43641f124d922603a162b931dcf0c616ce487316b777cdc29b976f03ed` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:1ef6377e7a3c393fe2fc43f8a9b54f24904631c887e365200062f87c720d08d4` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:9b61e0764eaca5f2d924d2f7b7a62c993489998c320433aee84d03ed62a236bf` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:43693ee69ddeef8ddbf2fb1059065789e6112ca8afa015368d31bdd12ec08c95` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:cb142b06d96cd1ea3222957b284a3b4863cfbe85cc0bdbe69d5ad29b886ce419` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:b5606a50b6eb0e03353585bce86ce0d3ca493c16d507e4fa8b4d18b11eb59a71` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:e2161b30f8359370f7fbfc99091fc81d5d55e9e31c72e0b5a2a66be4f748a131` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:7feba115452010df8c55cadb0be0a0fa934152685ecb5817ed0291f2daba274e` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:83aa4f69425eb95cb36148bfada58f4d224013ca26a2917c9b69bd61da2a57ac` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1225,52 +965,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:acd148ad1e066d9d770424e43c377e9e516aedab81942860b14da52311d0dc4e` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:8b08e9c366913f1acc0fc80e40c4031756e21361ca5d502c15676c6e9aaf07f9` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:1ef6377e7a3c393fe2fc43f8a9b54f24904631c887e365200062f87c720d08d4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:6a4638e92487ed1f3179d1a9752e44272bd3dfde7019b020f82dd72e4f9f9bc0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:f4ea54ea40d36968ee1f9f3cf6938f04df6f448f98b4f5acad7a015bfed90ed8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:23bc3c813aa06c1751c60db5beae2ada951202499df981aa8e9900fdc5cdb1b6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:43693ee69ddeef8ddbf2fb1059065789e6112ca8afa015368d31bdd12ec08c95` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:f4ea54ea40d36968ee1f9f3cf6938f04df6f448f98b4f5acad7a015bfed90ed8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:8e8d0e036c1e6ebdd3c2bd9eaf982040180adcbd56f7bed3ccf2386babdf46f4` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:cdaa11532aaf3b123d72a2e387d2a198e4f0db37d0f49c1ac19d1112be80ea2f` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:b25fbfb1bfc6cae3f99732f72d6fe9480326972cd277c7ac18ddef13b8804f41` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:b5606a50b6eb0e03353585bce86ce0d3ca493c16d507e4fa8b4d18b11eb59a71` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:d916c391d1663edbb793477e0e5c71b41c503cbe5f125af46253fb7e6664d9de` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:ce9682c495f926c57cc5f5587430b0717c95dcf2061755fbefd8d57e892dc492` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:5165fbf0ac8579b32e842eaa6536ba9376f526a2fe4a43e4c47a7f85232ddf83` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:7feba115452010df8c55cadb0be0a0fa934152685ecb5817ed0291f2daba274e` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:ce9682c495f926c57cc5f5587430b0717c95dcf2061755fbefd8d57e892dc492` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:fe7fdb5d91537160137f7af897b5bd201651576d69440b8140ada814bb2959b2` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:cc3c680acc654e92261f714408b1cb0f2bbdc45d5623570d4ab6deecf552705b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:2b239e284be7d4bf2a1f43342e7c5318f77e5212e06257bfe663564893ff21ae` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:3c7873de78e25bb306c492ef3018539a5a164dbc34bb957a1016351c6d445808` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-proofs.json` | `sha256:f5c66f068437c614430df435bca8880c968a92209ee38ee56c564ad60ff678f1` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:b128d3ebfafc59642ae7d5574f24afe8f80dae532dcf68c24cef779bce0666c0` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:c04c3591f60dd7d343077c7631ffa35ccc9e9bc6e608305c218e079aadc4548f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:bd4f6f76beebdb3cffa4c50fe565718f118bc3ecd11b7b5442ac6444be656769` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:37dfa2db6fe88693a2ed13bfea82fa43ecbc5250256f9a5881547e3645bc0731` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-proofs.json` | `sha256:ad81c65fd80eae707038113a0bd0ad942b67566217b9427390e5fece14ee70b0` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:341bab27034bb5ea4cbf3c84c4fad6af7999a0032535a796c678b186e7049bf4` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:2a6e281fcd4a3d35f937a54f6906a4f063b301ec1fa4b7bbbd734091eb60a10f` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:c60b87b9eae4982faffb851a30b8d5cae58d436d34f1a460e9e7c7c1a0ea0989` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:7ffbb056c93ce895989b51308a6c83ab5022c974f8ac26d27aa29b43011cb122` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:1c9350dc5d2544a80dde57b1b15d8075cfcea39658d105312f5bba32521f93b5` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:e71a0789bffb8fba9b03092e766d0f589299c55d14f8d61edbf4a750a6c3b1b2` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:d717a53262cb2b72f17796e62b9b37cf4e20d1e90410560ed03db9fc7051b0d3` | `static-code-analysis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:5e34372dc7330b48d668a36d656c06ceda4545f5911669c8da146fb4cb9be7d6` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:e47ded65b7fa05c782049d88d0b5e48b71facde2517912023d24e7a306c364ca` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:70dfbc7edf50b2b469c977442ca6f0654dedd983a30174eb1b7aca7c4aff4e72` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:6d1316da3861442c5b766130b973a627c29242d5ade14afe37483c8c9b1a6bb5` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:51bcad14c5db9b7459a34a0389a7db4a596e2c0463aed3d47746a440aa5afa3d` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:63dfac749774e06c70652d08718aca00101084c0d0cb096ac057f707e8d3a0d1` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:10f9a395aa72e6feb2f3dec26ba16f2db3cdd41592a81c7efb348f5bdb05e339` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:32ab01fe64f2e64e3d3d19c1b5b3a5b2ff0db154e7e786ba1dd6ef107fd16ff7` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:a32fbbdfd31f6caaac059a52ad1b1af0364770b4bf857a06b43f95ead26f40fb` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:c91b6d44013d9514498b464bc4c6dce52197bdf70121663ada56f7af3c331da4` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:3e365f6603e4066510fc07f0c16c245058c19b77e1b796ddc3e50d5ac5f2b91b` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:fe4a268e5d78b61c451ed9eabda2a6a27e2264ac39f8ec724cb2b9f82ee5272f` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:f4ea54ea40d36968ee1f9f3cf6938f04df6f448f98b4f5acad7a015bfed90ed8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:80f8353e889bf019158f21988f781765f90b0f126df426fcfc76ded8d3e639ef` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:cef9aa43641f124d922603a162b931dcf0c616ce487316b777cdc29b976f03ed` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:7ff2e8c2cf327bf6e8771fbb764c9b66c481bccdea538ebd05d045cdaa576977` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:650ea4f81dca3a213ff9eda3a23580b55d069e180dce24aef77b3c033e596654` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:6d78fa0bbd1076be3b0ea026097aa5188f5f0123ee4f1e58dda83d838327c09c` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:ce9682c495f926c57cc5f5587430b0717c95dcf2061755fbefd8d57e892dc492` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:5e5b40250552626eda08490a78c415e951a0507b0251e600e9eadee4302983ff` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:cb142b06d96cd1ea3222957b284a3b4863cfbe85cc0bdbe69d5ad29b886ce419` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:501307fda8ba5ca845f985e7c2857595abc67ce54037f07ffa384080d45ca725` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:fdd7c9f7f92d31fd298f5a2259959d8f8e9b0cb1ce754e5d4a5a84aba4aa196b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:7d1a84b56194a0865f1ed4c8b953c96eb21cb3ca2874289479a668a76129c752` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:d4b23a10fd81910d3ec2b5a0b275f4507b4146685e3a833c94c2623970b5e49b` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:419448fbe69f2f592f7cdd64ebfb2f91d115670b389db2b0116cae60d0186036` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:b171b6c6807c2d2e6d94fd0565a9bed9c9963572c963aebe2ffc70453fcea25d` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:9b61e0764eaca5f2d924d2f7b7a62c993489998c320433aee84d03ed62a236bf` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:e2eb00a48eb8691cc490c735239b33a9c45cab59904c991f227a42c421c5cc49` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:5198f6682c8a7af2dbb502018a7463abe7417d4997f35436db49b5db2515a0b9` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:1c76fba96dc7531e1e0324fc0076a1e436a5b7a2c1cc075ba4aedead8ac4cf7c` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:e182aa1ce618398e2f5f957e5449281f0ecbe4728006b34b05838965ec78a41c` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:e2161b30f8359370f7fbfc99091fc81d5d55e9e31c72e0b5a2a66be4f748a131` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:ba57d7503ee19baee3d14abff0c0386aa5c6cac616c94d37a6d7f94d419b3d98` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:a0ffd24e12eb594dd4a9f26c5f3c8d30fac981d018bc57e689c19dca067cd6cb` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:adab7903446c23a53b6104c1e12fefca4bd54fe2bba624f440d3aa2e774b2068` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:1bb54e49a9d35a309f6d4609c114a240249ed537150afec8202fe0d882fb91cf` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:8f1938e2a6559b824050b52802ee5afc2fb3be7eb6672a1f0491d08b6850c695` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:5dda7271fe1c689026c0e8d950f873fbeffd1a657a7df9bdd6bbbcccc88113e6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:c51ad650de2fa9e648c248db4958a15eb0073c1063cff700616bdd550fd0d294` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:ef5b77905b73c2034704e7eb8f68a0577c5ac40cfd418d541336936ccf9015c8` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:469bdca0efcde89073eb29c577106c5e9b512d8ee0be3daa591f66b756e9c1d7` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:d42488c92d5b4bbb05e7574c45b852168b2bc67d7a9efd7cc0fb20d5eb81d4fb` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:d90c9440b865e101aa56102292399b413c537835ede4ec90bbf847195706807d` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### config-policy-precedence-incident/context
 
@@ -1285,14 +1025,14 @@
 
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
-| `inference-synthesis` | `sha256:b128d3ebfafc59642ae7d5574f24afe8f80dae532dcf68c24cef779bce0666c0` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:adab7903446c23a53b6104c1e12fefca4bd54fe2bba624f440d3aa2e774b2068` | `.proofs/_shared/static-measurement-proof.json` |
+| `inference-synthesis` | `sha256:341bab27034bb5ea4cbf3c84c4fad6af7999a0032535a796c678b186e7049bf4` | `.proofs/_shared/inference-synthesis-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:5dda7271fe1c689026c0e8d950f873fbeffd1a657a7df9bdd6bbbcccc88113e6` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:5effc18dd1f65e1188616aa32cf8e4dc3a8a06bdd3eb95cc2e04341d166fca65` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:1ef6377e7a3c393fe2fc43f8a9b54f24904631c887e365200062f87c720d08d4` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:bb393d54832f9a216f0fe6129671c9369071e0cf78aa823ea5eae59c1d0383e1` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:5610c4975fb289b3909932d3f5b53a7032b7a2507f60ec1b69079cb50f84dbf8` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:b35d37fe26d442d50de032aaee771cb5c13b394e48722963e450a6556a095962` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:b5606a50b6eb0e03353585bce86ce0d3ca493c16d507e4fa8b4d18b11eb59a71` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:637d4ded2dfa3ce7d6b597716e6839d934d38747c5c2a536f8afb1e257a58aa0` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:3fda2201f8395275c9075dcdfb2274a38b5b7c7d8f57637ff937c6f6ec0687da` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:83aa4f69425eb95cb36148bfada58f4d224013ca26a2917c9b69bd61da2a57ac` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1350,59 +1090,59 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:95b45ae9eb9536bbfee549a496b4063a1be139c0c7afb6c793c4e2cb78d94012` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:4327385821b6c9f534039e1493494702105307e978a3b06fb3403794861f541f` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:1ef6377e7a3c393fe2fc43f8a9b54f24904631c887e365200062f87c720d08d4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:6a4638e92487ed1f3179d1a9752e44272bd3dfde7019b020f82dd72e4f9f9bc0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:74c8e4cf02f637a9e6dc48854666992a91f6402dd5f80b2f31bfe483df9ef71c` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:23bc3c813aa06c1751c60db5beae2ada951202499df981aa8e9900fdc5cdb1b6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:5610c4975fb289b3909932d3f5b53a7032b7a2507f60ec1b69079cb50f84dbf8` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:74c8e4cf02f637a9e6dc48854666992a91f6402dd5f80b2f31bfe483df9ef71c` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:8e8d0e036c1e6ebdd3c2bd9eaf982040180adcbd56f7bed3ccf2386babdf46f4` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:c8d6e774d7e2d281e371167d59a0e236ed5279f0cc2310f126fbbcc2f46e8ff4` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:c13f40c79d646df44bbad7a6aa72cc2c4b416e0ba17d0a1a7c301c40f024c7b3` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:b5606a50b6eb0e03353585bce86ce0d3ca493c16d507e4fa8b4d18b11eb59a71` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:d916c391d1663edbb793477e0e5c71b41c503cbe5f125af46253fb7e6664d9de` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:d9d62322ab1a73c306e7bff5b5a1258527002ecd451892fc6908c6187a445125` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:5165fbf0ac8579b32e842eaa6536ba9376f526a2fe4a43e4c47a7f85232ddf83` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:3fda2201f8395275c9075dcdfb2274a38b5b7c7d8f57637ff937c6f6ec0687da` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:d9d62322ab1a73c306e7bff5b5a1258527002ecd451892fc6908c6187a445125` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:fe7fdb5d91537160137f7af897b5bd201651576d69440b8140ada814bb2959b2` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:cc3c680acc654e92261f714408b1cb0f2bbdc45d5623570d4ab6deecf552705b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:2b239e284be7d4bf2a1f43342e7c5318f77e5212e06257bfe663564893ff21ae` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:3c7873de78e25bb306c492ef3018539a5a164dbc34bb957a1016351c6d445808` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-proofs.json` | `sha256:f5c66f068437c614430df435bca8880c968a92209ee38ee56c564ad60ff678f1` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:b128d3ebfafc59642ae7d5574f24afe8f80dae532dcf68c24cef779bce0666c0` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:c04c3591f60dd7d343077c7631ffa35ccc9e9bc6e608305c218e079aadc4548f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:bd4f6f76beebdb3cffa4c50fe565718f118bc3ecd11b7b5442ac6444be656769` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:37dfa2db6fe88693a2ed13bfea82fa43ecbc5250256f9a5881547e3645bc0731` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-proofs.json` | `sha256:ad81c65fd80eae707038113a0bd0ad942b67566217b9427390e5fece14ee70b0` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:341bab27034bb5ea4cbf3c84c4fad6af7999a0032535a796c678b186e7049bf4` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:0309f74cd280d6f56073065c73e01a0d81a260e6dd1e7d6c10c8f27ab9eea4e1` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:255aac1f31bf9ca54f311e31ecec87028cc6fa19815508a35292c16f480881aa` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:a5170676e5a1483126e7e8ec86a8740c5a033c44bfada9f7d54cc6fc9307ba13` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:ec141f1062a9fd079135318d1407ccab9340f96c037cb5fc2de32aea4918e3d7` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:e71a0789bffb8fba9b03092e766d0f589299c55d14f8d61edbf4a750a6c3b1b2` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:d717a53262cb2b72f17796e62b9b37cf4e20d1e90410560ed03db9fc7051b0d3` | `static-code-analysis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:5e34372dc7330b48d668a36d656c06ceda4545f5911669c8da146fb4cb9be7d6` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:e47ded65b7fa05c782049d88d0b5e48b71facde2517912023d24e7a306c364ca` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:2ee6b643505c60c98bb62ef3cfed0da34d9f668403a35fd3b5504328a9441600` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:4f4076430670545fc5dc50be860d8d71126263b0dc3d7c0e27370686b3d8a76c` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:85344442b67131ef5aff6c8ae74db54d49f971a9a1c4f6cd234993e5b0f0ac46` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:63dfac749774e06c70652d08718aca00101084c0d0cb096ac057f707e8d3a0d1` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:10f9a395aa72e6feb2f3dec26ba16f2db3cdd41592a81c7efb348f5bdb05e339` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:32ab01fe64f2e64e3d3d19c1b5b3a5b2ff0db154e7e786ba1dd6ef107fd16ff7` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:a32fbbdfd31f6caaac059a52ad1b1af0364770b4bf857a06b43f95ead26f40fb` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:c91b6d44013d9514498b464bc4c6dce52197bdf70121663ada56f7af3c331da4` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:3e365f6603e4066510fc07f0c16c245058c19b77e1b796ddc3e50d5ac5f2b91b` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:fe4a268e5d78b61c451ed9eabda2a6a27e2264ac39f8ec724cb2b9f82ee5272f` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:74c8e4cf02f637a9e6dc48854666992a91f6402dd5f80b2f31bfe483df9ef71c` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:6690719da2460798a8b855d707f9ded84fc28ce60b00aec55636e9d99e47cdd6` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:5effc18dd1f65e1188616aa32cf8e4dc3a8a06bdd3eb95cc2e04341d166fca65` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:7ff2e8c2cf327bf6e8771fbb764c9b66c481bccdea538ebd05d045cdaa576977` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:650ea4f81dca3a213ff9eda3a23580b55d069e180dce24aef77b3c033e596654` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:6d78fa0bbd1076be3b0ea026097aa5188f5f0123ee4f1e58dda83d838327c09c` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:d9d62322ab1a73c306e7bff5b5a1258527002ecd451892fc6908c6187a445125` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:644e320c978ac4dcd4693348413fa7a55b1df32af529d518a88072dbb154b7ad` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:b35d37fe26d442d50de032aaee771cb5c13b394e48722963e450a6556a095962` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:501307fda8ba5ca845f985e7c2857595abc67ce54037f07ffa384080d45ca725` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:fdd7c9f7f92d31fd298f5a2259959d8f8e9b0cb1ce754e5d4a5a84aba4aa196b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:7d1a84b56194a0865f1ed4c8b953c96eb21cb3ca2874289479a668a76129c752` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:9d143e66aa4753576e168a51b6c81203c7f90154f8762c493a1d7e3e914f8c56` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:b4f48f36750bb8e789199080421c4a051dadf37bc0519ca0738c263961d0afc3` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:93619dac9545954b993d6058012a17d6b6a87d961cf68699492f29d5bfc7cb89` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:bb393d54832f9a216f0fe6129671c9369071e0cf78aa823ea5eae59c1d0383e1` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:e2eb00a48eb8691cc490c735239b33a9c45cab59904c991f227a42c421c5cc49` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:c432db3615e95e4335740ba696370dff4e9338a03a7604224a449b7630d442a0` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:08f92dedde0fc775c6c52cba283a4b8ace556a94c440243431b622a675e8a8cb` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:a99cdfb7e88cffd23701cb23a8bc211b37f40954c31dbce9529791e61621fc82` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:637d4ded2dfa3ce7d6b597716e6839d934d38747c5c2a536f8afb1e257a58aa0` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:ba57d7503ee19baee3d14abff0c0386aa5c6cac616c94d37a6d7f94d419b3d98` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:a0ffd24e12eb594dd4a9f26c5f3c8d30fac981d018bc57e689c19dca067cd6cb` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:adab7903446c23a53b6104c1e12fefca4bd54fe2bba624f440d3aa2e774b2068` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:1bb54e49a9d35a309f6d4609c114a240249ed537150afec8202fe0d882fb91cf` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:8f1938e2a6559b824050b52802ee5afc2fb3be7eb6672a1f0491d08b6850c695` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:5dda7271fe1c689026c0e8d950f873fbeffd1a657a7df9bdd6bbbcccc88113e6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:c51ad650de2fa9e648c248db4958a15eb0073c1063cff700616bdd550fd0d294` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:ef5b77905b73c2034704e7eb8f68a0577c5ac40cfd418d541336936ccf9015c8` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:aaef2e74211a6ce18cb681c9be1f8c2c0ff323f3f61f4a4318c824a96eb58b97` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:d42488c92d5b4bbb05e7574c45b852168b2bc67d7a9efd7cc0fb20d5eb81d4fb` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:9ad9eea14476d8ff6344fc93d9575f010d1ac1a747e0fefdc4da203bc371e4bb` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### unsafe-patch-review-recovery/patch
 
 - branchName: `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
 - readId: `read_unsafe-patch-review-recovery_16a56c87c5`
-- assetPackId: `asset_pack_fd3c892c8e9e`
-- proofContractHash: `sha256:081e1b7dde51ffe365b65b8a69d22bef36b87ec49e90d3c5bc81f1d731ba23eb`
+- assetPackId: `asset_pack_cce630153e2f`
+- proofContractHash: `sha256:1d3c713ffdc5133e3a2f11e00050728ab0191aaee894c1ffc1b97fbe500a66f0`
 - allFamiliesPassed: `true`
 - proofContractPassed: `true`
 
@@ -1410,15 +1150,15 @@
 
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
-| `inference-synthesis` | `sha256:1d10c217eace8afce8408b11245435b2e9081835c29f5f2da5f29c59e41b7cc5` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:f4fba9666f284d709559ee6516ee9563926a367b8f7c6351fca108f319f1b4b6` | `.proofs/_shared/static-measurement-proof.json` |
+| `inference-synthesis` | `sha256:04a97d2cc4e6adbb898ac04dc335c78fbbcbafa66ba06f2e03f7f6dd16470715` | `.proofs/_shared/inference-synthesis-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:377d362462ddd325ae7c4c1f436dd57fb1ed72610c696ca9f9a5df66686b714f` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:fcc2ca2a8cb1a47c046d4cb66e6cce5bda0205778c6ab6e262d3be2cf5871816` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:2260487892adf8f4485b3d2e93477abe006715da4c6b703f30d76a57e028a12c` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:a7bd13bcc1b386278afc294cdf8a4b9461667919c53fdac7649ad8a9c5950f68` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:45acb0a245c588240d0e9198a27e3ffa3a65362869d56727eb807343e4e36413` | `.proofs/_shared/disclosure-boundary-proof.json` |
-| `proof-contract` | `sha256:081e1b7dde51ffe365b65b8a69d22bef36b87ec49e90d3c5bc81f1d731ba23eb` | `.proofs/_shared/proof-contract.json` |
+| `selection-and-materialization` | `sha256:2a809e20dd184437babda413048672266058c7f7b8994964237006acb072484f` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:7402cb7644b4e56a54c3e435d5af11400f99338b66614d8479043f0215066753` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:1c23ea9cb8d55dd030d6b8cf911fe426ca70d6e2dd1a2875149b9b9ef749e6a9` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:f586e24663a035f490921d939652293b836e050c8721fbab7b84b60b609e4471` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `proof-contract` | `sha256:1d3c713ffdc5133e3a2f11e00050728ab0191aaee894c1ffc1b97fbe500a66f0` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
 
@@ -1475,59 +1215,59 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:211dcb4811d83b8ebc24e5c11af5fc09afb3c84e51c7d19b9f991fb7e7c81cdc` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:cdf13e57999ee55469779a4e1e2872709b99b67bf725465dc7a70ced3651cb4a` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:2260487892adf8f4485b3d2e93477abe006715da4c6b703f30d76a57e028a12c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:2d41704afb25be67ef572e34fd38f88ac838f58192c35e2c65ac869b2987b9fc` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:4c34cfb8e09abc3fea234130d5e22306e4384e7e02b72d10c38ed4e6a48f9ed6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:a03da5047522735e147503bfc9fc47f210f6733e934dc36ad29b4fcc10f2a409` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:45acb0a245c588240d0e9198a27e3ffa3a65362869d56727eb807343e4e36413` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:4c34cfb8e09abc3fea234130d5e22306e4384e7e02b72d10c38ed4e6a48f9ed6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:9206df458686f3d4cdb0badae8e803cccf2b57501066b0da3c5e7e22eebaac92` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:abbc30776be85470a0393126a2d723c243daedea5eda751b055e52876e7ecd02` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:078a8f72779bc83dd0d1448c39c8a2613cc59420cbc2546ef633abe06ffb3fe9` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:7402cb7644b4e56a54c3e435d5af11400f99338b66614d8479043f0215066753` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:1e15c856668cb4a4ad5db6d75654f1d6a12c86db551444e29055c53692e6b339` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:3e8e6d5884c41035254b7c40507ee94d173576fa2fe7eaafc3d8dc499fed5b35` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:69cd7a0f2057d6887cc3ed251511abe607c58117e294639f58baea4e95d9bf85` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:f586e24663a035f490921d939652293b836e050c8721fbab7b84b60b609e4471` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:3e8e6d5884c41035254b7c40507ee94d173576fa2fe7eaafc3d8dc499fed5b35` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:02133c34e4c950723e1615b9a90967c8322c0021e5cb3365289f053997543f27` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:1c9b1263bb7b7369c5198c518dfabccd135d3bb66f52807b99022037b205f034` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:d0debea21fc12d3c1b01fe923ed58a92b5f9188074c7f35bf138cc5cdbedcc89` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:0b81c774979bc960c5470c092f9d0f240bf9cbec0454b4f6e9a6afa595589607` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-proofs.json` | `sha256:c1cea028a02c09bf4071337f6971368a1ca149b1172b7cc0e251b9d3794e4245` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:1d10c217eace8afce8408b11245435b2e9081835c29f5f2da5f29c59e41b7cc5` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-completeness-proof.json` | `sha256:b49a12e17932a30da0273d11cf9a47d7b2d43f51739526eacd600f272f2e1133` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:ce56c4fb5c0c3de094741a30c5a6e220192bb8b911ab4d9c0a172ef6b57180f0` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:f0988f6b6166a84300a9ce998ad9a8a35914bf66ca92e3860d504564d7a387f7` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:fcae533d757248e65ef605bc5fa8a752848897f3a8a463743b03efa40a76257a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:81ed661185f840902ccc6f489c17657cae1c808596d26ff63d0a906e0290595f` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-proofs.json` | `sha256:17eb732be79c0822cb9ba16d3f55caa922a71b0f5d8f9ed42eb013de069d7c79` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:04a97d2cc4e6adbb898ac04dc335c78fbbcbafa66ba06f2e03f7f6dd16470715` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-completeness-proof.json` | `sha256:fcb172d97adfad2b8a7b97c488ac8c9160b9a62445e8e23e843c4e3b47c04b27` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:bb7fceff2570971e83401ef4e52f55a9de538c68da43eb3751a280a5ebbc9304` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/materialization-exclusions.json` | `sha256:1497918b2148fb9bad562416b2d46b90b85eeb988c3ea355e9aad5d38ea36547` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:ba634a091705d48920bbde42a75e0dc700bb1697c8b33feb68367b356814adf5` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:d27e089bde28105989dbbf6ec9bafe5da53f3c72ae8533e605b7c9f4ca12ff95` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:8af4e3ce8938d57e58bc1282d863cbfd15f15d6ba99c4972ab17d5bf1a571957` | `static-code-analysis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:95ceba55806dcbebce98645a62a55e31b48767f7e5c1aa2fb5fd2d3a1ba512fa` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:139369067a8d2d1ec94ed67bb51ba0b2ad74e92af71a988fda83113eb9edba14` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:c07529ced4d1be67c41088d536c28987b716a69dd93912bc787e9fb3d00dc7d2` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:8c9ce1da2936d4acb4e565e203c3dc740db5d466d5cb4ab1837bb23a513d22fa` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:983be6969ace07a90a289bdbbc9d3b7433785f14645cf84f6b600c98edc1060b` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:abfdb21610626a23355333ec28514af7c059249b842e96437f81e883e0a6b46c` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:791d05f79f1b2df503f0b9bcefba15bc08413ed461d0b64cd3503149ab4d3fb9` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:566ba4e640705978e4064fa1c9c8d55b77f0fe7cfde0d4b112d006edc0ca63f2` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:927b1a4ce68b0ccc92e9e85c605b2e2f2d2ff0011b39b46c2ea31c4e2de6712b` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:a42c8c346a20e5c82f84941bf3245ab46a5d9a111ffb073398a5e51e3eda7cab` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:4c34cfb8e09abc3fea234130d5e22306e4384e7e02b72d10c38ed4e6a48f9ed6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:241a88c2df2623a0f2fda365a4b56fbd0b87396d61b13975bd92331c85d16f22` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:fcc2ca2a8cb1a47c046d4cb66e6cce5bda0205778c6ab6e262d3be2cf5871816` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/selection-consistency-proof.json` | `sha256:6d85aaed7d0cf7270dc0b1a3f44b04df5487492cb02b8165e63c08e7efc38a7e` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:699459500a28dbb00ebeb428dfe5df02855b6408e94fd6284e448b110fdd88e2` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:0ddd9c3527c0991887bbd08723dda8a2e53014e0533e7edf68873f938945f12a` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:f029c7b21d761c59a58abc433696f50fa4fda01e81401112e8b2b12fc6c28322` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:3e8e6d5884c41035254b7c40507ee94d173576fa2fe7eaafc3d8dc499fed5b35` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:85bf5b67a92a1ca5ef4741d7f02b04ca100899563c1b304ab75c2aadeeb46116` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:2a809e20dd184437babda413048672266058c7f7b8994964237006acb072484f` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/selection-consistency-proof.json` | `sha256:ea46703f1038d089fe7492ab6ac245b92340f8cad9dcd435f28b2e1acb638a63` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:5cf464309b76a143cbf7a6aa7809b3ba933be40f9d5f216b525853ab6cfc675b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:b547d2ce6dbc3b1f54289fdc171ee3eaaabeee05bf366b7d08d71fbeeefe3e26` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:02cc19fd505fa15604a7ef08ef0c8ec020ffab6bb6dd32482e70392023aae9c9` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:19433854367ec23425e38e1b53936787abe6160b52cd15ee32bb7e9c42ebad69` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:1e847396743898e5595e7e509eec458e430bedb888294df628c18ced2ed39ec5` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:a7bd13bcc1b386278afc294cdf8a4b9461667919c53fdac7649ad8a9c5950f68` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/source-to-shares.json` | `sha256:2cfd1ebd2206bd145f3eb79ca92d6692b40f55283c973459914e90dcaa1a6786` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:33ad5ce4f284cc878d2f575c66cb51521fe6d0d9e892bdbc088fee71017df424` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:f4fba9666f284d709559ee6516ee9563926a367b8f7c6351fca108f319f1b4b6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:49801567def5c6832d2e1fad1c1ba1f3a03dbf85a224802074b5d0dd777bbe2b` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:0bb8b155a2c04c9a5de97587562d9f28133d4eb3e6c654bf8bf3692388baec16` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:799295e9d3d79aa31e1c644802d648dbfff323cddc052a76e11a92e0b4278cb7` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:3cb5279f8728f1db6c304d5d5f2909c105e6bb1f8f9d5961cf4cb906067b7a95` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:b527a3606a21307d25de24a637c1f987f251bc3ddf4fa06cb37b7e696b784e7b` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:1c23ea9cb8d55dd030d6b8cf911fe426ca70d6e2dd1a2875149b9b9ef749e6a9` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/source-to-shares.json` | `sha256:d0c2824e904ef7357f4d40882cbf0f772c4bc448954fc5f65c1c6aa4c933e179` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:1ffc7bce7c77371c0b9cb57cc888156526e32652e0f9bc5136cbb203dfba79f7` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:377d362462ddd325ae7c4c1f436dd57fb1ed72610c696ca9f9a5df66686b714f` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:a0d049ee7e85b5f568746fd41fbea1103bd81a64b9dcb79baad198175e593269` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:6031671fc2964a6ed265ad22e7f06da2a3a11d0cdcb45c1ef0707d63613c44f6` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:d90a28e4b0230c440e755c382eccfbc349293dca056b37fe7508c5ade82f572b` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:8c7cc1ac9acf776fafebd7e863c14df8737b5bde79bf09dbbfe8ec0da4fc4fbb` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:ea349d4e72c8ea62f4274abbed2f2193032bbf4036ce68d885b59373c8f3cf0f` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### unsafe-patch-review-recovery/context
 
 - branchName: `bitcode/remediation-read_unsafe-patch-review-recovery_16a56c87c5-unsafe-patch-review-recovery`
 - readId: `read_unsafe-patch-review-recovery_16a56c87c5`
-- assetPackId: `asset_pack_fd3c892c8e9e`
-- proofContractHash: `sha256:081e1b7dde51ffe365b65b8a69d22bef36b87ec49e90d3c5bc81f1d731ba23eb`
+- assetPackId: `asset_pack_cce630153e2f`
+- proofContractHash: `sha256:1d3c713ffdc5133e3a2f11e00050728ab0191aaee894c1ffc1b97fbe500a66f0`
 - allFamiliesPassed: `true`
 - proofContractPassed: `true`
 
@@ -1535,15 +1275,15 @@
 
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
-| `inference-synthesis` | `sha256:1d10c217eace8afce8408b11245435b2e9081835c29f5f2da5f29c59e41b7cc5` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:f4fba9666f284d709559ee6516ee9563926a367b8f7c6351fca108f319f1b4b6` | `.proofs/_shared/static-measurement-proof.json` |
+| `inference-synthesis` | `sha256:04a97d2cc4e6adbb898ac04dc335c78fbbcbafa66ba06f2e03f7f6dd16470715` | `.proofs/_shared/inference-synthesis-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:377d362462ddd325ae7c4c1f436dd57fb1ed72610c696ca9f9a5df66686b714f` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:f6abbdaf4249320486a9fd70d316ab1edda52b764cc4242f0136c40efa30ef27` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:2260487892adf8f4485b3d2e93477abe006715da4c6b703f30d76a57e028a12c` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:d0e3bad9478b45ec41131e9b79f625426f75e870265f91104f859ac8cbe7b7c6` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:1821843556aeb7ea7924f52129b0e00e9e7c35a7795f842947bde87b9120b743` | `.proofs/_shared/disclosure-boundary-proof.json` |
-| `proof-contract` | `sha256:081e1b7dde51ffe365b65b8a69d22bef36b87ec49e90d3c5bc81f1d731ba23eb` | `.proofs/_shared/proof-contract.json` |
+| `selection-and-materialization` | `sha256:3b0408e0319b76ea7218b440e99b9cb4473f59fee9e7f0692d68f1caecb72931` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:7402cb7644b4e56a54c3e435d5af11400f99338b66614d8479043f0215066753` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:0c6ab8288b97a0fd368fe7d38a3fc1e0c518c346b72d6345e493a6885fe51753` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:bdd12a459db1cd068a38befd233ac35ce05d4826908dffa5c6238fe1198c71b3` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `proof-contract` | `sha256:1d3c713ffdc5133e3a2f11e00050728ab0191aaee894c1ffc1b97fbe500a66f0` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
 
@@ -1600,52 +1340,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:aedd512b38435c2c8788db85a80e13b2b3fc29417c12b244ad61101af9ba8b60` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:10fb949ac86f2c3234beeb4453c01b73de4a46c1413ccc83edcb9dff1074df5a` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:2260487892adf8f4485b3d2e93477abe006715da4c6b703f30d76a57e028a12c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:2d41704afb25be67ef572e34fd38f88ac838f58192c35e2c65ac869b2987b9fc` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:3920104b24531e329948f80b2d900fc98cfc42698d4ac1fa0e7286df74a5e01d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:a03da5047522735e147503bfc9fc47f210f6733e934dc36ad29b4fcc10f2a409` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:1821843556aeb7ea7924f52129b0e00e9e7c35a7795f842947bde87b9120b743` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:3920104b24531e329948f80b2d900fc98cfc42698d4ac1fa0e7286df74a5e01d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:9206df458686f3d4cdb0badae8e803cccf2b57501066b0da3c5e7e22eebaac92` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:04c55df1a934fdd1f694d1b30c3e38b9f4df4c022e165039d8024e245089d5c4` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:b4e8aec217a92683cd0be93f48678c859cc663a4aed8442f4533df4514df85c3` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:7402cb7644b4e56a54c3e435d5af11400f99338b66614d8479043f0215066753` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:1e15c856668cb4a4ad5db6d75654f1d6a12c86db551444e29055c53692e6b339` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:52f8171f3d038aa2a25caf047e261c08d1a1822fc27d6cb9289192936d6e1eb6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:69cd7a0f2057d6887cc3ed251511abe607c58117e294639f58baea4e95d9bf85` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:bdd12a459db1cd068a38befd233ac35ce05d4826908dffa5c6238fe1198c71b3` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:52f8171f3d038aa2a25caf047e261c08d1a1822fc27d6cb9289192936d6e1eb6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:02133c34e4c950723e1615b9a90967c8322c0021e5cb3365289f053997543f27` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:1c9b1263bb7b7369c5198c518dfabccd135d3bb66f52807b99022037b205f034` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:d0debea21fc12d3c1b01fe923ed58a92b5f9188074c7f35bf138cc5cdbedcc89` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:0b81c774979bc960c5470c092f9d0f240bf9cbec0454b4f6e9a6afa595589607` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-proofs.json` | `sha256:c1cea028a02c09bf4071337f6971368a1ca149b1172b7cc0e251b9d3794e4245` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:1d10c217eace8afce8408b11245435b2e9081835c29f5f2da5f29c59e41b7cc5` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-completeness-proof.json` | `sha256:7c1ebcb79090dd09243552478df9b9eb637bedbd91044dda36836887a4f4332d` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:bbaff4c9e409f03b11defdf0c152826374fde34f79b7a07be8b38471ee547e36` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:f0988f6b6166a84300a9ce998ad9a8a35914bf66ca92e3860d504564d7a387f7` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:fcae533d757248e65ef605bc5fa8a752848897f3a8a463743b03efa40a76257a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:81ed661185f840902ccc6f489c17657cae1c808596d26ff63d0a906e0290595f` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-proofs.json` | `sha256:17eb732be79c0822cb9ba16d3f55caa922a71b0f5d8f9ed42eb013de069d7c79` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:04a97d2cc4e6adbb898ac04dc335c78fbbcbafa66ba06f2e03f7f6dd16470715` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-completeness-proof.json` | `sha256:e199c9550062e98d66bd75fe71fdab5941a26fcebf566d8ca0467194523730e0` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:65e22544f2d1d0d8cde4e7275620f8224e9ccdd8b393fc7001cc1911b6cf0c4a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/materialization-exclusions.json` | `sha256:0979d8fece848a46034cff3b7439c73928e4490316688e0a5458a29d4251c34f` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:c106e15b75acfbdfe03de98f435b1e8c8c8ebb59867e0e6a1341a810935cb245` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:d27e089bde28105989dbbf6ec9bafe5da53f3c72ae8533e605b7c9f4ca12ff95` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:8af4e3ce8938d57e58bc1282d863cbfd15f15d6ba99c4972ab17d5bf1a571957` | `static-code-analysis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:95ceba55806dcbebce98645a62a55e31b48767f7e5c1aa2fb5fd2d3a1ba512fa` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:139369067a8d2d1ec94ed67bb51ba0b2ad74e92af71a988fda83113eb9edba14` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:2bce4d5bdc8e06a98b7573b468be829e64232be0c9832adb8ab62ede28ee2ca5` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:8c9ce1da2936d4acb4e565e203c3dc740db5d466d5cb4ab1837bb23a513d22fa` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:983be6969ace07a90a289bdbbc9d3b7433785f14645cf84f6b600c98edc1060b` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:abfdb21610626a23355333ec28514af7c059249b842e96437f81e883e0a6b46c` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:791d05f79f1b2df503f0b9bcefba15bc08413ed461d0b64cd3503149ab4d3fb9` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:566ba4e640705978e4064fa1c9c8d55b77f0fe7cfde0d4b112d006edc0ca63f2` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:927b1a4ce68b0ccc92e9e85c605b2e2f2d2ff0011b39b46c2ea31c4e2de6712b` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:a42c8c346a20e5c82f84941bf3245ab46a5d9a111ffb073398a5e51e3eda7cab` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:3920104b24531e329948f80b2d900fc98cfc42698d4ac1fa0e7286df74a5e01d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:9885cb919e9f819c193899633241241f3217d2583aa76d8719a6f5fcc5308e0c` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:f6abbdaf4249320486a9fd70d316ab1edda52b764cc4242f0136c40efa30ef27` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/selection-consistency-proof.json` | `sha256:6d85aaed7d0cf7270dc0b1a3f44b04df5487492cb02b8165e63c08e7efc38a7e` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:699459500a28dbb00ebeb428dfe5df02855b6408e94fd6284e448b110fdd88e2` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:0ddd9c3527c0991887bbd08723dda8a2e53014e0533e7edf68873f938945f12a` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:f029c7b21d761c59a58abc433696f50fa4fda01e81401112e8b2b12fc6c28322` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:52f8171f3d038aa2a25caf047e261c08d1a1822fc27d6cb9289192936d6e1eb6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:4f207ce5044e2b0949ad20d383953e3364b009b99f8f16d429ec3a7a57004286` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:3b0408e0319b76ea7218b440e99b9cb4473f59fee9e7f0692d68f1caecb72931` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/selection-consistency-proof.json` | `sha256:ea46703f1038d089fe7492ab6ac245b92340f8cad9dcd435f28b2e1acb638a63` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:5cf464309b76a143cbf7a6aa7809b3ba933be40f9d5f216b525853ab6cfc675b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:b547d2ce6dbc3b1f54289fdc171ee3eaaabeee05bf366b7d08d71fbeeefe3e26` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:5ce74f215f9d60e8005345240f4ece14b01bf4d68cca0e452e66f69fea4a77c9` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:6ca0519ff7c12cc846645d1b0340688b7cd5391f185dfc67584a325f853cfc01` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:5aaca53542865b3794065212b504d1c0901e2b805b44aed4934c50a66b7e6a2d` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:d0e3bad9478b45ec41131e9b79f625426f75e870265f91104f859ac8cbe7b7c6` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/source-to-shares.json` | `sha256:2cfd1ebd2206bd145f3eb79ca92d6692b40f55283c973459914e90dcaa1a6786` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:33ad5ce4f284cc878d2f575c66cb51521fe6d0d9e892bdbc088fee71017df424` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:f4fba9666f284d709559ee6516ee9563926a367b8f7c6351fca108f319f1b4b6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:49801567def5c6832d2e1fad1c1ba1f3a03dbf85a224802074b5d0dd777bbe2b` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:0bb8b155a2c04c9a5de97587562d9f28133d4eb3e6c654bf8bf3692388baec16` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:c54baaaa0686ce1a8b707201d1b8f946a4d7543949feddcd79692ef0f6b1d7a3` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:a3e2515e80d912aafc1d25df1c58c75ad48d865144aea9cdbcb5b760aeaaebf9` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:da1ffeaa0dab3a9d10d6d74eb6feb9f393420f81a789dfe5b1334fe7777021d4` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:0c6ab8288b97a0fd368fe7d38a3fc1e0c518c346b72d6345e493a6885fe51753` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/source-to-shares.json` | `sha256:d0c2824e904ef7357f4d40882cbf0f772c4bc448954fc5f65c1c6aa4c933e179` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:1ffc7bce7c77371c0b9cb57cc888156526e32652e0f9bc5136cbb203dfba79f7` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:377d362462ddd325ae7c4c1f436dd57fb1ed72610c696ca9f9a5df66686b714f` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:a0d049ee7e85b5f568746fd41fbea1103bd81a64b9dcb79baad198175e593269` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:6031671fc2964a6ed265ad22e7f06da2a3a11d0cdcb45c1ef0707d63613c44f6` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:5c2e8fb59c61a922499b94bde2804e017b040f87dfce03d240ac8853eea65781` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:8c7cc1ac9acf776fafebd7e863c14df8737b5bde79bf09dbbfe8ec0da4fc4fbb` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:a9f3e5057e18f483b4686c757c60ed967985e9408e0ced2f132c4f0a9aec811b` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### infra-deployment-mismatch/patch
 
@@ -1661,13 +1401,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:6a44eb26908aadf6943c6411c6e798675331f88d6e670690ac29f72f2df2d971` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:de13e187f609cf5b5a4f7462d404f3e5b6a9ec6a1b5409af0a41d54be89c7637` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:d5666ac8a6dcba67a0bfe3d33fa8d7cdd13e5d226369188d133343295d69fc29` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:a8f038138ceed6859020675d71736cdba5a587e6b48ddb29133db3011ef74d52` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `selection-and-materialization` | `sha256:5554805521c6d684a621d6c404026275f82bfc9a32a9063cc46532b815f4ff21` | `.proofs/_shared/selection-and-materialization-proof.json` |
 | `authorization-and-sensitive-flow` | `sha256:2c1624cf684ae0a83834d9c7a28789d966ff776e1c61c5fbb611b5d73392547c` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:53e4472e0cf10ebdeddb6ae3b5e212f910a837ed1115dcd4175fc6f46f737650` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:5bde14deb75ac18013f2f69e21112f774c1d4322a93489e95c3919c7a967f7d5` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `settlement-source-to-shares` | `sha256:cbfcc3cc8d66251b2dcef3b5d948254f0b138545884ce0ed005a350e74dbae6a` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:4cce4b0e39c1d228092ccaf383dfbcda4040c0e9115777f21c12695dd2605397` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:7170c26e2b0d89451f79fe30b5e96f548a4f0c5e45f1947ee0fcefb109f93ca6` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1725,52 +1465,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:e6eb896b77c9fb159e64a9e29533a7c305055e01a579aeae6efbbb42bef72b77` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:d4d3e9495263cb92a69fddd0f7edb72c63c7c303c4cb5535f352ec51604959e8` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:b64dfc3bd493a147c1abd7b0a7c7c39ee2c87017375c69688c3718cc37256f58` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:8102e2e735b13179a502977a86babc3a143319143dcaab933e6294b59ada151b` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:2c1624cf684ae0a83834d9c7a28789d966ff776e1c61c5fbb611b5d73392547c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:feaef9ef47b2893e14971653e07b2d7e18b8a1d0ba42bf6e2677d70eba85acd5` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:af3e0c2cb3148443ca9f967906fa079cade336b39bbd36b05e6f031353dc0715` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:edd0136dc30e19e51631f64ff76b847822eebe97c68811bc8dc8dd1a4c368126` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:5bde14deb75ac18013f2f69e21112f774c1d4322a93489e95c3919c7a967f7d5` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:af3e0c2cb3148443ca9f967906fa079cade336b39bbd36b05e6f031353dc0715` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:285912525499e94c8651783b615cec94c09ed1bc4a721d2cd9b2bb7d45ca6bc0` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:f8d2fcfc7c2f80d195b4b7a63876aba729bf0b8b51b153764bed2b6f2a6176a3` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:cbca71525b191736e08f83a5225365d9374fca60903a2b077374afa664bbf4f8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:f8275c847d1dbe7a9583bf4c8d0260408dfd5616a0bd05c4e19d6d6c4340aa3a` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:4cce4b0e39c1d228092ccaf383dfbcda4040c0e9115777f21c12695dd2605397` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:cbca71525b191736e08f83a5225365d9374fca60903a2b077374afa664bbf4f8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:7a50c7e61d4c94b39b2390014a694aa9a453916258ff5511774ce90454bbf27d` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/identity-authorization-proof.json` | `sha256:965ba1aff4604765638f5f2fba6721007f57f6d4fa553938df7397fa460ad8d1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/identity-bindings.json` | `sha256:980c3e9afa612cfbdae5fee2668cea479236ea1ed699ed688ed553f8d960a054` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:a1e7ba65e662bebe0b9babb6067655b7cdcbaa5876d82140a3e84ecd8a892726` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:67909363540bab7e1ac5446932fe50fad555bcf351001db03c7f104666a78cdb` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:a7f910211080b140df9104153bc1ee2ca4e79cc014b42d89ee687e24278319c6` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:6a44eb26908aadf6943c6411c6e798675331f88d6e670690ac29f72f2df2d971` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:a7ca588dddbfafce36107d95c7d237b46c644c0122614e4967656c308fb38365` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:a726a4c350631cdff6d4f512a3b6cd30f7cf26b33077ba1049b66c54cf229fae` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:cbacb2561b13b5e8480a7fbc23488dfd87df92f9c07098d4bba449941109b45a` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:f27a92cfffb61f084e63838cda18b35ebd4b118170f88b06e427f9c8844464bf` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:598b7bb92d2791407ac01d15fe35c2b46f729c30534b819dff177672e9c44166` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:9c29647f452b16962ba7c3046d365f04e63e667df669fdcb4d0f16322c3de76e` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:b9a7f2de35b107af0855324dfacc099efd07408e720f1369d8ac0975fc6c63c5` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:7dc8887e06981d6c318794b761e0df050f65005e7df02d4f3478308de3d97d97` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:7f630cfce7e0cb6347869b41f220ce253d541a4dbb1d0b321277a3e01fa2b82e` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:7a7149783ec4e0c2118e45c770c255aa00e6c076b6f2359a9b2cf7a84cb1d8e0` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:704fbd5b7fc3e93e4cc79054f0ed587fb42b94919dd3364a840a87b9f544d2da` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:adfd68a5c9458827e53484abc4f4b7c24320972545e0f5becd4c3443d1b828fd` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:ebcb977eb8b8ad5a9fcb3d6640307ad033c642f08fab42326f1a2e7844752525` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:e8f75314e80d343646088acd7aba5909bb2ffd83e6a97a622bbd9726d4e5615b` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:c3732845741f36061ac1103c9b2485c814592989e3402bc91a38f7a8541b38af` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:469e541169edd2d2bde8ff4ff540b41b3e2ad528438a1f425a644a9aabd2018c` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:e178cb17a881d2d0de927141ac19877252fc1f4c09d4788e2209b7b2b738914d` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:af3e0c2cb3148443ca9f967906fa079cade336b39bbd36b05e6f031353dc0715` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:e1818adb231f247cfcf9d54189d132f7c6d27020d5af67ab2c8d5ed3a3117aeb` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:a8f038138ceed6859020675d71736cdba5a587e6b48ddb29133db3011ef74d52` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:d170dc4a100d8e868ed2a00932076332bd30e007c2a8a2b331b79567eae5c745` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:8ffd430d1f8069736b391ba547e0c34c8112b34c5b8692f8d685bffef13cfd34` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:829d529da7286600464fec1b18a1ead2bbc27dc71aa8940f3034ffecfdb63114` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:cbca71525b191736e08f83a5225365d9374fca60903a2b077374afa664bbf4f8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:d3f60fbe71971443246be6166f09dfab9d6baf02c39092057a836cbd96aff8b3` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:5554805521c6d684a621d6c404026275f82bfc9a32a9063cc46532b815f4ff21` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:b0acbf48dbd4c5a4202a8683fc011822c96f6d7c566fd287412d544f7de1b4be` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:8f1970d50b815044e763d8f192ab7269689ea0b3916334f534df680e4b3eed57` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:90e58c41d1074faa18b8c6b45dcbf21a466c7fed0ad7b00ea94407de8eeb222c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:aef45c4332d64546c4ae0c94af83be2384f25ba49770b025c5bf85e40b82d71f` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:7cafe2b41af74f6a20eb15346a5100fcdb9026530df8386fc049bb792c3e9030` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:30518f8d5444b646771c961b268999103b5bd54a9a1438ff50d1813931edad56` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:53e4472e0cf10ebdeddb6ae3b5e212f910a837ed1115dcd4175fc6f46f737650` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:5ebeb320a1bcaa26f0f5131950831d144edc04744ed7f80d900f55b2d6efc90a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:6ae0678494caf66c04b59896845189b77f4ad072cb3b4e72b6c48e5365d8bbb1` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:e38ea3d9c9515d5ff396a8cd20b7ceef4f9da904bb86ac460e0f9d0e73512757` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:ef08088d345fda0c26db631772ac3c448f8dfeaa056685a9ef21e17165a5bee7` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:cbfcc3cc8d66251b2dcef3b5d948254f0b138545884ce0ed005a350e74dbae6a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:81cb9d04a88483e9a534ebb47a3c9dba1ca3ccdbfe7dd6b363516979753c0a6c` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:1e425d3c3c057eea53cb4f984e775611cfc3bfc585355ae5c2c974e69e270804` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:de13e187f609cf5b5a4f7462d404f3e5b6a9ec6a1b5409af0a41d54be89c7637` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:cef9d5e516f74689f3dc7315086660e2dd6d1385337367ac0038bb3681c53fe9` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:baf352d37937dbb20d6f75992ce457f7cc170f98a9f67d2c0222617bf330c328` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:d5666ac8a6dcba67a0bfe3d33fa8d7cdd13e5d226369188d133343295d69fc29` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:a01835292f5b4bd3430aa38a2d2487e52b5b0261a8fb09d335cd9b35da13eee7` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:3f1c7e91fc6bbc7ed84ca4a14b784481c20fd8cf1551a2ead24791e5283d22d4` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:919db1e7f91824815ab4570c9c45a19211b0f9c93ce4e64486264c22b4bf759f` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:a7422762156150e3238d3ab270a334a573ad9e73ddb412f0ef193911a8b3d5aa` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:a5fe22fd99ff1b609cd1812f8e7bddd05a5bdad381c91d7e6e996783b28ac2cd` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### infra-deployment-mismatch/context
 
@@ -1786,13 +1526,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:6a44eb26908aadf6943c6411c6e798675331f88d6e670690ac29f72f2df2d971` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:de13e187f609cf5b5a4f7462d404f3e5b6a9ec6a1b5409af0a41d54be89c7637` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:d5666ac8a6dcba67a0bfe3d33fa8d7cdd13e5d226369188d133343295d69fc29` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:4ed2198c3827ebb995f8a02e140884f55fc4af51746f586804533a0bcc7f6904` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `selection-and-materialization` | `sha256:2a2b51730647470332f6a9c7cb16a61c50bed4f78f20fbe285b4f0ccf7b51d15` | `.proofs/_shared/selection-and-materialization-proof.json` |
 | `authorization-and-sensitive-flow` | `sha256:2c1624cf684ae0a83834d9c7a28789d966ff776e1c61c5fbb611b5d73392547c` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:df2768d346405d0277894299351973b730a660e7f710af0b6f30f210d699c1af` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:7f7de72b8b776f3b6b5250fb88ebb9efff0c3c67ba93043fc3efc63d507ea0a6` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `settlement-source-to-shares` | `sha256:713c1056dde545f145ffb98db0019127b6462ec6d006c530bf0a2fc7b0fa9ea1` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:f4c83cdccfabb13a0928e479e31db2b61be251cfc4832fcd6ea98bb499371155` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:7170c26e2b0d89451f79fe30b5e96f548a4f0c5e45f1947ee0fcefb109f93ca6` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1850,52 +1590,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:7d34b19c9298cfe043e5ab0096e5766e839444a3027c806efd64f115e98a38b9` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:8c81abd46de1f27dccd1607ef96d0fdd79f0f64d6436918478e6872d010660f1` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:c73fea919fa434b77e9a07c9f7fae7f3627985bd39867bb45788cfd3c1383e42` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:3814c5fe0c016ec138019399b81d88e2dc38d2b2a6d3d6d7a28cd27b06a207ac` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:2c1624cf684ae0a83834d9c7a28789d966ff776e1c61c5fbb611b5d73392547c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:feaef9ef47b2893e14971653e07b2d7e18b8a1d0ba42bf6e2677d70eba85acd5` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:0ee4bbf7e89b96f7249da804ad174d47b8ed2133ca5ee6d533b080eafdeca75d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:edd0136dc30e19e51631f64ff76b847822eebe97c68811bc8dc8dd1a4c368126` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:7f7de72b8b776f3b6b5250fb88ebb9efff0c3c67ba93043fc3efc63d507ea0a6` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:0ee4bbf7e89b96f7249da804ad174d47b8ed2133ca5ee6d533b080eafdeca75d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:285912525499e94c8651783b615cec94c09ed1bc4a721d2cd9b2bb7d45ca6bc0` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:f8d2fcfc7c2f80d195b4b7a63876aba729bf0b8b51b153764bed2b6f2a6176a3` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:a95f89bec667eab9e09c0a2ab941628cee5e339ae8039331269c6e430c6b80d6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:f8275c847d1dbe7a9583bf4c8d0260408dfd5616a0bd05c4e19d6d6c4340aa3a` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:f4c83cdccfabb13a0928e479e31db2b61be251cfc4832fcd6ea98bb499371155` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:a95f89bec667eab9e09c0a2ab941628cee5e339ae8039331269c6e430c6b80d6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:7a50c7e61d4c94b39b2390014a694aa9a453916258ff5511774ce90454bbf27d` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/identity-authorization-proof.json` | `sha256:965ba1aff4604765638f5f2fba6721007f57f6d4fa553938df7397fa460ad8d1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/identity-bindings.json` | `sha256:980c3e9afa612cfbdae5fee2668cea479236ea1ed699ed688ed553f8d960a054` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:a1e7ba65e662bebe0b9babb6067655b7cdcbaa5876d82140a3e84ecd8a892726` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:67909363540bab7e1ac5446932fe50fad555bcf351001db03c7f104666a78cdb` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:a7f910211080b140df9104153bc1ee2ca4e79cc014b42d89ee687e24278319c6` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:6a44eb26908aadf6943c6411c6e798675331f88d6e670690ac29f72f2df2d971` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:3dc46c757b0617248af558fcd07a9e7e1a76281804749174d8e8100cf3fe24c5` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:7779bde5b2647f3de068b07f9d17fcfeceeea06564c801e6da94240cbe6ff0d9` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:53ce7e742f5a762e92a11728f0fbcd2785f87f4c4fd1564256a6948601932e03` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:3f3fe6bf4ec60092b5dd255619c6f5938268123cead2ce104e6a2ed9c5ede4b9` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:598b7bb92d2791407ac01d15fe35c2b46f729c30534b819dff177672e9c44166` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:9c29647f452b16962ba7c3046d365f04e63e667df669fdcb4d0f16322c3de76e` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:9038afd7aeb57c7d71fbe249602cc9c932d73bc4c9c9c847a55f8f4513aaffd9` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:eceafd0aa2326b7a7b36d83e8e3876ffc9761d6cc3c869b5ef89ef8d7918c001` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:495853c330ef53743a2ec1711f40d28094b8d964f541f68adb8cf9695cd6d5c3` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:7a7149783ec4e0c2118e45c770c255aa00e6c076b6f2359a9b2cf7a84cb1d8e0` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:704fbd5b7fc3e93e4cc79054f0ed587fb42b94919dd3364a840a87b9f544d2da` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:adfd68a5c9458827e53484abc4f4b7c24320972545e0f5becd4c3443d1b828fd` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:ebcb977eb8b8ad5a9fcb3d6640307ad033c642f08fab42326f1a2e7844752525` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:e8f75314e80d343646088acd7aba5909bb2ffd83e6a97a622bbd9726d4e5615b` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:c3732845741f36061ac1103c9b2485c814592989e3402bc91a38f7a8541b38af` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:469e541169edd2d2bde8ff4ff540b41b3e2ad528438a1f425a644a9aabd2018c` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:e178cb17a881d2d0de927141ac19877252fc1f4c09d4788e2209b7b2b738914d` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:0ee4bbf7e89b96f7249da804ad174d47b8ed2133ca5ee6d533b080eafdeca75d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:93d3913609ce424a9e1fa849345755f1447e5d1da6b3df68afc118c72332155c` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:4ed2198c3827ebb995f8a02e140884f55fc4af51746f586804533a0bcc7f6904` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:d170dc4a100d8e868ed2a00932076332bd30e007c2a8a2b331b79567eae5c745` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:8ffd430d1f8069736b391ba547e0c34c8112b34c5b8692f8d685bffef13cfd34` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:829d529da7286600464fec1b18a1ead2bbc27dc71aa8940f3034ffecfdb63114` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:a95f89bec667eab9e09c0a2ab941628cee5e339ae8039331269c6e430c6b80d6` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:8c64eb02fda26bb6fa9688ec996cd1a3535c8b739d965803cfda7afba4372909` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:2a2b51730647470332f6a9c7cb16a61c50bed4f78f20fbe285b4f0ccf7b51d15` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:b0acbf48dbd4c5a4202a8683fc011822c96f6d7c566fd287412d544f7de1b4be` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:8f1970d50b815044e763d8f192ab7269689ea0b3916334f534df680e4b3eed57` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:90e58c41d1074faa18b8c6b45dcbf21a466c7fed0ad7b00ea94407de8eeb222c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:7ad6bd3fd130367f088328db7f66846195082ec030bda9f4a9b5efa3ab04c7d2` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:0a31a8bd83ab1d4b208f31790940e2fed1c7ecedda8e3b904fb25b0824fdbbb5` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:e5fdec8d3f9cc0ae660fede823a31ffdddab96b3b2fdb808738bc2385ba59d0a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:df2768d346405d0277894299351973b730a660e7f710af0b6f30f210d699c1af` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:5ebeb320a1bcaa26f0f5131950831d144edc04744ed7f80d900f55b2d6efc90a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:84ddf5d78af850b819d5950766ca3b7dfc55adb476de9466683552b015b61d4c` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:dfe35f5cc5ca25b1c8111243deb50acea2b7bed4d67fde175ffec87eb642f65b` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:e48ef327efe677bc83e35da3c338082fe6638842e2b0d66714b1a36c4c5f30e9` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:713c1056dde545f145ffb98db0019127b6462ec6d006c530bf0a2fc7b0fa9ea1` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:81cb9d04a88483e9a534ebb47a3c9dba1ca3ccdbfe7dd6b363516979753c0a6c` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:1e425d3c3c057eea53cb4f984e775611cfc3bfc585355ae5c2c974e69e270804` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:de13e187f609cf5b5a4f7462d404f3e5b6a9ec6a1b5409af0a41d54be89c7637` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:cef9d5e516f74689f3dc7315086660e2dd6d1385337367ac0038bb3681c53fe9` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:baf352d37937dbb20d6f75992ce457f7cc170f98a9f67d2c0222617bf330c328` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:d5666ac8a6dcba67a0bfe3d33fa8d7cdd13e5d226369188d133343295d69fc29` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:a01835292f5b4bd3430aa38a2d2487e52b5b0261a8fb09d335cd9b35da13eee7` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:3f1c7e91fc6bbc7ed84ca4a14b784481c20fd8cf1551a2ead24791e5283d22d4` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:d4c2a17b99f712ba1133aec25049179e0314e2a030d4d26004b37325273df09d` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:a7422762156150e3238d3ab270a334a573ad9e73ddb412f0ef193911a8b3d5aa` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:292a210164ffc67673f8cfc309a3a0b9f682aae482b5e503c3aa7fe96d008c14` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### privacy-boundary-proof-export/patch
 
@@ -1910,14 +1650,14 @@
 
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
-| `inference-synthesis` | `sha256:af111ab74d6aa230fc1ae3a12a02592d15e6476d692beb927a2480c2033c8b60` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:dde5e174eddf0911801b1eb8845991d70f97df445d99c45e1002e24c80ab721c` | `.proofs/_shared/static-measurement-proof.json` |
+| `inference-synthesis` | `sha256:87fc217050d4e5b915bb3c9db7f3ef68a6857fa16d4840d21cb20b46b285a370` | `.proofs/_shared/inference-synthesis-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:234d29c603cb2e9066cb04a0ef0ad3729d41f58ef8a2e4f53ca407062646aae3` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:9c75d8e790d30a067d1eebbd604bacf8be0ddab8a1b121e9b71f7e4fd1871ec3` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:d0a68ad68adbab5b801152274edbd5e7914f9172858603b62f2b16ba47c23c8b` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:79f9ea2fd8b58ef8177936d2819e6c1d135693c93aec5c3365d5893ef535a83e` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:f19ba812efd8d9010544988cbf24396d069b1996f6e96d3414278422ca581d3f` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:e02e083b3e0bcc576ab943385968b3bc1665a6ced2660d1f605942a2ba3d6c1e` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:f2c2274fe3b2459987f6cd51e99ec1ad6dc5de25aa6db87029bc93ef15ef7e7b` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:26b67f835201cb735147d27c26176c7a5bf2e21eb629af56ccd98be5f77d4626` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:7c551377048988aa559ceee58841c71e9b89a7b63658fe9c7fe4ea1ffb66f90a` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:94214cf13298a6992d32afa5572d4359fc9c21a74ab86c4625e2b03d3a1a6d6c` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1975,52 +1715,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:880417de4a0cbaa4d2f42bc0b11ab35ae6f10df26bf243dd13eaac365485aacf` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:e37a1973ff0ecb2bfff26028905d753286e6ce17c636cc944775ed6628a1bec2` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:d0a68ad68adbab5b801152274edbd5e7914f9172858603b62f2b16ba47c23c8b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:4021149ad806dc5ab5da3c483a0724f9471cb618615c067cb484542ba814caa4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:f7c3eaa6764f14eeee4e24e7692dfa16936c6051f3fb3f30a3464aad5ddaeca8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:7b1572586cb2bbae134213aff92a138d266e4ca5aa4b8ccfba7fd8d31fe7eff7` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:f19ba812efd8d9010544988cbf24396d069b1996f6e96d3414278422ca581d3f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:f7c3eaa6764f14eeee4e24e7692dfa16936c6051f3fb3f30a3464aad5ddaeca8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:03f1187ca4a208891625d9df395dddfa4d3b777f6faf54027f18c3d254e9dd4c` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:50a17d03bb7be7a8df62806f08ee0e27aebd634074d4cbe1640cbe56df69930a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:e1bc31f5d93cbc4b532f6818015026500a35b4fe7134903b5140ad3d4e8d68bf` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:f2c2274fe3b2459987f6cd51e99ec1ad6dc5de25aa6db87029bc93ef15ef7e7b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:12eb37c75757ad72700d9fe0d9ccb566c6454f27afa168f57e11e90e8a0c8716` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:fc0e33be02f1ef77af6bc200f2a0d7f354b910bffe07bb609e4f684a156c2e80` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:6a5446d198324e7e4748c2065940512b05e045dadcc10d8ffda3f6d828fa06fa` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:7c551377048988aa559ceee58841c71e9b89a7b63658fe9c7fe4ea1ffb66f90a` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:fc0e33be02f1ef77af6bc200f2a0d7f354b910bffe07bb609e4f684a156c2e80` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:88aed215f4d18034cedf67a44e9a48d0b1aa2b686b4fc38f243712f0e838f4b0` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:204f4d39d06860e0b3d61d3ff23546c5d9e82ef0aa2ef829c3f8a612255bdf32` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:8a90b3cdf83cdf0ddd801342dfa9de3fc5036568d4e052f5334c6ca47b3a8175` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:7951f9416b5cc1a695aff3680f06573ce1ac52d185354df683cfdbda5c5a2e51` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-proofs.json` | `sha256:33ff45151baa265773582247cbe9d91529ee60888a2cdfb0de8a859b7e944470` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:af111ab74d6aa230fc1ae3a12a02592d15e6476d692beb927a2480c2033c8b60` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:af97dfb3f8e18887a6773e83a62e8edffb3d663e62998dcb491cedab10b16211` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:eda32290cfc4a6b5c8ebff0eebd2d99d434dfe9c00c75b79597dcc1203e66fea` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:9fe9c80a46c4ca82f8547d3976e588d241e2726621c5480e5805a22fa1528007` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-proofs.json` | `sha256:250d56416dc51f46deaf4f87284c0e40f091d2eb3f29858d0c1f3aa6db3bca6a` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:87fc217050d4e5b915bb3c9db7f3ef68a6857fa16d4840d21cb20b46b285a370` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:a141b4bdf8c4659b8673034b87b34dd0a9db5b92993e2daa53a43a9ef375b402` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:b8c45aab1fc6181e6c20e2ce44ce3b56f455214c84d06e723873f1eaa7d37db8` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:77d34bf29812acc7deb933efef36044d638745e819ca34c195b2a83ca8472b8a` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:5c1db48989b73dd62e014886879996570d643fdb279adb9b9e5e3b3c1e207c40` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:176d7d498737532e79fdfa67a5a8cdfb7a8957f9cf5763970fbbd329c90bc9ab` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:17c95fe334d9af77142728c4bf8b16bd6ac399b57dcd9372325dd7702ea18a23` | `static-code-analysis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:063a855154f438e9d4b9db49bfa62c06014135b8433e4add2db9d253483e9f3d` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:df0ea68f7f27865bff6d69e5443d7f6599cb4e6bffab89a158e8f70be15087db` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:9847c2a51a10446110085211de83a03a0019f173fabe637d04da8614680576c3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:54e7883de41f23af88f851e94ebb9ab7165b4e65325f040f102b6868661c7fa6` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:5b454c4ec23e609b5dcb19e626fe75deacba2ed297bdb415aefe5eb0cab4b9d9` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:f9291e5ec3a4ca411ddfbd96dca075400c8c80e3a1286970f0757586c4f88b70` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:3b72a0802fbba9cf1ee386757f85466daabb98c2e9b9fb40117fa7d22a708323` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:de50ba7c48e3cac6f699797df985ef6f0cf71ce49e1f6d1aade0f3faf6839693` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:8f045bf37e019386645eeba07916dcb19744ac5a53bb4ed14cfd65e473e9bbec` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:8eecc81dd8c33aef035eebf6fc194b04434593c743fdb2741a0f04fa116c8b11` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:30faae37b6da6cd4ab8be205941828d1ec4b5f247557ad7048be4c9924227ae4` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:dc2616c0590a0848aab9e9c8ebc8e2a9618e16c7a1f807a93d9f5f6e08a3b219` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:f7c3eaa6764f14eeee4e24e7692dfa16936c6051f3fb3f30a3464aad5ddaeca8` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:34a0bf4054fa32b67637643a3f479b80e393bc8aece3ab00bd5bdc3cc5af026c` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:9c75d8e790d30a067d1eebbd604bacf8be0ddab8a1b121e9b71f7e4fd1871ec3` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:37b1323da0ed7326c7d4be71c74b160a5719bcd9cecf1f21cf1f9f786b37d5e1` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:cb7cb4f174e5ee07bce0350e233e9e25235d25aff988b631ca40c60db81dd19b` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:347fe9b28ce05aecb94a9269a5030766c6507c2bc5c853f76ed5a962bd7f4d6e` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:fc0e33be02f1ef77af6bc200f2a0d7f354b910bffe07bb609e4f684a156c2e80` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:ea23c293890a4a0ccb58866a2aad9df464c77cbc4de647e4bbc86e1be3344547` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:e02e083b3e0bcc576ab943385968b3bc1665a6ced2660d1f605942a2ba3d6c1e` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:d2bb74466474b95020ef27ac13ab2978c4b4fe1d19cb41146414f38dfca8200b` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:51a841a7255f59929dbd350752437fd41a64b9fd512ffb10dbdf090b0652ab6a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:8b5a8f9ae2288c373ff43c69554c220f004058b00f7019741d99fdd179a26a12` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:a5c163e62bec0a1d0942a3cc1e1ee9fa69810e3a443ae937b2148f65b0b957c9` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:d7ccac088cc1d6f442e6c2643b56b1f3a4116c4ecee5bb0d5b5cd3d813d08f5b` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:2de06d0d907c63f24a43fa2c28e1e12c5ab2a83003ced5b4db19f49743aa0787` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:79f9ea2fd8b58ef8177936d2819e6c1d135693c93aec5c3365d5893ef535a83e` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:b6e41e04d9cc34b04f15d5493cb1b05103ce8270dcdb99e54a54b1e05411203f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:fd27081ad28c4bb2a0be07c43591a64d9055900aa9455c71ee9c837b5d9ff798` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:73eee65a38ddfba79bab59bff35daac0eef340b6986581f7d95c8f384c151b1c` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:324c164381d47ffbfdc4811e86d15db72a9b252d3046597b3de11dc5ca01e6bd` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:26b67f835201cb735147d27c26176c7a5bf2e21eb629af56ccd98be5f77d4626` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:521a6dc55ecc831891cc7751754790b1c9e63a8019266e9955e60f7a4adbece3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:d00118d0baf321746f503b0ae04b036fe9810c50713f9b1783fd9042bbdf64fc` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:dde5e174eddf0911801b1eb8845991d70f97df445d99c45e1002e24c80ab721c` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:3ddb6480ee510888e48cf1b9d97a62056c2d45daae10325dc890f80a58f14794` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:61947676f617771d43af25215055398ff0ba22bafbc2f63e17183827b75a2120` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:234d29c603cb2e9066cb04a0ef0ad3729d41f58ef8a2e4f53ca407062646aae3` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:06bb775c26f970432704f8334f6fa4c43f9a42409f0b2c015c627330ff2037d6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:6b8086334a4e8e65a529ab9006e331188ef5636c5798d46471bb93be3939756c` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:4b033cad9a2b91d3a2abdecd3429b8281e987d8b151ab08d26a1dfb3202547a0` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:7ae9c974b62b1f54c1d5a9816c7c48a1d671e8c07a08170ca52399e1e395c73f` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:5e88a0db002fe7b6818677dc7bf707a424ba6d010266a81b5f6c08cafee92092` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### privacy-boundary-proof-export/context
 
@@ -2035,14 +1775,14 @@
 
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
-| `inference-synthesis` | `sha256:af111ab74d6aa230fc1ae3a12a02592d15e6476d692beb927a2480c2033c8b60` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:dde5e174eddf0911801b1eb8845991d70f97df445d99c45e1002e24c80ab721c` | `.proofs/_shared/static-measurement-proof.json` |
+| `inference-synthesis` | `sha256:87fc217050d4e5b915bb3c9db7f3ef68a6857fa16d4840d21cb20b46b285a370` | `.proofs/_shared/inference-synthesis-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:234d29c603cb2e9066cb04a0ef0ad3729d41f58ef8a2e4f53ca407062646aae3` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:62345c3c0528519a4ba2ee002df3c4e5a5c37895bfb80dcf9e20b064f6a5d6aa` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:d0a68ad68adbab5b801152274edbd5e7914f9172858603b62f2b16ba47c23c8b` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:7a5f4ed6447e7eb2a4bd65dba164f8a090ab31d9fe741a8bb78ad68fea244d5a` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:25b1de6de0319574567b9345d304adc2bbf7626fd606391213062744b1690f8f` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:00a97248b8d41dc62075a7dc623efbf35d5fbc706c6524fa6208e8d7bd85de0d` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:f2c2274fe3b2459987f6cd51e99ec1ad6dc5de25aa6db87029bc93ef15ef7e7b` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:73de5536bad96fcf0659d4ee3dc146b38deeefbef1de37ed2e69397750f643db` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:a589c317909a07d709b99325e06da18f23e979b8e4cc2f01e5e2ac62cab9dafe` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:94214cf13298a6992d32afa5572d4359fc9c21a74ab86c4625e2b03d3a1a6d6c` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2100,52 +1840,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:04ba8c7c86a5d011ed124447ba82e47b05c3eedc12dfcc68371b1da4158857b9` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:8b16f037f1078be1cef6650dac42752e414afc52f680fa3e5fd0ebd603cbc054` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:d0a68ad68adbab5b801152274edbd5e7914f9172858603b62f2b16ba47c23c8b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:4021149ad806dc5ab5da3c483a0724f9471cb618615c067cb484542ba814caa4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:49f8db175b8e0b080dbf8b99c35eab571742c0cd9047e213bfc29195d006ed34` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:7b1572586cb2bbae134213aff92a138d266e4ca5aa4b8ccfba7fd8d31fe7eff7` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:25b1de6de0319574567b9345d304adc2bbf7626fd606391213062744b1690f8f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:49f8db175b8e0b080dbf8b99c35eab571742c0cd9047e213bfc29195d006ed34` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:03f1187ca4a208891625d9df395dddfa4d3b777f6faf54027f18c3d254e9dd4c` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:59119a73fbf95cca5148e09a8bed74d695ae562bbbe942670cdd0d6ffe8703a0` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:15f0e703b189cc2647b4caf47ebaa26bb19e9ba30fe206b9743135d0e43b9c4d` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:f2c2274fe3b2459987f6cd51e99ec1ad6dc5de25aa6db87029bc93ef15ef7e7b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:12eb37c75757ad72700d9fe0d9ccb566c6454f27afa168f57e11e90e8a0c8716` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:b4d6a60ba64989be522956970a9bb571fc293dfddcc40b68d4bdb8d97fe5b5cf` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:6a5446d198324e7e4748c2065940512b05e045dadcc10d8ffda3f6d828fa06fa` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:a589c317909a07d709b99325e06da18f23e979b8e4cc2f01e5e2ac62cab9dafe` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:b4d6a60ba64989be522956970a9bb571fc293dfddcc40b68d4bdb8d97fe5b5cf` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:88aed215f4d18034cedf67a44e9a48d0b1aa2b686b4fc38f243712f0e838f4b0` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:204f4d39d06860e0b3d61d3ff23546c5d9e82ef0aa2ef829c3f8a612255bdf32` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:8a90b3cdf83cdf0ddd801342dfa9de3fc5036568d4e052f5334c6ca47b3a8175` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:7951f9416b5cc1a695aff3680f06573ce1ac52d185354df683cfdbda5c5a2e51` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-proofs.json` | `sha256:33ff45151baa265773582247cbe9d91529ee60888a2cdfb0de8a859b7e944470` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:af111ab74d6aa230fc1ae3a12a02592d15e6476d692beb927a2480c2033c8b60` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:af97dfb3f8e18887a6773e83a62e8edffb3d663e62998dcb491cedab10b16211` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:eda32290cfc4a6b5c8ebff0eebd2d99d434dfe9c00c75b79597dcc1203e66fea` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:9fe9c80a46c4ca82f8547d3976e588d241e2726621c5480e5805a22fa1528007` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-proofs.json` | `sha256:250d56416dc51f46deaf4f87284c0e40f091d2eb3f29858d0c1f3aa6db3bca6a` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-synthesis-proof.json` | `sha256:87fc217050d4e5b915bb3c9db7f3ef68a6857fa16d4840d21cb20b46b285a370` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:87776778ee2357eb269dfb6ee9978c21d4dd2d70d9c7f874b37de502e8100970` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:91b709761e65f51447f25399a5a419b27d351c985fbd05569d3d6ce1272e4015` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:b5d167c7f2d2b4b7a024fced17a93f00ef6de0764b7ac76c09fe5cf365b8dab5` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:c17f205b4e3b9a75e4bb141648d46f69b5a7ef60c06916aa26509d69a73abd87` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:176d7d498737532e79fdfa67a5a8cdfb7a8957f9cf5763970fbbd329c90bc9ab` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:17c95fe334d9af77142728c4bf8b16bd6ac399b57dcd9372325dd7702ea18a23` | `static-code-analysis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:063a855154f438e9d4b9db49bfa62c06014135b8433e4add2db9d253483e9f3d` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:df0ea68f7f27865bff6d69e5443d7f6599cb4e6bffab89a158e8f70be15087db` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:845906fbaa1331be9b3816b28d235ed92ec2dc4ac53ba6aba7dca0a4b8b0ec72` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:db3edc4d4b8ec0d848af9cc1a2cab826ec2f02d27a79e65f877ad41ec65b300f` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:bc3e7fcb121d4d584440160e0e7987144ae6835194e441d3c7bba3580af9f411` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:f9291e5ec3a4ca411ddfbd96dca075400c8c80e3a1286970f0757586c4f88b70` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:3b72a0802fbba9cf1ee386757f85466daabb98c2e9b9fb40117fa7d22a708323` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:de50ba7c48e3cac6f699797df985ef6f0cf71ce49e1f6d1aade0f3faf6839693` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:8f045bf37e019386645eeba07916dcb19744ac5a53bb4ed14cfd65e473e9bbec` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:8eecc81dd8c33aef035eebf6fc194b04434593c743fdb2741a0f04fa116c8b11` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:30faae37b6da6cd4ab8be205941828d1ec4b5f247557ad7048be4c9924227ae4` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:dc2616c0590a0848aab9e9c8ebc8e2a9618e16c7a1f807a93d9f5f6e08a3b219` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:49f8db175b8e0b080dbf8b99c35eab571742c0cd9047e213bfc29195d006ed34` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:fc0ecbd01376203a64dfdca51241ccab04bceee2b9577295637193cc9525537a` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:62345c3c0528519a4ba2ee002df3c4e5a5c37895bfb80dcf9e20b064f6a5d6aa` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:37b1323da0ed7326c7d4be71c74b160a5719bcd9cecf1f21cf1f9f786b37d5e1` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:cb7cb4f174e5ee07bce0350e233e9e25235d25aff988b631ca40c60db81dd19b` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:347fe9b28ce05aecb94a9269a5030766c6507c2bc5c853f76ed5a962bd7f4d6e` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:b4d6a60ba64989be522956970a9bb571fc293dfddcc40b68d4bdb8d97fe5b5cf` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:c2d73f7078ecc53f0cdb148f0e18b4af2bb53642118d2e1cf7dfaca8534182a9` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:00a97248b8d41dc62075a7dc623efbf35d5fbc706c6524fa6208e8d7bd85de0d` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:d2bb74466474b95020ef27ac13ab2978c4b4fe1d19cb41146414f38dfca8200b` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:51a841a7255f59929dbd350752437fd41a64b9fd512ffb10dbdf090b0652ab6a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:8b5a8f9ae2288c373ff43c69554c220f004058b00f7019741d99fdd179a26a12` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:6a812e4e668d8ef1fc28ad2f8d8ee77da8bafdd71c54845f8d702891f283bc40` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:926c1aab017318fa8511f4790233f5658cf37dfa6455266d42aac2bb2867205e` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:712dae63457f735eb11c24d036d7a93c3e8c93ec20a7e0d686ec4391979889d3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:7a5f4ed6447e7eb2a4bd65dba164f8a090ab31d9fe741a8bb78ad68fea244d5a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:b6e41e04d9cc34b04f15d5493cb1b05103ce8270dcdb99e54a54b1e05411203f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:6253926d92af03530870a550a42045d2ca2ae4f6f91facca489940166a2f060e` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:1e8f675348d3a4eba42ff25de58da663cd1170cb7a05fcba5c10abf2a6651bf1` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:6c2176fe619c63b32dc18bdc5368d5683ad2b18aaf9145f2f3050bdce6b18b59` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:73de5536bad96fcf0659d4ee3dc146b38deeefbef1de37ed2e69397750f643db` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:521a6dc55ecc831891cc7751754790b1c9e63a8019266e9955e60f7a4adbece3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:d00118d0baf321746f503b0ae04b036fe9810c50713f9b1783fd9042bbdf64fc` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:dde5e174eddf0911801b1eb8845991d70f97df445d99c45e1002e24c80ab721c` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:3ddb6480ee510888e48cf1b9d97a62056c2d45daae10325dc890f80a58f14794` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:61947676f617771d43af25215055398ff0ba22bafbc2f63e17183827b75a2120` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:234d29c603cb2e9066cb04a0ef0ad3729d41f58ef8a2e4f53ca407062646aae3` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:06bb775c26f970432704f8334f6fa4c43f9a42409f0b2c015c627330ff2037d6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:6b8086334a4e8e65a529ab9006e331188ef5636c5798d46471bb93be3939756c` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:635ad895a89de6d0143ea73bb6d6d02e2e1b0297be84e48cbe64ca237d4b065a` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:7ae9c974b62b1f54c1d5a9816c7c48a1d671e8c07a08170ca52399e1e395c73f` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:e88f61f0bb817831bc9c72a5220ab1f20ad393f1aa259934bba534b654462f69` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### polyglot-gateway-benchmark-remediation/patch
 
@@ -2161,13 +1901,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:8ab3e39c78bd87bf4c686eb3b3a3cfa9ace4af2b6a0665a2726e455b86c3b5b2` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:0a196b14d27f8f17eb9952cf2c568764983f22d2efb6411f42d9e4cb227fda48` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:bada346830f6fd2dd28aaeb039f6d60ee70809aaccd48288f84fd18b97037c06` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:c08c6baf9c335ea6d9f771efde006ff8577953196a2bab6b9acace0521350189` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:8c6a898ee8e19a41a8f8399f98c61b80362ac20513ecd53dae26950fcae6e772` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:4d5c56e3b4786a2e26d5631d1137183e88802278f9c443ecb198819c8e8dbc08` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:46424cedd179cc2e3248e7a9360316513092e0223703b917fdbaae180a9badb0` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:bb8a91a07e8845178eaf50b2b79a9f52d359ac16489e8a1b17f03552bce11844` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:2601ed3cf5d29afa89ec9fdd61c1ac6692aab4481f745e0b898542c7a31c224d` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:a2e27586d7318245f7496b399919a86953e18966ffcfc05115721fc2aaecdcfe` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:90e855d681cb2b0ddef86a88f9a3f12a5b306511bf5fc1535a4145b2a63680bf` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:22639f352c74be4b4f1c33522cbea29687fbe5455521c9aed0d64103a90f5426` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2225,52 +1965,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:8d90f117e89ca5fd018f3ceb01de869a40618cc0676cbe6b7f7b8b60f514bb66` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:6870d6756abb2632fa4d124c1d23d46c54fd59f1f06b9a0c9bf92d9d2ad7d794` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:8c6a898ee8e19a41a8f8399f98c61b80362ac20513ecd53dae26950fcae6e772` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:60b69dcf359919a681464f7d319799c7ecf7ae47e3556692e79f6b1343213ea9` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:15f24a288cbf0de131137d9d96db7322a1e08fbd1a97bb987d5b63e8589693eb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:ff42d1ddc734448891c792f25f30403b9034b0ffa724f1034087591fd47a7ce5` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:46424cedd179cc2e3248e7a9360316513092e0223703b917fdbaae180a9badb0` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:15f24a288cbf0de131137d9d96db7322a1e08fbd1a97bb987d5b63e8589693eb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:48bfae0465523a00316782e22cc4044f9a4a2446d47fb77b8b56da6718f44ddb` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:0f17fa10b9e28f9fac9d126bdb0b8a42c2827feb6231edc5534f0cff51b70424` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:37106b281c3b7428fcd53e8bd9a69ccd58fb658adaac0bc01d2caf380b15f4ef` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:2601ed3cf5d29afa89ec9fdd61c1ac6692aab4481f745e0b898542c7a31c224d` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:00c46d08aab790938dc56e36d4ba6d4901717b428de1950112c6195c5f66d082` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:6274b5b608cef5b40769a9dc1b50ba30de647bc759792d8db32b5ec7794d8eae` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:1bde5ea5c5373fd0d67216e0ef1b27f43f0f1b7e5afc749bcff039386c59e6b5` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:90e855d681cb2b0ddef86a88f9a3f12a5b306511bf5fc1535a4145b2a63680bf` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:6274b5b608cef5b40769a9dc1b50ba30de647bc759792d8db32b5ec7794d8eae` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:52a80b47e65dba97e9678e0ef96c22dcd8d844ff307012d8f777ed1a729ced3c` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:9e17674ef60968c65af2f5e1c75a4d708ef2c603bfb0773362a384feabf93efb` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:f9bb5020368bc879a8463c16f39d410417d782cbad6414fe385e98e19e0a1377` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:9a947a33796d73ef1411053e0bce2b3bf269565e2d203ab6367dc6d1dacfe307` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:3d0fd91029cf718d0b2edde26a725f4417aba6d84d393f64131034bef16d1015` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:59bb92186982aa56b70f6576eeab1ac6c988578b7d65a04a32db195b368ab97a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:395553fbe74a5c6721e73f157a8dfbe7109ca86d2414a7d10217873f996c1fc8` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:a334f0e7a5667f10b9c70831920b1ea755383f680661768745ee7403026d3520` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:8ab3e39c78bd87bf4c686eb3b3a3cfa9ace4af2b6a0665a2726e455b86c3b5b2` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:58c42eb9f8ba892bb071b8ad41905cf51ba215330e3659ca7039ac6583929d2b` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:1ee5dee8a724aade1fb69c47806cf2ebc8d2aa159340a5002e98068c9e493191` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:7840b9fec52f2ca8b3320cf239fe7388ee444621133bb04b0c855bfb68214bda` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:9f2b9eafe157c6224500eaa4935f6b063f46aee795639246df58765d3875bb42` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:dbb3ac97b571dbc90d9cd8482bf9535a14608b8bfcf2cd196b9facd52ba5453d` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:86fe9486c43f5878a655acd61ec83330ff8197114de70be6b5dfe3e7dff7a918` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:adda92ad7a71be6de0ea163779031aec2081466b8d9a08e7e5abb3c5403bf321` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:c847260c42c924dfc3b42f90524fc1e192ce60334687081738a3ed4609fb5e48` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:a7eb907f44fadfd982f6f1aafb6d32def6471427e91552fb7691a9490f61de12` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:84d1d88fa48a166c1e09dc8d5a7fa6438a3d4680b403fad2cb97e920b24d7479` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:32721a082f3cca9043f2e25b25e277546b1e5b4819e188e068ed20c3d7eae183` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:bba36f476eee16207d7ebdd896e4ba21836dcbda21ca4b2b0d68e8d38b7de713` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:620e667076d4e955a26712e5aa2af0e52005f6f52829183d4e45467166a92d39` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:4bf6468365de826f38562e2fe346fbb222766db20027e71024f3282ac7f37e02` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:c921d4fc1c2722ebaaa7dee8dd7b44c6db3a8dfc739ab7cf3ffafbe1e5a97d0e` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:7699508f4e5564064848f7abcf4b2efbdb1a52e400a742d4017e6b28aa57047c` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:a6d6f5e1bd226a087aae8bd89116b417f2b2b49f93abbf1f70477b20b3114e26` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:15f24a288cbf0de131137d9d96db7322a1e08fbd1a97bb987d5b63e8589693eb` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:79f3761e05a1511827f8929493f3eb32dce2e1497c6a1a19b31475173631bc7c` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:c08c6baf9c335ea6d9f771efde006ff8577953196a2bab6b9acace0521350189` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:cee097f697032a71ffc726b266094799ff80f3c77a75e51fde8925df89d0eda5` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:e6347bfa13386df8d062f8d9bc665c055b2bcc8bd10df6471b3b3352441ceae9` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:3fe61d2a7f249f311bf397531a09641a8c663c4fd77b4ed0b6b8db43a738673c` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:6274b5b608cef5b40769a9dc1b50ba30de647bc759792d8db32b5ec7794d8eae` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:9101da150821237dc101a861e4efce99adc70e32bb475764ef2baec7deba9f51` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:bb8a91a07e8845178eaf50b2b79a9f52d359ac16489e8a1b17f03552bce11844` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:c1e577b132475f4b327b593f0ec0052f8bb6668c7efad0693bfdc79debd96f2c` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:7cd7e52ebfbe66f7b7fedc9100e7803f6823a28488837f408ce98b076987d75b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:5485ca507daa6e31eb376700ebae7e0b8e8a54a768ea19363ba7af79962ed7fe` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:16d764b15028c1c70d2b1b023f0007ae9082c9673a8f2d606a58b2d5c9cf313e` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:bb7194024cad19cc03abf7ef89fe672a990be8dd6a25b8e34ce3fc8830958a7e` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:623ae942a593bb129e3c864ca3d1a4975290493197f6c86cc86d69c80a45fb0e` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:4d5c56e3b4786a2e26d5631d1137183e88802278f9c443ecb198819c8e8dbc08` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:90ba01dc7e88620db2b4819707607264e84495284cca7c9f7a81e9d671fa20de` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:5d95cdef7baccc9658b1e5d8af26e51958ee9870e9d294ae7b0756aa16922e71` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:1c1442867dfb3ce195ac6b0719db2daa6f55dc277b295b5e9115b32ca7cad327` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:918dca39773d6bec750aeb8936933d23bd8172beaa14795b1e3ed1fe76492fe4` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:a2e27586d7318245f7496b399919a86953e18966ffcfc05115721fc2aaecdcfe` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:70876006dc0c82da94e83a2b5faaff421960021e01454778c6c8dbbfb7d0c510` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:b67436b913840cd4c7031841ef5dbf83ac9f6cf3a4726c3b065eecdf3dd8d3aa` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:0a196b14d27f8f17eb9952cf2c568764983f22d2efb6411f42d9e4cb227fda48` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:6a5638b93a2bea9e4945c0be2501e582dcf4cd1b992b178c5e0fb3a8a2d8dd35` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:d240261f1d94c737777ba934bfdf547e88f1cac426576b9a4a2cdf62abb57a43` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:bada346830f6fd2dd28aaeb039f6d60ee70809aaccd48288f84fd18b97037c06` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:07026d7b4ec3fe833f803732b52c229dd15f40cf34e974b4820dcb32b863c690` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:7d4c9a10309d2e2394f12d4f5663748630b9fd84e068502da2c4e7eb34205154` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:b16626bce72e7545e05b1259d7d4777e0f62dd9c1edf7cf59b5f6e682e7eb214` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:ccd4830dfe15a2fe99e10be759f252bb00789ec5422fdc28ba635ee8aaaa2286` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:67e227ff75ced5656905421d22b53856048bc851695a738e705a34c6eff3e9b1` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### polyglot-gateway-benchmark-remediation/context
 
@@ -2286,13 +2026,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:8ab3e39c78bd87bf4c686eb3b3a3cfa9ace4af2b6a0665a2726e455b86c3b5b2` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:0a196b14d27f8f17eb9952cf2c568764983f22d2efb6411f42d9e4cb227fda48` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:bada346830f6fd2dd28aaeb039f6d60ee70809aaccd48288f84fd18b97037c06` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:64713d43c3cf4ffe06599dd9a3571e5ba55636fd3a2fca591dc507c476edf424` | `.proofs/_shared/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `sha256:8c6a898ee8e19a41a8f8399f98c61b80362ac20513ecd53dae26950fcae6e772` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:5947d74600886a598b53dd562efda22bfa373be7ce1a46fe0e0d0613660014bf` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:e47ecbea6d5fe25f3bcb908905403927e553c9c4c01063b58a2a4cf7b5e154ac` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `selection-and-materialization` | `sha256:6adcc2bbf6399996a5221a623f704edc944b8baa6c09339c36c2c2bb6e24ecca` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `authorization-and-sensitive-flow` | `sha256:2601ed3cf5d29afa89ec9fdd61c1ac6692aab4481f745e0b898542c7a31c224d` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
+| `settlement-source-to-shares` | `sha256:61b76bdf41aba7db3cf3234aef8873703025dda83b268fd93807f264b938df56` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:fbef435b642c100b12ae890805b508259b43efc208228e6443694a80c9f238be` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:22639f352c74be4b4f1c33522cbea29687fbe5455521c9aed0d64103a90f5426` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2350,52 +2090,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:a3cbf9297ffd5abaf253fc9ab4f7ebcb5f7d21f0ae8077d66292de6c59773528` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:e3118a3a34b3348834b504893014d99748974a6498b9bb6a3ef439f294aa7e9b` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:8c6a898ee8e19a41a8f8399f98c61b80362ac20513ecd53dae26950fcae6e772` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:60b69dcf359919a681464f7d319799c7ecf7ae47e3556692e79f6b1343213ea9` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:f96900f0e7fee9f34ff255f1bd686f4d0332e055bb170604c4da7eaf9ff45130` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:ff42d1ddc734448891c792f25f30403b9034b0ffa724f1034087591fd47a7ce5` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:e47ecbea6d5fe25f3bcb908905403927e553c9c4c01063b58a2a4cf7b5e154ac` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:f96900f0e7fee9f34ff255f1bd686f4d0332e055bb170604c4da7eaf9ff45130` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:48bfae0465523a00316782e22cc4044f9a4a2446d47fb77b8b56da6718f44ddb` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:0abf7f66fe0ed44ca9ba46482b2be818239757b2366eeb8d2590194d11c9b3c2` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:f9fcd6e34d7afbd2cec19f86d52016a8bea972880b09b51e4cba5bde233c12c7` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:2601ed3cf5d29afa89ec9fdd61c1ac6692aab4481f745e0b898542c7a31c224d` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:00c46d08aab790938dc56e36d4ba6d4901717b428de1950112c6195c5f66d082` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:d1439026785bc881585cb978f5fa74734b58c845915deedc9fd97b6df28cc3d3` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:1bde5ea5c5373fd0d67216e0ef1b27f43f0f1b7e5afc749bcff039386c59e6b5` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:fbef435b642c100b12ae890805b508259b43efc208228e6443694a80c9f238be` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:d1439026785bc881585cb978f5fa74734b58c845915deedc9fd97b6df28cc3d3` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:52a80b47e65dba97e9678e0ef96c22dcd8d844ff307012d8f777ed1a729ced3c` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-authorization-proof.json` | `sha256:9e17674ef60968c65af2f5e1c75a4d708ef2c603bfb0773362a384feabf93efb` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/identity-bindings.json` | `sha256:f9bb5020368bc879a8463c16f39d410417d782cbad6414fe385e98e19e0a1377` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:9a947a33796d73ef1411053e0bce2b3bf269565e2d203ab6367dc6d1dacfe307` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-authorization-proof.json` | `sha256:3d0fd91029cf718d0b2edde26a725f4417aba6d84d393f64131034bef16d1015` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/identity-bindings.json` | `sha256:59bb92186982aa56b70f6576eeab1ac6c988578b7d65a04a32db195b368ab97a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:395553fbe74a5c6721e73f157a8dfbe7109ca86d2414a7d10217873f996c1fc8` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:a334f0e7a5667f10b9c70831920b1ea755383f680661768745ee7403026d3520` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:8ab3e39c78bd87bf4c686eb3b3a3cfa9ace4af2b6a0665a2726e455b86c3b5b2` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:85b9e0e294968560055014dcd2a989cad5b13bc80500d77d874aa7be4c5ac558` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:9f9acd2e42dd074bee49110bc22c450d0324e5ccb0183e3a2fcbf7cd18f6a6c7` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:7099e3048552085f0e49254ef7289bc9779aed170bdd285f0a741dada43b9da7` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:e94250d47636bfd2849803b0e765656b23dfe35be771fdee5aa556f131f76c35` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:dbb3ac97b571dbc90d9cd8482bf9535a14608b8bfcf2cd196b9facd52ba5453d` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:86fe9486c43f5878a655acd61ec83330ff8197114de70be6b5dfe3e7dff7a918` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:ab16b7c5f25f76e9de60c71ad246dbb6346d4969786ba01b6fc55da0e7c4f49d` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:c2596397e98a0fa88cafb8c8015e4b690b71596062fa03f2d65ade1b2f0ddd2a` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:d58c8df93723f5af3cae6552858918ede3bd6bf6b8b23dfc35943f276ff5fb18` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:84d1d88fa48a166c1e09dc8d5a7fa6438a3d4680b403fad2cb97e920b24d7479` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:32721a082f3cca9043f2e25b25e277546b1e5b4819e188e068ed20c3d7eae183` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:bba36f476eee16207d7ebdd896e4ba21836dcbda21ca4b2b0d68e8d38b7de713` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:12f98ec39b4b52000dd7c1a8cc86eb1deb8ba614dabdb5591dd02b54b8b4cb48` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:620e667076d4e955a26712e5aa2af0e52005f6f52829183d4e45467166a92d39` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:79125cbf4a797320623a707ad7419d9d6cb2fec735b90e8f4fe5b9cd8e59e033` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:4bf6468365de826f38562e2fe346fbb222766db20027e71024f3282ac7f37e02` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:c921d4fc1c2722ebaaa7dee8dd7b44c6db3a8dfc739ab7cf3ffafbe1e5a97d0e` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:7699508f4e5564064848f7abcf4b2efbdb1a52e400a742d4017e6b28aa57047c` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:a6d6f5e1bd226a087aae8bd89116b417f2b2b49f93abbf1f70477b20b3114e26` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:f96900f0e7fee9f34ff255f1bd686f4d0332e055bb170604c4da7eaf9ff45130` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:18b721ef22d8b28c8016d53dd7a5c1eeeaccb31defb64bb52d116c98c7900d7f` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:64713d43c3cf4ffe06599dd9a3571e5ba55636fd3a2fca591dc507c476edf424` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:cee097f697032a71ffc726b266094799ff80f3c77a75e51fde8925df89d0eda5` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:e6347bfa13386df8d062f8d9bc665c055b2bcc8bd10df6471b3b3352441ceae9` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:3fe61d2a7f249f311bf397531a09641a8c663c4fd77b4ed0b6b8db43a738673c` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:d1439026785bc881585cb978f5fa74734b58c845915deedc9fd97b6df28cc3d3` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:f6373984aff507aeba31c4454760b77ee33b7c5aeb018724525047cf43ffa5a2` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:6adcc2bbf6399996a5221a623f704edc944b8baa6c09339c36c2c2bb6e24ecca` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:c1e577b132475f4b327b593f0ec0052f8bb6668c7efad0693bfdc79debd96f2c` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:7cd7e52ebfbe66f7b7fedc9100e7803f6823a28488837f408ce98b076987d75b` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:5485ca507daa6e31eb376700ebae7e0b8e8a54a768ea19363ba7af79962ed7fe` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:8be23f5f1875a101ba6de6aa6ef5beaf82b2d5b88eb2ef06f2a6dff714a3e6bf` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:0dfd94e5a9e486386b9fb81e4973951b070993b66a3cdd7a2b8631899a569454` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:638d67a9b5409f737dc0070b57ea7070006e49afbc17020f515f5093ae37b27e` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:5947d74600886a598b53dd562efda22bfa373be7ce1a46fe0e0d0613660014bf` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:90ba01dc7e88620db2b4819707607264e84495284cca7c9f7a81e9d671fa20de` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:8815a160670d5109367977f04f837de32aee20978fa9cbdbfd33589a4ddc94fe` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:04a21c0af4aefe85a99b4d3f5ac071a3363f32d2ded0701e707c8d5981093b90` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:50683d2805555c2933b4a8e62d4f6c60dc8b723bccd9fc9373a95f1ad704476e` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:61b76bdf41aba7db3cf3234aef8873703025dda83b268fd93807f264b938df56` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:70876006dc0c82da94e83a2b5faaff421960021e01454778c6c8dbbfb7d0c510` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:b67436b913840cd4c7031841ef5dbf83ac9f6cf3a4726c3b065eecdf3dd8d3aa` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:0a196b14d27f8f17eb9952cf2c568764983f22d2efb6411f42d9e4cb227fda48` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:6a5638b93a2bea9e4945c0be2501e582dcf4cd1b992b178c5e0fb3a8a2d8dd35` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:d240261f1d94c737777ba934bfdf547e88f1cac426576b9a4a2cdf62abb57a43` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:bada346830f6fd2dd28aaeb039f6d60ee70809aaccd48288f84fd18b97037c06` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:07026d7b4ec3fe833f803732b52c229dd15f40cf34e974b4820dcb32b863c690` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:7d4c9a10309d2e2394f12d4f5663748630b9fd84e068502da2c4e7eb34205154` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:6b6e79a5d82a31550c8212fd6bf6588b93a3c7827afe5b0ed95bb1b9c22fcac0` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:ccd4830dfe15a2fe99e10be759f252bb00789ec5422fdc28ba635ee8aaaa2286` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:be0b1fe8f1bc311cf2ff00ec7a490cbaf0d55b8b535dbb3e3c42685977b154b2` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### auth-many-asset-normalization/patch
 
@@ -2411,13 +2151,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:7021f326f42f8a44233fe094d79ada504e346a9f58b95f63ae28b60780d5d7a5` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:43d0c993cc81696809f32616c596372a95d41980c77a4477c880fe68f8463739` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:271b12a3324d4e502477c9653598b0bf81a8cb4f7a3d9416ba909d0c066f4d5a` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:93443b0becdeebae98f5e288352518435faff73ab467b341fad0bd038eceefbc` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `selection-and-materialization` | `sha256:e7e47f9c9525353445c784a128fee2986f9023307fd9df67d2c591eda0d0ce2b` | `.proofs/_shared/selection-and-materialization-proof.json` |
 | `authorization-and-sensitive-flow` | `sha256:9958392c28c4be80006c2bb33b353601ac820b5b635544a0ecdfb672629535e1` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:15beb995e962657b3fb02214f4afe13fbe89a111bfbfab3e1cb9715712838c6a` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:93a6ae4d4886dea6ad89f294965b4980be1e971839a80510bf75c669a86f207e` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `settlement-source-to-shares` | `sha256:c01e2649b6d9e19b0f6aecffaee59d58037a5f2dbf298732ad09a32a71959757` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:b2d6dfc8663afc6f4e5d41be141d69ff52df448ca8e8061f54bfb1a43bd38289` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:07e9dde9b1decdd69ab9f3287b1158f89b3d3badb085d8f55489f6339b296f43` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2475,52 +2215,52 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:c487b54c19633f825bba257c5fbc803c2411cb9826ba760fc721436fc8c1ac99` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:213eb10dd78b5eda96564d25f7f2e66519a5f2deaf3956328d370c3f53607a7b` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:764f8a25c392342b4c6aa7237befc9d05f78843f40741a2cb1419ac12b297ffa` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:56a85c17a59492b97da3a4da19a401186269d3e5ef73df9f27e8ba11033f22b4` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:9958392c28c4be80006c2bb33b353601ac820b5b635544a0ecdfb672629535e1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:fa3e6bd507edb3e0619d2cfcbda31e309479c60ed4157c95d28552a8644f8d76` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:e74ce71b622f8a4351bf789598fb2422993e0f52d8cb57b7ec3857c841f461ec` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:e65ea12ed612db3a7eb8a17c9d4874d295fbb1a751097756f1f7d42f56cdf8c0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:93a6ae4d4886dea6ad89f294965b4980be1e971839a80510bf75c669a86f207e` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:e74ce71b622f8a4351bf789598fb2422993e0f52d8cb57b7ec3857c841f461ec` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:77de93b5ba0c3c68e65d18a64a9b1531c722577f1f50dc99dc1c1197a1b835b5` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:1801081aa0ec2e625c83cb50fea4368b1fbcc0bcb181cded95d11974995ebd09` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:e146454244e287f8804abad3d014d77fe181284043c80ccc433b112a3f66f9d4` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:76a8a6f376f4ad47f47d2cfe15b37b75238f5488076a38f2b2b2a96a196e8924` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:b2d6dfc8663afc6f4e5d41be141d69ff52df448ca8e8061f54bfb1a43bd38289` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:e146454244e287f8804abad3d014d77fe181284043c80ccc433b112a3f66f9d4` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:4351b7a14410e6b6f8a2ac8951a21e2d6b022502fdacdc55386d890904e84a36` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/identity-authorization-proof.json` | `sha256:d32d2d442f872b5e5b4e1822631c6a4e55119476bd366aaa873a85b747c79aac` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/identity-bindings.json` | `sha256:266980ddc09575e6b26a343be37671d921651aee24825537291cd68715853f53` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:f8d7a53bb5f56c87074b7b5e2aefd4e582278b9d737e1ddb647f51dc1c987f00` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:2b11569a795d34a21537ff9fb334743404e0147ca43b5b44674042ddb79ac526` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:83b1f7096042f13d63d72e42e6188565208bd8e2bcacd74105a5547d9e73c7fd` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:7021f326f42f8a44233fe094d79ada504e346a9f58b95f63ae28b60780d5d7a5` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:c2c97292448cc0e0f3979d510f284cdef3f9d404cbf6b39eb639a6c6c214486d` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:f3ebf01987d5b184b19c7d02d3c196a848fa9b4eef79a99f7063d7b4794f3c27` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:d94851d00d025a78f73546c90077ee7dbbb35ada30b531745a094eea0fb9f5f0` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:d592858705dec7131279c0a523123d86107e9875111420fe703ee9172be6dda2` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:bf3148690787d7fe41f97061bdff0977f410b941b443ccaa4cc27976d18ef101` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:f7cdf9cd6177b5aa71578adffc7a985144bb3cc4343e15c66bd3a508a94643a4` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:5d38343b76b08107cf7c89913a0af865234deeb71040e81a64fcc20338be0956` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:de94fee2e3e4802017e81e8ca831d1a1d1f7b50659c0df8942577e5ac4d705a2` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:a1c36167a946c20554629f04d2ccf1ac675cb0712fed54e990ad467c8393e2c0` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:6fa8f624a25aeefbc49e25ebd46b51542d0b6e4aabbf6c3cddf6a8618e139c86` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:1ecb6a0bb5b64cffd3ee01c37b6a0bf24d3e35003305c27512958d9fe572886d` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:cb6b93a204a1b42acc7c426b702bb4d317f4cae5bc4f9c297f66727d3dd795fc` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:bb8674abf94ae1d8ee5d5ed695258555f039326c2a75d3632dfd65271a06b1e1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:ff9bb2fb885bff4335f776405fb197df7e5a3e1e7addb97b506b3f2060d200c9` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:7e019f446bf0e5598721d48a07faf09d8a92b86fe037a9383c27fe075c376727` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:f2f554ed7435eaa862533071b52e7011853aa56ee362db6151782909b8163de4` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:2b167bf2a71100c16c5218af06210aad08f889af7c2ceeec5aef3a9d0c6bb38e` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:88d8d904ea7059636eddcf4ccc60796e32e48986f64743380167b007b5ac880b` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:3027b1bd2e77c3bc6dc73616bd7a4f02934389726d6ca569f5503543ada9d96d` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:e74ce71b622f8a4351bf789598fb2422993e0f52d8cb57b7ec3857c841f461ec` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:e51ecbf057c3863e2f20cea5414ee9f6f0783e4e964f671eb01c94968e805015` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:93443b0becdeebae98f5e288352518435faff73ab467b341fad0bd038eceefbc` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:ec806278ce9882a3e6b6875fd534f368972bb11db1c2bddd60f72d56c63986c6` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:5d3f2b38619e2f03c5b5206477c7a335b9acfb32e24310ae80186858c600c612` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:4047ed19d6584ba57c01fb27d48ee04615e03866ef133c0832595bcf0fb257de` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:e146454244e287f8804abad3d014d77fe181284043c80ccc433b112a3f66f9d4` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:0377aedee56f69cd182ce5e997ab82167af691ff197882b09964c1804e99568b` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:e7e47f9c9525353445c784a128fee2986f9023307fd9df67d2c591eda0d0ce2b` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:3bfc16906769f2d1c0ed837a29f95a1b94589171a4aa0fed584ce85434742659` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:8e6cb9e1a5f53b05188964fc477ed3dc9cb246a3bfbaa57690cd38ad833b4dcb` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:b6aed0ebea39e10df2c3659cefea759dc8ceb8c2b9b527ff565f6d49a0e24c03` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:85562bd4e401bc83d714a4da40234b3b03e6fc34157cb4f2ba4185646febcf6f` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:e0331346702d3904ffafc0e1f0d82d7ef6c7afec8dc415f92d553729d68a02e8` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:dece620c1dd99b204862c8372a376e01fb46c9da7c988732582c2bb1ed0b7e32` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:15beb995e962657b3fb02214f4afe13fbe89a111bfbfab3e1cb9715712838c6a` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:dcc39c2fafa1184a26018574b8d6921df1893f516d436c03bcf43483e69b6f2a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:480830498c6ae80c62efe89d2d315348d3e39669c87710643fb893d817e87498` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:d1356d18354eda8cf0ed868808b4351a1d46dce733e21f2d8153ef48c4913806` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:7c39b39fedd7515703b26ed8868e77768c8c2fddb34f3bc8da756f8680dc8836` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:c01e2649b6d9e19b0f6aecffaee59d58037a5f2dbf298732ad09a32a71959757` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:45beb6ee9be4ba5f94fb02b8f61427db470435df7219f2cd7eee33339fc831f3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:7c1ba09bff9a89f39696c4ea125bf77a68fc1e387de9ca4121214a1051c8c296` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:43d0c993cc81696809f32616c596372a95d41980c77a4477c880fe68f8463739` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:02b5cdc5a05c89652a579902133e8333659c9496bbc08a993b828a6a6231d952` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:26b1238fd39fadf0a0245e43136fea0b639fbffb751cf4c5b96aab26a3a00d21` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:271b12a3324d4e502477c9653598b0bf81a8cb4f7a3d9416ba909d0c066f4d5a` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:6ccaa957ba9544621746a2526cf8be763764b3821e9c6ff75bf383814794d2fd` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:cb3a3cda6ffcd3ac8cda341aeb9fb12628dcd15182202c1d703b50e951d3447d` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:13570e06df4eb03c796ac68d5dbdff215afe6b783d0c48c6929649ab99aa372c` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:b85b8d075ed3e46d0c0be55a8fac81a03c87cca8c2333d541103e5145ac8c137` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:f622378e573527b531941f2ae35afdf5a067c9ffc4cce7de91ef9e278a2c6811` | `verification-decisions` | `verification-evidence` | `false` |
 
 ### auth-many-asset-normalization/context
 
@@ -2536,13 +2276,13 @@
 | proofFamily | proofHash | proofArtifactPath |
 | --- | --- | --- |
 | `inference-synthesis` | `sha256:7021f326f42f8a44233fe094d79ada504e346a9f58b95f63ae28b60780d5d7a5` | `.proofs/_shared/inference-synthesis-proof.json` |
-| `prompt-completeness` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `.proofs/_shared/prompt-completeness-proof.json` |
-| `static-code-analysis` | `sha256:43d0c993cc81696809f32616c596372a95d41980c77a4477c880fe68f8463739` | `.proofs/_shared/static-measurement-proof.json` |
+| `prompt-completeness` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `.proofs/_shared/prompt-completeness-proof.json` |
+| `static-code-analysis` | `sha256:271b12a3324d4e502477c9653598b0bf81a8cb4f7a3d9416ba909d0c066f4d5a` | `.proofs/_shared/static-measurement-proof.json` |
 | `verification-decisions` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `.proofs/_shared/verification-decisions-proof.json` |
-| `selection-and-materialization` | `sha256:44178db54efb33b972cd2e6cff2159b7d6c03cfc69901fa81a47ade8ef1b3e9b` | `.proofs/_shared/selection-and-materialization-proof.json` |
+| `selection-and-materialization` | `sha256:4ede265a7e670c351f7e9814e1d80ebcb48bbda7beaa15ff1341589a98d76c6f` | `.proofs/_shared/selection-and-materialization-proof.json` |
 | `authorization-and-sensitive-flow` | `sha256:9958392c28c4be80006c2bb33b353601ac820b5b635544a0ecdfb672629535e1` | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `sha256:03b769f4dd08d73838c93f2c639f3e98e7b7f65efe6b7b09f15b264d653f5df2` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `sha256:d4ecd4fa6a549fec13e5514cc6960b24afaaf385e312f2c6ae3c2280e5417584` | `.proofs/_shared/disclosure-boundary-proof.json` |
+| `settlement-source-to-shares` | `sha256:3b15a3295c324569569c10ce5a96bc7769402292998a8d072b78019acdd72f17` | `.proofs/_shared/settlement-source-to-shares-proof.json` |
+| `disclosure-boundary` | `sha256:45a1ed032db753f1881a704f02ac0f3af46ac2b9b59270c75925c52cda39fa2c` | `.proofs/_shared/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:07e9dde9b1decdd69ab9f3287b1158f89b3d3badb085d8f55489f6339b296f43` | `.proofs/_shared/proof-contract.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2600,49 +2340,49 @@
 
 | path | digest | proofFamilies | sensitiveDataClass | disclosable |
 | --- | --- | --- | --- | --- |
-| `.proofs/_shared/accounting-precision-report.json` | `sha256:9c0f5287e2cc4af88889d02d72d1d34a127745dfbfc02c47d59bd55a37478e11` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/asset-pack.lock.json` | `sha256:967d39cbb5233e24d1e4ced45f3ad715d396afc47ea21cc06f0eee81df1996d2` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/accounting-precision-report.json` | `sha256:5918b398a0c2344668e85399f5a94a85d3b0d913fac04040e925a75bef95a26b` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/asset-pack.lock.json` | `sha256:7f8ce9b64359556203b95faa371b182c760335608eb799174204cb24c255ceb9` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `sha256:9958392c28c4be80006c2bb33b353601ac820b5b635544a0ecdfb672629535e1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/authorization-decisions.json` | `sha256:fa3e6bd507edb3e0619d2cfcbda31e309479c60ed4157c95d28552a8644f8d76` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/bounded-public-proof.json` | `sha256:faa5bed0f9cd0e812aee5a69e3f21ac975f21e29e57eca1200f53636b2d20093` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:e65ea12ed612db3a7eb8a17c9d4874d295fbb1a751097756f1f7d42f56cdf8c0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:d4ecd4fa6a549fec13e5514cc6960b24afaaf385e312f2c6ae3c2280e5417584` | `disclosure-boundary` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/disclosure-proof.json` | `sha256:faa5bed0f9cd0e812aee5a69e3f21ac975f21e29e57eca1200f53636b2d20093` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/eval-manifest.json` | `sha256:77de93b5ba0c3c68e65d18a64a9b1531c722577f1f50dc99dc1c1197a1b835b5` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/authorization-decisions.json` | `sha256:1801081aa0ec2e625c83cb50fea4368b1fbcc0bcb181cded95d11974995ebd09` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/bounded-public-proof.json` | `sha256:53b386a7d7b4e67018966f904565db8c344c2af6d15e5f0298eab580ea201262` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/code-analysis-fact-registry.json` | `sha256:76a8a6f376f4ad47f47d2cfe15b37b75238f5488076a38f2b2b2a96a196e8924` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/disclosure-boundary-proof.json` | `sha256:45a1ed032db753f1881a704f02ac0f3af46ac2b9b59270c75925c52cda39fa2c` | `disclosure-boundary` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/disclosure-proof.json` | `sha256:53b386a7d7b4e67018966f904565db8c344c2af6d15e5f0298eab580ea201262` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/eval-manifest.json` | `sha256:4351b7a14410e6b6f8a2ac8951a21e2d6b022502fdacdc55386d890904e84a36` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/external-boundary-manifest.json` | `sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/identity-authorization-proof.json` | `sha256:d32d2d442f872b5e5b4e1822631c6a4e55119476bd366aaa873a85b747c79aac` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/identity-bindings.json` | `sha256:266980ddc09575e6b26a343be37671d921651aee24825537291cd68715853f53` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/inference-moment-contracts.json` | `sha256:f8d7a53bb5f56c87074b7b5e2aefd4e582278b9d737e1ddb647f51dc1c987f00` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/inference-moment-contracts.json` | `sha256:2b11569a795d34a21537ff9fb334743404e0147ca43b5b44674042ddb79ac526` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-proofs.json` | `sha256:83b1f7096042f13d63d72e42e6188565208bd8e2bcacd74105a5547d9e73c7fd` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/inference-synthesis-proof.json` | `sha256:7021f326f42f8a44233fe094d79ada504e346a9f58b95f63ae28b60780d5d7a5` | `inference-synthesis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/journal-completeness-proof.json` | `sha256:4b7ef245c2ccfe1cfaeaab022153ec9c9b8f99b617f4bb2a9a1d551db2de5c55` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/journal-diff.json` | `sha256:25862851c298858a3f7cb68e4d49383ffe6d6c03afd4a0d18f9a048ceaf6be9c` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-exclusions.json` | `sha256:b0c51aa9b75ae8f2f042d7d75121acda8a74d3a34fffd3c21bae43059440047a` | `selection-and-materialization` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/materialization-proof.json` | `sha256:aae1b1470954e15061ea1345cd1d5074e8d598f923ad0ee31bcb188a03e76ec2` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:bf3148690787d7fe41f97061bdff0977f410b941b443ccaa4cc27976d18ef101` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/measurement-receipts.json` | `sha256:f7cdf9cd6177b5aa71578adffc7a985144bb3cc4343e15c66bd3a508a94643a4` | `static-code-analysis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/journal-diff.json` | `sha256:d3c6d6a837a3491e4379312a87b4f76230858969c1fdc5d83e4a045e69386088` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-exclusions.json` | `sha256:a458dc0999928587214c7982fa376d821ca111eaa587c5f6136c31f6e64cd0ce` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/materialization-proof.json` | `sha256:5eccc4da7b2baeef0708438fe959c9fa8ccdd0293f898b5c0dacec44faf9577b` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/materialization-visibility-proof.json` | `sha256:6fa8f624a25aeefbc49e25ebd46b51542d0b6e4aabbf6c3cddf6a8618e139c86` | `selection-and-materialization` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/measurement-receipts.json` | `sha256:1ecb6a0bb5b64cffd3ee01c37b6a0bf24d3e35003305c27512958d9fe572886d` | `static-code-analysis` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/parsed-completion-envelopes.json` | `sha256:cb6b93a204a1b42acc7c426b702bb4d317f4cae5bc4f9c297f66727d3dd795fc` | `inference-synthesis`, `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/projection-policy.json` | `sha256:bb8674abf94ae1d8ee5d5ed695258555f039326c2a75d3632dfd65271a06b1e1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:9746305d06e0b55e0d7fe59a9ebddcd8d321d4de6e9c26b067aaa74e4842b018` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/prompt-contracts.json` | `sha256:ff9bb2fb885bff4335f776405fb197df7e5a3e1e7addb97b506b3f2060d200c9` | `prompt-completeness` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/projection-policy.json` | `sha256:7e019f446bf0e5598721d48a07faf09d8a92b86fe037a9383c27fe075c376727` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-completeness-proof.json` | `sha256:c8848e397ed8694f673966ac40445e61cdb8369f01f239bb7974b8a3499538eb` | `prompt-completeness` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/prompt-contracts.json` | `sha256:f2f554ed7435eaa862533071b52e7011853aa56ee362db6151782909b8163de4` | `prompt-completeness` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/prompt-family-registry.json` | `sha256:ab753a9f2a8152aff00bb63282d32a3cd518e38ab37d28372237ea049242cf59` | `prompt-completeness` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:2b167bf2a71100c16c5218af06210aad08f889af7c2ceeec5aef3a9d0c6bb38e` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/prompt-surfaces.json` | `sha256:88d8d904ea7059636eddcf4ccc60796e32e48986f64743380167b007b5ac880b` | `inference-synthesis` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/proof-contract.json` | `sha256:3027b1bd2e77c3bc6dc73616bd7a4f02934389726d6ca569f5503543ada9d96d` | `proof-contract` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/redaction-proof.json` | `sha256:faa5bed0f9cd0e812aee5a69e3f21ac975f21e29e57eca1200f53636b2d20093` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/selected-source-material.json` | `sha256:1de88ee5d506a61af4e096e89edb43a83742b3f8b69bbac2066d4c7820d027b9` | `selection-and-materialization` | `licensed-source-material` | `false` |
-| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:44178db54efb33b972cd2e6cff2159b7d6c03cfc69901fa81a47ade8ef1b3e9b` | `selection-and-materialization` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-implementation-surface.json` | `sha256:ec806278ce9882a3e6b6875fd534f368972bb11db1c2bddd60f72d56c63986c6` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/prompt-surfaces.json` | `sha256:5d3f2b38619e2f03c5b5206477c7a335b9acfb32e24310ae80186858c600c612` | `inference-synthesis` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/proof-contract.json` | `sha256:4047ed19d6584ba57c01fb27d48ee04615e03866ef133c0832595bcf0fb257de` | `proof-contract` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/redaction-proof.json` | `sha256:53b386a7d7b4e67018966f904565db8c344c2af6d15e5f0298eab580ea201262` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/selected-source-material.json` | `sha256:337004255e58d270c35ab3b6964ae1f90b600a4ddc101d69c12c0809326803a6` | `selection-and-materialization` | `licensed-source-material` | `false` |
+| `.proofs/_shared/selection-and-materialization-proof.json` | `sha256:4ede265a7e670c351f7e9814e1d80ebcb48bbda7beaa15ff1341589a98d76c6f` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/selection-consistency-proof.json` | `sha256:3bfc16906769f2d1c0ed837a29f95a1b94589171a4aa0fed584ce85434742659` | `selection-and-materialization` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/sensitive-data-flow-proof.json` | `sha256:8e6cb9e1a5f53b05188964fc477ed3dc9cb246a3bfbaa57690cd38ad833b4dcb` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/sensitive-data-flow.json` | `sha256:b6aed0ebea39e10df2c3659cefea759dc8ceb8c2b9b527ff565f6d49a0e24c03` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-participation.json` | `sha256:b23dd79a34d7fb37ff0884e0d475413c5760303d27525501c00069415a280588` | `settlement-source-to-shares` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-preview.json` | `sha256:a9f661b49799f2c6bf9a3460452a72681d8bf9c899de68b97f1cff085b355f3d` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
-| `.proofs/_shared/settlement-proof.json` | `sha256:afa5aa92da369956610e7ffd1a0e01aa7bba9732775d56a65f4cdfcef41e1ce9` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:03b769f4dd08d73838c93f2c639f3e98e7b7f65efe6b7b09f15b264d653f5df2` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/sensitive-data-flow.json` | `sha256:dcc39c2fafa1184a26018574b8d6921df1893f516d436c03bcf43483e69b6f2a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-participation.json` | `sha256:c52eeeae583a4aa525795f84c764d90c234c196c257518031d23639a24730982` | `settlement-source-to-shares` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-preview.json` | `sha256:f5887134b216701fcad565231d60cf21d575c0afc49b1f028e7fc4ddefcaae37` | `settlement-source-to-shares`, `bitcoin-settlement-interface` | `settlement-preview` | `false` |
+| `.proofs/_shared/settlement-proof.json` | `sha256:7331cf92a9716a2041bcfd981bcce0776e18f1e306d8ec7c5daccc1978a91045` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/settlement-source-to-shares-proof.json` | `sha256:3b15a3295c324569569c10ce5a96bc7769402292998a8d072b78019acdd72f17` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.proofs/_shared/source-to-shares.json` | `sha256:45beb6ee9be4ba5f94fb02b8f61427db470435df7219f2cd7eee33339fc831f3` | `settlement-source-to-shares` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/static-heuristics-registry.json` | `sha256:7c1ba09bff9a89f39696c4ea125bf77a68fc1e387de9ca4121214a1051c8c296` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-proof.json` | `sha256:43d0c993cc81696809f32616c596372a95d41980c77a4477c880fe68f8463739` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.proofs/_shared/static-measurement-report.json` | `sha256:02b5cdc5a05c89652a579902133e8333659c9496bbc08a993b828a6a6231d952` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-heuristics-registry.json` | `sha256:26b1238fd39fadf0a0245e43136fea0b639fbffb751cf4c5b96aab26a3a00d21` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-proof.json` | `sha256:271b12a3324d4e502477c9653598b0bf81a8cb4f7a3d9416ba909d0c066f4d5a` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
+| `.proofs/_shared/static-measurement-report.json` | `sha256:6ccaa957ba9544621746a2526cf8be763764b3821e9c6ff75bf383814794d2fd` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
 | `.proofs/_shared/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-receipts.json` | `sha256:cb3a3cda6ffcd3ac8cda341aeb9fb12628dcd15182202c1d703b50e951d3447d` | `verification-decisions` | `private-proof-artifact` | `false` |
-| `.proofs/_shared/verification-report.json` | `sha256:cb5173184e0de33f4a625debb2dceaabba82d100cdff1216bcf95b7c7c4e766b` | `verification-decisions` | `verification-evidence` | `false` |
+| `.proofs/_shared/verification-receipts.json` | `sha256:b85b8d075ed3e46d0c0be55a8fac81a03c87cca8c2333d541103e5145ac8c137` | `verification-decisions` | `private-proof-artifact` | `false` |
+| `.proofs/_shared/verification-report.json` | `sha256:a71bdd76c82e9fd75f48ad1bb9006127260ac651eab68256d01f7d3877e87383` | `verification-decisions` | `verification-evidence` | `false` |

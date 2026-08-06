@@ -410,12 +410,12 @@
     }
   ],
   "sourceRoots": {
-    "activePointer": ".specifications/BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
-    "spec": ".specifications/BITCODE_SPEC_V48.md:f254eac17b656b41c144f442",
-    "delta": ".specifications/BITCODE_SPEC_V48_DELTA.md:fde9d7e056eb4ac0ad007384",
-    "notes": ".specifications/BITCODE_SPEC_V48_NOTES.md:ea549484eaedce96a1b1e085",
-    "parity": ".specifications/BITCODE_SPEC_V48_PARITY_MATRIX.md:3bae28b64cd8576eae7d2d3c",
-    "roadmap": ".specifications/SPECIFICATIONS_ROADMAP.md:7ad72770427bb0afc72f059d",
+    "activePointer": ".specifications/BITCODE_SPEC.txt:4808562fa1f401b1a571836a",
+    "spec": ".specifications/BITCODE_SPEC_V48.md:6e9d7a96768e3f8ed6f2b5eb",
+    "delta": ".specifications/BITCODE_SPEC_V48_DELTA.md:e44f2e4cf4e3a960f3efaefe",
+    "notes": ".specifications/BITCODE_SPEC_V48_NOTES.md:ad70af68b884b3851f11ba6c",
+    "parity": ".specifications/BITCODE_SPEC_V48_PARITY_MATRIX.md:8440a7385334b17d1e51dd06",
+    "roadmap": ".specifications/SPECIFICATIONS_ROADMAP.md:a1847d6ee56dff20509c9861",
     "depositRouteModel": "apps/uapi/components/deposits/models/deposit-route-model.ts:376bd9efce837052ef895eef",
     "depositRouteSessionTypes": "apps/uapi/components/deposits/models/deposit-route-session-types.ts:5f3236159054d90ea17c713c",
     "depositClient": "apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx:d546178fabf0f11e4c66f752",
@@ -452,11 +452,11 @@
     "protocolSource": "scripts/specifying/src/canonical/v48-depositor-website-completion.js:ef85ffae23e2ebf1dcd1a2ce",
     "protocolTest": "scripts/specifying/test/v48-depositor-website-completion.test.js:694dc1977238e539e5817817",
     "generator": "scripts/generate-v48-depositor-website-completion.mjs:e6db8828c5a56ca6e9db9ecf",
-    "checker": "scripts/check-v48-gate4-depositor-website-completion.mjs:dda78a3f25f41bc1951afc92",
+    "checker": "scripts/check-v48-gate4-depositor-website-completion.mjs:0d8e9db5c1bbacf314694cc3",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:befdbcaf0c6828e361191ce3",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:3f1288565117393d5fb9dc9f"
   },
-  "artifactRoot": "v48-depositor-website-completion:423e1960ac1a4d666818e3eb",
+  "artifactRoot": "v48-depositor-website-completion:2f9de9908d8e243502a0378b",
   "coverage": {
     "requiredPredicateCount": 24,
     "passedPredicateCount": 24,

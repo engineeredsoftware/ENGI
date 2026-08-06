@@ -3,28 +3,19 @@
 ## Status
 
 - Version: `V48`
-- V48 state: full-system draft SPEC open for Complete Implementation Derivability
-  (sole rebuild law for the system described herein)
-- Current canonical/latest target: `V47`
-- Prior canonical anchor: `BITCODE_SPEC_V47.md` (historical process only — not
-  required for V48 semantic recovery)
-- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md` (historical
-  process only — not required for V48 semantic recovery)
-- Generated structured artifact inventory: draft V48 family
-  (`.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`,
-  `.proofs/v48/canon-posture-drift-report.json` when regenerated) and
-  `BITCODE_SPEC_V48_PROVEN.md`
-- Source parity state: V48 product surfaces and pipelines are specified for
-  rebuild from this SPEC alone; living source under `apps/uapi` and
-  `packages/` implements that law
+- V48 state: canonical promotion complete; V48 is the active sole-complete commercial website testnet canon and the V48 hand-authored plus generated canon are aligned (as-is promotion override: formal Gate 2–3/5–10 machine matrix residual)
+- Current canonical/latest target: `V48`
+- Canonical proof-source commit: `61ae9ddcfcd6d90da637ecad8edd2c7bc22ff840`
+- Prior canonical anchor: `BITCODE_SPEC_V47.md` (historical process only)
+- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md` (historical process only)
+- Generated structured artifact inventory: active canonical `.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`, `.proofs/v48/canon-posture-drift-report.json` when regenerated, `.proofs/v48/depositor-website-completion.json`, living `check:v48-gate*` evidence, V48 promotion workflow evidence, and `BITCODE_SPEC_V48_PROVEN.md` as the generated proof appendix for V48 as-is promotion
+- Source parity state: V48 source-side sole-complete commercial website law (deposit/read/exchange, measurement, disclosure, BTD/BTC-testnet, living product tree) is canonicalized in the promoted V48 file family under as-is promotion
 - Notes companion: `BITCODE_SPEC_V48_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V48_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
-- Scope: entire Bitcode stack described below — deposit SDIVF, read SDIVF,
-  settle Simple, Exchange activity, measurement, disclosure/rights, identity,
-  BTD/settlement, proofs, promotion
-- Posture: **sole-complete draft** — pointer may still name V47 until promotion;
-  **all V48 rebuild semantics live only in this family**
+- Scope: V48 canonical system specification for sole-complete commercial website testnet readiness over promoted V47 canon
+- Posture: **sole-complete promoted canon** — pointer names V48; **all V48 rebuild semantics live only in this family**
+- Last fully realized canonical target preserved in source: `V48`
 
 ### Identity freeze (binding)
 
@@ -93,6 +84,13 @@ buyers purchase Need-fitting DataPacks on `/reads`; network activity rereads on
 
 ## V48 source-of-truth hierarchy
 
+`BITCODE_SPEC.txt` points to `V48`; V48 is the active promoted Bitcode canon.
+`BITCODE_SPEC_V48.md`, `BITCODE_SPEC_V48_DELTA.md`,
+`BITCODE_SPEC_V48_NOTES.md`, and `BITCODE_SPEC_V48_PARITY_MATRIX.md` are the
+promoted V48 specification-family material. The V48 formal specification family
+is active canon and authorizes implementation through sole Complete
+Implementation Derivability.
+
 This V48 family is the **sole rebuild authority** for the system described here:
 
 | File | Role |
@@ -101,7 +99,7 @@ This V48 family is the **sole rebuild authority** for the system described here:
 | `BITCODE_SPEC_V48_DELTA.md` | Why V48 / accepted decisions / deferred / commit direction |
 | `BITCODE_SPEC_V48_NOTES.md` | Architecture decisions, simplified reading (weaker than SPEC) |
 | `BITCODE_SPEC_V48_PARITY_MATRIX.md` | Spec ↔ implementation ↔ test audit |
-| `BITCODE_SPEC_V48_PROVEN.md` | Generated proof appendix (draft) |
+| `BITCODE_SPEC_V48_PROVEN.md` | Generated proof appendix (active) |
 
 **Non-canonical companions** (README, FAMILIARIZATION, AGENTS, layout docs, etc.):
 orientation and craft only. They **must not** be required to supply omitted
@@ -1822,9 +1820,9 @@ matrices are stale, proof-source commit is missing, or source-safety scans fail.
 
 ## V48 validation canon
 
-V48 draft family validation (living checks; exact flags follow repository CI):
+V48 promoted family validation (living checks for active V48; exact flags follow repository CI):
 
-- Spec-family validation for **draft V48** (`check-bitcode-spec-family` / local
+- Spec-family validation for **promoted V48** (`check-bitcode-spec-family` / local
   CI canon steps for the V48 draft family)
 - Canonical-input and posture-drift reports under `.proofs/v48/` when regenerated
 - Gate-focused checkers `check:v48-gate*` as bound by promotion readiness
@@ -1832,7 +1830,7 @@ V48 draft family validation (living checks; exact flags follow repository CI):
 
 Promotion-time validation additionally advances the pointer file and regenerates
 `BITCODE_SPEC_V48_PROVEN.md`. Historical version-bound checkers for other
-version numbers remain immutable and are not required green for V48 draft work.
+version numbers remain immutable and are not required green for V48 promoted canon work.
 
 Later gates add focused tests, browser E2E, proof generation, staging rehearsal,
 and promotion readiness checks as listed in the promotion canon.
@@ -2087,7 +2085,7 @@ entitlement; source-safe receipts may be projected.
 
 ## V48 accepted boundaries and reopen conditions
 
-- V48 is the full-system draft SPEC for commercial website testnet readiness.
+- V48 is the full-system promoted SPEC for commercial website testnet readiness.
 - Formal promotion advances `BITCODE_SPEC.txt` only after promotion canon is
   green (see promotion section).
 - V48 testnet means pay-rail amounts are testnet-class; system behavior remains
@@ -2103,9 +2101,9 @@ entitlement; source-safe receipts may be projected.
 
 ## V48 completion condition
 
-V48 Gate 1 is complete when the V48 draft SPEC family exists as sole rebuild
+V48 Gate 1 is complete when the V48 promoted SPEC family exists as sole rebuild
 law, testnet semantics and measurement law are specified, seller/buyer launch
-scope and gate plan are recorded, draft family checks exist, and the gate
+scope and gate plan are recorded, family checks exist, and the gate
 branch is merged into `version/v48`.
 
 V48 Gate 2 is complete when launch-facing entrypoints resolve to `/deposits`,
@@ -2207,7 +2205,7 @@ V48 Gate 10 is complete when the promotion readiness report binds all accepted
 Gate 2–9 artifacts as present, parseable, and product-safe; the promotion
 scripts, spec-family and runtime promotion preparation, proven generation, and
 `v48-canon-promotion.yml` support V48; gate/canon workflows validate both
-pre-promotion and post-promotion pointer postures; a draft-preview
+post-promotion pointer posture; an active
 `BITCODE_SPEC_V48_PROVEN.md` is generated; the V48 promotion dry-run passes;
 `.proofs/v48/promotion-readiness-report.json` is generated; `check:v48-gate10`
 validates the readiness; and the prepared post-promotion posture advances

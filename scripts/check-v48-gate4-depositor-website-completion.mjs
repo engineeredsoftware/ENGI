@@ -74,10 +74,11 @@ function main() {
   const failures = [];
   const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
+  // Pre-promotion draft work uses V47 pointer; after as-is/formal promotion, V48.
   assertCheck(
     failures,
-    pointer === 'V47',
-    `BITCODE_SPEC.txt must remain V47 during V48 gate work. Observed ${pointer || 'empty'}.`,
+    pointer === 'V47' || pointer === 'V48',
+    `BITCODE_SPEC.txt must be V47 (draft) or V48 (promoted) for V48 gate work. Observed ${pointer || 'empty'}.`,
   );
 
   if (!args.skipBranchCheck) {

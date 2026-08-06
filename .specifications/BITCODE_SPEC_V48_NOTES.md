@@ -3,27 +3,27 @@
 ## Status
 
 - Version: `V48`
-- V48 state: notes companion for sole-complete draft SPEC; weaker than SPEC
-- Current canonical/latest target: `V47`
+- V48 state: canonical promotion complete; V48 notes record accepted sole-complete commercial website law and as-is promotion residual debt (weaker than SPEC)
+- Current canonical/latest target: `V48`
+- Canonical proof-source commit: `61ae9ddcfcd6d90da637ecad8edd2c7bc22ff840`
 - Prior canonical anchor: `BITCODE_SPEC_V47.md` (historical process only)
 - Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md` (historical process only)
-- Generated structured artifact inventory: draft V48 family under `.proofs/v48/`
-  when regenerated; `BITCODE_SPEC_V48_PROVEN.md`
-- Source parity state: binding law is `BITCODE_SPEC_V48.md`; notes are working memory
-- Companion role: **weaker than** `BITCODE_SPEC_V48.md` (architecture decisions,
-  QA intent — not sole rebuild law)
+- Generated structured artifact inventory: active canonical `.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`, `.proofs/v48/canon-posture-drift-report.json` when regenerated, `.proofs/v48/depositor-website-completion.json`, living `check:v48-gate*` evidence, V48 promotion workflow evidence, and `BITCODE_SPEC_V48_PROVEN.md` as the generated proof appendix for V48 as-is promotion
+- Source parity state: V48 source-side sole-complete commercial website law (deposit/read/exchange, measurement, disclosure, BTD/BTC-testnet, living product tree) is canonicalized in the promoted V48 file family under as-is promotion
+- Companion role: **weaker than** `BITCODE_SPEC_V48.md` (architecture decisions, QA intent — not sole rebuild law)
 - Spec companion: `BITCODE_SPEC_V48.md` (**sole Complete Implementation Derivability**)
 - Delta companion: `BITCODE_SPEC_V48_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
 - Proven: `BITCODE_SPEC_V48_PROVEN.md`
 - Absolute measurement parity: `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`
 - QA findings ledger: `.qa/BITCODE_V48_QA.md` when present
-- Identity freeze (must match SPEC): commodity **DataPack**; routes
-  `/deposits`, `/reads`, **`/exchange`**
+- Identity freeze (must match SPEC): commodity **DataPack**; routes `/deposits`, `/reads`, **`/exchange`**
+- Scope: V48 canonical notes for sole-complete commercial website testnet readiness over promoted V47 canon
+- Last fully realized canonical target preserved in source: `V48`
 
 ## Notes companion rule
 
-These notes accompany the V48 draft specification family. They are **not**
+These notes accompany the V48 promoted specification family. They are **not**
 stronger than `BITCODE_SPEC_V48.md`. Binding rebuild law for the entire Bitcode
 stack lives in the SPEC. Notes may record chronological decisions and QA
 narrative; where notes disagree with SPEC, **SPEC wins**. Do not recover system

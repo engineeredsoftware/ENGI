@@ -3,20 +3,19 @@
 ## Status
 
 - Version: `V48`
-- V48 state: draft delta for full-system sole-complete SPEC + commercial website
-  testnet readiness
-- Current canonical/latest target: `V47`
+- V48 state: canonical promotion complete; this delta records the promoted V47-to-V48 sole-complete commercial website closure set (as-is promotion override recorded)
+- Current canonical/latest target: `V48`
+- Canonical proof-source commit: `61ae9ddcfcd6d90da637ecad8edd2c7bc22ff840`
 - Prior canonical anchor: `BITCODE_SPEC_V47.md` (historical process only)
 - Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md` (historical process only)
-- Generated structured artifact inventory: draft V48 family reports under
-  `.proofs/v48/` when regenerated
-- Source parity state: decisions in this DELTA are realized in
-  `BITCODE_SPEC_V48.md` as sole rebuild law
+- Generated structured artifact inventory: active canonical `.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`, `.proofs/v48/canon-posture-drift-report.json` when regenerated, `.proofs/v48/depositor-website-completion.json`, living `check:v48-gate*` evidence, V48 promotion workflow evidence, and `BITCODE_SPEC_V48_PROVEN.md` as the generated proof appendix for V48 as-is promotion
+- Source parity state: V48 source-side sole-complete commercial website law (deposit/read/exchange, measurement, disclosure, BTD/BTC-testnet, living product tree) is canonicalized in the promoted V48 file family under as-is promotion
 - Spec companion: `BITCODE_SPEC_V48.md` (**sole rebuild law**)
 - Notes companion: `BITCODE_SPEC_V48_NOTES.md`
 - Parity companion: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
 - Absolute measurement parity: `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`
 - Proven: `BITCODE_SPEC_V48_PROVEN.md`
+- Scope: V48 canonical delta for sole-complete commercial website testnet readiness over promoted V47 canon
 
 
 ## Accepted V48 promotion override (as-is)

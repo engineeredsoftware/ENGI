@@ -20,14 +20,16 @@ promotion helpers used by commercial workflows and proof generation.
 - It is **expected** that a new draft will **break** prior-era checks. Leave
   those checks **untouched** and **do not re-run them as required green**.
 - **Only active canon + draft target** execute as living required gates
-  (today: **V47 + V48** via `ACTIVE_CANON_VERSION` / `DRAFT_TARGET_VERSION`).
+  (today: **V48 sole** via `ACTIVE_CANON_VERSION` / `DRAFT_TARGET_VERSION`).
 - The living full-system check for that pair must be **exhaustive** for
   present sole-canon — new suites restate total obligation; they do not
   patch old suites.
 - Compatibility re-exports (e.g. `bitcode-demo.js` → `specifying-runtime.js`)
   may keep frozen importers resolving **without editing** promoted-era files.
 
-**Active/draft posture (V47 Gate 10 promotion readiness):** `V47` active, `V48` draft.
+**Active/draft posture (V48 as-is promotion):** `V48` active, `V48` sole draft until V49 opens.
+Historical era token (do not delete — V47 Gate 10 artifact predicate):
+`V47` active, `V48` draft.
 Living required gates for this pointer pair only — see V47 Gate 10 and
 `.specifications/BITCODE_SPECIFYING.md` §4.3 and §13.1.
 
@@ -58,7 +60,7 @@ tooling under `scripts/`**, not product packages.
 ## Tests
 
 ```bash
-# Living required suite (active canon V47 + package boundary)
+# Living required suite (active canon V48 + package boundary)
 pnpm --filter @bitcode/specifying test
 pnpm --filter @bitcode/specifying typecheck
 

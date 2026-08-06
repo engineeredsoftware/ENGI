@@ -2,12 +2,10 @@
 
 ## Status
 
-- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V47` (pre-promotion; target **V48 as-is**)
-- Current active canon: `BITCODE_SPEC_V47.md`
-- Current draft target: `BITCODE_SPEC_V48.md` sole-complete draft family on `version/v48`
-- As-is promotion prep: wire `promote:canon --version V48`, `v48-canon-promotion.yml`, pointer-aware `ci:local`; residual formal Gate 2–3/5–10 machine matrix accepted under override
-- Post-promotion posture (target): **V48 sole** active (next-draft V48 until V49 opens)
-- Residual after as-is promote: formal Gate 5–10 machine proofs, call-by-call LLM QA depth
+- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V48` (**as-is promotion**)
+- Current active canon: `BITCODE_SPEC_V48.md` (sole-complete commercial website testnet)
+- Current draft target: **V48 sole** (next-draft V48 until V49 opens)
+- As-is promotion residual: formal Gate 2–3/5–10 machine-matrix artifacts beyond living `check:v48-gate4`; call-by-call LLM QA depth; mainnet remains blocked
 - Historical era token (do not delete — V47 Gate 6 artifact predicate): Latest closed gate: V47 Gate 6 Packs And Auxillaries Commercial Dashboard
 - V48 Gate 4 closure target: complete the depositor website on `/deposits` as production-ready commercial packaging of tradable code (DataPack = commercial `.patch` create|modify + absolutes + commercial NL); journal synthesis/review/admission; owner full patch + commercial brief + dense absolutes; batch admit N→N `/exchange` depository rows with per-pack measurements only; soft-block override for confirmed admits; expose `buildV48DepositorWebsiteCompletion`, generate `.proofs/v48/depositor-website-completion.json`, and wire `check:v48-gate4`.
 - V48 Gate 4 closure anchor: Gate 4 is closed when the depositor website completion artifact is fresh and green, deposit unit/integration tests for admit/reload/projection pass, gate/canon workflows run the V48 Gate 4 checker while V47 remains active canon, and the gate branch is pull-requested into `version/v48`.
