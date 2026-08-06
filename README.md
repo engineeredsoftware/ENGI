@@ -1,3 +1,5 @@
+[This project is no longer currently actively maintained. Please feel free to use it as a reference.]
+
 # Bitcode
 
 Bitcode commoditizes technical knowledge as **AssetPacks**: source-safe, measured
